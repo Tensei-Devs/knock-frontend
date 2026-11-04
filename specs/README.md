@@ -16,3 +16,4 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 010 | Caché y trabajo sin conexión | Borrador | [`010-cache-y-trabajo-sin-conexion`](010-cache-y-trabajo-sin-conexion/spec.md) |
 | 011 | Versionamiento por puntos | Borrador | [`011-versionamiento-por-puntos`](011-versionamiento-por-puntos/spec.md) |
 | 012 | Notificaciones push y permisos del teléfono | Borrador | [`012-notificaciones-push-y-permisos-del-telefono`](012-notificaciones-push-y-permisos-del-telefono/spec.md) |
+| 013 | MCP del proyecto | Borrador | [`013-mcp-del-proyecto`](013-mcp-del-proyecto/spec.md) |
