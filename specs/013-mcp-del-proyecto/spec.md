@@ -26,7 +26,7 @@ Dejar configurados en el repositorio los servidores MCP que usan los agentes de 
 - **R-05:** Todo servidor MCP nuevo requiere un cambio a esta spec y a `docs/mcp.md` con su propósito, sus permisos y quién lo aprobó.
 - **R-06:** Ningún agente usa un MCP para firmar o aprobar una spec, fusionar un PR, cambiar archivos protegidos ni escribir en Jira sin la aprobación de una persona.
 - **R-07:** La lectura y la escritura de cada servidor quedan separadas: las herramientas de escritura no están permitidas por defecto en la configuración de los agentes.
-- **R-08:** Si el equipo usa Figma para el diseño de la app, se evalúa el MCP de Figma en solo lectura; si no se usa Figma, no se agrega.
+- **R-08:** No se agrega el MCP de Figma: el equipo no usa Figma.
 - **R-09:** Se evalúa el servidor MCP de las herramientas de Dart y Flutter para análisis y pruebas; solo corre en la computadora de quien desarrolla y no recibe credenciales.
 
 ## 4. Criterios de aceptación
