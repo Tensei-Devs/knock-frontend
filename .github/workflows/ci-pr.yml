@@ -43,10 +43,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           EVENT: ${{ github.event_name }}
         run: |
-          changed() { [ "$EVENT" != "pull_request" ] || git diff --name-only "$BASE_SHA" HEAD | grep -qE "$1"; }
-          [ -f app/pubspec.yaml ] && changed '^(app/|contracts/)' && echo "app=true" >> "$GITHUB_OUTPUT" || echo "app=false" >> "$GITHUB_OUTPUT"
-          [ -f panel/angular.json ] && changed '^(panel/|contracts/)' && echo "panel=true" >> "$GITHUB_OUTPUT" || echo "panel=false" >> "$GITHUB_OUTPUT"
-          [ -f contracts/openapi.v1.json ] && echo "contract=true" >> "$GITHUB_OUTPUT" || echo "contract=false" >> "$GITHUB_OUTPUT"
+          # Qué proyectos corren según las carpetas que cambió el PR (spec 007, R-01, R-02 y CA-02): scripts/ci/detect_changes.py.
+          python3 scripts/ci/detect_changes.py --event "$EVENT" --base "$BASE_SHA" >> "$GITHUB_OUTPUT"
           KEY=$(echo "$HEAD_REF" | grep -oE 'KNOCK-[0-9]+' || true)
           SPEC=""
           if [ -n "$KEY" ]; then
@@ -323,25 +321,20 @@ jobs:
   gate:
     name: gate
     if: always()
-    needs: [detect, pr-meta, pr-points, governance, contract, app, panel, sast, sca, secrets]
+    needs: [detect, pr-meta, pr-points, governance, contract, app, panel, sast, sca, secrets, landing]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Verificaciones bloqueantes en verde (o saltadas por no aplicar)
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Verificaciones bloqueantes en verde (o saltadas por no aplicar) — spec 007, CA-01
         env:
           NEEDS: ${{ toJSON(needs) }}
-        run: |
-          python3 - <<'EOF'
-          import json, os, sys
-          needs = json.loads(os.environ["NEEDS"])
-          for k, v in needs.items():
-              print(f"{k}: {v['result']}")
-          bad = {k: v["result"] for k, v in needs.items() if v["result"] not in ("success", "skipped")}
-          sys.exit(f"Fallaron: {bad}" if bad else 0)
-          EOF
+        run: python3 scripts/ci/gate.py
 
   # Spec 004 (R-04, CA-03): la landing falla si hay un enlace roto o una clave olvidada.
-  # Job independiente: no está en `needs` de `gate` para no tocar las líneas que edita otra tarea.
+  # Spec 007 (T-05): entra en `needs` de `gate`, así un enlace roto o una clave olvidada bloquea el PR.
   landing:
     name: Landing — pruebas, enlaces y secretos
     runs-on: ubuntu-latest
