@@ -46,11 +46,28 @@ android {
         manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
 
+    // Llave de subida a Google Play (spec 007, R-05). Solo llega por variables de entorno (en el CI salen de GitHub Secrets);
+    // nunca se versiona. Sin ellas el build de release se firma con la llave de depuración, así `flutter run --release`
+    // y el CI normal funcionan, y el workflow de publicación rechaza un AAB firmado con ella.
+    val rutaLlave: String? = System.getenv("KNOCK_KEYSTORE_PATH")
+    signingConfigs {
+        if (rutaLlave != null) {
+            create("subida") {
+                storeFile = file(rutaLlave)
+                storePassword = System.getenv("KNOCK_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KNOCK_KEY_ALIAS")
+                keyPassword = System.getenv("KNOCK_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (rutaLlave != null) {
+                signingConfigs.getByName("subida")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
