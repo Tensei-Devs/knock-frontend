@@ -281,11 +281,13 @@ jobs:
           fail-on-severity: high
           deny-licenses: AGPL-3.0, GPL-3.0, GPL-2.0, SSPL-1.0
           # EXC-002 (security/exceptions.yaml, vence 2027-01-30): dependency-review recibe las licencias de pub en minúsculas
-          # (mit, bsd-3-clause, mpl-2.0) y no las reconoce como SPDX. Solo estos 19 paquetes de pub, con la licencia revisada a mano,
+          # (mit, bsd-3-clause, mpl-2.0) y no las reconoce como SPDX. Solo estos 37 paquetes de pub, con la licencia revisada a mano,
           # quedan fuera de esa comprobación. El action compara por ecosistema y nombre e IGNORA la versión (las versiones de abajo
           # documentan lo revisado): una versión nueva de estos paquetes sigue exenta, así que hay que revisar su licencia a mano.
+          # Los 18 últimos (Firebase y almacenamiento seguro) se agregaron el 2026-11-05 al revisar el PR del login (KNOCK-228):
+          # 17 son BSD-3-Clause y yaml es MIT; ninguna está en deny-licenses.
           allow-dependencies-licenses: >-
-            pkg:pub/dbus@0.7.15, pkg:pub/jni@1.1.1, pkg:pub/shared_preferences@2.5.6, pkg:pub/shared_preferences_android@2.5.4, pkg:pub/shared_preferences_foundation@2.5.7, pkg:pub/geolocator@14.1.2, pkg:pub/geolocator_android@5.2.1, pkg:pub/geolocator_apple@2.4.2, pkg:pub/geolocator_platform_interface@4.4.1, pkg:pub/geolocator_windows@0.2.5, pkg:pub/google_maps_flutter@2.19.0, pkg:pub/google_maps_flutter_android@2.21.0, pkg:pub/google_maps_flutter_ios@2.18.7, pkg:pub/google_maps_flutter_platform_interface@2.17.0, pkg:pub/gsettings@0.2.8, pkg:pub/petitparser@7.0.2, pkg:pub/stream_transform@2.1.2, pkg:pub/win32@6.4.0, pkg:pub/xml@7.0.1
+            pkg:pub/dbus@0.7.15, pkg:pub/jni@1.1.1, pkg:pub/shared_preferences@2.5.6, pkg:pub/shared_preferences_android@2.5.4, pkg:pub/shared_preferences_foundation@2.5.7, pkg:pub/geolocator@14.1.2, pkg:pub/geolocator_android@5.2.1, pkg:pub/geolocator_apple@2.4.2, pkg:pub/geolocator_platform_interface@4.4.1, pkg:pub/geolocator_windows@0.2.5, pkg:pub/google_maps_flutter@2.19.0, pkg:pub/google_maps_flutter_android@2.21.0, pkg:pub/google_maps_flutter_ios@2.18.7, pkg:pub/google_maps_flutter_platform_interface@2.17.0, pkg:pub/gsettings@0.2.8, pkg:pub/petitparser@7.0.2, pkg:pub/stream_transform@2.1.2, pkg:pub/win32@6.4.0, pkg:pub/xml@7.0.1, pkg:pub/_flutterfire_internals@1.3.79, pkg:pub/code_assets@1.2.1, pkg:pub/firebase_auth@7.0.1, pkg:pub/firebase_auth_platform_interface@9.1.2, pkg:pub/firebase_auth_web@6.3.2, pkg:pub/firebase_core@5.1.0, pkg:pub/firebase_core_platform_interface@8.1.1, pkg:pub/firebase_core_web@4.1.0, pkg:pub/flutter_secure_storage@11.2.0, pkg:pub/flutter_secure_storage_darwin@0.4.3, pkg:pub/flutter_secure_storage_linux@3.0.3, pkg:pub/flutter_secure_storage_platform_interface@2.1.1, pkg:pub/hooks@2.0.2, pkg:pub/jni_flutter@1.0.4+1, pkg:pub/objective_c@9.5.0, pkg:pub/pub_semver@2.2.1, pkg:pub/record_use@0.6.0, pkg:pub/yaml@3.1.4
       - name: OSV-Scanner (pub, npm, GitHub Actions)
         run: |
           # Sin archivos de dependencias OSV-Scanner sale con 128 («No package sources found»): no hay nada que analizar.

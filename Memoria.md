@@ -130,3 +130,9 @@
 - **Porqué:** José dio los datos que faltaban y pidió publicar y cerrar KNOCK-218 antes de la clase; la URL de privacidad es lo que pide Google Play (KNOCK-230).
 - **Pendiente:** confirmar el domicilio (el estado «Hidalgo» se dedujo del C.P. 42506), la revisión legal antes de dar la URL a Google Play, que la aplicación cumpla lo que el texto promete (eliminar con «ELIMINAR» o SMS en 7 días, descarga de datos en 48 horas y fotos de verificación destruidas a los 7 días), publicar en Railway y la revisión de par de Erick.
 - **A evitar:** dar por vigente un texto legal que describe funciones que la app todavía no tiene, o dejar un domicilio personal en un sitio público sin que su dueño lo haya confirmado.
+
+## 2026-11-05 — Licencias de pub en SCA (EXC-002, desbloquea KNOCK-228)
+- **Decisión:** `allow-dependencies-licenses` de `ci-pr.yml` pasa de 19 a 37 paquetes de pub (los 18 que traen Firebase Phone Auth y `flutter_secure_storage` en el PR del login, #14) y la EXC-002 actualiza su alcance y su justificación con la evidencia de cada licencia.
+- **Porqué:** el job SCA del #14 fallaba con «could not detect the validity of all licenses»: dependency-review recibe de pub `bsd-3-clause` y `mit` en minúsculas y no las reconoce como SPDX. No eran vulnerabilidades ni licencias prohibidas: se leyó el LICENSE de la versión exacta del lock (17 BSD-3-Clause y `yaml` MIT) y ninguna está en `deny-licenses`.
+- **Pendiente:** que Erick agregue la allowlist de Gitleaks (EXC-004) en su PR aparte, y que los dos cambios lleguen a `sprint-03` para que los 8 PR abiertos se desbloqueen.
+- **A evitar:** agregar paquetes a la lista sin leer su LICENSE (el action ignora la versión, así que la exención alcanza a versiones futuras), y resolver el falso positivo de Gitleaks cambiando la línea del token ficticio: el hallazgo vive en el historial y solo lo apaga una allowlist en `.gitleaks.toml`.
