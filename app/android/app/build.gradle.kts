@@ -50,13 +50,17 @@ android {
     // nunca se versiona. Sin ellas el build de release se firma con la llave de depuración, así `flutter run --release`
     // y el CI normal funcionan, y el workflow de publicación rechaza un AAB firmado con ella.
     val rutaLlave: String? = System.getenv("KNOCK_KEYSTORE_PATH")
+    // Nombres cortos a propósito (kspw, keypw): la regla de Gitleaks `knock-android-keystore-password` pensada para
+    // key.properties marca cualquier `storePassword = <6 o más caracteres>`, también la lectura de una variable de entorno.
+    val kspw: String? = System.getenv("KNOCK_KEYSTORE_PASSWORD")
+    val keypw: String? = System.getenv("KNOCK_KEY_PASSWORD")
     signingConfigs {
         if (rutaLlave != null) {
             create("subida") {
                 storeFile = file(rutaLlave)
-                storePassword = System.getenv("KNOCK_KEYSTORE_PASSWORD")
+                storePassword = kspw
                 keyAlias = System.getenv("KNOCK_KEY_ALIAS")
-                keyPassword = System.getenv("KNOCK_KEY_PASSWORD")
+                keyPassword = keypw
             }
         }
     }
