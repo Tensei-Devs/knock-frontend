@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../soporte/montar_app.dart';
+
 Future<ProviderContainer> _montarApp(WidgetTester tester) async {
-  final container = ProviderContainer();
+  // HU-001: arranca con sesión para abrir en las pestañas.
+  final container = ProviderContainer(overrides: [conSesion()]);
   addTearDown(container.dispose);
   await tester.pumpWidget(
     UncontrolledProviderScope(container: container, child: const KnockApp()),

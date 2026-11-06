@@ -13,8 +13,30 @@ abstract final class Rutas {
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 
+  /// Entrada con celular (HU-001): fuera de la barra inferior.
+  static const entrar = '/entrar';
+
+  /// Entrada → código de 6 dígitos (subruta de [entrar]).
+  static const codigo = '/entrar/codigo';
+
   /// Completar el perfil la primera vez (HU-002); fuera de la barra inferior.
   static const completarPerfil = '/completar-perfil';
+}
+
+/// Devuelve a dónde redirigir según la sesión, o `null` si se permite.
+///
+/// Sin sesión, todo lo que no sea `/entrar` (o sus subrutas) lleva a
+/// `/entrar`; con sesión, `/entrar` y sus subrutas llevan a Inicio (HU-001).
+String? redireccionPorSesion({
+  required bool sesionIniciada,
+  required String ubicacion,
+}) {
+  final esRutaDeEntrada =
+      ubicacion == Rutas.entrar || ubicacion.startsWith('${Rutas.entrar}/');
+  if (!sesionIniciada) {
+    return esRutaDeEntrada ? null : Rutas.entrar;
+  }
+  return esRutaDeEntrada ? Rutas.inicio : null;
 }
 
 /// Devuelve a dónde redirigir, o `null` si la ubicación está permitida.

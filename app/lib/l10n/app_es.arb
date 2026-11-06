@@ -2,15 +2,15 @@
   "@@locale": "es",
   "appTitle": "Knock",
   "@appTitle": {
-    "description": "Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce."
+    "description": "Nombre de la app (t├¡tulo de la tarea en el sistema). Es una marca: no se traduce."
   },
   "tabInicio": "Inicio",
   "@tabInicio": {
-    "description": "Pestaña de la barra inferior y título de la pantalla de inicio."
+    "description": "Pesta├▒a de la barra inferior y t├¡tulo de la pantalla de inicio."
   },
   "tabExplorar": "Explorar",
   "@tabExplorar": {
-    "description": "Pestaña de la barra inferior y título de la pantalla para buscar técnicos."
+    "description": "Pesta├▒a de la barra inferior y t├¡tulo de la pantalla para buscar t├®cnicos."
   },
   "explorarOficios": "Oficios",
   "@explorarOficios": {
@@ -18,55 +18,55 @@
   },
   "tabActividad": "Actividad",
   "@tabActividad": {
-    "description": "Pestaña de la barra inferior y título de la pantalla con las solicitudes y su historial."
+    "description": "Pesta├▒a de la barra inferior y t├¡tulo de la pantalla con las solicitudes y su historial."
   },
   "tabTrabajo": "Trabajo",
   "@tabTrabajo": {
-    "description": "Pestaña de la barra inferior y título de la pantalla de trabajo; solo la ven los técnicos."
+    "description": "Pesta├▒a de la barra inferior y t├¡tulo de la pantalla de trabajo; solo la ven los t├®cnicos."
   },
   "tabCuenta": "Mi cuenta",
   "@tabCuenta": {
-    "description": "Pestaña de la barra inferior y título de la pantalla con los datos y la configuración de la cuenta."
+    "description": "Pesta├▒a de la barra inferior y t├¡tulo de la pantalla con los datos y la configuraci├│n de la cuenta."
   },
-  "pruebaModoTecnico": "Modo técnico (prueba)",
+  "pruebaModoTecnico": "Modo t├®cnico (prueba)",
   "@pruebaModoTecnico": {
-    "description": "Interruptor de prueba (solo fuera de la versión de tienda) que da el rol de técnico."
+    "description": "Interruptor de prueba (solo fuera de la versi├│n de tienda) que da el rol de t├®cnico."
   },
-  "configuracionTitulo": "Configuración",
+  "configuracionTitulo": "Configuraci├│n",
   "@configuracionTitulo": {
-    "description": "Entrada de Mi cuenta y título de la pantalla para elegir idioma y tema."
+    "description": "Entrada de Mi cuenta y t├¡tulo de la pantalla para elegir idioma y tema."
   },
   "configuracionIdioma": "Idioma",
   "@configuracionIdioma": {
-    "description": "Encabezado del selector de idioma en Configuración."
+    "description": "Encabezado del selector de idioma en Configuraci├│n."
   },
-  "configuracionIdiomaEspanol": "Español",
+  "configuracionIdiomaEspanol": "Espa├▒ol",
   "@configuracionIdiomaEspanol": {
-    "description": "Opción del selector de idioma. Se escribe siempre en español, en cualquier idioma."
+    "description": "Opci├│n del selector de idioma. Se escribe siempre en espa├▒ol, en cualquier idioma."
   },
   "configuracionIdiomaIngles": "English",
   "@configuracionIdiomaIngles": {
-    "description": "Opción del selector de idioma. Se escribe siempre en inglés, en cualquier idioma."
+    "description": "Opci├│n del selector de idioma. Se escribe siempre en ingl├®s, en cualquier idioma."
   },
   "configuracionTema": "Tema",
   "@configuracionTema": {
-    "description": "Encabezado del selector de tema en Configuración."
+    "description": "Encabezado del selector de tema en Configuraci├│n."
   },
-  "configuracionTemaAutomatico": "Automático",
+  "configuracionTemaAutomatico": "Autom├ítico",
   "@configuracionTemaAutomatico": {
-    "description": "Opción del selector de tema: seguir el tema claro u oscuro del teléfono."
+    "description": "Opci├│n del selector de tema: seguir el tema claro u oscuro del tel├®fono."
   },
-  "configuracionTemaAutomaticoDetalle": "Igual que el teléfono",
+  "configuracionTemaAutomaticoDetalle": "Igual que el tel├®fono",
   "@configuracionTemaAutomaticoDetalle": {
-    "description": "Subtítulo de la opción Automático del selector de tema."
+    "description": "Subt├¡tulo de la opci├│n Autom├ítico del selector de tema."
   },
   "configuracionTemaClaro": "Claro",
   "@configuracionTemaClaro": {
-    "description": "Opción del selector de tema: tema claro."
+    "description": "Opci├│n del selector de tema: tema claro."
   },
   "configuracionTemaOscuro": "Oscuro",
   "@configuracionTemaOscuro": {
-    "description": "Opción del selector de tema: tema oscuro."
+    "description": "Opci├│n del selector de tema: tema oscuro."
   },
   "inicioSaludo": "Hola",
   "@inicioSaludo": {
@@ -74,41 +74,41 @@
   },
   "inicioZonaTitulo": "Tu zona",
   "@inicioZonaTitulo": {
-    "description": "Título de la tarjeta de colonia en Inicio."
+    "description": "T├¡tulo de la tarjeta de colonia en Inicio."
   },
   "inicioZonaSinPedir": "Descubre si tu zona tiene cobertura.",
   "@inicioZonaSinPedir": {
     "description": "Texto inicial de la tarjeta de colonia en Inicio."
   },
-  "inicioZonaBuscando": "Buscando tu colonia…",
+  "inicioZonaBuscando": "Buscando tu coloniaÔÇª",
   "@inicioZonaBuscando": {
     "description": "Estado cargando de la tarjeta de colonia."
   },
-  "inicioZonaFuera": "Todavía no llegamos a tu zona.",
+  "inicioZonaFuera": "Todav├¡a no llegamos a tu zona.",
   "@inicioZonaFuera": {
-    "description": "La ubicación está fuera de la cobertura."
+    "description": "La ubicaci├│n est├í fuera de la cobertura."
   },
-  "inicioZonaSinUbicacion": "Necesitamos tu ubicación para ubicar tu colonia.",
+  "inicioZonaSinUbicacion": "Necesitamos tu ubicaci├│n para ubicar tu colonia.",
   "@inicioZonaSinUbicacion": {
-    "description": "Sin permiso de ubicación o servicio apagado."
+    "description": "Sin permiso de ubicaci├│n o servicio apagado."
   },
   "inicioVerColonia": "Ver mi colonia",
   "@inicioVerColonia": {
-    "description": "Botón que consulta la colonia de la persona."
+    "description": "Bot├│n que consulta la colonia de la persona."
   },
   "inicioActualizar": "Actualizar",
   "@inicioActualizar": {
-    "description": "Botón que vuelve a consultar la colonia."
+    "description": "Bot├│n que vuelve a consultar la colonia."
   },
   "inicioReintentar": "Reintentar",
   "@inicioReintentar": {
-    "description": "Botón tras un error al consultar la colonia o un intento fallido."
+    "description": "Bot├│n tras un error al consultar la colonia o un intento fallido."
   },
   "inicioExplorarOficios": "Explorar oficios",
   "@inicioExplorarOficios": {
-    "description": "Acceso de Inicio al catálogo de oficios."
+    "description": "Acceso de Inicio al cat├ílogo de oficios."
   },
-  "inicioExplorarOficiosDetalle": "Mira qué técnicos puedes encontrar",
+  "inicioExplorarOficiosDetalle": "Mira qu├® t├®cnicos puedes encontrar",
   "@inicioExplorarOficiosDetalle": {
     "description": "Detalle del acceso a oficios en Inicio."
   },
@@ -116,49 +116,49 @@
   "@cuentaEditarPerfil": {
     "description": "Detalle bajo el nombre en Mi cuenta."
   },
-  "cuentaCerrarSesion": "Cerrar sesión",
+  "cuentaCerrarSesion": "Cerrar sesi├│n",
   "@cuentaCerrarSesion": {
-    "description": "Entrada de Mi cuenta y botón de confirmación del diálogo."
+    "description": "Entrada de Mi cuenta y bot├│n de confirmaci├│n del di├ílogo."
   },
-  "cuentaCerrarSesionTitulo": "¿Cerrar sesión?",
+  "cuentaCerrarSesionTitulo": "┬┐Cerrar sesi├│n?",
   "@cuentaCerrarSesionTitulo": {
-    "description": "Título del diálogo de cierre de sesión."
+    "description": "T├¡tulo del di├ílogo de cierre de sesi├│n."
   },
-  "cuentaCerrarSesionCuerpo": "Tendrás que volver a entrar para usar tu cuenta.",
+  "cuentaCerrarSesionCuerpo": "Tendr├ís que volver a entrar para usar tu cuenta.",
   "@cuentaCerrarSesionCuerpo": {
-    "description": "Cuerpo del diálogo de cierre de sesión."
+    "description": "Cuerpo del di├ílogo de cierre de sesi├│n."
   },
   "cuentaCancelar": "Cancelar",
   "@cuentaCancelar": {
-    "description": "Botón que cierra el diálogo sin hacer nada."
+    "description": "Bot├│n que cierra el di├ílogo sin hacer nada."
   },
   "permisoContinuar": "Continuar",
   "@permisoContinuar": {
-    "description": "Botón del aviso previo a un permiso: seguir y ver la petición del sistema."
+    "description": "Bot├│n del aviso previo a un permiso: seguir y ver la petici├│n del sistema."
   },
   "permisoAhoraNo": "Ahora no",
   "@permisoAhoraNo": {
-    "description": "Botón del aviso previo a un permiso: no pedirlo ahora."
+    "description": "Bot├│n del aviso previo a un permiso: no pedirlo ahora."
   },
-  "permisoNotificacionesTitulo": "¿Activar las notificaciones?",
+  "permisoNotificacionesTitulo": "┬┐Activar las notificaciones?",
   "@permisoNotificacionesTitulo": {
-    "description": "Título del aviso previo al permiso de notificaciones."
+    "description": "T├¡tulo del aviso previo al permiso de notificaciones."
   },
-  "permisoNotificacionesCuerpo": "Te avisamos cuando haya novedades en tus solicitudes, mensajes y visitas. Los avisos no muestran códigos ni direcciones.",
+  "permisoNotificacionesCuerpo": "Te avisamos cuando haya novedades en tus solicitudes, mensajes y visitas. Los avisos no muestran c├│digos ni direcciones.",
   "@permisoNotificacionesCuerpo": {
-    "description": "Explicación previa al permiso de notificaciones: para qué sirve."
+    "description": "Explicaci├│n previa al permiso de notificaciones: para qu├® sirve."
   },
-  "permisoUbicacionTitulo": "¿Usar tu ubicación?",
+  "permisoUbicacionTitulo": "┬┐Usar tu ubicaci├│n?",
   "@permisoUbicacionTitulo": {
-    "description": "Título del aviso previo al permiso de ubicación."
+    "description": "T├¡tulo del aviso previo al permiso de ubicaci├│n."
   },
-  "permisoUbicacionCuerpo": "La usamos una sola vez para mostrarte técnicos de tu colonia. No la guardamos. Si prefieres, puedes escribir tu código postal.",
+  "permisoUbicacionCuerpo": "La usamos una sola vez para mostrarte t├®cnicos de tu colonia. No la guardamos. Si prefieres, puedes escribir tu c├│digo postal.",
   "@permisoUbicacionCuerpo": {
-    "description": "Explicación previa al permiso de ubicación: para qué sirve y la alternativa."
+    "description": "Explicaci├│n previa al permiso de ubicaci├│n: para qu├® sirve y la alternativa."
   },
   "avisosTitulo": "Avisos",
   "@avisosTitulo": {
-    "description": "Encabezado de la sección de Configuración para elegir qué avisos recibir."
+    "description": "Encabezado de la secci├│n de Configuraci├│n para elegir qu├® avisos recibir."
   },
   "avisosCotizaciones": "Cotizaciones",
   "@avisosCotizaciones": {
@@ -174,78 +174,236 @@
   },
   "avisosActivar": "Activar notificaciones",
   "@avisosActivar": {
-    "description": "Botón que inicia la petición del permiso de notificaciones."
+    "description": "Bot├│n que inicia la petici├│n del permiso de notificaciones."
   },
-  "avisosApagadas": "Las notificaciones están apagadas en tu teléfono. La app sigue funcionando; puedes activarlas cuando quieras.",
+  "avisosApagadas": "Las notificaciones est├ín apagadas en tu tel├®fono. La app sigue funcionando; puedes activarlas cuando quieras.",
   "@avisosApagadas": {
     "description": "Mensaje cuando no hay permiso de notificaciones."
   },
   "avisosAbrirAjustes": "Abrir ajustes",
   "@avisosAbrirAjustes": {
-    "description": "Botón que abre los ajustes del teléfono para cambiar un permiso negado."
+    "description": "Bot├│n que abre los ajustes del tel├®fono para cambiar un permiso negado."
   },
   "avisosActivadas": "Notificaciones activadas",
   "@avisosActivadas": {
-    "description": "Mensaje cuando el permiso de notificaciones está concedido."
+    "description": "Mensaje cuando el permiso de notificaciones est├í concedido."
   },
-  "zonaUsarUbicacion": "Usar mi ubicación",
+  "zonaUsarUbicacion": "Usar mi ubicaci├│n",
   "@zonaUsarUbicacion": {
-    "description": "Botón para elegir la zona con la ubicación del teléfono."
+    "description": "Bot├│n para elegir la zona con la ubicaci├│n del tel├®fono."
   },
-  "zonaPideCodigoPostal": "Sin la ubicación, escribe tu código postal para continuar.",
+  "zonaPideCodigoPostal": "Sin la ubicaci├│n, escribe tu c├│digo postal para continuar.",
   "@zonaPideCodigoPostal": {
-    "description": "Mensaje cuando no hay ubicación y se ofrece el código postal."
+    "description": "Mensaje cuando no hay ubicaci├│n y se ofrece el c├│digo postal."
   },
-  "zonaCodigoPostal": "Código postal",
+  "zonaCodigoPostal": "C├│digo postal",
   "@zonaCodigoPostal": {
-    "description": "Etiqueta del campo del código postal."
+    "description": "Etiqueta del campo del c├│digo postal."
   },
-  "zonaCodigoPostalInvalido": "Escribe los 5 números de tu código postal.",
+  "zonaCodigoPostalInvalido": "Escribe los 5 n├║meros de tu c├│digo postal.",
   "@zonaCodigoPostalInvalido": {
-    "description": "Error del campo de código postal."
+    "description": "Error del campo de c├│digo postal."
   },
   "zonaContinuar": "Continuar",
   "@zonaContinuar": {
-    "description": "Botón que confirma el código postal."
+    "description": "Bot├│n que confirma el c├│digo postal."
   },
-  "errorSinConexion": "No pudimos conectar con Knock. Revisa tu conexión e inténtalo de nuevo.",
+  "errorSinConexion": "No pudimos conectar con Knock. Revisa tu conexi├│n e int├®ntalo de nuevo.",
   "@errorSinConexion": {
-    "description": "Error común: sin conexión o servicio no disponible (5xx)."
+    "description": "Error com├║n: sin conexi├│n o servicio no disponible (5xx)."
   },
-  "errorSesionVencida": "Tu sesión ya no es válida. Inicia sesión de nuevo.",
+  "errorSesionVencida": "Tu sesi├│n ya no es v├ílida. Inicia sesi├│n de nuevo.",
   "@errorSesionVencida": {
-    "description": "Error común: la API rechazó la credencial (401) y no se pudo renovar."
+    "description": "Error com├║n: la API rechaz├│ la credencial (401) y no se pudo renovar."
   },
-  "errorCuentaSuspendida": "Tu cuenta está suspendida. Contacta a soporte si crees que es un error.",
+  "errorCuentaSuspendida": "Tu cuenta est├í suspendida. Contacta a soporte si crees que es un error.",
   "@errorCuentaSuspendida": {
-    "description": "Error común: cuenta suspendida (403 account_suspended)."
+    "description": "Error com├║n: cuenta suspendida (403 account_suspended)."
   },
   "errorAccesoDenegado": "No tienes permiso para hacer esto.",
   "@errorAccesoDenegado": {
-    "description": "Error común: acceso negado (403)."
+    "description": "Error com├║n: acceso negado (403)."
   },
-  "errorConflicto": "Esta acción choca con otra cuenta o con el estado actual. Revisa los datos e inténtalo de nuevo.",
+  "errorConflicto": "Esta acci├│n choca con otra cuenta o con el estado actual. Revisa los datos e int├®ntalo de nuevo.",
   "@errorConflicto": {
-    "description": "Error común: conflicto (409)."
+    "description": "Error com├║n: conflicto (409)."
   },
-  "errorDatosRechazados": "Revisa los datos que escribiste e inténtalo de nuevo.",
+  "errorDatosRechazados": "Revisa los datos que escribiste e int├®ntalo de nuevo.",
   "@errorDatosRechazados": {
-    "description": "Error común: datos rechazados (400, 413 o 422)."
+    "description": "Error com├║n: datos rechazados (400, 413 o 422)."
   },
-  "errorDemasiadosIntentos": "Hiciste demasiados intentos. Espera un momento e inténtalo de nuevo.",
+  "errorDemasiadosIntentos": "Hiciste demasiados intentos. Espera un momento e int├®ntalo de nuevo.",
   "@errorDemasiadosIntentos": {
-    "description": "Error común: límite de intentos (429)."
+    "description": "Error com├║n: l├¡mite de intentos (429)."
   },
-  "errorDatosInvalidos": "Recibimos información que no pudimos leer. Inténtalo más tarde.",
+  "errorDatosInvalidos": "Recibimos informaci├│n que no pudimos leer. Int├®ntalo m├ís tarde.",
   "@errorDatosInvalidos": {
-    "description": "Error común: la respuesta no cumple el contrato."
+    "description": "Error com├║n: la respuesta no cumple el contrato."
   },
-  "errorApiNoConfigurada": "La app no está conectada a un servidor. Instala una versión oficial.",
+  "errorApiNoConfigurada": "La app no est├í conectada a un servidor. Instala una versi├│n oficial.",
   "@errorApiNoConfigurada": {
-    "description": "Error común: falta KNOCK_API_URL al compilar."
+    "description": "Error com├║n: falta KNOCK_API_URL al compilar."
   },
-  "errorInesperado": "Algo salió mal. Inténtalo de nuevo.",
+  "errorInesperado": "Algo sali├│ mal. Int├®ntalo de nuevo.",
   "@errorInesperado": {
-    "description": "Error común: cualquier fallo no previsto; nunca muestra detalles técnicos."
+    "description": "Error com├║n: cualquier fallo no previsto; nunca muestra detalles t├®cnicos."
+  },
+  "errorCodigoIncorrecto": "El c├│digo de verificaci├│n es incorrecto.",
+  "@errorCodigoIncorrecto": {
+    "description": "Error com├║n: c├│digo de SMS incorrecto."
+  },
+  "errorCodigoVencido": "El c├│digo de verificaci├│n venci├│. Solicita otro.",
+  "@errorCodigoVencido": {
+    "description": "Error com├║n: c├│digo de SMS vencido."
+  },
+  "errorCelularRechazado": "El n├║mero de celular no es v├ílido.",
+  "@errorCelularRechazado": {
+    "description": "Error com├║n: n├║mero de celular rechazado por Firebase."
+  },
+  "errorVerificacionNoDisponible": "La verificaci├│n por SMS no est├í disponible.",
+  "@errorVerificacionNoDisponible": {
+    "description": "Error com├║n: falta google-services.json en la compilaci├│n."
+  },
+  "entradaCelularTitulo": "Entra con tu celular",
+  "@entradaCelularTitulo": {
+    "description": "T├Łtulo de la pantalla de entrada con celular."
+  },
+  "entradaCelularDetalle": "Te enviaremos un código por SMS",
+  "@entradaCelularDetalle": {
+    "description": "Texto de ayuda debajo del t├Łtulo de entrada."
+  },
+  "entradaCelularEtiqueta": "N├║mero de celular",
+  "@entradaCelularEtiqueta": {
+    "description": "Etiqueta del campo de n├║mero de celular."
+  },
+  "entradaCelularAyuda": "10 d├Łgitos sin el +52",
+  "@entradaCelularAyuda": {
+    "description": "Texto de ayuda del campo de n├║mero de celular."
+  },
+  "entradaCelularError": "Escribe los 10 dígitos de tu celular",
+  "@entradaCelularError": {
+    "description": "Error del campo de n├║mero de celular."
+  },
+  "entradaPrefijoPais": "+52",
+  "@entradaPrefijoPais": {
+    "description": "Prefijo de pa├Łs fijo mostrado junto al campo de celular (sin selector +52/+1)."
+  },
+  "entradaContinuar": "Continuar",
+  "@entradaContinuar": {
+    "description": "Bot├│n de la pantalla de entrada para pedir el c├│digo SMS."
+  },
+  "entradaCargando": "Enviando c├│digo\u2026",
+  "@entradaCargando": {
+    "description": "Etiqueta del bot├│n mientras se env├Ła el c├│digo SMS."
+  },
+  "entradaAvisoPrivacidad": "Acepto el aviso de privacidad",
+  "@entradaAvisoPrivacidad": {
+    "description": "Texto del aviso de privacidad en la casilla de entrada."
+  },
+  "entradaAceptoAviso": "Acepto el {aviso}",
+  "@entradaAceptoAviso": {
+    "description": "Texto completo de la casilla de aceptaci├│n del aviso de privacidad.",
+    "placeholders": {
+      "aviso": {
+        "type": "String",
+        "description": "Nombre del aviso de privacidad"
+      }
+    }
+  },
+  "entradaAvisoError": "Acepta el aviso de privacidad para continuar",
+  "@entradaAvisoError": {
+    "description": "Error mostrado si no se acepta el aviso de privacidad."
+  },
+  "entradaErrorCodigoIncorrecto": "El c├│digo no es correcto. Revísalo e int├®ntalo otra vez.",
+  "@entradaErrorCodigoIncorrecto": {
+    "description": "Error de entrada: c├│digo SMS incorrecto."
+  },
+  "entradaErrorCodigoVencido": "El c├│digo venci├│. Pide otro.",
+  "@entradaErrorCodigoVencido": {
+    "description": "Error de entrada: c├│digo SMS vencido."
+  },
+  "entradaErrorCelularRechazado": "N├║mero de celular no v├ílido.",
+  "@entradaErrorCelularRechazado": {
+    "description": "Error de entrada: celular rechazado por Firebase."
+  },
+  "entradaErrorCuentaSuspendida": "Tu cuenta est├í suspendida. Si crees que es un error, escr├¡benos.",
+  "@entradaErrorCuentaSuspendida": {
+    "description": "Error de entrada: cuenta suspendida."
+  },
+  "entradaErrorConflicto": "Este n├║mero ya est├í ligado a otra cuenta. Escr├¡benos para revisarlo.",
+  "@entradaErrorConflicto": {
+    "description": "Error de entrada: conflicto de cuenta."
+  },
+  "entradaErrorDatos": "No pudimos procesar la entrada. Int├®ntalo otra vez.",
+  "@entradaErrorDatos": {
+    "description": "Error de entrada: datos rechazados o inv├ílidos."
+  },
+  "entradaErrorDemasiadosIntentos": "Hiciste muchos intentos. Espera un momento y vuelve a intentarlo.",
+  "@entradaErrorDemasiadosIntentos": {
+    "description": "Error de entrada: demasiados intentos."
+  },
+  "entradaErrorSinConexion": "No pudimos conectarnos. Revisa tu internet e int├®ntalo otra vez.",
+  "@entradaErrorSinConexion": {
+    "description": "Error de entrada: sin conexi├│n."
+  },
+  "entradaErrorVerificacionNoDisponible": "La verificaci├│n por SMS no est├í disponible en esta versi├│n de la app.",
+  "@entradaErrorVerificacionNoDisponible": {
+    "description": "Error de entrada: verificaci├│n SMS no disponible."
+  },
+  "entradaErrorApiNoConfigurada": "La app no tiene servidor configurado.",
+  "@entradaErrorApiNoConfigurada": {
+    "description": "Error de entrada: API no configurada."
+  },
+  "entradaErrorGenerico": "Error al iniciar sesi├│n. Int├®ntalo de nuevo.",
+  "@entradaErrorGenerico": {
+    "description": "Error de entrada gen├®rico."
+  },
+  "entradaErrorAvisoNoAceptado": "Debes aceptar el aviso de privacidad antes de continuar.",
+  "@entradaErrorAvisoNoAceptado": {
+    "description": "Error de entrada: aviso de privacidad no aceptado."
+  },
+  "entradaCodigoTitulo": "Escribe el c├│digo",
+  "@entradaCodigoTitulo": {
+    "description": "T├Łtulo de la pantalla de verificaci├│n del c├│digo SMS."
+  },
+  "entradaCodigoEnviadoA": "Lo enviamos al +52 {celular}",
+  "@entradaCodigoEnviadoA": {
+    "description": "Texto de detalle de la pantalla de verificaci├│n.",
+    "placeholders": {
+      "celular": {
+        "type": "String",
+        "description": "N├║mero de celular con prefijo"
+      }
+    }
+  },
+  "entradaCodigoEtiqueta": "C├│digo de verificaci├│n",
+  "@entradaCodigoEtiqueta": {
+    "description": "Etiqueta del campo de c├│digo SMS."
+  },
+  "entradaCodigoError": "Escribe los 6 dígitos del código",
+  "@entradaCodigoError": {
+    "description": "Error del campo de c├│digo SMS."
+  },
+  "entradaEntrar": "Entrar",
+  "@entradaEntrar": {
+    "description": "Bot├│n de la pantalla de verificaci├│n para validar el c├│digo."
+  },
+  "entradaReenviarEn": "Reenviar en {segundos} s",
+  "@entradaReenviarEn": {
+    "description": "Texto del bot├│n de reenv├Ło con cuenta regresiva.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "Segundos restantes antes de poder reenviar"
+      }
+    }
+  },
+  "entradaReenviarCodigo": "Reenviar código",
+  "@entradaReenviarCodigo": {
+    "description": "Bot├│n de texto para reenviar el c├│digo SMS."
+  },
+  "entradaCambiarNumero": "Cambiar n├║mero",
+  "@entradaCambiarNumero": {
+    "description": "Bot├│n de texto para volver a escribir el n├║mero de celular."
   }
 }

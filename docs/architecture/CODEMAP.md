@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-05T19:38:01Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-06T23:46:49Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -8,14 +8,15 @@
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
 | `actividad` | presentation | 1 | 1 | 1 |
-| `app` | - | 3 | 2 | 4 |
+| `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 11 | 15 | 19 |
-| `errores` | core | 3 | 11 | 3 |
+| `entrada` | domain, presentation | 7 | 12 | 24 |
+| `errores` | core | 3 | 15 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 5 |
+| `l10n` | - | 3 | 4 | 11 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 11 | 18 | 17 |
@@ -23,8 +24,8 @@
 | `permisos` | core | 2 | 4 | 4 |
 | `preferencias` | core | 4 | 9 | 17 |
 | `red` | core | 6 | 4 | 10 |
-| `router` | core | 3 | 3 | 5 |
-| `sesion` | core | 7 | 13 | 22 |
+| `router` | core | 3 | 3 | 6 |
+| `sesion` | core | 13 | 25 | 42 |
 | `tema` | core | 3 | 3 | 1 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `widgets` | core | 1 | 1 | 1 |
@@ -32,6 +33,7 @@
 ## Tipos con el mismo nombre en varios lugares
 
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
+- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:80`, `app/lib/core/sesion/sesion_provider.dart:27`
 
 ## Índice por módulo
 
@@ -49,7 +51,7 @@
 - `app/lib/app.dart` — class `KnockApp`
   - `build()`:16
 - `app/lib/main.dart` — —
-  - `main()`:9
+  - `main()`:14, `arrancar()`:19
 - `app/lib/main_spike_mapa.dart` — class `SpikeMapaApp`
   - `main()`:11, `build()`:20
 
@@ -96,11 +98,33 @@
 - `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`, class `_SeccionAvisosState`
   - `initState()`:28, `build()`:55
 
+### entrada
+
+**domain**
+
+- `app/lib/features/entrada/domain/validacion_entrada.dart` — —
+  - `esCelularValido()`:17, `esCodigoValido()`:20, `formatearCelular()`:25
+
+**presentation**
+
+- `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`
+  - `dispose()`:34, `build()`:58, `build()`:140, `CheckboxListTile()`:169
+- `app/lib/features/entrada/presentation/codigo_screen.dart` — class `CodigoScreen`, class `_CodigoScreenState`
+  - `dispose()`:35, `build()`:67
+- `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
+  - `build()`:18, `reiniciar()`:25
+- `app/lib/features/entrada/presentation/entrada_controller.dart` — class `EntradaUiState`, class `EntradaController`
+  - `copyWith()`:23, `build()`:41, `enviarCodigo()`:46, `reenviar()`:64, `verificar()`:82, `limpiarError()`:106
+- `app/lib/features/entrada/presentation/mensaje_de_error.dart` — —
+  - `mensajeDeErrorDeEntrada()`:5
+- `app/lib/features/entrada/presentation/widgets/marco_de_entrada.dart` — class `MarcoDeEntrada`, class `_Marca`, class `BotonPrincipalDeEntrada`, class `MensajeDeErrorDeEntrada`
+  - `build()`:30, `build()`:95, `decoracionDeEntrada()`:132, `estiloBotonPrincipal()`:154, `build()`:181, `build()`:203
+
 ### errores
 
 **core**
 
-- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`
+- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`, class `CodigoIncorrectoFailure`, class `CodigoVencidoFailure`, class `CelularRechazadoFailure`, class `VerificacionNoDisponibleFailure`
   - `toString()`:10
 - `app/lib/core/errores/mensaje_failure.dart` — —
   - `mensajeDeError()`:10
@@ -182,9 +206,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:479, `isSupported()`:484, `shouldReload()`:488, `lookupAppLocalizations()`:491
+  - `of()`:70, `load()`:689, `isSupported()`:694, `shouldReload()`:698, `lookupAppLocalizations()`:701
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
+  - `entradaAceptoAviso()`:256, `entradaCodigoEnviadoA()`:312, `entradaReenviarEn()`:326
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
+  - `entradaAceptoAviso()`:257, `entradaCodigoEnviadoA()`:315, `entradaReenviarEn()`:329
 
 ### layout
 
@@ -281,7 +307,7 @@
 - `app/lib/core/red/configuracion_api.dart` — —
   - `normalizarUrlApi()`:15
 - `app/lib/core/red/errores_api.dart` — —
-  - `mapearErrorApi()`:10
+  - `mapearErrorApi()`:11
 - `app/lib/core/red/espera_por_limite.dart` — class `ClienteConEspera`
   - `send()`:32, `close()`:75
 - `app/lib/core/red/obtener_json.dart` — —
@@ -295,16 +321,20 @@
 - `app/lib/core/router/app_shell.dart` — class `_Destino`, class `AppShell`
   - `ramasVisibles()`:35, `build()`:48, `Scaffold()`:53
 - `app/lib/core/router/rutas.dart` — class `Rutas`
-  - `redireccionPorRol()`:23, `redireccionPorPerfil()`:33
+  - `redireccionPorSesion()`:30, `redireccionPorRol()`:45, `redireccionPorPerfil()`:55
 
 ### sesion
 
 **core**
 
-- `app/lib/core/sesion/almacen_seguro.dart` — class `AlmacenSeguro`, class `AlmacenSeguroEnMemoria`
-  - `leer()`:26, `escribir()`:29, `borrar()`:33
+- `app/lib/core/sesion/almacen_seguro.dart` — class `AlmacenSeguro`, class `AlmacenSeguroEnMemoria`, class `AlmacenSeguroFlutterSecureStorage`
+  - `leer()`:25, `escribir()`:28, `borrar()`:32, `leer()`:44, `escribir()`:47, `borrar()`:51
 - `app/lib/core/sesion/almacen_sesion.dart` — class `AlmacenSesion`
   - `guardar()`:17, `leerAcceso()`:25, `leerRefresco()`:27, `cerrarSesion()`:29
+- `app/lib/core/sesion/arranque_sesion.dart` — —
+  - `iniciarFirebase()`:16, `haySesionGuardada()`:35
+- `app/lib/core/sesion/canje_sesion.dart` — class `SesionEmitida`, class `CanjeSesion`, class `CanjeSesionApi`
+  - `toString()`:24, `canjear()`:46
 - `app/lib/core/sesion/cliente_autenticado.dart` — class `ClienteAutenticado`
   - `send()`:23, `close()`:47
 - `app/lib/core/sesion/es_tecnico_provider.dart` — class `EsTecnicoNotifier`
@@ -313,8 +343,16 @@
   - `obtener()`:25
 - `app/lib/core/sesion/preparar_canje.dart` — class `PrepararCanje`
   - `preparar()`:18
+- `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
+  - `enviarCodigo()`:45, `verificarCodigo()`:51
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `AlmacenTokens`, class `AlmacenTokensEnMemoria`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`
   - `toString()`:25, `leer()`:44, `guardar()`:47, `borrar()`:50, `renovar()`:68, `build()`:84, `iniciar()`:87, `cerrar()`:94, `renovar()`:103
+- `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
+  - `build()`:29, `iniciar()`:32, `nombreDeDispositivo()`:56
+- `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`
+  - `toString()`:26, `enviarCodigo()`:52, `tokenDeId()`:58, `cerrarSesion()`:62
+- `app/lib/core/sesion/verificador_celular_firebase.dart` — class `VerificadorCelularFirebase`
+  - `enviarCodigo()`:21, `tokenDeId()`:66, `cerrarSesion()`:84, `mapearErrorFirebase()`:88
 
 ### tema
 

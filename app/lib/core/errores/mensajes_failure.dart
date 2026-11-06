@@ -18,4 +18,10 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
     'Demasiados intentos. Espera un momento e inténtalo de nuevo.',
   // Sin texto propio hasta que KNOCK-228 traiga la pantalla del aviso.
   AvisoNoAceptadoFailure() => 'Revisa los datos e inténtalo de nuevo.',
+  CodigoIncorrectoFailure() => 'El código de verificación es incorrecto.',
+  CodigoVencidoFailure() =>
+    'El código de verificación venció. Solicita otro.',
+  CelularRechazadoFailure() => 'El número de celular no es válido.',
+  VerificacionNoDisponibleFailure() =>
+    'La verificación por SMS no está disponible.',
 };

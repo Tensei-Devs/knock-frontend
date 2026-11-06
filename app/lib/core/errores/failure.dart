@@ -66,3 +66,24 @@ final class DemasiadosIntentosFailure extends Failure {
 final class AvisoNoAceptadoFailure extends Failure {
   const AvisoNoAceptadoFailure();
 }
+
+/// El código del SMS no es el correcto (Firebase `invalid-verification-code`).
+final class CodigoIncorrectoFailure extends Failure {
+  const CodigoIncorrectoFailure();
+}
+
+/// El código del SMS ya venció; hay que pedir otro.
+final class CodigoVencidoFailure extends Failure {
+  const CodigoVencidoFailure();
+}
+
+/// Firebase rechazó el número de celular (`invalid-phone-number`).
+final class CelularRechazadoFailure extends Failure {
+  const CelularRechazadoFailure();
+}
+
+/// La verificación por SMS no está disponible: falta la configuración de
+/// Firebase (`google-services.json`) en esta compilación.
+final class VerificacionNoDisponibleFailure extends Failure {
+  const VerificacionNoDisponibleFailure();
+}
