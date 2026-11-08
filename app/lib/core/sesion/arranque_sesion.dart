@@ -19,12 +19,7 @@ Future<bool> iniciarFirebase() async {
     await Firebase.initializeApp();
     return true;
   } on Exception {
-    if (kDebugMode) {
-      debugPrint(
-        'Firebase no está configurado: falta android/app/google-services.json '
-        '(ver app/README.md). La entrada por SMS no funcionará.',
-      );
-    }
+    // Sin registro en consola (R-05): la entrada avisa en pantalla que el SMS no está disponible.
     return false;
   }
 }

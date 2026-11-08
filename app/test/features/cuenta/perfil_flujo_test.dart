@@ -20,6 +20,7 @@ Future<ProviderContainer> _montar(
 }) async {
   final container = ProviderContainer(
     overrides: [
+      conSesion(),
       perfilRepositoryProvider.overrideWithValue(perfil),
       ubicacionRepositoryProvider.overrideWithValue(
         UbicacionFalsa(const Concedida(latitud: 20.27, longitud: -98.94)),

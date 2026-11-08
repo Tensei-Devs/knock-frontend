@@ -10,7 +10,7 @@
   "pruebaModoTecnico": "Technician mode (test)",
   "configuracionTitulo": "Settings",
   "configuracionIdioma": "Language",
-  "configuracionIdiomaEspanol": "Espa├▒ol",
+  "configuracionIdiomaEspanol": "Español",
   "configuracionIdiomaIngles": "English",
   "configuracionTema": "Theme",
   "configuracionTemaAutomatico": "Automatic",
@@ -23,39 +23,39 @@
   },
   "inicioZonaTitulo": "Your area",
   "@inicioZonaTitulo": {
-    "description": "T├¡tulo de la tarjeta de colonia en Inicio."
+    "description": "Título de la tarjeta de colonia en Inicio."
   },
   "inicioZonaSinPedir": "Find out if your area is covered.",
   "@inicioZonaSinPedir": {
     "description": "Texto inicial de la tarjeta de colonia en Inicio."
   },
-  "inicioZonaBuscando": "Looking up your neighborhoodÔÇª",
+  "inicioZonaBuscando": "Looking up your neighborhood…",
   "@inicioZonaBuscando": {
     "description": "Estado cargando de la tarjeta de colonia."
   },
   "inicioZonaFuera": "We do not cover your area yet.",
   "@inicioZonaFuera": {
-    "description": "La ubicaci├│n est├í fuera de la cobertura."
+    "description": "La ubicación está fuera de la cobertura."
   },
   "inicioZonaSinUbicacion": "We need your location to find your neighborhood.",
   "@inicioZonaSinUbicacion": {
-    "description": "Sin permiso de ubicaci├│n o servicio apagado."
+    "description": "Sin permiso de ubicación o servicio apagado."
   },
   "inicioVerColonia": "See my neighborhood",
   "@inicioVerColonia": {
-    "description": "Bot├│n que consulta la colonia de la persona."
+    "description": "Botón que consulta la colonia de la persona."
   },
   "inicioActualizar": "Refresh",
   "@inicioActualizar": {
-    "description": "Bot├│n que vuelve a consultar la colonia."
+    "description": "Botón que vuelve a consultar la colonia."
   },
   "inicioReintentar": "Retry",
   "@inicioReintentar": {
-    "description": "Bot├│n tras un error al consultar la colonia o un intento fallido."
+    "description": "Botón tras un error al consultar la colonia o un intento fallido."
   },
   "inicioExplorarOficios": "Browse trades",
   "@inicioExplorarOficios": {
-    "description": "Acceso de Inicio al cat├ílogo de oficios."
+    "description": "Acceso de Inicio al catálogo de oficios."
   },
   "inicioExplorarOficiosDetalle": "See which technicians you can find",
   "@inicioExplorarOficiosDetalle": {
@@ -67,19 +67,19 @@
   },
   "cuentaCerrarSesion": "Sign out",
   "@cuentaCerrarSesion": {
-    "description": "Entrada de Mi cuenta y bot├│n de confirmaci├│n del di├ílogo."
+    "description": "Entrada de Mi cuenta y botón de confirmación del diálogo."
   },
   "cuentaCerrarSesionTitulo": "Sign out?",
   "@cuentaCerrarSesionTitulo": {
-    "description": "T├¡tulo del di├ílogo de cierre de sesi├│n."
+    "description": "Título del diálogo de cierre de sesión."
   },
   "cuentaCerrarSesionCuerpo": "You will need to sign in again to use your account.",
   "@cuentaCerrarSesionCuerpo": {
-    "description": "Cuerpo del di├ílogo de cierre de sesi├│n."
+    "description": "Cuerpo del diálogo de cierre de sesión."
   },
   "cuentaCancelar": "Cancel",
   "@cuentaCancelar": {
-    "description": "Bot├│n que cierra el di├ílogo sin hacer nada."
+    "description": "Botón que cierra el diálogo sin hacer nada."
   },
   "permisoContinuar": "Continue",
   "permisoAhoraNo": "Not now",
@@ -158,7 +158,7 @@
   "@entradaCargando": {
     "description": "Button label while the SMS code is being sent."
   },
-  "entradaAvisoPrivacidad": "I accept the privacy notice",
+  "entradaAvisoPrivacidad": "privacy notice",
   "@entradaAvisoPrivacidad": {
     "description": "Text of the privacy notice in the sign-in checkbox."
   },
