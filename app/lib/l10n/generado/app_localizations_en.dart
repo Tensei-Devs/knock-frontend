@@ -40,7 +40,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configuracionIdioma => 'Language';
 
   @override
-  String get configuracionIdiomaEspanol => 'Espa├▒ol';
+  String get configuracionIdiomaEspanol => 'Español';
 
   @override
   String get configuracionIdiomaIngles => 'English';
@@ -70,7 +70,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inicioZonaSinPedir => 'Find out if your area is covered.';
 
   @override
-  String get inicioZonaBuscando => 'Looking up your neighborhoodÔÇª';
+  String get inicioZonaBuscando => 'Looking up your neighborhood…';
 
   @override
   String get inicioZonaFuera => 'We do not cover your area yet.';
@@ -250,7 +250,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get entradaCargando => 'Sending code…';
 
   @override
-  String get entradaAvisoPrivacidad => 'I accept the privacy notice';
+  String get entradaAvisoPrivacidad => 'privacy notice';
 
   @override
   String entradaAceptoAviso(String aviso) {

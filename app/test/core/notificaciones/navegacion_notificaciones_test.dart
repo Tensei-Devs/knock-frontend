@@ -17,6 +17,7 @@ Future<ProviderContainer> _montar(
 }) async {
   final container = ProviderContainer(
     overrides: [
+      conSesion(),
       servicioNotificacionesProvider.overrideWithValue(servicio),
       esTecnicoProvider.overrideWith(() => EsTecnicoFijo(esTecnico)),
     ],
