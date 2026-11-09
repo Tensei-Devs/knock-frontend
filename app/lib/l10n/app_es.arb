@@ -247,5 +247,163 @@
   "errorInesperado": "Algo salió mal. Inténtalo de nuevo.",
   "@errorInesperado": {
     "description": "Error común: cualquier fallo no previsto; nunca muestra detalles técnicos."
+  },
+  "errorCodigoIncorrecto": "El código de verificación es incorrecto.",
+  "@errorCodigoIncorrecto": {
+    "description": "Error común: código de SMS incorrecto."
+  },
+  "errorCodigoVencido": "El código de verificación venció. Solicita otro.",
+  "@errorCodigoVencido": {
+    "description": "Error común: código de SMS vencido."
+  },
+  "errorCelularRechazado": "El número de celular no es válido.",
+  "@errorCelularRechazado": {
+    "description": "Error común: número de celular rechazado por Firebase."
+  },
+  "errorVerificacionNoDisponible": "La verificación por SMS no está disponible.",
+  "@errorVerificacionNoDisponible": {
+    "description": "Error común: falta google-services.json en la compilación."
+  },
+  "entradaCelularTitulo": "Entra con tu celular",
+  "@entradaCelularTitulo": {
+    "description": "Título de la pantalla de entrada con celular."
+  },
+  "entradaCelularDetalle": "Te enviaremos un código por SMS",
+  "@entradaCelularDetalle": {
+    "description": "Texto de ayuda debajo del título de entrada."
+  },
+  "entradaCelularEtiqueta": "Número de celular",
+  "@entradaCelularEtiqueta": {
+    "description": "Etiqueta del campo de número de celular."
+  },
+  "entradaCelularAyuda": "10 dígitos sin el +52",
+  "@entradaCelularAyuda": {
+    "description": "Texto de ayuda del campo de número de celular."
+  },
+  "entradaCelularError": "Escribe los 10 dígitos de tu celular",
+  "@entradaCelularError": {
+    "description": "Error del campo de número de celular."
+  },
+  "entradaPrefijoPais": "+52",
+  "@entradaPrefijoPais": {
+    "description": "Prefijo de país fijo mostrado junto al campo de celular (sin selector +52/+1)."
+  },
+  "entradaContinuar": "Continuar",
+  "@entradaContinuar": {
+    "description": "Botón de la pantalla de entrada para pedir el código SMS."
+  },
+  "entradaCargando": "Enviando código\u2026",
+  "@entradaCargando": {
+    "description": "Etiqueta del botón mientras se envía el código SMS."
+  },
+  "entradaAvisoPrivacidad": "aviso de privacidad",
+  "@entradaAvisoPrivacidad": {
+    "description": "Texto del aviso de privacidad en la casilla de entrada."
+  },
+  "entradaAceptoAviso": "Acepto el {aviso}",
+  "@entradaAceptoAviso": {
+    "description": "Texto completo de la casilla de aceptación del aviso de privacidad.",
+    "placeholders": {
+      "aviso": {
+        "type": "String",
+        "description": "Nombre del aviso de privacidad"
+      }
+    }
+  },
+  "entradaAvisoError": "Acepta el aviso de privacidad para continuar",
+  "@entradaAvisoError": {
+    "description": "Error mostrado si no se acepta el aviso de privacidad."
+  },
+  "entradaErrorCodigoIncorrecto": "El código no es correcto. Revísalo e inténtalo otra vez.",
+  "@entradaErrorCodigoIncorrecto": {
+    "description": "Error de entrada: código SMS incorrecto."
+  },
+  "entradaErrorCodigoVencido": "El código venció. Pide otro.",
+  "@entradaErrorCodigoVencido": {
+    "description": "Error de entrada: código SMS vencido."
+  },
+  "entradaErrorCelularRechazado": "Número de celular no válido.",
+  "@entradaErrorCelularRechazado": {
+    "description": "Error de entrada: celular rechazado por Firebase."
+  },
+  "entradaErrorCuentaSuspendida": "Tu cuenta está suspendida. Si crees que es un error, escríbenos.",
+  "@entradaErrorCuentaSuspendida": {
+    "description": "Error de entrada: cuenta suspendida."
+  },
+  "entradaErrorConflicto": "Este número ya está ligado a otra cuenta. Escríbenos para revisarlo.",
+  "@entradaErrorConflicto": {
+    "description": "Error de entrada: conflicto de cuenta."
+  },
+  "entradaErrorDatos": "No pudimos procesar la entrada. Inténtalo otra vez.",
+  "@entradaErrorDatos": {
+    "description": "Error de entrada: datos rechazados o inválidos."
+  },
+  "entradaErrorDemasiadosIntentos": "Hiciste muchos intentos. Espera un momento y vuelve a intentarlo.",
+  "@entradaErrorDemasiadosIntentos": {
+    "description": "Error de entrada: demasiados intentos."
+  },
+  "entradaErrorSinConexion": "No pudimos conectarnos. Revisa tu internet e inténtalo otra vez.",
+  "@entradaErrorSinConexion": {
+    "description": "Error de entrada: sin conexión."
+  },
+  "entradaErrorVerificacionNoDisponible": "La verificación por SMS no está disponible en esta versión de la app.",
+  "@entradaErrorVerificacionNoDisponible": {
+    "description": "Error de entrada: verificación SMS no disponible."
+  },
+  "entradaErrorApiNoConfigurada": "La app no tiene servidor configurado.",
+  "@entradaErrorApiNoConfigurada": {
+    "description": "Error de entrada: API no configurada."
+  },
+  "entradaErrorGenerico": "Error al iniciar sesión. Inténtalo de nuevo.",
+  "@entradaErrorGenerico": {
+    "description": "Error de entrada genérico."
+  },
+  "entradaErrorAvisoNoAceptado": "Debes aceptar el aviso de privacidad antes de continuar.",
+  "@entradaErrorAvisoNoAceptado": {
+    "description": "Error de entrada: aviso de privacidad no aceptado."
+  },
+  "entradaCodigoTitulo": "Escribe el código",
+  "@entradaCodigoTitulo": {
+    "description": "Título de la pantalla de verificación del código SMS."
+  },
+  "entradaCodigoEnviadoA": "Lo enviamos al +52 {celular}",
+  "@entradaCodigoEnviadoA": {
+    "description": "Texto de detalle de la pantalla de verificación.",
+    "placeholders": {
+      "celular": {
+        "type": "String",
+        "description": "Número de celular con prefijo"
+      }
+    }
+  },
+  "entradaCodigoEtiqueta": "Código de verificación",
+  "@entradaCodigoEtiqueta": {
+    "description": "Etiqueta del campo de código SMS."
+  },
+  "entradaCodigoError": "Escribe los 6 dígitos del código",
+  "@entradaCodigoError": {
+    "description": "Error del campo de código SMS."
+  },
+  "entradaEntrar": "Entrar",
+  "@entradaEntrar": {
+    "description": "Botón de la pantalla de verificación para validar el código."
+  },
+  "entradaReenviarEn": "Reenviar en {segundos} s",
+  "@entradaReenviarEn": {
+    "description": "Texto del botón de reenvío con cuenta regresiva.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "Segundos restantes antes de poder reenviar"
+      }
+    }
+  },
+  "entradaReenviarCodigo": "Reenviar código",
+  "@entradaReenviarCodigo": {
+    "description": "Botón de texto para reenviar el código SMS."
+  },
+  "entradaCambiarNumero": "Cambiar número",
+  "@entradaCambiarNumero": {
+    "description": "Botón de texto para volver a escribir el número de celular."
   }
 }

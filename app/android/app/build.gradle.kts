@@ -85,3 +85,13 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// Firebase (KNOCK-228). La configuración del proyecto de Firebase la entrega el
+// líder y va en android/app/google-services.json (ignorado por git). Sin ese
+// archivo la app compila igual (como en el CI) y la entrada por SMS muestra
+// que la verificación no está disponible.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+} else {
+    logger.warn("knock: falta android/app/google-services.json; la entrada por SMS no funcionará.")
+}

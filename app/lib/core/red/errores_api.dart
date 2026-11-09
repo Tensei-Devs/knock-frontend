@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderException;
 import 'package:knock_api/api.dart';
 
 /// Convierte un error del cliente generado en un [Failure] tipado.
@@ -54,5 +55,14 @@ Future<T> llamarApi<T>(Future<T> Function() llamada) async {
     rethrow;
   } on ApiException catch (error) {
     throw mapearErrorApi(error);
+  } on ProviderException catch (error) {
+    // Riverpod envuelve el error de un provider que falló al crearse (por
+    // ejemplo, `clienteApiProvider` sin URL base), una vez por cada provider
+    // que dependía de él.
+    Object causa = error;
+    while (causa is ProviderException) {
+      causa = causa.exception;
+    }
+    throw mapearErrorApi(causa);
   }
 }

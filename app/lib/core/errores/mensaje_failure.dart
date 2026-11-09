@@ -21,5 +21,9 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     ApiNoConfiguradaFailure() => textos.errorApiNoConfigurada,
     // Sin texto propio hasta que KNOCK-228 traiga la pantalla del aviso.
     AvisoNoAceptadoFailure() => textos.errorDatosRechazados,
+    CodigoIncorrectoFailure() => textos.errorCodigoIncorrecto,
+    CodigoVencidoFailure() => textos.errorCodigoVencido,
+    CelularRechazadoFailure() => textos.errorCelularRechazado,
+    VerificacionNoDisponibleFailure() => textos.errorVerificacionNoDisponible,
   };
 }

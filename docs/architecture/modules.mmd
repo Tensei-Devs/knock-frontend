@@ -3,6 +3,7 @@ graph LR
   app["app"]
   cache["cache"]
   cuenta["cuenta"]
+  entrada["entrada"]
   errores["errores"]
   explorar["explorar"]
   home["home"]
@@ -26,6 +27,7 @@ graph LR
   inicio -->|1| cuenta
   router -->|1| actividad
   router -->|4| cuenta
+  router -->|2| entrada
   router -->|1| explorar
   router -->|1| inicio
   router -->|1| oficios

@@ -210,4 +210,126 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorInesperado => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorCodigoIncorrecto => 'The verification code is incorrect.';
+
+  @override
+  String get errorCodigoVencido =>
+      'The verification code expired. Request another one.';
+
+  @override
+  String get errorCelularRechazado => 'The phone number is not valid.';
+
+  @override
+  String get errorVerificacionNoDisponible =>
+      'SMS verification is not available.';
+
+  @override
+  String get entradaCelularTitulo => 'Sign in with your phone';
+
+  @override
+  String get entradaCelularDetalle => 'We will send you a code by SMS';
+
+  @override
+  String get entradaCelularEtiqueta => 'Phone number';
+
+  @override
+  String get entradaCelularAyuda => '10 digits without the +52';
+
+  @override
+  String get entradaCelularError => 'Write the 10 digits of your phone number';
+
+  @override
+  String get entradaPrefijoPais => '+52';
+
+  @override
+  String get entradaContinuar => 'Continue';
+
+  @override
+  String get entradaCargando => 'Sending code…';
+
+  @override
+  String get entradaAvisoPrivacidad => 'privacy notice';
+
+  @override
+  String entradaAceptoAviso(String aviso) {
+    return 'I accept the $aviso';
+  }
+
+  @override
+  String get entradaAvisoError => 'Accept the privacy notice to continue';
+
+  @override
+  String get entradaErrorCodigoIncorrecto =>
+      'The code is not correct. Review it and try again.';
+
+  @override
+  String get entradaErrorCodigoVencido =>
+      'The code expired. Request another one.';
+
+  @override
+  String get entradaErrorCelularRechazado => 'Invalid phone number.';
+
+  @override
+  String get entradaErrorCuentaSuspendida =>
+      'Your account is suspended. If you think this is a mistake, write to us.';
+
+  @override
+  String get entradaErrorConflicto =>
+      'This number is already linked to another account. Write to us to review it.';
+
+  @override
+  String get entradaErrorDatos => 'We couldn\'t process the entry. Try again.';
+
+  @override
+  String get entradaErrorDemasiadosIntentos =>
+      'You made too many attempts. Wait a moment and try again.';
+
+  @override
+  String get entradaErrorSinConexion =>
+      'We couldn\'t connect. Check your internet and try again.';
+
+  @override
+  String get entradaErrorVerificacionNoDisponible =>
+      'SMS verification is not available in this version of the app.';
+
+  @override
+  String get entradaErrorApiNoConfigurada =>
+      'The app has no server configured.';
+
+  @override
+  String get entradaErrorGenerico => 'Error signing in. Try again.';
+
+  @override
+  String get entradaErrorAvisoNoAceptado =>
+      'You must accept the privacy notice before continuing.';
+
+  @override
+  String get entradaCodigoTitulo => 'Enter the code';
+
+  @override
+  String entradaCodigoEnviadoA(String celular) {
+    return 'We sent it to +52 $celular';
+  }
+
+  @override
+  String get entradaCodigoEtiqueta => 'Verification code';
+
+  @override
+  String get entradaCodigoError => 'Write the 6 digits of the code';
+
+  @override
+  String get entradaEntrar => 'Sign in';
+
+  @override
+  String entradaReenviarEn(int segundos) {
+    return 'Resend in $segundos s';
+  }
+
+  @override
+  String get entradaReenviarCodigo => 'Resend code';
+
+  @override
+  String get entradaCambiarNumero => 'Change number';
 }

@@ -469,6 +469,216 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Algo salió mal. Inténtalo de nuevo.'**
   String get errorInesperado;
+
+  /// Error común: código de SMS incorrecto.
+  ///
+  /// In es, this message translates to:
+  /// **'El código de verificación es incorrecto.'**
+  String get errorCodigoIncorrecto;
+
+  /// Error común: código de SMS vencido.
+  ///
+  /// In es, this message translates to:
+  /// **'El código de verificación venció. Solicita otro.'**
+  String get errorCodigoVencido;
+
+  /// Error común: número de celular rechazado por Firebase.
+  ///
+  /// In es, this message translates to:
+  /// **'El número de celular no es válido.'**
+  String get errorCelularRechazado;
+
+  /// Error común: falta google-services.json en la compilación.
+  ///
+  /// In es, this message translates to:
+  /// **'La verificación por SMS no está disponible.'**
+  String get errorVerificacionNoDisponible;
+
+  /// Título de la pantalla de entrada con celular.
+  ///
+  /// In es, this message translates to:
+  /// **'Entra con tu celular'**
+  String get entradaCelularTitulo;
+
+  /// Texto de ayuda debajo del título de entrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Te enviaremos un código por SMS'**
+  String get entradaCelularDetalle;
+
+  /// Etiqueta del campo de número de celular.
+  ///
+  /// In es, this message translates to:
+  /// **'Número de celular'**
+  String get entradaCelularEtiqueta;
+
+  /// Texto de ayuda del campo de número de celular.
+  ///
+  /// In es, this message translates to:
+  /// **'10 dígitos sin el +52'**
+  String get entradaCelularAyuda;
+
+  /// Error del campo de número de celular.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe los 10 dígitos de tu celular'**
+  String get entradaCelularError;
+
+  /// Prefijo de país fijo mostrado junto al campo de celular (sin selector +52/+1).
+  ///
+  /// In es, this message translates to:
+  /// **'+52'**
+  String get entradaPrefijoPais;
+
+  /// Botón de la pantalla de entrada para pedir el código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Continuar'**
+  String get entradaContinuar;
+
+  /// Etiqueta del botón mientras se envía el código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando código…'**
+  String get entradaCargando;
+
+  /// Texto del aviso de privacidad en la casilla de entrada.
+  ///
+  /// In es, this message translates to:
+  /// **'aviso de privacidad'**
+  String get entradaAvisoPrivacidad;
+
+  /// Texto completo de la casilla de aceptación del aviso de privacidad.
+  ///
+  /// In es, this message translates to:
+  /// **'Acepto el {aviso}'**
+  String entradaAceptoAviso(String aviso);
+
+  /// Error mostrado si no se acepta el aviso de privacidad.
+  ///
+  /// In es, this message translates to:
+  /// **'Acepta el aviso de privacidad para continuar'**
+  String get entradaAvisoError;
+
+  /// Error de entrada: código SMS incorrecto.
+  ///
+  /// In es, this message translates to:
+  /// **'El código no es correcto. Revísalo e inténtalo otra vez.'**
+  String get entradaErrorCodigoIncorrecto;
+
+  /// Error de entrada: código SMS vencido.
+  ///
+  /// In es, this message translates to:
+  /// **'El código venció. Pide otro.'**
+  String get entradaErrorCodigoVencido;
+
+  /// Error de entrada: celular rechazado por Firebase.
+  ///
+  /// In es, this message translates to:
+  /// **'Número de celular no válido.'**
+  String get entradaErrorCelularRechazado;
+
+  /// Error de entrada: cuenta suspendida.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta está suspendida. Si crees que es un error, escríbenos.'**
+  String get entradaErrorCuentaSuspendida;
+
+  /// Error de entrada: conflicto de cuenta.
+  ///
+  /// In es, this message translates to:
+  /// **'Este número ya está ligado a otra cuenta. Escríbenos para revisarlo.'**
+  String get entradaErrorConflicto;
+
+  /// Error de entrada: datos rechazados o inválidos.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos procesar la entrada. Inténtalo otra vez.'**
+  String get entradaErrorDatos;
+
+  /// Error de entrada: demasiados intentos.
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchos intentos. Espera un momento y vuelve a intentarlo.'**
+  String get entradaErrorDemasiadosIntentos;
+
+  /// Error de entrada: sin conexión.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos conectarnos. Revisa tu internet e inténtalo otra vez.'**
+  String get entradaErrorSinConexion;
+
+  /// Error de entrada: verificación SMS no disponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La verificación por SMS no está disponible en esta versión de la app.'**
+  String get entradaErrorVerificacionNoDisponible;
+
+  /// Error de entrada: API no configurada.
+  ///
+  /// In es, this message translates to:
+  /// **'La app no tiene servidor configurado.'**
+  String get entradaErrorApiNoConfigurada;
+
+  /// Error de entrada genérico.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al iniciar sesión. Inténtalo de nuevo.'**
+  String get entradaErrorGenerico;
+
+  /// Error de entrada: aviso de privacidad no aceptado.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes aceptar el aviso de privacidad antes de continuar.'**
+  String get entradaErrorAvisoNoAceptado;
+
+  /// Título de la pantalla de verificación del código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el código'**
+  String get entradaCodigoTitulo;
+
+  /// Texto de detalle de la pantalla de verificación.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo enviamos al +52 {celular}'**
+  String entradaCodigoEnviadoA(String celular);
+
+  /// Etiqueta del campo de código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Código de verificación'**
+  String get entradaCodigoEtiqueta;
+
+  /// Error del campo de código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe los 6 dígitos del código'**
+  String get entradaCodigoError;
+
+  /// Botón de la pantalla de verificación para validar el código.
+  ///
+  /// In es, this message translates to:
+  /// **'Entrar'**
+  String get entradaEntrar;
+
+  /// Texto del botón de reenvío con cuenta regresiva.
+  ///
+  /// In es, this message translates to:
+  /// **'Reenviar en {segundos} s'**
+  String entradaReenviarEn(int segundos);
+
+  /// Botón de texto para reenviar el código SMS.
+  ///
+  /// In es, this message translates to:
+  /// **'Reenviar código'**
+  String get entradaReenviarCodigo;
+
+  /// Botón de texto para volver a escribir el número de celular.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar número'**
+  String get entradaCambiarNumero;
 }
 
 class _AppLocalizationsDelegate

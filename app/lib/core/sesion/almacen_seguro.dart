@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Almacenamiento cifrado del sistema (Keystore en Android) para lo que no
 /// puede quedar legible: tokens de sesión e identificador del dispositivo
@@ -13,9 +14,7 @@ abstract interface class AlmacenSeguro {
 
 /// Almacén en memoria: valor por defecto del proveedor y doble de las pruebas.
 ///
-/// No persiste nada entre arranques. El adaptador real sobre
-/// `flutter_secure_storage` llega con la historia de inicio de sesión
-/// (KNOCK-228) y reemplaza este proveedor en `main.dart`.
+/// No persiste nada entre arranques.
 class AlmacenSeguroEnMemoria implements AlmacenSeguro {
   final _valores = <String, String>{};
 
@@ -31,6 +30,27 @@ class AlmacenSeguroEnMemoria implements AlmacenSeguro {
 
   @override
   Future<void> borrar(String clave) async => _valores.remove(clave);
+}
+
+/// Adaptador real sobre `flutter_secure_storage` (Keystore en Android,
+/// Keychain en iOS). Se usa en producción desde `main.dart`; en pruebas se
+/// reemplaza con `AlmacenSeguroEnMemoria` o se mockea `FlutterSecureStorage`.
+class AlmacenSeguroFlutterSecureStorage implements AlmacenSeguro {
+  AlmacenSeguroFlutterSecureStorage({
+    this._almacen = const FlutterSecureStorage(),
+  });
+
+  final FlutterSecureStorage _almacen;
+
+  @override
+  Future<String?> leer(String clave) async => _almacen.read(key: clave);
+
+  @override
+  Future<void> escribir(String clave, String valor) async =>
+      _almacen.write(key: clave, value: valor);
+
+  @override
+  Future<void> borrar(String clave) async => _almacen.delete(key: clave);
 }
 
 final almacenSeguroProvider = Provider<AlmacenSeguro>(

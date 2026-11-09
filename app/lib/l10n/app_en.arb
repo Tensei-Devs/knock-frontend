@@ -109,5 +109,163 @@
   "errorDemasiadosIntentos": "Too many attempts. Wait a moment and try again.",
   "errorDatosInvalidos": "We received information we couldn't read. Please try again later.",
   "errorApiNoConfigurada": "The app isn't connected to a server. Install an official version.",
-  "errorInesperado": "Something went wrong. Please try again."
+  "errorInesperado": "Something went wrong. Please try again.",
+  "errorCodigoIncorrecto": "The verification code is incorrect.",
+  "@errorCodigoIncorrecto": {
+    "description": "Common error: incorrect SMS code."
+  },
+  "errorCodigoVencido": "The verification code expired. Request another one.",
+  "@errorCodigoVencido": {
+    "description": "Common error: expired SMS code."
+  },
+  "errorCelularRechazado": "The phone number is not valid.",
+  "@errorCelularRechazado": {
+    "description": "Common error: phone number rejected by Firebase."
+  },
+  "errorVerificacionNoDisponible": "SMS verification is not available.",
+  "@errorVerificacionNoDisponible": {
+    "description": "Common error: google-services.json missing from the build."
+  },
+  "entradaCelularTitulo": "Sign in with your phone",
+  "@entradaCelularTitulo": {
+    "description": "Title of the phone sign-in screen."
+  },
+  "entradaCelularDetalle": "We will send you a code by SMS",
+  "@entradaCelularDetalle": {
+    "description": "Help text below the sign-in screen title."
+  },
+  "entradaCelularEtiqueta": "Phone number",
+  "@entradaCelularEtiqueta": {
+    "description": "Label of the phone number field."
+  },
+  "entradaCelularAyuda": "10 digits without the +52",
+  "@entradaCelularAyuda": {
+    "description": "Help text of the phone number field."
+  },
+  "entradaCelularError": "Write the 10 digits of your phone number",
+  "@entradaCelularError": {
+    "description": "Error of the phone number field."
+  },
+  "entradaPrefijoPais": "+52",
+  "@entradaPrefijoPais": {
+    "description": "Fixed country prefix shown next to the phone field (no +52/+1 selector)."
+  },
+  "entradaContinuar": "Continue",
+  "@entradaContinuar": {
+    "description": "Button of the sign-in screen to request the SMS code."
+  },
+  "entradaCargando": "Sending code\u2026",
+  "@entradaCargando": {
+    "description": "Button label while the SMS code is being sent."
+  },
+  "entradaAvisoPrivacidad": "privacy notice",
+  "@entradaAvisoPrivacidad": {
+    "description": "Text of the privacy notice in the sign-in checkbox."
+  },
+  "entradaAceptoAviso": "I accept the {aviso}",
+  "@entradaAceptoAviso": {
+    "description": "Full text of the privacy notice acceptance checkbox.",
+    "placeholders": {
+      "aviso": {
+        "type": "String",
+        "description": "Name of the privacy notice"
+      }
+    }
+  },
+  "entradaAvisoError": "Accept the privacy notice to continue",
+  "@entradaAvisoError": {
+    "description": "Error shown if the privacy notice is not accepted."
+  },
+  "entradaErrorCodigoIncorrecto": "The code is not correct. Review it and try again.",
+  "@entradaErrorCodigoIncorrecto": {
+    "description": "Sign-in error: incorrect SMS code."
+  },
+  "entradaErrorCodigoVencido": "The code expired. Request another one.",
+  "@entradaErrorCodigoVencido": {
+    "description": "Sign-in error: expired SMS code."
+  },
+  "entradaErrorCelularRechazado": "Invalid phone number.",
+  "@entradaErrorCelularRechazado": {
+    "description": "Sign-in error: phone number rejected by Firebase."
+  },
+  "entradaErrorCuentaSuspendida": "Your account is suspended. If you think this is a mistake, write to us.",
+  "@entradaErrorCuentaSuspendida": {
+    "description": "Sign-in error: suspended account."
+  },
+  "entradaErrorConflicto": "This number is already linked to another account. Write to us to review it.",
+  "@entradaErrorConflicto": {
+    "description": "Sign-in error: account conflict."
+  },
+  "entradaErrorDatos": "We couldn't process the entry. Try again.",
+  "@entradaErrorDatos": {
+    "description": "Sign-in error: rejected or invalid data."
+  },
+  "entradaErrorDemasiadosIntentos": "You made too many attempts. Wait a moment and try again.",
+  "@entradaErrorDemasiadosIntentos": {
+    "description": "Sign-in error: too many attempts."
+  },
+  "entradaErrorSinConexion": "We couldn't connect. Check your internet and try again.",
+  "@entradaErrorSinConexion": {
+    "description": "Sign-in error: no connection."
+  },
+  "entradaErrorVerificacionNoDisponible": "SMS verification is not available in this version of the app.",
+  "@entradaErrorVerificacionNoDisponible": {
+    "description": "Sign-in error: SMS verification not available."
+  },
+  "entradaErrorApiNoConfigurada": "The app has no server configured.",
+  "@entradaErrorApiNoConfigurada": {
+    "description": "Sign-in error: API not configured."
+  },
+  "entradaErrorGenerico": "Error signing in. Try again.",
+  "@entradaErrorGenerico": {
+    "description": "Generic sign-in error."
+  },
+  "entradaErrorAvisoNoAceptado": "You must accept the privacy notice before continuing.",
+  "@entradaErrorAvisoNoAceptado": {
+    "description": "Sign-in error: privacy notice not accepted."
+  },
+  "entradaCodigoTitulo": "Enter the code",
+  "@entradaCodigoTitulo": {
+    "description": "Title of the SMS verification screen."
+  },
+  "entradaCodigoEnviadoA": "We sent it to +52 {celular}",
+  "@entradaCodigoEnviadoA": {
+    "description": "Detail text of the verification screen.",
+    "placeholders": {
+      "celular": {
+        "type": "String",
+        "description": "Phone number with prefix"
+      }
+    }
+  },
+  "entradaCodigoEtiqueta": "Verification code",
+  "@entradaCodigoEtiqueta": {
+    "description": "Label of the SMS code field."
+  },
+  "entradaCodigoError": "Write the 6 digits of the code",
+  "@entradaCodigoError": {
+    "description": "Error of the SMS code field."
+  },
+  "entradaEntrar": "Sign in",
+  "@entradaEntrar": {
+    "description": "Button of the verification screen to validate the code."
+  },
+  "entradaReenviarEn": "Resend in {segundos} s",
+  "@entradaReenviarEn": {
+    "description": "Text of the resend button with countdown.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "Seconds remaining before resend is available"
+      }
+    }
+  },
+  "entradaReenviarCodigo": "Resend code",
+  "@entradaReenviarCodigo": {
+    "description": "Text button to resend the SMS code."
+  },
+  "entradaCambiarNumero": "Change number",
+  "@entradaCambiarNumero": {
+    "description": "Text button to rewrite the phone number."
+  }
 }
