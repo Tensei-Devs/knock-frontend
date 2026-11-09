@@ -94,6 +94,11 @@
 - **Pendiente:** T-03 (integrar versión, `versionCode` y etiqueta de Git en la publicación; depende de KNOCK-221), así que CA-04 solo queda probado en el script. Reconciliar `docs/VERSIONAMIENTO.md` (primera versión `0.1.0`, `versionCode` = número de ejecución) con la spec 011 (`1.0.0`, `versionCode` derivado). Las etiquetas `puntos-*` no existen en el repositorio y las crea una persona con permiso. `sdd_lint.py --trace 011` marca FALTA hasta que `test_globs` de `.agents/knock.json` incluya `scripts/ci/test_*.py`.
 - **A evitar:** llevar el `versionCode` a mano o repetirlo (Google Play rechaza la subida); declarar puntos de menos para no subir de versión.
 
+## 2026-11-09 — La publicación a Google Play lleva la API y Firebase (KNOCK-221)
+- **Decisión:** `publish-android` pasa `--dart-define=KNOCK_API_URL` desde la variable `KNOCK_API_URL` y escribe `google-services.json` desde el secreto `GOOGLE_SERVICES_JSON`; ambos son obligatorios y el archivo se borra al terminar.
+- **Porqué:** sin ellos el AAB de la tienda compilaba sin URL de la API y sin Firebase: abría, pero no se podía entrar ni llamar al backend.
+- **A evitar:** subir `google-services.json` al repositorio o dejarlo en la máquina de CI; escribir la URL fija en el código.
+
 ## 2026-11-05 — Contrato vendorizado y cliente Dart generado (spec 006, KNOCK-220)
 - **Decisión:** se vendoriza en `contracts/openapi.v1.json` el contrato de **Identity** (`docs/openapi.identity.v1.json` de knock-backend, rama `sprint-03`, commit de la rama `d39bc18`, último commit del archivo `b6ddcf5`, SHA-256 `5767eb9d…`), no `docs/openapi.v1.json` del backend: ese archivo **no es la unión** de los servicios, es solo `Knock.Market.Api` (colonias y oficios). La app necesita hoy `POST /api/v1/auth/firebase`. Cuando el backend publique la unión (o el gateway), se reemplaza por ella.
 - **Decisión:** el cliente Dart se genera con **openapi-generator-cli 7.27.0, generador `dart`** (serialización nativa y `package:http`, sin build_runner) en `app/packages/knock_api/`, con `python app/tool/generar_cliente_api.py` (`--check` para comprobar). El jar se descarga de Maven Central a `~/.cache/knock/` (o `KNOCK_TOOL_CACHE`) y se ejecuta solo si su SHA-256 coincide con el fijado en el script.
