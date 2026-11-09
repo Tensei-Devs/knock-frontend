@@ -28,7 +28,21 @@
       "Bash(git push --force *)",
       "Bash(git push -f *)",
       "Bash(git reset --hard *)",
-      "Bash(* --no-verify *)"
+      "Bash(* --no-verify *)",
+      "mcp__atlassian__addCommentToJiraIssue",
+      "mcp__atlassian__addWorklogToJiraIssue",
+      "mcp__atlassian__createJiraIssue",
+      "mcp__atlassian__editJiraIssue",
+      "mcp__atlassian__transitionJiraIssue",
+      "mcp__atlassian__createIssueLink",
+      "mcp__atlassian__createConfluencePage",
+      "mcp__atlassian__createConfluenceFooterComment",
+      "mcp__atlassian__createConfluenceInlineComment",
+      "mcp__atlassian__updateConfluencePage",
+      "mcp__atlassian__createCompassComponent",
+      "mcp__atlassian__createCompassComponentRelationship",
+      "mcp__atlassian__createCompassCustomFieldDefinition",
+      "mcp__atlassian__addTeamworkGraphContext"
     ],
     "ask": [
       "Bash(git push *)",
@@ -46,7 +60,18 @@
       "Bash(dart format *)",
       "Bash(git status *)",
       "Bash(git diff *)",
-      "Bash(git log *)"
+      "Bash(git log *)",
+      "mcp__atlassian__atlassianUserInfo",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__getJiraIssue",
+      "mcp__atlassian__searchJiraIssuesUsingJql",
+      "mcp__atlassian__getJiraProjectIssueTypesMetadata",
+      "mcp__atlassian__getJiraIssueTypeMetaWithFields",
+      "mcp__atlassian__getTransitionsForJiraIssue",
+      "mcp__atlassian__getJiraIssueRemoteIssueLinks",
+      "mcp__atlassian__getIssueLinkTypes",
+      "mcp__atlassian__lookupJiraAccountId"
     ]
   },
   "hooks": {

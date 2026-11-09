@@ -64,7 +64,8 @@ void main() {
         'TC-TT-MOB-02-02 todo texto visible sale del ARB del idioma activo ($idioma)',
         (tester) async {
           final arb = leerArb(idioma);
-          final permitidos = arb.values.toSet();
+          // Datos de la persona (perfil simulado de la demo), no textos de la app.
+          final permitidos = {...arb.values, 'Persona Demo', 'PD'};
           final container = await montarApp(tester, esTecnico: true);
           container
               .read(preferenciasProvider.notifier)

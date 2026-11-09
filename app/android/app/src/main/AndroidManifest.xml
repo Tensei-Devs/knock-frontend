@@ -2,6 +2,9 @@
     <!-- Ubicación aproximada para el botón «Mi ubicación» (TT-MOB-04). Se pide
          solo al tocar el botón, nunca al abrir la app. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- Salida a la API por HTTPS (spec 009, R-03). Sin ella el AAB de
+         publicación no abre conexiones: INTERNET solo estaba en debug/profile. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="Knock"
         android:name="${applicationName}"

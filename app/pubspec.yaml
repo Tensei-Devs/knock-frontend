@@ -23,6 +23,20 @@ dependencies:
   # Misma restricción que fija flutter_localizations en Flutter 3.47.7 (TT-MOB-02).
   intl: ^0.20.3
   shared_preferences: ^2.5.6
+  # Spec 006 (KNOCK-220): cliente generado desde contracts/openapi.v1.json con
+  # app/tool/generar_cliente_api.py. No se edita a mano. Evaluado en Memoria.md.
+  knock_api:
+    path: packages/knock_api
+  # Transporte del cliente generado (openapi-generator `dart` usa package:http).
+  http: 1.6.0
+  # KNOCK-228: verificación del celular por SMS con Firebase Phone Auth
+  # (ID token para POST /api/v1/auth/firebase). Evaluadas en Memoria.md.
+  firebase_core: 5.1.0
+  firebase_auth: 7.0.1
+  # Tokens de la sesión solo en Keystore/Keychain (nunca shared_preferences).
+  flutter_secure_storage: 11.2.0
+  # deviceId (UUID v4) que genera la app y guarda en almacenamiento seguro.
+  uuid: 4.5.3
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +44,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  # SHA-256 del manifiesto del cliente generado (spec 006, R-04).
+  crypto: 3.0.8
   flutter_driver:
     sdk: flutter
 

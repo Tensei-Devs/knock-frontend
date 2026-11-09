@@ -25,11 +25,43 @@ class OficiosScreen extends ConsumerWidget {
       );
     } else if (estado.requireValue.isEmpty) {
       cuerpo = const _Vacio();
+    } else if (ref.watch(oficiosSinConexionProvider)) {
+      cuerpo = Column(
+        children: [
+          _AvisoSinConexion(
+            alReintentar: ref
+                .read(oficiosControllerProvider.notifier)
+                .reintentar,
+          ),
+          Expanded(child: _Lista(oficios: estado.requireValue)),
+        ],
+      );
     } else {
       cuerpo = _Lista(oficios: estado.requireValue);
     }
     return PantallaTitulada(titulo: 'Oficios', cuerpo: cuerpo);
   }
+}
+
+/// Franja sobre la lista cuando se muestra lo guardado por falta de conexión
+/// (spec 010). Textos literales como el resto de la pantalla (TT-MOB-02).
+class _AvisoSinConexion extends StatelessWidget {
+  const _AvisoSinConexion({required this.alReintentar});
+
+  final VoidCallback alReintentar;
+
+  @override
+  Widget build(BuildContext context) => MaterialBanner(
+    leading: const Icon(Icons.cloud_off_outlined),
+    content: const Text('Sin conexión. Se muestra lo último guardado.'),
+    actions: [
+      TextButton(
+        onPressed: alReintentar,
+        style: TextButton.styleFrom(minimumSize: const Size(64, 48)),
+        child: const Text('Reintentar'),
+      ),
+    ],
+  );
 }
 
 class _Cargando extends StatelessWidget {

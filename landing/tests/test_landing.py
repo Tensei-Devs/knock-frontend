@@ -365,7 +365,7 @@ class Landing(unittest.TestCase):
                 for origen in origenes:
                     self.assertIn(
                         origen,
-                        ("index.html", "404.html", "css", "fonts", "privacidad", "nginx.conf"),
+                        ("index.html", "404.html", "css", "fonts", "privacidad", "eliminar-cuenta", "nginx.conf"),
                         "Solo se copian los archivos públicos",
                     )
 

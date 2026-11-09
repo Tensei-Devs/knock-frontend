@@ -124,3 +124,25 @@ footer p {
   color: var(--color-mut);
   font-size: 0.9375rem;
 }
+
+h2 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.375rem;
+  line-height: 1.3;
+}
+
+.meta {
+  margin: 0 0 1.5rem;
+  color: var(--color-mut);
+  font-size: 0.9375rem;
+}
+
+/* Aviso visible de texto legal en borrador (/privacidad/ y /eliminar-cuenta/). */
+.aviso-borrador {
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  border: 2px solid currentcolor;
+  border-radius: 0.75rem;
+  background-color: var(--color-tarjeta);
+  color: var(--color-texto);
+}

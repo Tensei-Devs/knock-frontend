@@ -1,25 +1,33 @@
 graph LR
   actividad["actividad"]
   app["app"]
+  cache["cache"]
   cuenta["cuenta"]
+  entrada["entrada"]
   errores["errores"]
   explorar["explorar"]
   home["home"]
   inicio["inicio"]
   l10n["l10n"]
   layout["layout"]
+  notificaciones["notificaciones"]
   oficios["oficios"]
   panel["panel"]
+  permisos["permisos"]
   preferencias["preferencias"]
+  red["red"]
   router["router"]
   sesion["sesion"]
   tema["tema"]
   trabajo["trabajo"]
   widgets["widgets"]
   app -->|1| inicio
-  panel -->|1| home
+  cuenta -->|1| inicio
+  cuenta -->|1| oficios
+  inicio -->|1| cuenta
   router -->|1| actividad
-  router -->|2| cuenta
+  router -->|4| cuenta
+  router -->|2| entrada
   router -->|1| explorar
   router -->|1| inicio
   router -->|1| oficios

@@ -9,6 +9,8 @@ name: ci-pr
 on:
   pull_request:
     branches: [main, release, develop, "sprint-*"]
+    # labeled y unlabeled: la comprobación de puntos (spec 011) debe reevaluarse al poner o quitar la etiqueta.
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches: [main, release, develop, "sprint-*"]
   workflow_dispatch:
@@ -41,10 +43,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           EVENT: ${{ github.event_name }}
         run: |
-          changed() { [ "$EVENT" != "pull_request" ] || git diff --name-only "$BASE_SHA" HEAD | grep -qE "$1"; }
-          [ -f app/pubspec.yaml ] && changed '^(app/|contracts/)' && echo "app=true" >> "$GITHUB_OUTPUT" || echo "app=false" >> "$GITHUB_OUTPUT"
-          [ -f panel/angular.json ] && changed '^(panel/|contracts/)' && echo "panel=true" >> "$GITHUB_OUTPUT" || echo "panel=false" >> "$GITHUB_OUTPUT"
-          [ -f contracts/openapi.v1.json ] && echo "contract=true" >> "$GITHUB_OUTPUT" || echo "contract=false" >> "$GITHUB_OUTPUT"
+          # Qué proyectos corren según las carpetas que cambió el PR (spec 007, R-01, R-02 y CA-02): scripts/ci/detect_changes.py.
+          python3 scripts/ci/detect_changes.py --event "$EVENT" --base "$BASE_SHA" >> "$GITHUB_OUTPUT"
           KEY=$(echo "$HEAD_REF" | grep -oE 'KNOCK-[0-9]+' || true)
           SPEC=""
           if [ -n "$KEY" ]; then
@@ -91,6 +91,27 @@ jobs:
           printf '%s' "$PR_BODY" > pr_body.md
           python scripts/ci/branch_rules.py pr --head "$HEAD_REF" --title "$PR_TITLE" --body-file pr_body.md
 
+  pr-points:
+    name: Etiqueta de puntos del PR (spec 011)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      # Las etiquetas salen del evento (no hay llamadas a la API ni token); llegan por entorno, nunca dentro del script.
+      - name: Etiqueta puntos-<componente>-N
+        env:
+          PR_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: python scripts/ci/version.py check-labels
+
   governance:
     needs: detect
     uses: ./.github/workflows/_governance.yml
@@ -108,14 +129,14 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
-          channel: stable
-          cache: true
-      - name: Regenerar clientes y comparar (nadie los edita a mano)
+          python-version: "3.12"
+      - name: Regenerar el cliente de la app y comparar (nadie lo edita a mano)
+        # Java 11+ ya viene en ubuntu-latest; el generador baja openapi-generator 7.27.0 de Maven Central y verifica su SHA-256.
         run: |
-          bash scripts/gen_clients.sh all
-          git diff --exit-code -- app/packages/knock_api panel/src/app/api || { echo "::error::Los clientes generados no coinciden con contracts/openapi.v1.json. Corre bash scripts/gen_clients.sh all."; exit 1; }
+          python -m unittest app/tool/test_generar_cliente_api.py
+          python app/tool/generar_cliente_api.py --check || { echo "::error::El cliente generado no coincide con contracts/openapi.v1.json. Corre python app/tool/generar_cliente_api.py y sube el resultado."; exit 1; }
       - name: Cambios incompatibles respecto a la rama destino (oasdiff)
         if: github.event_name == 'pull_request'
         env:
@@ -264,7 +285,7 @@ jobs:
           # quedan fuera de esa comprobación. El action compara por ecosistema y nombre e IGNORA la versión (las versiones de abajo
           # documentan lo revisado): una versión nueva de estos paquetes sigue exenta, así que hay que revisar su licencia a mano.
           allow-dependencies-licenses: >-
-            pkg:pub/dbus@0.7.15, pkg:pub/jni@1.1.1, pkg:pub/shared_preferences@2.5.6, pkg:pub/shared_preferences_android@2.5.4, pkg:pub/shared_preferences_foundation@2.5.7, pkg:pub/geolocator@14.1.2, pkg:pub/geolocator_android@5.2.1, pkg:pub/geolocator_apple@2.4.2, pkg:pub/geolocator_platform_interface@4.4.1, pkg:pub/geolocator_windows@0.2.5, pkg:pub/google_maps_flutter@2.19.0, pkg:pub/google_maps_flutter_android@2.21.0, pkg:pub/google_maps_flutter_ios@2.18.7, pkg:pub/google_maps_flutter_platform_interface@2.17.0, pkg:pub/gsettings@0.2.8, pkg:pub/petitparser@7.0.2, pkg:pub/stream_transform@2.1.2, pkg:pub/win32@6.4.0, pkg:pub/xml@7.0.1
+            pkg:pub/dbus@0.7.15, pkg:pub/jni@1.1.1, pkg:pub/shared_preferences@2.5.6, pkg:pub/shared_preferences_android@2.5.4, pkg:pub/shared_preferences_foundation@2.5.7, pkg:pub/geolocator@14.1.2, pkg:pub/geolocator_android@5.2.1, pkg:pub/geolocator_apple@2.4.2, pkg:pub/geolocator_platform_interface@4.4.1, pkg:pub/geolocator_windows@0.2.5, pkg:pub/google_maps_flutter@2.19.0, pkg:pub/google_maps_flutter_android@2.21.0, pkg:pub/google_maps_flutter_ios@2.18.7, pkg:pub/google_maps_flutter_platform_interface@2.17.0, pkg:pub/gsettings@0.2.8, pkg:pub/petitparser@7.0.2, pkg:pub/stream_transform@2.1.2, pkg:pub/win32@6.4.0, pkg:pub/xml@7.0.1, pkg:pub/_flutterfire_internals@1.3.79, pkg:pub/code_assets@1.2.1, pkg:pub/firebase_auth@7.0.1, pkg:pub/firebase_auth_platform_interface@9.1.2, pkg:pub/firebase_auth_web@6.3.2, pkg:pub/firebase_core@5.1.0, pkg:pub/firebase_core_platform_interface@8.1.1, pkg:pub/firebase_core_web@4.1.0, pkg:pub/flutter_secure_storage@11.2.0, pkg:pub/flutter_secure_storage_darwin@0.4.3, pkg:pub/flutter_secure_storage_linux@3.0.3, pkg:pub/flutter_secure_storage_platform_interface@2.1.1, pkg:pub/flutter_secure_storage_web@2.1.1, pkg:pub/flutter_secure_storage_windows@4.2.2, pkg:pub/hooks@2.0.2, pkg:pub/jni_flutter@1.0.4+1, pkg:pub/objective_c@9.5.0, pkg:pub/path_provider@2.1.6, pkg:pub/path_provider_android@2.3.1, pkg:pub/path_provider_foundation@2.6.0, pkg:pub/pub_semver@2.2.1, pkg:pub/record_use@0.6.0, pkg:pub/yaml@3.1.4
       - name: OSV-Scanner (pub, npm, GitHub Actions)
         run: |
           # Sin archivos de dependencias OSV-Scanner sale con 128 («No package sources found»): no hay nada que analizar.
@@ -300,19 +321,40 @@ jobs:
   gate:
     name: gate
     if: always()
-    needs: [detect, pr-meta, governance, contract, app, panel, sast, sca, secrets]
+    needs: [detect, pr-meta, pr-points, governance, contract, app, panel, sast, sca, secrets, landing]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Verificaciones bloqueantes en verde (o saltadas por no aplicar)
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Verificaciones bloqueantes en verde (o saltadas por no aplicar) — spec 007, CA-01
         env:
           NEEDS: ${{ toJSON(needs) }}
+        run: python3 scripts/ci/gate.py
+
+  # Spec 004 (R-04, CA-03): la landing falla si hay un enlace roto o una clave olvidada.
+  # Spec 007 (T-05): entra en `needs` de `gate`, así un enlace roto o una clave olvidada bloquea el PR.
+  landing:
+    name: Landing — pruebas, enlaces y secretos
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Pruebas de la landing (cabeceras, páginas, accesibilidad)
+        run: python -m unittest discover -s landing/tests -v
+      - name: Enlaces rotos (falla si alguno no apunta a un archivo o ancla de la landing)
+        run: python landing/tests/check_links.py landing
+      - name: Secretos en landing/ (Gitleaks, CLI fijada por versión y suma de verificación)
         run: |
-          python3 - <<'EOF'
-          import json, os, sys
-          needs = json.loads(os.environ["NEEDS"])
-          for k, v in needs.items():
-              print(f"{k}: {v['result']}")
-          bad = {k: v["result"] for k, v in needs.items() if v["result"] not in ("success", "skipped")}
-          sys.exit(f"Fallaron: {bad}" if bad else 0)
-          EOF
+          curl -sSfL -o gitleaks.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tgz" | sha256sum -c -
+          tar -xzf gitleaks.tgz gitleaks
+          ./gitleaks detect --no-git --source landing --config .gitleaks.toml --redact --verbose --exit-code 1

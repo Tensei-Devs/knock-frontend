@@ -8,7 +8,8 @@ final _usaSharedPreferences = RegExp(
   multiLine: true,
 );
 
-/// Solo `core/preferencias/` toca `shared_preferences` (HU-052 TC-06): el
+/// Solo `core/preferencias/` (y la caché de solo lectura `core/cache/`, spec 010)
+/// toca `shared_preferences` (HU-052 TC-06): el
 /// almacenamiento no está cifrado y no debe usarse para nada más. Mismo
 /// método que `features/oficios/arquitectura_test.dart` (leer los `import`).
 /// `flutter test` corre desde `app/`.
@@ -25,7 +26,12 @@ void main() {
     // La prueba debe encontrar el uso permitido (no pasa por estar vacía).
     expect(usan, isNotEmpty);
     for (final ruta in usan) {
-      expect(ruta, startsWith('lib/core/preferencias/'), reason: ruta);
+      expect(
+        ruta.startsWith('lib/core/preferencias/') ||
+            ruta.startsWith('lib/core/cache/'),
+        isTrue,
+        reason: ruta,
+      );
     }
   });
 }

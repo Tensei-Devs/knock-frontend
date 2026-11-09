@@ -46,3 +46,35 @@ excepciones:
     creada: 2026-11-02
     vence: 2027-01-30
     plan: cuando dependency-review-action normalice las licencias de pub (o se cambie de escáner de licencias), quitar allow-dependencies-licenses y esta excepción; antes de vencer, volver a evaluar si siguen haciendo falta y renovar solo con evidencia nueva.
+  - id: EXC-003
+    herramienta: gitleaks
+    regla: generic-api-key
+    alcance: app/packages/knock_api/.knock-manifest.json (ruta exacta, solo esta regla; allowlist estrecha en .gitleaks.toml)
+    justificacion: >-
+      Falso positivo. El manifiesto del cliente generado (spec 006, KNOCK-220) guarda el SHA-256 del contrato y de cada
+      archivo generado para que `flutter test` detecte ediciones a mano. La regla genérica de Gitleaks confunde esas
+      sumas, que acompañan a rutas con «api» (lib/api/auth_api.dart, lib/api_client.dart, etc.), con llaves de API. El
+      manifiesto es JSON y no admite el comentario `gitleaks:allow` en la línea. Evidencia: 14 hallazgos
+      `generic-api-key` en el commit 38c6bcf, todos en este archivo; cada valor es un SHA-256 de 64 caracteres
+      hexadecimales de un archivo del repositorio.
+    responsable: José Julián Hernández Hernández
+    creada: 2026-11-05
+    vence: 2027-02-03
+    plan: si el generador cambia el formato del manifiesto (sumas sin rutas con «api» o con otro nombre de clave), quitar la allowlist de .gitleaks.toml y esta excepción; antes de vencer, volver a evaluar si sigue haciendo falta.
+  - id: EXC-004
+    herramienta: gitleaks
+    regla: generic-api-key
+    alcance: dos huellas exactas en .gitleaksignore, 8735cb22dc6095acc63cccea48ad253f6688f589:app/test/core/sesion/sesion_segura_test.dart:generic-api-key:20 y 1d73fc5454410e9de7ebf0faea441ea3a43d8d81:security/exceptions.yaml:generic-api-key:69
+    justificacion: >-
+      Falso positivo. Token ficticio de una prueba, sin valor real: la constante ficticia de una prueba de sesión (`_tokenRefresco`)
+      en app/test/core/sesion/sesion_segura_test.dart, línea 20. Gitleaks recorre el historial de todas las ramas
+      (fetch-depth 0), así que cambiar el valor en un commit nuevo no quita el hallazgo del commit 8735cb2, y no se
+      reescribe el historial. Evidencia: ejecución local de gitleaks v8.30.1 sobre la rama
+      feature/KNOCK-223-client-security-config (1 hallazgo sin .gitleaksignore, 0 con él). Son dos huellas porque la
+      primera versión de esta misma justificación copió el literal del token y Gitleaks lo detectó en el commit
+      1d73fc5 (esta excepción, línea 69); ese commit ya está publicado y no se reescribe el historial, así que su
+      huella se ignora también. El texto vigente ya no copia el valor.
+    responsable: José Julián Hernández Hernández
+    creada: 2026-11-05
+    vence: 2027-02-03
+    plan: cuando el commit 8735cb2 deje de estar en el historial que recorre Gitleaks (por ejemplo, tras un cambio de estrategia de fusión aprobado por José), quitar la línea de .gitleaksignore y esta excepción; antes de vencer, volver a evaluar si sigue haciendo falta.

@@ -67,5 +67,343 @@
   "configuracionTemaOscuro": "Oscuro",
   "@configuracionTemaOscuro": {
     "description": "Opción del selector de tema: tema oscuro."
+  },
+  "inicioSaludo": "Hola",
+  "@inicioSaludo": {
+    "description": "Saludo de Inicio; el nombre de la persona va en un texto aparte."
+  },
+  "inicioZonaTitulo": "Tu zona",
+  "@inicioZonaTitulo": {
+    "description": "Título de la tarjeta de colonia en Inicio."
+  },
+  "inicioZonaSinPedir": "Descubre si tu zona tiene cobertura.",
+  "@inicioZonaSinPedir": {
+    "description": "Texto inicial de la tarjeta de colonia en Inicio."
+  },
+  "inicioZonaBuscando": "Buscando tu colonia…",
+  "@inicioZonaBuscando": {
+    "description": "Estado cargando de la tarjeta de colonia."
+  },
+  "inicioZonaFuera": "Todavía no llegamos a tu zona.",
+  "@inicioZonaFuera": {
+    "description": "La ubicación está fuera de la cobertura."
+  },
+  "inicioZonaSinUbicacion": "Necesitamos tu ubicación para ubicar tu colonia.",
+  "@inicioZonaSinUbicacion": {
+    "description": "Sin permiso de ubicación o servicio apagado."
+  },
+  "inicioVerColonia": "Ver mi colonia",
+  "@inicioVerColonia": {
+    "description": "Botón que consulta la colonia de la persona."
+  },
+  "inicioActualizar": "Actualizar",
+  "@inicioActualizar": {
+    "description": "Botón que vuelve a consultar la colonia."
+  },
+  "inicioReintentar": "Reintentar",
+  "@inicioReintentar": {
+    "description": "Botón tras un error al consultar la colonia o un intento fallido."
+  },
+  "inicioExplorarOficios": "Explorar oficios",
+  "@inicioExplorarOficios": {
+    "description": "Acceso de Inicio al catálogo de oficios."
+  },
+  "inicioExplorarOficiosDetalle": "Mira qué técnicos puedes encontrar",
+  "@inicioExplorarOficiosDetalle": {
+    "description": "Detalle del acceso a oficios en Inicio."
+  },
+  "cuentaEditarPerfil": "Editar perfil",
+  "@cuentaEditarPerfil": {
+    "description": "Detalle bajo el nombre en Mi cuenta."
+  },
+  "cuentaCerrarSesion": "Cerrar sesión",
+  "@cuentaCerrarSesion": {
+    "description": "Entrada de Mi cuenta y botón de confirmación del diálogo."
+  },
+  "cuentaCerrarSesionTitulo": "¿Cerrar sesión?",
+  "@cuentaCerrarSesionTitulo": {
+    "description": "Título del diálogo de cierre de sesión."
+  },
+  "cuentaCerrarSesionCuerpo": "Tendrás que volver a entrar para usar tu cuenta.",
+  "@cuentaCerrarSesionCuerpo": {
+    "description": "Cuerpo del diálogo de cierre de sesión."
+  },
+  "cuentaCancelar": "Cancelar",
+  "@cuentaCancelar": {
+    "description": "Botón que cierra el diálogo sin hacer nada."
+  },
+  "permisoContinuar": "Continuar",
+  "@permisoContinuar": {
+    "description": "Botón del aviso previo a un permiso: seguir y ver la petición del sistema."
+  },
+  "permisoAhoraNo": "Ahora no",
+  "@permisoAhoraNo": {
+    "description": "Botón del aviso previo a un permiso: no pedirlo ahora."
+  },
+  "permisoNotificacionesTitulo": "¿Activar las notificaciones?",
+  "@permisoNotificacionesTitulo": {
+    "description": "Título del aviso previo al permiso de notificaciones."
+  },
+  "permisoNotificacionesCuerpo": "Te avisamos cuando haya novedades en tus solicitudes, mensajes y visitas. Los avisos no muestran códigos ni direcciones.",
+  "@permisoNotificacionesCuerpo": {
+    "description": "Explicación previa al permiso de notificaciones: para qué sirve."
+  },
+  "permisoUbicacionTitulo": "¿Usar tu ubicación?",
+  "@permisoUbicacionTitulo": {
+    "description": "Título del aviso previo al permiso de ubicación."
+  },
+  "permisoUbicacionCuerpo": "La usamos una sola vez para mostrarte técnicos de tu colonia. No la guardamos. Si prefieres, puedes escribir tu código postal.",
+  "@permisoUbicacionCuerpo": {
+    "description": "Explicación previa al permiso de ubicación: para qué sirve y la alternativa."
+  },
+  "avisosTitulo": "Avisos",
+  "@avisosTitulo": {
+    "description": "Encabezado de la sección de Configuración para elegir qué avisos recibir."
+  },
+  "avisosCotizaciones": "Cotizaciones",
+  "@avisosCotizaciones": {
+    "description": "Interruptor: avisos de cotizaciones."
+  },
+  "avisosMensajes": "Mensajes",
+  "@avisosMensajes": {
+    "description": "Interruptor: avisos de mensajes."
+  },
+  "avisosVisitas": "Visitas",
+  "@avisosVisitas": {
+    "description": "Interruptor: avisos de visitas."
+  },
+  "avisosActivar": "Activar notificaciones",
+  "@avisosActivar": {
+    "description": "Botón que inicia la petición del permiso de notificaciones."
+  },
+  "avisosApagadas": "Las notificaciones están apagadas en tu teléfono. La app sigue funcionando; puedes activarlas cuando quieras.",
+  "@avisosApagadas": {
+    "description": "Mensaje cuando no hay permiso de notificaciones."
+  },
+  "avisosAbrirAjustes": "Abrir ajustes",
+  "@avisosAbrirAjustes": {
+    "description": "Botón que abre los ajustes del teléfono para cambiar un permiso negado."
+  },
+  "avisosActivadas": "Notificaciones activadas",
+  "@avisosActivadas": {
+    "description": "Mensaje cuando el permiso de notificaciones está concedido."
+  },
+  "zonaUsarUbicacion": "Usar mi ubicación",
+  "@zonaUsarUbicacion": {
+    "description": "Botón para elegir la zona con la ubicación del teléfono."
+  },
+  "zonaPideCodigoPostal": "Sin la ubicación, escribe tu código postal para continuar.",
+  "@zonaPideCodigoPostal": {
+    "description": "Mensaje cuando no hay ubicación y se ofrece el código postal."
+  },
+  "zonaCodigoPostal": "Código postal",
+  "@zonaCodigoPostal": {
+    "description": "Etiqueta del campo del código postal."
+  },
+  "zonaCodigoPostalInvalido": "Escribe los 5 números de tu código postal.",
+  "@zonaCodigoPostalInvalido": {
+    "description": "Error del campo de código postal."
+  },
+  "zonaContinuar": "Continuar",
+  "@zonaContinuar": {
+    "description": "Botón que confirma el código postal."
+  },
+  "errorSinConexion": "No pudimos conectar con Knock. Revisa tu conexión e inténtalo de nuevo.",
+  "@errorSinConexion": {
+    "description": "Error común: sin conexión o servicio no disponible (5xx)."
+  },
+  "errorSesionVencida": "Tu sesión ya no es válida. Inicia sesión de nuevo.",
+  "@errorSesionVencida": {
+    "description": "Error común: la API rechazó la credencial (401) y no se pudo renovar."
+  },
+  "errorCuentaSuspendida": "Tu cuenta está suspendida. Contacta a soporte si crees que es un error.",
+  "@errorCuentaSuspendida": {
+    "description": "Error común: cuenta suspendida (403 account_suspended)."
+  },
+  "errorAccesoDenegado": "No tienes permiso para hacer esto.",
+  "@errorAccesoDenegado": {
+    "description": "Error común: acceso negado (403)."
+  },
+  "errorConflicto": "Esta acción choca con otra cuenta o con el estado actual. Revisa los datos e inténtalo de nuevo.",
+  "@errorConflicto": {
+    "description": "Error común: conflicto (409)."
+  },
+  "errorDatosRechazados": "Revisa los datos que escribiste e inténtalo de nuevo.",
+  "@errorDatosRechazados": {
+    "description": "Error común: datos rechazados (400, 413 o 422)."
+  },
+  "errorDemasiadosIntentos": "Hiciste demasiados intentos. Espera un momento e inténtalo de nuevo.",
+  "@errorDemasiadosIntentos": {
+    "description": "Error común: límite de intentos (429)."
+  },
+  "errorDatosInvalidos": "Recibimos información que no pudimos leer. Inténtalo más tarde.",
+  "@errorDatosInvalidos": {
+    "description": "Error común: la respuesta no cumple el contrato."
+  },
+  "errorApiNoConfigurada": "La app no está conectada a un servidor. Instala una versión oficial.",
+  "@errorApiNoConfigurada": {
+    "description": "Error común: falta KNOCK_API_URL al compilar."
+  },
+  "errorInesperado": "Algo salió mal. Inténtalo de nuevo.",
+  "@errorInesperado": {
+    "description": "Error común: cualquier fallo no previsto; nunca muestra detalles técnicos."
+  },
+  "errorCodigoIncorrecto": "El código de verificación es incorrecto.",
+  "@errorCodigoIncorrecto": {
+    "description": "Error común: código de SMS incorrecto."
+  },
+  "errorCodigoVencido": "El código de verificación venció. Solicita otro.",
+  "@errorCodigoVencido": {
+    "description": "Error común: código de SMS vencido."
+  },
+  "errorCelularRechazado": "El número de celular no es válido.",
+  "@errorCelularRechazado": {
+    "description": "Error común: número de celular rechazado por Firebase."
+  },
+  "errorVerificacionNoDisponible": "La verificación por SMS no está disponible.",
+  "@errorVerificacionNoDisponible": {
+    "description": "Error común: falta google-services.json en la compilación."
+  },
+  "entradaCelularTitulo": "Entra con tu celular",
+  "@entradaCelularTitulo": {
+    "description": "Título de la pantalla de entrada con celular."
+  },
+  "entradaCelularDetalle": "Te enviaremos un código por SMS",
+  "@entradaCelularDetalle": {
+    "description": "Texto de ayuda debajo del título de entrada."
+  },
+  "entradaCelularEtiqueta": "Número de celular",
+  "@entradaCelularEtiqueta": {
+    "description": "Etiqueta del campo de número de celular."
+  },
+  "entradaCelularAyuda": "10 dígitos sin el +52",
+  "@entradaCelularAyuda": {
+    "description": "Texto de ayuda del campo de número de celular."
+  },
+  "entradaCelularError": "Escribe los 10 dígitos de tu celular",
+  "@entradaCelularError": {
+    "description": "Error del campo de número de celular."
+  },
+  "entradaPrefijoPais": "+52",
+  "@entradaPrefijoPais": {
+    "description": "Prefijo de país fijo mostrado junto al campo de celular (sin selector +52/+1)."
+  },
+  "entradaContinuar": "Continuar",
+  "@entradaContinuar": {
+    "description": "Botón de la pantalla de entrada para pedir el código SMS."
+  },
+  "entradaCargando": "Enviando código\u2026",
+  "@entradaCargando": {
+    "description": "Etiqueta del botón mientras se envía el código SMS."
+  },
+  "entradaAvisoPrivacidad": "aviso de privacidad",
+  "@entradaAvisoPrivacidad": {
+    "description": "Texto del aviso de privacidad en la casilla de entrada."
+  },
+  "entradaAceptoAviso": "Acepto el {aviso}",
+  "@entradaAceptoAviso": {
+    "description": "Texto completo de la casilla de aceptación del aviso de privacidad.",
+    "placeholders": {
+      "aviso": {
+        "type": "String",
+        "description": "Nombre del aviso de privacidad"
+      }
+    }
+  },
+  "entradaAvisoError": "Acepta el aviso de privacidad para continuar",
+  "@entradaAvisoError": {
+    "description": "Error mostrado si no se acepta el aviso de privacidad."
+  },
+  "entradaErrorCodigoIncorrecto": "El código no es correcto. Revísalo e inténtalo otra vez.",
+  "@entradaErrorCodigoIncorrecto": {
+    "description": "Error de entrada: código SMS incorrecto."
+  },
+  "entradaErrorCodigoVencido": "El código venció. Pide otro.",
+  "@entradaErrorCodigoVencido": {
+    "description": "Error de entrada: código SMS vencido."
+  },
+  "entradaErrorCelularRechazado": "Número de celular no válido.",
+  "@entradaErrorCelularRechazado": {
+    "description": "Error de entrada: celular rechazado por Firebase."
+  },
+  "entradaErrorCuentaSuspendida": "Tu cuenta está suspendida. Si crees que es un error, escríbenos.",
+  "@entradaErrorCuentaSuspendida": {
+    "description": "Error de entrada: cuenta suspendida."
+  },
+  "entradaErrorConflicto": "Este número ya está ligado a otra cuenta. Escríbenos para revisarlo.",
+  "@entradaErrorConflicto": {
+    "description": "Error de entrada: conflicto de cuenta."
+  },
+  "entradaErrorDatos": "No pudimos procesar la entrada. Inténtalo otra vez.",
+  "@entradaErrorDatos": {
+    "description": "Error de entrada: datos rechazados o inválidos."
+  },
+  "entradaErrorDemasiadosIntentos": "Hiciste muchos intentos. Espera un momento y vuelve a intentarlo.",
+  "@entradaErrorDemasiadosIntentos": {
+    "description": "Error de entrada: demasiados intentos."
+  },
+  "entradaErrorSinConexion": "No pudimos conectarnos. Revisa tu internet e inténtalo otra vez.",
+  "@entradaErrorSinConexion": {
+    "description": "Error de entrada: sin conexión."
+  },
+  "entradaErrorVerificacionNoDisponible": "La verificación por SMS no está disponible en esta versión de la app.",
+  "@entradaErrorVerificacionNoDisponible": {
+    "description": "Error de entrada: verificación SMS no disponible."
+  },
+  "entradaErrorApiNoConfigurada": "La app no tiene servidor configurado.",
+  "@entradaErrorApiNoConfigurada": {
+    "description": "Error de entrada: API no configurada."
+  },
+  "entradaErrorGenerico": "Error al iniciar sesión. Inténtalo de nuevo.",
+  "@entradaErrorGenerico": {
+    "description": "Error de entrada genérico."
+  },
+  "entradaErrorAvisoNoAceptado": "Debes aceptar el aviso de privacidad antes de continuar.",
+  "@entradaErrorAvisoNoAceptado": {
+    "description": "Error de entrada: aviso de privacidad no aceptado."
+  },
+  "entradaCodigoTitulo": "Escribe el código",
+  "@entradaCodigoTitulo": {
+    "description": "Título de la pantalla de verificación del código SMS."
+  },
+  "entradaCodigoEnviadoA": "Lo enviamos al +52 {celular}",
+  "@entradaCodigoEnviadoA": {
+    "description": "Texto de detalle de la pantalla de verificación.",
+    "placeholders": {
+      "celular": {
+        "type": "String",
+        "description": "Número de celular con prefijo"
+      }
+    }
+  },
+  "entradaCodigoEtiqueta": "Código de verificación",
+  "@entradaCodigoEtiqueta": {
+    "description": "Etiqueta del campo de código SMS."
+  },
+  "entradaCodigoError": "Escribe los 6 dígitos del código",
+  "@entradaCodigoError": {
+    "description": "Error del campo de código SMS."
+  },
+  "entradaEntrar": "Entrar",
+  "@entradaEntrar": {
+    "description": "Botón de la pantalla de verificación para validar el código."
+  },
+  "entradaReenviarEn": "Reenviar en {segundos} s",
+  "@entradaReenviarEn": {
+    "description": "Texto del botón de reenvío con cuenta regresiva.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "Segundos restantes antes de poder reenviar"
+      }
+    }
+  },
+  "entradaReenviarCodigo": "Reenviar código",
+  "@entradaReenviarCodigo": {
+    "description": "Botón de texto para reenviar el código SMS."
+  },
+  "entradaCambiarNumero": "Cambiar número",
+  "@entradaCambiarNumero": {
+    "description": "Botón de texto para volver a escribir el número de celular."
   }
 }

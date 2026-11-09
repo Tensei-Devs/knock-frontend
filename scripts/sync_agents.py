@@ -11,11 +11,12 @@ Fuente (lo único que se edita a mano):
 
 Salidas (no editar a mano):
   constitution.md, CLAUDE.md, GEMINI.md, sección generada de AGENTS.md
-  Claude Code   .claude/settings.json (permisos + hooks), .claude/skills, .claude/agents, .claude/rules
-  opencode      .opencode/skills, .opencode/agents, .opencode/plugins/knock-guard.js
-  Codex         .codex/hooks.json (skills: lee .agents/skills directamente)
-  Gemini CLI    .gemini/settings.json (hooks)
+  Claude Code   .mcp.json, .claude/settings.json (permisos + hooks), .claude/skills, .claude/agents, .claude/rules
+  opencode      opencode.json (MCP de Jira + permisos), .opencode/skills, .opencode/agents, .opencode/plugins/knock-guard.js
+  Codex         .codex/hooks.json, .codex/config.toml (servidor MCP de Jira) (skills: lee .agents/skills directamente)
+  Gemini CLI    .gemini/settings.json (hooks + servidor MCP de Jira)
   Cursor        .cursor/rules/*.mdc, .cursor/hooks.json
+  VS Code       .vscode/mcp.json (servidor MCP de Jira)
   Copilot       .github/copilot-instructions.md, .github/instructions/*, .github/agents/*, .github/hooks/knock-guard.json
 
 Uso:
@@ -171,6 +172,54 @@ def rule_outputs(path: Path, meta: dict, body: str) -> dict[Path, str]:
     }
 
 
+# ------------------------------------------------------------------ MCP (spec 013)
+# Un solo servidor aprobado: el MCP oficial de Atlassian (remoto, OAuth por persona, sin secretos).
+# La lista de herramientas de lectura y de escritura vive solo aquí; docs/mcp.md la explica.
+ATLASSIAN_NAME = "atlassian"
+ATLASSIAN_URL = "https://mcp.atlassian.com/v1/mcp/authv2"
+ATLASSIAN_READ = ["atlassianUserInfo", "getAccessibleAtlassianResources", "getVisibleJiraProjects", "getJiraIssue",
+                  "searchJiraIssuesUsingJql", "getJiraProjectIssueTypesMetadata", "getJiraIssueTypeMetaWithFields",
+                  "getTransitionsForJiraIssue", "getJiraIssueRemoteIssueLinks", "getIssueLinkTypes", "lookupJiraAccountId"]
+ATLASSIAN_WRITE = ["addCommentToJiraIssue", "addWorklogToJiraIssue", "createJiraIssue", "editJiraIssue",
+                   "transitionJiraIssue", "createIssueLink", "createConfluencePage", "createConfluenceFooterComment",
+                   "createConfluenceInlineComment", "updateConfluencePage", "createCompassComponent",
+                   "createCompassComponentRelationship", "createCompassCustomFieldDefinition", "addTeamworkGraphContext"]
+
+
+def dump_json(data: dict) -> str:
+    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+
+
+def claude_mcp() -> str:
+    return dump_json({"mcpServers": {ATLASSIAN_NAME: {"type": "http", "url": ATLASSIAN_URL}}})
+
+
+def vscode_mcp() -> str:
+    return dump_json({"servers": {ATLASSIAN_NAME: {"type": "http", "url": ATLASSIAN_URL}}})
+
+
+def opencode_config() -> str:
+    return dump_json({
+        "$schema": "https://opencode.ai/config.json",
+        "instructions": ["constitution.md", "Memoria.md"],
+        "mcp": {ATLASSIAN_NAME: {"type": "remote", "url": ATLASSIAN_URL, "enabled": True}},
+        "permission": {f"{ATLASSIAN_NAME}_{t}": "deny" for t in ATLASSIAN_WRITE},
+    })
+
+
+def codex_config() -> str:
+    quote = lambda items: "[" + ", ".join(f'"{i}"' for i in items) + "]"
+    lines = [
+        "# " + GEN.format(src="scripts/sync_agents.py"),
+        f"# Sin tokens: la sesión es de cada persona (codex mcp login {ATLASSIAN_NAME}).",
+        f"[mcp_servers.{ATLASSIAN_NAME}]",
+        f'url = "{ATLASSIAN_URL}"',
+        f"enabled_tools = {quote(ATLASSIAN_READ)}",
+        f"disabled_tools = {quote(ATLASSIAN_WRITE)}",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 # ------------------------------------------------------------------ hooks por herramienta
 
 def claude_settings() -> str:
@@ -182,11 +231,13 @@ def claude_settings() -> str:
         "permissions": {
             "deny": [f"Edit({p})" for p in PROTECTED_DENY] + [
                 "Read(./.env)", "Read(./.env.*)", "Read(**/appsettings.Development.json)", "Read(**/*.keystore)",
-                "Bash(git push --force *)", "Bash(git push -f *)", "Bash(git reset --hard *)", "Bash(* --no-verify *)"],
+                "Bash(git push --force *)", "Bash(git push -f *)", "Bash(git reset --hard *)", "Bash(* --no-verify *)"]
+            + [f"mcp__{ATLASSIAN_NAME}__{t}" for t in ATLASSIAN_WRITE],
             "ask": ["Bash(git push *)", "Bash(dotnet ef database *)", "Bash(docker system prune *)"],
             "allow": ["Bash(python3 scripts/*)", "Bash(python scripts/*)", "Bash(dotnet restore *)", "Bash(dotnet build *)",
                       "Bash(dotnet test *)", "Bash(flutter analyze *)", "Bash(flutter test *)", "Bash(dart format *)",
-                      "Bash(git status *)", "Bash(git diff *)", "Bash(git log *)"],
+                      "Bash(git status *)", "Bash(git diff *)", "Bash(git log *)"]
+                     + [f"mcp__{ATLASSIAN_NAME}__{t}" for t in ATLASSIAN_READ],
         },
         "hooks": {
             "SessionStart": [{"hooks": [{"type": "command", "command": cmd("session-start"), "timeout": 30}]}],
@@ -217,7 +268,7 @@ def gemini_settings() -> str:
         "BeforeTool": [{"matcher": "write_file|replace|edit|run_shell_command",
                         "hooks": [{"type": "command", "command": cmd("pre-tool")}]}],
         "AfterAgent": [{"hooks": [{"type": "command", "command": cmd("stop")}]}],
-    }}
+    }, "mcpServers": {ATLASSIAN_NAME: {"httpUrl": ATLASSIAN_URL, "includeTools": ATLASSIAN_READ, "excludeTools": ATLASSIAN_WRITE}}}
     return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
 
 
@@ -340,6 +391,10 @@ def build_outputs() -> dict[Path, str]:
     out[ROOT / ".claude" / "settings.json"] = claude_settings()
     out[ROOT / ".codex" / "hooks.json"] = codex_hooks()
     out[ROOT / ".gemini" / "settings.json"] = gemini_settings()
+    out[ROOT / ".mcp.json"] = claude_mcp()
+    out[ROOT / ".vscode" / "mcp.json"] = vscode_mcp()
+    out[ROOT / "opencode.json"] = opencode_config()
+    out[ROOT / ".codex" / "config.toml"] = codex_config()
     out[ROOT / ".cursor" / "hooks.json"] = cursor_hooks()
     out[ROOT / ".github" / "hooks" / "knock-guard.json"] = copilot_hooks()
     out[ROOT / ".opencode" / "plugins" / "knock-guard.js"] = OPENCODE_PLUGIN.format(note=GEN.format(src="scripts/sync_agents.py"), py=PY, guard=GUARD)

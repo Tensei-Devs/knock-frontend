@@ -31,5 +31,39 @@
         ]
       }
     ]
+  },
+  "mcpServers": {
+    "atlassian": {
+      "httpUrl": "https://mcp.atlassian.com/v1/mcp/authv2",
+      "includeTools": [
+        "atlassianUserInfo",
+        "getAccessibleAtlassianResources",
+        "getVisibleJiraProjects",
+        "getJiraIssue",
+        "searchJiraIssuesUsingJql",
+        "getJiraProjectIssueTypesMetadata",
+        "getJiraIssueTypeMetaWithFields",
+        "getTransitionsForJiraIssue",
+        "getJiraIssueRemoteIssueLinks",
+        "getIssueLinkTypes",
+        "lookupJiraAccountId"
+      ],
+      "excludeTools": [
+        "addCommentToJiraIssue",
+        "addWorklogToJiraIssue",
+        "createJiraIssue",
+        "editJiraIssue",
+        "transitionJiraIssue",
+        "createIssueLink",
+        "createConfluencePage",
+        "createConfluenceFooterComment",
+        "createConfluenceInlineComment",
+        "updateConfluencePage",
+        "createCompassComponent",
+        "createCompassComponentRelationship",
+        "createCompassCustomFieldDefinition",
+        "addTeamworkGraphContext"
+      ]
+    }
   }
 }

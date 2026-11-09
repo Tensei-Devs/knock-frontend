@@ -1,4 +1,4 @@
-<!-- Título: KNOCK-N · <ID> <título>   p. ej. «KNOCK-45 · HU-024 Pedir una cotización» -->
+<!-- Título: KNOCK-N · [<ID> ]<título>   (ID opcional: HU-, TT-, BUG-, B-NNN o F-NNN) p. ej. «KNOCK-45 · HU-024 Pedir una cotización» -->
 
 ## Issue y spec
 - Jira: KNOCK-
@@ -22,7 +22,7 @@
 <!-- Resumen de la §6 de la spec: amenazas relevantes, controles y su prueba. Datos sensibles tocados. -->
 
 ## Riesgos y pendientes
-<!-- Efectos secundarios, deuda, excepciones (EXC-NNN) y lo que queda fuera. -->
+<!-- Efectos secundarios, deuda, excepciones (EXC-NNN) y lo que queda fuera. Si eres el Tech Lead y apruebas tu propio PR sin revisión de otra persona, anota aquí el motivo (urgente o nadie disponible). -->
 
 ## Uso de IA
 <!-- Obligatorio. Si no se usó, escribe «No se usó IA». Este es el único lugar donde se declara la IA: sin Co-Authored-By de agentes ni «Generated with…» en commits o PR. -->

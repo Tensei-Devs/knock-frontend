@@ -46,11 +46,32 @@ android {
         manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
 
+    // Llave de subida a Google Play (spec 007, R-05). Solo llega por variables de entorno (en el CI salen de GitHub Secrets);
+    // nunca se versiona. Sin ellas el build de release se firma con la llave de depuración, así `flutter run --release`
+    // y el CI normal funcionan, y el workflow de publicación rechaza un AAB firmado con ella.
+    val rutaLlave: String? = System.getenv("KNOCK_KEYSTORE_PATH")
+    // Nombres cortos a propósito (kspw, keypw): la regla de Gitleaks `knock-android-keystore-password` pensada para
+    // key.properties marca cualquier `storePassword = <6 o más caracteres>`, también la lectura de una variable de entorno.
+    val kspw: String? = System.getenv("KNOCK_KEYSTORE_PASSWORD")
+    val keypw: String? = System.getenv("KNOCK_KEY_PASSWORD")
+    signingConfigs {
+        if (rutaLlave != null) {
+            create("subida") {
+                storeFile = file(rutaLlave)
+                storePassword = kspw
+                keyAlias = System.getenv("KNOCK_KEY_ALIAS")
+                keyPassword = keypw
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (rutaLlave != null) {
+                signingConfigs.getByName("subida")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
@@ -63,4 +84,14 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+// Firebase (KNOCK-228). La configuración del proyecto de Firebase la entrega el
+// líder y va en android/app/google-services.json (ignorado por git). Sin ese
+// archivo la app compila igual (como en el CI) y la entrada por SMS muestra
+// que la verificación no está disponible.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+} else {
+    logger.warn("knock: falta android/app/google-services.json; la entrada por SMS no funcionará.")
 }
