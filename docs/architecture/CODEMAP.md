@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-07T23:39:41Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-08T23:55:20Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -332,7 +332,7 @@
 - `app/lib/core/sesion/almacen_sesion.dart` — class `AlmacenSesion`
   - `guardar()`:17, `leerAcceso()`:25, `leerRefresco()`:27, `cerrarSesion()`:29
 - `app/lib/core/sesion/arranque_sesion.dart` — —
-  - `iniciarFirebase()`:16, `haySesionGuardada()`:35
+  - `iniciarFirebase()`:16, `haySesionGuardada()`:30
 - `app/lib/core/sesion/canje_sesion.dart` — class `SesionEmitida`, class `CanjeSesion`, class `CanjeSesionApi`
   - `toString()`:24, `canjear()`:46
 - `app/lib/core/sesion/cliente_autenticado.dart` — class `ClienteAutenticado`
