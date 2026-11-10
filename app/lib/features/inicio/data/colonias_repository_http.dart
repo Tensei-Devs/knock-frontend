@@ -25,7 +25,13 @@ class ColoniasRepositoryHttp implements ColoniasRepository {
       transporte,
       url,
       'colonias/en-punto',
-      consulta: {'lat': '$latitud', 'lon': '$longitud'},
+      // El backend acepta hasta 10 decimales y 16 caracteres por coordenada
+      // (422 si no); el GPS devuelve 15 o más. Seis decimales (~1 m) bastan y
+      // además no envían más precisión de la necesaria (privacidad).
+      consulta: {
+        'lat': latitud.toStringAsFixed(6),
+        'lon': longitud.toStringAsFixed(6),
+      },
     ),
   );
 }

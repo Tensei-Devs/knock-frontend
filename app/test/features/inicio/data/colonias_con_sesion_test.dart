@@ -55,7 +55,7 @@ void main() {
 
     final p = api.peticiones.single;
     expect(p.url.path, '/api/v1/colonias/en-punto');
-    expect(p.url.queryParameters, {'lat': '20.2712', 'lon': '-98.9411'});
+    expect(p.url.queryParameters, {'lat': '20.271200', 'lon': '-98.941100'});
     expect(p.autorizacion, 'Bearer acc-A');
     final estado = c.read(coloniaControllerProvider);
     expect(estado, isA<ColoniaEncontrada>());
