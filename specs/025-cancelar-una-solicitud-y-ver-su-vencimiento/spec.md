@@ -19,11 +19,11 @@ Que el cliente pueda cancelar una solicitud que ya no necesita mientras no haya 
 - **CA-01:** Dada una solicitud propia en `enviada` o `cotizando`, cuando el cliente abre su detalle, entonces ve «Cancelar solicitud» como acción secundaria; en `cita_confirmada`, `terminada`, `calificada`, `cancelada` o `vencida` el botón no aparece. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_test.dart` → `CA_025_01`
 - **CA-02:** Dado «Cancelar solicitud» tocado, cuando se abre la hoja de confirmación, entonces dice «¿Cancelar tu solicitud?», explica «Los técnicos que cotizaron recibirán un aviso y ya no podrás elegir una cotización.» ofrece un motivo **opcional** con cuatro chips («Ya no lo necesito», «Lo resolví por otro medio», «Tarda mucho», «Otro motivo»; ninguno seleccionado al abrir) y los botones «No, mantener» y «Sí, cancelar»; «No, mantener» cierra sin llamar al servidor y «Sí, cancelar» funciona con o sin motivo. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_test.dart` → `CA_025_02`
 - **CA-03:** Dada la confirmación, cuando el servidor responde 200 `{ id, estado, canceladaEn, motivo }`, entonces la app vuelve a pedir el detalle, que pasa a «Cancelada», muestra «Cancelaste esta solicitud.» y «Volver a pedir», se oculta «Ver y elegir» y Actividad muestra la tarjeta con el estado nuevo al volver. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_test.dart` → `CA_025_03`
-- **CA-04:** Dado un doble toque en «Sí, cancelar» o un reintento de la red tras un tiempo agotado, cuando se envía, entonces viaja una sola `Idempotency-Key` (UUID v4) para esa cancelación, el botón queda deshabilitado con indicador de avance y la respuesta repetida (`200` con `Idempotent-Replay: true`, también si la solicitud ya estaba cancelada desde otro dispositivo) se trata como éxito. · Verificación: `app/test/features/actividad/data/cancelar_solicitud_repository_test.dart` → `CA_025_04`
+- **CA-04:** Dado un doble toque en «Sí, cancelar» o un reintento de la red tras un tiempo agotado, cuando se envía, entonces el botón queda deshabilitado con indicador de avance y una respuesta `200` repetida (también si la solicitud ya estaba cancelada desde otro dispositivo) se trata como éxito. · Verificación: `app/test/features/actividad/data/cancelar_solicitud_repository_test.dart` → `CA_025_04`
 - **CA-05:** Dada una solicitud que ya tiene cita confirmada (el cliente eligió en otro dispositivo), cuando se confirma la cancelación, entonces el servidor responde 409 `solicitud_con_cita` y la app muestra «Ya elegiste una cotización: esta solicitud ya no se puede cancelar. Revisa tu visita.» con «Ver visita», y recarga el detalle. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_test.dart` → `CA_025_05`
 - **CA-06:** Dada una solicitud que venció mientras la hoja estaba abierta, cuando se confirma, entonces el servidor responde 409 `solicitud_vencida` y la app muestra el estado «Vencida» con «Volver a pedir» y el mensaje «Tu solicitud ya había vencido.». · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_test.dart` → `CA_025_06`
 - **CA-07:** Dada la solicitud de otra persona o inexistente, cuando la app intenta cancelarla, entonces recibe 404 y muestra «Esta solicitud ya no está disponible» sin revelar que existe. · Verificación: `app/test/features/actividad/data/cancelar_solicitud_repository_test.dart` → `CA_025_07`
-- **CA-08:** Dado un 429 con `Retry-After` (por ejemplo, la cancelación número 11 en una hora), un 400 (`errors.motivo` o `idempotency_key_requerida`), un 5xx o sin conexión, cuando se confirma la cancelación, entonces la solicitud **no** cambia en pantalla, se muestra el error del catálogo con «Reintentar» (o la espera del 429, spec 009) y no se reintenta en bucle ni se encola para después. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_estados_test.dart` → `CA_025_08`
+- **CA-08:** Dado un 429 con `Retry-After` (por ejemplo, la cancelación número 11 en una hora), un 400 (`errors.motivo` o id mal formado), un 5xx o sin conexión, cuando se confirma la cancelación, entonces la solicitud **no** cambia en pantalla, se muestra el error del catálogo con «Reintentar» (o la espera del 429, spec 009) y no se reintenta en bucle ni se encola para después. · Verificación: `app/test/features/actividad/presentation/cancelar_solicitud_estados_test.dart` → `CA_025_08`
 - **CA-09:** Dada una solicitud en `enviada` o `cotizando` con `venceEn` a más de 24 h, cuando se abre el detalle, entonces se muestra «Vence el {día} a las {hora}» en la zona `America/Mexico_City` y en formato de 24 h; a 24 h o menos, «Vence en {n} h»; a menos de 1 h, «Vence en menos de una hora». · Verificación: `app/test/features/actividad/domain/vencimiento_test.dart` → `CA_025_09`
 - **CA-10:** Dado que la hora del teléfono ya pasó `venceEn` pero el servidor todavía responde `enviada` o `cotizando`, cuando se pinta el detalle, entonces la app muestra «Cerrando tu solicitud…», no la marca como vencida por su cuenta y vuelve a pedir el detalle una sola vez a los 60 s; si sigue igual, deja el texto y el refresco manual (el barrido de respaldo de backend 029 corre cada 10 minutos). · Verificación: `app/test/features/actividad/domain/vencimiento_test.dart` → `CA_025_10`
 - **CA-11:** Dada una solicitud `vencida`, cuando se abre su detalle (desde Actividad o desde el aviso `solicitud_vencida` de la spec 024), entonces muestra la etiqueta «Vencida» (con ícono y texto, no solo color), «Pasaron 48 horas sin que eligieras una cotización.», las cotizaciones que hubo sin el botón de elegir y, si el servidor responde `puedeVolverAPedir: true` (backend 029, R-13), la acción principal «Volver a pedir»; con `puedeVolverAPedir` falso o ausente, la acción no aparece. · Verificación: `app/test/features/actividad/presentation/solicitud_vencida_test.dart` → `CA_025_11`
@@ -37,7 +37,7 @@ Que el cliente pueda cancelar una solicitud que ya no necesita mientras no haya 
 ## 3. Alcance / No-alcance
 
 **Dentro (capa Mobile)**
-- Botón «Cancelar solicitud», hoja de confirmación, envío idempotente y manejo de errores en el detalle (`/actividad/solicitud/:id`).
+- Botón «Cancelar solicitud», hoja de confirmación, envío con el botón deshabilitado y manejo de errores en el detalle (`/actividad/solicitud/:id`).
 - Vencimiento visible en el detalle y su regla de presentación (absoluto, relativo, «Cerrando tu solicitud…»).
 - Estados «Cancelada» y «Vencida» en el detalle y en la comparación, con «Volver a pedir».
 - «Volver a pedir»: abrir el formulario de la spec 015 prellenado.
@@ -55,7 +55,7 @@ Que el cliente pueda cancelar una solicitud que ya no necesita mientras no haya 
 ### Requisitos
 
 - **R-01:** «Cancelar solicitud» aparece solo en `enviada` y `cotizando`, como acción secundaria (no es el botón principal) y siempre pide confirmación en una hoja inferior.
-- **R-02:** La cancelación llama a `POST /api/v1/solicitudes/{id}/cancelar` (backend 029) con `Idempotency-Key` (UUID v4) generada al abrir la hoja y reutilizada en cada reintento de esa misma cancelación, y con el cuerpo `{ motivo }` solo si la persona eligió uno.
+- **R-02:** La cancelación llama a `POST /api/v1/solicitudes/{id}/cancelar` (backend 029) sin `Idempotency-Key` (retirada por ahora) y con el cuerpo `{ motivo }` solo si la persona eligió uno.
 - **R-03:** La app muestra el estado nuevo solo con la respuesta del servidor; sin respuesta exitosa, la solicitud no cambia en pantalla.
 - **R-04:** Los errores se traducen con el catálogo: `409 solicitud_con_cita`, `409 solicitud_vencida`, `404`, `400`, `429`, `5xx` y sin conexión, con los textos de §7; nunca el código HTTP, la URL ni el cuerpo.
 - **R-05:** El vencimiento se calcula para mostrar a partir de `venceEn` del servidor (UTC) y se presenta en `America/Mexico_City`; la app nunca decide que una solicitud venció.
@@ -73,11 +73,11 @@ La app **consume**. La ruta de cancelación y el campo `puedeVolverAPedir` los f
 
 | Método y ruta | Uso en la app | Cuerpo / encabezados | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/solicitudes/{id}/cancelar` | Cancelar (backend 029, R-02 a R-07) | `{ motivo? }` con `motivo` en `ya_no_lo_necesito`, `lo_resolvi_por_otro_medio`, `tarda_mucho` u `otro` (se omite si la persona no eligió) · `Idempotency-Key` (1 a 64 caracteres; la app manda un UUID v4) | `200` `{ id, estado: "cancelada", canceladaEn, motivo }`; si ya estaba cancelada, el mismo cuerpo con `Idempotent-Replay: true`, sea cual sea la clave · `Cache-Control: no-store` | `400` (`errors.motivo`, `idempotency_key_requerida` o id mal formado) · `401` · `404` (ajena o inexistente) · `409 solicitud_con_cita` (cita confirmada, terminada o calificada) · `409 solicitud_vencida` · `429` con `Retry-After` (10 cancelaciones por hora por persona) · `5xx` |
+| `POST /api/v1/solicitudes/{id}/cancelar` | Cancelar (backend 029, R-02 a R-07) | `{ motivo? }` con `motivo` en `ya_no_lo_necesito`, `lo_resolvi_por_otro_medio`, `tarda_mucho` u `otro` (se omite si la persona no eligió) | `200` `{ id, estado: "cancelada", canceladaEn, motivo }`; si ya estaba cancelada, el mismo cuerpo · `Cache-Control: no-store` | `400` (`errors.motivo` o id mal formado) · `401` · `404` (ajena o inexistente) · `409 solicitud_con_cita` (cita confirmada, terminada o calificada) · `409 solicitud_vencida` · `429` con `Retry-After` (10 cancelaciones por hora por persona) · `5xx` |
 | `GET /api/v1/solicitudes/{id}` | Detalle con `estado`, `venceEn`, `puedeVolverAPedir` y la descripción, fotos, oficio, colonia, franja y dirección también en una solicitud cerrada (backend 020 R-08 y 029 R-13) | — | `200` | `400`, `401`, `404`, `429` |
 | `GET /api/v1/solicitudes/{id}/cotizaciones` | Comparación de una solicitud vencida o cancelada (backend 021) | `orden?` | `200` con `puedeElegir = false` y `motivo` (`solicitud_vencida`, `solicitud_cancelada`) | `401`, `404`, `429` |
 | `GET /api/v1/solicitudes` | Actividad (backend 020; spec 020); admite `estado=vencida` y `estado=cancelada` (029 R-13) | `cursor?`, `limit?` (la app pide 20), `estado?` | `200` `CursorPage<SolicitudResumen>` con `estado` y `venceEn` | `400`, `401`, `429` |
-| `POST /api/v1/solicitudes` | Volver a pedir: solicitud **nueva** (backend 020; formulario de la spec 015); el servidor no copia ni reabre la anterior (029 R-13) | El de la spec 015 con una `Idempotency-Key` nueva | `201` | Los de la spec 015 |
+| `POST /api/v1/solicitudes` | Volver a pedir: solicitud **nueva** (backend 020; formulario de la spec 015); el servidor no copia ni reabre la anterior (029 R-13) | El de la spec 015 | `201` | Los de la spec 015 |
 | `GET /api/v1/tecnicos/me/solicitudes` | Solicitudes nuevas del técnico (backend 028, R-13): una cancelada o vencida ya no aparece | `cursor?`, `limit?` (1–20) | `200` `CursorPage<SolicitudRecibida>` | `401`, `403 no_es_tecnico`, `429` |
 | `GET /api/v1/tecnicos/me/trabajo` | Cotizaciones enviadas del técnico (spec 019) — spec de backend 036 (Borrador) | — | Debe incluir el estado y `motivoRechazo` de cada cotización | Los de la spec 019 |
 
@@ -85,7 +85,7 @@ Reglas del contrato que la app da por ciertas:
 - **Estados de la solicitud** (backend 020 y 029 R-01): `enviada`, `cotizando`, `cita_confirmada`, `terminada`, `calificada`, `cancelada`, `vencida`. Se cancela solo desde `enviada` o `cotizando`; `cancelada` y `vencida` son finales.
 - **Cotizaciones de una solicitud cerrada:** pasan a `rechazada` con `motivoRechazo` `solicitud_cancelada` o `solicitud_vencida` (backend 029, decisión 1); no existe un estado `vencida` de cotización.
 - **Vencimiento:** `venceEn = creadoEn + Solicitudes:HorasVencimiento` (48 h por omisión, de 1 a 168; backend 029 R-08); lo aplica la tarea `VencerSolicitud` y, si se pierde, el barrido cada 10 minutos (R-10). Mientras tanto `venceEn` ya bloquea cotizar y elegir (R-12). La app no calcula el plazo: solo muestra `venceEn`, y el texto «48 horas» del estado vencido es el valor por omisión (§13).
-- **Idempotencia:** cancelar es idempotente (backend 029, R-04): una solicitud ya cancelada responde 200 con el mismo cuerpo, con cualquier clave, y no hay un segundo aviso.
+- **Idempotencia:** cancelar es idempotente (backend 029, R-04): una solicitud ya cancelada responde 200 con el mismo cuerpo y no hay un segundo aviso.
 - **Autorización por recurso:** 404 para lo ajeno o inexistente.
 - **Sin caché:** `Cache-Control: private, no-store` (backend 020, R-18); la app no guarda estas respuestas (spec 010, R-04).
 - **Paginación:** la de Actividad y Trabajo es por cursor (specs 019 y 020); cancelar no cambia la página pedida, solo invalida la lista.
@@ -105,7 +105,6 @@ Reglas del contrato que la app da por ciertas:
 | `PrellenadoSolicitud` | `oficioId`, `descripcion`, `franja`, `fotos?` | Sin día ni dirección; se entrega al formulario de la spec 015 |
 
 **Estado local**
-- La `Idempotency-Key` de una cancelación vive en memoria mientras la hoja está abierta y durante sus reintentos; se descarta al cerrar la hoja o al terminar.
 - «Volver a pedir» crea un borrador con las reglas de la spec 015 (R-07 y D-06: sin dirección, se borra al enviar o al cerrar sesión).
 - Nada de esta spec se guarda en `shared_preferences`, caché de respuestas ni archivos.
 
@@ -115,7 +114,7 @@ Reglas del contrato que la app da por ciertas:
 |---|---|---|
 | **Acceso a lo ajeno (IDOR):** cancelar la solicitud de otra persona cambiando el `id` | El servidor autoriza por dueño y responde 404; la app no revela si existe | CA-07 |
 | **Alteración:** cancelar algo que ya tiene cita o que venció (carrera entre dispositivos) | El servidor decide con 409; la app no cambia el estado sin respuesta exitosa y recarga | CA-05, CA-06 |
-| **Repetición:** doble toque o reintento crean dos operaciones | `Idempotency-Key` única por cancelación; botón deshabilitado durante el envío | CA-04 |
+| **Repetición:** doble toque o reintento crean dos operaciones | Botón deshabilitado durante el envío; la cancelación ya es idempotente por estado en el servidor | CA-04 |
 | **Error humano:** cancelar sin querer | Acción secundaria, hoja con confirmación y explicación, «No, mantener» primero en el orden de lectura | CA-02 |
 | **Manipulación del reloj del teléfono:** adelantar la hora para ver la solicitud vencida | La app nunca vence por su cuenta; solo muestra «Cerrando tu solicitud…» y pregunta al servidor una vez | CA-10 |
 | **Abuso:** cancelar y volver a pedir en ráfaga para molestar a los técnicos | Límite de 10 cancelaciones por hora del servidor (backend 029, R-14); la app respeta el 429 | CA-08 |
@@ -203,7 +202,7 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 | Negativo | Cancelar la solicitud de otra cuenta: 404 y «Esta solicitud ya no está disponible» |
 | Negativo | Reloj del teléfono 3 días adelantado: «Cerrando tu solicitud…», un solo reintento, nunca «Vencida» sin el servidor |
 | Error esperado | 429 con `Retry-After: 30`: aviso de espera y «Sí, cancelar» deshabilitado 30 s |
-| Error esperado | 5xx o tiempo agotado: error con «Reintentar» que reutiliza la misma `Idempotency-Key` |
+| Error esperado | 5xx o tiempo agotado: error con «Reintentar» que repite la cancelación |
 | Error esperado | Sin conexión: «Sí, cancelar» deshabilitado; nada se encola |
 | Error esperado | 11.ª cancelación en una hora: 429 con `Retry-After` y aviso de espera |
 | Negativo | Motivo fuera de la lista (cliente alterado): 400 `errors.motivo`, mensaje genérico y la solicitud no cambia |
@@ -223,12 +222,12 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 | `app/lib/features/actividad/domain/solicitud.dart` | Modificar | `canceladaEn`, `vencidaEn`; estados `cancelada` y `vencida` si faltan |
 | `app/lib/features/actividad/domain/vencimiento.dart` | Crear | `Vencimiento` y `PresentacionVencimiento` (Dart puro; recibe `ahora` para probar) |
 | `app/lib/features/actividad/domain/regla_cancelacion.dart` | Crear | `puedeCancelar` por estado |
-| `app/lib/features/actividad/domain/solicitud_repository.dart` | Modificar | `cancelar(id, idempotencyKey)` → `ResultadoCancelacion` |
+| `app/lib/features/actividad/domain/solicitud_repository.dart` | Modificar | `cancelar(id, motivo?)` → `ResultadoCancelacion` |
 | `app/lib/features/actividad/data/solicitud_repository_api.dart` | Modificar | Llamada de backend 029 sobre el cliente generado; mapeo de 409 por `code` |
 | `app/lib/features/actividad/data/solicitud_mapper.dart` | Modificar | Campos nuevos |
 | `app/lib/features/actividad/presentation/solicitud_detalle_screen.dart` | Modificar | Vencimiento, botón, estados nuevos |
 | `app/lib/features/actividad/presentation/widgets/hoja_cancelar_solicitud.dart` | Crear | Hoja de confirmación (componente de hoja de la spec 014 si existe) |
-| `app/lib/features/actividad/presentation/cancelar_solicitud_controller.dart` | Crear | Envío, clave de idempotencia, errores y refresco |
+| `app/lib/features/actividad/presentation/cancelar_solicitud_controller.dart` | Crear | Envío, errores y refresco |
 | `app/lib/features/actividad/presentation/cotizaciones_screen.dart` | Modificar | Franja de motivo y «Volver a pedir» |
 | `app/lib/features/actividad/presentation/solicitud_nueva_screen.dart` | Modificar | Acepta `PrellenadoSolicitud` |
 | `app/lib/features/trabajo/presentation/` (spec 019) | Modificar | Etiqueta «Cancelada por el cliente» |
@@ -275,8 +274,9 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 | D-09 | «Volver a pedir» se muestra solo con `puedeVolverAPedir: true` del servidor | Es el campo que backend 029 agrega para eso (R-13); la app no decide por estado | Mostrarlo en todo estado `cancelada` o `vencida` |
 
 ## 13. Riesgos y dudas abiertas
+- **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La cancelación no la envía y backend 029 la quitó; cancelar ya es idempotente por estado. Un doble toque se evita con el botón deshabilitado.
 
-- **Validado con backend 029 (Borrador):** ruta, cuerpo con motivo opcional, respuesta `200` con `{ id, estado, canceladaEn, motivo }`, `409 solicitud_con_cita` y `solicitud_vencida`, idempotencia con cualquier clave, límite de 10 por hora, `puedeVolverAPedir` y cotizaciones a `rechazada` con `motivoRechazo`.
+- **Validado con backend 029 (Borrador):** ruta, cuerpo con motivo opcional, respuesta `200` con `{ id, estado, canceladaEn, motivo }`, `409 solicitud_con_cita` y `solicitud_vencida`, idempotencia por estado, límite de 10 por hora, `puedeVolverAPedir` y cotizaciones a `rechazada` con `motivoRechazo`.
 - **Pendiente de validar:** si el detalle de una solicitud cerrada devuelve `vencidaEn` (029 lo guarda pero no lo lista en la respuesta) y si las referencias de fotos del detalle se pueden reenviar en `POST /solicitudes` (029 no lo dice; la spec 015 habla de URL firmadas de 5 minutos, que no servirían).
 - **Dependencia:** `GET /api/v1/tecnicos/me/trabajo` (spec 019) lo fija la spec 036 (Borrador); sin ella, CA-15 solo se cumple en «Solicitudes nuevas».
 - **Riesgo:** el texto «Pasaron 48 horas…» supone el plazo por omisión; si el servidor configura otro (`Solicitudes:HorasVencimiento`), el texto quedaría mal. Alternativa para quien apruebe: «Se cerró sin que eligieras una cotización.»
