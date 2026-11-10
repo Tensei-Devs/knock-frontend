@@ -199,4 +199,4 @@
 ## 2026-11-10 — Se retira Idempotency-Key de las specs del Sprint 4 de la app (KNOCK-243)
 - **Decisión:** la app no envía `Idempotency-Key` en la creación de solicitud, la elección, la llegada, el descarte, la cancelación ni la marca de leído (specs 015, 016, 019, 020 y 025). Backend 020, 021, 022, 028, 029 y 030 la quitaron. Una segunda elección responde 409 `solicitud_ya_elegida` y una segunda llegada, 409 `codigo_usado`: la app consulta el estado antes de mostrar un error. Quedó anotado el riesgo en cada spec.
 - **Porqué:** decisión de José del 2026-11-10: no hay tiempo de implementarla en el Sprint 4 y la spec 010 ya la dejaba fuera.
-- **A evitar:** reintroducir la clave en un repositorio de la app sin una spec propia de backend y de la app; dar por duplicada una solicitud sin consultar su estado. Queda pendiente decidir si se relajan HU-024 CA4 y HU-033 CA3, que la exigían.
+- **A evitar:** reintroducir la clave en un repositorio de la app sin una spec propia de backend y de la app; dar por duplicada una solicitud sin consultar su estado. HU-024 CA4 y HU-033 CA3, que la exigían, se relajaron en `docs/backlog/`.
