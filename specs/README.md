@@ -17,3 +17,4 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 011 | Versionamiento por puntos | Aprobada | [`011-versionamiento-por-puntos`](011-versionamiento-por-puntos/spec.md) |
 | 012 | Notificaciones push y permisos del teléfono | Aprobada | [`012-notificaciones-push-y-permisos-del-telefono`](012-notificaciones-push-y-permisos-del-telefono/spec.md) |
 | 013 | MCP del proyecto | Aprobada | [`013-mcp-del-proyecto`](013-mcp-del-proyecto/spec.md) |
+| 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Borrador | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
