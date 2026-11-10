@@ -1,6 +1,7 @@
 // Spec 026 (KNOCK-248), P-2: Bearer solo en rutas protegidas de la API,
 // renovación con un solo vuelo, un reintento por petición y cierre de sesión
 // según el motivo del fallo. La API es falsa (MockClient), sin red.
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/core/errores/failure.dart';
@@ -11,11 +12,71 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
+
+/// Almacén en memoria que puede fallar al escribir o al borrar, para probar
+/// qué hace la sesión cuando el almacenamiento seguro no responde.
+class _AlmacenQueFalla extends AlmacenSeguroEnMemoria {
+  int _escrituras = 0;
+  int borrados = 0;
+  Set<int> escriturasQueFallan = {};
+  bool todasLasEscriturasFallan = false;
+  bool elBorradoFalla = false;
+
+  /// Empieza a contar desde cero y define qué escrituras (1, 2, …) fallan.
+  void armar({
+    Set<int> escrituras = const {},
+    bool todas = false,
+    bool borrado = false,
+  }) {
+    _escrituras = 0;
+    borrados = 0;
+    escriturasQueFallan = escrituras;
+    todasLasEscriturasFallan = todas;
+    elBorradoFalla = borrado;
+  }
+
+  @override
+  Future<void> escribir(String clave, String valor) async {
+    _escrituras++;
+    if (todasLasEscriturasFallan || escriturasQueFallan.contains(_escrituras)) {
+      // El texto lleva los valores a propósito: la prueba de R-11 comprueba
+      // que nada de esto llega a los registros.
+      throw Exception('fallo al escribir $clave=$valor');
+    }
+    await super.escribir(clave, valor);
+  }
+
+  @override
+  Future<void> borrar(String clave) async {
+    borrados++;
+    if (elBorradoFalla) throw Exception('fallo al borrar $clave');
+    await super.borrar(clave);
+  }
+}
+
+/// Almacén cuyas operaciones lanzan un `Error` de programación (no una
+/// `Exception` de la plataforma), para probar qué se traga y qué no.
+class _AlmacenConError extends AlmacenSeguroEnMemoria {
+  bool falla = false;
+
+  @override
+  Future<void> escribir(String clave, String valor) async {
+    if (falla) throw StateError('error de programación');
+    await super.escribir(clave, valor);
+  }
+
+  @override
+  Future<void> borrar(String clave) async {
+    if (falla) throw StateError('error de programación');
+    await super.borrar(clave);
+  }
+}
 
 void main() {
   late ApiFalsa api;
@@ -267,6 +328,228 @@ void main() {
       expect(c.read(sesionProvider), tokensA);
       expect(almacen.contenido[AlmacenSesion.claveAcceso], 'acc-A');
     });
+
+    group(
+      'CA_026_13 si el almacén seguro falla al guardar los tokens nuevos',
+      () {
+        late _AlmacenQueFalla fallon;
+
+        Future<void> montarConAlmacenQueFalla({
+          Set<int> escrituras = const {},
+          bool todas = false,
+          bool borrado = false,
+        }) async {
+          fallon = _AlmacenQueFalla();
+          almacen = fallon;
+          await montar();
+          fallon.armar(escrituras: escrituras, todas: todas, borrado: borrado);
+        }
+
+        test(
+          'si el primer guardado falla y el segundo funciona, repite una vez',
+          () async {
+            await montarConAlmacenQueFalla(escrituras: {1});
+            final r = await pedir('me');
+
+            expect(r.statusCode, 200);
+            expect(refrescos, 1);
+            expect(api.llamadas, ['GET me', 'POST auth/refresh', 'GET me']);
+            expect(api.peticiones[2].autorizacion, 'Bearer acc-B');
+            expect(almacenAlReintentar.single, {
+              AlmacenSesion.claveAcceso: 'acc-B',
+              AlmacenSesion.claveRefresco: 'ref-B',
+            });
+            expect(c.read(sesionProvider)!.accessToken, 'acc-B');
+            expect(c.read(sesionIniciadaProvider), isTrue);
+          },
+        );
+
+        test(
+          'si falla a medias (refresco nuevo guardado, acceso no), el segundo '
+          'intento deja el par completo',
+          () async {
+            await montarConAlmacenQueFalla(escrituras: {2});
+            final r = await pedir('me');
+
+            expect(r.statusCode, 200);
+            expect(almacen.contenido, {
+              AlmacenSesion.claveAcceso: 'acc-B',
+              AlmacenSesion.claveRefresco: 'ref-B',
+            });
+            expect(c.read(sesionProvider)!.refreshToken, 'ref-B');
+          },
+        );
+
+        test(
+          'si la app muere tras la primera escritura, al reiniciar renueva con '
+          'el refresco nuevo y la sesión sigue',
+          () async {
+            fallon = _AlmacenQueFalla();
+            almacen = fallon;
+            final sesion = AlmacenSesion(fallon);
+            await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+            // La segunda escritura (el acceso) no ocurre y no hay reintento.
+            fallon.armar(escrituras: {2});
+            await expectLater(
+              sesion.guardar(acceso: 'acc-B', refresco: 'ref-B'),
+              throwsException,
+            );
+
+            // Reinicio: se arranca con lo que quedó en el almacén seguro.
+            final tokens = TokensSesion(
+              accessToken: (await sesion.leerAcceso())!,
+              refreshToken: (await sesion.leerRefresco())!,
+            );
+            expect(
+              tokens,
+              const TokensSesion(accessToken: 'acc-A', refreshToken: 'ref-B'),
+            );
+
+            // La API ya rotó ref-A: solo acepta ref-B y solo sirve acc-C.
+            api.responder = (p) async {
+              if (p.ruta == 'auth/refresh') {
+                refrescos++;
+                return p.json['refreshToken'] == 'ref-B'
+                    ? jsonOk(tokensJson('acc-C', 'ref-C'))
+                    : http.Response('', 401);
+              }
+              return token(p) == 'acc-C'
+                  ? jsonOk({'ok': true})
+                  : http.Response('', 401);
+            };
+            c = contenedorConApi(api, tokens: tokens, almacen: fallon);
+            addTearDown(c.dispose);
+            c.listen(sesionIniciadaProvider, (_, _) {});
+
+            final r = await pedir('me');
+
+            expect(r.statusCode, 200);
+            expect(refrescos, 1);
+            expect(api.peticiones[1].json, {'refreshToken': 'ref-B'});
+            expect(c.read(sesionProvider)!.refreshToken, 'ref-C');
+            expect(c.read(sesionIniciadaProvider), isTrue);
+          },
+        );
+
+        test(
+          'un Error de programación al guardar no se traga: sale a quien llama',
+          () async {
+            final raro = _AlmacenConError();
+            almacen = raro;
+            await montar();
+            raro.falla = true;
+
+            await expectLater(pedir('me'), throwsA(isA<StateError>()));
+          },
+        );
+
+        test('cerrar() no lanza ni con un Error del almacén y deja la sesión cerrada', () async {
+          final raro = _AlmacenConError();
+          almacen = raro;
+          await montar();
+          raro.falla = true;
+
+          await c.read(sesionProvider.notifier).cerrar();
+
+          expect(c.read(sesionProvider), isNull);
+          expect(c.read(sesionIniciadaProvider), isFalse);
+        });
+
+        test(
+          'si los dos intentos fallan, cierra la sesión local y no repite la '
+          'petición',
+          () async {
+            await montarConAlmacenQueFalla(todas: true);
+            c
+                .read(cacheRespuestasProvider)
+                .guardar(
+                  'k',
+                  etag: 'e',
+                  cuerpo: Uint8List(0),
+                  encabezados: const {},
+                );
+
+            final r = await pedir('me');
+
+            expect(r.statusCode, 401);
+            // Una petición, una renovación y nada más: no se repite con acc-B.
+            expect(api.llamadas, ['GET me', 'POST auth/refresh']);
+            expect(api.peticiones.where((p) => token(p) == 'acc-B'), isEmpty);
+            expect(c.read(sesionProvider), isNull);
+            expect(c.read(sesionIniciadaProvider), isFalse);
+            expect(c.read(cacheRespuestasProvider).estaVacia, isTrue);
+            // El borrado sí funcionó: no queda el token de renovación viejo.
+            expect(almacen.contenido, isEmpty);
+
+            // El token vencido no se vuelve a enviar.
+            api.peticiones.clear();
+            await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
+            expect(api.peticiones, isEmpty);
+          },
+        );
+
+        test('si fallan el guardado y el borrado, no lanza y la sesión queda '
+            'cerrada en memoria', () async {
+          await montarConAlmacenQueFalla(todas: true, borrado: true);
+
+          final r = await pedir('me');
+
+          expect(r.statusCode, 401);
+          expect(api.llamadas, ['GET me', 'POST auth/refresh']);
+          expect(c.read(sesionProvider), isNull);
+          expect(c.read(sesionIniciadaProvider), isFalse);
+          // Riesgo residual conocido: sin poder borrar, el almacén conserva el
+          // token de renovación anterior. Esta prueba lo documenta.
+          expect(almacen.contenido[AlmacenSesion.claveRefresco], 'ref-A');
+        });
+
+        test('cinco llamadas simultáneas reciben sesión vencida con una sola '
+            'renovación y un solo cierre', () async {
+          await montarConAlmacenQueFalla(todas: true);
+
+          final rs = await Future.wait([
+            for (var i = 0; i < 5; i++) pedir('me'),
+          ]);
+
+          expect(rs.map((r) => r.statusCode), everyElement(401));
+          expect(refrescos, 1);
+          expect(api.peticiones.where((p) => token(p) == 'acc-B'), isEmpty);
+          expect(api.llamadas.where((l) => l == 'GET me'), hasLength(5));
+          // Un solo cierre: dos claves borradas una vez cada una.
+          expect(fallon.borrados, 2);
+          expect(c.read(sesionProvider), isNull);
+          expect(c.read(sesionIniciadaProvider), isFalse);
+        });
+
+        test('R-11 los errores y los registros no exponen tokens', () async {
+          await montarConAlmacenQueFalla(todas: true, borrado: true);
+
+          final impresiones = <String>[];
+          final debugPrintOriginal = debugPrint;
+          debugPrint = (String? m, {int? wrapWidth}) => impresiones.add('$m');
+          addTearDown(() => debugPrint = debugPrintOriginal);
+
+          Object? resultado;
+          await runZoned(
+            () async {
+              resultado = await pedir('me');
+            },
+            zoneSpecification: ZoneSpecification(
+              print: (self, parent, zone, linea) => impresiones.add(linea),
+            ),
+          );
+
+          final visible = [
+            ...impresiones,
+            '$resultado',
+            '${c.read(sesionProvider)}',
+          ].join('\n');
+          for (final secreto in ['acc-A', 'ref-A', 'acc-B', 'ref-B']) {
+            expect(visible, isNot(contains(secreto)), reason: secreto);
+          }
+        });
+      },
+    );
 
     test('cerrar la sesión durante la renovación no la reabre', () async {
       await montar();

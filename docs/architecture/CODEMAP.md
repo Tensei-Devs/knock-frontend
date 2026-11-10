@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T08:07:17Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-10T08:46:13Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -386,7 +386,7 @@
 - `app/lib/core/sesion/almacen_seguro.dart` — class `AlmacenSeguro`, class `AlmacenSeguroEnMemoria`, class `AlmacenSeguroFlutterSecureStorage`
   - `leer()`:25, `escribir()`:28, `borrar()`:32, `leer()`:46, `escribir()`:49, `borrar()`:53
 - `app/lib/core/sesion/almacen_sesion.dart` — class `AlmacenSesion`
-  - `guardar()`:17, `leerAcceso()`:25, `leerRefresco()`:27, `cerrarSesion()`:29
+  - `guardar()`:24, `leerAcceso()`:32, `leerRefresco()`:34, `cerrarSesion()`:39
 - `app/lib/core/sesion/arranque_sesion.dart` — —
   - `iniciarFirebase()`:17, `leerTokensGuardados()`:31
 - `app/lib/core/sesion/canje_sesion.dart` — class `SesionEmitida`, class `CanjeSesion`, class `CanjeSesionApi`
@@ -404,7 +404,7 @@
 - `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
   - `enviarCodigo()`:48, `verificarCodigo()`:54
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`
-  - `toString()`:29, `renovar()`:46, `build()`:61, `iniciar()`:64, `cerrar()`:74, `renovar()`:85
+  - `toString()`:29, `renovar()`:46, `build()`:61, `iniciar()`:64, `cerrar()`:77, `renovar()`:93
 - `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
   - `build()`:28, `iniciar()`:31, `cerrar()`:34, `nombreDeDispositivo()`:53
 - `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`
