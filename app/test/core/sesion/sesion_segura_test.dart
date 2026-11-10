@@ -54,7 +54,110 @@ class _Servidor {
   Future<void> cerrar() => _servidor.close(force: true);
 }
 
+/// Almacén en memoria que anota el orden de cada operación y puede fallar en
+/// claves concretas. Los textos de error llevan el valor a propósito: no deben
+/// llegar a ninguna parte.
+class _AlmacenQueAnota extends AlmacenSeguroEnMemoria {
+  final eventos = <String>[];
+  final fallanAlEscribir = <String>{};
+  final fallanAlBorrar = <String>{};
+
+  @override
+  Future<void> escribir(String clave, String valor) async {
+    eventos.add('escribir $clave');
+    if (fallanAlEscribir.contains(clave)) {
+      throw Exception('fallo al escribir $clave=$valor');
+    }
+    await super.escribir(clave, valor);
+  }
+
+  @override
+  Future<void> borrar(String clave) async {
+    eventos.add('borrar $clave');
+    if (fallanAlBorrar.contains(clave)) {
+      throw Exception('fallo al borrar $clave');
+    }
+    await super.borrar(clave);
+  }
+}
+
 void main() {
+  group('orden de escritura y de borrado de los tokens (spec 026, CA-13)', () {
+    late _AlmacenQueAnota almacen;
+    late AlmacenSesion sesion;
+
+    setUp(() {
+      almacen = _AlmacenQueAnota();
+      sesion = AlmacenSesion(almacen);
+    });
+
+    test('CA_026_13 guardar escribe primero el token de renovación', () async {
+      await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+
+      expect(almacen.eventos, [
+        'escribir ${AlmacenSesion.claveRefresco}',
+        'escribir ${AlmacenSesion.claveAcceso}',
+      ]);
+    });
+
+    test('CA_026_13 si el proceso muere tras la primera escritura queda el '
+        'refresco nuevo con el acceso viejo', () async {
+      await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+      almacen.fallanAlEscribir.add(AlmacenSesion.claveAcceso);
+
+      // La segunda escritura no llega a ocurrir (cierre forzado, batería).
+      await expectLater(
+        sesion.guardar(acceso: 'acc-B', refresco: 'ref-B'),
+        throwsException,
+      );
+
+      expect(await sesion.leerRefresco(), 'ref-B');
+      expect(await sesion.leerAcceso(), 'acc-A');
+    });
+
+    test(
+      'CA_026_13 cerrarSesion borra primero el token de renovación',
+      () async {
+        await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+        almacen.eventos.clear();
+
+        await sesion.cerrarSesion();
+
+        expect(almacen.eventos, [
+          'borrar ${AlmacenSesion.claveRefresco}',
+          'borrar ${AlmacenSesion.claveAcceso}',
+        ]);
+        expect(almacen.contenido, isEmpty);
+      },
+    );
+
+    test('CA_026_13 cerrarSesion intenta los dos borrados aunque falle el '
+        'primero y después relanza el error', () async {
+      await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+      almacen.eventos.clear();
+      almacen.fallanAlBorrar.add(AlmacenSesion.claveRefresco);
+
+      await expectLater(sesion.cerrarSesion(), throwsException);
+
+      expect(almacen.eventos, [
+        'borrar ${AlmacenSesion.claveRefresco}',
+        'borrar ${AlmacenSesion.claveAcceso}',
+      ]);
+      expect(await sesion.leerAcceso(), isNull);
+      expect(await sesion.leerRefresco(), 'ref-A');
+    });
+
+    test('CA_026_13 si falla el borrado del acceso, el de renovación ya se '
+        'borró', () async {
+      await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+      almacen.fallanAlBorrar.add(AlmacenSesion.claveAcceso);
+
+      await expectLater(sesion.cerrarSesion(), throwsException);
+
+      expect(await sesion.leerRefresco(), isNull);
+    });
+  });
+
   group('almacenamiento seguro de la sesión', () {
     test(
       'CA_009_02 al cerrar sesión no queda el token en el almacén',
