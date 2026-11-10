@@ -70,15 +70,22 @@ final cacheRespuestasProvider = Provider<CacheRespuestas>(
 /// Transporte que revalida con ETag las lecturas (GET) antes de volver a
 /// descargarlas: manda `If-None-Match` y, si el servidor responde 304, entrega
 /// lo guardado. Solo guarda respuestas 200 con ETag y sin `no-store`.
+///
+/// Las URL que [sinCache] acepta pasan de largo: ni se guardan ni se usan como
+/// llave (por ejemplo, `colonias/en-punto` lleva coordenadas exactas en la
+/// consulta, spec 026 §8).
 class ClienteConCache extends http.BaseClient {
-  ClienteConCache(this._interno, this._cache);
+  ClienteConCache(this._interno, this._cache, {this.sinCache});
 
   final http.Client _interno;
   final CacheRespuestas _cache;
+  final bool Function(Uri url)? sinCache;
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    if (request.method != 'GET' || request is! http.Request) {
+    if (request.method != 'GET' ||
+        request is! http.Request ||
+        (sinCache?.call(request.url) ?? false)) {
       return _interno.send(request);
     }
     final clave = request.url.toString();

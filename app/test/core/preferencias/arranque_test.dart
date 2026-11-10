@@ -33,13 +33,14 @@ void _esperarInglesYOscuro(WidgetTester tester) {
 }
 
 /// Igual que [_esperarInglesYOscuro], pero en la pantalla de entrada: desde
-/// HU-001 la app real arranca sin sesión en `/entrar` (sin barra ni AppBar).
+/// HU-001 la app real arranca sin sesión en la previa (spec 027) (sin barra ni AppBar).
 void _esperarEntradaEnInglesYOscuro(WidgetTester tester) {
   final pantalla = tester.element(find.byType(Scaffold));
   expect(Localizations.localeOf(pantalla), const Locale('en'));
   expect(Theme.of(pantalla).brightness, Brightness.dark);
   expect(Theme.of(pantalla).scaffoldBackgroundColor, ColoresOscuro.bg);
-  expect(find.text('Sign in with your phone'), findsOneWidget);
+  // Spec 027: sin sesión la app abre en la previa.
+  expect(find.text('Sign in'), findsOneWidget);
 }
 
 void main() {
