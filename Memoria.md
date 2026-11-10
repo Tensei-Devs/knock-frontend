@@ -195,3 +195,8 @@
 - **Decisión:** se proponen las specs 015 a 025 (pedir y comparar cotizaciones, visita con código, zona por ubicación, verificación de identidad, pestaña Trabajo, mi actividad y conversaciones, búsqueda de expertos, avisar a alguien de confianza, panel web interno, notificaciones de la cadena de solicitudes y cancelar o ver el vencimiento). La 014 sigue reservada para alinear la UI con la maqueta. Todas quedan en Borrador hasta que una persona las apruebe. Decisiones de revisión por confirmar: el aviso a un contacto de confianza no incluye el código de la visita; las fotos de una solicitud son privadas y se envían como identificadores de archivo.
 - **Porqué:** cada pantalla queda atada a endpoints de las specs de backend, con sus estados, mensajes, accesibilidad y pruebas previstas.
 - **A evitar:** implementar una pantalla cuyo endpoint no tiene spec aprobada; copiar a la app reglas de negocio que deben vivir en el servidor.
+
+## 2026-11-10 — Spec 021 de la app: 422 para el texto inválido y códigos en inglés (KNOCK-243)
+- **Decisión:** la búsqueda trata el texto `q` inválido como 422 con `errors.q` (antes 400) y usa los códigos `invalid_cursor` (400), `colonia_not_found`, `trade_invalid` (422) y `search_unavailable` (503), según la convención de errores propuesta para la spec 002 (422 para validación de campos, 400 para lo ilegible, códigos en inglés).
+- **Por qué:** backend 027 responde 422 para `q` y la app esperaba 400; con la convención nueva coinciden. Los códigos de backend 027 siguen en español en el borrador y deben renombrarse igual antes de aprobarse.
+- **A evitar:** aprobar la 021 de la app mientras la 027 de backend use otros nombres de código.
