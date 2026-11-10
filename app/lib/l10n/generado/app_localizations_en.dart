@@ -25,6 +25,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabActividad => 'Activity';
 
   @override
+  String get actividadVaciaTitulo => 'You have no activity yet';
+
+  @override
+  String get actividadVaciaDetalle =>
+      'When you ask for a quote, you will see here where each one stands.';
+
+  @override
   String get tabTrabajo => 'Work';
 
   @override
@@ -59,4 +66,392 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get configuracionTemaOscuro => 'Dark';
+
+  @override
+  String get inicioSaludo => 'Hello';
+
+  @override
+  String get inicioZonaTitulo => 'Your area';
+
+  @override
+  String get inicioZonaSinPedir => 'Find out if your area is covered.';
+
+  @override
+  String get inicioZonaBuscando => 'Looking up your neighborhood…';
+
+  @override
+  String get inicioZonaFuera => 'We do not cover your area yet.';
+
+  @override
+  String get inicioZonaSinUbicacion =>
+      'We need your location to find your neighborhood.';
+
+  @override
+  String get inicioVerColonia => 'See my neighborhood';
+
+  @override
+  String get inicioActualizar => 'Refresh';
+
+  @override
+  String get inicioReintentar => 'Retry';
+
+  @override
+  String get inicioExplorarOficios => 'Browse trades';
+
+  @override
+  String get inicioExplorarOficiosDetalle =>
+      'See which technicians you can find';
+
+  @override
+  String get cuentaEditarPerfil => 'Edit profile';
+
+  @override
+  String get cuentaCerrarSesion => 'Sign out';
+
+  @override
+  String get cuentaCerrarSesionTitulo => 'Sign out?';
+
+  @override
+  String get cuentaCerrarSesionCuerpo =>
+      'You will need to sign in again to use your account.';
+
+  @override
+  String get cuentaCancelar => 'Cancel';
+
+  @override
+  String get permisoContinuar => 'Continue';
+
+  @override
+  String get permisoAhoraNo => 'Not now';
+
+  @override
+  String get permisoNotificacionesTitulo => 'Turn on notifications?';
+
+  @override
+  String get permisoNotificacionesCuerpo =>
+      'We let you know about updates to your requests, messages and visits. Notifications never show codes or addresses.';
+
+  @override
+  String get permisoUbicacionTitulo => 'Use your location?';
+
+  @override
+  String get permisoUbicacionCuerpo =>
+      'We use it once to show you technicians in your area. We don\'t store it. If you prefer, you can type your postal code.';
+
+  @override
+  String get avisosTitulo => 'Notifications';
+
+  @override
+  String get avisosCotizaciones => 'Quotes';
+
+  @override
+  String get avisosMensajes => 'Messages';
+
+  @override
+  String get avisosVisitas => 'Visits';
+
+  @override
+  String get avisosActivar => 'Turn on notifications';
+
+  @override
+  String get avisosApagadas =>
+      'Notifications are turned off on your phone. The app keeps working; you can turn them on whenever you like.';
+
+  @override
+  String get avisosAbrirAjustes => 'Open settings';
+
+  @override
+  String get avisosActivadas => 'Notifications are on';
+
+  @override
+  String get zonaUsarUbicacion => 'Use my location';
+
+  @override
+  String get zonaPideCodigoPostal =>
+      'Without your location, type your postal code to continue.';
+
+  @override
+  String get zonaCodigoPostal => 'Postal code';
+
+  @override
+  String get zonaCodigoPostalInvalido =>
+      'Type the 5 digits of your postal code.';
+
+  @override
+  String get zonaContinuar => 'Continue';
+
+  @override
+  String get errorSinConexion =>
+      'We couldn\'t reach Knock. Check your connection and try again.';
+
+  @override
+  String get errorSesionVencida =>
+      'Your session is no longer valid. Please sign in again.';
+
+  @override
+  String get errorCuentaSuspendida =>
+      'Your account is suspended. Contact support if you think this is a mistake.';
+
+  @override
+  String get errorAccesoDenegado => 'You don\'t have permission to do this.';
+
+  @override
+  String get errorConflicto =>
+      'This action conflicts with another account or the current state. Check the data and try again.';
+
+  @override
+  String get errorDatosRechazados =>
+      'Check the information you entered and try again.';
+
+  @override
+  String get errorDemasiadosIntentos =>
+      'Too many attempts. Wait a moment and try again.';
+
+  @override
+  String get errorDatosInvalidos =>
+      'We received information we couldn\'t read. Please try again later.';
+
+  @override
+  String get errorApiNoConfigurada =>
+      'The app isn\'t connected to a server. Install an official version.';
+
+  @override
+  String get errorInesperado => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorCodigoIncorrecto => 'The verification code is incorrect.';
+
+  @override
+  String get errorCodigoVencido =>
+      'The verification code expired. Request another one.';
+
+  @override
+  String get errorCelularRechazado => 'The phone number is not valid.';
+
+  @override
+  String get errorVerificacionNoDisponible =>
+      'SMS verification is not available.';
+
+  @override
+  String get entradaCelularTitulo => 'Sign in with your phone';
+
+  @override
+  String get entradaCelularDetalle => 'We will send you a code by SMS';
+
+  @override
+  String get entradaCelularEtiqueta => 'Phone number';
+
+  @override
+  String get entradaCelularAyuda => '10 digits without the +52';
+
+  @override
+  String get entradaCelularError => 'Write the 10 digits of your phone number';
+
+  @override
+  String get entradaPrefijoPais => '+52';
+
+  @override
+  String get entradaContinuar => 'Continue';
+
+  @override
+  String get entradaCargando => 'Sending code…';
+
+  @override
+  String get entradaAvisoPrivacidad => 'privacy notice';
+
+  @override
+  String entradaAceptoAviso(String aviso) {
+    return 'I accept the $aviso';
+  }
+
+  @override
+  String get entradaAvisoError => 'Accept the privacy notice to continue';
+
+  @override
+  String get entradaErrorCodigoIncorrecto =>
+      'The code is not correct. Review it and try again.';
+
+  @override
+  String get entradaErrorCodigoVencido =>
+      'The code expired. Request another one.';
+
+  @override
+  String get entradaErrorCelularRechazado => 'Invalid phone number.';
+
+  @override
+  String get entradaErrorCuentaSuspendida =>
+      'Your account is suspended. If you think this is a mistake, write to us.';
+
+  @override
+  String get entradaErrorConflicto =>
+      'This number is already linked to another account. Write to us to review it.';
+
+  @override
+  String get entradaErrorDatos => 'We couldn\'t process the entry. Try again.';
+
+  @override
+  String get entradaErrorDemasiadosIntentos =>
+      'You made too many attempts. Wait a moment and try again.';
+
+  @override
+  String get entradaErrorSinConexion =>
+      'We couldn\'t connect. Check your internet and try again.';
+
+  @override
+  String get entradaErrorVerificacionNoDisponible =>
+      'SMS verification is not available in this version of the app.';
+
+  @override
+  String get entradaErrorApiNoConfigurada =>
+      'The app has no server configured.';
+
+  @override
+  String get entradaErrorGenerico => 'Error signing in. Try again.';
+
+  @override
+  String get entradaErrorAvisoNoAceptado =>
+      'You must accept the privacy notice before continuing.';
+
+  @override
+  String get entradaCodigoTitulo => 'Enter the code';
+
+  @override
+  String entradaCodigoEnviadoA(String celular) {
+    return 'We sent it to +52 $celular';
+  }
+
+  @override
+  String get entradaCodigoEtiqueta => 'Verification code';
+
+  @override
+  String get entradaCodigoError => 'Write the 6 digits of the code';
+
+  @override
+  String get entradaEntrar => 'Sign in';
+
+  @override
+  String entradaReenviarEn(int segundos) {
+    return 'Resend in $segundos s';
+  }
+
+  @override
+  String get entradaReenviarCodigo => 'Resend code';
+
+  @override
+  String get entradaCambiarNumero => 'Change number';
+
+  @override
+  String get previaEntrar => 'Sign in';
+
+  @override
+  String get previaRegistrarme => 'Sign up';
+
+  @override
+  String get previaBuscadorTitulo => 'Find an expert near you';
+
+  @override
+  String get previaBuscadorLeyenda => 'Mechanics · Plumbing · Electrical';
+
+  @override
+  String get previaInvitacionTitulo => 'Sign in to continue';
+
+  @override
+  String get previaInvitacionDetalle =>
+      'To find experts, request quotes and see their contact details you need an account.';
+
+  @override
+  String get previaAhoraNo => 'Not now';
+
+  @override
+  String get previaChipsEtiqueta => 'Trades';
+
+  @override
+  String get previaChipTodos => 'All';
+
+  @override
+  String get previaChipNoSeCual => 'I\'m not sure which';
+
+  @override
+  String get previaCatalogoTitulo => 'Available trades';
+
+  @override
+  String get previaCargando => 'Loading trades';
+
+  @override
+  String get previaVacioTitulo => 'There are no trades available yet';
+
+  @override
+  String get previaErrorTitulo => 'We couldn\'t load the trades';
+
+  @override
+  String get previaSinConexion => 'No connection. Showing the last saved data.';
+
+  @override
+  String get previaReintentar => 'Retry';
+
+  @override
+  String get previaModalidadDomicilio => 'At your home';
+
+  @override
+  String get previaModalidadTaller => 'At the workshop';
+
+  @override
+  String get previaExplorarTitulo => 'Explore services and jobs';
+
+  @override
+  String get previaExplorarDetalle =>
+      'See the trades available on Knock without creating an account.';
+
+  @override
+  String get previaDatosDeEjemplo => 'Sample data';
+
+  @override
+  String get previaVerLista => 'See list';
+
+  @override
+  String get previaMapaSemantica => 'Sample map with experts. Sample data.';
+
+  @override
+  String previaExpertosCerca(int cantidad) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cantidad,
+      locale: localeName,
+      other: '$cantidad experts near you',
+      one: '$cantidad expert near you',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String previaPinSemantica(String nombre) {
+    return 'Sample expert: $nombre. Sample data. Tap to sign in.';
+  }
+
+  @override
+  String previaTarjetaSemantica(String nombre, String oficio) {
+    return '$nombre, $oficio. Sample data. Tap to sign in.';
+  }
+
+  @override
+  String get previaYoAqui => 'You are here';
+
+  @override
+  String get previaMapaAcercar => 'Zoom in';
+
+  @override
+  String get previaMapaAlejar => 'Zoom out';
+
+  @override
+  String get previaMapaMiUbicacion => 'Back to my location';
+
+  @override
+  String get previaVerMapa => 'See map';
+
+  @override
+  String get previaPanelEtiqueta => 'Panel of experts near you';
+
+  @override
+  String previaDistanciaKm(String km) {
+    return '$km km away';
+  }
 }

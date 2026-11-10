@@ -39,6 +39,12 @@ jobs:
         run: python scripts/ci/check_exceptions.py
       - name: Acciones de GitHub fijadas a SHA
         run: python scripts/ci/pin_actions.py --check
+      - name: Pruebas de los scripts de CI (detección de cambios, gate, versión y publicación; spec 007 y 011)
+        run: |
+          python scripts/ci/test_detect_changes.py
+          python scripts/ci/test_publish_info.py
+          python scripts/ci/test_publish_workflow.py
+          python scripts/ci/test_version.py
       - name: Pruebas del script de pre-revisión con IA (servidores falsos, sin red ni llaves)
         if: hashFiles('scripts/ci/test_ai_review.py') != ''
         run: python scripts/ci/test_ai_review.py

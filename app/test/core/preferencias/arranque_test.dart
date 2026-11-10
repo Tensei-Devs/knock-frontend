@@ -32,6 +32,17 @@ void _esperarInglesYOscuro(WidgetTester tester) {
   ]);
 }
 
+/// Igual que [_esperarInglesYOscuro], pero en la pantalla de entrada: desde
+/// HU-001 la app real arranca sin sesión en la previa (spec 027) (sin barra ni AppBar).
+void _esperarEntradaEnInglesYOscuro(WidgetTester tester) {
+  final pantalla = tester.element(find.byType(Scaffold));
+  expect(Localizations.localeOf(pantalla), const Locale('en'));
+  expect(Theme.of(pantalla).brightness, Brightness.dark);
+  expect(Theme.of(pantalla).scaffoldBackgroundColor, ColoresOscuro.bg);
+  // Spec 027: sin sesión la app abre en la previa.
+  expect(find.text('Sign in'), findsOneWidget);
+}
+
 void main() {
   setUp(() {
     // El teléfono en claro: si la app abriera con el valor por defecto se
@@ -72,7 +83,11 @@ void main() {
       final almacen = await crearAlmacenDeArranque();
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [almacenPreferenciasProvider.overrideWithValue(almacen)],
+          // HU-001: arranca con sesión para abrir en Inicio.
+          overrides: [
+            almacenPreferenciasProvider.overrideWithValue(almacen),
+            conSesion(),
+          ],
           child: const KnockApp(),
         ),
       );
@@ -90,7 +105,7 @@ void main() {
       await knock.main();
       await tester.pump();
 
-      _esperarInglesYOscuro(tester);
+      _esperarEntradaEnInglesYOscuro(tester);
     },
   );
 

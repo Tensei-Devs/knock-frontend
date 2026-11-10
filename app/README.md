@@ -5,7 +5,7 @@ App de Knock para clientes y técnicos. Base creada en TT-MOB-01 (KNOCK-24): Cle
 ## Requisitos
 - **Flutter 3.47.7 (canal stable) · Dart 3.13.5.** Es la versión con la que se creó el proyecto; el CI (TT-CI-01) usa la misma.
 - Android SDK con un emulador (la verificación de TT-MOB-01 es en Android). iOS se genera, pero compilarlo requiere macOS.
-- Sin Firebase ni API todavía: no hace falta ningún archivo de configuración ni secreto.
+- Para llamar a la API: `--dart-define=KNOCK_API_URL=...` (ver «API y cliente generado»). Java 11+ solo si regeneras el cliente.
 
 ## Correr la app
 ```bash
@@ -43,6 +43,36 @@ flutter test --coverage                         # unitarias y widget; cobertura 
 flutter test integration_test                   # E2E de humo; requiere un emulador o dispositivo Android encendido
 ```
 
+## API y cliente generado (spec 006)
+- El contrato vive en `../contracts/openapi.v1.json` (copiado de knock-backend, hoy el de Identity) y el cliente Dart en `packages/knock_api/`. **Ninguno se edita a mano.**
+- Regenerar tras actualizar el contrato (desde la raíz del repositorio; Python 3.11+ y Java 11+):
+  ```bash
+  python app/tool/generar_cliente_api.py          # escribe app/packages/knock_api/
+  python app/tool/generar_cliente_api.py --check  # exit 1 si el cliente no corresponde al contrato
+  python -m unittest app/tool/test_generar_cliente_api.py
+  ```
+  El script descarga openapi-generator-cli 7.27.0 (verificado por SHA-256) y normaliza el contrato de OpenAPI 3.2 a 3.1 en memoria, porque el generador no acepta 3.2.
+- `test/api/cliente_generado_test.dart` falla en `flutter test` si el cliente se editó a mano o el contrato cambió sin regenerar.
+- La URL base se pasa al compilar; sin ella las llamadas fallan con un error claro:
+  ```bash
+  flutter run --dart-define=KNOCK_API_URL=https://knock-gateway.happyground-f62473c9.westus.azurecontainerapps.io
+  ```
+  Solo se acepta `https` (o `http` hacia `localhost`, `127.0.0.1` o `10.0.2.2` para el backend local). HTTP solo por `lib/core/red/` (`clienteApiProvider`, `authApiProvider`).
+
+## Entrada con celular (KNOCK-228)
+Flujo: «Escribe tu celular» (10 dígitos, +52 fijo, aviso aceptado) → Firebase Phone Auth envía el SMS → «Escribe el código» (6 dígitos, reenviar a los 60 s) → Firebase verifica y entrega el ID token → la app lo canjea con el **cliente generado** en `POST /api/v1/auth/firebase` con `{ firebaseIdToken, deviceId, aceptaAviso: true, dispositivo }` → los tokens se guardan **solo** en `flutter_secure_storage` (Keystore/Keychain) → Inicio.
+
+- `deviceId`: UUID v4 que genera la app la primera vez y guarda en almacenamiento seguro. `dispositivo`: solo el sistema («Android», «iOS»), nunca el nombre que la persona le puso al teléfono.
+- Respuestas: 200/201 (`esNuevo`, `perfilCompleto`), 403 `account_suspended`, 409, 422 y 429 se muestran con su texto del ARB (es/en). Código en `lib/core/sesion/` y `lib/features/entrada/`.
+- **Configuración de Firebase (la entrega el líder; no se versiona):** copia el archivo a `app/android/app/google-services.json` (está en `.gitignore`). Gradle aplica el plugin `com.google.gms.google-services` solo si el archivo existe; sin él la app compila igual y la entrada muestra «La verificación por SMS no está disponible en esta versión de la app». En la consola de Firebase debe estar registrada la app `app.knock.mobile` con tu SHA-1 de depuración (comando en el spike de Maps, abajo) y Phone Auth activado; para no gastar SMS usa los **números de prueba** de Firebase.
+- Probar en el emulador (imagen con Google Play):
+  ```bash
+  cd app
+  # 1) coloca android/app/google-services.json  2) emulador encendido
+  flutter run --dart-define=KNOCK_API_URL=https://knock-gateway.happyground-f62473c9.westus.azurecontainerapps.io
+  ```
+  Escribe el número de prueba (10 dígitos) y su código fijo. Si el backend responde 401, revisa que el proyecto de Firebase de la app sea el mismo que valida la API.
+
 ## Spike de Google Maps (TT-MOB-04, desechable)
 Pantalla de prueba con 50 pines ficticios alrededor de Tula de Allende, agrupación nativa y botón «Mi ubicación». No está en el router ni en `main.dart`: tiene su propio punto de entrada.
 
@@ -68,10 +98,11 @@ lib/
   core/
     router/            GoRouter con StatefulShellRoute, barra inferior y redirect por rol
     preferencias/      preferenciasProvider (tema e idioma, en memoria)
-    sesion/            esTecnicoProvider (indicador «es técnico», en memoria)
+    sesion/            sesión: Firebase Phone Auth, canje con la API, tokens en almacenamiento seguro (KNOCK-228) y esTecnicoProvider
     tema/              paleta, ThemeData claro y oscuro, contraste WCAG
     widgets/           widgets compartidos entre features
-    errores/ red/      vacíos: TT-MOB-03
+    errores/           Failure tipados (incluye los errores de la API)
+    red/               cliente generado, URL base y mapeo de errores (spec 006)
   l10n/                ARB es/en y generado/ (salida de gen-l10n)
   features/<función>/  inicio · explorar · actividad · trabajo · cuenta
     presentation/      pantallas (hoy vacías, con su título)

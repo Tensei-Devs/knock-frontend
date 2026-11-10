@@ -20,3 +20,70 @@ final class DatosInvalidosFailure extends Failure {
 final class ServicioNoDisponibleFailure extends Failure {
   const ServicioNoDisponibleFailure();
 }
+
+/// La app se compiló sin `--dart-define=KNOCK_API_URL=...` (spec 006).
+final class ApiNoConfiguradaFailure extends Failure {
+  const ApiNoConfiguradaFailure();
+}
+
+/// La API rechazó la credencial (401).
+final class NoAutorizadoFailure extends Failure {
+  const NoAutorizadoFailure();
+}
+
+/// La cuenta está suspendida (403 con `code = account_suspended`).
+final class CuentaSuspendidaFailure extends Failure {
+  const CuentaSuspendidaFailure();
+}
+
+/// La API negó el acceso por otro motivo (403).
+final class AccesoDenegadoFailure extends Failure {
+  const AccesoDenegadoFailure();
+}
+
+/// Conflicto con otra cuenta o con el estado actual (409).
+final class ConflictoFailure extends Failure {
+  const ConflictoFailure();
+}
+
+/// La API rechazó los datos enviados (400, 413 o 422).
+final class DatosRechazadosFailure extends Failure {
+  const DatosRechazadosFailure();
+}
+
+/// Demasiados intentos en poco tiempo (429).
+///
+/// [espera] es el tiempo que la API pidió con `Retry-After` (spec 009, R-09);
+/// `null` si el error no viene de una respuesta con esa cabecera.
+final class DemasiadosIntentosFailure extends Failure {
+  const DemasiadosIntentosFailure({this.espera});
+
+  final Duration? espera;
+}
+
+/// La persona no aceptó el aviso de privacidad: no se llama al servidor
+/// (spec 009, R-08).
+final class AvisoNoAceptadoFailure extends Failure {
+  const AvisoNoAceptadoFailure();
+}
+
+/// El código del SMS no es el correcto (Firebase `invalid-verification-code`).
+final class CodigoIncorrectoFailure extends Failure {
+  const CodigoIncorrectoFailure();
+}
+
+/// El código del SMS ya venció; hay que pedir otro.
+final class CodigoVencidoFailure extends Failure {
+  const CodigoVencidoFailure();
+}
+
+/// Firebase rechazó el número de celular (`invalid-phone-number`).
+final class CelularRechazadoFailure extends Failure {
+  const CelularRechazadoFailure();
+}
+
+/// La verificación por SMS no está disponible: falta la configuración de
+/// Firebase (`google-services.json`) en esta compilación.
+final class VerificacionNoDisponibleFailure extends Failure {
+  const VerificacionNoDisponibleFailure();
+}

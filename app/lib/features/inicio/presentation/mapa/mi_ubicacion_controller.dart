@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:app/features/inicio/data/ubicacion_geolocator_repository.dart';
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/inicio_providers.dart';
 
 /// Puerto de la cámara del mapa: lo implementa el widget del mapa y las
 /// pruebas usan uno falso.

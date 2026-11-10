@@ -1,0 +1,166 @@
+name: publish-android
+
+# Spec 007 (R-05, R-06, CA-03): construye el paquete firmado (AAB) de la app y lo sube a la pista INTERNA de Google Play.
+# - Solo corre sobre `main` y solo después de que `ci-pr` terminó en verde para ese mismo commit (o a mano, desde `main`).
+# - La firma y las credenciales viven en GitHub Secrets; nada de eso se escribe en el repositorio ni en los registros.
+# - La promoción a prueba cerrada (12 testers, 14 días seguidos) y a producción se hace en Google Play Console,
+#   a mano y después de revisar la pista anterior (ver docs/PUBLICACION_ANDROID.md).
+# - No usa Azure ni `az acr build` (ACR Tasks no está permitido en la suscripción del proyecto).
+# Seguridad del workflow: permisos mínimos por job y acciones fijadas a SHA.
+
+on:
+  workflow_run:
+    workflows: [ci-pr]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-android
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: AAB firmado
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+      || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    outputs:
+      version: ${{ steps.info.outputs.version }}
+      version_code: ${{ steps.info.outputs.version_code }}
+      tag: ${{ steps.info.outputs.tag }}
+      sha: ${{ steps.src.outputs.sha }}
+    steps:
+      - id: src
+        env:
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+          EVENT_SHA: ${{ github.sha }}
+        # El commit que pasó el CI (workflow_run) o el de `main` (ejecución manual).
+        run: echo "sha=${RUN_SHA:-$EVENT_SHA}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.src.outputs.sha }}
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Versión, número de subida y versionCode
+        id: info
+        run: python3 scripts/ci/publish_info.py >> "$GITHUB_OUTPUT"
+      - name: Pruebas del cálculo de versión
+        run: |
+          python3 scripts/ci/test_version.py
+          python3 scripts/ci/test_publish_info.py
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          cache: true
+      - name: Firma y credenciales presentes (sin mostrarlas)
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          PLAY_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          API_URL: ${{ vars.KNOCK_API_URL }}
+        run: |
+          missing=""
+          for v in KEYSTORE_B64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD PLAY_JSON FIREBASE_JSON API_URL; do
+            [ -n "${!v}" ] || missing="$missing $v"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Faltan GitHub Secrets o variables:$missing. Ver docs/PUBLICACION_ANDROID.md. No se publica con la llave de depuración."
+            exit 1
+          fi
+      - name: Llave de subida (desde el secreto, solo en esta máquina)
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_FILE: ${{ runner.temp }}/knock-upload.jks
+        run: |
+          umask 077
+          printf '%s' "$KEYSTORE_B64" | base64 -d > "$KEYSTORE_FILE"
+      - name: Configuración de Firebase (desde el secreto, solo en esta máquina)
+        env:
+          FIREBASE_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          umask 077
+          printf '%s' "$FIREBASE_JSON" > app/android/app/google-services.json
+      - name: Dependencias
+        working-directory: app
+        run: flutter pub get --enforce-lockfile
+      - name: Construir el AAB de producción
+        working-directory: app
+        env:
+          KNOCK_KEYSTORE_PATH: ${{ runner.temp }}/knock-upload.jks
+          KNOCK_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KNOCK_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KNOCK_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+          API_URL: ${{ vars.KNOCK_API_URL }}
+          BUILD_NAME: ${{ steps.info.outputs.version }}
+          BUILD_NUMBER: ${{ steps.info.outputs.version_code }}
+        run: flutter build appbundle --release --build-name "$BUILD_NAME" --build-number "$BUILD_NUMBER" --dart-define=KNOCK_API_URL="$API_URL"
+      - name: El AAB no está firmado con la llave de depuración
+        run: |
+          out=$(keytool -printcert -jarfile app/build/app/outputs/bundle/release/app-release.aab)
+          if grep -qi "Android Debug" <<<"$out"; then
+            echo "::error::El AAB quedó firmado con la llave de depuración: no se publica."
+            exit 1
+          fi
+      - name: Borrar la llave y la configuración de Firebase de la máquina
+        if: always()
+        env:
+          KEYSTORE_FILE: ${{ runner.temp }}/knock-upload.jks
+        run: rm -f "$KEYSTORE_FILE" app/android/app/google-services.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: app-release-aab
+          path: app/build/app/outputs/bundle/release/app-release.aab
+          retention-days: 7
+          if-no-files-found: error
+
+  publish:
+    name: Subir a la pista interna
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: app-release-aab
+          path: aab
+      - name: Pista interna de Google Play (CA-03)
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: app.knock.mobile
+          releaseFiles: aab/app-release.aab
+          track: internal
+          status: completed
+          releaseName: ${{ needs.build.outputs.version }} (${{ needs.build.outputs.version_code }})
+
+  tag:
+    name: Etiqueta de Git de la subida
+    needs: [build, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.build.outputs.sha }}
+      - name: Crear la etiqueta app-vX.Y.Z-nN (así la siguiente subida lleva un versionCode mayor)
+        env:
+          TAG: ${{ needs.build.outputs.tag }}
+        run: |
+          git tag "$TAG"
+          git push origin "refs/tags/$TAG"

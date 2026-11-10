@@ -2,7 +2,24 @@
 
 Knock conecta a personas con técnicos de confianza (mecánica, plomería, electricidad) de su colonia, empezando por una ciudad piloto. Este repositorio es el **frontend**: la app móvil Android, el panel web interno y la landing page. La descripción completa del proyecto está en `docs/descripcion-del-proyecto.md`.
 
-Este repositorio se construye con **Spec Driven Development (SDD)**. En esta etapa contiene solo la base metodológica y las specs de arquitectura, estructura e infraestructura; todavía no hay código y las tareas no se han ejecutado.
+Este repositorio se construye con **Spec Driven Development (SDD)**: cada cambio parte de una spec aprobada. Contiene la app Flutter (`app/`), el panel Angular (`panel/`), la landing (`landing/`) y las specs (`specs/`). Cómo contribuir: [`CONTRIBUTING.md`](CONTRIBUTING.md); vulnerabilidades: [`SECURITY.md`](SECURITY.md).
+
+## Cómo compilar y probar
+Requisitos: Flutter 3.47.7 (stable) para la app, Node con npm 10 para el panel y Python 3.11 o superior para los scripts de `scripts/`.
+```bash
+# App móvil (Flutter): ejecutar en un emulador Android encendido y probar
+cd app && flutter pub get && flutter run
+cd app && flutter analyze --fatal-infos && flutter test
+
+# Panel web (Angular): ejecutar en http://localhost:4200 y probar
+cd panel && npm ci && npm start
+cd panel && npm run lint && npm test && npm run build
+
+# Scripts de gobierno y sus pruebas
+python scripts/sdd_lint.py
+python scripts/ci/test_branch_rules.py
+```
+Más detalle en `app/README.md`, `panel/README.md` y `landing/README.md`.
 
 ## Contenido
 - `constitution.md`: reglas no negociables del proyecto.

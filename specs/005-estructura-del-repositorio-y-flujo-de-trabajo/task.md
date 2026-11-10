@@ -1,15 +1,15 @@
 # Tareas 005 — Estructura del repositorio y flujo de trabajo
 
-> **Estado:** pendientes. En esta etapa **no se ejecutan**: se activan cuando la spec esté Aprobada y una persona lo indique.
+> **Estado:** T-01 a T-06 hechas (KNOCK-219). Pendiente solo CA-02 (no se puede hacer cumplir con el plan gratuito de GitHub).
 
 | Tarea | Qué se hace | Cubre | Estado |
 |---|---|---|---|
-| T-01 | Crear `README.md`, `CONTRIBUTING.md` y `SECURITY.md` | R-01, R-02 | pendiente |
-| T-02 | Crear las plantillas de PR (con «Uso de IA») y de issue | R-04, R-07 · CA-03, CA-04 | pendiente |
-| T-03 | Definir CODEOWNERS | R-04 · CA-02, CA-06 | pendiente |
-| T-04 | Escribir el validador de commits y de ramas | R-02, R-03 · CA-01 | pendiente |
-| T-05 | Documentar la protección de ramas recomendada | R-01, R-04 | pendiente |
-| T-06 | Registrar en `Memoria.md` la regla de spec aprobada antes del código | R-05, R-06 | pendiente |
+| T-01 | Crear `README.md`, `CONTRIBUTING.md` y `SECURITY.md` | R-01, R-02 | hecha (README con cómo compilar y probar, CONTRIBUTING y SECURITY) |
+| T-02 | Crear las plantillas de PR (con «Uso de IA») y de issue | R-04, R-07 · CA-03, CA-04 | hecha (plantilla de PR con «Uso de IA» y motivo de la aprobación del líder; plantillas de issue) |
+| T-03 | Definir CODEOWNERS | R-04 · CA-02, CA-06 | hecha (`.github/CODEOWNERS`; no se hace cumplir en repos privados gratuitos) |
+| T-04 | Escribir el validador de commits y de ramas | R-02, R-03 · CA-01 | hecha (`branch_rules.py` con pruebas en `scripts/ci/test_branch_rules.py`) |
+| T-05 | Documentar la protección de ramas recomendada | R-01, R-04 | hecha (`.github/rulesets/README.md` y `docs/BRANCH_PROTECTION.md`; CA-02 pendiente por el plan de GitHub) |
+| T-06 | Registrar en `Memoria.md` la regla de spec aprobada antes del código | R-05, R-06 | hecha (`Memoria.md`) |
 
 ## Definición de terminado
 - Los criterios de aceptación de `spec.md` están cubiertos por pruebas en verde.

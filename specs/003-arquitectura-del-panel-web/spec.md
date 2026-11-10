@@ -1,6 +1,6 @@
 # Spec 003 — Arquitectura del panel web
 
-> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Jira:** KNOCK-217 · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 
 ## 1. Objetivo
 Definir la arquitectura del panel interno Angular y su estructura de carpetas, sin implementar pantallas de negocio.
@@ -29,6 +29,13 @@ Definir la arquitectura del panel interno Angular y su estructura de carpetas, s
 - **CA-01:** Dado el repositorio, cuando se ejecuta `npm run lint`, `npm test` y `npm run build`, entonces todo pasa.
 - **CA-02:** Dado un componente que importa `HttpClient`, cuando corre el lint, entonces falla.
 - **CA-03:** Dada la navegación a una función, cuando se abre, entonces se carga su módulo.
+
+### Verificación por caso
+| Caso | Verificación |
+|---|---|
+| CA-01 | `npm run lint`, `npm test` y `npm run build` en `panel/` (comando) |
+| CA-02 | `panel/tests/lint-boundaries.spec.ts` (`CA-003-02`) |
+| CA-03 | `panel/src/app/app.routes.spec.ts` (`CA-003-03`) |
 
 ## 5. Contrato
 Consume el cliente TypeScript generado del contrato OpenAPI. Fija las rutas del panel y la regla de que los componentes no usan `HttpClient`.

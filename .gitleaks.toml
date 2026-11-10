@@ -1,5 +1,6 @@
 # Gitleaks: reglas por defecto + reglas de Knock. Sin listas blancas globales: un falso positivo se
 # registra en security/exceptions.yaml y se marca en la línea con «gitleaks:allow EXC-NNN».
+# Única excepción por ruta: el manifiesto del cliente generado (JSON, no admite comentarios en la línea): EXC-003.
 title = "knock-frontend"
 
 [extend]
@@ -28,3 +29,11 @@ id = "knock-android-keystore-password"
 description = "Contraseña de keystore de Android en key.properties"
 regex = '''(?i)(storePassword|keyPassword)\s*=\s*[^\s$]{6,}'''
 tags = ["android", "knock"]
+
+# EXC-003: .knock-manifest.json solo guarda SHA-256 de los archivos generados; la regla genérica los confunde con llaves.
+# Ruta exacta y una sola regla: cualquier otro archivo, o cualquier otra regla (incluidas las de Knock), se sigue escaneando.
+[[allowlists]]
+description = "EXC-003: SHA-256 del manifiesto del cliente generado (no son secretos)"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''^app/packages/knock_api/\.knock-manifest\.json$''']

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
@@ -66,9 +65,3 @@ class UbicacionGeolocatorRepository implements UbicacionRepository {
     await _plataforma.openAppSettings();
   }
 }
-
-/// Repositorio de ubicación de la app. Las pruebas lo reemplazan por uno
-/// falso.
-final ubicacionRepositoryProvider = Provider<UbicacionRepository>(
-  (ref) => UbicacionGeolocatorRepository(),
-);

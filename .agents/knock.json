@@ -8,7 +8,7 @@
   "test_types": ["UM", "W", "ACC", "CON", "MUT", "E2E", "USA", "A11Y"],
   "layers": {"Mobile": "flutter-builder", "Panel": "panel-builder"},
   "default_skills": ["flutter-clean-architecture", "angular-panel", "testing-strategy-frontend", "security-core"],
-  "scopes": ["identity", "catalog", "requests", "messaging", "reputation", "trust", "notifications", "assistant", "app", "panel", "ci", "infra", "docs"],
+  "scopes": ["identity", "catalog", "requests", "messaging", "reputation", "trust", "notifications", "assistant", "app", "panel", "landing", "ci", "infra", "docs", "deploy", "scripts"],
   "technical_tasks": ["TT-REPO-01", "TT-REPO-02", "TT-REPO-03", "TT-STD-01", "TT-SDD-01", "TT-MOB-01", "TT-MOB-02", "TT-MOB-03",
                       "TT-MOB-04", "TT-CI-01", "TT-FB-01", "TT-CD-01", "TT-CD-03", "TT-SEC-01", "TT-SEC-02", "TT-OBS-01",
                       "TT-TIE-01", "TT-TIE-02", "TT-TIE-03", "TT-TIE-04", "TT-QA-01", "TT-QA-03", "TT-QA-04", "TT-QA-05",

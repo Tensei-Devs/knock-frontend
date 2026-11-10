@@ -31,3 +31,18 @@ linter:
     avoid_catches_without_on_clauses: true
     only_throw_errors: true
     sort_child_properties_last: true
+    # Spec 008 (KNOCK-222): lints estrictos desde el inicio.
+    avoid_slow_async_io: true
+    avoid_type_to_string: true
+    avoid_unused_constructor_parameters: true
+    discarded_futures: true
+    no_adjacent_strings_in_list: true
+    prefer_final_fields: true
+    prefer_final_in_for_each: true
+    prefer_if_null_operators: true
+    unnecessary_lambdas: true
+    unnecessary_statements: true
+    use_super_parameters: true
+    use_key_in_widget_constructors: true
+    sized_box_for_whitespace: true
+    test_types_in_equals: true

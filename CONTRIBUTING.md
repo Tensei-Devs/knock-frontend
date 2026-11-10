@@ -37,13 +37,13 @@ El job `pr-meta` del CI rechaza nombres y combinaciones fuera de este esquema.
 - Commit: mensaje **en inglés**, Conventional Commits: `type(scope): description in english, imperative, lowercase (KNOCK-N)`.
   Ejemplo: `feat(requests): upload up to 5 photos with the request (KNOCK-45)`.
   - Types: feat, fix, docs, refactor, test, chore, ci, build, perf.
-  - Scopes: identity, catalog, requests, messaging, reputation, trust, notifications, assistant, app, panel, ci, infra, docs (fuente: `.agents/knock.json`).
+  - Scopes: identity, catalog, requests, messaging, reputation, trust, notifications, assistant, app, panel, landing, ci, infra, docs, deploy, scripts (fuente: `.agents/knock.json`).
   - La clave `(KNOCK-N)` es obligatoria, va al final y debe coincidir con la de la rama.
   - Descripción en imperativo, empieza en minúscula, sin punto final; encabezado de hasta 100 caracteres.
   - **Prohibida** la atribución a IA en commits y PR: trailers `Co-Authored-By` de agentes (Claude, Copilot, Codex, Gemini, Cursor, opencode, `noreply@anthropic.com`) y líneas «Generated with…». El uso de IA se declara solo en la sección «Uso de IA» de la plantilla del PR. Un `Co-Authored-By` de una persona del equipo (trabajo en parejas) sí se permite.
   - Excepción para bots (sin clave KNOCK-N): release-please (`chore(main|release)`), Dependabot (`build(deps)`) y el commit automático del contrato de la API (`chore(deps): update api contract to <sha>`).
-- PR: título `KNOCK-N · <ID> <título>` y la plantilla completa (criterios, pruebas, amenazas, riesgos, **Uso de IA**, evidencia). Sin atribución a IA en la descripción salvo en esa sección.
-- **Revisión de pares obligatoria:** antes de la aprobación final, al menos otra persona (distinta de quien escribió el PR) deja su revisión como comentario en el PR (quién revisa a quién: `docs/FLUJO_EQUIPO.md` §3). **La aprobación final y el merge los hace el Tech Lead (`@JulianH2`)**; ninguna otra persona fusiona. Requisitos: check `gate` en verde y, en zonas sensibles, el Code Owner.
+- PR: título `KNOCK-N · [<ID> ]<título>` (el ID de la spec es opcional: HU-NNN, TT-…, BUG-NNN, B-NNN o F-NNN; p. ej. «KNOCK-219 · F-005 Estructura del repositorio») y la plantilla completa (criterios, pruebas, amenazas, riesgos, **Uso de IA**, evidencia). Sin atribución a IA en la descripción salvo en esa sección.
+- **Revisión de pares obligatoria:** antes de la aprobación final, al menos otra persona (distinta de quien escribió el PR) deja su revisión como comentario en el PR (quién revisa a quién: `docs/FLUJO_EQUIPO.md` §3). **La aprobación final y el merge los hace el Tech Lead (`@JulianH2`)**; ninguna otra persona fusiona. Requisitos: check `gate` en verde y, en zonas sensibles, el Code Owner. La revisión de otra persona es **una** y obligatoria; una segunda es opcional. Si el PR es del Tech Lead, él mismo lo puede aprobar y, cuando el cambio es urgente o no hay nadie disponible, la revisión de par es opcional: en ese caso anota el motivo en «Riesgos y pendientes» del PR (spec 005, R-04 y CA-06). Los rulesets de GitHub (`.github/rulesets/`) **no se hacen cumplir** en una organización gratuita con repositorios privados (CA-02 queda pendiente por el plan): hoy la regla se sostiene por acuerdo del equipo y por el CI.
 
 ## 4. Definición de terminado
 Criterios de la spec cumplidos · pruebas del plan en verde (resultados reales) · PR revisado · CI en verde · «Uso de IA» completo · `Memoria.md` al día · spec firmada tras el merge.
@@ -68,3 +68,19 @@ Para activarlo, en **cada repositorio** (knock-backend y knock-frontend), en Git
 La llave nunca va en el código, un issue, un PR ni un chat. Los PR de forks y los borradores no se revisan. Solo sale hacia el proveedor el **diff público** del PR, sin lockfiles, archivos generados, binarios ni archivos con aspecto de secreto, y con patrones de llaves enmascarados. Cuesta menos de un centavo de dólar por revisión.
 
 Si el repositorio es privado y no tiene GitHub Advanced Security, la revisión de dependencias y la subida de SARIF se omiten; para activarlas, crea la variable `GHAS_ENABLED=true`.
+
+## 9. Versionamiento por puntos (spec 011)
+La app (`app`), el panel (`panel`) y la landing (`landing`) llevan cada uno su propia versión `X.Y.Z`; la primera publicada es `1.0.0`. Un cambio en la landing no cambia el número de la app. Cada PR declara cuántos puntos suma a cada componente que toca con una etiqueta `puntos-<componente>-N` (p. ej. `puntos-app-4`); si no suma, `puntos-<componente>-0`. Sin etiqueta válida, el job `pr-points` del CI falla (lo exentan las ramas `release-please--*` y `dependabot/*`). Una persona del equipo con permiso la crea en GitHub la primera vez que la usa.
+
+| Tipo de cambio | Puntos |
+|---|---|
+| Corrección, ajuste de texto, traducción o estilo | 1 |
+| Campo nuevo o cambio de regla | 2 |
+| Pantalla nueva | 3 |
+| Función completa | 5 |
+| Integración externa o permiso nuevo del teléfono | 10 |
+
+- Al publicar se suman los puntos de los cambios incluidos y se aplican a `Z`; al llegar a 10, `Z` vuelve a cero y `Y` sube, y lo mismo entre `Y` y `X` (`1.0.0` + 3 puntos = `1.0.3`; `1.0.4` + 8 = `1.1.2`). Un cambio que rompe compatibilidad sube `X` y deja `Y` y `Z` en cero. Una publicación con cero puntos no cambia la versión.
+- `versionCode` de Android = `X × 1 000 000 + Y × 10 000 + Z × 100 + n`, donde `n` (0 a 99) es el número de subida de esa versión: `1.1.2` en su primera subida da `1010200`; en la segunda, `1010201`. No se lleva a mano.
+- Cuenta el tipo de cambio, no el tamaño del código. Quien revisa el PR comprueba que la etiqueta corresponde al tipo de cambio (declarar de menos para no subir de versión es el riesgo).
+- Cálculo: `python scripts/ci/version.py bump --current 1.0.4 --points 8` y `python scripts/ci/version.py code --version 1.1.2 --n 0`. Registro de lo publicado: [`docs/VERSIONES_PUBLICADAS.md`](docs/VERSIONES_PUBLICADAS.md).

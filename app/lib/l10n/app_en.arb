@@ -5,6 +5,8 @@
   "tabExplorar": "Explore",
   "explorarOficios": "Trades",
   "tabActividad": "Activity",
+  "actividadVaciaTitulo": "You have no activity yet",
+  "actividadVaciaDetalle": "When you ask for a quote, you will see here where each one stands.",
   "tabTrabajo": "Work",
   "tabCuenta": "My account",
   "pruebaModoTecnico": "Technician mode (test)",
@@ -16,5 +18,416 @@
   "configuracionTemaAutomatico": "Automatic",
   "configuracionTemaAutomaticoDetalle": "Same as your phone",
   "configuracionTemaClaro": "Light",
-  "configuracionTemaOscuro": "Dark"
+  "configuracionTemaOscuro": "Dark",
+  "inicioSaludo": "Hello",
+  "@inicioSaludo": {
+    "description": "Saludo de Inicio; el nombre de la persona va en un texto aparte."
+  },
+  "inicioZonaTitulo": "Your area",
+  "@inicioZonaTitulo": {
+    "description": "Título de la tarjeta de colonia en Inicio."
+  },
+  "inicioZonaSinPedir": "Find out if your area is covered.",
+  "@inicioZonaSinPedir": {
+    "description": "Texto inicial de la tarjeta de colonia en Inicio."
+  },
+  "inicioZonaBuscando": "Looking up your neighborhood…",
+  "@inicioZonaBuscando": {
+    "description": "Estado cargando de la tarjeta de colonia."
+  },
+  "inicioZonaFuera": "We do not cover your area yet.",
+  "@inicioZonaFuera": {
+    "description": "La ubicación está fuera de la cobertura."
+  },
+  "inicioZonaSinUbicacion": "We need your location to find your neighborhood.",
+  "@inicioZonaSinUbicacion": {
+    "description": "Sin permiso de ubicación o servicio apagado."
+  },
+  "inicioVerColonia": "See my neighborhood",
+  "@inicioVerColonia": {
+    "description": "Botón que consulta la colonia de la persona."
+  },
+  "inicioActualizar": "Refresh",
+  "@inicioActualizar": {
+    "description": "Botón que vuelve a consultar la colonia."
+  },
+  "inicioReintentar": "Retry",
+  "@inicioReintentar": {
+    "description": "Botón tras un error al consultar la colonia o un intento fallido."
+  },
+  "inicioExplorarOficios": "Browse trades",
+  "@inicioExplorarOficios": {
+    "description": "Acceso de Inicio al catálogo de oficios."
+  },
+  "inicioExplorarOficiosDetalle": "See which technicians you can find",
+  "@inicioExplorarOficiosDetalle": {
+    "description": "Detalle del acceso a oficios en Inicio."
+  },
+  "cuentaEditarPerfil": "Edit profile",
+  "@cuentaEditarPerfil": {
+    "description": "Detalle bajo el nombre en Mi cuenta."
+  },
+  "cuentaCerrarSesion": "Sign out",
+  "@cuentaCerrarSesion": {
+    "description": "Entrada de Mi cuenta y botón de confirmación del diálogo."
+  },
+  "cuentaCerrarSesionTitulo": "Sign out?",
+  "@cuentaCerrarSesionTitulo": {
+    "description": "Título del diálogo de cierre de sesión."
+  },
+  "cuentaCerrarSesionCuerpo": "You will need to sign in again to use your account.",
+  "@cuentaCerrarSesionCuerpo": {
+    "description": "Cuerpo del diálogo de cierre de sesión."
+  },
+  "cuentaCancelar": "Cancel",
+  "@cuentaCancelar": {
+    "description": "Botón que cierra el diálogo sin hacer nada."
+  },
+  "permisoContinuar": "Continue",
+  "permisoAhoraNo": "Not now",
+  "permisoNotificacionesTitulo": "Turn on notifications?",
+  "permisoNotificacionesCuerpo": "We let you know about updates to your requests, messages and visits. Notifications never show codes or addresses.",
+  "permisoUbicacionTitulo": "Use your location?",
+  "permisoUbicacionCuerpo": "We use it once to show you technicians in your area. We don't store it. If you prefer, you can type your postal code.",
+  "avisosTitulo": "Notifications",
+  "avisosCotizaciones": "Quotes",
+  "avisosMensajes": "Messages",
+  "avisosVisitas": "Visits",
+  "avisosActivar": "Turn on notifications",
+  "avisosApagadas": "Notifications are turned off on your phone. The app keeps working; you can turn them on whenever you like.",
+  "avisosAbrirAjustes": "Open settings",
+  "avisosActivadas": "Notifications are on",
+  "zonaUsarUbicacion": "Use my location",
+  "zonaPideCodigoPostal": "Without your location, type your postal code to continue.",
+  "zonaCodigoPostal": "Postal code",
+  "zonaCodigoPostalInvalido": "Type the 5 digits of your postal code.",
+  "zonaContinuar": "Continue",
+  "errorSinConexion": "We couldn't reach Knock. Check your connection and try again.",
+  "errorSesionVencida": "Your session is no longer valid. Please sign in again.",
+  "errorCuentaSuspendida": "Your account is suspended. Contact support if you think this is a mistake.",
+  "errorAccesoDenegado": "You don't have permission to do this.",
+  "errorConflicto": "This action conflicts with another account or the current state. Check the data and try again.",
+  "errorDatosRechazados": "Check the information you entered and try again.",
+  "errorDemasiadosIntentos": "Too many attempts. Wait a moment and try again.",
+  "errorDatosInvalidos": "We received information we couldn't read. Please try again later.",
+  "errorApiNoConfigurada": "The app isn't connected to a server. Install an official version.",
+  "errorInesperado": "Something went wrong. Please try again.",
+  "errorCodigoIncorrecto": "The verification code is incorrect.",
+  "@errorCodigoIncorrecto": {
+    "description": "Common error: incorrect SMS code."
+  },
+  "errorCodigoVencido": "The verification code expired. Request another one.",
+  "@errorCodigoVencido": {
+    "description": "Common error: expired SMS code."
+  },
+  "errorCelularRechazado": "The phone number is not valid.",
+  "@errorCelularRechazado": {
+    "description": "Common error: phone number rejected by Firebase."
+  },
+  "errorVerificacionNoDisponible": "SMS verification is not available.",
+  "@errorVerificacionNoDisponible": {
+    "description": "Common error: google-services.json missing from the build."
+  },
+  "entradaCelularTitulo": "Sign in with your phone",
+  "@entradaCelularTitulo": {
+    "description": "Title of the phone sign-in screen."
+  },
+  "entradaCelularDetalle": "We will send you a code by SMS",
+  "@entradaCelularDetalle": {
+    "description": "Help text below the sign-in screen title."
+  },
+  "entradaCelularEtiqueta": "Phone number",
+  "@entradaCelularEtiqueta": {
+    "description": "Label of the phone number field."
+  },
+  "entradaCelularAyuda": "10 digits without the +52",
+  "@entradaCelularAyuda": {
+    "description": "Help text of the phone number field."
+  },
+  "entradaCelularError": "Write the 10 digits of your phone number",
+  "@entradaCelularError": {
+    "description": "Error of the phone number field."
+  },
+  "entradaPrefijoPais": "+52",
+  "@entradaPrefijoPais": {
+    "description": "Fixed country prefix shown next to the phone field (no +52/+1 selector)."
+  },
+  "entradaContinuar": "Continue",
+  "@entradaContinuar": {
+    "description": "Button of the sign-in screen to request the SMS code."
+  },
+  "entradaCargando": "Sending code…",
+  "@entradaCargando": {
+    "description": "Button label while the SMS code is being sent."
+  },
+  "entradaAvisoPrivacidad": "privacy notice",
+  "@entradaAvisoPrivacidad": {
+    "description": "Text of the privacy notice in the sign-in checkbox."
+  },
+  "entradaAceptoAviso": "I accept the {aviso}",
+  "@entradaAceptoAviso": {
+    "description": "Full text of the privacy notice acceptance checkbox.",
+    "placeholders": {
+      "aviso": {
+        "type": "String",
+        "description": "Name of the privacy notice"
+      }
+    }
+  },
+  "entradaAvisoError": "Accept the privacy notice to continue",
+  "@entradaAvisoError": {
+    "description": "Error shown if the privacy notice is not accepted."
+  },
+  "entradaErrorCodigoIncorrecto": "The code is not correct. Review it and try again.",
+  "@entradaErrorCodigoIncorrecto": {
+    "description": "Sign-in error: incorrect SMS code."
+  },
+  "entradaErrorCodigoVencido": "The code expired. Request another one.",
+  "@entradaErrorCodigoVencido": {
+    "description": "Sign-in error: expired SMS code."
+  },
+  "entradaErrorCelularRechazado": "Invalid phone number.",
+  "@entradaErrorCelularRechazado": {
+    "description": "Sign-in error: phone number rejected by Firebase."
+  },
+  "entradaErrorCuentaSuspendida": "Your account is suspended. If you think this is a mistake, write to us.",
+  "@entradaErrorCuentaSuspendida": {
+    "description": "Sign-in error: suspended account."
+  },
+  "entradaErrorConflicto": "This number is already linked to another account. Write to us to review it.",
+  "@entradaErrorConflicto": {
+    "description": "Sign-in error: account conflict."
+  },
+  "entradaErrorDatos": "We couldn't process the entry. Try again.",
+  "@entradaErrorDatos": {
+    "description": "Sign-in error: rejected or invalid data."
+  },
+  "entradaErrorDemasiadosIntentos": "You made too many attempts. Wait a moment and try again.",
+  "@entradaErrorDemasiadosIntentos": {
+    "description": "Sign-in error: too many attempts."
+  },
+  "entradaErrorSinConexion": "We couldn't connect. Check your internet and try again.",
+  "@entradaErrorSinConexion": {
+    "description": "Sign-in error: no connection."
+  },
+  "entradaErrorVerificacionNoDisponible": "SMS verification is not available in this version of the app.",
+  "@entradaErrorVerificacionNoDisponible": {
+    "description": "Sign-in error: SMS verification not available."
+  },
+  "entradaErrorApiNoConfigurada": "The app has no server configured.",
+  "@entradaErrorApiNoConfigurada": {
+    "description": "Sign-in error: API not configured."
+  },
+  "entradaErrorGenerico": "Error signing in. Try again.",
+  "@entradaErrorGenerico": {
+    "description": "Generic sign-in error."
+  },
+  "entradaErrorAvisoNoAceptado": "You must accept the privacy notice before continuing.",
+  "@entradaErrorAvisoNoAceptado": {
+    "description": "Sign-in error: privacy notice not accepted."
+  },
+  "entradaCodigoTitulo": "Enter the code",
+  "@entradaCodigoTitulo": {
+    "description": "Title of the SMS verification screen."
+  },
+  "entradaCodigoEnviadoA": "We sent it to +52 {celular}",
+  "@entradaCodigoEnviadoA": {
+    "description": "Detail text of the verification screen.",
+    "placeholders": {
+      "celular": {
+        "type": "String",
+        "description": "Phone number with prefix"
+      }
+    }
+  },
+  "entradaCodigoEtiqueta": "Verification code",
+  "@entradaCodigoEtiqueta": {
+    "description": "Label of the SMS code field."
+  },
+  "entradaCodigoError": "Write the 6 digits of the code",
+  "@entradaCodigoError": {
+    "description": "Error of the SMS code field."
+  },
+  "entradaEntrar": "Sign in",
+  "@entradaEntrar": {
+    "description": "Button of the verification screen to validate the code."
+  },
+  "entradaReenviarEn": "Resend in {segundos} s",
+  "@entradaReenviarEn": {
+    "description": "Text of the resend button with countdown.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "Seconds remaining before resend is available"
+      }
+    }
+  },
+  "entradaReenviarCodigo": "Resend code",
+  "@entradaReenviarCodigo": {
+    "description": "Text button to resend the SMS code."
+  },
+  "entradaCambiarNumero": "Change number",
+  "@entradaCambiarNumero": {
+    "description": "Text button to rewrite the phone number."
+  },
+  "previaEntrar": "Sign in",
+  "@previaEntrar": {
+    "description": "Botón de la barra de marca y de la hoja de invitación de la previa sin sesión; abre el flujo de celular."
+  },
+  "previaRegistrarme": "Sign up",
+  "@previaRegistrarme": {
+    "description": "Botón de la barra de marca y de la hoja de invitación de la previa; abre el mismo flujo de celular que Entrar."
+  },
+  "previaBuscadorTitulo": "Find an expert near you",
+  "@previaBuscadorTitulo": {
+    "description": "Título del buscador de la previa sin sesión."
+  },
+  "previaBuscadorLeyenda": "Mechanics · Plumbing · Electrical",
+  "@previaBuscadorLeyenda": {
+    "description": "Leyenda de ejemplos bajo el título del buscador de la previa."
+  },
+  "previaInvitacionTitulo": "Sign in to continue",
+  "@previaInvitacionTitulo": {
+    "description": "Título de la hoja que invita a entrar cuando la persona toca el buscador o una acción que requiere cuenta."
+  },
+  "previaInvitacionDetalle": "To find experts, request quotes and see their contact details you need an account.",
+  "@previaInvitacionDetalle": {
+    "description": "Detalle de la hoja de invitación a entrar."
+  },
+  "previaAhoraNo": "Not now",
+  "@previaAhoraNo": {
+    "description": "Botón que cierra la hoja de invitación sin entrar."
+  },
+  "previaChipsEtiqueta": "Trades",
+  "@previaChipsEtiqueta": {
+    "description": "Etiqueta de lectura de pantalla del grupo de chips de oficio."
+  },
+  "previaChipTodos": "All",
+  "@previaChipTodos": {
+    "description": "Chip que muestra todos los oficios del catálogo."
+  },
+  "previaChipNoSeCual": "I'm not sure which",
+  "@previaChipNoSeCual": {
+    "description": "Chip para quien no sabe qué oficio necesita; invita a entrar."
+  },
+  "previaCatalogoTitulo": "Available trades",
+  "@previaCatalogoTitulo": {
+    "description": "Título de la lista del catálogo en la previa."
+  },
+  "previaCargando": "Loading trades",
+  "@previaCargando": {
+    "description": "Etiqueta de lectura de pantalla del indicador de carga del catálogo."
+  },
+  "previaVacioTitulo": "There are no trades available yet",
+  "@previaVacioTitulo": {
+    "description": "Título del estado vacío del catálogo de la previa."
+  },
+  "previaErrorTitulo": "We couldn't load the trades",
+  "@previaErrorTitulo": {
+    "description": "Título del estado de error del catálogo de la previa."
+  },
+  "previaSinConexion": "No connection. Showing the last saved data.",
+  "@previaSinConexion": {
+    "description": "Aviso sobre la lista del catálogo cuando se muestra lo guardado por falta de red."
+  },
+  "previaReintentar": "Retry",
+  "@previaReintentar": {
+    "description": "Botón para volver a pedir el catálogo de oficios."
+  },
+  "previaModalidadDomicilio": "At your home",
+  "@previaModalidadDomicilio": {
+    "description": "Modalidad de un oficio que se presta en el domicilio."
+  },
+  "previaModalidadTaller": "At the workshop",
+  "@previaModalidadTaller": {
+    "description": "Modalidad de un oficio que se presta en taller."
+  },
+  "previaExplorarTitulo": "Explore services and jobs",
+  "@previaExplorarTitulo": {
+    "description": "Título de la tarjeta que abre el catálogo de oficios sin sesión."
+  },
+  "previaExplorarDetalle": "See the trades available on Knock without creating an account.",
+  "@previaExplorarDetalle": {
+    "description": "Detalle de la tarjeta Explorar servicios y trabajos."
+  },
+  "previaDatosDeEjemplo": "Sample data",
+  "@previaDatosDeEjemplo": {
+    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas de expertos de la previa; no se puede ocultar."
+  },
+  "previaVerLista": "See list",
+  "@previaVerLista": {
+    "description": "Botón del panel de expertos de la previa: sube el panel para ver la lista (no pide cuenta)."
+  },
+  "previaMapaSemantica": "Sample map with experts. Sample data.",
+  "@previaMapaSemantica": {
+    "description": "Etiqueta de lectura de pantalla del mapa dibujado de la previa."
+  },
+  "previaExpertosCerca": "{cantidad, plural, one{{cantidad} expert near you} other{{cantidad} experts near you}}",
+  "@previaExpertosCerca": {
+    "description": "Encabezado del panel de demostración con el número de expertos de ejemplo.",
+    "placeholders": {
+      "cantidad": {
+        "type": "int",
+        "description": "Número de expertos de ejemplo"
+      }
+    }
+  },
+  "previaPinSemantica": "Sample expert: {nombre}. Sample data. Tap to sign in.",
+  "@previaPinSemantica": {
+    "description": "Etiqueta de lectura de pantalla de un pin del mapa de demostración.",
+    "placeholders": {
+      "nombre": {
+        "type": "String",
+        "description": "Nombre ficticio del experto"
+      }
+    }
+  },
+  "previaTarjetaSemantica": "{nombre}, {oficio}. Sample data. Tap to sign in.",
+  "@previaTarjetaSemantica": {
+    "description": "Etiqueta de lectura de pantalla de una tarjeta de experto de demostración.",
+    "placeholders": {
+      "nombre": {
+        "type": "String",
+        "description": "Nombre ficticio del experto"
+      },
+      "oficio": {
+        "type": "String",
+        "description": "Oficio del experto de ejemplo"
+      }
+    }
+  },
+  "previaYoAqui": "You are here",
+  "@previaYoAqui": {
+    "description": "Sample dot that marks where you are on the drawn map of the preview; it does not use a real location."
+  },
+  "previaMapaAcercar": "Zoom in",
+  "@previaMapaAcercar": {
+    "description": "Preview map button: zoom in."
+  },
+  "previaMapaAlejar": "Zoom out",
+  "@previaMapaAlejar": {
+    "description": "Preview map button: zoom out."
+  },
+  "previaMapaMiUbicacion": "Back to my location",
+  "@previaMapaMiUbicacion": {
+    "description": "Preview map button: back to the initial view (sample point, no real location)."
+  },
+  "previaVerMapa": "See map",
+  "@previaVerMapa": {
+    "description": "Experts panel button: lowers the panel to show the map."
+  },
+  "previaPanelEtiqueta": "Panel of experts near you",
+  "@previaPanelEtiqueta": {
+    "description": "Screen reader label of the bottom panel of the preview."
+  },
+  "previaDistanciaKm": "{km} km away",
+  "@previaDistanciaKm": {
+    "description": "Distance of a sample expert on their card.",
+    "placeholders": {
+      "km": {
+        "type": "String",
+        "description": "Distance with one decimal"
+      }
+    }
+  }
 }
