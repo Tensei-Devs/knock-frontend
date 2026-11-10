@@ -31,23 +31,26 @@ class PanelDemostracion extends StatelessWidget {
         Semantics(
           container: true,
           label: textos.previaDatosDeEjemplo,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // Con texto grande el botón baja bajo el título en lugar de
+          // apretarlo hasta desbordar (CA-31).
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: Espaciado.fila,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        textos.previaExpertosCerca(expertosDeEjemplo.length),
-                        style: tema.textTheme.titleLarge,
-                      ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      textos.previaExpertosCerca(expertosDeEjemplo.length),
+                      style: tema.textTheme.titleLarge,
                     ),
-                    Text(coloniaDeEjemplo, style: tema.textTheme.bodyMedium),
-                  ],
-                ),
+                  ),
+                  Text(coloniaDeEjemplo, style: tema.textTheme.bodyMedium),
+                ],
               ),
               TextButton(
                 style: TextButton.styleFrom(

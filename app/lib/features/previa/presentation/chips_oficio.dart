@@ -1,5 +1,5 @@
 import 'package:app/core/tema/tokens.dart';
-import 'package:app/features/oficios/domain/oficio.dart';
+import 'package:app/features/oficios/oficios.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 

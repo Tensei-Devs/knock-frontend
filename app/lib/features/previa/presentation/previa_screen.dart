@@ -2,7 +2,7 @@ import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/colores.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/core/widgets/tarjeta_knock.dart';
-import 'package:app/features/oficios/domain/oficio.dart';
+import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
 import 'package:app/features/previa/presentation/barra_marca.dart';
 import 'package:app/features/previa/presentation/buscador_previa.dart';
@@ -83,7 +83,7 @@ class _PreviaScreenState extends ConsumerState<PreviaScreen> {
 }
 
 /// «Explorar servicios y trabajos»: abre el catálogo sin pedir sesión
-/// (spec 027, R-07). Se empuja encima de la previa para que «atrás» regrese.
+/// (spec 027, R-07). Es subruta de la previa: «atrás» regresa a ella.
 class _TarjetaExplorar extends StatelessWidget {
   const _TarjetaExplorar();
 
@@ -92,7 +92,7 @@ class _TarjetaExplorar extends StatelessWidget {
     final textos = AppLocalizations.of(context);
     final tema = Theme.of(context);
     final c = context.colores;
-    void abrir() => context.push(Rutas.previaOficios);
+    void abrir() => context.go(Rutas.previaOficios);
     return Semantics(
       button: true,
       excludeSemantics: true,

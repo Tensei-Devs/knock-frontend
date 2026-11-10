@@ -70,10 +70,18 @@ class MapaDeEjemplo extends StatelessWidget {
                     ),
                   ),
                 ),
+                // Con texto al 200 % el rótulo se encoge en lugar de salirse.
                 const Positioned(
                   left: Espaciado.fila,
                   top: Espaciado.fila,
-                  child: RotuloDeEjemplo(),
+                  right: Espaciado.fila,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: RotuloDeEjemplo(),
+                    ),
+                  ),
                 ),
                 for (final experto in expertos)
                   Positioned(

@@ -84,13 +84,7 @@ void main() {
       final otras = Directory('lib/features')
           .listSync()
           .whereType<Directory>()
-          // La previa sin sesión reutiliza el catálogo por mandato de la
-          // spec 027 (§7): es la única excepción.
-          .where(
-            (d) =>
-                !_normalizada(d.path).endsWith('/oficios') &&
-                !_normalizada(d.path).endsWith('/previa'),
-          );
+          .where((d) => !_normalizada(d.path).endsWith('/oficios'));
 
       for (final feature in otras) {
         for (final archivo in _archivosDe(feature.path)) {

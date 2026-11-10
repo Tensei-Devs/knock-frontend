@@ -2,7 +2,7 @@ import 'package:app/core/tema/colores.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/core/widgets/estado_knock.dart';
 import 'package:app/core/widgets/fila_knock.dart';
-import 'package:app/features/oficios/domain/oficio.dart';
+import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
