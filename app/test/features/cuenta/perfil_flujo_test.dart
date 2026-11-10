@@ -146,7 +146,7 @@ void main() {
       // CA_026_06: cerrar sesión lleva al login (la siguiente persona entra de
       // nuevo y su perfil sale de su propia cuenta, TC-HU-004-04).
       expect(container.read(sesionIniciadaProvider), isFalse);
-      expect(ubicacion(container), Rutas.entrar);
+      expect(ubicacion(container), Rutas.previa);
     },
   );
 }

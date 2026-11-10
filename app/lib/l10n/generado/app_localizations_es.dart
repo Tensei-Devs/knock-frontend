@@ -342,4 +342,105 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get entradaCambiarNumero => 'Cambiar número';
+
+  @override
+  String get previaEntrar => 'Entrar';
+
+  @override
+  String get previaRegistrarme => 'Registrarme';
+
+  @override
+  String get previaBuscadorTitulo => 'Busca un experto cerca de ti';
+
+  @override
+  String get previaBuscadorLeyenda => 'Mecánica · Plomería · Electricidad';
+
+  @override
+  String get previaInvitacionTitulo => 'Entra para continuar';
+
+  @override
+  String get previaInvitacionDetalle =>
+      'Para buscar expertos, pedir cotizaciones y ver su contacto necesitas una cuenta.';
+
+  @override
+  String get previaAhoraNo => 'Ahora no';
+
+  @override
+  String get previaChipsEtiqueta => 'Oficios';
+
+  @override
+  String get previaChipTodos => 'Todos';
+
+  @override
+  String get previaChipNoSeCual => 'No sé cuál';
+
+  @override
+  String get previaCatalogoTitulo => 'Oficios disponibles';
+
+  @override
+  String get previaCargando => 'Cargando oficios';
+
+  @override
+  String get previaVacioTitulo => 'Todavía no hay oficios disponibles';
+
+  @override
+  String get previaErrorTitulo => 'No pudimos cargar los oficios';
+
+  @override
+  String get previaSinConexion =>
+      'Sin conexión. Se muestra lo último guardado.';
+
+  @override
+  String get previaReintentar => 'Reintentar';
+
+  @override
+  String get previaModalidadDomicilio => 'A domicilio';
+
+  @override
+  String get previaModalidadTaller => 'En taller';
+
+  @override
+  String get previaExplorarTitulo => 'Explorar servicios y trabajos';
+
+  @override
+  String get previaExplorarDetalle =>
+      'Mira los oficios que hay en Knock sin crear una cuenta.';
+
+  @override
+  String get previaProximamenteTitulo => 'Muy pronto: expertos cerca de ti';
+
+  @override
+  String get previaProximamenteDetalle =>
+      'Estamos preparando la búsqueda de expertos en tu zona. Mientras tanto, explora los oficios disponibles.';
+
+  @override
+  String get previaDatosDeEjemplo => 'Datos de ejemplo';
+
+  @override
+  String get previaVerLista => 'Ver lista';
+
+  @override
+  String get previaMapaSemantica =>
+      'Mapa de ejemplo con expertos. Datos de ejemplo.';
+
+  @override
+  String previaExpertosCerca(int cantidad) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cantidad,
+      locale: localeName,
+      other: '$cantidad expertos cerca de ti',
+      one: '$cantidad experto cerca de ti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String previaPinSemantica(String nombre) {
+    return 'Experto de ejemplo: $nombre. Datos de ejemplo. Toca para entrar.';
+  }
+
+  @override
+  String previaTarjetaSemantica(String nombre, String oficio) {
+    return '$nombre, $oficio. Datos de ejemplo. Toca para entrar.';
+  }
 }

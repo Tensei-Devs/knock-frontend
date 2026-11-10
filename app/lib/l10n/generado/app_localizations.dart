@@ -691,6 +691,174 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cambiar número'**
   String get entradaCambiarNumero;
+
+  /// Botón de la barra de marca y de la hoja de invitación de la previa sin sesión; abre el flujo de celular.
+  ///
+  /// In es, this message translates to:
+  /// **'Entrar'**
+  String get previaEntrar;
+
+  /// Botón de la barra de marca y de la hoja de invitación de la previa; abre el mismo flujo de celular que Entrar.
+  ///
+  /// In es, this message translates to:
+  /// **'Registrarme'**
+  String get previaRegistrarme;
+
+  /// Título del buscador de la previa sin sesión.
+  ///
+  /// In es, this message translates to:
+  /// **'Busca un experto cerca de ti'**
+  String get previaBuscadorTitulo;
+
+  /// Leyenda de ejemplos bajo el título del buscador de la previa.
+  ///
+  /// In es, this message translates to:
+  /// **'Mecánica · Plomería · Electricidad'**
+  String get previaBuscadorLeyenda;
+
+  /// Título de la hoja que invita a entrar cuando la persona toca el buscador o una acción que requiere cuenta.
+  ///
+  /// In es, this message translates to:
+  /// **'Entra para continuar'**
+  String get previaInvitacionTitulo;
+
+  /// Detalle de la hoja de invitación a entrar.
+  ///
+  /// In es, this message translates to:
+  /// **'Para buscar expertos, pedir cotizaciones y ver su contacto necesitas una cuenta.'**
+  String get previaInvitacionDetalle;
+
+  /// Botón que cierra la hoja de invitación sin entrar.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no'**
+  String get previaAhoraNo;
+
+  /// Etiqueta de lectura de pantalla del grupo de chips de oficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Oficios'**
+  String get previaChipsEtiqueta;
+
+  /// Chip que muestra todos los oficios del catálogo.
+  ///
+  /// In es, this message translates to:
+  /// **'Todos'**
+  String get previaChipTodos;
+
+  /// Chip para quien no sabe qué oficio necesita; invita a entrar.
+  ///
+  /// In es, this message translates to:
+  /// **'No sé cuál'**
+  String get previaChipNoSeCual;
+
+  /// Título de la lista del catálogo en la previa.
+  ///
+  /// In es, this message translates to:
+  /// **'Oficios disponibles'**
+  String get previaCatalogoTitulo;
+
+  /// Etiqueta de lectura de pantalla del indicador de carga del catálogo.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando oficios'**
+  String get previaCargando;
+
+  /// Título del estado vacío del catálogo de la previa.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay oficios disponibles'**
+  String get previaVacioTitulo;
+
+  /// Título del estado de error del catálogo de la previa.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar los oficios'**
+  String get previaErrorTitulo;
+
+  /// Aviso sobre la lista del catálogo cuando se muestra lo guardado por falta de red.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Se muestra lo último guardado.'**
+  String get previaSinConexion;
+
+  /// Botón para volver a pedir el catálogo de oficios.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get previaReintentar;
+
+  /// Modalidad de un oficio que se presta en el domicilio.
+  ///
+  /// In es, this message translates to:
+  /// **'A domicilio'**
+  String get previaModalidadDomicilio;
+
+  /// Modalidad de un oficio que se presta en taller.
+  ///
+  /// In es, this message translates to:
+  /// **'En taller'**
+  String get previaModalidadTaller;
+
+  /// Título de la tarjeta que abre el catálogo de oficios sin sesión.
+  ///
+  /// In es, this message translates to:
+  /// **'Explorar servicios y trabajos'**
+  String get previaExplorarTitulo;
+
+  /// Detalle de la tarjeta Explorar servicios y trabajos.
+  ///
+  /// In es, this message translates to:
+  /// **'Mira los oficios que hay en Knock sin crear una cuenta.'**
+  String get previaExplorarDetalle;
+
+  /// Título del panel de expertos y del mapa en la compilación de tienda, donde todavía no hay datos reales.
+  ///
+  /// In es, this message translates to:
+  /// **'Muy pronto: expertos cerca de ti'**
+  String get previaProximamenteTitulo;
+
+  /// Explicación corta bajo el título Muy pronto.
+  ///
+  /// In es, this message translates to:
+  /// **'Estamos preparando la búsqueda de expertos en tu zona. Mientras tanto, explora los oficios disponibles.'**
+  String get previaProximamenteDetalle;
+
+  /// Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas del modo demostración.
+  ///
+  /// In es, this message translates to:
+  /// **'Datos de ejemplo'**
+  String get previaDatosDeEjemplo;
+
+  /// Botón del panel de demostración que pide cuenta para ver la lista de expertos.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver lista'**
+  String get previaVerLista;
+
+  /// Etiqueta de lectura de pantalla del mapa dibujado del modo demostración.
+  ///
+  /// In es, this message translates to:
+  /// **'Mapa de ejemplo con expertos. Datos de ejemplo.'**
+  String get previaMapaSemantica;
+
+  /// Encabezado del panel de demostración con el número de expertos de ejemplo.
+  ///
+  /// In es, this message translates to:
+  /// **'{cantidad, plural, one{{cantidad} experto cerca de ti} other{{cantidad} expertos cerca de ti}}'**
+  String previaExpertosCerca(int cantidad);
+
+  /// Etiqueta de lectura de pantalla de un pin del mapa de demostración.
+  ///
+  /// In es, this message translates to:
+  /// **'Experto de ejemplo: {nombre}. Datos de ejemplo. Toca para entrar.'**
+  String previaPinSemantica(String nombre);
+
+  /// Etiqueta de lectura de pantalla de una tarjeta de experto de demostración.
+  ///
+  /// In es, this message translates to:
+  /// **'{nombre}, {oficio}. Datos de ejemplo. Toca para entrar.'**
+  String previaTarjetaSemantica(String nombre, String oficio);
 }
 
 class _AppLocalizationsDelegate

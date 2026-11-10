@@ -124,7 +124,7 @@ void main() {
   });
 
   testWidgets(
-    'CA_026_06 cerrar sesión hace POST /auth/logout y lleva a /entrar sin tokens ni caché',
+    'CA_026_06 cerrar sesión hace POST /auth/logout y lleva a la previa sin tokens ni caché',
     (tester) async {
       final api = ApiFalsa((p) {
         if (p.ruta == 'auth/logout') return http.Response('', 204);
@@ -150,12 +150,12 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Cerrar sesión'));
       await tester.pumpAndSettle();
 
-      final logout = api.peticiones.last;
+      final logout = api.peticiones.firstWhere((p) => p.ruta == 'auth/logout');
       expect(logout.llamadaCompleta, 'POST /api/v1/auth/logout');
       expect(logout.autorizacion, 'Bearer acc-A');
       expect(almacen.contenido, isEmpty);
       expect(container.read(sesionProvider), isNull);
-      expect(ubicacion(container), Rutas.entrar);
+      expect(ubicacion(container), Rutas.previa);
       expect(find.text('Ana López'), findsNothing);
     },
   );
@@ -184,7 +184,7 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Cerrar sesión'));
       await tester.pumpAndSettle();
 
-      expect(ubicacion(container), Rutas.entrar);
+      expect(ubicacion(container), Rutas.previa);
       expect(find.text(es.errorSinConexion), findsNothing);
       expect(container.read(sesionProvider), isNull);
     },
