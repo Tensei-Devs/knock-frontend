@@ -149,6 +149,53 @@ h2 {
   color: var(--color-texto);
 }
 
+/* Barra de los avisos legales: siempre a la vista para volver al inicio. */
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: -1.5rem -1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-fondo);
+}
+
+.barra .marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.barra .marca-icono {
+  height: 2rem;
+  width: auto;
+}
+
+.barra .marca-letras {
+  height: 1.05rem;
+  width: auto;
+}
+
+.volver {
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-enlace);
+  box-shadow: 0 0.25rem 0.75rem -0.375rem var(--color-sombra);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.volver::before {
+  content: "\2190";
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
 /* ------------------------------------------------------------------------
    Página principal (KNOCK-258, spec 004 R-06 y R-07): una sola pantalla, sin
    scroll, con animaciones solo de CSS. Todo cuelga de `.inicio`, así que el
