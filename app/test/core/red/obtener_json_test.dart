@@ -43,7 +43,7 @@ void main() {
       url: _url,
     ).enPunto(latitud: 20.27, longitud: -98.94);
     expect(pedida.path, '/api/v1/colonias/en-punto');
-    expect(pedida.queryParameters, {'lat': '20.27', 'lon': '-98.94'});
+    expect(pedida.queryParameters, {'lat': '20.270000', 'lon': '-98.940000'});
     expect(r.colonia!.nombre, 'Centro');
   });
 

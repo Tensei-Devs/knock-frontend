@@ -1,3 +1,7 @@
+import 'package:app/core/tema/colores.dart';
+import 'package:app/core/tema/tokens.dart';
+import 'package:app/core/widgets/estado_knock.dart';
+import 'package:app/core/widgets/fila_knock.dart';
 import 'package:app/core/widgets/pantalla_titulada.dart';
 import 'package:app/features/oficios/domain/modalidad.dart';
 import 'package:app/features/oficios/domain/oficio.dart';
@@ -51,17 +55,25 @@ class _AvisoSinConexion extends StatelessWidget {
   final VoidCallback alReintentar;
 
   @override
-  Widget build(BuildContext context) => MaterialBanner(
-    leading: const Icon(Icons.cloud_off_outlined),
-    content: const Text('Sin conexión. Se muestra lo último guardado.'),
-    actions: [
-      TextButton(
-        onPressed: alReintentar,
-        style: TextButton.styleFrom(minimumSize: const Size(64, 48)),
-        child: const Text('Reintentar'),
-      ),
-    ],
-  );
+  Widget build(BuildContext context) {
+    final c = context.colores;
+    // `.note.n-amber`: fondo naranja suave con su texto validado (4.5:1).
+    return MaterialBanner(
+      backgroundColor: c.amberSoft,
+      contentTextStyle: Theme.of(context).textTheme.bodyLarge
+          ?.copyWith(color: c.sobreAmberSoft, fontWeight: FontWeight.w700),
+      dividerColor: Colors.transparent,
+      leading: Icon(Icons.cloud_off_outlined, color: c.sobreAmberSoft),
+      content: const Text('Sin conexión. Se muestra lo último guardado.'),
+      actions: [
+        TextButton(
+          onPressed: alReintentar,
+          style: TextButton.styleFrom(foregroundColor: c.sobreAmberSoft),
+          child: const Text('Reintentar'),
+        ),
+      ],
+    );
+  }
 }
 
 class _Cargando extends StatelessWidget {
@@ -77,14 +89,9 @@ class _Vacio extends StatelessWidget {
   const _Vacio();
 
   @override
-  Widget build(BuildContext context) => const Center(
-    child: Padding(
-      padding: EdgeInsets.all(24),
-      child: Text(
-        'Todavía no hay oficios disponibles',
-        textAlign: TextAlign.center,
-      ),
-    ),
+  Widget build(BuildContext context) => const EstadoKnock(
+    icono: Icons.handyman_outlined,
+    titulo: 'Todavía no hay oficios disponibles',
   );
 }
 
@@ -94,24 +101,12 @@ class _ConError extends StatelessWidget {
   final VoidCallback alReintentar;
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'No pudimos cargar los oficios',
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          FilledButton(
-            onPressed: alReintentar,
-            style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
-            child: const Text('Reintentar'),
-          ),
-        ],
-      ),
+  Widget build(BuildContext context) => EstadoKnock(
+    icono: Icons.cloud_off_outlined,
+    titulo: 'No pudimos cargar los oficios',
+    accion: FilledButton(
+      onPressed: alReintentar,
+      child: const Text('Reintentar'),
     ),
   );
 }
@@ -122,9 +117,13 @@ class _Lista extends StatelessWidget {
   final List<Oficio> oficios;
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
-    itemCount: oficios.length,
-    itemBuilder: (context, indice) => _FilaOficio(oficio: oficios[indice]),
+  Widget build(BuildContext context) => ListView(
+    padding: const EdgeInsets.all(Espaciado.cuerpo),
+    children: [
+      GrupoDeFilas(
+        filas: [for (final oficio in oficios) _FilaOficio(oficio: oficio)],
+      ),
+    ],
   );
 }
 
@@ -137,10 +136,11 @@ class _FilaOficio extends StatelessWidget {
   Widget build(BuildContext context) {
     final modalidad = oficio.modalidad;
     final texto = _textoDeModalidad(modalidad);
-    return ListTile(
-      leading: Icon(_iconoDeModalidad(modalidad), semanticLabel: texto),
-      title: Text(oficio.nombre),
-      subtitle: Text(texto),
+    return FilaKnock(
+      icono: _iconoDeModalidad(modalidad),
+      etiquetaIcono: texto,
+      titulo: oficio.nombre,
+      detalle: texto,
     );
   }
 }

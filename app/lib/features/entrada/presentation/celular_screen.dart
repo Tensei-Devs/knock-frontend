@@ -4,6 +4,7 @@ import 'package:app/features/entrada/domain/validacion_entrada.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
 import 'package:app/features/entrada/presentation/mensaje_de_error.dart';
 import 'package:app/features/entrada/presentation/widgets/marco_de_entrada.dart';
+import 'package:app/core/tema/tokens.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -173,7 +174,7 @@ class _CasillaDelAviso extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       isError: error,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radioDeEntrada),
+        borderRadius: BorderRadius.circular(Radios.medio),
       ),
       title: Text.rich(texto, style: tema.textTheme.bodyLarge),
       subtitle: error

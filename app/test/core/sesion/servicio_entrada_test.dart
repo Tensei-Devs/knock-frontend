@@ -5,7 +5,9 @@ import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/canje_sesion.dart';
 import 'package:app/core/sesion/identificador_dispositivo.dart';
 import 'package:app/core/sesion/servicio_entrada.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:app/core/sesion/verificador_celular.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -64,6 +66,7 @@ void main() {
   late _VerificadorFalso verificador;
   late _CanjeFalso canje;
   late ServicioEntradaReal servicio;
+  late ProviderContainer contenedor;
   const seguro = FlutterSecureStorage();
   const solicitud = SolicitudCodigo(
     celular: '5512345678',
@@ -81,10 +84,14 @@ void main() {
       IdentificadorDispositivo.clave,
       '00000000-0000-4000-8000-000000000001',
     );
+    contenedor = ProviderContainer(
+      overrides: [almacenSeguroProvider.overrideWithValue(almacenSeguro)],
+    );
+    addTearDown(contenedor.dispose);
     servicio = ServicioEntradaReal(
       verificador: verificador,
       canje: canje,
-      almacen: AlmacenSesion(almacenSeguro),
+      iniciarSesion: contenedor.read(sesionProvider.notifier).iniciar,
       identificador: IdentificadorDispositivo(almacenSeguro),
       dispositivo: 'Android',
     );

@@ -15,6 +15,7 @@ graph LR
   panel["panel"]
   permisos["permisos"]
   preferencias["preferencias"]
+  previa["previa"]
   red["red"]
   router["router"]
   sesion["sesion"]
@@ -25,10 +26,12 @@ graph LR
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
+  previa -->|5| oficios
   router -->|1| actividad
   router -->|4| cuenta
   router -->|2| entrada
   router -->|1| explorar
   router -->|1| inicio
   router -->|1| oficios
+  router -->|2| previa
   router -->|1| trabajo
