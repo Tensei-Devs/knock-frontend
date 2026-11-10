@@ -116,7 +116,7 @@ Reglas de lectura:
 | Método y ruta | Spec de backend | Errores que la app distingue al llegar desde un aviso |
 |---|---|---|
 | `GET /api/v1/solicitudes/{id}` | 020 (R-08) | `400` id mal formado → «ya no está disponible»; `401` → renovar (spec 002); `404` → «Esta solicitud ya no está disponible»; `429` con `Retry-After` |
-| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`solicitud_vencida`, `solicitud_cancelada`, `ya_elegida`) lo pinta la spec 015 |
+| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`solicitud_vencida`, `solicitud_cancelada`, `solicitud_ya_elegida`) lo pinta la spec 015 |
 | `GET /api/v1/visitas/{id}` | 022 | `404` → «Esta visita ya no está disponible»; `401`, `429` |
 | `GET /api/v1/conversaciones` | 030 (R-17): `cursor?`, `limit?` (1–20); `{ items[], totalNoLeidos, nextCursor }` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/{id}` | 030 (R-05), cuando exista la pantalla de chat | `404` → «Esta conversación ya no está disponible»; `401`, `429` |
@@ -329,6 +329,7 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 - **Riesgo:** con mensajes solo de datos, Android puede retrasar la entrega si el servidor no usa prioridad alta o si el fabricante restringe la app en segundo plano.
 - **Riesgo:** la dependencia de notificaciones locales (D-02) agrega permisos o receptores al manifiesto; se revisa con la prueba de manifiesto de la spec 009.
 - **Conflicto detectado:** la maqueta (`S.notifConfig`) dice que cotizaciones, mensajes y visitas no se pueden apagar; la spec 012 dice que sí (D-11). Lo decide José.
+- **Duda abierta (entre specs):** las specs 016 (aviso «tu técnico llegó») y 018 (CA-12, cambio de estado de la verificación) dicen que su aviso lo define esta spec, pero §4.2 no tiene un evento de llegada ni de verificación. Backend 022 ya emite `VisitaEnCurso` y backend 025 emite `VerificacionDecidida` «para el aviso». Opciones sin decidir: agregar `visita_en_curso` (cliente → `/actividad/visita/{recurso}`) y un evento de verificación (técnico → `/trabajo/verificacion`) a §4.2, o quitar esos avisos de las specs 016 y 018. Esta spec sigue con ocho eventos hasta que una persona lo decida.
 - **Duda abierta:** ¿el técnico debe recibir aviso cuando el cliente eligió a otro? HU-027 y la descripción no lo piden (D-08).
 
 ## Aprobación
