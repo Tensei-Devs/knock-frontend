@@ -1,3 +1,4 @@
+import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/tema/colores.dart';
@@ -36,7 +37,8 @@ class CuentaScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textos = AppLocalizations.of(context);
-    final perfil = ref.watch(perfilControllerProvider).value;
+    final estadoPerfil = ref.watch(perfilControllerProvider);
+    final perfil = perfilCargado(estadoPerfil);
     return PantallaTitulada(
       titulo: textos.tabCuenta,
       cuerpo: ListView(
@@ -44,6 +46,14 @@ class CuentaScreen extends ConsumerWidget {
         children: [
           if (perfil != null && perfil.completo) ...[
             _TarjetaDePerfil(perfil: perfil),
+            const SizedBox(height: Espaciado.bloque),
+          ] else if (estadoPerfil.hasError) ...[
+            _ErrorDePerfil(
+              error: estadoPerfil.error!,
+              alReintentar: ref
+                  .read(perfilControllerProvider.notifier)
+                  .reintentar,
+            ),
             const SizedBox(height: Espaciado.bloque),
           ],
           GrupoDeFilas(
@@ -64,6 +74,32 @@ class CuentaScreen extends ConsumerWidget {
           ),
           // Se retira cuando la sesión real dé el rol (TT-MOB-01).
           if (ref.watch(interruptorDePruebaProvider)) const MenuDePrueba(),
+        ],
+      ),
+    );
+  }
+}
+
+/// Error al cargar el perfil (spec 026, CA-19): el mensaje común del error y
+/// Reintentar, con los textos que ya existen.
+class _ErrorDePerfil extends StatelessWidget {
+  const _ErrorDePerfil({required this.error, required this.alReintentar});
+
+  final Object error;
+  final VoidCallback alReintentar;
+
+  @override
+  Widget build(BuildContext context) {
+    final textos = AppLocalizations.of(context);
+    return TarjetaKnock(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(mensajeDeError(textos, error)),
+          TextButton(
+            onPressed: alReintentar,
+            child: Text(textos.inicioReintentar),
+          ),
         ],
       ),
     );

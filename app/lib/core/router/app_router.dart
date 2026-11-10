@@ -50,7 +50,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ubicacion: state.matchedLocation,
         ) ??
         redireccionPorPerfil(
-          perfilPendiente: perfilPendiente.value,
+          // Sin sesión manda `/entrar`, aunque el último perfil fuera nuevo.
+          perfilPendiente: perfilPendiente.value && sesion.value,
           ubicacion: state.matchedLocation,
         ) ??
         redireccionPorRol(

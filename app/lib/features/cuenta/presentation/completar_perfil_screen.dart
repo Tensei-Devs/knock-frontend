@@ -1,8 +1,10 @@
+import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/features/cuenta/domain/perfil.dart';
 import 'package:app/features/cuenta/presentation/avatar_iniciales.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,18 +34,24 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
   Future<void> _continuar() async {
     if (!_formulario.currentState!.validate()) return;
     setState(() => _guardando = true);
-    await ref
+    final error = await ref
         .read(perfilControllerProvider.notifier)
         .guardarNombre(_nombre.text);
     if (!mounted) return;
-    final fallo = ref.read(perfilControllerProvider).hasError;
     setState(() {
       _guardando = false;
-      _listo = !fallo;
+      _listo = error == null;
     });
-    if (fallo) {
+    if (error != null) {
+      final textos = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No pudimos guardar tu nombre.')),
+        SnackBar(
+          content: Text(mensajeDeError(textos, error)),
+          action: SnackBarAction(
+            label: textos.inicioReintentar,
+            onPressed: _continuar,
+          ),
+        ),
       );
     }
   }

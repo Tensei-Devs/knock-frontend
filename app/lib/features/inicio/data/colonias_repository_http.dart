@@ -6,9 +6,10 @@ import 'package:http/http.dart' as http;
 
 /// REAL: `GET /api/v1/colonias/en-punto?lat&lon`.
 ///
-/// El contrato exige sesión (responde 401 sin token) y la app aún no manda el
-/// token (sesión real pendiente, KNOCK-228/spec 002): sin sesión llega
-/// `NoAutorizadoFailure` y la pantalla lo muestra con su mensaje.
+/// El contrato exige sesión: el [transporte] con sesión (spec 026) agrega el
+/// Bearer y renueva ante un 401; sin sesión no sale la petición y llega
+/// `NoAutorizadoFailure`. Las coordenadas no se registran ni se guardan en la
+/// caché.
 class ColoniasRepositoryHttp implements ColoniasRepository {
   const ColoniasRepositoryHttp({required this.transporte, required this.url});
 
