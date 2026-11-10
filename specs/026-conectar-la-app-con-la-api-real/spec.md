@@ -1,6 +1,6 @@
 # Spec 026 — Conectar la app con los endpoints reales (perfil, sesión y colonias)
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Jira:** KNOCK-243 (por verificar) · **Capas:** Mobile · **Otra parte en:** knock-backend (specs 015 a 018, ya desplegadas; la 037 queda fuera)
 > **Relacionada con:** specs 002, 006, 009, 010 y 012 de este repositorio; KNOCK-228 y KNOCK-229 en `Memoria.md`.
 
@@ -215,6 +215,6 @@ Quien aprueba la spec las acepta o las cambia aquí antes de aprobar.
 - No se verificó la clave de Jira ni el contrato OpenAPI desplegado del gateway en esta etapa; se tomó de las specs del backend.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
