@@ -25,6 +25,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tabActividad => 'Actividad';
 
   @override
+  String get actividadVaciaTitulo => 'Aún no tienes actividad';
+
+  @override
+  String get actividadVaciaDetalle =>
+      'Cuando pidas una cotización, aquí verás en qué va cada una.';
+
+  @override
   String get tabTrabajo => 'Trabajo';
 
   @override

@@ -1,4 +1,5 @@
 import 'package:app/core/router/rutas.dart';
+import 'package:app/core/tema/tokens.dart';
 import 'package:app/features/cuenta/domain/perfil.dart';
 import 'package:app/features/cuenta/presentation/avatar_iniciales.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
@@ -55,11 +56,11 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
       body: Form(
         key: _formulario,
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Espaciado.cuerpo),
           children: [
             Text(
               '¿Cómo te llamas?',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
             const Text('Así sabrán con quién tratan los técnicos y clientes.'),
@@ -76,7 +77,6 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _guardando ? null : _continuar,
-              style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
               child: _guardando
                   ? const SizedBox.square(
                       dimension: 20,
@@ -111,13 +111,12 @@ class _Listo extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               '¡Listo, ya entraste!',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: () => context.go(Rutas.inicio),
-              style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
               child: const Text('Empezar'),
             ),
           ],

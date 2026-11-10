@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-08T23:55:20Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-09T06:59:45Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -10,7 +10,7 @@
 | `actividad` | presentation | 1 | 1 | 1 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
-| `cuenta` | -, data, domain, presentation | 11 | 15 | 19 |
+| `cuenta` | -, data, domain, presentation | 11 | 17 | 21 |
 | `entrada` | domain, presentation | 7 | 12 | 24 |
 | `errores` | core | 3 | 15 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
@@ -24,11 +24,11 @@
 | `permisos` | core | 2 | 4 | 4 |
 | `preferencias` | core | 4 | 9 | 17 |
 | `red` | core | 6 | 4 | 10 |
-| `router` | core | 3 | 3 | 6 |
+| `router` | core | 3 | 3 | 5 |
 | `sesion` | core | 13 | 25 | 42 |
-| `tema` | core | 3 | 3 | 1 |
+| `tema` | core | 5 | 9 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
-| `widgets` | core | 1 | 1 | 1 |
+| `widgets` | core | 4 | 5 | 5 |
 
 ## Tipos con el mismo nombre en varios lugares
 
@@ -42,7 +42,7 @@
 **presentation**
 
 - `app/lib/features/actividad/presentation/actividad_screen.dart` — class `ActividadScreen`
-  - `build()`:11
+  - `build()`:13
 
 ### app
 
@@ -86,11 +86,11 @@
 - `app/lib/features/cuenta/presentation/avatar_iniciales.dart` — class `AvatarIniciales`
   - `build()`:12
 - `app/lib/features/cuenta/presentation/completar_perfil_screen.dart` — class `CompletarPerfilScreen`, class `_EstadoCompletar`, class `_Listo`
-  - `dispose()`:26, `build()`:51, `build()`:103
+  - `dispose()`:27, `build()`:52, `build()`:103
 - `app/lib/features/cuenta/presentation/configuracion_screen.dart` — class `ConfiguracionScreen`, class `_Encabezado`, class `_Opcion`
   - `build()`:17, `build()`:79, `build()`:96
-- `app/lib/features/cuenta/presentation/cuenta_screen.dart` — class `CuentaScreen`
-  - `build()`:43
+- `app/lib/features/cuenta/presentation/cuenta_screen.dart` — class `CuentaScreen`, class `_TarjetaDePerfil`, class `_ConfirmarCierreDeSesion`
+  - `build()`:37, `build()`:81, `build()`:131
 - `app/lib/features/cuenta/presentation/perfil_controller.dart` — class `PerfilController`
   - `build()`:11, `guardarNombre()`:14, `cerrarSesion()`:22, `reintentar()`:31
 - `app/lib/features/cuenta/presentation/widgets/menu_de_prueba.dart` — class `MenuDePrueba`
@@ -108,7 +108,7 @@
 **presentation**
 
 - `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`
-  - `dispose()`:34, `build()`:58, `build()`:140, `CheckboxListTile()`:169
+  - `dispose()`:35, `build()`:59, `build()`:141, `CheckboxListTile()`:170
 - `app/lib/features/entrada/presentation/codigo_screen.dart` — class `CodigoScreen`, class `_CodigoScreenState`
   - `dispose()`:35, `build()`:67
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
@@ -118,7 +118,7 @@
 - `app/lib/features/entrada/presentation/mensaje_de_error.dart` — —
   - `mensajeDeErrorDeEntrada()`:5
 - `app/lib/features/entrada/presentation/widgets/marco_de_entrada.dart` — class `MarcoDeEntrada`, class `_Marca`, class `BotonPrincipalDeEntrada`, class `MensajeDeErrorDeEntrada`
-  - `build()`:30, `build()`:95, `decoracionDeEntrada()`:132, `estiloBotonPrincipal()`:154, `build()`:181, `build()`:203
+  - `build()`:29, `build()`:91, `decoracionDeEntrada()`:129, `estiloBotonPrincipal()`:147, `build()`:167, `build()`:189
 
 ### errores
 
@@ -136,7 +136,7 @@
 **presentation**
 
 - `app/lib/features/explorar/presentation/explorar_screen.dart` — class `ExplorarScreen`
-  - `build()`:15
+  - `build()`:17
 
 ### home
 
@@ -185,7 +185,7 @@
 - `app/lib/features/inicio/presentation/colonia_controller.dart` — class `EstadoColonia`, class `ColoniaSinPedir`, class `ColoniaConsultando`, class `ColoniaEncontrada`, class `ColoniaFueraDeCobertura`, class `ColoniaSinUbicacion`, class `ColoniaConError`, class `ColoniaController`
   - `build()`:44, `consultar()`:46
 - `app/lib/features/inicio/presentation/inicio_screen.dart` — class `InicioScreen`, class `_TarjetaColonia`
-  - `build()`:17, `build()`:57
+  - `build()`:20, `build()`:57
 - `app/lib/features/inicio/presentation/mapa/boton_mi_ubicacion.dart` — class `BotonMiUbicacion`
   - `build()`:23, `FloatingActionButton()`:43
 - `app/lib/features/inicio/presentation/mapa/mapa_con_pines.dart` — class `MapaConPines`, class `_MapaConPinesState`, class `_CamaraGoogleMap`
@@ -206,11 +206,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:689, `isSupported()`:694, `shouldReload()`:698, `lookupAppLocalizations()`:701
+  - `of()`:70, `load()`:701, `isSupported()`:706, `shouldReload()`:710, `lookupAppLocalizations()`:713
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:256, `entradaCodigoEnviadoA()`:312, `entradaReenviarEn()`:326
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:257, `entradaCodigoEnviadoA()`:315, `entradaReenviarEn()`:329
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336
 
 ### layout
 
@@ -266,7 +266,7 @@
 - `app/lib/features/oficios/presentation/oficios_controller.dart` — class `OficiosSinConexion`, class `OficiosController`
   - `build()`:12, `fijar()`:14, `build()`:26, `reintentar()`:53
 - `app/lib/features/oficios/presentation/oficios_screen.dart` — class `OficiosScreen`, class `_AvisoSinConexion`, class `_Cargando`, class `_Vacio`, class `_ConError`, class `_Lista`, class `_FilaOficio`
-  - `build()`:15, `build()`:54, `build()`:71, `build()`:80, `build()`:97, `build()`:125, `build()`:137
+  - `build()`:19, `build()`:58, `build()`:83, `build()`:92, `build()`:104, `build()`:120, `build()`:136
 
 ### panel
 
@@ -319,7 +319,7 @@
 
 - `app/lib/core/router/app_router.dart` — —
 - `app/lib/core/router/app_shell.dart` — class `_Destino`, class `AppShell`
-  - `ramasVisibles()`:35, `build()`:48, `Scaffold()`:53
+  - `ramasVisibles()`:36, `build()`:49
 - `app/lib/core/router/rutas.dart` — class `Rutas`
   - `redireccionPorSesion()`:30, `redireccionPorRol()`:45, `redireccionPorPerfil()`:55
 
@@ -358,10 +358,14 @@
 
 **core**
 
-- `app/lib/core/tema/colores.dart` — class `ColoresClaro`, class `ColoresOscuro`, class `ColoresError`
+- `app/lib/core/tema/colores.dart` — class `ColoresClaro`, class `ColoresOscuro`, class `ColoresError`, class `ColoresKnock`, extension `ColoresKnockEnContexto`
+  - `copyWith()`:258, `lerp()`:277
 - `app/lib/core/tema/contraste.dart` — —
   - `relacionDeContraste()`:16
 - `app/lib/core/tema/tema.dart` — —
+  - `sinRelleno()`:26, `estiloBotonOscuro()`:168
+- `app/lib/core/tema/tipografia.dart` — —
+- `app/lib/core/tema/tokens.dart` — class `Radios`, class `Alturas`, class `Espaciado`, class `Sombras`
 
 ### trabajo
 
@@ -374,5 +378,11 @@
 
 **core**
 
+- `app/lib/core/widgets/estado_knock.dart` — class `EstadoKnock`
+  - `build()`:25
+- `app/lib/core/widgets/fila_knock.dart` — class `GrupoDeFilas`, class `FilaKnock`
+  - `build()`:13, `build()`:59
 - `app/lib/core/widgets/pantalla_titulada.dart` — class `PantallaTitulada`
   - `build()`:14
+- `app/lib/core/widgets/tarjeta_knock.dart` — class `TarjetaKnock`
+  - `build()`:21
