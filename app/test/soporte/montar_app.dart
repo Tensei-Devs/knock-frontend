@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app/app.dart';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
+import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/sesion/servicio_entrada.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
@@ -41,12 +42,15 @@ Override conSesion({bool iniciada = true}) =>
 
 /// Monta `KnockApp` con un contenedor propio (sin red).
 ///
-/// Arranca con sesión (HU-001) salvo que [sesionIniciada] sea falso.
+/// Arranca con sesión (HU-001) salvo que [sesionIniciada] sea falso. Sin
+/// sesión la app real abre en la previa (spec 027); por defecto la prueba pasa
+/// a `/entrar` (las pruebas de HU-001), salvo que [abrirEnEntrada] sea falso.
 Future<ProviderContainer> montarApp(
   WidgetTester tester, {
   required bool esTecnico,
   bool interruptorDePrueba = true,
   bool sesionIniciada = true,
+  bool abrirEnEntrada = true,
   ServicioEntrada? servicioEntrada,
   List<Override> extra = const [],
 }) async {
@@ -69,6 +73,10 @@ Future<ProviderContainer> montarApp(
     UncontrolledProviderScope(container: container, child: const KnockApp()),
   );
   await tester.pumpAndSettle();
+  if (!sesionIniciada && abrirEnEntrada) {
+    container.read(appRouterProvider).go(Rutas.entrar);
+    await tester.pumpAndSettle();
+  }
   return container;
 }
 
