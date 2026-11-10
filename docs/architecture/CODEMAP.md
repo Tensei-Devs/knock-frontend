@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T06:29:54Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-10T07:55:49Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -359,7 +359,7 @@
 - `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
   - `enviarCodigo()`:48, `verificarCodigo()`:54
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`
-  - `toString()`:29, `renovar()`:46, `build()`:61, `iniciar()`:64, `cerrar()`:74, `renovar()`:85
+  - `toString()`:29, `renovar()`:46, `build()`:61, `iniciar()`:64, `cerrar()`:77, `renovar()`:93
 - `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
   - `build()`:28, `iniciar()`:31, `cerrar()`:34, `nombreDeDispositivo()`:53
 - `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`

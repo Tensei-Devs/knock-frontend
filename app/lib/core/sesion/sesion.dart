@@ -71,17 +71,25 @@ class SesionNotifier extends Notifier<TokensSesion?> {
 
   /// Cierra la sesión en el teléfono: borra tokens y caché y deja la bandera
   /// de interfaz en falso para que el router lleve a `/entrar` (R-03, R-07).
+  ///
+  /// Nunca lanza: si el almacenamiento seguro falla al borrar, la sesión en
+  /// memoria y la interfaz ya quedaron cerradas y la persona vuelve al login.
   Future<void> cerrar() async {
     ref.read(cacheRespuestasProvider).borrarTodo();
     state = null;
     ref.read(sesionIniciadaProvider.notifier).cerrar();
-    await ref.read(almacenSesionProvider).cerrarSesion();
+    try {
+      await ref.read(almacenSesionProvider).cerrarSesion();
+    } on Object {
+      // Sin registro (R-11): el error del almacén podría llevar datos.
+    }
   }
 
   /// Renueva el token que la API rechazó ([vencido]). Peticiones simultáneas
   /// comparten una sola renovación (single-flight). Devuelve `null` si la API
-  /// rechazó la renovación (la sesión ya quedó cerrada) o si no hay sesión; si
-  /// el fallo es transitorio lanza un [Failure] y la sesión sigue abierta.
+  /// rechazó la renovación o si los tokens nuevos no se pudieron guardar (la
+  /// sesión ya quedó cerrada), o si no hay sesión; si el fallo es transitorio
+  /// lanza un [Failure] y la sesión sigue abierta.
   Future<TokensSesion?> renovar(String vencido) {
     final actual = state;
     if (actual == null) return Future.value();
@@ -108,16 +116,34 @@ class SesionNotifier extends Notifier<TokensSesion?> {
       return null;
     }
     // Los tokens nuevos se guardan antes de repetir cualquier petición: el de
-    // renovación anterior ya no sirve (CA-026-13).
-    try {
-      await ref
-          .read(almacenSesionProvider)
-          .guardar(acceso: nuevos.accessToken, refresco: nuevos.refreshToken);
-    } on Exception {
-      // Sin registro: la sesión sigue en memoria y el error podría llevar datos.
+    // renovación anterior ya no sirve (CA-026-13). Si no se pueden guardar, el
+    // almacén seguiría con el token de renovación que la API ya rotó y, al
+    // reiniciar, su reuso cerraría todas las sesiones de la cuenta (spec 016,
+    // backend): se cierra la sesión local y la petición no se repite (R-05, R-07).
+    if (!await _guardarConReintento(nuevos)) {
+      await cerrar();
+      return null;
     }
     state = nuevos;
     return nuevos;
+  }
+
+  /// Guarda [tokens] y, si falla, lo intenta una sola vez más. `true` si quedó
+  /// guardado. No registra el fallo: el error del almacén podría llevar datos.
+  Future<bool> _guardarConReintento(TokensSesion tokens) async {
+    final almacen = ref.read(almacenSesionProvider);
+    for (var intento = 0; intento < 2; intento++) {
+      try {
+        await almacen.guardar(
+          acceso: tokens.accessToken,
+          refresco: tokens.refreshToken,
+        );
+        return true;
+      } on Object {
+        // Se reintenta una vez; el segundo fallo lo resuelve quien llama.
+      }
+    }
+    return false;
   }
 }
 
