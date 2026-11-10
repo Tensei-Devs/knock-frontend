@@ -1,5 +1,4 @@
 import 'package:app/core/red/cliente_api_provider.dart';
-import 'package:app/core/red/configuracion_api.dart';
 import 'package:app/features/inicio/data/colonias_repository_http.dart';
 import 'package:app/features/inicio/data/colonias_repository_simulado.dart';
 import 'package:app/features/inicio/data/ubicacion_geolocator_repository.dart';
@@ -14,13 +13,13 @@ final ubicacionRepositoryProvider = Provider<UbicacionRepository>(
   (ref) => UbicacionGeolocatorRepository(),
 );
 
-/// Raíz de composición de la colonia: API real con `KNOCK_API_URL` válida;
-/// sin ella, respuesta SIMULADA.
+/// Raíz de composición de la colonia: API real con `KNOCK_API_URL` válida
+/// (por el transporte con sesión: la ruta pide Bearer); sin ella, respuesta
+/// SIMULADA solo fuera de `release` (spec 026, R-10).
 final coloniasRepositoryProvider = Provider<ColoniasRepository>((ref) {
-  final url = ref.watch(urlApiProvider);
-  if (normalizarUrlApi(url) == null) return const ColoniasRepositorySimulado();
+  if (!usaApiReal(ref)) return const ColoniasRepositorySimulado();
   return ColoniasRepositoryHttp(
-    transporte: ref.watch(transporteHttpProvider),
-    url: url,
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
   );
 });

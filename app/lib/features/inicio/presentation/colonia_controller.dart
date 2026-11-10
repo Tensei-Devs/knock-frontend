@@ -1,4 +1,5 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/inicio/domain/colonia.dart';
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
@@ -41,7 +42,11 @@ final class ColoniaConError extends EstadoColonia {
 /// Lee la ubicación una vez, busca su colonia y descarta las coordenadas.
 class ColoniaController extends Notifier<EstadoColonia> {
   @override
-  EstadoColonia build() => const ColoniaSinPedir();
+  EstadoColonia build() {
+    // Al abrir o cerrar una sesión se olvida la colonia de la cuenta anterior.
+    ref.watch(sesionProvider.select((tokens) => tokens != null));
+    return const ColoniaSinPedir();
+  }
 
   Future<void> consultar() async {
     state = const ColoniaConsultando();

@@ -1,12 +1,17 @@
 // Spec 002 (KNOCK-216), CA-01 y CA-04: renovación del token y caché vacía al
 // cerrar sesión. El servidor es simulado en 127.0.0.1; el endpoint de
-// renovación NO existe aún en el contrato, así que el renovador es un doble.
+// renovación es un doble (la renovación real se prueba en
+// `cliente_autenticado_test.dart`). Spec 026 cambió las reglas: el Bearer solo
+// va a las rutas protegidas de la API y un fallo transitorio no cierra sesión.
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/cache_respuestas.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
+import 'package:app/core/sesion/renovador_sesion_api.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,7 +54,7 @@ class _Servidor {
       s.peticiones.add((ruta: p.uri.path, encabezados: h));
       final token = h['authorization']?.replaceFirst('Bearer ', '');
       final r = p.response;
-      if (p.uri.path == '/privado' && !s.tokensValidos.contains(token)) {
+      if (p.uri.path == '/api/v1/me' && !s.tokensValidos.contains(token)) {
         r.statusCode = 401;
       } else if (s.etag != null && h['if-none-match'] == s.etag) {
         r.statusCode = 304;
@@ -72,14 +77,20 @@ void main() {
   late _Servidor servidor;
   late _Renovador renovador;
   late ProviderContainer c;
+  late AlmacenSeguroEnMemoria almacen;
 
   setUp(() async {
     servidor = await _Servidor.iniciar();
+    almacen = AlmacenSeguroEnMemoria();
     renovador = _Renovador(
       const TokensSesion(accessToken: 'nuevo', refreshToken: 'r2'),
     );
     c = ProviderContainer(
-      overrides: [renovadorSesionProvider.overrideWithValue(renovador)],
+      overrides: [
+        renovadorSesionProvider.overrideWithValue(renovador),
+        urlApiProvider.overrideWithValue(servidor.url),
+        almacenSeguroProvider.overrideWithValue(almacen),
+      ],
     );
   });
 
@@ -99,7 +110,7 @@ void main() {
       servidor.tokensValidos.add('nuevo');
       await c.read(sesionProvider.notifier).iniciar(_vencido);
 
-      final r = await pedir('/privado');
+      final r = await pedir('/api/v1/me');
 
       expect(r.statusCode, 200);
       expect(renovador.llamadas, 1);
@@ -114,20 +125,19 @@ void main() {
       servidor.tokensValidos.add('nuevo');
       await c.read(sesionProvider.notifier).iniciar(_vencido);
 
-      final rs = await Future.wait([pedir('/privado'), pedir('/privado')]);
+      final rs = await Future.wait([pedir('/api/v1/me'), pedir('/api/v1/me')]);
 
       expect(rs.map((r) => r.statusCode), [200, 200]);
       expect(renovador.llamadas, 1);
     });
 
-    test('CA-002-01 sin token no manda Authorization ni renueva', () async {
-      final r = await pedir('/privado');
-      expect(r.statusCode, 401);
-      expect(renovador.llamadas, 0);
-      expect(
-        servidor.peticiones.single.encabezados,
-        isNot(contains('authorization')),
+    test('CA-002-01 sin token no sale la petición ni se renueva', () async {
+      await expectLater(
+        pedir('/api/v1/me'),
+        throwsA(isA<NoAutorizadoFailure>()),
       );
+      expect(renovador.llamadas, 0);
+      expect(servidor.peticiones, isEmpty);
     });
   });
 
@@ -138,27 +148,33 @@ void main() {
         renovador.resultado = null;
         await c.read(sesionProvider.notifier).iniciar(_vencido);
 
-        final r = await pedir('/privado');
+        final r = await pedir('/api/v1/me');
 
         expect(r.statusCode, 401);
         expect(c.read(sesionProvider), isNull);
-        expect(c.read(almacenTokensProvider).leer(), isNull);
+        expect(almacen.contenido, isEmpty);
         expect(servidor.peticiones, hasLength(1));
       },
     );
 
-    test('CA-002-01 si la renovación falla cierra la sesión', () async {
-      renovador.lanza = true;
-      await c.read(sesionProvider.notifier).iniciar(_vencido);
-      expect((await pedir('/privado')).statusCode, 401);
-      expect(c.read(sesionProvider), isNull);
-    });
+    test(
+      'CA-002-01 si la renovación falla por red conserva la sesión',
+      () async {
+        renovador.lanza = true;
+        await c.read(sesionProvider.notifier).iniciar(_vencido);
+        await expectLater(
+          pedir('/api/v1/me'),
+          throwsA(isA<ServicioNoDisponibleFailure>()),
+        );
+        expect(c.read(sesionProvider), _vencido);
+      },
+    );
 
     test(
       'CA-002-01 repite solo una vez si el token nuevo también falla',
       () async {
         await c.read(sesionProvider.notifier).iniciar(_vencido);
-        final r = await pedir('/privado');
+        final r = await pedir('/api/v1/me');
         expect(r.statusCode, 401);
         expect(servidor.peticiones, hasLength(2));
       },
@@ -194,7 +210,7 @@ void main() {
 
       expect(c.read(cacheRespuestasProvider).estaVacia, isTrue);
       expect(c.read(sesionProvider), isNull);
-      expect(c.read(almacenTokensProvider).leer(), isNull);
+      expect(almacen.contenido, isEmpty);
     });
 
     test(
