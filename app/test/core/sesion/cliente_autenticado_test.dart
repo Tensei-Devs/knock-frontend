@@ -60,6 +60,24 @@ class _AlmacenQueFalla extends AlmacenSeguroEnMemoria {
   }
 }
 
+/// Almacén cuyas operaciones lanzan un `Error` de programación (no una
+/// `Exception` de la plataforma), para probar qué se traga y qué no.
+class _AlmacenConError extends AlmacenSeguroEnMemoria {
+  bool falla = false;
+
+  @override
+  Future<void> escribir(String clave, String valor) async {
+    if (falla) throw StateError('error de programación');
+    await super.escribir(clave, valor);
+  }
+
+  @override
+  Future<void> borrar(String clave) async {
+    if (falla) throw StateError('error de programación');
+    await super.borrar(clave);
+  }
+}
+
 void main() {
   late ApiFalsa api;
   late AlmacenSeguroEnMemoria almacen;
@@ -347,7 +365,7 @@ void main() {
         );
 
         test(
-          'si falla a medias (acceso nuevo guardado, refresco no), el segundo '
+          'si falla a medias (refresco nuevo guardado, acceso no), el segundo '
           'intento deja el par completo',
           () async {
             await montarConAlmacenQueFalla(escrituras: {2});
@@ -361,6 +379,81 @@ void main() {
             expect(c.read(sesionProvider)!.refreshToken, 'ref-B');
           },
         );
+
+        test(
+          'si la app muere tras la primera escritura, al reiniciar renueva con '
+          'el refresco nuevo y la sesión sigue',
+          () async {
+            fallon = _AlmacenQueFalla();
+            almacen = fallon;
+            final sesion = AlmacenSesion(fallon);
+            await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+            // La segunda escritura (el acceso) no ocurre y no hay reintento.
+            fallon.armar(escrituras: {2});
+            await expectLater(
+              sesion.guardar(acceso: 'acc-B', refresco: 'ref-B'),
+              throwsException,
+            );
+
+            // Reinicio: se arranca con lo que quedó en el almacén seguro.
+            final tokens = TokensSesion(
+              accessToken: (await sesion.leerAcceso())!,
+              refreshToken: (await sesion.leerRefresco())!,
+            );
+            expect(
+              tokens,
+              const TokensSesion(accessToken: 'acc-A', refreshToken: 'ref-B'),
+            );
+
+            // La API ya rotó ref-A: solo acepta ref-B y solo sirve acc-C.
+            api.responder = (p) async {
+              if (p.ruta == 'auth/refresh') {
+                refrescos++;
+                return p.json['refreshToken'] == 'ref-B'
+                    ? jsonOk(tokensJson('acc-C', 'ref-C'))
+                    : http.Response('', 401);
+              }
+              return token(p) == 'acc-C'
+                  ? jsonOk({'ok': true})
+                  : http.Response('', 401);
+            };
+            c = contenedorConApi(api, tokens: tokens, almacen: fallon);
+            addTearDown(c.dispose);
+            c.listen(sesionIniciadaProvider, (_, _) {});
+
+            final r = await pedir('me');
+
+            expect(r.statusCode, 200);
+            expect(refrescos, 1);
+            expect(api.peticiones[1].json, {'refreshToken': 'ref-B'});
+            expect(c.read(sesionProvider)!.refreshToken, 'ref-C');
+            expect(c.read(sesionIniciadaProvider), isTrue);
+          },
+        );
+
+        test(
+          'un Error de programación al guardar no se traga: sale a quien llama',
+          () async {
+            final raro = _AlmacenConError();
+            almacen = raro;
+            await montar();
+            raro.falla = true;
+
+            await expectLater(pedir('me'), throwsA(isA<StateError>()));
+          },
+        );
+
+        test('cerrar() no lanza ni con un Error del almacén y deja la sesión cerrada', () async {
+          final raro = _AlmacenConError();
+          almacen = raro;
+          await montar();
+          raro.falla = true;
+
+          await c.read(sesionProvider.notifier).cerrar();
+
+          expect(c.read(sesionProvider), isNull);
+          expect(c.read(sesionIniciadaProvider), isFalse);
+        });
 
         test(
           'si los dos intentos fallan, cierra la sesión local y no repite la '

@@ -139,8 +139,10 @@ class SesionNotifier extends Notifier<TokensSesion?> {
           refresco: tokens.refreshToken,
         );
         return true;
-      } on Object {
-        // Se reintenta una vez; el segundo fallo lo resuelve quien llama.
+      } on Exception {
+        // Las fallas del almacén seguro llegan como excepciones; un `Error` de
+        // programación no se traga. Se reintenta una vez; el segundo fallo lo
+        // resuelve quien llama.
       }
     }
     return false;
