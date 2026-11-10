@@ -116,7 +116,7 @@ Reglas de lectura:
 | Método y ruta | Spec de backend | Errores que la app distingue al llegar desde un aviso |
 |---|---|---|
 | `GET /api/v1/solicitudes/{id}` | 020 (R-08) | `400` id mal formado → «ya no está disponible»; `401` → renovar (spec 002); `404` → «Esta solicitud ya no está disponible»; `429` con `Retry-After` |
-| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`solicitud_vencida`, `solicitud_cancelada`, `ya_elegida`) lo pinta la spec 015 |
+| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`request_expired`, `request_cancelled`, `request_already_chosen`) lo pinta la spec 015 |
 | `GET /api/v1/visitas/{id}` | 022 | `404` → «Esta visita ya no está disponible»; `401`, `429` |
 | `GET /api/v1/conversaciones` | 030 (R-17): `cursor?`, `limit?` (1–20); `{ items[], totalNoLeidos, nextCursor }` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/{id}` | 030 (R-05), cuando exista la pantalla de chat | `404` → «Esta conversación ya no está disponible»; `401`, `429` |
