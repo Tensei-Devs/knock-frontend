@@ -9,6 +9,8 @@
 | T-03 | Configurar la publicación automática en Railway con HTTPS | R-02 · CA-01, CA-02 | pendiente: `landing/railway.json`, `Dockerfile` y los pasos de José están en el repositorio, pero nadie ha publicado en Railway; CA-01 y CA-02 se verifican después de que José lo haga |
 | T-04 | Agregar la revisión de enlaces rotos y de secretos al CI | R-04 · CA-03 | hecha: job `landing` de `ci-pr.yml` (pruebas, `landing/tests/check_links.py` y Gitleaks); aún no entra en `needs` de `gate` |
 | T-05 | Definir la versión de la landing | R-05 | hecha: valor inicial `landing-v1.0.0` en el pie de `index.html`; la regla de puntos es de la spec 011 |
+| T-06 | Diseño final de la página principal: una pantalla sin scroll, ilustración SVG y animaciones CSS | R-06, R-07 · CA-04, CA-05 | KNOCK-258: `landing/index.html` y `landing/css/landing.css` |
+| T-07 | Prueba de movimiento reducido y de las ilustraciones decorativas; medición de CA-04 con las seis pantallas | R-06, R-07 · CA-04, CA-05 | KNOCK-258: `landing/tests/test_landing.py` y la medición manual de CA-04 |
 
 ## Definición de terminado
 - Los criterios de aceptación de `spec.md` están cubiertos por pruebas en verde.

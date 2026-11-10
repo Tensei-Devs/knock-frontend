@@ -25,6 +25,7 @@
   --color-foco: #8f3510;
   --color-boton-fondo: #e9682d;
   --color-boton-texto: #231a15;
+  --color-sombra: rgba(35, 26, 21, 0.3);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,6 +39,7 @@
     --color-foco: #e9682d;
     --color-boton-fondo: #e9682d;
     --color-boton-texto: #14110f;
+    --color-sombra: rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -145,4 +147,661 @@ h2 {
   border-radius: 0.75rem;
   background-color: var(--color-tarjeta);
   color: var(--color-texto);
+}
+
+/* ------------------------------------------------------------------------
+   Página principal (KNOCK-258, spec 004 R-06 y R-07): una sola pantalla, sin
+   scroll, con animaciones solo de CSS. Todo cuelga de `.inicio`, así que el
+   aviso de privacidad, eliminar cuenta y el 404 conservan su diseño.
+   Los colores de texto salen de los tokens de arriba; los de la ilustración,
+   de los mismos tokens por clase (`f-*` rellena, `trazo-*` y `s-*` contornea).
+   ------------------------------------------------------------------------ */
+.inicio {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(0.5rem, 2.4vh, 1.5rem);
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
+  padding: clamp(0.75rem, 3vh, 1.75rem) clamp(1rem, 5vw, 4rem);
+  overflow-x: clip;
+}
+
+/* Fondo: manchas de luz que derivan despacio. */
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mancha {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-boton-fondo);
+  filter: blur(48px);
+  opacity: 0.22;
+  animation: derivar 22s ease-in-out infinite alternate;
+}
+
+.mancha-1 {
+  top: -16vmax;
+  right: -10vmax;
+  width: 46vmax;
+  height: 46vmax;
+}
+
+.mancha-2 {
+  bottom: -20vmax;
+  left: -14vmax;
+  width: 40vmax;
+  height: 40vmax;
+  opacity: 0.16;
+  animation-duration: 28s;
+  animation-direction: alternate-reverse;
+}
+
+.mancha-3 {
+  top: 38%;
+  left: 38%;
+  width: 18vmax;
+  height: 18vmax;
+  opacity: 0.1;
+  animation-duration: 18s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mancha {
+    opacity: 0.18;
+  }
+
+  .mancha-2 {
+    opacity: 0.12;
+  }
+
+  .mancha-3 {
+    opacity: 0.08;
+  }
+}
+
+/* Encabezado. */
+.inicio header {
+  animation: entrar 0.7s ease-out both;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.marca-icono {
+  height: 2.25rem;
+  width: auto;
+  flex: none;
+}
+
+.marca-letras {
+  height: 1.2rem;
+  width: auto;
+  flex: none;
+}
+
+/* Contenido: texto a la izquierda, ilustración a la derecha. */
+.inicio main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  min-height: 0;
+}
+
+.texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.5rem, 2.2vh, 1.25rem);
+}
+
+.texto > * {
+  animation: entrar 0.8s ease-out both;
+}
+
+.texto > :nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.texto > :nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+.texto > :nth-child(4) {
+  animation-delay: 0.36s;
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etiquetas li {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-texto-2);
+  box-shadow: 0 0.25rem 0.75rem -0.375rem var(--color-sombra);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  transition: transform 0.2s ease;
+}
+
+.etiquetas li:hover {
+  transform: translateY(-2px);
+}
+
+.inicio h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, min(6.2vw, 7.6vh), 4.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.resalte {
+  padding-bottom: 0.04em;
+  background-image: linear-gradient(var(--color-boton-fondo), var(--color-boton-fondo));
+  background-repeat: no-repeat;
+  background-position: 0 94%;
+  background-size: 100% 0.24em;
+  color: var(--color-enlace);
+  font-style: normal;
+  animation: subrayar 1s 0.7s ease-out both;
+}
+
+.inicio .descripcion {
+  max-width: 34rem;
+  margin: 0;
+  font-size: clamp(0.95rem, min(2.1vw, 2.7vh), 1.3rem);
+  line-height: 1.5;
+}
+
+.inicio .play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  box-shadow: 0 0.5rem 1.5rem -0.5rem var(--color-sombra);
+}
+
+.play[data-play="proximamente"]::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--color-boton-fondo);
+  animation: pulso 1.8s ease-out infinite;
+}
+
+/* Ilustración: una casa a la que tocan la puerta y los oficios que llegan. */
+.arte {
+  justify-self: center;
+  width: min(100%, 64vh, 38rem);
+  aspect-ratio: 1;
+  min-height: 0;
+  animation: entrar 1s 0.2s ease-out both;
+}
+
+.arte svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.f-tarjeta {
+  fill: var(--color-tarjeta);
+}
+
+.f-acento {
+  fill: var(--color-boton-fondo);
+}
+
+.f-tinta {
+  fill: var(--color-enlace);
+}
+
+.trazo-acento {
+  stroke: var(--color-boton-fondo);
+}
+
+.disco {
+  fill: var(--color-tarjeta);
+  fill-opacity: 0.55;
+  stroke: var(--color-boton-fondo);
+  stroke-opacity: 0.4;
+  stroke-width: 2;
+  stroke-dasharray: 3 11;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: girar 70s linear infinite;
+}
+
+.onda {
+  fill: none;
+  stroke: var(--color-boton-fondo);
+  stroke-width: 3;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: onda 3.6s ease-out infinite;
+}
+
+.onda-2 {
+  animation-delay: 1.2s;
+}
+
+.onda-3 {
+  animation-delay: 2.4s;
+}
+
+/* La casa: le tocan la puerta, se mueve, suena y sale humo de la chimenea. */
+.suelo {
+  fill: var(--color-sombra);
+}
+
+.casa {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tocar 3.6s ease-in-out infinite;
+}
+
+.sombra-techo {
+  fill: var(--color-texto);
+  fill-opacity: 0.14;
+}
+
+.borde-casa {
+  stroke: var(--color-texto-2);
+  stroke-opacity: 0.35;
+  stroke-width: 2;
+}
+
+.ventana {
+  fill-opacity: 0.4;
+  animation: brillo 3.6s ease-in-out infinite;
+}
+
+.ventana-alta {
+  fill-opacity: 0.55;
+}
+
+.marco-ventana {
+  stroke: var(--color-tarjeta);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.escalon {
+  fill: var(--color-texto-2);
+  fill-opacity: 0.3;
+}
+
+.arbustos circle {
+  fill-opacity: 0.55;
+}
+
+.toc {
+  fill: none;
+  stroke: var(--color-enlace);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: marca 3.6s ease-out infinite;
+}
+
+.toc-2 {
+  animation-delay: 0.18s;
+}
+
+.humo {
+  fill: var(--color-texto-2);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: humo 4.2s ease-out infinite;
+}
+
+.humo-2 {
+  animation-delay: 1.4s;
+}
+
+.humo-3 {
+  animation-delay: 2.8s;
+}
+
+.insignia {
+  fill: var(--color-tarjeta);
+  stroke: var(--color-boton-fondo);
+  stroke-opacity: 0.45;
+  stroke-width: 2;
+  filter: drop-shadow(0 0.5rem 0.6rem var(--color-sombra));
+}
+
+.flota {
+  animation: flotar 6s ease-in-out infinite;
+}
+
+.flota-2 {
+  animation-duration: 7s;
+  animation-delay: -2s;
+}
+
+.flota-3 {
+  animation-duration: 5.5s;
+  animation-delay: -1s;
+}
+
+.flota-4 {
+  animation-duration: 6.5s;
+  animation-delay: -3.5s;
+}
+
+.engranaje {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: girar 12s linear infinite;
+}
+
+.chispa {
+  animation: titilar 3s ease-in-out infinite;
+}
+
+.chispa-2 {
+  animation-delay: -0.8s;
+}
+
+.chispa-3 {
+  animation-delay: -1.6s;
+}
+
+.chispa-4 {
+  animation-delay: -2.2s;
+}
+
+.chispa-5 {
+  animation-delay: -0.4s;
+}
+
+/* Pie: los enlaces de siempre, ahora como botones. */
+.inicio footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  animation: entrar 0.8s 0.5s ease-out both;
+}
+
+.enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.enlaces a {
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-enlace);
+  box-shadow: 0 0.25rem 0.75rem -0.375rem var(--color-sombra);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.enlaces a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem -0.375rem var(--color-sombra);
+}
+
+.notas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  text-align: right;
+}
+
+.notas .nota {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* Una columna: la ilustración baja y se achica. */
+@media (max-width: 52rem) {
+  .inicio main {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: center;
+    gap: clamp(0.5rem, 2vh, 1.5rem);
+  }
+
+  .arte {
+    width: min(100%, 34vh, 22rem);
+  }
+
+  .notas {
+    text-align: left;
+  }
+}
+
+/* Pantallas bajas: primero se va lo decorativo, nunca el contenido. */
+@media (max-height: 44rem) and (max-width: 52rem) {
+  .arte {
+    display: none;
+  }
+}
+
+@media (max-height: 36rem) {
+  .etiquetas {
+    display: none;
+  }
+
+  .inicio .play {
+    padding: 0.45rem 1rem;
+  }
+
+  .inicio {
+    gap: 0.25rem;
+  }
+}
+
+@media (max-height: 24rem) {
+  .inicio {
+    padding-block: 0.5rem;
+  }
+
+  .inicio h1 {
+    font-size: 1.5rem;
+  }
+
+  .enlaces a {
+    min-height: 2.5rem;
+  }
+}
+
+@media (max-height: 30rem) {
+  .arte {
+    width: min(100%, 62vh);
+  }
+
+  .notas .nota:first-child {
+    font-size: 0.75rem;
+  }
+}
+
+/* Movimiento reducido: la página queda quieta y completa (spec 004, R-07). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .onda {
+    opacity: 0;
+  }
+
+  .toc {
+    opacity: 0.8;
+  }
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
+
+@keyframes subrayar {
+  from {
+    background-size: 0% 0.24em;
+  }
+}
+
+@keyframes derivar {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(4vmax, 3vmax) scale(1.12);
+  }
+}
+
+@keyframes pulso {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-boton-fondo);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.6rem transparent;
+  }
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes onda {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+@keyframes tocar {
+  0%,
+  8%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+
+  2% {
+    transform: rotate(-1.6deg) translateY(-3px);
+  }
+
+  5% {
+    transform: rotate(1.4deg) translateY(0);
+  }
+}
+
+@keyframes marca {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  3%,
+  14% {
+    opacity: 0.85;
+  }
+
+  24% {
+    opacity: 0;
+  }
+}
+
+@keyframes humo {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+
+  15% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(14px, -46px) scale(1.8);
+  }
+}
+
+@keyframes brillo {
+  0%,
+  100% {
+    fill-opacity: 0.4;
+  }
+
+  50% {
+    fill-opacity: 0.75;
+  }
+}
+
+@keyframes titilar {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
 }

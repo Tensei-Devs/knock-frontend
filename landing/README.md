@@ -49,6 +49,14 @@ Las fija `nginx.conf` con `add_header ... always` en el bloque `server`; la prue
 - No declares `add_header` dentro de un `location` de `nginx.conf`: nginx deja de heredar las cabeceras del `server`. La caché usa `expires`.
 - Los colores salen solo de los tokens `--color-*` de `css/landing.css`, con los pares permitidos de TT-MOB-02. La prueba TC-06 rechaza otro par.
 
+## Diseño de la página principal (KNOCK-258)
+`/` ocupa una sola pantalla sin scroll (spec 004, R-06) y se anima solo con CSS (R-07):
+- El logo es el oficial de la maqueta (`knock-icono.svg` y `knock-letras.svg`), incrustado como SVG. La ilustración y las insignias de oficios también son SVG en el HTML, para no agregar archivos al `Dockerfile` ni pasar el límite de peso.
+- Todo el diseño cuelga de `body.inicio`; el aviso de privacidad, eliminar cuenta y el 404 no cambian.
+- Si la pantalla es baja, primero se oculta lo decorativo y después las etiquetas; el contenido y los enlaces no se recortan.
+- `prefers-reduced-motion: reduce` apaga todas las animaciones y transiciones.
+- Para comprobar CA-04 sin scroll: abre `/` en 1920×1080, 1366×768, 390×844, 360×640, 320×568 y 844×390 y verifica que `documentElement.scrollHeight` no pase de `clientHeight`.
+
 ## Google Play: de «próximamente» a «disponible»
 Al nacer, `index.html` tiene la variante «próximamente». Cuando la ficha de Play sea pública, cambia en un PR esa línea por la variante «disponible» y sube la versión del pie:
 ```html

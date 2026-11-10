@@ -537,5 +537,30 @@ class Landing(unittest.TestCase):
         self.assertTrue(any(d.startswith("gzip_types") and "text/css" in d for d in servidor))
 
 
+    def test_TC_TT_WEB_01_10_una_pantalla_y_movimiento_reducido(self):
+        """KNOCK-258 (spec 004, R-06 y R-07, CA-05). CA-04 se mide en un navegador."""
+        css = leer("css/landing.css")
+        reglas = bloques_css(css)
+
+        reducido = [c for s, c in reglas if "prefers-reduced-motion: reduce" in s]
+        self.assertTrue(reducido, "Sin @media (prefers-reduced-motion: reduce)")
+        self.assertTrue(any("animation: none" in c for c in reducido), "No apaga las animaciones")
+        self.assertTrue(any("transition: none" in c for c in reducido), "No apaga las transiciones")
+
+        inicio = [c for s, c in reglas if s == ".inicio"]
+        self.assertTrue(inicio, "Falta la regla .inicio")
+        self.assertTrue(any("100dvh" in c for c in inicio), "La página principal no ocupa una pantalla")
+
+        pagina = analizar(leer("index.html"))
+        cuerpo = [a for t, a in pagina.etiquetas if t == "body"]
+        self.assertEqual(cuerpo[0].get("class"), "inicio")
+        for tag, atributos in pagina.etiquetas:
+            if tag == "svg":
+                decorativo = atributos.get("aria-hidden") == "true"
+                con_nombre = atributos.get("role") == "img" and atributos.get("aria-label")
+                self.assertTrue(decorativo or con_nombre, "<svg> sin aria-hidden ni nombre")
+        self.assertEqual(pagina.de("script"), [])
+
+
 if __name__ == "__main__":
     unittest.main()
