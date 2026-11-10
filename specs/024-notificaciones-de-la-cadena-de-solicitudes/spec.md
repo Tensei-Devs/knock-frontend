@@ -120,7 +120,7 @@ Reglas de lectura:
 | `GET /api/v1/visitas/{id}` | 022 | `404` → «Esta visita ya no está disponible»; `401`, `429` |
 | `GET /api/v1/conversaciones` | 030 (R-17): `cursor?`, `limit?` (1–20); `{ items[], totalNoLeidos, nextCursor }` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/{id}` | 030 (R-05), cuando exista la pantalla de chat | `404` → «Esta conversación ya no está disponible»; `401`, `429` |
-| `GET /api/v1/tecnicos/me/solicitudes` | 028 (R-13): `cursor?`, `limit?` (1–20) | `401`, `403 no_es_tecnico`, `429` |
+| `GET /api/v1/tecnicos/me/solicitudes` | 028 (R-13): `cursor?`, `limit?` (1–20) | `401`, `403 not_a_technician`, `429` |
 | `GET /api/v1/tecnicos/me/trabajo` | Propuesta de la spec 019; spec de backend 036 (Borrador) | Los de la spec 019 |
 
 Reglas del contrato que la app da por ciertas:
@@ -315,7 +315,7 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 | D-05 | En primer plano no hay notificación del sistema: aviso dentro de la app y refresco de lo afectado | Una notificación del sistema con la app abierta duplica la información y distrae | Mostrar siempre la notificación del sistema |
 | D-06 | `mensaje_nuevo` abre `/conversaciones` hasta que exista la pantalla de chat | La spec 020 dejó el chat como spec propia; abrir una ruta inexistente fallaría | Abrir el detalle de la solicitud |
 | D-07 | Todos los avisos de la cadena, salvo `cotizacion_aceptada` y `mensaje_nuevo`, usan el tipo `cotizaciones`, rebautizado en pantalla como «Cotizaciones y solicitudes» | `TipoAviso` (spec 012) no tiene un tipo «solicitudes» y agregar uno cambia la spec aprobada | Agregar un quinto tipo |
-| D-08 | No se avisa al cliente de la ampliación a otra oleada, ni al técnico de una cotización no elegida (`se_eligio_otra`, backend 021), ni a los técnicos que recibieron la solicitud sin cotizar cuando se cancela o vence (backend 029, decisión 2), ni hay recordatorio «por vencer» | No lo pide ninguna historia (HU-025, HU-027, HU-028) ni la descripción §4, y backend no emite esos eventos; menos avisos, menos ruido | Avisar todo cambio de estado |
+| D-08 | No se avisa al cliente de la ampliación a otra oleada, ni al técnico de una cotización no elegida (`other_quote_chosen`, backend 021), ni a los técnicos que recibieron la solicitud sin cotizar cuando se cancela o vence (backend 029, decisión 2), ni hay recordatorio «por vencer» | No lo pide ninguna historia (HU-025, HU-027, HU-028) ni la descripción §4, y backend no emite esos eventos; menos avisos, menos ruido | Avisar todo cambio de estado |
 | D-12 | Un mismo evento de backend (`SolicitudVencida`) se convierte en dos avisos distintos: `solicitud_vencida` para el cliente y `cotizacion_vencida` para los técnicos de `tecnicosAvisar` | Cada destinatario necesita otro texto y otra pantalla; con un solo `evento` la app tendría que decidir el destino por rol | Un solo `evento` con el destino resuelto por rol en la app |
 | D-09 | `avisosVistos` vive solo en memoria (100 entradas) | No hace falta persistir para evitar duplicados cercanos y no deja rastro en disco | Guardarlo en `shared_preferences` |
 | D-10 | Las preferencias se aplican en la app (filtro local) mientras no exista la sincronización con el servidor | HU-051 (Sprint 6) define `PUT /me/preferencias-avisos`; la spec 012 ya guarda la preferencia localmente | Esperar a HU-051 para respetar preferencias |

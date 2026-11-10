@@ -200,3 +200,9 @@
 - **Decisión:** la app no envía `Idempotency-Key` en la creación de solicitud, la elección, la llegada, el descarte, la cancelación ni la marca de leído (specs 015, 016, 019, 020 y 025). Backend 020, 021, 022, 028, 029 y 030 la quitaron. Una segunda elección responde 409 `solicitud_ya_elegida` y una segunda llegada, 409 `codigo_usado`: la app consulta el estado antes de mostrar un error. Quedó anotado el riesgo en cada spec.
 - **Porqué:** decisión de José del 2026-11-10: no hay tiempo de implementarla en el Sprint 4 y la spec 010 ya la dejaba fuera.
 - **A evitar:** reintroducir la clave en un repositorio de la app sin una spec propia de backend y de la app; dar por duplicada una solicitud sin consultar su estado. HU-024 CA4 y HU-033 CA3, que la exigían, se relajaron en `docs/backlog/`.
+
+## 2026-11-10 — Códigos de error de las specs 015 a 025 de la app en inglés y snake_case (KNOCK-253)
+- **Decisión:** las specs 015, 016, 018, 019, 020, 022, 023 y 025 de la app usan los mismos códigos de error en inglés que backend 020 a 037 (por ejemplo `request_already_chosen`, `code_used`, `request_not_dismissable`, `invalid_credentials`), y los valores de `motivo` coinciden con los del backend (`request_expired`, `request_cancelled`, `other_quote_chosen`). En la 015, `address_not_applicable` se lista como 422 junto con el resto de la validación de campos.
+- **Por qué:** convención de errores de la spec 002 (KNOCK-253): un solo nombre por error entre API y app. Alexis pidió el mismo renombrado en la app en la revisión del PR de backend.
+- **No se tocó:** la spec 021 (ya renombrada en su propio PR) ni los tipos de aviso de la spec 024 (`solicitud_cancelada`, `solicitud_vencida`), que son eventos de notificación y no códigos de error.
+- **A evitar:** aprobar una spec de la app mientras su código de error difiera del de backend.
