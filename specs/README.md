@@ -18,4 +18,5 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 012 | Notificaciones push y permisos del teléfono | Aprobada | [`012-notificaciones-push-y-permisos-del-telefono`](012-notificaciones-push-y-permisos-del-telefono/spec.md) |
 | 013 | MCP del proyecto | Aprobada | [`013-mcp-del-proyecto`](013-mcp-del-proyecto/spec.md) |
 | 014 | Alinear la UI con la maqueta | Aprobada | [`014-alinear-la-ui-con-la-maqueta`](014-alinear-la-ui-con-la-maqueta/spec.md) |
-| 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Borrador | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |
+| 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Aprobada | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
+| 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Aprobada | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |

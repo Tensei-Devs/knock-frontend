@@ -1,11 +1,27 @@
-/// Perfil de la cuenta (contrato futuro de `GET/PUT /api/v1/me`, HU-002).
+/// Perfil de la cuenta (`GET/PUT /api/v1/me`, HU-002; spec 026).
 final class Perfil {
-  const Perfil({this.nombre = ''});
+  const Perfil({
+    this.nombre = '',
+    this.fotoUrl,
+    this.colonia,
+    this.codigoPostal,
+    this.esTecnico = false,
+    this.estado = '',
+    this.perfilCompleto = false,
+  });
 
   /// Cuenta recién creada: aún sin nombre.
   static const nuevo = Perfil();
 
   final String nombre;
+  final String? fotoUrl;
+  final String? colonia;
+  final String? codigoPostal;
+  final bool esTecnico;
+  final String estado;
+
+  /// Lo que dice el servidor; [completo] sigue siendo lo que usa la interfaz.
+  final bool perfilCompleto;
 
   /// El perfil está completo cuando ya tiene nombre (HU-002 CA6: no se vuelve
   /// a pedir).
@@ -18,10 +34,26 @@ final class Perfil {
   }
 
   @override
-  bool operator ==(Object other) => other is Perfil && other.nombre == nombre;
+  bool operator ==(Object other) =>
+      other is Perfil &&
+      other.nombre == nombre &&
+      other.fotoUrl == fotoUrl &&
+      other.colonia == colonia &&
+      other.codigoPostal == codigoPostal &&
+      other.esTecnico == esTecnico &&
+      other.estado == estado &&
+      other.perfilCompleto == perfilCompleto;
 
   @override
-  int get hashCode => nombre.hashCode;
+  int get hashCode => Object.hash(
+    nombre,
+    fotoUrl,
+    colonia,
+    codigoPostal,
+    esTecnico,
+    estado,
+    perfilCompleto,
+  );
 }
 
 final _soloLetras = RegExp(r'^\p{L}+(?: \p{L}+)*$', unicode: true);

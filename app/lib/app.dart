@@ -16,6 +16,7 @@ class KnockApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencias = ref.watch(preferenciasProvider);
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: temaClaro,
       darkTheme: temaOscuro,

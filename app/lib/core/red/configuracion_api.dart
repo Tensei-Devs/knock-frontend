@@ -1,9 +1,18 @@
+import 'package:app/core/errores/failure.dart';
+
 /// Configuración de la conexión con la API (spec 006, KNOCK-220).
 ///
 /// La URL base llega al compilar: `--dart-define=KNOCK_API_URL=https://...`.
 /// No se escribe fija en el código: cambia por ambiente y la decide quien
 /// compila. Sin ella, cada llamada falla con `ApiNoConfiguradaFailure`.
 const String urlApiDefinida = String.fromEnvironment('KNOCK_API_URL');
+
+/// Falla si es una compilación de tienda sin URL válida (spec 026, R-10).
+void validarConfiguracionApi({required String url, required bool esRelease}) {
+  if (esRelease && normalizarUrlApi(url) == null) {
+    throw const ApiNoConfiguradaFailure();
+  }
+}
 
 /// Versión de la API que consume esta app (segmento `v{version}` de la ruta).
 const String versionApi = '1';
