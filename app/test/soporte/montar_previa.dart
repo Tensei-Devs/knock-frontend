@@ -97,12 +97,10 @@ class PreviaMontada {
 }
 
 /// Monta `/previa` con un router que solo conoce la previa, su catálogo y un
-/// marcador de `/entrar`. [panel] sustituye al panel (para el modo
-/// demostración).
+/// marcador de `/entrar`.
 Future<PreviaMontada> montarPrevia(
   WidgetTester tester, {
   required OficiosRepository catalogo,
-  Widget? panel,
   Locale idioma = const Locale('es'),
   double escalaDeTexto = 1,
   Size? tamano,
@@ -117,7 +115,7 @@ Future<PreviaMontada> montarPrevia(
     routes: [
       GoRoute(
         path: Rutas.previa,
-        builder: (_, _) => PreviaScreen(panel: panel),
+        builder: (_, _) => const PreviaScreen(),
         routes: [
           GoRoute(
             path: 'oficios',
@@ -156,6 +154,8 @@ Future<PreviaMontada> montarPrevia(
       ),
     ),
   );
+  // La hoja del panel arma su contenido un cuadro después del primero.
+  await tester.pump();
   await tester.pump();
   await tester.pump();
   return PreviaMontada(router, container);

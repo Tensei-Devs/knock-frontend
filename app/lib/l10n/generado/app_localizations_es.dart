@@ -407,13 +407,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Mira los oficios que hay en Knock sin crear una cuenta.';
 
   @override
-  String get previaProximamenteTitulo => 'Muy pronto: expertos cerca de ti';
-
-  @override
-  String get previaProximamenteDetalle =>
-      'Estamos preparando la búsqueda de expertos en tu zona. Mientras tanto, explora los oficios disponibles.';
-
-  @override
   String get previaDatosDeEjemplo => 'Datos de ejemplo';
 
   @override
@@ -442,5 +435,28 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String previaTarjetaSemantica(String nombre, String oficio) {
     return '$nombre, $oficio. Datos de ejemplo. Toca para entrar.';
+  }
+
+  @override
+  String get previaYoAqui => 'Tú estás aquí';
+
+  @override
+  String get previaMapaAcercar => 'Acercar';
+
+  @override
+  String get previaMapaAlejar => 'Alejar';
+
+  @override
+  String get previaMapaMiUbicacion => 'Volver a mi ubicación';
+
+  @override
+  String get previaVerMapa => 'Ver mapa';
+
+  @override
+  String get previaPanelEtiqueta => 'Panel de expertos cerca de ti';
+
+  @override
+  String previaDistanciaKm(String km) {
+    return 'a $km km';
   }
 }

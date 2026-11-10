@@ -812,37 +812,25 @@ abstract class AppLocalizations {
   /// **'Mira los oficios que hay en Knock sin crear una cuenta.'**
   String get previaExplorarDetalle;
 
-  /// Título del panel de expertos y del mapa en la compilación de tienda, donde todavía no hay datos reales.
-  ///
-  /// In es, this message translates to:
-  /// **'Muy pronto: expertos cerca de ti'**
-  String get previaProximamenteTitulo;
-
-  /// Explicación corta bajo el título Muy pronto.
-  ///
-  /// In es, this message translates to:
-  /// **'Estamos preparando la búsqueda de expertos en tu zona. Mientras tanto, explora los oficios disponibles.'**
-  String get previaProximamenteDetalle;
-
-  /// Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas del modo demostración.
+  /// Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas de expertos de la previa; no se puede ocultar.
   ///
   /// In es, this message translates to:
   /// **'Datos de ejemplo'**
   String get previaDatosDeEjemplo;
 
-  /// Botón del panel de demostración que pide cuenta para ver la lista de expertos.
+  /// Botón del panel de expertos de la previa: sube el panel para ver la lista (no pide cuenta).
   ///
   /// In es, this message translates to:
   /// **'Ver lista'**
   String get previaVerLista;
 
-  /// Etiqueta de lectura de pantalla del mapa dibujado del modo demostración.
+  /// Etiqueta de lectura de pantalla del mapa dibujado de la previa.
   ///
   /// In es, this message translates to:
   /// **'Mapa de ejemplo con expertos. Datos de ejemplo.'**
   String get previaMapaSemantica;
 
-  /// Encabezado del panel de demostración con el número de expertos de ejemplo.
+  /// Encabezado del panel de la previa con el número de expertos de ejemplo.
   ///
   /// In es, this message translates to:
   /// **'{cantidad, plural, one{{cantidad} experto cerca de ti} other{{cantidad} expertos cerca de ti}}'**
@@ -859,6 +847,48 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'{nombre}, {oficio}. Datos de ejemplo. Toca para entrar.'**
   String previaTarjetaSemantica(String nombre, String oficio);
+
+  /// Punto de ejemplo que marca dónde estás en el mapa dibujado de la previa; no usa ubicación real.
+  ///
+  /// In es, this message translates to:
+  /// **'Tú estás aquí'**
+  String get previaYoAqui;
+
+  /// Botón del mapa de la previa: acerca el mapa.
+  ///
+  /// In es, this message translates to:
+  /// **'Acercar'**
+  String get previaMapaAcercar;
+
+  /// Botón del mapa de la previa: aleja el mapa.
+  ///
+  /// In es, this message translates to:
+  /// **'Alejar'**
+  String get previaMapaAlejar;
+
+  /// Botón del mapa de la previa: regresa a la vista inicial (punto de ejemplo, sin ubicación real).
+  ///
+  /// In es, this message translates to:
+  /// **'Volver a mi ubicación'**
+  String get previaMapaMiUbicacion;
+
+  /// Botón del panel de expertos: baja el panel para ver el mapa.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mapa'**
+  String get previaVerMapa;
+
+  /// Etiqueta de lectura de pantalla del panel inferior de la previa.
+  ///
+  /// In es, this message translates to:
+  /// **'Panel de expertos cerca de ti'**
+  String get previaPanelEtiqueta;
+
+  /// Distancia de un experto de ejemplo en su tarjeta.
+  ///
+  /// In es, this message translates to:
+  /// **'a {km} km'**
+  String previaDistanciaKm(String km);
 }
 
 class _AppLocalizationsDelegate

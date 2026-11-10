@@ -494,29 +494,21 @@
   "@previaExplorarDetalle": {
     "description": "Detalle de la tarjeta Explorar servicios y trabajos."
   },
-  "previaProximamenteTitulo": "Muy pronto: expertos cerca de ti",
-  "@previaProximamenteTitulo": {
-    "description": "Título del panel de expertos y del mapa en la compilación de tienda, donde todavía no hay datos reales."
-  },
-  "previaProximamenteDetalle": "Estamos preparando la búsqueda de expertos en tu zona. Mientras tanto, explora los oficios disponibles.",
-  "@previaProximamenteDetalle": {
-    "description": "Explicación corta bajo el título Muy pronto."
-  },
   "previaDatosDeEjemplo": "Datos de ejemplo",
   "@previaDatosDeEjemplo": {
-    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas del modo demostración."
+    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas de expertos de la previa; no se puede ocultar."
   },
   "previaVerLista": "Ver lista",
   "@previaVerLista": {
-    "description": "Botón del panel de demostración que pide cuenta para ver la lista de expertos."
+    "description": "Botón del panel de expertos de la previa: sube el panel para ver la lista (no pide cuenta)."
   },
   "previaMapaSemantica": "Mapa de ejemplo con expertos. Datos de ejemplo.",
   "@previaMapaSemantica": {
-    "description": "Etiqueta de lectura de pantalla del mapa dibujado del modo demostración."
+    "description": "Etiqueta de lectura de pantalla del mapa dibujado de la previa."
   },
   "previaExpertosCerca": "{cantidad, plural, one{{cantidad} experto cerca de ti} other{{cantidad} expertos cerca de ti}}",
   "@previaExpertosCerca": {
-    "description": "Encabezado del panel de demostración con el número de expertos de ejemplo.",
+    "description": "Encabezado del panel de la previa con el número de expertos de ejemplo.",
     "placeholders": {
       "cantidad": {
         "type": "int",
@@ -545,6 +537,40 @@
       "oficio": {
         "type": "String",
         "description": "Oficio del experto de ejemplo"
+      }
+    }
+  },
+  "previaYoAqui": "Tú estás aquí",
+  "@previaYoAqui": {
+    "description": "Punto de ejemplo que marca dónde estás en el mapa dibujado de la previa; no usa ubicación real."
+  },
+  "previaMapaAcercar": "Acercar",
+  "@previaMapaAcercar": {
+    "description": "Botón del mapa de la previa: acerca el mapa."
+  },
+  "previaMapaAlejar": "Alejar",
+  "@previaMapaAlejar": {
+    "description": "Botón del mapa de la previa: aleja el mapa."
+  },
+  "previaMapaMiUbicacion": "Volver a mi ubicación",
+  "@previaMapaMiUbicacion": {
+    "description": "Botón del mapa de la previa: regresa a la vista inicial (punto de ejemplo, sin ubicación real)."
+  },
+  "previaVerMapa": "Ver mapa",
+  "@previaVerMapa": {
+    "description": "Botón del panel de expertos: baja el panel para ver el mapa."
+  },
+  "previaPanelEtiqueta": "Panel de expertos cerca de ti",
+  "@previaPanelEtiqueta": {
+    "description": "Etiqueta de lectura de pantalla del panel inferior de la previa."
+  },
+  "previaDistanciaKm": "a {km} km",
+  "@previaDistanciaKm": {
+    "description": "Distancia de un experto de ejemplo en su tarjeta.",
+    "placeholders": {
+      "km": {
+        "type": "String",
+        "description": "Distancia con un decimal"
       }
     }
   }

@@ -22,7 +22,8 @@ class BuscadorPrevia extends StatelessWidget {
       label: '${textos.previaBuscadorTitulo}. ${textos.previaBuscadorLeyenda}',
       onTap: alTocar,
       child: Material(
-        color: esquema.surfaceContainer,
+        color: esquema.surface,
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Radios.boton),
           side: BorderSide(color: context.colores.linea),

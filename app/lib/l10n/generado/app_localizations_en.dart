@@ -403,13 +403,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'See the trades available on Knock without creating an account.';
 
   @override
-  String get previaProximamenteTitulo => 'Coming soon: experts near you';
-
-  @override
-  String get previaProximamenteDetalle =>
-      'We are preparing the expert search for your area. In the meantime, explore the available trades.';
-
-  @override
   String get previaDatosDeEjemplo => 'Sample data';
 
   @override
@@ -437,5 +430,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String previaTarjetaSemantica(String nombre, String oficio) {
     return '$nombre, $oficio. Sample data. Tap to sign in.';
+  }
+
+  @override
+  String get previaYoAqui => 'You are here';
+
+  @override
+  String get previaMapaAcercar => 'Zoom in';
+
+  @override
+  String get previaMapaAlejar => 'Zoom out';
+
+  @override
+  String get previaMapaMiUbicacion => 'Back to my location';
+
+  @override
+  String get previaVerMapa => 'See map';
+
+  @override
+  String get previaPanelEtiqueta => 'Panel of experts near you';
+
+  @override
+  String previaDistanciaKm(String km) {
+    return '$km km away';
   }
 }

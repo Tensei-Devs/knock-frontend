@@ -5,7 +5,6 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/oficios/domain/oficio.dart';
 import 'package:app/features/oficios/domain/resultado_oficios.dart';
-import 'package:app/features/previa/presentation/panel_demostracion.dart';
 import 'package:app/features/previa/presentation/panel_expertos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +13,11 @@ import '../../soporte/accesibilidad.dart';
 import '../../soporte/montar_previa.dart';
 
 CatalogoFalso _tres() => CatalogoFalso.con([ele, mec, plo]);
+
+final _panel = find.descendant(
+  of: find.byType(PanelExpertos),
+  matching: find.byType(Scrollable),
+);
 
 Finder _chip(String texto) => find.widgetWithText(ChoiceChip, texto);
 
@@ -158,6 +162,7 @@ void main() {
         expect(_fila('Electricidad'), findsNothing);
         expect(_fila('Plomería'), findsNothing);
 
+        await tester.ensureVisible(_chip('Todos'));
         await tester.tap(_chip('Todos'));
         await tester.pumpAndSettle();
         expect(_fila('Electricidad'), findsOneWidget);
@@ -271,21 +276,6 @@ void main() {
     );
   });
 
-  group('panel de expertos', () {
-    testWidgets('CA_027_25 en tienda dice «Muy pronto» y no muestra datos', (
-      tester,
-    ) async {
-      await montarPrevia(tester, catalogo: _tres());
-      expect(find.byType(PanelProximamente), findsOneWidget);
-      expect(find.text('Muy pronto: expertos cerca de ti'), findsOneWidget);
-      expect(find.byType(PanelDemostracion), findsNothing);
-      expect(find.text('Datos de ejemplo'), findsNothing);
-      expect(find.byIcon(Icons.location_on), findsNothing);
-      expect(find.byIcon(Icons.star_rounded), findsNothing);
-      expect(find.textContaining(RegExp(r'\d+ expertos')), findsNothing);
-    });
-  });
-
   group('idioma', () {
     testWidgets('CA_027_32 en inglés todos los textos salen del ARB inglés', (
       tester,
@@ -299,12 +289,13 @@ void main() {
         'All',
         "I'm not sure which",
         'Explore services and jobs',
-        'Coming soon: experts near you',
+        '6 experts near you',
+        'See list',
         'Available trades',
       ]) {
         expect(find.text(texto), findsOneWidget, reason: texto);
       }
-      for (final es in ['Entrar', 'Registrarme', 'Todos', 'Muy pronto']) {
+      for (final es in ['Entrar', 'Registrarme', 'Todos', 'Ver lista']) {
         expect(find.textContaining(es), findsNothing, reason: es);
       }
     });
@@ -335,13 +326,13 @@ void main() {
         await tester.scrollUntilVisible(
           find.text('Oficios disponibles'),
           200,
-          scrollable: find.byType(Scrollable).first,
+          scrollable: _panel,
         );
         expect(tester.takeException(), isNull);
         await tester.scrollUntilVisible(
           find.text('Explorar servicios y trabajos'),
           -300,
-          scrollable: find.byType(Scrollable).first,
+          scrollable: _panel,
         );
         await tester.ensureVisible(find.text('Explorar servicios y trabajos'));
         await tester.pumpAndSettle();

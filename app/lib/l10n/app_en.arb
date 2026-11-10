@@ -350,25 +350,17 @@
   "@previaExplorarDetalle": {
     "description": "Detalle de la tarjeta Explorar servicios y trabajos."
   },
-  "previaProximamenteTitulo": "Coming soon: experts near you",
-  "@previaProximamenteTitulo": {
-    "description": "Título del panel de expertos y del mapa en la compilación de tienda, donde todavía no hay datos reales."
-  },
-  "previaProximamenteDetalle": "We are preparing the expert search for your area. In the meantime, explore the available trades.",
-  "@previaProximamenteDetalle": {
-    "description": "Explicación corta bajo el título Muy pronto."
-  },
   "previaDatosDeEjemplo": "Sample data",
   "@previaDatosDeEjemplo": {
-    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas del modo demostración."
+    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas de expertos de la previa; no se puede ocultar."
   },
   "previaVerLista": "See list",
   "@previaVerLista": {
-    "description": "Botón del panel de demostración que pide cuenta para ver la lista de expertos."
+    "description": "Botón del panel de expertos de la previa: sube el panel para ver la lista (no pide cuenta)."
   },
   "previaMapaSemantica": "Sample map with experts. Sample data.",
   "@previaMapaSemantica": {
-    "description": "Etiqueta de lectura de pantalla del mapa dibujado del modo demostración."
+    "description": "Etiqueta de lectura de pantalla del mapa dibujado de la previa."
   },
   "previaExpertosCerca": "{cantidad, plural, one{{cantidad} expert near you} other{{cantidad} experts near you}}",
   "@previaExpertosCerca": {
@@ -401,6 +393,40 @@
       "oficio": {
         "type": "String",
         "description": "Oficio del experto de ejemplo"
+      }
+    }
+  },
+  "previaYoAqui": "You are here",
+  "@previaYoAqui": {
+    "description": "Sample dot that marks where you are on the drawn map of the preview; it does not use a real location."
+  },
+  "previaMapaAcercar": "Zoom in",
+  "@previaMapaAcercar": {
+    "description": "Preview map button: zoom in."
+  },
+  "previaMapaAlejar": "Zoom out",
+  "@previaMapaAlejar": {
+    "description": "Preview map button: zoom out."
+  },
+  "previaMapaMiUbicacion": "Back to my location",
+  "@previaMapaMiUbicacion": {
+    "description": "Preview map button: back to the initial view (sample point, no real location)."
+  },
+  "previaVerMapa": "See map",
+  "@previaVerMapa": {
+    "description": "Experts panel button: lowers the panel to show the map."
+  },
+  "previaPanelEtiqueta": "Panel of experts near you",
+  "@previaPanelEtiqueta": {
+    "description": "Screen reader label of the bottom panel of the preview."
+  },
+  "previaDistanciaKm": "{km} km away",
+  "@previaDistanciaKm": {
+    "description": "Distance of a sample expert on their card.",
+    "placeholders": {
+      "km": {
+        "type": "String",
+        "description": "Distance with one decimal"
       }
     }
   }

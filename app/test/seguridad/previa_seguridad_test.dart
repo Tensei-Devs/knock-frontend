@@ -1,5 +1,4 @@
 // Spec 027: seguridad negativa de la previa sin sesión.
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/core/red/cliente_api_provider.dart';
@@ -21,22 +20,6 @@ const _oficiosJson = [
   {'clave': 'ele', 'nombre': 'Electricidad', 'modalidad': 'domicilio'},
   {'clave': 'mec', 'nombre': 'Mecánica', 'modalidad': 'taller'},
 ];
-
-/// El script de la spec 027 sobre [contenido]; `null` si no hay Python.
-Future<ProcessResult?> _correrScript(List<int> contenido) async {
-  final dir = Directory.systemTemp.createTempSync('previa_release_');
-  addTearDown(() => dir.deleteSync(recursive: true));
-  final binario = File('${dir.path}/libapp.so')..writeAsBytesSync(contenido);
-  try {
-    return await Process.run(
-      'python',
-      ['../scripts/verificar_release_sin_demo.py', binario.path],
-      environment: {'PYTHONUTF8': '1'},
-    );
-  } on ProcessException {
-    return null;
-  }
-}
 
 void main() {
   testWidgets(
@@ -107,64 +90,6 @@ void main() {
     () {
       for (final e in expertosDeEjemplo) {
         expect('${e.nombre}${e.oficio}${e.calificacion}', isNot(contains('@')));
-      }
-    },
-  );
-
-  test(
-    'CA_027_27 el script falla si el binario trae un nombre de ejemplo',
-    () async {
-      final resultado = await _correrScript([
-        0,
-        1,
-        ...utf8.encode('xx ${expertosDeEjemplo.first.nombre} yy'),
-        2,
-      ]);
-      if (resultado == null) {
-        markTestSkipped('sin Python en el equipo');
-        return;
-      }
-      expect(resultado.exitCode, 1, reason: '${resultado.stdout}');
-      expect('${resultado.stdout}', contains('Elena Muestra'));
-    },
-  );
-
-  test(
-    'CA_027_27 el script falla si el binario trae el rótulo en UTF-16',
-    () async {
-      final resultado = await _correrScript(
-        'Datos de ejemplo'.codeUnits.expand((c) => [c, 0]).toList(),
-      );
-      if (resultado == null) {
-        markTestSkipped('sin Python en el equipo');
-        return;
-      }
-      expect(resultado.exitCode, 1, reason: '${resultado.stdout}');
-    },
-  );
-
-  test('CA_027_27 el script pasa con un binario limpio', () async {
-    final resultado = await _correrScript('Knock Entrar Registrarme'.codeUnits);
-    if (resultado == null) {
-      markTestSkipped('sin Python en el equipo');
-      return;
-    }
-    expect(resultado.exitCode, 0, reason: '${resultado.stdout}');
-  });
-
-  test(
-    'CA_027_27 el script no da un falso verde si no hay nada que revisar',
-    () async {
-      final vacio = Directory.systemTemp.createTempSync('previa_vacio_');
-      addTearDown(() => vacio.deleteSync(recursive: true));
-      try {
-        final r = await Process.run('python', [
-          '../scripts/verificar_release_sin_demo.py',
-          vacio.path,
-        ]);
-        expect(r.exitCode, 2);
-      } on ProcessException {
-        markTestSkipped('sin Python en el equipo');
       }
     },
   );
