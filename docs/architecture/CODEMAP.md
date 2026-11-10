@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T06:29:54Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-10T07:39:29Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -10,21 +10,23 @@
 | `actividad` | presentation | 1 | 1 | 1 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
+| `config` | core | 1 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
 | `entrada` | domain, presentation | 7 | 12 | 24 |
 | `errores` | core | 3 | 15 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 11 |
+| `l10n` | - | 3 | 4 | 17 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
-| `oficios` | -, data, domain, presentation | 11 | 18 | 17 |
+| `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
 | `preferencias` | core | 4 | 9 | 17 |
+| `previa` | -, domain, presentation | 12 | 18 | 21 |
 | `red` | core | 7 | 5 | 13 |
-| `router` | core | 3 | 3 | 5 |
+| `router` | core | 4 | 4 | 12 |
 | `sesion` | core | 14 | 24 | 41 |
 | `tema` | core | 5 | 9 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
@@ -64,6 +66,13 @@
 - `app/lib/core/cache/revalidador_etag.dart` — enum `OrigenCache`, class `RespuestaCache`, class `RevalidadorEtag`
   - `leerGuardado()`:52
 
+### config
+
+**core**
+
+- `app/lib/core/config/modo_demostracion.dart` — —
+  - `demoActivo()`:7
+
 ### cuenta
 
 **-**
@@ -94,7 +103,7 @@
 - `app/lib/features/cuenta/presentation/avatar_iniciales.dart` — class `AvatarIniciales`
   - `build()`:12
 - `app/lib/features/cuenta/presentation/completar_perfil_screen.dart` — class `CompletarPerfilScreen`, class `_EstadoCompletar`, class `_Listo`
-  - `dispose()`:29, `build()`:60, `build()`:111
+  - `dispose()`:30, `build()`:61, `build()`:112
 - `app/lib/features/cuenta/presentation/configuracion_screen.dart` — class `ConfiguracionScreen`, class `_Encabezado`, class `_Opcion`
   - `build()`:17, `build()`:79, `build()`:96
 - `app/lib/features/cuenta/presentation/cuenta_screen.dart` — class `CuentaScreen`, class `_ErrorDePerfil`, class `_TarjetaDePerfil`, class `_ConfirmarCierreDeSesion`
@@ -214,11 +223,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:701, `isSupported()`:706, `shouldReload()`:710, `lookupAppLocalizations()`:713
+  - `of()`:70, `load()`:869, `isSupported()`:874, `shouldReload()`:878, `lookupAppLocalizations()`:881
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:422, `previaPinSemantica()`:433, `previaTarjetaSemantica()`:438
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:427, `previaPinSemantica()`:438, `previaTarjetaSemantica()`:443
 
 ### layout
 
@@ -249,6 +258,7 @@
 
 **-**
 
+- `app/lib/features/oficios/oficios.dart` — —
 - `app/lib/features/oficios/oficios_providers.dart` — —
 
 **data**
@@ -305,6 +315,39 @@
 - `app/lib/core/preferencias/preferencias_provider.dart` — class `Preferencias`, class `PreferenciasNotifier`
   - `copyWith()`:25, `build()`:47, `cambiarTema()`:55, `cambiarIdioma()`:61
 
+### previa
+
+**-**
+
+- `app/lib/features/previa/demo/datos_de_ejemplo.dart` — class `ExpertoDeEjemplo`
+
+**domain**
+
+- `app/lib/features/previa/domain/requerir_cuenta.dart` — —
+
+**presentation**
+
+- `app/lib/features/previa/presentation/barra_marca.dart` — class `BarraMarca`
+  - `build()`:17
+- `app/lib/features/previa/presentation/buscador_previa.dart` — class `BuscadorPrevia`
+  - `build()`:15
+- `app/lib/features/previa/presentation/catalogo_previa.dart` — class `CatalogoPrevia`, class `_AvisoSinConexion`, class `_FilaOficio`
+  - `build()`:22, `build()`:80, `build()`:110
+- `app/lib/features/previa/presentation/chips_oficio.dart` — class `ChipsOficio`
+  - `build()`:25
+- `app/lib/features/previa/presentation/hoja_invitacion.dart` — class `_HojaInvitacion`
+  - `mostrarHojaInvitacion()`:12, `showModalBottomSheet()`:14, `build()`:33
+- `app/lib/features/previa/presentation/mapa_ejemplo.dart` — class `RotuloDeEjemplo`, class `MapaDeEjemplo`, class `_LienzoDeMapa`
+  - `build()`:13, `build()`:48, `paint()`:128, `shouldRepaint()`:167
+- `app/lib/features/previa/presentation/panel_demostracion.dart` — class `PanelDemostracion`, class `_TarjetaExperto`
+  - `build()`:25, `build()`:95
+- `app/lib/features/previa/presentation/panel_expertos.dart` — class `PanelProximamente`
+  - `panelDeExpertos()`:17, `build()`:25
+- `app/lib/features/previa/presentation/previa_oficios_screen.dart` — class `PreviaOficiosScreen`
+  - `build()`:12
+- `app/lib/features/previa/presentation/previa_screen.dart` — class `PreviaScreen`, class `_PreviaScreenState`, class `_TarjetaExplorar`
+  - `build()`:44, `build()`:91, `abrir()`:95
+
 ### red
 
 **core**
@@ -331,8 +374,10 @@
 - `app/lib/core/router/app_router.dart` — —
 - `app/lib/core/router/app_shell.dart` — class `_Destino`, class `AppShell`
   - `ramasVisibles()`:36, `build()`:49
+- `app/lib/core/router/destino_de_regreso_provider.dart` — class `DestinoDeRegreso`
+  - `build()`:9, `recordar()`:12, `olvidar()`:14
 - `app/lib/core/router/rutas.dart` — class `Rutas`
-  - `redireccionPorSesion()`:30, `redireccionPorRol()`:45, `redireccionPorPerfil()`:55
+  - `esRutaPublica()`:42, `redireccionPorSesion()`:51, `rutaDeEntrada()`:66, `destinoDeRegreso()`:81, `destinoValidoODescartar()`:86, `redireccionPorRol()`:111, `redireccionPorPerfil()`:121
 
 ### sesion
 
