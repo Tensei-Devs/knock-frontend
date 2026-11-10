@@ -339,4 +339,119 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get entradaCambiarNumero => 'Change number';
+
+  @override
+  String get previaEntrar => 'Sign in';
+
+  @override
+  String get previaRegistrarme => 'Sign up';
+
+  @override
+  String get previaBuscadorTitulo => 'Find an expert near you';
+
+  @override
+  String get previaBuscadorLeyenda => 'Mechanics · Plumbing · Electrical';
+
+  @override
+  String get previaInvitacionTitulo => 'Sign in to continue';
+
+  @override
+  String get previaInvitacionDetalle =>
+      'To find experts, request quotes and see their contact details you need an account.';
+
+  @override
+  String get previaAhoraNo => 'Not now';
+
+  @override
+  String get previaChipsEtiqueta => 'Trades';
+
+  @override
+  String get previaChipTodos => 'All';
+
+  @override
+  String get previaChipNoSeCual => 'I\'m not sure which';
+
+  @override
+  String get previaCatalogoTitulo => 'Available trades';
+
+  @override
+  String get previaCargando => 'Loading trades';
+
+  @override
+  String get previaVacioTitulo => 'There are no trades available yet';
+
+  @override
+  String get previaErrorTitulo => 'We couldn\'t load the trades';
+
+  @override
+  String get previaSinConexion => 'No connection. Showing the last saved data.';
+
+  @override
+  String get previaReintentar => 'Retry';
+
+  @override
+  String get previaModalidadDomicilio => 'At your home';
+
+  @override
+  String get previaModalidadTaller => 'At the workshop';
+
+  @override
+  String get previaExplorarTitulo => 'Explore services and jobs';
+
+  @override
+  String get previaExplorarDetalle =>
+      'See the trades available on Knock without creating an account.';
+
+  @override
+  String get previaDatosDeEjemplo => 'Sample data';
+
+  @override
+  String get previaVerLista => 'See list';
+
+  @override
+  String get previaMapaSemantica => 'Sample map with experts. Sample data.';
+
+  @override
+  String previaExpertosCerca(int cantidad) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cantidad,
+      locale: localeName,
+      other: '$cantidad experts near you',
+      one: '$cantidad expert near you',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String previaPinSemantica(String nombre) {
+    return 'Sample expert: $nombre. Sample data. Tap to sign in.';
+  }
+
+  @override
+  String previaTarjetaSemantica(String nombre, String oficio) {
+    return '$nombre, $oficio. Sample data. Tap to sign in.';
+  }
+
+  @override
+  String get previaYoAqui => 'You are here';
+
+  @override
+  String get previaMapaAcercar => 'Zoom in';
+
+  @override
+  String get previaMapaAlejar => 'Zoom out';
+
+  @override
+  String get previaMapaMiUbicacion => 'Back to my location';
+
+  @override
+  String get previaVerMapa => 'See map';
+
+  @override
+  String get previaPanelEtiqueta => 'Panel of experts near you';
+
+  @override
+  String previaDistanciaKm(String km) {
+    return '$km km away';
+  }
 }

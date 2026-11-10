@@ -1,14 +1,14 @@
 # Plan 027 — Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (Aprobada; actualizada por la decisión D-12 del Tech Lead, 2026-11-10).
 
 ## Enfoque
-De abajo hacia arriba: primero las reglas puras (rutas y bandera), luego las piezas de pantalla y al final el flujo completo.
+De abajo hacia arriba: primero las reglas puras (rutas y vista del mapa), luego las piezas de pantalla y al final el flujo completo.
 
 1. **Rutas y redirección.** `Rutas.previa` y `Rutas.previaOficios`; `redireccionPorSesion` manda a la previa lo protegido sin sesión y deja pasar lo público. No se toca la sesión de la spec 026.
-2. **Modo demostración.** Función pura `demoActivo` y datos de ejemplo en un archivo aparte que `release` descarta.
+2. **Datos de ejemplo y mapa.** Datos de ejemplo siempre visibles y rotulados (sin bandera), colores del mapa en los tokens del tema y la vista pura del mapa (`VistaMapa`: pan, zoom y límites).
 3. **Regreso tras entrar.** Un solo `requerirCuenta` y un validador de destinos permitidos.
-4. **Pantalla.** Barra de marca, buscador, chips sobre el catálogo real, hoja de invitación, tarjeta de Explorar, panel y mapa de ejemplo.
+4. **Pantalla.** Barra de marca arriba; debajo, el mapa dibujado a pantalla completa con buscador y chips flotando encima, botones del mapa, hoja de invitación y un panel inferior plegable con «Explorar», las tarjetas de expertos y el catálogo.
 5. **Textos y accesibilidad.** ARB es/en mínimos y revisión de 48 dp, contraste y texto al 200 %.
 6. **Integración y puertas.** Flujo previa → login → app, seguridad negativa de la bandera, CI y Memoria.
 
@@ -17,11 +17,10 @@ Esta spec **se implementa después de la 026 o apilada sobre su rama**. Necesita
 
 ## Archivos que se crean o cambian
 - `app/lib/core/router/rutas.dart` y `app_router.dart` (cambian).
-- `app/lib/core/config/modo_demostracion.dart` (nuevo).
-- `app/lib/features/previa/` (nuevo): `domain/requerir_cuenta.dart`, `domain/destino_de_regreso.dart`, `demo/datos_de_ejemplo.dart`, `presentation/` con la pantalla y sus piezas.
+- `app/lib/core/tema/colores_mapa.dart` (nuevo): colores del mapa y de los pines.
+- `app/lib/features/previa/` (nuevo): `domain/requerir_cuenta.dart`, `domain/destino_de_regreso.dart`, `domain/vista_mapa.dart`, `demo/datos_de_ejemplo.dart`, `presentation/` con la pantalla, el panel y `mapa/`.
 - `app/lib/features/entrada/presentation/entrada_controller.dart` o el punto que hoy navega tras entrar (cambia solo para leer el destino de regreso).
 - `app/lib/l10n/app_es.arb` y `app_en.arb` (textos nuevos) y su generado.
-- `scripts/verificar_release_sin_demo.py` (nuevo).
 - Pruebas en `app/test/` y `app/integration_test/` con `CA-027-NN` en el nombre.
 - `specs/README.md`, `Memoria.md` y el mapa de arquitectura.
 - **No cambian:** `contracts/`, `app/packages/knock_api/`, `.github/`, ni los archivos de sesión de la spec 026.
@@ -34,13 +33,12 @@ Esta spec **se implementa después de la 026 o apilada sobre su rama**. Necesita
 ## Orden y paralelismo
 ```
 T-01 (rutas) -> T-02 (redirect) -> P-1
-T-03 (demo) -> T-04 (datos de ejemplo) -> P-2
+T-03 (colores y vista del mapa) -> T-04 (datos de ejemplo) -> P-2
 T-05 (destino de regreso) -> T-06 (requerirCuenta) -> P-3
 T-07 (textos) -> T-08 (barra) , T-09 (buscador+hoja) , T-10 (chips+catálogo) , T-11 (panel+mapa, también T-04)
 T-08 a T-11 -> T-12 (ensamblar previa y ruta) -> P-4, P-5
 T-12 + T-06 + 026 -> T-13 (regreso tras entrar) -> P-6
-T-03 + T-04 -> T-14 (script de release) -> P-7
-P-1 a P-7 -> T-15 (humo manual) -> T-16 (CI y Memoria)
+P-1 a P-6 -> T-15 (humo manual) -> T-16 (CI y Memoria)
 ```
 - En paralelo desde el inicio: T-01, T-03, T-05 y T-07 (no comparten archivos).
 - En paralelo después de T-07: T-08, T-09 y T-10; T-11 también espera a T-04.
@@ -51,11 +49,12 @@ P-1 a P-7 -> T-15 (humo manual) -> T-16 (CI y Memoria)
 - **D-01** «Registrarme» y «Entrar» abren el mismo flujo.
 - **D-02** chips con los oficios reales.
 - **D-03** cerrar sesión lleva a la previa.
-- **D-05** la bandera solo vale si `!kReleaseMode`.
-- **D-06** mapa de ejemplo dibujado, sin SDK.
+- **D-05** reemplazada por D-12: no hay bandera de demostración.
+- **D-06** mapa de ejemplo dibujado, sin SDK; con D-12 a pantalla completa y con pan y zoom.
 - **D-08** lista corta de destinos de regreso permitidos.
-- **D-09** el paso de CI en `.github/` se pide a quien tenga permiso.
+- **D-09** obsoleta por D-12: ya no hay paso de CI para `release`.
+- **D-12** mapa completo y ejemplos siempre visibles y rotulados (decisión del Tech Lead).
 
 ## Verificación
 - Cada criterio de `spec.md` se comprueba con una prueba (nombre con `CA-027-NN`) o con el humo manual de T-15.
-- Se ejecutan los comandos de `AGENTS.md`, `python scripts/sdd_lint.py` y `python scripts/sdd_lint.py --trace 027`, se compila `release` con la bandera y se corre el script de T-14, y se actualiza `Memoria.md`.
+- Se ejecutan los comandos de `AGENTS.md`, `python scripts/sdd_lint.py` y `python scripts/sdd_lint.py --trace 027`, y se actualiza `Memoria.md`.

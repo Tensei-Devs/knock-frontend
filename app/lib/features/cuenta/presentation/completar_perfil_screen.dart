@@ -1,4 +1,5 @@
 import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/core/router/destino_de_regreso_provider.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/features/cuenta/domain/perfil.dart';
@@ -102,13 +103,13 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
   }
 }
 
-class _Listo extends StatelessWidget {
+class _Listo extends ConsumerWidget {
   const _Listo({required this.nombre});
 
   final String nombre;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
     body: Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -124,7 +125,15 @@ class _Listo extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => context.go(Rutas.inicio),
+              onPressed: () {
+                // Spec 027, R-09: tras completar el perfil se continúa al
+                // destino de regreso (válido) o a Inicio.
+                final destino = destinoDeRegreso(
+                  ref.read(destinoDeRegresoProvider),
+                );
+                ref.read(destinoDeRegresoProvider.notifier).olvidar();
+                context.go(destino);
+              },
               child: const Text('Empezar'),
             ),
           ],
