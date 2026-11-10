@@ -1,4 +1,5 @@
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/core/tema/colores.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,23 +53,28 @@ class AppShell extends ConsumerWidget {
 
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: seleccionado < 0 ? 0 : seleccionado,
-        onDestinationSelected: (indice) {
-          final rama = ramas[indice];
-          navigationShell.goBranch(
-            rama,
-            initialLocation: rama == navigationShell.currentIndex,
-          );
-        },
-        destinations: [
-          for (final rama in ramas)
-            NavigationDestination(
-              icon: Icon(_destinos[rama].icono),
-              selectedIcon: Icon(_destinos[rama].iconoSeleccionado),
-              label: _destinos[rama].etiqueta(textos),
-            ),
-        ],
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: context.colores.linea)),
+        ),
+        child: NavigationBar(
+          selectedIndex: seleccionado < 0 ? 0 : seleccionado,
+          onDestinationSelected: (indice) {
+            final rama = ramas[indice];
+            navigationShell.goBranch(
+              rama,
+              initialLocation: rama == navigationShell.currentIndex,
+            );
+          },
+          destinations: [
+            for (final rama in ramas)
+              NavigationDestination(
+                icon: Icon(_destinos[rama].icono),
+                selectedIcon: Icon(_destinos[rama].iconoSeleccionado),
+                label: _destinos[rama].etiqueta(textos),
+              ),
+          ],
+        ),
       ),
     );
   }
