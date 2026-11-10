@@ -2,7 +2,7 @@ name: app
 description: "Knock: app móvil para clientes y técnicos (TT-MOB-01)."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.1+1
 
 # Flutter 3.47.7 stable · Dart 3.13.5 (TT-MOB-01, spec §8 decisión 4).
 # TT-CI-01 debe usar la misma versión.
