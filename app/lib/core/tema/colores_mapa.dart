@@ -28,6 +28,10 @@ abstract final class ColoresMapa {
 
 /// Colores del mundo dibujado (los de `worldSvg` de la maqueta, y una
 /// variante oscura). Es un dibujo de ejemplo: no usa SDK de mapas.
+///
+/// Los rótulos (`texto*`) son más oscuros en claro (y el del río más claro en
+/// oscuro) que en la maqueta para cumplir 4.5:1 contra su halo
+/// (KNOCK-175, spec 014 R-04).
 final class PaletaMapa {
   const PaletaMapa({
     required this.fondo,
@@ -80,10 +84,10 @@ final class PaletaMapa {
     rioBorde: Color(0xFFAAD3DF),
     avenida: Color(0xFFFFE3A8),
     avenidaBorde: Color(0xFFE2B462),
-    textoAvenida: Color(0xFF7A6B45),
-    textoColonia: Color(0xFF8E8776),
-    textoParque: Color(0xFF5F8C48),
-    textoRio: Color(0xFF4C8FA3),
+    textoAvenida: Color(0xFF726440),
+    textoColonia: Color(0xFF585349),
+    textoParque: Color(0xFF496B37),
+    textoRio: Color(0xFF305B68),
   );
 
   static const oscuro = PaletaMapa(
@@ -106,6 +110,6 @@ final class PaletaMapa {
     textoAvenida: Color(0xFFE9D7A8),
     textoColonia: Color(0xFFB5A798),
     textoParque: Color(0xFFA8D090),
-    textoRio: Color(0xFF8FC4D6),
+    textoRio: Color(0xFF9CCBDB),
   );
 }
