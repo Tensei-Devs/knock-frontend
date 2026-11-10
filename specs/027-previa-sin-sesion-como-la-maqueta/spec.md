@@ -1,6 +1,6 @@
 # Spec 027 — Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Jira:** KNOCK-248 (por verificar) · **Capas:** Mobile · **Otra parte en:** knock-backend (spec 027 de búsqueda de expertos, sin implementar; queda fuera)
 > **Relacionada con:** specs 002, 006, 009, 010, 014 y 026 de este repositorio. **Depende de la 026** (sesión única, Bearer solo en rutas protegidas, cierre de sesión que vuelve al login).
 
@@ -175,6 +175,6 @@ Quien aprueba la spec las acepta o las cambia aquí antes de aprobar.
 - No se verificó la clave de Jira ni el contrato desplegado en esta etapa.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
