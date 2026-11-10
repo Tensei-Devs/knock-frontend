@@ -220,3 +220,8 @@
 - **Decisión:** el ícono de Android es el logo de la ficha de Play: adaptativo (fondo crema `#FEF9F0` y primer plano con el logo dentro de la zona segura, con capa monocromática para el ícono temático) más los PNG heredados cuadrado y redondo en las cinco densidades; el manifiesto declara `roundIcon`. iOS no se tocó.
 - **Porqué:** la app instalada seguía mostrando el ícono de Flutter; en Play y en el teléfono debe verse la marca.
 - **A evitar:** volver a generar los PNG a mano sin cuidar la zona segura del 66 %, agregar un paquete de íconos al `pubspec.yaml` solo para esto, o cambiar el `applicationId` o el nombre de la app al tocar los recursos.
+
+## 2026-11-10 — Versión 1.0.1 y registro de las dos primeras subidas a Play (KNOCK-230)
+- **Decisión:** `app/pubspec.yaml` sube a `1.0.1+1` (1.0.0 + 1 punto de #37 tras corregir su etiqueta a `puntos-app-1`) y `docs/VERSIONES_PUBLICADAS.md` registra las subidas `app-v1.0.0-n0` (versionCode 1000000) y `app-v1.0.0-n1` (1000001). La próxima subida será `1.0.1` con n=0, versionCode 1000100.
+- **Porqué:** `publish_info.py` toma el nombre de versión de `app/pubspec.yaml` y solo calcula `n` y el `versionCode` desde las etiquetas de Git; no suma puntos ni lee el registro. La segunda subida salió como 1.0.0 porque nadie subió la versión a mano. El `versionCode` nunca se repitió.
+- **A evitar:** publicar sin aplicar antes `python scripts/ci/version.py bump --current <versión> --points <N>` a `app/pubspec.yaml`, suponer que el registro de versiones cambia el nombre de versión, o etiquetar un cambio de estilo (ícono, color) con más de 1 punto.
