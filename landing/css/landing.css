@@ -43,6 +43,58 @@
   }
 }
 
+/* Cambiar el tema sin JavaScript ni formularios: enlaces de ancla (:target). */
+:root:has(#tema-claro:target) {
+  --color-fondo: #fbf5e9;
+  --color-tarjeta: #ffffff;
+  --color-texto: #231a15;
+  --color-texto-2: #4a3c33;
+  --color-mut: #6b5d52;
+  --color-enlace: #8f3510;
+  --color-foco: #8f3510;
+  --color-boton-fondo: #e9682d;
+  --color-boton-texto: #231a15;
+  --color-sombra: rgba(35, 26, 21, 0.3);
+}
+
+:root:has(#tema-oscuro:target) {
+  --color-fondo: #14110f;
+  --color-tarjeta: #1e1b18;
+  --color-texto: #f6eee3;
+  --color-texto-2: #dcd0c2;
+  --color-mut: #b5a798;
+  --color-enlace: #e9682d;
+  --color-foco: #e9682d;
+  --color-boton-fondo: #e9682d;
+  --color-boton-texto: #14110f;
+  --color-sombra: rgba(0, 0, 0, 0.55);
+}
+
+#tema-claro,
+#tema-oscuro {
+  position: absolute;
+  top: 0;
+}
+
+.tema-sel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+.tema-sel a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-enlace);
+  box-shadow: 0 0.25rem 0.75rem -0.375rem var(--color-sombra);
+}
+
 *,
 *::before,
 *::after {
@@ -277,6 +329,11 @@ h2 {
 
 /* Encabezado. */
 .inicio header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
   animation: entrar 0.7s ease-out both;
 }
 
@@ -473,6 +530,35 @@ h2 {
   animation: tocar 3.6s ease-in-out infinite;
 }
 
+.techo {
+  fill: var(--color-boton-fondo);
+  stroke: var(--color-boton-fondo);
+  stroke-width: 8;
+  stroke-linejoin: round;
+}
+
+.tejas {
+  fill: none;
+  stroke: var(--color-texto);
+  stroke-opacity: 0.22;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 16 9;
+}
+
+.marco-tinta {
+  fill: none;
+  stroke: var(--color-enlace);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-opacity: 0.8;
+}
+
+.puerta {
+  stroke: var(--color-enlace);
+  stroke-width: 3;
+}
+
 .sombra-techo {
   fill: var(--color-texto);
   fill-opacity: 0.14;
@@ -485,12 +571,15 @@ h2 {
 }
 
 .ventana {
+  stroke: var(--color-enlace);
+  stroke-width: 3;
   fill-opacity: 0.4;
   animation: brillo 3.6s ease-in-out infinite;
 }
 
 .ventana-alta {
-  fill-opacity: 0.55;
+  stroke: var(--color-enlace);
+  stroke-width: 3;
 }
 
 .marco-ventana {
@@ -687,6 +776,12 @@ h2 {
 
   .enlaces a {
     min-height: 2.5rem;
+  }
+}
+
+@media (max-height: 36rem) {
+  .tema-sel a {
+    min-height: 2.25rem;
   }
 }
 

@@ -24,6 +24,7 @@ Definir cómo está hecha y dónde se publica la landing page, sin escribir su c
 - **R-04:** El proceso de publicación revisa enlaces rotos y busca claves olvidadas.
 - **R-05:** La landing lleva su propia versión.
 - **R-06:** La página principal (`/`) cabe en una sola pantalla, sin scroll, en escritorio y en celular (vertical y horizontal) con el tamaño de texto normal; lo decorativo se reduce o se oculta antes que el contenido o los enlaces.
+- **R-08:** Cada página tiene un selector de tema «Claro / Oscuro» hecho solo con enlaces de ancla y CSS (`:target`), sin JavaScript ni formularios; sin elegir, se sigue el tema del sistema. La elección no se recuerda entre páginas.
 - **R-07:** Las animaciones son solo de CSS, no hacen falta para entender la página y se apagan cuando la persona pide movimiento reducido (`prefers-reduced-motion`).
 
 ## 4. Criterios de aceptación
