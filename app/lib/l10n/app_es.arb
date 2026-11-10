@@ -20,6 +20,14 @@
   "@tabActividad": {
     "description": "Pestaña de la barra inferior y título de la pantalla con las solicitudes y su historial."
   },
+  "actividadVaciaTitulo": "Aún no tienes actividad",
+  "@actividadVaciaTitulo": {
+    "description": "Título del estado vacío de la pestaña Actividad."
+  },
+  "actividadVaciaDetalle": "Cuando pidas una cotización, aquí verás en qué va cada una.",
+  "@actividadVaciaDetalle": {
+    "description": "Detalle del estado vacío de la pestaña Actividad."
+  },
   "tabTrabajo": "Trabajo",
   "@tabTrabajo": {
     "description": "Pestaña de la barra inferior y título de la pantalla de trabajo; solo la ven los técnicos."

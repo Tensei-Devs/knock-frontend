@@ -48,6 +48,7 @@ Future<ProviderContainer> montarApp(
   bool interruptorDePrueba = true,
   bool sesionIniciada = true,
   ServicioEntrada? servicioEntrada,
+  List<Override> extra = const [],
 }) async {
   final container = ProviderContainer(
     overrides: [
@@ -60,6 +61,7 @@ Future<ProviderContainer> montarApp(
       ),
       esTecnicoProvider.overrideWith(() => _EsTecnicoInicial(esTecnico)),
       interruptorDePruebaProvider.overrideWithValue(interruptorDePrueba),
+      ...extra,
     ],
   );
   addTearDown(container.dispose);

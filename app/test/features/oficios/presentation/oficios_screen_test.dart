@@ -78,6 +78,15 @@ Future<void> _montar(
   );
 }
 
+/// El ícono de la fila: desde la spec 014 va dentro del cuadro de `FilaKnock`,
+/// ya no es el `leading` directo (cambia el buscador, no la aserción).
+Icon _iconoDe(WidgetTester tester, ListTile fila) => tester.widget<Icon>(
+  find.descendant(
+    of: find.byWidget(fila.leading!),
+    matching: find.byType(Icon),
+  ),
+);
+
 Finder get _indicadorDeCarga => find.byType(CircularProgressIndicator);
 Finder get _reintentar => find.widgetWithText(FilledButton, 'Reintentar');
 Finder get _mensajeDeError => find.text('No pudimos cargar los oficios');
@@ -124,7 +133,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final filas = tester.widgetList<ListTile>(find.byType(ListTile)).toList();
-    final iconos = [for (final f in filas) f.leading! as Icon];
+    final iconos = [for (final f in filas) _iconoDe(tester, f)];
     expect(iconos[0].icon, Icons.home_repair_service_outlined);
     expect(iconos[1].icon, Icons.build_outlined);
     expect(iconos[2].icon, Icons.home_repair_service_outlined);
@@ -227,7 +236,7 @@ void main() {
     expect(find.text('Telefonía'), findsOneWidget);
     expect(find.text('remoto'), findsOneWidget);
     final filas = tester.widgetList<ListTile>(find.byType(ListTile)).toList();
-    final icono = filas[1].leading! as Icon;
+    final icono = _iconoDe(tester, filas[1]);
     expect(icono.icon, Icons.category_outlined);
     expect(_mensajeDeError, findsNothing);
   });

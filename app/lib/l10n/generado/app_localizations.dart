@@ -128,6 +128,18 @@ abstract class AppLocalizations {
   /// **'Actividad'**
   String get tabActividad;
 
+  /// Título del estado vacío de la pestaña Actividad.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes actividad'**
+  String get actividadVaciaTitulo;
+
+  /// Detalle del estado vacío de la pestaña Actividad.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuando pidas una cotización, aquí verás en qué va cada una.'**
+  String get actividadVaciaDetalle;
+
   /// Pestaña de la barra inferior y título de la pantalla de trabajo; solo la ven los técnicos.
   ///
   /// In es, this message translates to:

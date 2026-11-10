@@ -5,6 +5,8 @@
   "tabExplorar": "Explore",
   "explorarOficios": "Trades",
   "tabActividad": "Activity",
+  "actividadVaciaTitulo": "You have no activity yet",
+  "actividadVaciaDetalle": "When you ask for a quote, you will see here where each one stands.",
   "tabTrabajo": "Work",
   "tabCuenta": "My account",
   "pruebaModoTecnico": "Technician mode (test)",
