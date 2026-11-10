@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T07:39:29Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-10T08:07:17Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -10,25 +10,24 @@
 | `actividad` | presentation | 1 | 1 | 1 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
-| `config` | core | 1 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
 | `entrada` | domain, presentation | 7 | 12 | 24 |
 | `errores` | core | 3 | 15 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 17 |
+| `l10n` | - | 3 | 4 | 19 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
 | `preferencias` | core | 4 | 9 | 17 |
-| `previa` | -, domain, presentation | 12 | 18 | 21 |
+| `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
 | `router` | core | 4 | 4 | 12 |
 | `sesion` | core | 14 | 24 | 41 |
-| `tema` | core | 5 | 9 | 5 |
+| `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `widgets` | core | 4 | 5 | 5 |
 
@@ -65,13 +64,6 @@
   - `conFecha()`:19, `esClaveCacheable()`:34, `leer()`:53, `guardar()`:56, `borrarTodo()`:62, `leer()`:78, `guardar()`:99, `borrarTodo()`:112
 - `app/lib/core/cache/revalidador_etag.dart` — enum `OrigenCache`, class `RespuestaCache`, class `RevalidadorEtag`
   - `leerGuardado()`:52
-
-### config
-
-**core**
-
-- `app/lib/core/config/modo_demostracion.dart` — —
-  - `demoActivo()`:7
 
 ### cuenta
 
@@ -223,11 +215,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:869, `isSupported()`:874, `shouldReload()`:878, `lookupAppLocalizations()`:881
+  - `of()`:70, `load()`:899, `isSupported()`:904, `shouldReload()`:908, `lookupAppLocalizations()`:911
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:422, `previaPinSemantica()`:433, `previaTarjetaSemantica()`:438
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:427, `previaPinSemantica()`:438, `previaTarjetaSemantica()`:443
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459
 
 ### layout
 
@@ -324,6 +316,8 @@
 **domain**
 
 - `app/lib/features/previa/domain/requerir_cuenta.dart` — —
+- `app/lib/features/previa/domain/vista_mapa.dart` — class `VistaMapa`
+  - `kMin()`:33, `acotada()`:37, `inicial()`:48, `zoomEn()`:53, `desplazada()`:64, `toString()`:79
 
 **presentation**
 
@@ -334,19 +328,25 @@
 - `app/lib/features/previa/presentation/catalogo_previa.dart` — class `CatalogoPrevia`, class `_AvisoSinConexion`, class `_FilaOficio`
   - `build()`:22, `build()`:80, `build()`:110
 - `app/lib/features/previa/presentation/chips_oficio.dart` — class `ChipsOficio`
-  - `build()`:25
+  - `build()`:28
 - `app/lib/features/previa/presentation/hoja_invitacion.dart` — class `_HojaInvitacion`
   - `mostrarHojaInvitacion()`:12, `showModalBottomSheet()`:14, `build()`:33
-- `app/lib/features/previa/presentation/mapa_ejemplo.dart` — class `RotuloDeEjemplo`, class `MapaDeEjemplo`, class `_LienzoDeMapa`
-  - `build()`:13, `build()`:48, `paint()`:128, `shouldRepaint()`:167
-- `app/lib/features/previa/presentation/panel_demostracion.dart` — class `PanelDemostracion`, class `_TarjetaExperto`
-  - `build()`:25, `build()`:95
-- `app/lib/features/previa/presentation/panel_expertos.dart` — class `PanelProximamente`
-  - `panelDeExpertos()`:17, `build()`:25
+- `app/lib/features/previa/presentation/mapa/controlador_mapa.dart` — class `ControladorMapa`
+  - `ajustarCaja()`:20, `acercar()`:36, `alejar()`:38, `ubicarme()`:53, `gesto()`:59, `dispose()`:75
+- `app/lib/features/previa/presentation/mapa/lienzo_mapa.dart` — class `LienzoMapa`, class `_Avenida`
+  - `paint()`:24, `shouldRepaint()`:37
+- `app/lib/features/previa/presentation/mapa/mapa_previa.dart` — class `MapaPrevia`, class `_MapaPreviaState`, class `_Capas`, class `_PuntoYo`, class `ControlesMapa`, class `_Boton`
+  - `build()`:39, `LayoutBuilder()`:45, `GestureDetector()`:48, `build()`:122, `build()`:159, `build()`:179, `build()`:217
+- `app/lib/features/previa/presentation/mapa/pin_experto.dart` — class `PinExperto`, class `_Punta`
+  - `colorDeOficio()`:8, `iconoDeOficio()`:16, `build()`:37, `paint()`:110, `shouldRepaint()`:120
+- `app/lib/features/previa/presentation/panel_expertos.dart` — class `TamanosPanel`, class `PanelExpertos`, class `_PanelExpertosState`, class `_Asa`, class `_Encabezado`, class `_TarjetaExplorar`, class `_TarjetaExperto`
+  - `dispose()`:58, `build()`:70, `NotificationListener()`:74, `build()`:154, `build()`:183, `build()`:241, `abrir()`:245, `build()`:303
 - `app/lib/features/previa/presentation/previa_oficios_screen.dart` — class `PreviaOficiosScreen`
   - `build()`:12
-- `app/lib/features/previa/presentation/previa_screen.dart` — class `PreviaScreen`, class `_PreviaScreenState`, class `_TarjetaExplorar`
-  - `build()`:44, `build()`:91, `abrir()`:95
+- `app/lib/features/previa/presentation/previa_screen.dart` — class `PreviaScreen`, class `_PreviaScreenState`, class `_Superior`
+  - `dispose()`:46, `build()`:59, `build()`:157
+- `app/lib/features/previa/presentation/rotulo_ejemplo.dart` — class `RotuloDeEjemplo`
+  - `build()`:12
 
 ### red
 
@@ -418,6 +418,7 @@
 
 - `app/lib/core/tema/colores.dart` — class `ColoresClaro`, class `ColoresOscuro`, class `ColoresError`, class `ColoresKnock`, extension `ColoresKnockEnContexto`
   - `copyWith()`:258, `lerp()`:277
+- `app/lib/core/tema/colores_mapa.dart` — class `ColoresMapa`, class `PaletaMapa`
 - `app/lib/core/tema/contraste.dart` — —
   - `relacionDeContraste()`:16
 - `app/lib/core/tema/tema.dart` — —

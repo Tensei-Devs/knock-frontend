@@ -7,12 +7,11 @@
 ## 1. Objetivo
 Hoy, sin sesión, la app abre directo en la pantalla de celular (`/entrar`). La maqueta muestra otra cosa: la persona ve primero la pantalla de inicio de Knock (barra de marca con «Entrar», buscador, chips de oficio, mapa con expertos y el acceso a «Explorar servicios y trabajos») y solo se le pide entrar cuando quiere actuar.
 
-Esta spec agrega esa **previa sin sesión** con lo que hoy es posible de verdad, sin inventar datos:
+Esta spec agrega esa **previa sin sesión** con lo que hoy es posible de verdad y, donde falta el backend, con datos de ejemplo siempre rotulados:
 
 - La barra de marca con «Entrar» y «Registrarme», el buscador, los chips de oficio y el catálogo de oficios **reales** (`GET /api/v1/oficios` responde sin token).
 - Lo que requiere cuenta lleva al login y, al entrar, regresa a donde la persona estaba.
-- El mapa con pines y la lista de expertos cercanos **no se pueden mostrar con datos reales** todavía (ver §2). En la compilación de tienda esas zonas dicen la verdad: «Muy pronto: expertos cerca de ti».
-- Para la demostración ante el profesor existe un **modo demostración** (`--dart-define=KNOCK_DEMO_DATOS=true`) que, solo fuera de la tienda, llena esas zonas con datos de ejemplo rotulados «Datos de ejemplo».
+- El mapa con pines y la lista de expertos cercanos **no se pueden mostrar con datos reales** todavía (ver §2). La previa muestra un **mapa a pantalla completa como el de la maqueta** (dibujado por la app) con **expertos de ejemplo siempre visibles y siempre rotulados «Datos de ejemplo»**, también en la tienda (decisión D-12 del Tech Lead). No hay bandera de compilación que los active.
 
 ## 2. Alcance
 **Dentro**
@@ -21,11 +20,11 @@ Esta spec agrega esa **previa sin sesión** con lo que hoy es posible de verdad,
 - Chips de oficio y catálogo con los oficios reales, con sus estados cargando, vacío, error y sin conexión.
 - Tarjeta «Explorar servicios y trabajos» que abre el catálogo sin sesión.
 - Acciones que requieren cuenta: llevan al login conservando a dónde volver; al entrar o registrarse pasa a la app normal.
-- Panel «expertos cerca de ti» y zona del mapa con estado vacío honesto en tienda y datos de ejemplo en modo demostración.
+- Mapa a pantalla completa dibujado por la app (calles, avenidas, parques, río, punto «Tú estás aquí»), con pan, zoom y botones, pines de ejemplo con su calificación y el color de su oficio, y panel inferior plegable «expertos cerca de ti»; todo rotulado «Datos de ejemplo».
 - Textos ARB es/en mínimos, accesibilidad y pruebas.
 
 **Fuera (y por qué)**
-- **Mapa con pines reales y lista de expertos cercanos reales:** no existe el endpoint (la búsqueda de expertos es la spec 027 del backend, sin implementar) y el SDK de mapas necesita cuenta de facturación. Se muestra estado vacío honesto o, en demostración, datos de ejemplo.
+- **Mapa con pines reales y lista de expertos cercanos reales:** no existe el endpoint (la búsqueda de expertos es la spec 027 del backend, sin implementar) y el SDK de mapas necesita cuenta de facturación. Se muestran datos de ejemplo siempre rotulados.
 - Búsqueda real por texto, perfil público del técnico con datos reales y «Pedir cotización» completo: dependen del mismo backend; aquí solo se deja el punto de entrada que pide cuenta.
 - Cambios en la lógica de sesión de la spec 026, en `contracts/`, en `app/packages/knock_api/` o en `.github/`.
 - Dependencias nuevas.
@@ -35,19 +34,21 @@ Esta spec agrega esa **previa sin sesión** con lo que hoy es posible de verdad,
 - **R-02:** `redireccionPorSesion` deja pasar sin sesión solo las rutas públicas (`/previa`, `/previa/oficios`, `/entrar` y sus subrutas); toda otra ruta sin sesión lleva a la previa. Con sesión, la previa y `/entrar` llevan a Inicio. No cambian `sesionIniciadaProvider` ni el resto de la lógica de la spec 026.
 - **R-03:** La barra superior muestra el logo de marca y los botones «Entrar» y «Registrarme». Ambos abren `/entrar` (el alta y el ingreso comparten el flujo de celular de HU-001).
 - **R-04:** El buscador «Busca un experto cerca de ti» con la leyenda «Mecánica · Plomería · Electricidad» se ve siempre. Al tocarlo abre una hoja que invita a entrar (con «Entrar», «Registrarme» y «Ahora no»); no se hace ninguna búsqueda.
-- **R-05:** Los chips son «Todos», uno por cada oficio del catálogo real y «No sé cuál». «Todos» y los de oficio filtran la lista del catálogo en pantalla; «No sé cuál» invita a entrar.
+- **R-05:** Los chips son «Todos», uno por cada oficio del catálogo real y «No sé cuál». «Todos» y los de oficio filtran la lista del catálogo, los pines y las tarjetas de expertos de ejemplo; «No sé cuál» invita a entrar. Van en una fila que se desplaza de lado, flotando sobre el mapa.
 - **R-06:** El catálogo usa el `OficiosRepository` existente (`GET /api/v1/oficios`, con caché y `ETag` de la spec 010) sin `Authorization`. Tiene estados cargando, vacío, error con «Reintentar» y sin conexión.
 - **R-07:** La tarjeta «Explorar servicios y trabajos» abre el catálogo (`/previa/oficios`) sin pedir sesión.
 - **R-08:** Toda acción que requiere cuenta (pedir cotización, ver el contacto, abrir el perfil completo de un experto) usa un solo punto, `requerirCuenta`, que lleva a `/entrar` con el destino al que volver. El destino se valida contra una lista de rutas internas permitidas; cualquier otro valor se ignora y se va a Inicio.
 - **R-09:** Al entrar o registrarse con éxito, si hay destino válido se va a él; si no, a Inicio. Si el perfil está pendiente, manda la regla existente de completar perfil y luego se continúa al destino.
-- **R-10:** En la compilación de tienda y sin modo demostración, el panel «N expertos cerca de ti» y la zona del mapa muestran «Muy pronto: expertos cerca de ti» con una explicación corta y sin ninguna cifra, nombre, pin ni calificación.
-- **R-11:** La bandera `KNOCK_DEMO_DATOS` se lee con `String.fromEnvironment` y solo vale si la compilación **no** es `release` (`!kReleaseMode`). En `release` se ignora siempre y el código de los datos de ejemplo no queda en el binario.
-- **R-12:** Con el modo demostración activo, el panel de expertos, los pines y la lista usan datos de ejemplo inventados (nombres ficticios, sin celular, sin dirección, sin coordenadas reales) y llevan siempre visible el rótulo «Datos de ejemplo». El mapa es un lienzo dibujado por la app, sin SDK de mapas.
-- **R-13:** El panel muestra la colonia solo como texto de ejemplo en demostración. La previa no pide ubicación ni permisos del teléfono.
+- **R-10:** El panel inferior «N expertos cerca de ti» (N = expertos de ejemplo visibles) es plegable, como la hoja de la maqueta: asomado, a la mitad (inicial) y casi completo; «Ver lista» lo sube y «Ver mapa» lo baja. Trae la colonia de ejemplo, «Explorar servicios y trabajos», las tarjetas de los expertos y el catálogo real de oficios.
+- **R-11:** Los expertos, los pines y la colonia de ejemplo se muestran **siempre**, también en la compilación de tienda: no dependen de ninguna bandera ni de `kReleaseMode` (decisión D-12, que reemplaza a la bandera `KNOCK_DEMO_DATOS` de la versión anterior de esta spec).
+- **R-12:** Los datos de ejemplo son inventados (nombres ficticios con «Muestra», sin celular, sin dirección, sin coordenadas geográficas) y llevan siempre visible el rótulo «Datos de ejemplo». El mapa es un lienzo dibujado por la app, sin SDK de mapas.
+- **R-13:** La colonia del panel es solo texto de ejemplo y el punto «Tú estás aquí» es un punto fijo de ejemplo. La previa no pide ubicación ni permisos del teléfono.
 - **R-14:** Ningún dato personal ni token aparece en la previa, en los registros ni en los mensajes. Sin sesión no sale ninguna petición protegida.
 - **R-15:** Textos nuevos solo en `app_es.arb` y `app_en.arb`, mínimos, con descripción. Sin dependencias nuevas.
 - **R-16:** Accesibilidad: objetivos táctiles de al menos 48 dp, contraste según `contraste.dart`, etiquetas semánticas (botones, chips con estado seleccionado, pines y rótulo de ejemplo), foco ordenado y diseño que no se rompe con texto al 200 %.
-- **R-17:** Los pines de ejemplo y el panel no se pueden confundir con datos reales: el rótulo «Datos de ejemplo» está en el panel, en el mapa y en la lectura de pantalla, y no se puede ocultar.
+- **R-17:** Los pines de ejemplo y el panel no se pueden confundir con datos reales: el rótulo «Datos de ejemplo» está sobre el mapa, en el panel y en la lectura de pantalla, y no se puede ocultar.
+- **R-18:** El mapa ocupa toda la pantalla bajo la barra de marca y reproduce el mundo de la maqueta (barrios con cuadrícula, parques, río y avenidas con nombre). Se arrastra y se pellizca; trae los botones «Acercar», «Alejar» y «Volver a mi ubicación» (48 dp); el zoom está limitado y la vista nunca sale del mundo dibujado. Los pines y el punto mantienen su tamaño al hacer zoom y colorean por oficio. Tiene variante clara y oscura.
+- **R-19:** El buscador y los chips flotan sobre el mapa; los botones del mapa se acomodan encima del panel mientras este se mueve.
 
 ## 4. Criterios de aceptación
 - **CA-01:** Dado que no hay sesión, cuando la app arranca, entonces se muestra la previa y no la pantalla de celular.
@@ -74,16 +75,18 @@ Esta spec agrega esa **previa sin sesión** con lo que hoy es posible de verdad,
 - **CA-22:** Dado un destino de regreso que no es una ruta interna permitida (por ejemplo `https://otro.sitio` o `//otro`), cuando la persona entra, entonces se ignora y va a Inicio.
 - **CA-23:** Dada una cuenta nueva con destino de regreso, cuando entra, entonces primero completa el perfil y después llega al destino.
 - **CA-24:** Dada una persona que se registró y entró, cuando termina, entonces ve la app normal con la barra inferior y la previa deja de ser accesible.
-- **CA-25:** Dada la compilación `release` (o cualquiera sin la bandera), cuando se abre la previa, entonces el panel dice «Muy pronto: expertos cerca de ti» y no muestra pines, nombres, cifras ni calificaciones.
-- **CA-26:** Dada la bandera `KNOCK_DEMO_DATOS=true` en una compilación no `release`, cuando se abre la previa, entonces el panel muestra «N expertos cerca de ti», la colonia, «Ver lista», las tarjetas de expertos y el mapa con pines, todo con el rótulo «Datos de ejemplo».
-- **CA-27:** Dada la bandera `KNOCK_DEMO_DATOS=true` en una compilación `release`, cuando se abre la previa, entonces se comporta como CA-25 y el binario no contiene el rótulo ni los nombres de los datos de ejemplo.
-- **CA-28:** Dado el modo demostración, cuando se toca una tarjeta de experto o un pin, entonces se pide cuenta (CA-20) y nunca se muestra contacto ni dirección.
-- **CA-29:** Dado el modo demostración, cuando se lee la pantalla con lector de pantalla, entonces el panel, el mapa y cada tarjeta anuncian «Datos de ejemplo».
-- **CA-30:** Dado el modo demostración, cuando se recorre la previa, entonces no se pide ubicación ni ningún permiso del teléfono.
+- **CA-25:** Dada la previa, cuando se abre en cualquier compilación (tienda o desarrollo), entonces se ven el mapa y el panel con los expertos de ejemplo y el rótulo «Datos de ejemplo» sobre el mapa y en el panel, no aparece «Muy pronto» y el código no lee ninguna bandera de compilación.
+- **CA-26:** Dada la previa, cuando se abre, entonces el mapa ocupa la pantalla bajo la barra de marca con su dibujo, el punto «Tú estás aquí» y un pin por experto de ejemplo con su calificación y el color de su oficio, y el panel muestra «N expertos cerca de ti», la colonia, «Ver lista», «Explorar servicios y trabajos» y las tarjetas de los expertos.
+- **CA-27:** Dado el mapa, cuando se arrastra, se pellizca o se tocan «Acercar», «Alejar» y «Volver a mi ubicación», entonces la vista cambia como se espera, nunca sale del mundo dibujado, el zoom queda entre su mínimo y su máximo y los pines no cambian de tamaño.
+- **CA-28:** Dado un experto de ejemplo, cuando se toca su pin o su tarjeta, entonces se pide cuenta (CA-20) y nunca se muestra contacto ni dirección; «Ver lista» no pide cuenta, solo sube el panel.
+- **CA-29:** Dada la previa, cuando se lee con lector de pantalla, entonces el rótulo, el mapa, cada pin y cada tarjeta anuncian «Datos de ejemplo».
+- **CA-30:** Dada la previa, cuando se recorre, entonces no se pide ubicación ni ningún permiso del teléfono y no se usa ningún SDK de mapas.
 - **CA-31:** Dado texto al 200 %, cuando se ve la previa y el catálogo, entonces nada se corta ni se traslapa y todo se alcanza con desplazamiento.
 - **CA-32:** Dado el idioma en inglés o español, cuando se ve la previa, entonces todos los textos salen del ARB de ese idioma, sin cadenas fijas.
-- **CA-33:** Dada la previa en cualquier estado, cuando se revisan registros, `toString` y mensajes, entonces no aparece ningún token, celular ni dato personal.
+- **CA-33:** Dada la previa en cualquier estado, cuando se revisan registros, `toString`, mensajes y datos de ejemplo, entonces no aparece ningún token, celular, dirección ni dato personal.
 - **CA-34:** Dado el flujo previa → «Entrar» → celular → código → Inicio, cuando se completa, entonces el login se comporta igual que antes de esta spec (regresión de HU-001).
+- **CA-35:** Dados los chips, cuando se elige un oficio, entonces los pines, las tarjetas, el contador «N expertos cerca de ti» y el catálogo muestran solo ese oficio; con «Todos» vuelven todos.
+- **CA-36:** Dado el panel inferior, cuando se toca «Ver lista» sube y el botón pasa a «Ver mapa», que lo baja a la mitad; al arrastrarlo hacia abajo queda asomado y el título sigue visible.
 
 ## 5. Contrato consumido
 Versión de la API: `v1`. La URL base llega por `--dart-define=KNOCK_API_URL`, nunca fija en el código. Fuente: especificación de oficios del backend y spec 026 (§5).
@@ -97,23 +100,22 @@ No se consume ningún otro endpoint sin sesión. La búsqueda de expertos, la li
 ## 6. Modelo de datos local
 - Sin tablas ni almacenamiento nuevos. El oficio elegido en los chips y el estado de la hoja viven en memoria de la pantalla.
 - El destino de regreso viaja como parámetro de ruta interno (`volver`), validado contra la lista de rutas permitidas; no se guarda en disco.
-- Los datos de ejemplo son constantes de código en un archivo aparte (`datos_de_ejemplo.dart`) importado solo detrás de la condición del modo demostración, para que `release` los elimine.
+- Los datos de ejemplo son constantes de código en un archivo aparte (`datos_de_ejemplo.dart`); se muestran siempre y no dependen de ninguna bandera.
 
 ## 7. Arquitectura
 - `core/router/rutas.dart`: `Rutas.previa` (`/previa`), `Rutas.previaOficios` (`/previa/oficios`) y la lista de destinos permitidos; `redireccionPorSesion` pasa a usar la previa como destino sin sesión.
 - `core/router/app_router.dart`: ruta de la previa fuera del `StatefulShellRoute`; `initialLocation` pasa a la previa cuando no hay sesión.
-- `features/previa/` (nueva): `presentation/previa_screen.dart`, `barra_marca.dart`, `buscador_previa.dart`, `chips_oficio.dart`, `hoja_invitacion.dart`, `panel_expertos.dart`, `mapa_ejemplo.dart`; `domain/requerir_cuenta.dart` y `domain/destino_de_regreso.dart`.
-- `core/config/modo_demostracion.dart`: `demoActivo({required bool bandera, required bool esRelease})` puro y `demoDatosActivo`, que usa `const bool.fromEnvironment('KNOCK_DEMO_DATOS')` y `kReleaseMode`.
-- `features/previa/demo/datos_de_ejemplo.dart`: expertos, pines y colonia ficticios; solo se importa desde el panel y el mapa detrás de `if (demoDatosActivo)`.
+- `features/previa/` (nueva): `presentation/previa_screen.dart`, `barra_marca.dart`, `buscador_previa.dart`, `chips_oficio.dart`, `hoja_invitacion.dart`, `panel_expertos.dart`, `rotulo_ejemplo.dart` y `mapa/` (`mapa_previa.dart`, `lienzo_mapa.dart`, `pin_experto.dart`, `controlador_mapa.dart`); `domain/requerir_cuenta.dart`, `domain/destino_de_regreso.dart` y `domain/vista_mapa.dart` (pan y zoom puros).
+- `core/tema/colores_mapa.dart`: colores del mapa dibujado (claro y oscuro) y de los pines por oficio, porque ningún widget escribe colores sueltos.
+- `features/previa/demo/datos_de_ejemplo.dart`: expertos, pines y colonia ficticios; se muestran siempre con el rótulo «Datos de ejemplo».
 - El catálogo reutiliza `OficiosScreen`, `OficiosController` y `oficiosRepositoryProvider`. `presentation/` no importa `data/` (regla vigente).
-- Verificación de `release`: script `scripts/verificar_release_sin_demo.py` que busca el rótulo y los nombres de ejemplo en el binario compilado.
+- No hay bandera de compilación ni script de verificación del binario: los ejemplos son parte de la app y siempre llevan el rótulo (D-12).
 
 ## 8. Amenazas y controles
 | Amenaza | Control | Caso que lo prueba |
 |---|---|---|
-| La bandera de demostración llega a la tienda y se muestran expertos inventados como si fueran reales | `demoActivo` exige `!kReleaseMode`; los datos viven en un archivo que `release` descarta; el script revisa el binario; el CI compila `release` con la bandera y falla si encuentra el rótulo | CA-25, CA-27 |
-| Datos de ejemplo confundidos con reales en la demo | Rótulo «Datos de ejemplo» fijo en panel, mapa y tarjetas, también en la lectura de pantalla; nombres claramente ficticios | CA-26, CA-29 |
-| Datos de ejemplo con personas reales o contacto | Nombres inventados, sin celular, dirección ni coordenadas reales; tocar una tarjeta pide cuenta | CA-28 |
+| Los datos de ejemplo se toman por reales | Rótulo «Datos de ejemplo» fijo sobre el mapa, en el panel y en la lectura de pantalla; nombres claramente ficticios («Muestra»); una prueba revisa que el código no lea ninguna bandera que los apague | CA-25, CA-29 |
+| Datos de ejemplo con personas reales o contacto | Nombres inventados, sin celular, dirección ni coordenadas reales; tocar un pin o una tarjeta pide cuenta | CA-28, CA-33 |
 | Redirección abierta con el destino de regreso (`volver`) | Lista de rutas internas permitidas; todo lo demás va a Inicio | CA-22 |
 | Petición protegida sin sesión o Bearer enviado a un endpoint público | Solo `GET /oficios` sin `Authorization`; pruebas del transporte de la spec 026 | CA-14, CA-33 |
 | Acceso a pantallas protegidas sin sesión | `redireccionPorSesion` lleva a la previa y deja pasar solo lo público | CA-02, CA-03 |
@@ -126,25 +128,24 @@ Las pruebas citan el caso como `CA-027-NN` en el nombre (para `python scripts/sd
 
 | Tipo | ¿Aplica? | Qué se prueba / herramienta |
 |---|---|---|
-| Unitarias | Sí | `redireccionPorSesion` (tabla de rutas por sesión): CA-02 a CA-04; `destino_de_regreso` válido e inválido: CA-22; `demoActivo` (bandera por release): CA-25, CA-27; datos de ejemplo sin celular ni dirección: CA-28; filtro por chip: CA-12 |
-| Widget por estado | Sí | Previa con catálogo cargando, vacío, error, sin conexión y con datos: CA-11, CA-15 a CA-18; panel en tienda y en demostración: CA-25, CA-26; hoja de invitación: CA-09, CA-10, CA-13; barra de marca: CA-06, CA-07; español e inglés: CA-32 |
+| Unitarias | Sí | `redireccionPorSesion` (tabla de rutas por sesión): CA-02 a CA-04; `destino_de_regreso` válido e inválido: CA-22; `VistaMapa` (centro inicial, zoom con límites, arrastre acotado, volver a mi ubicación): CA-27; datos de ejemplo sin celular ni dirección: CA-33; filtro por chip: CA-12 |
+| Widget por estado | Sí | Previa con catálogo cargando, vacío, error, sin conexión y con datos: CA-11, CA-15 a CA-18; mapa, pines, panel y rótulo: CA-25, CA-26; botones y gestos del mapa: CA-27; chips que filtran pines y tarjetas: CA-35; panel plegable: CA-36; hoja de invitación: CA-09, CA-10, CA-13; barra de marca: CA-06, CA-07; español e inglés: CA-32 |
 | Integración del flujo | Sí | Previa → «Entrar» → celular → código → Inicio con servicio de entrada simulado; acción protegida → login → regreso al destino; cuenta nueva → completar perfil → destino; cerrar sesión → previa: CA-01, CA-05, CA-19 a CA-21, CA-23, CA-24, CA-34 |
-| Seguridad negativa | Sí | `GET /oficios` sin `Authorization` con `MockClient`: CA-14; destinos de regreso hostiles: CA-22; `release` ignora la bandera, con `demoActivo` y con el script sobre el binario: CA-27; sin tokens ni datos personales en registros: CA-33; sin permisos: CA-30 |
-| Accesibilidad | Sí | `meetsGuideline(androidTapTargetGuideline)` y de contraste, etiquetas semánticas de chips, pines y rótulo, texto al 200 % sin desbordes: CA-06, CA-29, CA-31 |
+| Seguridad negativa | Sí | `GET /oficios` sin `Authorization` con `MockClient`: CA-14; destinos de regreso hostiles: CA-22; el código no lee ninguna bandera que apague los ejemplos: CA-25; sin tokens ni datos personales en registros: CA-33; sin permisos ni SDK de mapas: CA-30 |
+| Accesibilidad | Sí | `meetsGuideline(androidTapTargetGuideline)` y de contraste, etiquetas semánticas de chips, pines, botones del mapa y rótulo, texto al 200 % sin desbordes: CA-06, CA-29, CA-31 |
 | Regresión del login | Sí | Las pruebas existentes de `celular_screen`, `codigo_screen` y `entrada_controller` siguen en verde sin cambios: CA-03, CA-34 |
-| Manual | Sí | Humo en teléfono: compilación de tienda (vacío honesto) y compilación de demostración (maqueta) con capturas para el PR; no sustituye lo automático |
+| Manual | Sí | Humo en teléfono (claro y oscuro): mapa, pan y zoom, panel plegable, pines y «Datos de ejemplo»; capturas para el PR; no sustituye lo automático |
 
 ## 10. Escenarios
-1. **Primera vez, tienda.** Abre la app, ve la barra con «Entrar», el buscador y los chips con oficios reales; el panel dice «Muy pronto: expertos cerca de ti». Toca «Explorar servicios y trabajos», ve el catálogo, toca el buscador y se le invita a entrar.
+1. **Primera vez.** Abre la app y ve la barra con «Entrar» y «Registrarme», el mapa a pantalla completa con el buscador y los chips encima, los pines de ejemplo y el panel «6 expertos cerca de ti» con «Datos de ejemplo». Arrastra y acerca el mapa, toca «Explorar servicios y trabajos», ve el catálogo, toca el buscador y se le invita a entrar.
 2. **Sin internet.** Con caché ve el catálogo y el aviso; sin caché, el estado de sin conexión y «Reintentar».
-3. **Demostración ante el profesor.** Compilación con `--dart-define=KNOCK_DEMO_DATOS=true`: ve «3 expertos cerca de ti», la colonia de ejemplo, «Ver lista», el mapa con pines y «Datos de ejemplo» en todo. Toca un experto y se le pide entrar.
+3. **Demostración ante el profesor.** Sube el panel con «Ver lista», elige el chip «Mecánica» y ve solo esos pines y tarjetas; toca un experto y se le pide entrar. Todo lo que ve lleva «Datos de ejemplo».
 4. **Entra desde una acción.** Toca una acción protegida, entra con celular y código y regresa a donde estaba.
 5. **Cierra sesión.** Vuelve a la previa, no a la pantalla de celular.
 
 ## 11. Definición de terminado
-- Los 34 criterios de aceptación tienen prueba (la prueba en teléfono, evidencia manual) y `sdd_lint --trace 027` no reporta drift.
+- Los 36 criterios de aceptación tienen prueba (la prueba en teléfono, evidencia manual) y `sdd_lint --trace 027` no reporta drift.
 - `flutter analyze`, `dart format` y `flutter test` en verde; el CI en verde.
-- Se compiló `release` con `KNOCK_DEMO_DATOS=true` y el script confirma que no hay rastro de los datos de ejemplo.
 - Se probó el flujo previa → login → app y la regresión de HU-001.
 - Un par revisó el cambio y la sección «Uso de IA» está en el PR.
 - `Memoria.md` registra la decisión, lo pendiente (spec 027 del backend, mapa) y qué evitar; el mapa de arquitectura se regeneró con `scripts/codemap.py`.
@@ -157,18 +158,19 @@ Quien aprueba la spec las acepta o las cambia aquí antes de aprobar.
 - **D-02 Chips con los oficios reales del catálogo** en lugar de los fijos de la maqueta («Mi auto», «Agua y tuberías», «Luz y contactos»), porque esos nombres no existen en la API. «Todos» y «No sé cuál» se conservan. Para la demostración se puede pedir que los chips usen las palabras de la maqueta.
 - **D-03 Cerrar sesión lleva a la previa,** no a `/entrar` (la spec 026 decía `/entrar`). Es solo la ruta de destino; la lógica de sesión no cambia.
 - **D-04 La previa vive fuera del shell** (sin barra inferior): la maqueta sin cuenta usa su propia barra de marca.
-- **D-05 La bandera solo actúa si `!kReleaseMode`.** Un perfil `profile` o `debug` sí la respeta; solo `release` (la tienda) la ignora.
-- **D-06 El mapa de ejemplo es un lienzo dibujado por la app,** sin SDK de mapas, para no depender de facturación.
+- **D-05 (reemplazada por D-12).** La bandera `KNOCK_DEMO_DATOS` ya no existe.
+- **D-06 El mapa de ejemplo es un lienzo dibujado por la app,** sin SDK de mapas, para no depender de facturación; con D-12 ocupa toda la pantalla y se mueve.
 - **D-07 El buscador no busca:** abre la invitación a entrar. La búsqueda real espera al backend.
 - **D-08 Destinos de regreso permitidos:** las pestañas de la app, `/previa/oficios` y las subrutas de Explorar. Cualquier otra cosa va a Inicio.
-- **D-09 El CI de `release` sin demostración** se pide a quien tenga permiso sobre `.github/`; aquí se entrega el script y la prueba local.
+- **D-09 (obsoleta por D-12).** Ya no hay paso de CI para `release` sin demostración.
 - **D-10 Clave de Jira** `KNOCK-248 (por verificar)`: no hubo acceso a Jira.
 - **D-11 Numeración:** esta spec es la 027 del frontend; la «spec 027 del backend» es otra (búsqueda de expertos).
+- **D-12 Mapa completo y ejemplos siempre visibles** (decisión del Tech Lead, 2026-11-10, sobre la spec ya aprobada). La previa se parece a la maqueta: mapa a pantalla completa dibujado, con pan, zoom y botones, pines por oficio, buscador y chips encima y panel plegable. Los expertos y pines de ejemplo se muestran **siempre**, también en la tienda, con el rótulo fijo «Datos de ejemplo»; se elimina la bandera `KNOCK_DEMO_DATOS`, el panel «Muy pronto» y el script `scripts/verificar_release_sin_demo.py`. «Ver lista» sube el panel y ya no pide cuenta. Se añaden R-18, R-19, CA-35 y CA-36. Riesgo aceptado: que alguien tome los ejemplos por reales; se mitiga con el rótulo y se retira cuando exista el endpoint de expertos.
 
 ## 13. Riesgos y dudas abiertas
-- **Demostración vista como producto:** si el profesor cree que los expertos son reales. Mitigación: rótulo fijo y aclararlo en la presentación.
-- **Binario de demostración instalado en la tienda por error:** mitigación en R-11 y en el CI; depende de que el paso del CI se agregue.
-- **La maqueta promete más que la tienda:** la compilación de tienda mostrará «Muy pronto» hasta que exista la búsqueda en el backend.
+- **Ejemplos vistos como datos reales:** si el profesor o una persona de la tienda cree que los expertos son reales. Mitigación: rótulo fijo y aclararlo en la presentación; se retiran al existir la búsqueda real.
+- **La tienda muestra datos inventados:** decisión consciente de D-12 para que la demo se parezca a la maqueta; revisar la política de la tienda sobre contenido de ejemplo antes de publicar fuera de la prueba interna.
+- **Mapa dibujado, no real:** el mapa no se corresponde con las calles reales; la búsqueda y el mapa real esperan al backend y a la decisión de facturación del SDK de mapas.
 - **Duda:** ¿«Mi auto», «Agua y tuberías» y «Luz y contactos» deben existir como nombres comunes en el catálogo del backend? Se confirma con el backend.
 - **Duda:** ¿el panel de ejemplo debe poder abrir un perfil de ejemplo sin sesión para la demostración? Hoy no, por seguridad.
 - **Dependencia de la spec 026:** si no está implementada, `GET /oficios` y el cierre de sesión no se comportan como esta spec supone.
