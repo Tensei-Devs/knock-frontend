@@ -253,7 +253,7 @@ h2 {
    scroll, con animaciones solo de CSS. Todo cuelga de `.inicio`, así que el
    aviso de privacidad, eliminar cuenta y el 404 conservan su diseño.
    Los colores de texto salen de los tokens de arriba; los de la ilustración,
-   de los mismos tokens por clase (`f-*` rellena, `trazo-*` y `s-*` contornea).
+   de los mismos tokens por clase (`f-*` rellena).
    ------------------------------------------------------------------------ */
 .inicio {
   position: relative;
@@ -456,227 +456,44 @@ h2 {
   animation: pulso 1.8s ease-out infinite;
 }
 
-/* Ilustración: una casa a la que tocan la puerta y los oficios que llegan. */
-.arte {
+/* Imagen con personas reales (landing/img/hero.webp) y su lema. */
+.escena {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-self: center;
-  width: min(100%, 64vh, 38rem);
-  aspect-ratio: 1;
+  gap: clamp(0.25rem, 1.4vh, 0.75rem);
   min-height: 0;
+  min-width: 0;
   animation: entrar 1s 0.2s ease-out both;
 }
 
-.arte svg {
+.arte {
+  width: min(100%, 56vh, 34rem);
+  aspect-ratio: 1;
+  min-height: 0;
+}
+
+.foto {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  border-radius: clamp(1.25rem, 8%, 2.5rem);
+  object-fit: cover;
+  box-shadow: 0 1rem 2.5rem -1rem var(--color-sombra);
 }
 
-.f-tarjeta {
-  fill: var(--color-tarjeta);
+.lema {
+  margin: 0;
+  color: var(--color-texto);
+  font-size: clamp(1.05rem, min(2.4vw, 3vh), 1.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .f-acento {
   fill: var(--color-boton-fondo);
-}
-
-.f-tinta {
-  fill: var(--color-enlace);
-}
-
-.trazo-acento {
-  stroke: var(--color-boton-fondo);
-}
-
-.disco {
-  fill: var(--color-tarjeta);
-  fill-opacity: 0.55;
-  stroke: var(--color-boton-fondo);
-  stroke-opacity: 0.4;
-  stroke-width: 2;
-  stroke-dasharray: 3 11;
-  stroke-linecap: round;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: girar 70s linear infinite;
-}
-
-.onda {
-  fill: none;
-  stroke: var(--color-boton-fondo);
-  stroke-width: 3;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: onda 3.6s ease-out infinite;
-}
-
-.onda-2 {
-  animation-delay: 1.2s;
-}
-
-.onda-3 {
-  animation-delay: 2.4s;
-}
-
-/* La casa: le tocan la puerta, se mueve, suena y sale humo de la chimenea. */
-.suelo {
-  fill: var(--color-sombra);
-}
-
-.casa {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: tocar 3.6s ease-in-out infinite;
-}
-
-.techo {
-  fill: var(--color-boton-fondo);
-  stroke: var(--color-boton-fondo);
-  stroke-width: 8;
-  stroke-linejoin: round;
-}
-
-.tejas {
-  fill: none;
-  stroke: var(--color-texto);
-  stroke-opacity: 0.22;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 16 9;
-}
-
-.marco-tinta {
-  fill: none;
-  stroke: var(--color-enlace);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-opacity: 0.8;
-}
-
-.puerta {
-  stroke: var(--color-enlace);
-  stroke-width: 3;
-}
-
-.sombra-techo {
-  fill: var(--color-texto);
-  fill-opacity: 0.14;
-}
-
-.borde-casa {
-  stroke: var(--color-texto-2);
-  stroke-opacity: 0.35;
-  stroke-width: 2;
-}
-
-.ventana {
-  stroke: var(--color-enlace);
-  stroke-width: 3;
-  fill-opacity: 0.4;
-  animation: brillo 3.6s ease-in-out infinite;
-}
-
-.ventana-alta {
-  stroke: var(--color-enlace);
-  stroke-width: 3;
-}
-
-.marco-ventana {
-  stroke: var(--color-tarjeta);
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-
-.escalon {
-  fill: var(--color-texto-2);
-  fill-opacity: 0.3;
-}
-
-.arbustos circle {
-  fill-opacity: 0.55;
-}
-
-.toc {
-  fill: none;
-  stroke: var(--color-enlace);
-  stroke-width: 4;
-  stroke-linecap: round;
-  opacity: 0;
-  animation: marca 3.6s ease-out infinite;
-}
-
-.toc-2 {
-  animation-delay: 0.18s;
-}
-
-.humo {
-  fill: var(--color-texto-2);
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: humo 4.2s ease-out infinite;
-}
-
-.humo-2 {
-  animation-delay: 1.4s;
-}
-
-.humo-3 {
-  animation-delay: 2.8s;
-}
-
-.insignia {
-  fill: var(--color-tarjeta);
-  stroke: var(--color-boton-fondo);
-  stroke-opacity: 0.45;
-  stroke-width: 2;
-  filter: drop-shadow(0 0.5rem 0.6rem var(--color-sombra));
-}
-
-.flota {
-  animation: flotar 6s ease-in-out infinite;
-}
-
-.flota-2 {
-  animation-duration: 7s;
-  animation-delay: -2s;
-}
-
-.flota-3 {
-  animation-duration: 5.5s;
-  animation-delay: -1s;
-}
-
-.flota-4 {
-  animation-duration: 6.5s;
-  animation-delay: -3.5s;
-}
-
-.engranaje {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: girar 12s linear infinite;
-}
-
-.chispa {
-  animation: titilar 3s ease-in-out infinite;
-}
-
-.chispa-2 {
-  animation-delay: -0.8s;
-}
-
-.chispa-3 {
-  animation-delay: -1.6s;
-}
-
-.chispa-4 {
-  animation-delay: -2.2s;
-}
-
-.chispa-5 {
-  animation-delay: -0.4s;
 }
 
 /* Pie: los enlaces de siempre, ahora como botones. */
@@ -758,7 +575,7 @@ h2 {
   }
 
   .arte {
-    width: min(100%, 34vh, 22rem);
+    width: min(100%, 30vh, 22rem);
   }
 
   .notas {
@@ -768,7 +585,7 @@ h2 {
 
 /* Pantallas bajas: primero se va lo decorativo, nunca el contenido. */
 @media (max-height: 44rem) and (max-width: 52rem) {
-  .arte {
+  .escena {
     display: none;
   }
 }
@@ -809,7 +626,7 @@ h2 {
 
 @media (max-height: 30rem) {
   .arte {
-    width: min(100%, 62vh);
+    width: min(100%, 42vh);
   }
 
   .notas .nota:first-child {
@@ -824,14 +641,6 @@ h2 {
   *::after {
     animation: none !important;
     transition: none !important;
-  }
-
-  .onda {
-    opacity: 0;
-  }
-
-  .toc {
-    opacity: 0.8;
   }
 }
 
@@ -866,106 +675,5 @@ h2 {
   70%,
   100% {
     box-shadow: 0 0 0 0.6rem transparent;
-  }
-}
-
-@keyframes flotar {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes onda {
-  0% {
-    opacity: 0.55;
-    transform: scale(0.7);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(2.1);
-  }
-}
-
-@keyframes tocar {
-  0%,
-  8%,
-  100% {
-    transform: rotate(0) translateY(0);
-  }
-
-  2% {
-    transform: rotate(-1.6deg) translateY(-3px);
-  }
-
-  5% {
-    transform: rotate(1.4deg) translateY(0);
-  }
-}
-
-@keyframes marca {
-  0%,
-  100% {
-    opacity: 0;
-  }
-
-  3%,
-  14% {
-    opacity: 0.85;
-  }
-
-  24% {
-    opacity: 0;
-  }
-}
-
-@keyframes humo {
-  0% {
-    opacity: 0;
-    transform: translate(0, 0) scale(0.6);
-  }
-
-  15% {
-    opacity: 0.4;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate(14px, -46px) scale(1.8);
-  }
-}
-
-@keyframes brillo {
-  0%,
-  100% {
-    fill-opacity: 0.4;
-  }
-
-  50% {
-    fill-opacity: 0.75;
-  }
-}
-
-@keyframes titilar {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(0.7);
-  }
-
-  50% {
-    opacity: 0.9;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
   }
 }
