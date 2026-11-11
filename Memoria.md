@@ -228,3 +228,8 @@
 - **jscpd:** la barra de las dos páginas legales era un clon de 18 líneas; se separó con `data-pagina` en cada página en vez de excluirlas en `.jscpd.json` (archivo protegido, no se baja ningún control).
 - **Pendiente de firma:** la nueva aprobación de la spec 004 la edita una persona a mano.
 - **A evitar:** `<script>`, `style=""`, fuentes o imágenes de otro origen y archivos nuevos que obliguen a ampliar la CSP o el Dockerfile; colores fuera de los tokens `--color-*`; animaciones que sigan activas con movimiento reducido.
+
+## 2026-11-10 — Contraste de los rótulos del mapa de la previa (KNOCK-175)
+- **Decisión:** los rótulos del mapa dibujado (`PaletaMapa`, spec 027) se ajustan para cumplir 4.5:1 contra el halo que llevan detrás: en claro colonia `#585349`, avenida `#726440`, parque `#496B37` y río `#305B68`; en oscuro el río pasa a `#9CCBDB`. Se conserva el matiz de la maqueta. `colores_mapa_test.dart` (CA_014_03) revisa cada rótulo contra su halo (la colonia con su opacidad de 0.85) y el texto blanco de los pines.
+- **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
+- **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
