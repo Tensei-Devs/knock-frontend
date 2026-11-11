@@ -6,7 +6,8 @@ Solo biblioteca estándar y sin red. Uso, desde la raíz del repositorio:
 
 Falla (código 1) si un enlace interno (`href`, `src`) no apunta a un archivo
 de la landing, si un ancla `#id` no existe en la página destino, o si un enlace
-externo no es la URL de Google Play que revisa `test_landing.py`.
+externo no es una de las URL permitidas (Google Play e Instagram de Knock)
+que revisa `test_landing.py`.
 Los enlaces externos no se piden por red: se comparan con la lista permitida.
 """
 
@@ -18,6 +19,7 @@ from urllib.parse import unquote, urlsplit
 PERMITIDOS_EXTERNOS = {
     "https://play.google.com/store/apps/details?id=app.knock.mobile"
     "&referrer=utm_source%3Dlanding%26utm_medium%3Dweb%26utm_campaign%3Dlanding",
+    "https://www.instagram.com/knock.mx/",
 }
 
 

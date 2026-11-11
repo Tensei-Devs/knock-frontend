@@ -17,6 +17,7 @@ URL_PLAY = (
     "https://play.google.com/store/apps/details?id=app.knock.mobile"
     "&referrer=utm_source%3Dlanding%26utm_medium%3Dweb%26utm_campaign%3Dlanding"
 )
+URL_INSTAGRAM = "https://www.instagram.com/knock.mx/"
 TEXTO_PROXIMAMENTE = "Próximamente en Google Play"
 TEXTO_ANTIPHISHING = "Knock nunca te pedirá códigos SMS ni contraseñas en esta página"
 DESCRIPCION = (
@@ -385,7 +386,7 @@ class Landing(unittest.TestCase):
         self.assertTrue(all(e["texto"].strip() == "Aviso de privacidad" for e in privacidad))
 
         permitidos = [URL_PLAY] if estado == "disponible" else []
-        self.assertEqual(enlaces_externos(pagina), permitidos)
+        self.assertEqual(enlaces_externos(pagina), permitidos + [URL_INSTAGRAM])
 
     def test_TC_TT_WEB_01_03_privacidad(self):
         html = leer("privacidad/index.html")
@@ -452,7 +453,9 @@ class Landing(unittest.TestCase):
                 if recurso:
                     self.assertFalse(es_externo(recurso), f"{recurso} en {nombre}")
             externos = enlaces_externos(pagina)
-            self.assertTrue(set(externos) <= {URL_PLAY}, f"{externos} en {nombre}")
+            self.assertTrue(
+                set(externos) <= {URL_PLAY, URL_INSTAGRAM}, f"{externos} en {nombre}"
+            )
 
         hojas = sorted((LANDING / "css").glob("*.css"))
         self.assertTrue(hojas, "Falta el CSS")
@@ -471,7 +474,8 @@ class Landing(unittest.TestCase):
             for region in ("header", "main", "footer"):
                 self.assertEqual(len(pagina.de(region)), 1, f"<{region}> en {nombre}")
             for enlace in pagina.enlaces:
-                self.assertTrue(enlace["texto"].strip(), f"Enlace sin nombre en {nombre}")
+                nombre_accesible = enlace["texto"].strip() or enlace["attrs"].get("aria-label", "").strip()
+                self.assertTrue(nombre_accesible, f"Enlace sin nombre en {nombre}")
             for imagen in pagina.de("img"):
                 self.assertIn("alt", imagen, f"<img> sin alt en {nombre}")
             viewport = [m for m in pagina.de("meta") if m.get("name") == "viewport"]
@@ -560,6 +564,31 @@ class Landing(unittest.TestCase):
                 con_nombre = atributos.get("role") == "img" and atributos.get("aria-label")
                 self.assertTrue(decorativo or con_nombre, "<svg> sin aria-hidden ni nombre")
         self.assertEqual(pagina.de("script"), [])
+
+    def test_TC_TT_WEB_01_11_instagram(self):
+        """KNOCK-258 (spec 004, R-09 y CA-06): Instagram, la primera red del proyecto."""
+        html = leer("index.html")
+        pagina = analizar(html)
+        redes = [e for e in pagina.enlaces if "instagram.com" in e["attrs"].get("href", "")]
+        self.assertEqual(len(redes), 1)
+        atributos = redes[0]["attrs"]
+        self.assertEqual(atributos["href"], URL_INSTAGRAM)
+        self.assertEqual(atributos.get("aria-label"), "Instagram de Knock")
+        self.assertEqual(atributos.get("target"), "_blank")
+        self.assertEqual(sorted(atributos.get("rel", "").split()), ["noopener", "noreferrer"])
+        self.assertEqual(redes[0]["texto"].strip(), "", "El ícono no duplica el nombre")
+        bloque = html[html.index(URL_INSTAGRAM) :]
+        bloque = bloque[: bloque.index("</a>")]
+        self.assertIn('<svg viewBox="0 0 24 24" aria-hidden="true">', bloque)
+        otras = [h for h in enlaces_externos(pagina) if h != URL_INSTAGRAM]
+        self.assertEqual(otras, [], "Solo Instagram; las demás redes se agregan después")
+
+        # Objetivo táctil de al menos 44 px (3rem de ancho y 2.75rem de alto).
+        reglas = bloques_css(leer("css/landing.css"))
+        red = [propiedades(c) for s, c in reglas if s == ".enlaces .red"]
+        self.assertTrue(red, "Falta la regla .enlaces .red")
+        self.assertEqual(red[0].get("width"), "3rem")
+        self.assertEqual(red[0].get("min-height"), "2.75rem")
 
 
 if __name__ == "__main__":
