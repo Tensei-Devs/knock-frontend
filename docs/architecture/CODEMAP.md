@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T02:01:19Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T02:05:06Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | domain, presentation | 4 | 5 | 14 |
+| `actividad` | data, domain, presentation | 5 | 6 | 17 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
@@ -22,7 +22,7 @@
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
-| `preferencias` | core | 4 | 9 | 17 |
+| `preferencias` | core | 5 | 12 | 23 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
 | `router` | core | 4 | 4 | 12 |
@@ -39,6 +39,11 @@
 ## Índice por módulo
 
 ### actividad
+
+**data**
+
+- `app/lib/features/actividad/data/borrador_repository.dart` — class `BorradorRepository`
+  - `leer()`:21, `guardar()`:46, `borrarTodo()`:52
 
 **domain**
 
@@ -310,8 +315,10 @@
 
 - `app/lib/core/preferencias/almacen_avisos.dart` — enum `TipoAviso`, class `AlmacenAvisos`, mixin `AvisosSobreShared`, mixin `AvisosEnMemoria`
   - `claveDeAviso()`:28, `leerAviso()`:34, `guardarAviso()`:40, `leerAviso()`:48, `guardarAviso()`:51
+- `app/lib/core/preferencias/almacen_borrador_solicitud.dart` — class `AlmacenBorradorSolicitud`, mixin `BorradorSobreShared`, mixin `BorradorEnMemoria`
+  - `leerBorrador()`:28, `guardarBorrador()`:40, `borrarBorrador()`:47, `leerBorrador()`:55, `guardarBorrador()`:58, `borrarBorrador()`:62
 - `app/lib/core/preferencias/almacen_preferencias.dart` — class `AlmacenPreferencias`, class `AlmacenPreferenciasShared`, class `AlmacenPreferenciasEnMemoria`
-  - `leerTema()`:47, `leerIdioma()`:50, `guardarTema()`:53, `guardarIdioma()`:57, `leerTema()`:73, `leerIdioma()`:76, `guardarTema()`:79, `guardarIdioma()`:82
+  - `leerTema()`:53, `leerIdioma()`:56, `guardarTema()`:59, `guardarIdioma()`:63, `leerTema()`:79, `leerIdioma()`:82, `guardarTema()`:85, `guardarIdioma()`:88
 - `app/lib/core/preferencias/arranque.dart` — —
 - `app/lib/core/preferencias/preferencias_provider.dart` — class `Preferencias`, class `PreferenciasNotifier`
   - `copyWith()`:25, `build()`:47, `cambiarTema()`:55, `cambiarIdioma()`:61
