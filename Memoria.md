@@ -233,3 +233,8 @@
 - **Decisión:** los rótulos del mapa dibujado (`PaletaMapa`, spec 027) se ajustan para cumplir 4.5:1 contra el halo que llevan detrás: en claro colonia `#585349`, avenida `#726440`, parque `#496B37` y río `#305B68`; en oscuro el río pasa a `#9CCBDB`. Se conserva el matiz de la maqueta. `colores_mapa_test.dart` (CA_014_03) revisa cada rótulo contra su halo (la colonia con su opacidad de 0.85) y el texto blanco de los pines.
 - **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
 - **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
+
+## 2026-11-11 — Ícono de Instagram en la landing (KNOCK-258)
+- **Decisión:** el pie de la página principal lleva un ícono de Instagram dibujado en SVG, enlazado a `https://www.instagram.com/knock.mx/` con `rel="noopener noreferrer"` y `aria-label="Instagram de Knock"`; las pruebas y `check_links.py` permiten esa URL además de la de Google Play (spec 004 R-09 y CA-06, sin red al revisar).
+- **Por qué:** el profesor pidió los íconos de las redes del proyecto y la primera cuenta ya existe; las demás se agregan cuando tengan URL oficial, y Google Analytics queda fuera porque la spec y la CSP prohíben scripts de terceros.
+- **A evitar:** inventar enlaces de otras redes o apuntar a portadas genéricas, descargar el logo oficial, bajar el objetivo táctil de 44 px y ampliar la lista de URL externas sin tocar la spec.

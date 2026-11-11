@@ -53,6 +53,7 @@ Las fija `nginx.conf` con `add_header ... always` en el bloque `server`; la prue
 `/` ocupa una sola pantalla sin scroll (spec 004, R-06) y se anima solo con CSS (R-07):
 - El logo es el oficial de la maqueta (`knock-icono.svg` y `knock-letras.svg`), incrustado como SVG. La ilustración y las insignias de oficios también son SVG en el HTML, para no agregar archivos al `Dockerfile` ni pasar el límite de peso.
 - El selector de tema («Claro» y «Oscuro») usa enlaces de ancla y `:target`, sin JavaScript ni `<input>` (R-08); no se recuerda entre páginas.
+- Redes sociales (R-09): el pie lleva un ícono de Instagram (SVG propio, `aria-label="Instagram de Knock"`, 48×44 px) hacia `https://www.instagram.com/knock.mx/`. Cuando haya más redes se agregan igual, una por una y con su URL oficial; `test_landing.py` y `check_links.py` solo permiten las URL externas de esa lista. Google Analytics no entra (spec 004 y CSP).
 - Todo el diseño cuelga de `body.inicio`; el aviso de privacidad, eliminar cuenta y el 404 no cambian.
 - Si la pantalla es baja, primero se oculta lo decorativo y después las etiquetas; el contenido y los enlaces no se recortan.
 - `prefers-reduced-motion: reduce` apaga todas las animaciones y transiciones.

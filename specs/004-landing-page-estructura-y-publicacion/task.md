@@ -11,6 +11,7 @@
 | T-05 | Definir la versión de la landing | R-05 | hecha: valor inicial `landing-v1.0.0` en el pie de `index.html`; la regla de puntos es de la spec 011 |
 | T-06 | Diseño final de la página principal: una pantalla sin scroll, ilustración SVG y animaciones CSS | R-06, R-07 · CA-04, CA-05 | KNOCK-258: `landing/index.html` y `landing/css/landing.css` |
 | T-07 | Prueba de movimiento reducido y de las ilustraciones decorativas; medición de CA-04 con las seis pantallas | R-06, R-07 · CA-04, CA-05 | KNOCK-258: `landing/tests/test_landing.py` y la medición manual de CA-04 |
+| T-08 | Ícono de Instagram en la página principal y su prueba (las demás redes y la imagen con personas reales quedan pendientes) | R-09 · CA-06 | KNOCK-258: `landing/index.html`, `landing/css/landing.css`, `landing/tests/test_landing.py` y `landing/tests/check_links.py` |
 
 ## Definición de terminado
 - Los criterios de aceptación de `spec.md` están cubiertos por pruebas en verde.

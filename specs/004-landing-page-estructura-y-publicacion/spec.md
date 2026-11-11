@@ -26,6 +26,7 @@ Definir cómo está hecha y dónde se publica la landing page, sin escribir su c
 - **R-06:** La página principal (`/`) cabe en una sola pantalla, sin scroll, en escritorio y en celular (vertical y horizontal) con el tamaño de texto normal; lo decorativo se reduce o se oculta antes que el contenido o los enlaces.
 - **R-08:** Cada página tiene un selector de tema «Claro / Oscuro» hecho solo con enlaces de ancla y CSS (`:target`), sin JavaScript ni formularios; sin elegir, se sigue el tema del sistema. La elección no se recuerda entre páginas.
 - **R-07:** Las animaciones son solo de CSS, no hacen falta para entender la página y se apagan cuando la persona pide movimiento reducido (`prefers-reduced-motion`).
+- **R-09:** La página principal enlaza a las redes sociales del proyecto con un ícono dibujado en SVG, con nombre accesible y objetivo táctil de al menos 44 px. Hoy solo está Instagram (`https://www.instagram.com/knock.mx/`, con `rel="noopener noreferrer"`); las demás redes se agregan cuando existan sus direcciones oficiales. Google Analytics queda fuera por ahora: esta spec y la política de contenido (`default-src 'none'`) prohíben scripts y recursos de terceros, y su adopción se decide aparte.
 
 ## 4. Criterios de aceptación
 - **CA-01:** Dado un cambio fusionado en la rama principal, cuando termina el proceso, entonces la landing se publica.
@@ -33,6 +34,7 @@ Definir cómo está hecha y dónde se publica la landing page, sin escribir su c
 - **CA-03:** Dado un enlace roto, cuando corre el proceso, entonces falla.
 - **CA-04:** Dada la página principal, cuando se abre en 1920×1080, 1366×768, 390×844, 360×640, 320×568 y 844×390, entonces no hace scroll. (comando)
 - **CA-05:** Dado un navegador con movimiento reducido, cuando se abre la página, entonces ningún elemento se anima.
+- **CA-06:** Dada la página principal, cuando se revisa su HTML, entonces hay un solo enlace a redes sociales, el de Instagram con la URL exacta, `rel` con `noopener` y `noreferrer`, nombre accesible «Instagram de Knock» y su ícono oculto a lectores de pantalla, sin otros enlaces externos aparte del de Google Play. (comando)
 
 ## 5. Contrato
 No consume la API. Interfaces que fija: las rutas reservadas `/privacidad/` y `/eliminar-cuenta/`, y la URL de redirección a Google Play.
