@@ -1,6 +1,6 @@
 # Spec 028 — Abrir el aviso de privacidad desde la entrada con celular
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Jira:** KNOCK-260 (parte del aviso de KNOCK-169) · **Capas:** Mobile · **Otra parte en:** landing (spec 004, ruta `/privacidad/`, ya publicada)
 > **Relacionada con:** specs 004, 009 y 012 de este repositorio; KNOCK-169 (permisos del teléfono, que queda fuera).
 
@@ -102,6 +102,6 @@ Las pruebas citan el caso como `CA-028-NN` en el nombre (para `python scripts/sd
 - Algunos teléfonos sin navegador instalado no podrán abrirla; por eso existe el mensaje de R-03.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
