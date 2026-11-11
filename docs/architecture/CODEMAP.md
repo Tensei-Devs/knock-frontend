@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T18:02:06Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T19:53:05Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 19 | 35 | 61 |
+| `actividad` | -, data, domain, presentation | 23 | 47 | 77 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
@@ -16,7 +16,7 @@
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 33 |
+| `l10n` | - | 3 | 4 | 51 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -25,7 +25,7 @@
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
-| `router` | core | 4 | 4 | 13 |
+| `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 14 | 24 | 41 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
@@ -53,12 +53,14 @@
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
-  - `subirFoto()`:34, `crear()`:37, `obtener()`:55
+  - `subirFoto()`:52, `crear()`:55, `obtener()`:76, `cotizaciones()`:95, `cotizacion()`:122, `etiquetarComoElServidor()`:216, `ordenarComoElServidor()`:253, `porCalificacion()`:257, `porTope()`:259
 
 **domain**
 
 - `app/lib/features/actividad/domain/borrador_solicitud.dart` — class `BorradorSolicitud`
   - `aMapa()`:38, `desdeMapa()`:51
+- `app/lib/features/actividad/domain/cotizacion.dart` — enum `TipoPrecio`, enum `EtiquetaCotizacion`, enum `OrdenCotizaciones`, enum `MotivoSinEleccion`, class `TecnicoResumen`, class `Cotizacion`, class `ResultadoComparacion`
+  - `desdeTexto()`:15, `desdeTexto()`:34, `desdeTexto()`:66
 - `app/lib/features/actividad/domain/fotos_permitidas.dart` — —
   - `esFotoPermitida()`:10, `fotosPermitidas()`:23
 - `app/lib/features/actividad/domain/franja.dart` — enum `Franja`
@@ -73,6 +75,10 @@
 
 - `app/lib/features/actividad/presentation/actividad_screen.dart` — class `ActividadScreen`
   - `build()`:18, `PantallaTitulada()`:21
+- `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`
+  - `build()`:17, `elegir()`:19
+- `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
+  - `build()`:22, `nombreOrden()`:27, `build()`:91, `build()`:165
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
   - `initState()`:22, `dispose()`:30, `build()`:36, `nombreFranja()`:53
 - `app/lib/features/actividad/presentation/pasos/paso_descripcion_fotos.dart` — class `PasoDescripcionFotos`, class `_PasoDescripcionFotosState`
@@ -87,6 +93,8 @@
   - `initState()`:32, `build()`:44, `build()`:112, `build()`:154
 - `app/lib/features/actividad/presentation/widgets/selector_fotos.dart` — class `SelectorFotos`, class `_Miniatura`
   - `build()`:16, `build()`:117
+- `app/lib/features/actividad/presentation/widgets/tarjeta_cotizacion.dart` — class `TarjetaCotizacion`
+  - `build()`:28
 
 ### app
 
@@ -258,11 +266,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:1229, `isSupported()`:1234, `shouldReload()`:1238, `lookupAppLocalizations()`:1241
+  - `of()`:70, `load()`:1379, `isSupported()`:1384, `shouldReload()`:1388, `lookupAppLocalizations()`:1391
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637, `solicitudVerCotizaciones()`:651, `cotizacionMostrandoDe()`:671, `cotizacionPrecioFijo()`:680, `cotizacionPrecioRango()`:685, `cotizacionPrecioVisita()`:690, `cotizacionTope()`:695, `cotizacionCalificacion()`:716, `cotizacionNivelVerificacion()`:721, `cotizacionCuando()`:726
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642, `solicitudVerCotizaciones()`:656, `cotizacionMostrandoDe()`:676, `cotizacionPrecioFijo()`:685, `cotizacionPrecioRango()`:690, `cotizacionPrecioVisita()`:695, `cotizacionTope()`:700, `cotizacionCalificacion()`:721, `cotizacionNivelVerificacion()`:726, `cotizacionCuando()`:731
 
 ### layout
 
@@ -424,7 +432,7 @@
 - `app/lib/core/router/destino_de_regreso_provider.dart` — class `DestinoDeRegreso`
   - `build()`:9, `recordar()`:12, `olvidar()`:14
 - `app/lib/core/router/rutas.dart` — class `Rutas`
-  - `solicitud()`:21, `esRutaPublica()`:53, `redireccionPorSesion()`:62, `rutaDeEntrada()`:77, `destinoDeRegreso()`:92, `destinoValidoODescartar()`:97, `redireccionPorRol()`:122, `redireccionPorPerfil()`:132
+  - `solicitud()`:21, `cotizaciones()`:25, `visita()`:29, `esRutaPublica()`:61, `redireccionPorSesion()`:70, `rutaDeEntrada()`:85, `destinoDeRegreso()`:100, `destinoValidoODescartar()`:105, `redireccionPorRol()`:130, `redireccionPorPerfil()`:140
 
 ### sesion
 

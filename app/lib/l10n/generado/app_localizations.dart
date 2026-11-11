@@ -1219,6 +1219,156 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Volver a Actividad'**
   String get solicitudVolverActividad;
+
+  /// Botón del detalle que abre la comparación (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver y elegir ({cantidad})'**
+  String solicitudVerCotizaciones(int cantidad);
+
+  /// Título de la comparación de cotizaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizaciones'**
+  String get cotizacionTitulo;
+
+  /// Orden recomendadas (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendadas'**
+  String get cotizacionOrdenRecomendadas;
+
+  /// Orden por precio (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Menor precio'**
+  String get cotizacionOrdenPrecio;
+
+  /// Orden por calificación (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor calificadas'**
+  String get cotizacionOrdenCalificacion;
+
+  /// Orden por fecha (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Más pronto'**
+  String get cotizacionOrdenPronto;
+
+  /// Aviso cuando hay más de 5 cotizaciones (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Te mostramos {mostradas} de {total}'**
+  String cotizacionMostrandoDe(int mostradas, int total);
+
+  /// Aviso de tipos de precio mixtos (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Las cotizaciones cubren cosas distintas: revisa qué incluye cada una'**
+  String get cotizacionTiposMixtos;
+
+  /// Precio fijo ya formateado en pesos.
+  ///
+  /// In es, this message translates to:
+  /// **'{precio}'**
+  String cotizacionPrecioFijo(String precio);
+
+  /// Rango de precio.
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo}'**
+  String cotizacionPrecioRango(String minimo, String maximo);
+
+  /// Cuota de solo visita.
+  ///
+  /// In es, this message translates to:
+  /// **'Visita: {precio}'**
+  String cotizacionPrecioVisita(String precio);
+
+  /// Máximo que se puede cobrar (tope).
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {tope}'**
+  String cotizacionTope(String tope);
+
+  /// Aviso de requiereAprobacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Si el precio sube, el técnico te pedirá tu aprobación'**
+  String get cotizacionRequiereAprobacion;
+
+  /// Etiqueta verificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado'**
+  String get cotizacionEtiquetaVerificado;
+
+  /// Etiqueta mejor_precio.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor precio'**
+  String get cotizacionEtiquetaMejorPrecio;
+
+  /// Etiqueta puede_ir_mas_pronto.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede ir más pronto'**
+  String get cotizacionEtiquetaPronto;
+
+  /// Técnico sin calificaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin calificaciones'**
+  String get cotizacionSinCalificaciones;
+
+  /// Calificación del técnico.
+  ///
+  /// In es, this message translates to:
+  /// **'{calificacion} de 5'**
+  String cotizacionCalificacion(String calificacion);
+
+  /// Nivel de verificación del técnico.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificación {nivel}'**
+  String cotizacionNivelVerificacion(String nivel);
+
+  /// Día y hora propuestos.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} a las {hora}'**
+  String cotizacionCuando(String dia, String hora);
+
+  /// Motivo request_without_quotes (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.'**
+  String get cotizacionMotivoSinCotizaciones;
+
+  /// Motivo request_expired (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud venció. Puedes pedir una nueva.'**
+  String get cotizacionMotivoVencida;
+
+  /// Motivo request_cancelled (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud se canceló.'**
+  String get cotizacionMotivoCancelada;
+
+  /// Motivo request_already_chosen (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Ya elegiste una cotización para esta solicitud.'**
+  String get cotizacionYaElegida;
+
+  /// Botón que abre la visita (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mi visita'**
+  String get cotizacionVerMiVisita;
 }
 
 class _AppLocalizationsDelegate

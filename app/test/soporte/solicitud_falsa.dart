@@ -2,6 +2,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/borrador_solicitud.dart';
+import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
@@ -66,6 +67,28 @@ class SolicitudesFalsas implements SolicitudRepository {
       franja: solicitud.franja,
       creadoEn: hoyDePrueba,
     );
+  }
+
+  /// Órdenes pedidos a `cotizaciones`, en orden (CA-08).
+  final ordenesPedidos = <OrdenCotizaciones>[];
+
+  /// Lo que responde `cotizaciones`; por omisión, sin cotizaciones.
+  ResultadoComparacion comparacion = const ResultadoComparacion(
+    cotizaciones: [],
+    totalCotizaciones: 0,
+    tiposMixtos: false,
+    puedeElegir: false,
+    motivo: MotivoSinEleccion.sinCotizaciones,
+  );
+
+  @override
+  Future<ResultadoComparacion> cotizaciones(
+    String solicitudId, {
+    OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
+  }) async {
+    ordenesPedidos.add(orden);
+    if (solicitudId != 'b' * 24) throw const NoEncontradoFailure();
+    return comparacion;
   }
 
   @override
@@ -152,3 +175,34 @@ List<Override> dobles({
     relojSolicitudProvider.overrideWithValue(reloj ?? () => hoyDePrueba),
   ];
 }
+
+/// Una cotización ficticia para las pruebas de la comparación.
+Cotizacion cotizacionDePrueba(
+  String id, {
+  TipoPrecio tipo = TipoPrecio.fijo,
+  int tope = 1100,
+  String nombre = 'Técnico de prueba',
+  Set<EtiquetaCotizacion> etiquetas = const {},
+  double? calificacion = 4.5,
+  bool verificado = true,
+}) => Cotizacion(
+  id: id,
+  tipoPrecio: tipo,
+  precio: tipo == TipoPrecio.rango ? null : 1000,
+  precioMin: tipo == TipoPrecio.rango ? 600 : null,
+  precioMax: tipo == TipoPrecio.rango ? 1000 : null,
+  tope: tope,
+  requiereAprobacion: tipo != TipoPrecio.visita,
+  dia: DateTime(2026, 11, 12),
+  hora: '10:30',
+  nota: 'Nota de prueba',
+  cubre: 'Arreglo completo, mano de obra incluida, refacciones aparte',
+  etiquetas: etiquetas,
+  tecnico: TecnicoResumen(
+    id: 't$id',
+    nombre: nombre,
+    verificado: verificado,
+    nivelVerificacion: verificado ? 'basico' : null,
+    calificacion: calificacion,
+  ),
+);

@@ -60,3 +60,7 @@ final dominiosDeFotosProvider = Provider<Set<String>>((ref) => const {});
 final relojSolicitudProvider = Provider<DateTime Function()>(
   (ref) => DateTime.now,
 );
+
+/// Si ya existe la pantalla de la visita (spec 016, KNOCK-83). Mientras sea
+/// falso, «Ver mi visita» no se muestra: no hay botones sin destino.
+final visitaDisponibleProvider = Provider<bool>((ref) => false);

@@ -651,4 +651,102 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get solicitudVolverActividad => 'Volver a Actividad';
+
+  @override
+  String solicitudVerCotizaciones(int cantidad) {
+    return 'Ver y elegir ($cantidad)';
+  }
+
+  @override
+  String get cotizacionTitulo => 'Cotizaciones';
+
+  @override
+  String get cotizacionOrdenRecomendadas => 'Recomendadas';
+
+  @override
+  String get cotizacionOrdenPrecio => 'Menor precio';
+
+  @override
+  String get cotizacionOrdenCalificacion => 'Mejor calificadas';
+
+  @override
+  String get cotizacionOrdenPronto => 'Más pronto';
+
+  @override
+  String cotizacionMostrandoDe(int mostradas, int total) {
+    return 'Te mostramos $mostradas de $total';
+  }
+
+  @override
+  String get cotizacionTiposMixtos =>
+      'Las cotizaciones cubren cosas distintas: revisa qué incluye cada una';
+
+  @override
+  String cotizacionPrecioFijo(String precio) {
+    return '$precio';
+  }
+
+  @override
+  String cotizacionPrecioRango(String minimo, String maximo) {
+    return 'De $minimo a $maximo';
+  }
+
+  @override
+  String cotizacionPrecioVisita(String precio) {
+    return 'Visita: $precio';
+  }
+
+  @override
+  String cotizacionTope(String tope) {
+    return 'Hasta $tope';
+  }
+
+  @override
+  String get cotizacionRequiereAprobacion =>
+      'Si el precio sube, el técnico te pedirá tu aprobación';
+
+  @override
+  String get cotizacionEtiquetaVerificado => 'Verificado';
+
+  @override
+  String get cotizacionEtiquetaMejorPrecio => 'Mejor precio';
+
+  @override
+  String get cotizacionEtiquetaPronto => 'Puede ir más pronto';
+
+  @override
+  String get cotizacionSinCalificaciones => 'Sin calificaciones';
+
+  @override
+  String cotizacionCalificacion(String calificacion) {
+    return '$calificacion de 5';
+  }
+
+  @override
+  String cotizacionNivelVerificacion(String nivel) {
+    return 'Verificación $nivel';
+  }
+
+  @override
+  String cotizacionCuando(String dia, String hora) {
+    return '$dia a las $hora';
+  }
+
+  @override
+  String get cotizacionMotivoSinCotizaciones =>
+      'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.';
+
+  @override
+  String get cotizacionMotivoVencida =>
+      'Esta solicitud venció. Puedes pedir una nueva.';
+
+  @override
+  String get cotizacionMotivoCancelada => 'Esta solicitud se canceló.';
+
+  @override
+  String get cotizacionYaElegida =>
+      'Ya elegiste una cotización para esta solicitud.';
+
+  @override
+  String get cotizacionVerMiVisita => 'Ver mi visita';
 }

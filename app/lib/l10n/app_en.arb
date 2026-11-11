@@ -542,5 +542,102 @@
       }
     }
   },
-  "solicitudVolverActividad": "Back to Activity"
+  "solicitudVolverActividad": "Back to Activity",
+  "solicitudVerCotizaciones": "See and choose ({cantidad})",
+  "@solicitudVerCotizaciones": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTitulo": "Quotes",
+  "cotizacionOrdenRecomendadas": "Recommended",
+  "cotizacionOrdenPrecio": "Lowest price",
+  "cotizacionOrdenCalificacion": "Top rated",
+  "cotizacionOrdenPronto": "Soonest",
+  "cotizacionMostrandoDe": "Showing {mostradas} of {total}",
+  "@cotizacionMostrandoDe": {
+    "placeholders": {
+      "mostradas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTiposMixtos": "These quotes cover different things: check what each one includes",
+  "cotizacionPrecioFijo": "{precio}",
+  "@cotizacionPrecioFijo": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioRango": "{minimo} to {maximo}",
+  "@cotizacionPrecioRango": {
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioVisita": "Visit: {precio}",
+  "@cotizacionPrecioVisita": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionTope": "Up to {tope}",
+  "@cotizacionTope": {
+    "placeholders": {
+      "tope": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionRequiereAprobacion": "If the price goes up, the pro will ask for your approval",
+  "cotizacionEtiquetaVerificado": "Verified",
+  "cotizacionEtiquetaMejorPrecio": "Best price",
+  "cotizacionEtiquetaPronto": "Can come sooner",
+  "cotizacionSinCalificaciones": "No ratings yet",
+  "cotizacionCalificacion": "{calificacion} out of 5",
+  "@cotizacionCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionNivelVerificacion": "{nivel} verification",
+  "@cotizacionNivelVerificacion": {
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionCuando": "{dia} at {hora}",
+  "@cotizacionCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionMotivoSinCotizaciones": "No quotes yet. We'll let you know when the first one arrives.",
+  "cotizacionMotivoVencida": "This request expired. You can make a new one.",
+  "cotizacionMotivoCancelada": "This request was canceled.",
+  "cotizacionYaElegida": "You already chose a quote for this request.",
+  "cotizacionVerMiVisita": "See my visit"
 }

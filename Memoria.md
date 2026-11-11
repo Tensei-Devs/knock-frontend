@@ -248,3 +248,12 @@
 - **A evitar:** publicar una versión con `SolicitudRepositoryDePrueba` o guardar la dirección en el borrador.
 - **Actualización (2026-11-11):** se alineó con el retiro de `Idempotency-Key` (PR #33, decisión de Julián del 2026-11-10) y con los códigos de error en inglés (PR #39). La app ya no genera ni envía la clave. El doble envío se evita con el botón deshabilitado mientras se envía (CA-06), y el reintento tras un fallo de red es manual y no vuelve a subir las fotos.
 
+## 2026-11-11 — Comparar cotizaciones sin contrato todavía (KNOCK-81, spec 015)
+- **Decisión:** «Ver y elegir» (`/actividad/solicitud/:id/cotizaciones`) muestra hasta 5 tarjetas en el orden que manda el servidor. Cada chip de orden vuelve a pedir la comparación con `orden` (R-08): la app no reordena ni filtra. Mientras no exista el contrato, `SolicitudRepositoryDePrueba` simula a backend 021: diez segundos después de crear la solicitud llegan cuatro cotizaciones ficticias, ordenadas y etiquetadas con sus reglas (R-04 a R-07).
+  - Los `motivo` usan los códigos en inglés (`request_without_quotes`, `request_expired`, `request_cancelled`, `request_already_chosen`).
+  - Montos y calificaciones salen con formato de México (`es_MX`: «$1,100», «4.5») aunque la app esté en inglés (spec 015 §7, pesos mexicanos).
+  - «Ver mi visita» depende de `visitaDisponibleProvider`, falso hasta que KNOCK-83 registre la ruta de la visita, para no dejar un botón sin destino.
+  - «Elegir» no aparece todavía: lo agrega KNOCK-245 con la hoja de confirmación.
+- **Porqué:** Julián pidió seguir con repositorio falso, un PR por tarjeta (244 → 81 → 245). El PR de 81 se apila sobre el de 244 porque necesita su detalle.
+- **A evitar:** ordenar o filtrar las cotizaciones en el teléfono, o agregar teléfono o dirección al modelo `TecnicoResumen` (CA-10).
+

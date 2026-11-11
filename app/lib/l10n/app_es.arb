@@ -837,5 +837,159 @@
   "solicitudVolverActividad": "Volver a Actividad",
   "@solicitudVolverActividad": {
     "description": "Botón para volver a Actividad."
+  },
+  "solicitudVerCotizaciones": "Ver y elegir ({cantidad})",
+  "@solicitudVerCotizaciones": {
+    "description": "Botón del detalle que abre la comparación (spec 015 §7).",
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTitulo": "Cotizaciones",
+  "@cotizacionTitulo": {
+    "description": "Título de la comparación de cotizaciones."
+  },
+  "cotizacionOrdenRecomendadas": "Recomendadas",
+  "@cotizacionOrdenRecomendadas": {
+    "description": "Orden recomendadas (CA-08)."
+  },
+  "cotizacionOrdenPrecio": "Menor precio",
+  "@cotizacionOrdenPrecio": {
+    "description": "Orden por precio (CA-08)."
+  },
+  "cotizacionOrdenCalificacion": "Mejor calificadas",
+  "@cotizacionOrdenCalificacion": {
+    "description": "Orden por calificación (CA-08)."
+  },
+  "cotizacionOrdenPronto": "Más pronto",
+  "@cotizacionOrdenPronto": {
+    "description": "Orden por fecha (CA-08)."
+  },
+  "cotizacionMostrandoDe": "Te mostramos {mostradas} de {total}",
+  "@cotizacionMostrandoDe": {
+    "description": "Aviso cuando hay más de 5 cotizaciones (CA-07).",
+    "placeholders": {
+      "mostradas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTiposMixtos": "Las cotizaciones cubren cosas distintas: revisa qué incluye cada una",
+  "@cotizacionTiposMixtos": {
+    "description": "Aviso de tipos de precio mixtos (CA-07)."
+  },
+  "cotizacionPrecioFijo": "{precio}",
+  "@cotizacionPrecioFijo": {
+    "description": "Precio fijo ya formateado en pesos.",
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioRango": "De {minimo} a {maximo}",
+  "@cotizacionPrecioRango": {
+    "description": "Rango de precio.",
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioVisita": "Visita: {precio}",
+  "@cotizacionPrecioVisita": {
+    "description": "Cuota de solo visita.",
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionTope": "Hasta {tope}",
+  "@cotizacionTope": {
+    "description": "Máximo que se puede cobrar (tope).",
+    "placeholders": {
+      "tope": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionRequiereAprobacion": "Si el precio sube, el técnico te pedirá tu aprobación",
+  "@cotizacionRequiereAprobacion": {
+    "description": "Aviso de requiereAprobacion."
+  },
+  "cotizacionEtiquetaVerificado": "Verificado",
+  "@cotizacionEtiquetaVerificado": {
+    "description": "Etiqueta verificado."
+  },
+  "cotizacionEtiquetaMejorPrecio": "Mejor precio",
+  "@cotizacionEtiquetaMejorPrecio": {
+    "description": "Etiqueta mejor_precio."
+  },
+  "cotizacionEtiquetaPronto": "Puede ir más pronto",
+  "@cotizacionEtiquetaPronto": {
+    "description": "Etiqueta puede_ir_mas_pronto."
+  },
+  "cotizacionSinCalificaciones": "Sin calificaciones",
+  "@cotizacionSinCalificaciones": {
+    "description": "Técnico sin calificaciones."
+  },
+  "cotizacionCalificacion": "{calificacion} de 5",
+  "@cotizacionCalificacion": {
+    "description": "Calificación del técnico.",
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionNivelVerificacion": "Verificación {nivel}",
+  "@cotizacionNivelVerificacion": {
+    "description": "Nivel de verificación del técnico.",
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionCuando": "{dia} a las {hora}",
+  "@cotizacionCuando": {
+    "description": "Día y hora propuestos.",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionMotivoSinCotizaciones": "Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.",
+  "@cotizacionMotivoSinCotizaciones": {
+    "description": "Motivo request_without_quotes (CA-09)."
+  },
+  "cotizacionMotivoVencida": "Esta solicitud venció. Puedes pedir una nueva.",
+  "@cotizacionMotivoVencida": {
+    "description": "Motivo request_expired (CA-09)."
+  },
+  "cotizacionMotivoCancelada": "Esta solicitud se canceló.",
+  "@cotizacionMotivoCancelada": {
+    "description": "Motivo request_cancelled (CA-09)."
+  },
+  "cotizacionYaElegida": "Ya elegiste una cotización para esta solicitud.",
+  "@cotizacionYaElegida": {
+    "description": "Motivo request_already_chosen (CA-09)."
+  },
+  "cotizacionVerMiVisita": "Ver mi visita",
+  "@cotizacionVerMiVisita": {
+    "description": "Botón que abre la visita (CA-09)."
   }
 }
