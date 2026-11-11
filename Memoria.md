@@ -7,6 +7,11 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-11 — `sprint-04` recibe de `develop` el arreglo de publicación a Play (KNOCK-221)
+- **Decisión:** se trae `develop` a `sprint-04` con un merge normal. Lo único que faltaba era el PR #26 (KNOCK-221): `publish-android.yml` pasa `API_URL` (`vars.KNOCK_API_URL`) y la configuración de Firebase (secreto `GOOGLE_SERVICES_JSON`) al build de release de Android, con su nota en `docs/PUBLICACION_ANDROID.md`. Los otros tres commits de `develop` son merges de promoción sin cambios de archivos propios.
+- **Porqué:** `sprint-04` salió antes de que el #26 entrara por `sprint-03`, así que su workflow de publicación estaba desactualizado respecto de `main` y `develop`.
+- **A evitar:** publicar una versión desde `sprint-04` sin este arreglo; tocar `publish-android.yml` sin revisión del Tech Lead (archivo protegido).
+
 ## 2026-10-27 — Aclaración de «Uso de IA»
 - **Decisión:** la sección «Uso de IA» es del **pull request** (plantilla de PR), no de cada spec.
 - **Porqué:** `@constitution-reviewer` marcó FAIL a la spec 001 por leer «todo cambio» de forma literal; la redacción era ambigua.
@@ -93,6 +98,11 @@
 - **Porqué:** la spec 011 manda un cálculo reproducible y que un PR sin puntos no pase; es la misma lógica del backend (KNOCK-207), con otros componentes y con `versionCode`. El acarreo es a 10 (como en el backend) porque la spec no da otro umbral.
 - **Pendiente:** T-03 (integrar versión, `versionCode` y etiqueta de Git en la publicación; depende de KNOCK-221), así que CA-04 solo queda probado en el script. Reconciliar `docs/VERSIONAMIENTO.md` (primera versión `0.1.0`, `versionCode` = número de ejecución) con la spec 011 (`1.0.0`, `versionCode` derivado). Las etiquetas `puntos-*` no existen en el repositorio y las crea una persona con permiso. `sdd_lint.py --trace 011` marca FALTA hasta que `test_globs` de `.agents/knock.json` incluya `scripts/ci/test_*.py`.
 - **A evitar:** llevar el `versionCode` a mano o repetirlo (Google Play rechaza la subida); declarar puntos de menos para no subir de versión.
+
+## 2026-11-09 — La publicación a Google Play lleva la API y Firebase (KNOCK-221)
+- **Decisión:** `publish-android` pasa `--dart-define=KNOCK_API_URL` desde la variable `KNOCK_API_URL` y escribe `google-services.json` desde el secreto `GOOGLE_SERVICES_JSON`; ambos son obligatorios y el archivo se borra al terminar.
+- **Porqué:** sin ellos el AAB de la tienda compilaba sin URL de la API y sin Firebase: abría, pero no se podía entrar ni llamar al backend.
+- **A evitar:** subir `google-services.json` al repositorio o dejarlo en la máquina de CI; escribir la URL fija en el código.
 
 ## 2026-11-05 — Contrato vendorizado y cliente Dart generado (spec 006, KNOCK-220)
 - **Decisión:** se vendoriza en `contracts/openapi.v1.json` el contrato de **Identity** (`docs/openapi.identity.v1.json` de knock-backend, rama `sprint-03`, commit de la rama `d39bc18`, último commit del archivo `b6ddcf5`, SHA-256 `5767eb9d…`), no `docs/openapi.v1.json` del backend: ese archivo **no es la unión** de los servicios, es solo `Knock.Market.Api` (colonias y oficios). La app necesita hoy `POST /api/v1/auth/firebase`. Cuando el backend publique la unión (o el gateway), se reemplaza por ella.
@@ -232,3 +242,7 @@
 - **Porqué:** el aviso solo tenía aspecto de enlace («aún no abre nada», pendiente de KNOCK-169) y las personas que instalaron la app desde la tienda no podían leerlo antes de aceptarlo; la tienda espera la política de privacidad accesible desde la app.
 - **Pendiente:** humo en teléfono con la app instalada (CA-10), que hace el Tech Lead; los permisos del teléfono siguen en KNOCK-169.
 - **A evitar:** importar `url_launcher` fuera de `core/enlaces`, abrir el aviso dentro de la app, escribir la dirección en otro archivo, poner celular o identificadores en la dirección, o hacer que tocar el aviso marque la casilla.
+## 2026-11-11 — El SCA de licencias deja pasar 15 paquetes de pub más (EXC-002, KNOCK-262)
+- **Decisión** (Tech Lead): se agregan a `allow-dependencies-licenses` de `ci-pr.yml` y al alcance de EXC-002 (sin cambiar `creada` ni `vence`, 2027-01-30) archive@4.6.0, cross_file@0.3.5+5, file_selector_linux@0.9.4+1, file_selector_macos@0.9.5+2, file_selector_windows@0.9.3+6, image@4.12.0, image_picker_ios@0.8.13+15, image_picker_platform_interface@2.11.2, mime@2.1.0, posix@6.5.4, url_launcher_android@6.3.33, url_launcher_ios@6.4.2, url_launcher_linux@3.2.3, url_launcher_macos@3.2.6 y url_launcher_windows@3.1.6. Se mantiene `deny-licenses` y el job de SCA. La lista queda en 57 paquetes.
+- **Porqué:** el CI de los PR #45 (KNOCK-244) y #46 (KNOCK-260) falla solo porque `dependency-review-action` recibe de pub las licencias en minúsculas y no las reconoce como SPDX (a url_launcher_windows no le detecta ninguna); no hay vulnerabilidades. Se leyó el LICENSE de cada versión en pub.dev: MIT (archive, image, posix), BSD-3-Clause (los otros 11) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios). Todas están en la lista permitida de CONTRIBUTING.md.
+- **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub. Tras fusionar este PR, #45 y #46 deben traer `sprint-04` para ver el SCA en verde.
