@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T08:46:13Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T02:01:19Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | presentation | 1 | 1 | 1 |
+| `actividad` | domain, presentation | 4 | 5 | 14 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
@@ -39,6 +39,15 @@
 ## Índice por módulo
 
 ### actividad
+
+**domain**
+
+- `app/lib/features/actividad/domain/borrador_solicitud.dart` — class `BorradorSolicitud`
+  - `aMapa()`:38, `desdeMapa()`:51
+- `app/lib/features/actividad/domain/franja.dart` — enum `Franja`
+  - `desdeTexto()`:16
+- `app/lib/features/actividad/domain/validacion_solicitud.dart` — enum `ErrorDeLargo`, enum `ErrorDeFotos`
+  - `largoVisible()`:30, `validarDescripcion()`:40, `validarDireccion()`:44, `validarCantidadDeFotos()`:48, `puedeAgregarFoto()`:55, `soloFecha()`:58, `diasPermitidos()`:65, `esDiaPermitido()`:74, `diaDelContrato()`:78, `dos()`:79
 
 **presentation**
 
