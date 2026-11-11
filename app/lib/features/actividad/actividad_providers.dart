@@ -7,7 +7,6 @@ import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 /// Raíz de composición de la función Actividad (spec 015): es lo único que
 /// junta `data/` con el resto, para que `presentation/` no importe `data/`.
@@ -60,9 +59,4 @@ final dominiosDeFotosProvider = Provider<Set<String>>((ref) => const {});
 /// Reloj de la pantalla (las pruebas lo fijan).
 final relojSolicitudProvider = Provider<DateTime Function()>(
   (ref) => DateTime.now,
-);
-
-/// Genera la `Idempotency-Key` (UUID v4, R-06).
-final generadorDeClaveProvider = Provider<String Function()>(
-  (ref) => const Uuid().v4,
 );

@@ -60,7 +60,7 @@ void main() {
 
         expect(solicitudes.subidas, ['/privado/fotos/1.jpg']);
         expect(solicitudes.creaciones, hasLength(1));
-        final (enviada, _) = solicitudes.creaciones.single;
+        final enviada = solicitudes.creaciones.single;
         expect(enviada.oficioClave, 'plo');
         expect(enviada.descripcion, 'Gotea la llave del baño');
         expect(enviada.archivoIds, ['aaaaaaaaaaaaaaaaaaaaaaa1']);
@@ -84,7 +84,7 @@ void main() {
 
       await control().enviar();
 
-      expect(solicitudes.creaciones.single.$1.direccion, isNull);
+      expect(solicitudes.creaciones.single.direccion, isNull);
     });
 
     test('CA_015_01 sin zona guardada no envía y lo avisa (R-05)', () async {
@@ -172,45 +172,36 @@ void main() {
     expect(control().diasOfrecidos, hasLength(6));
   });
 
-  group('CA_015_06 una sola Idempotency-Key por envío', () {
-    test('CA_015_06 el doble toque crea una sola solicitud', () async {
+  group('CA_015_06 un solo envío sin Idempotency-Key', () {
+    test('CA_015_06 el doble toque deja una sola petición', () async {
       await llenarTodo();
       final suelta = Completer<void>();
       solicitudes.retraso = suelta.future;
 
       final primero = control().enviar();
+      expect(estado().enviando, isTrue);
       final segundo = control().enviar();
       suelta.complete();
       await Future.wait([primero, segundo]);
 
       expect(solicitudes.creaciones, hasLength(1));
+      expect(estado().enviando, isFalse);
     });
 
-    test(
-      'CA_015_06 tras un fallo de red el reintento repite la clave',
-      () async {
-        await llenarTodo();
-        solicitudes.fallas.add(const ServicioNoDisponibleFailure());
-
-        await control().enviar();
-        await control().enviar();
-
-        expect(solicitudes.creaciones, hasLength(2));
-        expect(solicitudes.creaciones[0].$2, solicitudes.creaciones[1].$2);
-        // La foto ya subida no se vuelve a subir.
-        expect(solicitudes.subidas, hasLength(1));
-      },
-    );
-
-    test('CA_015_06 si cambia el contenido se usa una clave nueva', () async {
+    test('CA_015_06 tras un fallo de red no se reintenta solo ni se resube la foto', () async {
       await llenarTodo();
       solicitudes.fallas.add(const ServicioNoDisponibleFailure());
 
       await control().enviar();
-      control().cambiarDireccion('Calle Morelos 45');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      expect(solicitudes.creaciones, hasLength(1));
+      expect(estado().error, isA<ServicioNoDisponibleFailure>());
+
       await control().enviar();
 
-      expect(solicitudes.creaciones[0].$2, isNot(solicitudes.creaciones[1].$2));
+      expect(solicitudes.creaciones, hasLength(2));
+      expect(solicitudes.subidas, hasLength(1));
+      expect(estado().creada, isNotNull);
     });
   });
 
@@ -246,7 +237,7 @@ void main() {
   });
 
   group('CA_015_22 moderación: mensaje y borrador intacto', () {
-    test('CA_015_22 un 422 contenido_rechazado vuelve al paso 2', () async {
+    test('CA_015_22 un 422 content_rejected vuelve al paso 2', () async {
       await llenarTodo();
       solicitudes.fallas.add(const ContenidoRechazadoFailure());
 
@@ -261,7 +252,7 @@ void main() {
     });
 
     test(
-      'CA_015_22 un 503 moderacion_no_disponible no se reintenta solo',
+      'CA_015_22 un 503 moderation_unavailable no se reintenta solo',
       () async {
         await llenarTodo();
         solicitudes.fallas.add(const ModeracionNoDisponibleFailure());

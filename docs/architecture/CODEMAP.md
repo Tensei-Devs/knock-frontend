@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T02:31:16Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T18:02:06Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -53,7 +53,7 @@
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
-  - `subirFoto()`:36, `crear()`:39, `obtener()`:63
+  - `subirFoto()`:34, `crear()`:37, `obtener()`:55
 
 **domain**
 
@@ -80,7 +80,7 @@
 - `app/lib/features/actividad/presentation/pasos/paso_oficio.dart` — class `PasoOficio`
   - `build()`:13
 - `app/lib/features/actividad/presentation/solicitud_controller.dart` — enum `PasoSolicitud`, class `FormularioSolicitud`, class `SolicitudController`
-  - `build()`:151, `iniciar()`:158, `reintentarOficios()`:186, `elegirOficio()`:196, `cambiarDescripcion()`:206, `elegirDia()`:209, `elegirFranja()`:214, `cambiarDireccion()`:218, `tomarFoto()`:223, `elegirFotos()`:228, `quitarFoto()`:263, `avanzar()`:276, `retroceder()`:293, `enviar()`:304, `descartar()`:378
+  - `build()`:146, `iniciar()`:153, `reintentarOficios()`:181, `elegirOficio()`:191, `cambiarDescripcion()`:201, `elegirDia()`:204, `elegirFranja()`:209, `cambiarDireccion()`:213, `tomarFoto()`:217, `elegirFotos()`:222, `quitarFoto()`:257, `avanzar()`:270, `retroceder()`:287, `enviar()`:299, `descartar()`:368
 - `app/lib/features/actividad/presentation/solicitud_detalle_screen.dart` — class `SolicitudDetalleScreen`, class `_Contenido`
   - `build()`:29, `build()`:64
 - `app/lib/features/actividad/presentation/solicitud_nueva_screen.dart` — class `SolicitudNuevaScreen`, class `_SolicitudNuevaScreenState`, class `_Avisos`, class `_Botones`

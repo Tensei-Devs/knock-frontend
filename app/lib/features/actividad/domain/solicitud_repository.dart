@@ -12,12 +12,9 @@ abstract interface class SolicitudRepository {
   /// `uso: solicitud`) y devuelve su `archivoId`.
   Future<String> subirFoto(String rutaLocal);
 
-  /// Crea la solicitud. [claveIdempotencia] va en `Idempotency-Key` y se
-  /// repite tal cual si se reintenta la misma operación (R-06).
-  Future<Solicitud> crear(
-    NuevaSolicitud solicitud, {
-    required String claveIdempotencia,
-  });
+  /// Crea la solicitud. Sin `Idempotency-Key` (R-06, retirada por ahora):
+  /// la pantalla evita el doble envío deshabilitando el botón.
+  Future<Solicitud> crear(NuevaSolicitud solicitud);
 
   /// La solicitud de la persona; `NoEncontradoFailure` si no existe o es de
   /// otra persona (CA-13).

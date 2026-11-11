@@ -767,15 +767,15 @@
   },
   "solicitudErrorContenidoRechazado": "Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.",
   "@solicitudErrorContenidoRechazado": {
-    "description": "Error 422 contenido_rechazado (CA-22)."
+    "description": "Error 422 content_rejected (CA-22)."
   },
   "solicitudErrorModeracion": "No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.",
   "@solicitudErrorModeracion": {
-    "description": "Error 503 moderacion_no_disponible (CA-22)."
+    "description": "Error 503 moderation_unavailable (CA-22)."
   },
   "solicitudErrorOpcionNoDisponible": "Ese oficio o esa colonia ya no están disponibles. Elige otra opción.",
   "@solicitudErrorOpcionNoDisponible": {
-    "description": "Error 422 oficio_no_valido o colonia_no_encontrada."
+    "description": "Error 422 trade_invalid o colonia_not_found."
   },
   "solicitudNoDisponible": "Esta solicitud ya no está disponible.",
   "@solicitudNoDisponible": {

@@ -137,11 +137,6 @@ const esperaPorOmision = Duration(seconds: 30);
 
 /// Controla el formulario: pasos, borrador, fotos y envío (spec 015).
 class SolicitudController extends Notifier<FormularioSolicitud> {
-  /// `Idempotency-Key` de la operación en curso (R-06). Se conserva mientras
-  /// no haya respuesta definitiva y se descarta si cambia el contenido: con
-  /// otro cuerpo la misma clave daría `idempotency_key_conflicto`.
-  String? _clave;
-
   /// `archivoId` de cada foto ya subida, para no subirla otra vez al
   /// reintentar.
   final _subidas = <String, String>{};
@@ -216,7 +211,6 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
 
   /// La dirección no se guarda en el borrador (D-06).
   void cambiarDireccion(String texto) {
-    _clave = null;
     state = state.copiar(direccion: texto, error: () => null);
   }
 
@@ -299,8 +293,9 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
   }
 
   /// Envía la solicitud (CA-01). Un segundo toque mientras se envía no hace
-  /// nada (CA-06); tras un 429 no se puede enviar hasta que pase la espera
-  /// (CA-15); un error nunca se reintenta solo (CA-22).
+  /// nada y sale una sola petición (CA-06, sin `Idempotency-Key`); tras un
+  /// 429 no se puede enviar hasta que pase la espera (CA-15); un error nunca
+  /// se reintenta solo (CA-22).
   Future<void> enviar() async {
     if (state.enviando || state.esperando) return;
     if (state.oficio == null ||
@@ -314,7 +309,6 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
       state = state.copiar(sinZona: true);
       return;
     }
-    final clave = _clave ??= ref.read(generadorDeClaveProvider)();
     state = state.copiar(enviando: true, error: () => null, sinZona: false);
     final repositorio = ref.read(solicitudRepositoryProvider);
     try {
@@ -332,9 +326,7 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
           coloniaId: coloniaId,
           direccion: state.esTaller ? null : state.direccion.trim(),
         ),
-        claveIdempotencia: clave,
       );
-      _clave = null;
       _subidas.clear();
       await ref.read(borradorSolicitudRepositoryProvider).borrarTodo();
       state = state.copiar(enviando: false, creada: () => creada);
@@ -359,24 +351,21 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
         );
       case ContenidoRechazadoFailure():
         // El texto se corrige en el paso 2; el borrador queda intacto.
-        _clave = null;
         state = state.copiar(
           enviando: false,
           error: () => falla,
           paso: PasoSolicitud.descripcion,
         );
       case ServicioNoDisponibleFailure() || ModeracionNoDisponibleFailure():
-        // Sin respuesta definitiva: un reintento manual repite la clave.
+        // Sin respuesta definitiva: la persona reintenta a mano.
         state = state.copiar(enviando: false, error: () => falla);
       default:
-        _clave = null;
         state = state.copiar(enviando: false, error: () => falla);
     }
   }
 
   /// Borra el borrador y sus fotos y deja el formulario vacío (CA-19).
   Future<void> descartar() async {
-    _clave = null;
     _subidas.clear();
     await ref.read(borradorSolicitudRepositoryProvider).borrarTodo();
     state = FormularioSolicitud(
@@ -386,9 +375,8 @@ class SolicitudController extends Notifier<FormularioSolicitud> {
     );
   }
 
-  /// Aplica un cambio del contenido: invalida la clave y guarda el borrador.
+  /// Aplica un cambio del contenido y guarda el borrador.
   void _cambio(FormularioSolicitud nuevo) {
-    _clave = null;
     state = nuevo.copiar(error: () => null);
     unawaited(
       ref

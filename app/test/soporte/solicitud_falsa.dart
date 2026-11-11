@@ -36,7 +36,7 @@ class OficiosFalsos implements OficiosRepository {
 }
 
 class SolicitudesFalsas implements SolicitudRepository {
-  final creaciones = <(NuevaSolicitud, String)>[];
+  final creaciones = <NuevaSolicitud>[];
   final subidas = <String>[];
 
   /// Fallas que devuelve `crear`, una por llamada, en orden.
@@ -52,11 +52,8 @@ class SolicitudesFalsas implements SolicitudRepository {
   }
 
   @override
-  Future<Solicitud> crear(
-    NuevaSolicitud solicitud, {
-    required String claveIdempotencia,
-  }) async {
-    creaciones.add((solicitud, claveIdempotencia));
+  Future<Solicitud> crear(NuevaSolicitud solicitud) async {
+    creaciones.add(solicitud);
     if (retraso != null) await retraso;
     if (fallas.isNotEmpty) throw fallas.removeAt(0);
     return Solicitud(
@@ -146,7 +143,6 @@ List<Override> dobles({
   String? colonia = 'cccccccccccccccccccccccc',
   DateTime Function()? reloj,
 }) {
-  var clave = 0;
   return [
     solicitudRepositoryProvider.overrideWithValue(solicitudes),
     borradorSolicitudRepositoryProvider.overrideWithValue(borrador),
@@ -154,6 +150,5 @@ List<Override> dobles({
     fuenteDeFotosProvider.overrideWithValue(fotos ?? FotosFalsas()),
     coloniaGuardadaProvider.overrideWithValue(colonia),
     relojSolicitudProvider.overrideWithValue(reloj ?? () => hoyDePrueba),
-    generadorDeClaveProvider.overrideWithValue(() => 'clave-${++clave}'),
   ];
 }

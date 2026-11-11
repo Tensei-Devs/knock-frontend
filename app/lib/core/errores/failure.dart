@@ -94,18 +94,18 @@ final class NoEncontradoFailure extends Failure {
   const NoEncontradoFailure();
 }
 
-/// La moderación rechazó el texto (422 `contenido_rechazado`, spec 015 CA-22).
+/// La moderación rechazó el texto (422 `content_rejected`, spec 015 CA-22).
 final class ContenidoRechazadoFailure extends Failure {
   const ContenidoRechazadoFailure();
 }
 
-/// La moderación no respondió (503 `moderacion_no_disponible`, spec 015 CA-22).
+/// La moderación no respondió (503 `moderation_unavailable`, spec 015 CA-22).
 final class ModeracionNoDisponibleFailure extends Failure {
   const ModeracionNoDisponibleFailure();
 }
 
-/// El oficio o la colonia ya no existen (422 `oficio_no_valido` o
-/// `colonia_no_encontrada`, spec 015 §7).
+/// El oficio o la colonia ya no existen (422 `trade_invalid` o
+/// `colonia_not_found`, spec 015 §7).
 final class OpcionNoDisponibleFailure extends Failure {
   const OpcionNoDisponibleFailure();
 }

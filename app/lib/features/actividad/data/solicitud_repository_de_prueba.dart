@@ -7,8 +7,7 @@ import 'package:app/features/actividad/domain/solicitud_repository.dart';
 /// Solicitudes en memoria mientras el contrato no publique `/solicitudes` ni
 /// `/archivos` (backend 020 y spec 013). Sin red ni datos reales.
 ///
-/// Se comporta como el servidor en lo que la pantalla necesita: repite la
-/// misma solicitud con la misma clave de idempotencia (R-06), responde
+/// Se comporta como el servidor en lo que la pantalla necesita: responde
 /// «no encontrada» para un identificador ajeno (CA-13) y crea la solicitud en
 /// estado `enviada`. Se reemplaza en `solicitudRepositoryProvider` por la
 /// implementación con el cliente generado sin tocar la pantalla.
@@ -20,7 +19,6 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
   final DateTime Function() _reloj;
   final Random _azar;
   final _solicitudes = <String, Solicitud>{};
-  final _porClave = <String, String>{};
 
   /// Nombres de los oficios piloto, para el detalle.
   static const _nombres = {
@@ -36,12 +34,7 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
   Future<String> subirFoto(String rutaLocal) async => _idHexadecimal();
 
   @override
-  Future<Solicitud> crear(
-    NuevaSolicitud solicitud, {
-    required String claveIdempotencia,
-  }) async {
-    final repetida = _porClave[claveIdempotencia];
-    if (repetida != null) return _solicitudes[repetida]!;
+  Future<Solicitud> crear(NuevaSolicitud solicitud) async {
     final ahora = _reloj();
     final creada = Solicitud(
       id: _idHexadecimal(),
@@ -55,7 +48,6 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
       venceEn: ahora.add(const Duration(hours: 48)),
     );
     _solicitudes[creada.id] = creada;
-    _porClave[claveIdempotencia] = creada.id;
     return creada;
   }
 

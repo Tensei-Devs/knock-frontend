@@ -1130,19 +1130,19 @@ abstract class AppLocalizations {
   /// **'Hiciste muchos intentos. Espera {segundos} segundos.'**
   String solicitudEspera(int segundos);
 
-  /// Error 422 contenido_rechazado (CA-22).
+  /// Error 422 content_rejected (CA-22).
   ///
   /// In es, this message translates to:
   /// **'Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.'**
   String get solicitudErrorContenidoRechazado;
 
-  /// Error 503 moderacion_no_disponible (CA-22).
+  /// Error 503 moderation_unavailable (CA-22).
   ///
   /// In es, this message translates to:
   /// **'No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.'**
   String get solicitudErrorModeracion;
 
-  /// Error 422 oficio_no_valido o colonia_no_encontrada.
+  /// Error 422 trade_invalid o colonia_not_found.
   ///
   /// In es, this message translates to:
   /// **'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.'**
