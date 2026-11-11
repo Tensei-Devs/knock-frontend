@@ -162,11 +162,20 @@ void main() {
           expect(find.byType(EstadoKnock), findsOneWidget);
           expect(find.text(_es['actividadVaciaTitulo']!), findsOneWidget);
           expect(find.text(_es['actividadVaciaDetalle']!), findsOneWidget);
-          expect(find.byType(FilledButton), findsNothing);
+          // Spec 015 §7: el único botón es «Pide tu primera cotización» y
+          // sí tiene destino (el formulario de solicitud).
+          expect(find.byType(FilledButton), findsOneWidget);
           expect(find.byType(OutlinedButton), findsNothing);
           expect(find.byType(TextButton), findsNothing);
           expect(tester.takeException(), isNull);
           await expectAccesible(tester);
+          // Al 200 % el botón queda abajo del estado vacío: se desplaza.
+          final boton = find.text(_es['actividadPedirCotizacion']!);
+          await tester.ensureVisible(boton);
+          await tester.pumpAndSettle();
+          await tester.tap(boton);
+          await tester.pumpAndSettle();
+          expect(ubicacion(container), Rutas.solicitudNueva);
           semantica.dispose();
         },
       );
