@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/core/router/rutas.dart';
+import 'package:app/core/sesion/sesion_provider.dart';
 import 'package:app/features/cuenta/cuenta_providers.dart';
 import 'package:app/features/cuenta/data/perfil_repository_simulado.dart';
 import 'package:app/features/cuenta/domain/perfil.dart';
@@ -119,27 +120,33 @@ void main() {
     },
   );
 
-  testWidgets('TC-HU-004-02 confirmar cierra y CA-002-04 no quedan datos', (
-    tester,
-  ) async {
-    final repo = PerfilRepositorySimulado();
-    final container = await _montar(tester, perfil: repo);
-    // La colonia consultada pertenece a la sesión que se cierra.
-    await container.read(coloniaControllerProvider.notifier).consultar();
-    expect(container.read(coloniaControllerProvider), isA<ColoniaEncontrada>());
+  testWidgets(
+    'TC-HU-004-02 confirmar cierra y CA-002-04 no quedan datos (CA_026_06)',
+    (tester) async {
+      final repo = PerfilRepositorySimulado();
+      final container = await _montar(tester, perfil: repo);
+      // La colonia consultada pertenece a la sesión que se cierra.
+      await container.read(coloniaControllerProvider.notifier).consultar();
+      expect(
+        container.read(coloniaControllerProvider),
+        isA<ColoniaEncontrada>(),
+      );
 
-    await tester.tap(enLaBarra('Mi cuenta'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Cerrar sesión'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilledButton, 'Cerrar sesión'));
-    await tester.pumpAndSettle();
+      await tester.tap(enLaBarra('Mi cuenta'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cerrar sesión'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, 'Cerrar sesión'));
+      await tester.pumpAndSettle();
 
-    expect(repo.cierres, 1);
-    expect(container.read(coloniaControllerProvider), isA<ColoniaSinPedir>());
-    expect(container.read(perfilControllerProvider).value, Perfil.nuevo);
-    expect(find.text('Persona Demo'), findsNothing);
-    // TC-HU-004-04: la siguiente persona entra como cuenta nueva.
-    expect(ubicacion(container), Rutas.completarPerfil);
-  });
+      expect(repo.cierres, 1);
+      expect(container.read(coloniaControllerProvider), isA<ColoniaSinPedir>());
+      expect(container.read(perfilControllerProvider).value, Perfil.nuevo);
+      expect(find.text('Persona Demo'), findsNothing);
+      // CA_026_06: cerrar sesión lleva al login (la siguiente persona entra de
+      // nuevo y su perfil sale de su propia cuenta, TC-HU-004-04).
+      expect(container.read(sesionIniciadaProvider), isFalse);
+      expect(ubicacion(container), Rutas.previa);
+    },
+  );
 }

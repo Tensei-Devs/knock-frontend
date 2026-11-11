@@ -9,24 +9,27 @@ import '../../soporte/montar_app.dart';
 
 void main() {
   group('TC-HU-001-05 redirección por sesión (unitarias)', () {
-    test('TC-HU-001-05 sin sesión toda pestaña lleva a /entrar', () {
-      for (final ruta in [
-        Rutas.inicio,
-        Rutas.explorar,
-        Rutas.actividad,
-        Rutas.trabajo,
-        Rutas.cuenta,
-        Rutas.configuracion,
-        Rutas.oficios,
-        '/entrarx',
-      ]) {
-        expect(
-          redireccionPorSesion(sesionIniciada: false, ubicacion: ruta),
-          Rutas.entrar,
-          reason: ruta,
-        );
-      }
-    });
+    test(
+      'TC-HU-001-05 sin sesión toda pestaña lleva a la previa (spec 027)',
+      () {
+        for (final ruta in [
+          Rutas.inicio,
+          Rutas.explorar,
+          Rutas.actividad,
+          Rutas.trabajo,
+          Rutas.cuenta,
+          Rutas.configuracion,
+          Rutas.oficios,
+          '/entrarx',
+        ]) {
+          expect(
+            redireccionPorSesion(sesionIniciada: false, ubicacion: ruta),
+            Rutas.previa,
+            reason: ruta,
+          );
+        }
+      },
+    );
 
     test('TC-HU-001-05 sin sesión /entrar y su subruta no redirigen', () {
       for (final ruta in [Rutas.entrar, Rutas.codigo]) {
@@ -68,30 +71,31 @@ void main() {
   });
 
   group('TC-HU-001-05 router con y sin sesión', () {
-    testWidgets('TC-HU-001-05 sin sesión la app arranca en /entrar sin barra', (
-      tester,
-    ) async {
-      final container = await montarApp(
-        tester,
-        esTecnico: true,
-        sesionIniciada: false,
-      );
+    testWidgets(
+      'TC-HU-001-05 sin sesión la app arranca en la previa sin barra',
+      (tester) async {
+        final container = await montarApp(
+          tester,
+          esTecnico: true,
+          sesionIniciada: false,
+          abrirEnEntrada: false,
+        );
 
-      expect(ubicacion(container), Rutas.entrar);
-      expect(find.text('Entra con tu celular'), findsOneWidget);
-      expect(find.byType(NavigationBar), findsNothing);
+        expect(ubicacion(container), Rutas.previa);
+        expect(find.byType(NavigationBar), findsNothing);
 
-      for (final ruta in [
-        Rutas.inicio,
-        Rutas.cuenta,
-        Rutas.configuracion,
-        Rutas.trabajo,
-      ]) {
-        container.read(appRouterProvider).go(ruta);
-        await tester.pumpAndSettle();
-        expect(ubicacion(container), Rutas.entrar, reason: ruta);
-      }
-    });
+        for (final ruta in [
+          Rutas.inicio,
+          Rutas.cuenta,
+          Rutas.configuracion,
+          Rutas.trabajo,
+        ]) {
+          container.read(appRouterProvider).go(ruta);
+          await tester.pumpAndSettle();
+          expect(ubicacion(container), Rutas.previa, reason: ruta);
+        }
+      },
+    );
 
     testWidgets('TC-HU-001-05 /entrar/codigo sin celular regresa a /entrar', (
       tester,

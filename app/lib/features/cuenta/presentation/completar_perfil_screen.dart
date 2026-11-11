@@ -1,7 +1,11 @@
+import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/core/router/destino_de_regreso_provider.dart';
 import 'package:app/core/router/rutas.dart';
+import 'package:app/core/tema/tokens.dart';
 import 'package:app/features/cuenta/domain/perfil.dart';
 import 'package:app/features/cuenta/presentation/avatar_iniciales.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -31,18 +35,24 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
   Future<void> _continuar() async {
     if (!_formulario.currentState!.validate()) return;
     setState(() => _guardando = true);
-    await ref
+    final error = await ref
         .read(perfilControllerProvider.notifier)
         .guardarNombre(_nombre.text);
     if (!mounted) return;
-    final fallo = ref.read(perfilControllerProvider).hasError;
     setState(() {
       _guardando = false;
-      _listo = !fallo;
+      _listo = error == null;
     });
-    if (fallo) {
+    if (error != null) {
+      final textos = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No pudimos guardar tu nombre.')),
+        SnackBar(
+          content: Text(mensajeDeError(textos, error)),
+          action: SnackBarAction(
+            label: textos.inicioReintentar,
+            onPressed: _continuar,
+          ),
+        ),
       );
     }
   }
@@ -55,11 +65,11 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
       body: Form(
         key: _formulario,
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(Espaciado.cuerpo),
           children: [
             Text(
               '¿Cómo te llamas?',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
             const Text('Así sabrán con quién tratan los técnicos y clientes.'),
@@ -76,7 +86,6 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _guardando ? null : _continuar,
-              style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
               child: _guardando
                   ? const SizedBox.square(
                       dimension: 20,
@@ -94,13 +103,13 @@ class _EstadoCompletar extends ConsumerState<CompletarPerfilScreen> {
   }
 }
 
-class _Listo extends StatelessWidget {
+class _Listo extends ConsumerWidget {
   const _Listo({required this.nombre});
 
   final String nombre;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
     body: Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -111,13 +120,20 @@ class _Listo extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               '¡Listo, ya entraste!',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => context.go(Rutas.inicio),
-              style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
+              onPressed: () {
+                // Spec 027, R-09: tras completar el perfil se continúa al
+                // destino de regreso (válido) o a Inicio.
+                final destino = destinoDeRegreso(
+                  ref.read(destinoDeRegresoProvider),
+                );
+                ref.read(destinoDeRegresoProvider.notifier).olvidar();
+                context.go(destino);
+              },
               child: const Text('Empezar'),
             ),
           ],
