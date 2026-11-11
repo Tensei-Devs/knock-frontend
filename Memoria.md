@@ -7,6 +7,11 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-11 — `sprint-04` recibe de `develop` el arreglo de publicación a Play (KNOCK-221)
+- **Decisión:** se trae `develop` a `sprint-04` con un merge normal. Lo único que faltaba era el PR #26 (KNOCK-221): `publish-android.yml` pasa `API_URL` (`vars.KNOCK_API_URL`) y la configuración de Firebase (secreto `GOOGLE_SERVICES_JSON`) al build de release de Android, con su nota en `docs/PUBLICACION_ANDROID.md`. Los otros tres commits de `develop` son merges de promoción sin cambios de archivos propios.
+- **Porqué:** `sprint-04` salió antes de que el #26 entrara por `sprint-03`, así que su workflow de publicación estaba desactualizado respecto de `main` y `develop`.
+- **A evitar:** publicar una versión desde `sprint-04` sin este arreglo; tocar `publish-android.yml` sin revisión del Tech Lead (archivo protegido).
+
 ## 2026-10-27 — Aclaración de «Uso de IA»
 - **Decisión:** la sección «Uso de IA» es del **pull request** (plantilla de PR), no de cada spec.
 - **Porqué:** `@constitution-reviewer` marcó FAIL a la spec 001 por leer «todo cambio» de forma literal; la redacción era ambigua.
@@ -93,6 +98,11 @@
 - **Porqué:** la spec 011 manda un cálculo reproducible y que un PR sin puntos no pase; es la misma lógica del backend (KNOCK-207), con otros componentes y con `versionCode`. El acarreo es a 10 (como en el backend) porque la spec no da otro umbral.
 - **Pendiente:** T-03 (integrar versión, `versionCode` y etiqueta de Git en la publicación; depende de KNOCK-221), así que CA-04 solo queda probado en el script. Reconciliar `docs/VERSIONAMIENTO.md` (primera versión `0.1.0`, `versionCode` = número de ejecución) con la spec 011 (`1.0.0`, `versionCode` derivado). Las etiquetas `puntos-*` no existen en el repositorio y las crea una persona con permiso. `sdd_lint.py --trace 011` marca FALTA hasta que `test_globs` de `.agents/knock.json` incluya `scripts/ci/test_*.py`.
 - **A evitar:** llevar el `versionCode` a mano o repetirlo (Google Play rechaza la subida); declarar puntos de menos para no subir de versión.
+
+## 2026-11-09 — La publicación a Google Play lleva la API y Firebase (KNOCK-221)
+- **Decisión:** `publish-android` pasa `--dart-define=KNOCK_API_URL` desde la variable `KNOCK_API_URL` y escribe `google-services.json` desde el secreto `GOOGLE_SERVICES_JSON`; ambos son obligatorios y el archivo se borra al terminar.
+- **Porqué:** sin ellos el AAB de la tienda compilaba sin URL de la API y sin Firebase: abría, pero no se podía entrar ni llamar al backend.
+- **A evitar:** subir `google-services.json` al repositorio o dejarlo en la máquina de CI; escribir la URL fija en el código.
 
 ## 2026-11-05 — Contrato vendorizado y cliente Dart generado (spec 006, KNOCK-220)
 - **Decisión:** se vendoriza en `contracts/openapi.v1.json` el contrato de **Identity** (`docs/openapi.identity.v1.json` de knock-backend, rama `sprint-03`, commit de la rama `d39bc18`, último commit del archivo `b6ddcf5`, SHA-256 `5767eb9d…`), no `docs/openapi.v1.json` del backend: ese archivo **no es la unión** de los servicios, es solo `Knock.Market.Api` (colonias y oficios). La app necesita hoy `POST /api/v1/auth/firebase`. Cuando el backend publique la unión (o el gateway), se reemplaza por ella.
@@ -225,3 +235,12 @@
 - **Decisión:** `app/pubspec.yaml` sube a `1.0.1+1` (1.0.0 + 1 punto de #37 tras corregir su etiqueta a `puntos-app-1`) y `docs/VERSIONES_PUBLICADAS.md` registra las subidas `app-v1.0.0-n0` (versionCode 1000000) y `app-v1.0.0-n1` (1000001). La próxima subida será `1.0.1` con n=0, versionCode 1000100.
 - **Porqué:** `publish_info.py` toma el nombre de versión de `app/pubspec.yaml` y solo calcula `n` y el `versionCode` desde las etiquetas de Git; no suma puntos ni lee el registro. La segunda subida salió como 1.0.0 porque nadie subió la versión a mano. El `versionCode` nunca se repitió.
 - **A evitar:** publicar sin aplicar antes `python scripts/ci/version.py bump --current <versión> --points <N>` a `app/pubspec.yaml`, suponer que el registro de versiones cambia el nombre de versión, o etiquetar un cambio de estilo (ícono, color) con más de 1 punto.
+## 2026-11-10 — Contraste de los rótulos del mapa de la previa (KNOCK-175)
+- **Decisión:** los rótulos del mapa dibujado (`PaletaMapa`, spec 027) se ajustan para cumplir 4.5:1 contra el halo que llevan detrás: en claro colonia `#585349`, avenida `#726440`, parque `#496B37` y río `#305B68`; en oscuro el río pasa a `#9CCBDB`. Se conserva el matiz de la maqueta. `colores_mapa_test.dart` (CA_014_03) revisa cada rótulo contra su halo (la colonia con su opacidad de 0.85) y el texto blanco de los pines.
+- **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
+- **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
+
+## 2026-11-11 — El SCA de licencias deja pasar 15 paquetes de pub más (EXC-002, KNOCK-262)
+- **Decisión** (Tech Lead): se agregan a `allow-dependencies-licenses` de `ci-pr.yml` y al alcance de EXC-002 (sin cambiar `creada` ni `vence`, 2027-01-30) archive@4.6.0, cross_file@0.3.5+5, file_selector_linux@0.9.4+1, file_selector_macos@0.9.5+2, file_selector_windows@0.9.3+6, image@4.12.0, image_picker_ios@0.8.13+15, image_picker_platform_interface@2.11.2, mime@2.1.0, posix@6.5.4, url_launcher_android@6.3.33, url_launcher_ios@6.4.2, url_launcher_linux@3.2.3, url_launcher_macos@3.2.6 y url_launcher_windows@3.1.6. Se mantiene `deny-licenses` y el job de SCA. La lista queda en 57 paquetes.
+- **Porqué:** el CI de los PR #45 (KNOCK-244) y #46 (KNOCK-260) falla solo porque `dependency-review-action` recibe de pub las licencias en minúsculas y no las reconoce como SPDX (a url_launcher_windows no le detecta ninguna); no hay vulnerabilidades. Se leyó el LICENSE de cada versión en pub.dev: MIT (archive, image, posix), BSD-3-Clause (los otros 11) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios). Todas están en la lista permitida de CONTRIBUTING.md.
+- **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub. Tras fusionar este PR, #45 y #46 deben traer `sprint-04` para ver el SCA en verde.
