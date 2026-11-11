@@ -225,3 +225,14 @@
 - **Decisión:** los rótulos del mapa dibujado (`PaletaMapa`, spec 027) se ajustan para cumplir 4.5:1 contra el halo que llevan detrás: en claro colonia `#585349`, avenida `#726440`, parque `#496B37` y río `#305B68`; en oscuro el río pasa a `#9CCBDB`. Se conserva el matiz de la maqueta. `colores_mapa_test.dart` (CA_014_03) revisa cada rótulo contra su halo (la colonia con su opacidad de 0.85) y el texto blanco de los pines.
 - **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
 - **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
+
+## 2026-11-10 — Dependencias de las fotos de la solicitud (KNOCK-244, spec 015 D-10)
+- **Decisión:** se agregan `image_picker` 1.2.4, `path_provider` 2.1.6 e `image` 4.12.0, con la versión exacta en el `pubspec.yaml`.
+  - `image_picker` y `path_provider` son del equipo de Flutter (flutter.dev, BSD-3-Clause).
+  - `image` es de Brendan Duncan (MIT), mantenida y en Dart puro.
+  - En OSV (`api.osv.dev`, ecosistema Pub) no hay avisos para esas versiones (consulta del 2026-11-10).
+  - Paquetes que entran como transitivos: `archive`, `cross_file`, `mime`, `posix`, las implementaciones de plataforma de `image_picker` y `file_selector_*`.
+  - `image_picker` usa la cámara y el selector del sistema por intención: el manifiesto no declara `CAMERA` (D-12).
+- **Porqué:** HU-024 pide de 1 a 5 fotos. La app reduce cada foto a 1600 px de lado mayor y le quita el EXIF, incluida la ubicación, antes de subirla (CA-18). El borrador guarda las copias en un directorio privado de la app (R-07).
+- **A evitar:** pedir el permiso `CAMERA` o de almacenamiento, guardar fotos en la galería, decodificar una foto antes de revisar su tamaño y su tipo por contenido, o hacerlo en el isolate principal (`prepararFotoEnSegundoPlano` usa `Isolate.run`).
+

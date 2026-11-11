@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T02:05:06Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T02:09:34Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | data, domain, presentation | 5 | 6 | 17 |
+| `actividad` | data, domain, presentation | 6 | 11 | 19 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
@@ -44,6 +44,8 @@
 
 - `app/lib/features/actividad/data/borrador_repository.dart` — class `BorradorRepository`
   - `leer()`:21, `guardar()`:46, `borrarTodo()`:52
+- `app/lib/features/actividad/data/foto_preparada.dart` — enum `MotivoFotoRechazada`, class `ResultadoFoto`, class `FotoLista`, class `FotoRechazada`, enum `_Formato`
+  - `prepararFoto()`:88, `prepararFotoEnSegundoPlano()`:147
 
 **domain**
 
