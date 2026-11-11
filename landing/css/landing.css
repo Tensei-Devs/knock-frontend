@@ -76,23 +76,86 @@
   top: 0;
 }
 
-.tema-sel {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin: 0;
-  font-weight: 700;
-}
-
-.tema-sel a {
-  display: inline-flex;
-  align-items: center;
+/* Interruptor de tema: dos enlaces de ancla, solo se ve el que cambia al otro
+   tema. Sin tema elegido manda el del sistema (prefers-color-scheme). */
+.tema-sw {
+  position: relative;
+  flex: none;
+  width: 4.75rem;
+  height: 2.75rem;
   min-height: 2.75rem;
-  padding: 0 0.9rem;
+  padding: 0;
   border-radius: 999px;
   background-color: var(--color-tarjeta);
   color: var(--color-enlace);
-  box-shadow: 0 0.25rem 0.75rem -0.375rem var(--color-sombra);
+  box-shadow: 0 0 0 0.125rem var(--color-mut);
+  transition: box-shadow 0.15s ease;
+}
+
+.tema-sw::before {
+  content: "";
+  position: absolute;
+  top: 0.3125rem;
+  left: 0.3125rem;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: 50%;
+  background-color: var(--color-boton-fondo);
+  box-shadow: 0 0.125rem 0.25rem var(--color-sombra);
+}
+
+.tema-ic {
+  position: absolute;
+  top: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tema-ic-sol {
+  left: 0.6875rem;
+}
+
+.tema-ic-luna {
+  right: 0.6875rem;
+}
+
+.tema-a-claro {
+  display: none;
+}
+
+.tema-a-claro::before {
+  left: calc(100% - 2.4375rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tema-a-oscuro {
+    display: none;
+  }
+
+  .tema-a-claro {
+    display: inline-flex;
+  }
+}
+
+:root:has(#tema-claro:target) .tema-a-claro {
+  display: none;
+}
+
+:root:has(#tema-claro:target) .tema-a-oscuro {
+  display: inline-flex;
+}
+
+:root:has(#tema-oscuro:target) .tema-a-oscuro {
+  display: none;
+}
+
+:root:has(#tema-oscuro:target) .tema-a-claro {
+  display: inline-flex;
 }
 
 *,
@@ -162,6 +225,7 @@ a:focus-visible {
 
 /* Solo cuando el bloque de Play está en «disponible» (ver README). */
 .play-boton {
+  gap: 0.5rem;
   justify-content: center;
   padding: 0.5rem 1.5rem;
   border: 2px solid currentcolor;
@@ -252,20 +316,23 @@ h2 {
    Página principal (KNOCK-258, spec 004 R-06 y R-07): una sola pantalla, sin
    scroll, con animaciones solo de CSS. Todo cuelga de `.inicio`, así que el
    aviso de privacidad, eliminar cuenta y el 404 conservan su diseño.
-   Los colores de texto salen de los tokens de arriba; los de la ilustración,
-   de los mismos tokens por clase (`f-*` rellena).
+   Escritorio: texto, encabezado y pie en la mitad izquierda y el moodboard
+   como panel de la mitad derecha, de borde a borde. Celular: texto arriba y
+   el panel abajo, a todo lo ancho. Los colores salen de los tokens de arriba.
    ------------------------------------------------------------------------ */
 .inicio {
+  --pad-x: clamp(1rem, 5vw, 4rem);
+  --pad-y: clamp(0.75rem, 2vh, 1.75rem);
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: clamp(0.5rem, 2.4vh, 1.5rem);
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: clamp(0.375rem, 1.6vh, 1.5rem);
   height: 100vh;
   height: 100dvh;
   max-width: none;
   margin: 0;
-  padding: clamp(0.75rem, 3vh, 1.75rem) clamp(1rem, 5vw, 4rem);
+  padding: var(--pad-y) var(--pad-x);
   overflow-x: clip;
 }
 
@@ -327,7 +394,7 @@ h2 {
   }
 }
 
-/* Encabezado. */
+/* Encabezado: el logo y el interruptor de tema. */
 .inicio header {
   display: flex;
   flex-wrap: wrap;
@@ -355,12 +422,10 @@ h2 {
   flex: none;
 }
 
-/* Contenido: texto a la izquierda, ilustración a la derecha. */
+/* Contenido: el texto, con el lema debajo. */
 .inicio main {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  display: flex;
   align-items: center;
-  gap: clamp(1rem, 4vw, 4rem);
   min-height: 0;
 }
 
@@ -368,7 +433,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(0.5rem, 2.2vh, 1.25rem);
+  gap: clamp(0.375rem, 1.6vh, 1.25rem);
 }
 
 .texto > * {
@@ -385,6 +450,10 @@ h2 {
 
 .texto > :nth-child(4) {
   animation-delay: 0.36s;
+}
+
+.texto > :nth-child(5) {
+  animation-delay: 0.48s;
 }
 
 .etiquetas {
@@ -414,7 +483,7 @@ h2 {
 
 .inicio h1 {
   margin: 0;
-  font-size: clamp(1.75rem, min(6.2vw, 7.6vh), 4.25rem);
+  font-size: clamp(1.5rem, min(7.4vw, 4.6vh), 4.25rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
 }
@@ -433,7 +502,7 @@ h2 {
 .inicio .descripcion {
   max-width: 34rem;
   margin: 0;
-  font-size: clamp(0.95rem, min(2.1vw, 2.7vh), 1.3rem);
+  font-size: clamp(0.875rem, min(3.6vw, 2.3vh), 1.3rem);
   line-height: 1.5;
 }
 
@@ -441,81 +510,91 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.7rem 1.2rem;
+  padding: 0.5rem 1.1rem;
   border-radius: 999px;
   box-shadow: 0 0.5rem 1.5rem -0.5rem var(--color-sombra);
 }
 
-.play[data-play="proximamente"]::before {
-  content: "";
-  width: 0.6rem;
-  height: 0.6rem;
-  flex: none;
-  border-radius: 50%;
-  background-color: var(--color-boton-fondo);
-  animation: pulso 1.8s ease-out infinite;
+/* Bloque de la beta: sin tarjeta, debajo del lema, con el estilo de los botones. */
+/* Bloque de la beta: dos insignias idénticas (mismo ancho, mismo ícono), sin tarjeta. */
+.inicio .play[data-play="beta"] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 12.5rem));
+  gap: 0.625rem;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
 }
 
-/* Imagen con personas reales (landing/img/hero.webp) y su lema. */
-.escena {
+.inicio .play[data-play="beta"] .play-boton {
+  min-height: 2.75rem;
+  justify-content: flex-start;
+  gap: 0.625rem;
+  padding: 0.375rem 0.875rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background-color: var(--color-texto);
+  color: var(--color-fondo);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.play-txt {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-self: center;
-  gap: clamp(0.25rem, 1.4vh, 0.75rem);
-  min-height: 0;
-  min-width: 0;
-  animation: entrar 1s 0.2s ease-out both;
+  line-height: 1.1;
+  text-align: left;
 }
 
-.arte {
-  width: min(100%, 56vh, 34rem);
-  aspect-ratio: 1;
-  min-height: 0;
+.play-chico {
+  font-size: 0.6875rem;
+  font-weight: 400;
 }
 
-.foto {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: clamp(1.25rem, 8%, 2.5rem);
-  object-fit: cover;
-  box-shadow: 0 1rem 2.5rem -1rem var(--color-sombra);
+.play-grande {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.inicio .play-ic {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
 }
 
 .lema {
   margin: 0;
   color: var(--color-texto);
-  font-size: clamp(1.05rem, min(2.4vw, 3vh), 1.6rem);
+  font-size: clamp(0.95rem, min(4.6vw, 2.6vh), 1.6rem);
   font-weight: 700;
   line-height: 1.25;
-  text-align: center;
 }
 
 .f-acento {
   fill: var(--color-boton-fondo);
 }
 
-/* Pie: los enlaces de siempre, ahora como botones. */
+/* Pie: los enlaces de siempre, ahora como botones, y las notas. */
 .inicio footer {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
   animation: entrar 0.8s 0.5s ease-out both;
 }
 
 .enlaces {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.375rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .enlaces a {
+  min-height: 2.75rem;
   padding: 0 1.1rem;
   border-radius: 999px;
   background-color: var(--color-tarjeta);
@@ -547,6 +626,7 @@ h2 {
   fill: none;
   stroke: currentcolor;
   stroke-width: 2;
+  stroke-linecap: round;
 }
 
 .f-ig {
@@ -557,79 +637,595 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
-  text-align: right;
+  text-align: left;
 }
 
 .notas .nota {
-  font-size: 0.8125rem;
-  line-height: 1.4;
+  font-size: 0.75rem;
+  line-height: 1.35;
 }
 
-/* Una columna: la ilustración baja y se achica. */
-@media (max-width: 52rem) {
-  .inicio main {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    align-content: center;
-    gap: clamp(0.5rem, 2vh, 1.5rem);
+/* Moodboard: mosaico denso de 22 fotos propias (landing/img) en un panel.
+   Es un contenedor de tamaño (`container-type: size`) y todo se mide con su
+   `--u`, el promedio de su ancho y su alto entre 100: las fotos escalan sin
+   deformarse y ocupan más cuando el panel es alto o angosto. Los centros (`--x`
+   y `--y`, fracciones del panel) llegan un poco más allá de los bordes, así que
+   los recortes de la orilla se ven parciales. Debajo va una capa de respaldo
+   (dos de las mismas fotos, ampliadas y veladas con tokens) que tapa cualquier
+   hueco. Lo que sobresale se recorta con `overflow: hidden`. */
+.moodboard {
+  --u: calc((1cqw + 1cqh) / 2);
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  margin: 0 calc(var(--pad-x) * -1) calc(var(--pad-y) * -1);
+  container-type: size;
+  overflow: hidden;
+  background-color: var(--color-tarjeta);
+  background-image: url("/img/h8-llegada.webp"), url("/img/h9-plomeria.webp");
+  background-position: 0 0, 0 100%;
+  background-repeat: repeat-x, repeat-x;
+  background-size: auto 56%, auto 56%;
+  box-shadow: 0 0 1.5rem -0.5rem var(--color-sombra);
+}
+
+/* Velo de papel sobre la capa de respaldo y puntos sutiles encima. */
+.moodboard::before,
+.moodboard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.moodboard::before {
+  background-color: var(--color-tarjeta);
+  opacity: 0.82;
+}
+
+.moodboard::after {
+  background-image: radial-gradient(circle, var(--color-mut) 0.0625rem, transparent 0.125rem);
+  background-size: 1.25rem 1.25rem;
+  opacity: 0.22;
+}
+
+/* Colocación: `--w` ancho en u, `--f` proporción ancho/alto, `--x` y `--y`
+   centro (fracción del panel) y `--r` giro. */
+.recorte,
+.adorno {
+  position: absolute;
+  left: calc(var(--x) * 100%);
+  top: calc(var(--y) * 100%);
+  width: calc(var(--w) * var(--u));
+  aspect-ratio: var(--f);
+  transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+}
+
+.recorte {
+  filter: drop-shadow(0 0.3rem 0.35rem var(--color-sombra));
+}
+
+.recorte img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+/* Impresión: borde de papel y un hilo de contorno que se ve en ambos temas. */
+.impresion img {
+  padding: 3.5%;
+  background-color: var(--color-tarjeta);
+  box-shadow: 0 0 0 0.0625rem var(--color-mut);
+}
+
+/* Papel rasgado: borde irregular recortado con clip-path. */
+.rasgado-a img {
+  clip-path: polygon(2% 3%, 12% 0%, 25% 2.5%, 38% 0.5%, 52% 3%, 66% 0%, 80% 2%, 93% 0.5%, 100% 4%, 98% 20%, 100% 38%, 97% 55%, 100% 72%, 98% 88%, 100% 97%, 88% 100%, 74% 97.5%, 60% 100%, 46% 97%, 32% 100%, 18% 97.5%, 6% 100%, 0% 96%, 2% 80%, 0% 62%, 3% 45%, 0% 28%, 2% 12%);
+}
+
+.rasgado-b img {
+  clip-path: polygon(0% 2%, 10% 3.5%, 22% 0%, 35% 2%, 49% 0.5%, 63% 3%, 77% 0%, 90% 2.5%, 100% 0%, 97% 15%, 100% 30%, 98% 47%, 100% 63%, 97% 80%, 100% 100%, 86% 97%, 71% 100%, 57% 96.5%, 42% 100%, 27% 97%, 13% 100%, 0% 98%, 3% 82%, 0% 66%, 2% 50%, 0% 33%, 3% 17%);
+}
+
+/* Cinta adhesiva: pieza translúcida en una esquina o al centro. */
+.cinta::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 34%;
+  aspect-ratio: 4 / 1;
+  background-color: var(--color-boton-fondo);
+  box-shadow: 0 0.0625rem 0.125rem var(--color-sombra);
+  opacity: 0.6;
+}
+
+.cinta-izq::before {
+  top: -3%;
+  left: -6%;
+  transform: rotate(-38deg);
+}
+
+.cinta-centro::before {
+  top: -3.5%;
+  left: 33%;
+  transform: rotate(3deg);
+}
+
+/* Cada foto (escritorio): tamaño, forma, centro, giro y capa. El foco, la
+   más grande, va al centro-alto y por delante de todas. */
+.r-h7-llegada {
+  --w: 66;
+  --f: 1.410;
+  --x: 0.5;
+  --y: 0.3;
+  --r: -2deg;
+  z-index: 10;
+}
+
+.r-h7-plomeria {
+  --w: 46;
+  --f: 1.407;
+  --x: 0.04;
+  --y: 0;
+  --r: -5deg;
+  z-index: 2;
+}
+
+.r-h7-electricidad {
+  --w: 48;
+  --f: 1.681;
+  --x: 0.36;
+  --y: -0.01;
+  --r: 4deg;
+  z-index: 3;
+}
+
+.r-h8-manos {
+  --w: 47;
+  --f: 1.532;
+  --x: 0.68;
+  --y: 0;
+  --r: -3deg;
+  z-index: 2;
+}
+
+.r-h9-telefono {
+  --w: 46;
+  --f: 1.545;
+  --x: 1;
+  --y: 0.01;
+  --r: 6deg;
+  z-index: 3;
+}
+
+.r-h6-mecanica {
+  --w: 36;
+  --f: 1.050;
+  --x: 0.18;
+  --y: 0.17;
+  --r: -6deg;
+  z-index: 4;
+}
+
+.r-h6-familia {
+  --w: 37;
+  --f: 1.011;
+  --x: 0.86;
+  --y: 0.17;
+  --r: 5deg;
+  z-index: 4;
+}
+
+.r-h8-telefono {
+  --w: 47;
+  --f: 1.532;
+  --x: 0.03;
+  --y: 0.34;
+  --r: 4deg;
+  z-index: 3;
+}
+
+.r-h6-electricidad {
+  --w: 34;
+  --f: 1.008;
+  --x: 1;
+  --y: 0.35;
+  --r: -7deg;
+  z-index: 3;
+}
+
+.r-h7-manos {
+  --w: 48;
+  --f: 1.603;
+  --x: 0.2;
+  --y: 0.51;
+  --r: -4deg;
+  z-index: 4;
+}
+
+.r-h8-plomeria {
+  --w: 46;
+  --f: 1.496;
+  --x: 0.52;
+  --y: 0.52;
+  --r: 3deg;
+  z-index: 4;
+}
+
+.r-h7-telefono {
+  --w: 47;
+  --f: 1.597;
+  --x: 0.84;
+  --y: 0.5;
+  --r: 6deg;
+  z-index: 4;
+}
+
+.r-h9-electricidad {
+  --w: 46;
+  --f: 1.577;
+  --x: 0.04;
+  --y: 0.68;
+  --r: -6deg;
+  z-index: 5;
+}
+
+.r-h7-mecanica {
+  --w: 48;
+  --f: 1.681;
+  --x: 0.36;
+  --y: 0.69;
+  --r: 5deg;
+  z-index: 6;
+}
+
+.r-h9-manos {
+  --w: 46;
+  --f: 1.545;
+  --x: 0.68;
+  --y: 0.68;
+  --r: -4deg;
+  z-index: 5;
+}
+
+.r-h9-plomeria {
+  --w: 46;
+  --f: 1.508;
+  --x: 1;
+  --y: 0.67;
+  --r: 7deg;
+  z-index: 6;
+}
+
+.r-h9-llegada {
+  --w: 46;
+  --f: 1.508;
+  --x: 0.2;
+  --y: 0.87;
+  --r: 4deg;
+  z-index: 7;
+}
+
+.r-h6-herramientas {
+  --w: 34;
+  --f: 1.047;
+  --x: 0.52;
+  --y: 0.88;
+  --r: -8deg;
+  z-index: 6;
+}
+
+.r-h8-electricidad {
+  --w: 47;
+  --f: 1.603;
+  --x: 0.84;
+  --y: 0.87;
+  --r: -3deg;
+  z-index: 7;
+}
+
+.r-h8-mecanica {
+  --w: 46;
+  --f: 1.603;
+  --x: 0.04;
+  --y: 1.02;
+  --r: 5deg;
+  z-index: 6;
+}
+
+.r-h6-manos {
+  --w: 34;
+  --f: 1.058;
+  --x: 0.68;
+  --y: 1.02;
+  --r: -5deg;
+  z-index: 6;
+}
+
+.r-h8-llegada {
+  --w: 46;
+  --f: 1.502;
+  --x: 1;
+  --y: 1.02;
+  --r: 4deg;
+  z-index: 7;
+}
+
+/* Adornos: solo trazos y formas con los tokens, encima y todos aria-hidden. */
+.adorno {
+  z-index: 12;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.trazo {
+  fill: none;
+  stroke: var(--color-boton-fondo);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.trazo-grueso {
+  stroke-width: 4.5;
+}
+
+.trazo-fino {
+  stroke-width: 2;
+}
+
+.f-tinta {
+  fill: var(--color-texto-2);
+}
+
+.ad-estrella {
+  --w: 11;
+  --f: 1;
+  --x: 0.87;
+  --y: 0.06;
+  --r: 10deg;
+}
+
+.ad-flecha {
+  --w: 17;
+  --f: 1.5;
+  --x: 0.15;
+  --y: 0.57;
+}
+
+.ad-subrayado {
+  --w: 26;
+  --f: 5;
+  --x: 0.5;
+  --y: 0.535;
+}
+
+.ad-circulo {
+  --w: 15;
+  --f: 1;
+  --x: 0.82;
+  --y: 0.5;
+  --r: -12deg;
+}
+
+.ad-confeti-a {
+  --w: 12;
+  --f: 1;
+  --x: 0.15;
+  --y: 0.07;
+}
+
+/* Escritorio: el panel ocupa la mitad derecha, de arriba a abajo. */
+@media (min-width: 52rem) {
+  .inicio {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding-right: calc(50% + 1.5rem);
   }
 
-  .arte {
-    width: min(100%, 30vh, 22rem);
+  .inicio header {
+    justify-content: flex-start;
+    gap: 0.5rem 1.5rem;
   }
 
-  .notas {
-    text-align: left;
+  .inicio h1 {
+    font-size: clamp(1.75rem, min(4.2vw, 7.6vh), 4.25rem);
+  }
+
+  .inicio .descripcion {
+    font-size: clamp(0.95rem, min(2.1vw, 2.7vh), 1.3rem);
+  }
+
+  .inicio .play {
+    padding: 0.7rem 1.2rem;
+  }
+
+  .lema {
+    font-size: clamp(1.05rem, min(2.4vw, 3vh), 1.6rem);
+  }
+
+  .notas .nota {
+    font-size: 0.8125rem;
+  }
+
+  .moodboard {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    margin: 0;
+  }
+}
+
+/* Celular: el panel va abajo a todo lo ancho, con 9 fotos (el foco y 8 más). */
+@media (max-width: 51.99rem) {
+  .solo-escritorio {
+    display: none;
+  }
+
+  .r-h7-llegada {
+    --w: 58;
+    --x: 0.5;
+    --y: 0.5;
+    --r: -2deg;
+    z-index: 10;
+  }
+
+  .r-h7-plomeria {
+    --w: 50;
+    --x: 0.16;
+    --y: 0.15;
+    --r: -5deg;
+    z-index: 2;
+  }
+
+  .r-h8-manos {
+    --w: 50;
+    --x: 0.84;
+    --y: 0.15;
+    --r: -3deg;
+    z-index: 2;
+  }
+
+  .r-h9-telefono {
+    --w: 50;
+    --x: 0.5;
+    --y: 0.12;
+    --r: 4deg;
+    z-index: 3;
+  }
+
+  .r-h6-familia {
+    --w: 38;
+    --x: 0.14;
+    --y: 0.52;
+    --r: 6deg;
+    z-index: 4;
+  }
+
+  .r-h7-mecanica {
+    --w: 50;
+    --x: 0.86;
+    --y: 0.52;
+    --r: 5deg;
+    z-index: 4;
+  }
+
+  .r-h9-manos {
+    --w: 50;
+    --x: 0.16;
+    --y: 0.88;
+    --r: 4deg;
+    z-index: 5;
+  }
+
+  .r-h6-herramientas {
+    --w: 38;
+    --x: 0.5;
+    --y: 0.9;
+    --r: -7deg;
+    z-index: 5;
+  }
+
+  .r-h8-electricidad {
+    --w: 50;
+    --x: 0.84;
+    --y: 0.88;
+    --r: -4deg;
+    z-index: 5;
+  }
+
+  .ad-estrella {
+    --w: 14;
+    --x: 0.79;
+    --y: 0.25;
+  }
+
+  .ad-subrayado {
+    --w: 24;
+    --y: 0.77;
+  }
+
+  .ad-confeti-a {
+    --w: 14;
+    --x: 0.21;
+    --y: 0.25;
   }
 }
 
 /* Pantallas bajas: primero se va lo decorativo, nunca el contenido. */
-@media (max-height: 44rem) and (max-width: 52rem) {
-  .escena {
-    display: none;
-  }
-}
-
-@media (max-height: 36rem) {
+@media (max-height: 40rem) {
   .etiquetas {
     display: none;
   }
-
-  .inicio .play {
-    padding: 0.45rem 1rem;
-  }
-
-  .inicio {
-    gap: 0.25rem;
-  }
 }
 
-@media (max-height: 24rem) {
+/* Con menos de 36rem de alto el pie y el texto no dejan sitio al panel. */
+@media (max-height: 36rem) {
+  .moodboard {
+    display: none;
+  }
+
   .inicio {
-    padding-block: 0.5rem;
+    --pad-y: 0.5rem;
+    gap: 0.25rem;
+    padding-right: var(--pad-x);
   }
 
   .inicio h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.375rem, min(7.4vw, 4.6vh), 4.25rem);
+  }
+
+  .inicio .descripcion {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .inicio .play {
+    padding: 0.3rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .lema {
+    font-size: 0.875rem;
   }
 
   .enlaces a {
     min-height: 2.5rem;
   }
-}
 
-@media (max-height: 36rem) {
-  .tema-sel a {
-    min-height: 2.25rem;
+  .enlaces .red {
+    min-height: 2.75rem;
   }
 }
 
-@media (max-height: 30rem) {
-  .arte {
-    width: min(100%, 42vh);
+@media (max-height: 24rem) {
+  .inicio {
+    --pad-y: 0.25rem;
   }
 
-  .notas .nota:first-child {
+  .texto {
+    gap: 0.25rem;
+  }
+
+  .enlaces,
+  .inicio footer {
+    gap: 0.25rem;
+  }
+
+  .enlaces a {
+    padding: 0 0.8rem;
+  }
+
+  .enlaces .red {
+    padding: 0;
+  }
+
+  .notas .nota {
     font-size: 0.75rem;
   }
 }
@@ -675,5 +1271,16 @@ h2 {
   70%,
   100% {
     box-shadow: 0 0 0 0.6rem transparent;
+  }
+}
+
+@media (max-width: 26rem) {
+  .inicio .play[data-play="beta"] .play-boton {
+    padding-inline: 0.625rem;
+    gap: 0.4rem;
+  }
+
+  .play-grande {
+    font-size: 0.875rem;
   }
 }

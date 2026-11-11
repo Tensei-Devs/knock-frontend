@@ -19,7 +19,12 @@ from urllib.parse import unquote, urlsplit
 PERMITIDOS_EXTERNOS = {
     "https://play.google.com/store/apps/details?id=app.knock.mobile"
     "&referrer=utm_source%3Dlanding%26utm_medium%3Dweb%26utm_campaign%3Dlanding",
+    "https://play.google.com/apps/testing/app.knock.mobile",
+    "https://play.google.com/store/apps/details?id=app.knock.mobile",
     "https://www.instagram.com/knock.mx/",
+    "https://www.tiktok.com/@knockmx",
+    "https://x.com/knock_mx",
+    "https://www.facebook.com/share/1C3PA8XoUb/",
 }
 
 
