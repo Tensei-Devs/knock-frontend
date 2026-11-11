@@ -7,6 +7,12 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-11 — El CI de la app fija la versión de Flutter (KNOCK-263)
+- **Decisión:** `ci-pr.yml` (job de la app) y `publish-android.yml` fijan `flutter-version: 3.47.9` junto a `channel: stable` en `subosito/flutter-action`. 3.47.9 es la última 3.47 y la que resolvía `stable` mientras el CI estaba en verde.
+- **Porqué:** el 2026-11-11 a las 19:05 UTC salió Flutter 3.50.0 (Dart 3.14) y, con `channel: stable` sin versión, `flutter pub get --enforce-lockfile` empezó a fallar (código 65) en `sprint-04` y en todo PR que corre el job de la app, sin que cambiara ningún `pubspec`. Con 3.47.7 pasa en local. Causa probable: no se pudo confirmar con el log del job (GitHub devolvió 502).
+- **Cuándo migrar a 3.50.0:** en una tarea aparte, regenerando `pubspec.lock`, corrigiendo lo que cambie con Dart 3.14 y actualizando la versión de `README.md` y `app/README.md` (hoy dicen 3.47.7).
+- **A evitar:** dejar `channel: stable` sin versión en un workflow que usa `--enforce-lockfile`; migrar de versión de Flutter dentro de un PR de otra tarea.
+
 ## 2026-11-11 — `sprint-04` recibe de `develop` el arreglo de publicación a Play (KNOCK-221)
 - **Decisión:** se trae `develop` a `sprint-04` con un merge normal. Lo único que faltaba era el PR #26 (KNOCK-221): `publish-android.yml` pasa `API_URL` (`vars.KNOCK_API_URL`) y la configuración de Firebase (secreto `GOOGLE_SERVICES_JSON`) al build de release de Android, con su nota en `docs/PUBLICACION_ANDROID.md`. Los otros tres commits de `develop` son merges de promoción sin cambios de archivos propios.
 - **Porqué:** `sprint-04` salió antes de que el #26 entrara por `sprint-03`, así que su workflow de publicación estaba desactualizado respecto de `main` y `develop`.
