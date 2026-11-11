@@ -268,6 +268,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get entradaAvisoError => 'Accept the privacy notice to continue';
 
   @override
+  String get entradaAvisoNoSeAbrio =>
+      'We couldn\'t open the privacy notice. Please try again later.';
+
+  @override
+  String get entradaAvisoAbrirIndicacion => 'Opens in the browser';
+
+  @override
   String get entradaErrorCodigoIncorrecto =>
       'The code is not correct. Review it and try again.';
 

@@ -322,6 +322,14 @@
   "@entradaAvisoError": {
     "description": "Error mostrado si no se acepta el aviso de privacidad."
   },
+  "entradaAvisoNoSeAbrio": "No pudimos abrir el aviso de privacidad. Inténtalo de nuevo más tarde.",
+  "@entradaAvisoNoSeAbrio": {
+    "description": "Mensaje breve cuando el teléfono no puede abrir la página del aviso de privacidad (spec 028)."
+  },
+  "entradaAvisoAbrirIndicacion": "Se abre en el navegador",
+  "@entradaAvisoAbrirIndicacion": {
+    "description": "Indicación de accesibilidad del enlace del aviso de privacidad (spec 028)."
+  },
   "entradaErrorCodigoIncorrecto": "El código no es correcto. Revísalo e inténtalo otra vez.",
   "@entradaErrorCodigoIncorrecto": {
     "description": "Error de entrada: código SMS incorrecto."

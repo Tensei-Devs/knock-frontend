@@ -178,6 +178,14 @@
   "@entradaAvisoError": {
     "description": "Error shown if the privacy notice is not accepted."
   },
+  "entradaAvisoNoSeAbrio": "We couldn't open the privacy notice. Please try again later.",
+  "@entradaAvisoNoSeAbrio": {
+    "description": "Short message shown when the phone cannot open the privacy notice page (spec 028)."
+  },
+  "entradaAvisoAbrirIndicacion": "Opens in the browser",
+  "@entradaAvisoAbrirIndicacion": {
+    "description": "Accessibility hint of the privacy notice link (spec 028)."
+  },
   "entradaErrorCodigoIncorrecto": "The code is not correct. Review it and try again.",
   "@entradaErrorCodigoIncorrecto": {
     "description": "Sign-in error: incorrect SMS code."
