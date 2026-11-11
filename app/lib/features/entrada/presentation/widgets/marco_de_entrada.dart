@@ -1,8 +1,7 @@
+import 'package:app/core/tema/tokens.dart';
+import 'package:app/core/widgets/tarjeta_knock.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
-
-/// Radio de las esquinas de los campos y los botones de entrada.
-const double radioDeEntrada = 16;
 
 /// Estructura común de las pantallas de entrada (HU-001): marca de Knock,
 /// título, detalle y una tarjeta con el formulario. Sin barra inferior.
@@ -35,7 +34,12 @@ class MarcoDeEntrada extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
+            padding: const EdgeInsets.fromLTRB(
+              Espaciado.cuerpo,
+              32,
+              Espaciado.cuerpo,
+              24,
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 440),
               child: Column(
@@ -48,7 +52,6 @@ class MarcoDeEntrada extends StatelessWidget {
                     child: Text(
                       titulo,
                       style: tema.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
                         color: esquema.onSurface,
                       ),
                     ),
@@ -61,18 +64,11 @@ class MarcoDeEntrada extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  Material(
-                    color: esquema.surfaceContainer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(radioDeEntrada + 8),
-                      side: BorderSide(color: esquema.outlineVariant),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: formulario,
-                      ),
+                  TarjetaKnock(
+                    padding: const EdgeInsets.all(Espaciado.cuerpo),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: formulario,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -103,7 +99,7 @@ class _Marca extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               color: esquema.primary,
-              borderRadius: BorderRadius.circular(radioDeEntrada - 2),
+              borderRadius: BorderRadius.circular(Radios.medio),
             ),
             child: Icon(
               Icons.door_front_door_rounded,
@@ -127,17 +123,15 @@ class _Marca extends StatelessWidget {
   }
 }
 
-/// Decoración de los campos de entrada: contorno redondeado y mensajes que
-/// pueden ocupar varias líneas (texto al 200 %).
+/// Decoración de los campos de entrada: el contorno y el relleno vienen del
+/// tema (`.inp`); aquí solo los mensajes, que pueden ocupar varias líneas
+/// (texto al 200 %).
 InputDecoration decoracionDeEntrada({
   required String etiqueta,
   String? ayuda,
   String? error,
   Widget? prefijo,
 }) {
-  final borde = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(radioDeEntrada),
-  );
   return InputDecoration(
     labelText: etiqueta,
     helperText: ayuda,
@@ -145,21 +139,13 @@ InputDecoration decoracionDeEntrada({
     errorText: error,
     errorMaxLines: 3,
     prefixIcon: prefijo,
-    border: borde,
-    enabledBorder: borde,
   );
 }
 
-/// Estilo del botón principal: ancho completo y 56 dp de alto.
+/// Estilo del botón principal: ancho completo; la altura (56) y la forma
+/// vienen del tema (`.btn`).
 ButtonStyle estiloBotonPrincipal(BuildContext context) =>
-    FilledButton.styleFrom(
-      minimumSize: const Size.fromHeight(56),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radioDeEntrada),
-      ),
-      textStyle: Theme.of(context).textTheme.titleMedium
-          ?.copyWith(fontWeight: FontWeight.w700),
-    );
+    FilledButton.styleFrom(minimumSize: const Size.fromHeight(Alturas.boton));
 
 /// Botón principal que, mientras [cargando], se desactiva y muestra un
 /// indicador con etiqueta accesible (KNOCK-228).

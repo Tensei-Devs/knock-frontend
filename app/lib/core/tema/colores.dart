@@ -195,3 +195,109 @@ const esquemaOscuro = ColorScheme(
   inversePrimary: ColoresClaro.amberInk,
   surfaceTint: ColoresOscuro.amber,
 );
+
+/// Colores de la maqueta que no caben en un `ColorScheme` (spec 014, R-02):
+/// fondos suaves de íconos y avisos, línea de divisores y fondo azul.
+///
+/// Cada fondo trae su color de texto **ya validado** a 4.5:1 (spec 014, R-04):
+/// en oscuro sobre `navybg` y `navy-soft` solo va `ink`.
+@immutable
+class ColoresKnock extends ThemeExtension<ColoresKnock> {
+  const ColoresKnock({
+    required this.navySoft,
+    required this.sobreNavySoft,
+    required this.navyBg,
+    required this.sobreNavyBg,
+    required this.amberSoft,
+    required this.sobreAmberSoft,
+    required this.linea,
+  });
+
+  /// `--navy-soft`: fondo del cuadro de ícono y de la pestaña activa.
+  final Color navySoft;
+
+  /// Texto e ícono sobre [navySoft].
+  final Color sobreNavySoft;
+
+  /// `--navybg`: fondo del botón oscuro.
+  final Color navyBg;
+
+  /// Texto sobre [navyBg].
+  final Color sobreNavyBg;
+
+  /// `--amber-soft`: fondo de avisos naranjas.
+  final Color amberSoft;
+
+  /// `--amber-ink` sobre [amberSoft].
+  final Color sobreAmberSoft;
+
+  /// `--line2`: divisores y bordes decorativos (no delimitan un control).
+  final Color linea;
+
+  static const claro = ColoresKnock(
+    navySoft: Color(0xFFE1ECEF),
+    sobreNavySoft: ColoresClaro.navy,
+    navyBg: ColoresClaro.navy,
+    sobreNavyBg: Color(0xFFFFFFFF),
+    amberSoft: Color(0xFFFDE8DC),
+    sobreAmberSoft: ColoresClaro.amberInk,
+    linea: Color(0xFFEDE3D2),
+  );
+
+  static const oscuro = ColoresKnock(
+    navySoft: ColoresOscuro.navySoft,
+    sobreNavySoft: ColoresOscuro.ink,
+    navyBg: ColoresOscuro.navybg,
+    sobreNavyBg: ColoresOscuro.ink,
+    amberSoft: Color(0xFF3B2415),
+    sobreAmberSoft: Color(0xFFFFC9A6),
+    linea: ColoresOscuro.line2,
+  );
+
+  @override
+  ColoresKnock copyWith({
+    Color? navySoft,
+    Color? sobreNavySoft,
+    Color? navyBg,
+    Color? sobreNavyBg,
+    Color? amberSoft,
+    Color? sobreAmberSoft,
+    Color? linea,
+  }) => ColoresKnock(
+    navySoft: navySoft ?? this.navySoft,
+    sobreNavySoft: sobreNavySoft ?? this.sobreNavySoft,
+    navyBg: navyBg ?? this.navyBg,
+    sobreNavyBg: sobreNavyBg ?? this.sobreNavyBg,
+    amberSoft: amberSoft ?? this.amberSoft,
+    sobreAmberSoft: sobreAmberSoft ?? this.sobreAmberSoft,
+    linea: linea ?? this.linea,
+  );
+
+  @override
+  ColoresKnock lerp(ColoresKnock? other, double t) {
+    if (other == null) return this;
+    return ColoresKnock(
+      navySoft: Color.lerp(navySoft, other.navySoft, t)!,
+      sobreNavySoft: Color.lerp(sobreNavySoft, other.sobreNavySoft, t)!,
+      navyBg: Color.lerp(navyBg, other.navyBg, t)!,
+      sobreNavyBg: Color.lerp(sobreNavyBg, other.sobreNavyBg, t)!,
+      amberSoft: Color.lerp(amberSoft, other.amberSoft, t)!,
+      sobreAmberSoft: Color.lerp(sobreAmberSoft, other.sobreAmberSoft, t)!,
+      linea: Color.lerp(linea, other.linea, t)!,
+    );
+  }
+}
+
+/// Atajo: `context.colores` en lugar de `Theme.of(context).extension<...>()`.
+///
+/// Si el tema no es el de Knock (un `MaterialApp` pelado), toma los valores
+/// según el brillo en lugar de fallar.
+extension ColoresKnockEnContexto on BuildContext {
+  ColoresKnock get colores {
+    final tema = Theme.of(this);
+    return tema.extension<ColoresKnock>() ??
+        (tema.brightness == Brightness.dark
+            ? ColoresKnock.oscuro
+            : ColoresKnock.claro);
+  }
+}

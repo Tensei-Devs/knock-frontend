@@ -1,11 +1,10 @@
 import 'dart:io' show Platform;
 
 import 'package:app/core/red/cliente_api_provider.dart';
-import 'package:app/core/sesion/almacen_seguro.dart';
-import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/canje_sesion.dart';
 import 'package:app/core/sesion/identificador_dispositivo.dart';
 import 'package:app/core/sesion/servicio_entrada.dart';
+import 'package:app/core/sesion/sesion.dart' hide SesionNotifier;
 import 'package:app/core/sesion/verificador_celular.dart';
 import 'package:app/core/sesion/verificador_celular_firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,15 +29,13 @@ class SesionNotifier extends Notifier<bool> {
 
   /// Marca la sesión como iniciada; el router lleva a Inicio.
   void iniciar() => state = true;
+
+  /// Marca la sesión como cerrada; el router lleva a `/entrar` (spec 026).
+  void cerrar() => state = false;
 }
 
 final sesionIniciadaProvider = NotifierProvider<SesionNotifier, bool>(
   SesionNotifier.new,
-);
-
-/// Tokens y id del dispositivo, solo en Keystore/Keychain.
-final almacenSesionProvider = Provider<AlmacenSesion>(
-  (ref) => AlmacenSesion(ref.watch(almacenSeguroProvider)),
 );
 
 final verificadorCelularProvider = Provider<VerificadorCelular>((ref) {
@@ -64,7 +61,8 @@ final servicioEntradaProvider = Provider<ServicioEntrada>(
   (ref) => ServicioEntradaReal(
     verificador: ref.watch(verificadorCelularProvider),
     canje: ref.watch(canjeSesionProvider),
-    almacen: ref.watch(almacenSesionProvider),
+    iniciarSesion: (tokens) =>
+        ref.read(sesionProvider.notifier).iniciar(tokens),
     identificador: ref.watch(identificadorDispositivoProvider),
     dispositivo: nombreDeDispositivo(),
   ),
