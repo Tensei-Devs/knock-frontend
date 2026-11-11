@@ -366,7 +366,7 @@ class Landing(unittest.TestCase):
                 for origen in origenes:
                     self.assertIn(
                         origen,
-                        ("index.html", "404.html", "css", "fonts", "privacidad", "eliminar-cuenta", "nginx.conf"),
+                        ("index.html", "404.html", "css", "fonts", "img", "privacidad", "eliminar-cuenta", "nginx.conf"),
                         "Solo se copian los archivos públicos",
                     )
 
@@ -523,6 +523,7 @@ class Landing(unittest.TestCase):
             ["/fonts/nunito-400-latin.woff2", "/fonts/nunito-700-latin.woff2"],
         )
         total = len(html.encode("utf-8")) + len(css.encode("utf-8"))
+        total += sum(p.stat().st_size for p in (LANDING / "img").glob("*"))
         for fuente in fuentes:
             ruta = LANDING / fuente.lstrip("/")
             contenido = ruta.read_bytes()
@@ -589,6 +590,30 @@ class Landing(unittest.TestCase):
         self.assertTrue(red, "Falta la regla .enlaces .red")
         self.assertEqual(red[0].get("width"), "3rem")
         self.assertEqual(red[0].get("min-height"), "2.75rem")
+
+    def test_TC_TT_WEB_01_12_imagen_con_personas_y_leyenda(self):
+        """KNOCK-258 (spec 004, R-09 y CA-06): imagen propia con alt, lema en HTML, sin terceros."""
+        html = leer("index.html")
+        pagina = analizar(html)
+        imagenes = pagina.de("img")
+        self.assertEqual(len(imagenes), 1)
+        imagen = imagenes[0]
+        self.assertEqual(imagen.get("src"), "/img/hero.webp")
+        self.assertTrue(imagen.get("alt", "").strip(), "La imagen necesita alt útil")
+        self.assertTrue(imagen.get("width") and imagen.get("height"), "Faltan width y height")
+        self.assertNotEqual(imagen.get("loading"), "lazy")
+        archivo = LANDING / "img" / "hero.webp"
+        contenido = archivo.read_bytes()
+        self.assertEqual(contenido[:4], b"RIFF")
+        self.assertEqual(contenido[8:12], b"WEBP")
+        self.assertLess(len(contenido), 80_000)
+        self.assertEqual(sorted(p.name for p in (LANDING / "img").iterdir()), ["hero.webp"])
+        self.assertIn('Tu técnico de confianza, a tu puerta', pagina.texto_visible())
+        self.assertNotIn('Tu técnico de confianza, a tu puerta', imagen.get("alt", ""))
+        for prohibida in ("script", "input", "form", "iframe"):
+            self.assertEqual(pagina.de(prohibida), [], f"<{prohibida}>")
+        self.assertEqual(html.count("<h1"), 1)
+        self.assertIn("Técnicos de", html)
 
 
 if __name__ == "__main__":
