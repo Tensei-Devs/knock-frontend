@@ -7,6 +7,11 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-11 — `sprint-04` recibe de `develop` el arreglo de publicación a Play (KNOCK-221)
+- **Decisión:** se trae `develop` a `sprint-04` con un merge normal. Lo único que faltaba era el PR #26 (KNOCK-221): `publish-android.yml` pasa `API_URL` (`vars.KNOCK_API_URL`) y la configuración de Firebase (secreto `GOOGLE_SERVICES_JSON`) al build de release de Android, con su nota en `docs/PUBLICACION_ANDROID.md`. Los otros tres commits de `develop` son merges de promoción sin cambios de archivos propios.
+- **Porqué:** `sprint-04` salió antes de que el #26 entrara por `sprint-03`, así que su workflow de publicación estaba desactualizado respecto de `main` y `develop`.
+- **A evitar:** publicar una versión desde `sprint-04` sin este arreglo; tocar `publish-android.yml` sin revisión del Tech Lead (archivo protegido).
+
 ## 2026-10-27 — Aclaración de «Uso de IA»
 - **Decisión:** la sección «Uso de IA» es del **pull request** (plantilla de PR), no de cada spec.
 - **Porqué:** `@constitution-reviewer` marcó FAIL a la spec 001 por leer «todo cambio» de forma literal; la redacción era ambigua.
@@ -93,6 +98,11 @@
 - **Porqué:** la spec 011 manda un cálculo reproducible y que un PR sin puntos no pase; es la misma lógica del backend (KNOCK-207), con otros componentes y con `versionCode`. El acarreo es a 10 (como en el backend) porque la spec no da otro umbral.
 - **Pendiente:** T-03 (integrar versión, `versionCode` y etiqueta de Git en la publicación; depende de KNOCK-221), así que CA-04 solo queda probado en el script. Reconciliar `docs/VERSIONAMIENTO.md` (primera versión `0.1.0`, `versionCode` = número de ejecución) con la spec 011 (`1.0.0`, `versionCode` derivado). Las etiquetas `puntos-*` no existen en el repositorio y las crea una persona con permiso. `sdd_lint.py --trace 011` marca FALTA hasta que `test_globs` de `.agents/knock.json` incluya `scripts/ci/test_*.py`.
 - **A evitar:** llevar el `versionCode` a mano o repetirlo (Google Play rechaza la subida); declarar puntos de menos para no subir de versión.
+
+## 2026-11-09 — La publicación a Google Play lleva la API y Firebase (KNOCK-221)
+- **Decisión:** `publish-android` pasa `--dart-define=KNOCK_API_URL` desde la variable `KNOCK_API_URL` y escribe `google-services.json` desde el secreto `GOOGLE_SERVICES_JSON`; ambos son obligatorios y el archivo se borra al terminar.
+- **Porqué:** sin ellos el AAB de la tienda compilaba sin URL de la API y sin Firebase: abría, pero no se podía entrar ni llamar al backend.
+- **A evitar:** subir `google-services.json` al repositorio o dejarlo en la máquina de CI; escribir la URL fija en el código.
 
 ## 2026-11-05 — Contrato vendorizado y cliente Dart generado (spec 006, KNOCK-220)
 - **Decisión:** se vendoriza en `contracts/openapi.v1.json` el contrato de **Identity** (`docs/openapi.identity.v1.json` de knock-backend, rama `sprint-03`, commit de la rama `d39bc18`, último commit del archivo `b6ddcf5`, SHA-256 `5767eb9d…`), no `docs/openapi.v1.json` del backend: ese archivo **no es la unión** de los servicios, es solo `Knock.Market.Api` (colonias y oficios). La app necesita hoy `POST /api/v1/auth/firebase`. Cuando el backend publique la unión (o el gateway), se reemplaza por ella.
