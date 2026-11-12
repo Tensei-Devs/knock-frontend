@@ -22,10 +22,13 @@ Crear en **Settings → Secrets and variables → Actions** del repositorio `kno
 | `ANDROID_KEY_PASSWORD` | Contraseña de la llave |
 | `PLAY_SERVICE_ACCOUNT_JSON` | JSON de una cuenta de servicio con permiso de publicar en Play Console |
 | `MAPS_API_KEY` | Clave de Maps SDK for Android (la misma de `local.properties`) |
+| `GOOGLE_SERVICES_JSON` | Contenido del `google-services.json` de la app Android `app.knock.mobile` (consola de Firebase). Sin él la entrada por SMS no funciona en la tienda |
+
+Además, una **variable** (no secreto) en **Settings → Secrets and variables → Actions → Variables**: `KNOCK_API_URL`, la URL `https` del gateway. Sin ella la app compilada no llama a la API.
 
 Una forma de generar la llave de subida y el Base64: `keytool -genkeypair -v -keystore knock-upload.jks -alias knock -keyalg RSA -keysize 2048 -validity 10000` y, en PowerShell, `[Convert]::ToBase64String([IO.File]::ReadAllBytes("knock-upload.jks"))`. **Guarda el `.jks` y sus contraseñas fuera del repositorio** (gestor de contraseñas): si se pierden no se puede actualizar la app. Nada de esto se pega en un chat ni en un PR. Activa **Play App Signing** en la consola y registra esta llave como llave de subida.
 
-Sin los cinco primeros secretos el workflow falla antes de construir, con un mensaje que dice cuáles faltan; nunca publica con la llave de depuración.
+Sin los cinco primeros secretos, `GOOGLE_SERVICES_JSON` o la variable `KNOCK_API_URL`, el workflow falla antes de construir, con un mensaje que dice cuáles faltan; nunca publica con la llave de depuración. Las huellas SHA-1 y SHA-256 de la llave de subida y de la firma de Play deben estar registradas en la app de Firebase para que Phone Auth funcione.
 
 ## 3. Etapas (R-06)
 | Etapa | Cómo se llega | Quién |
