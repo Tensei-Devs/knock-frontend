@@ -1453,6 +1453,174 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No pudimos confirmar tu elección. Intenta de nuevo.'**
   String get cotizacionErrorEleccion;
+
+  /// Título de la pantalla de la visita (spec 016).
+  ///
+  /// In es, this message translates to:
+  /// **'Tu visita'**
+  String get visitaTitulo;
+
+  /// Insignia de técnico verificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado'**
+  String get visitaVerificado;
+
+  /// Técnico sin verificar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin verificar'**
+  String get visitaSinVerificar;
+
+  /// Día y hora de la visita.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} a las {hora}'**
+  String visitaCuando(String dia, String hora);
+
+  /// Título del código de 4 dígitos.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu código'**
+  String get visitaCodigoTitulo;
+
+  /// Regla de seguridad (CA-01).
+  ///
+  /// In es, this message translates to:
+  /// **'Pídele a {tecnico} que te diga este código en la puerta. Si no lo sabe, no abras.'**
+  String visitaCodigoRegla(String tecnico);
+
+  /// Lectura del código dígito por dígito (CA-14).
+  ///
+  /// In es, this message translates to:
+  /// **'Código: {digitos}'**
+  String visitaCodigoEtiqueta(String digitos);
+
+  /// Botón para tapar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Ocultar código'**
+  String get visitaOcultarCodigo;
+
+  /// Botón para destapar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Mostrar código'**
+  String get visitaMostrarCodigo;
+
+  /// Anuncio al ocultar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Código oculto'**
+  String get visitaCodigoOculto;
+
+  /// motivoCodigo usado (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'El técnico ya confirmó su llegada con este código.'**
+  String get visitaMotivoUsado;
+
+  /// motivoCodigo vencido (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Este código ya venció.'**
+  String get visitaMotivoVencido;
+
+  /// motivoCodigo bloqueada (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.'**
+  String get visitaMotivoBloqueada;
+
+  /// motivoCodigo no_aplica (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita no necesita código.'**
+  String get visitaMotivoNoAplica;
+
+  /// Título de la cita en taller (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Cita en el taller'**
+  String get visitaTaller;
+
+  /// Dirección del taller (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Dirección: {direccion}'**
+  String visitaDireccionTaller(String direccion);
+
+  /// Botón que abre la app de mapas (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo llegar'**
+  String get visitaComoLlegar;
+
+  /// Aviso sin app de mapas (R-05).
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos una app de mapas. Copia la dirección para buscarla.'**
+  String get visitaSinMapas;
+
+  /// Botón para llamar al técnico (CA-21).
+  ///
+  /// In es, this message translates to:
+  /// **'Llamar'**
+  String get visitaLlamar;
+
+  /// Botón para escribir por WhatsApp (CA-21).
+  ///
+  /// In es, this message translates to:
+  /// **'WhatsApp'**
+  String get visitaWhatsapp;
+
+  /// Aviso si no hay app para llamar o WhatsApp.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir la app. El número es {numero}.'**
+  String visitaNoSePudoAbrir(String numero);
+
+  /// Botón que abre la hoja de la spec 022 (CA-06).
+  ///
+  /// In es, this message translates to:
+  /// **'Avisar a alguien de confianza'**
+  String get visitaAvisar;
+
+  /// Error 404 (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está disponible.'**
+  String get visitaNoDisponible;
+
+  /// Copia local sin conexión (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Te mostramos los datos guardados de tu visita.'**
+  String get visitaSinConexion;
+
+  /// Estado confirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmada'**
+  String get visitaEstadoConfirmada;
+
+  /// Estado en_curso.
+  ///
+  /// In es, this message translates to:
+  /// **'En curso'**
+  String get visitaEstadoEnCurso;
+
+  /// Estado terminada.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminada'**
+  String get visitaEstadoTerminada;
+
+  /// Estado cancelada o no presentado.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelada'**
+  String get visitaEstadoCancelada;
 }
 
 class _AppLocalizationsDelegate

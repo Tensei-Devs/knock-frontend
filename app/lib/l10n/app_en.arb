@@ -681,5 +681,71 @@
   },
   "cotizacionListo": "Done",
   "cotizacionRetirada": "This quote is no longer available. Choose another one.",
-  "cotizacionErrorEleccion": "We couldn't confirm your choice. Try again."
+  "cotizacionErrorEleccion": "We couldn't confirm your choice. Try again.",
+  "visitaTitulo": "Your visit",
+  "visitaVerificado": "Verified",
+  "visitaSinVerificar": "Not verified",
+  "visitaCuando": "{dia} at {hora}",
+  "@visitaCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoTitulo": "Your code",
+  "visitaCodigoRegla": "Ask {tecnico} to tell you this code at the door. If they don't know it, don't open.",
+  "@visitaCodigoRegla": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoEtiqueta": "Code: {digitos}",
+  "@visitaCodigoEtiqueta": {
+    "placeholders": {
+      "digitos": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaOcultarCodigo": "Hide code",
+  "visitaMostrarCodigo": "Show code",
+  "visitaCodigoOculto": "Code hidden",
+  "visitaMotivoUsado": "The pro already confirmed their arrival with this code.",
+  "visitaMotivoVencido": "This code expired.",
+  "visitaMotivoBloqueada": "This visit was locked for security. The Knock team will review it.",
+  "visitaMotivoNoAplica": "This appointment doesn't need a code.",
+  "visitaTaller": "Appointment at the shop",
+  "visitaDireccionTaller": "Address: {direccion}",
+  "@visitaDireccionTaller": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaComoLlegar": "Get directions",
+  "visitaSinMapas": "We couldn't find a maps app. Copy the address to look it up.",
+  "visitaLlamar": "Call",
+  "visitaWhatsapp": "WhatsApp",
+  "visitaNoSePudoAbrir": "Couldn't open the app. The number is {numero}.",
+  "@visitaNoSePudoAbrir": {
+    "placeholders": {
+      "numero": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaAvisar": "Tell someone you trust",
+  "visitaNoDisponible": "This visit is no longer available.",
+  "visitaSinConexion": "You're offline. We're showing your saved visit details.",
+  "visitaEstadoConfirmada": "Confirmed",
+  "visitaEstadoEnCurso": "In progress",
+  "visitaEstadoTerminada": "Done",
+  "visitaEstadoCancelada": "Canceled"
 }

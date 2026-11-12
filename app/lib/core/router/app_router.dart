@@ -10,6 +10,7 @@ import 'package:app/features/actividad/presentation/actividad_screen.dart';
 import 'package:app/features/actividad/presentation/cotizaciones_screen.dart';
 import 'package:app/features/actividad/presentation/solicitud_detalle_screen.dart';
 import 'package:app/features/actividad/presentation/solicitud_nueva_screen.dart';
+import 'package:app/features/actividad/presentation/visita_screen.dart';
 import 'package:app/features/cuenta/presentation/completar_perfil_screen.dart';
 import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
@@ -118,6 +119,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => SolicitudNuevaScreen(
                   oficioClave: state.uri.queryParameters[Rutas.parametroOficio],
                 ),
+              ),
+              GoRoute(
+                path: 'visita/:id',
+                builder: (context, state) =>
+                    VisitaScreen(id: state.pathParameters['id']!),
               ),
               GoRoute(
                 path: 'solicitud/:id',

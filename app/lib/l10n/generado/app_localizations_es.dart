@@ -803,4 +803,102 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get cotizacionErrorEleccion =>
       'No pudimos confirmar tu elección. Intenta de nuevo.';
+
+  @override
+  String get visitaTitulo => 'Tu visita';
+
+  @override
+  String get visitaVerificado => 'Verificado';
+
+  @override
+  String get visitaSinVerificar => 'Sin verificar';
+
+  @override
+  String visitaCuando(String dia, String hora) {
+    return '$dia a las $hora';
+  }
+
+  @override
+  String get visitaCodigoTitulo => 'Tu código';
+
+  @override
+  String visitaCodigoRegla(String tecnico) {
+    return 'Pídele a $tecnico que te diga este código en la puerta. Si no lo sabe, no abras.';
+  }
+
+  @override
+  String visitaCodigoEtiqueta(String digitos) {
+    return 'Código: $digitos';
+  }
+
+  @override
+  String get visitaOcultarCodigo => 'Ocultar código';
+
+  @override
+  String get visitaMostrarCodigo => 'Mostrar código';
+
+  @override
+  String get visitaCodigoOculto => 'Código oculto';
+
+  @override
+  String get visitaMotivoUsado =>
+      'El técnico ya confirmó su llegada con este código.';
+
+  @override
+  String get visitaMotivoVencido => 'Este código ya venció.';
+
+  @override
+  String get visitaMotivoBloqueada =>
+      'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.';
+
+  @override
+  String get visitaMotivoNoAplica => 'Esta cita no necesita código.';
+
+  @override
+  String get visitaTaller => 'Cita en el taller';
+
+  @override
+  String visitaDireccionTaller(String direccion) {
+    return 'Dirección: $direccion';
+  }
+
+  @override
+  String get visitaComoLlegar => 'Cómo llegar';
+
+  @override
+  String get visitaSinMapas =>
+      'No encontramos una app de mapas. Copia la dirección para buscarla.';
+
+  @override
+  String get visitaLlamar => 'Llamar';
+
+  @override
+  String get visitaWhatsapp => 'WhatsApp';
+
+  @override
+  String visitaNoSePudoAbrir(String numero) {
+    return 'No se pudo abrir la app. El número es $numero.';
+  }
+
+  @override
+  String get visitaAvisar => 'Avisar a alguien de confianza';
+
+  @override
+  String get visitaNoDisponible => 'Esta visita ya no está disponible.';
+
+  @override
+  String get visitaSinConexion =>
+      'Sin conexión. Te mostramos los datos guardados de tu visita.';
+
+  @override
+  String get visitaEstadoConfirmada => 'Confirmada';
+
+  @override
+  String get visitaEstadoEnCurso => 'En curso';
+
+  @override
+  String get visitaEstadoTerminada => 'Terminada';
+
+  @override
+  String get visitaEstadoCancelada => 'Cancelada';
 }

@@ -4,6 +4,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 
 /// Solicitudes en memoria mientras el contrato no publique `/solicitudes` ni
 /// `/archivos` (backend 020 y spec 013). Sin red ni datos reales.
@@ -15,7 +16,8 @@ import 'package:app/features/actividad/domain/solicitud_repository.dart';
 /// demo, KNOCK-246), que ordena y etiqueta como backend 021 (R-04 a R-07).
 /// Se reemplaza en `solicitudRepositoryProvider` por la implementación con el
 /// cliente generado sin tocar la pantalla.
-class SolicitudRepositoryDePrueba implements SolicitudRepository {
+class SolicitudRepositoryDePrueba
+    implements SolicitudRepository, VisitaRepository {
   SolicitudRepositoryDePrueba({
     DateTime Function()? reloj,
     Random? azar,
@@ -35,6 +37,9 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
 
   /// Cita de cada solicitud ya elegida.
   final _citas = <String, CitaConfirmada>{};
+
+  /// Código de 4 dígitos de cada visita a domicilio (backend 022 R-15).
+  final _codigos = <String, String>{};
 
   /// Contacto público ficticio de cada técnico de prueba (sin datos reales).
   /// El técnico C no publicó contacto (CA-11).
@@ -179,7 +184,39 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
       ),
     );
     _citas[solicitudId] = cita;
+    if (cita.modalidad == 'domicilio') {
+      _codigos[cita.visitaId] = _azar.nextInt(10000).toString().padLeft(4, '0');
+    }
     return cita;
+  }
+
+  /// La visita de una cita (backend 022 R-02, vista del cliente): código
+  /// solo a domicilio y aviso disponible mientras está confirmada.
+  @override
+  Future<Visita> obtenerVisita(String id) async {
+    final cita = _citas.values.where((c) => c.visitaId == id).firstOrNull;
+    if (cita == null) throw const NoEncontradoFailure();
+    final esTaller = cita.modalidad == 'taller';
+    return Visita(
+      id: id,
+      estado: EstadoVisita.confirmada,
+      esTaller: esTaller,
+      dia: cita.dia,
+      hora: cita.hora,
+      precio: cita.precio,
+      tope: cita.tope,
+      direccion: cita.direccion,
+      codigo: _codigos[id],
+      motivoCodigo: esTaller ? MotivoCodigo.noAplica : null,
+      puedeAvisar: true,
+      tecnico: TecnicoDeVisita(
+        nombre: cita.tecnico.nombre,
+        verificado: cita.tecnico.verificado,
+        nivelVerificacion: cita.tecnico.nivelVerificacion,
+        telefono: cita.tecnico.telefono,
+        whatsapp: cita.tecnico.whatsapp,
+      ),
+    );
   }
 
   /// Cuatro técnicos ficticios con tipos de precio distintos.

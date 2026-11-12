@@ -2,10 +2,13 @@ import 'package:app/core/preferencias/almacen_borrador_solicitud.dart';
 import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
+import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Raíz de composición de la función Actividad (spec 015): es lo único que
@@ -15,8 +18,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// (backend 020 y spec 013), es la implementación en memoria; el PR de
 /// KNOCK-244 sigue en borrador hasta conectar el cliente generado aquí.
 final solicitudRepositoryProvider = Provider<SolicitudRepository>(
+  (ref) => ref.watch(_datosDePruebaProvider),
+);
+
+/// Una sola instancia en memoria para solicitudes y visitas, para que la
+/// visita salga de la cita que se eligió (backend 021 y 022).
+final _datosDePruebaProvider = Provider<SolicitudRepositoryDePrueba>(
   (ref) => SolicitudRepositoryDePrueba(),
 );
+
+/// Visitas (backend 022). Mientras no haya contrato, las mismas del doble.
+final visitaRepositoryProvider = Provider<VisitaRepository>(
+  (ref) => ref.watch(_datosDePruebaProvider),
+);
+
+/// Copia cifrada de la visita abierta (spec 016, R-03).
+final visitaLocalRepositoryProvider = Provider<VisitaLocalRepository>(
+  (ref) => VisitaLocalRepositorySeguro(ref.watch(almacenSeguroProvider)),
+);
+
+/// Si ya existe la hoja «Avisar a alguien de confianza» (spec 022,
+/// KNOCK-84). Mientras sea falso, el botón no se muestra (R-06).
+final avisoDeConfianzaDisponibleProvider = Provider<bool>((ref) => false);
 
 /// Borrador del formulario y copias privadas de sus fotos (R-07).
 final borradorSolicitudRepositoryProvider =
@@ -61,6 +84,6 @@ final relojSolicitudProvider = Provider<DateTime Function()>(
   (ref) => DateTime.now,
 );
 
-/// Si ya existe la pantalla de la visita (spec 016, KNOCK-83). Mientras sea
-/// falso, «Ver mi visita» no se muestra: no hay botones sin destino.
-final visitaDisponibleProvider = Provider<bool>((ref) => false);
+/// Si ya existe la pantalla de la visita (spec 016, KNOCK-83): «Ver mi
+/// visita» lleva a `/actividad/visita/:id`.
+final visitaDisponibleProvider = Provider<bool>((ref) => true);

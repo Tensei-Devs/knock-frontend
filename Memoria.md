@@ -311,3 +311,24 @@
   - Llamar o abrir WhatsApp desde la cita espera `url_launcher` (spec 016, D-06). Por ahora el número se puede seleccionar y copiar.
 - **A evitar:** guardar la cita o el contacto en disco, o reintentar una elección sin que la persona lo pida.
 
+## 2026-11-12 — Ver mi visita con el código, sin contrato todavía (KNOCK-83, spec 016)
+- **Decisión:** `/actividad/visita/:id` muestra la visita del cliente. Según la modalidad, aparece una de dos cosas:
+  - **A domicilio:** el técnico, su insignia, el día y la hora, el código en cuatro recuadros con «Ocultar código» y la regla de seguridad.
+  - **En taller:** la dirección y «Cómo llegar».
+- **Cómo funciona:**
+  - La copia mínima de la visita (sin dirección del domicilio ni contacto, R-03) se guarda en el almacén seguro con un índice (`core/sesion/datos_de_visita.dart`). `SesionNotifier.cerrar` la borra con `borrarDatosDeVisita`.
+  - Sin conexión se muestra esa copia (CA-02).
+  - Un `motivoCodigo` borra el código de la copia (R-07). Una visita terminada o cancelada borra la copia completa.
+  - La pantalla se refresca al volver a la app, sin sondeo.
+  - `visitaDisponibleProvider` queda en verdadero, así que «Ver mi visita» ya lleva aquí desde la comparación y la cita.
+- **`url_launcher` 6.3.3 (flutter.dev, BSD-3-Clause; sin avisos en OSV el 2026-11-12):**
+  - Se usa para «Cómo llegar» (`https://www.google.com/maps/search/?api=1&query=` con `Uri.encodeComponent`), llamar (`tel:`) y WhatsApp (`https://wa.me/52…`), siempre con enlaces armados en `core/plataforma/enlaces.dart`, nunca con uno que llegue del servidor.
+  - El manifiesto declara en `<queries>` VIEW `https` y DIAL `tel` (Android 11+).
+  - Sus paquetes de plataforma pueden necesitar entrar a EXC-002 para el SCA, como pasó con `image`.
+- **R-18:** `MainActivity` expone el canal `knock/pantalla` con `capturaEnRecientes`. La visita lo apaga al entrar y lo prende al salir (`setRecentsScreenshotEnabled`, Android 13+). Se verifica a mano en el teléfono.
+- **A evitar:**
+  - Guardar el código en `shared_preferences` o en un archivo.
+  - Guardar la dirección del domicilio o el contacto en la copia local.
+  - Abrir un enlace que no salga de `Enlaces`.
+  - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
+
