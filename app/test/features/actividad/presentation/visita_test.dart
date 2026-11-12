@@ -1,6 +1,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/plataforma/captura_en_recientes.dart';
-import 'package:app/core/plataforma/enlaces.dart';
+import 'package:app/core/enlaces/abridor_de_enlaces.dart';
+import 'package:app/core/enlaces/enlaces.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/datos_de_visita.dart';
 import 'package:app/core/tema/tema.dart';
