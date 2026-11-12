@@ -87,3 +87,36 @@ final class CelularRechazadoFailure extends Failure {
 final class VerificacionNoDisponibleFailure extends Failure {
   const VerificacionNoDisponibleFailure();
 }
+
+/// El recurso no existe o es de otra persona (404): no se distingue cuál.
+final class NoEncontradoFailure extends Failure {
+  const NoEncontradoFailure();
+}
+
+/// La solicitud venció (409 `request_expired`, spec 015).
+final class SolicitudVencidaFailure extends Failure {
+  const SolicitudVencidaFailure();
+}
+
+/// Por qué el servidor rechazó una solicitud nueva (spec 015, §7).
+enum MotivoSolicitudRechazada {
+  /// 422 `content_rejected`: la moderación no aceptó la descripción.
+  contenidoRechazado,
+
+  /// 503 `moderation_unavailable`: no se pudo revisar la descripción.
+  moderacionNoDisponible,
+
+  /// 422 `trade_invalid` o `colonia_not_found`.
+  oficioOColoniaNoDisponible,
+
+  /// 422 `photo_invalid`: una foto ya no es válida.
+  fotoNoValida,
+}
+
+/// El servidor rechazó la solicitud por un motivo que cambia lo que la
+/// persona debe hacer (volver al paso 2, al 1 o reintentar).
+final class SolicitudRechazadaFailure extends Failure {
+  const SolicitudRechazadaFailure(this.motivo);
+
+  final MotivoSolicitudRechazada motivo;
+}

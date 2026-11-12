@@ -23,4 +23,7 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
   CelularRechazadoFailure() => 'El número de celular no es válido.',
   VerificacionNoDisponibleFailure() =>
     'La verificación por SMS no está disponible.',
+  NoEncontradoFailure() => 'Esta solicitud ya no está disponible.',
+  SolicitudVencidaFailure() => 'Esta solicitud venció. Puedes pedir una nueva.',
+  SolicitudRechazadaFailure() => 'Revisa los datos e inténtalo de nuevo.',
 };
