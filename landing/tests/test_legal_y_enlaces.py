@@ -85,7 +85,8 @@ class PaginasLegales(unittest.TestCase):
                 self.assertEqual([a for a in atributos if a.startswith("on")], [], nombre)
             self.assertEqual(enlaces_externos(pagina), [], nombre)
             for enlace in pagina.enlaces:
-                self.assertTrue(enlace["texto"].strip(), f"Enlace sin nombre en {nombre}")
+                nombre_accesible = enlace["texto"].strip() or enlace["attrs"].get("aria-label", "").strip()
+                self.assertTrue(nombre_accesible, f"Enlace sin nombre en {nombre}")
 
     def test_el_aviso_declara_region_y_datos_que_respaldan_las_specs(self):
         texto = analizar(leer("privacidad/index.html")).texto_visible()
