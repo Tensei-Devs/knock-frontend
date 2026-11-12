@@ -183,7 +183,7 @@ Reglas del contrato que la app da por ciertas:
 | 422 al confirmar el archivo (contenido no válido o rechazo de moderación) | «Esa foto no se pudo usar. Elige otra.» | Quitar la miniatura |
 | `foto_no_valida` (422) al enviar la solicitud | «Una de tus fotos ya no es válida. Quítala y agrégala de nuevo.» | Volver al paso 2 y conservar el texto |
 | 409 al confirmar el archivo, o `403` del almacenamiento | «No se pudo subir la foto. Intenta de nuevo.» | Reintentar esa foto con un enlace nuevo |
-| `servicio_no_disponible` (503) al elegir | «No pudimos confirmar tu elección. Intenta de nuevo.» | Reintentar a mano con la **misma** `Idempotency-Key` |
+| `servicio_no_disponible` (503) al elegir | «No pudimos confirmar tu elección. Intenta de nuevo.» | Reintentar a mano |
 | 429 | «Hiciste muchos intentos. Espera {segundos} segundos.» | Botón activo al terminar la espera |
 | Sin conexión | «Sin conexión. Guardamos tu borrador.» | Reintentar |
 | 5xx o `code` desconocido | «Algo salió mal de nuestro lado. Intenta de nuevo.» | Reintentar |
@@ -229,7 +229,7 @@ Reglas de pantalla:
 | Error esperado | 401 → renueva una vez; si falla, cierra sesión y pide entrar (CA de la spec 002) |
 | Error esperado | 409 al elegir → mensaje, refresco y sin cita duplicada |
 | Error esperado | 422 al pedir el enlace o confirmar el archivo (foto muy pesada o no válida) → mensaje que pide otra foto, sin perder lo escrito |
-| Error esperado | 503 `servicio_no_disponible` al elegir → «Reintentar» manual con la misma `Idempotency-Key` y una sola cita |
+| Error esperado | 503 `servicio_no_disponible` al elegir → «Reintentar» manual y una sola cita |
 | Error esperado | 429 → espera el `Retry-After` y lo dice |
 | Error esperado | 5xx o tiempo agotado → estado de error con reintentar |
 | Caso límite | Exactamente 1 y exactamente 5 fotos; 8 y 500 caracteres; hoy y hoy + 5 |
