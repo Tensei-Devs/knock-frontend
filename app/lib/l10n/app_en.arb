@@ -747,5 +747,74 @@
   "visitaEstadoConfirmada": "Confirmed",
   "visitaEstadoEnCurso": "In progress",
   "visitaEstadoTerminada": "Done",
-  "visitaEstadoCancelada": "Canceled"
+  "visitaEstadoCancelada": "Canceled",
+  "avisoTitulo": "Tell someone you trust",
+  "avisoVistaPrevia": "Here's your message",
+  "avisoElige": "Who do you want to tell?",
+  "avisoSinContactos": "Add someone you trust to let them know when you have a visit",
+  "avisoPrivacidad": "Your contacts are saved only on this phone",
+  "avisoAgregarContacto": "Add contact",
+  "avisoEditarContacto": "Edit contact",
+  "avisoBorrarContacto": "Delete {nombre}",
+  "@avisoBorrarContacto": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoEditarA": "Edit {nombre}",
+  "@avisoEditarA": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoNombre": "Name",
+  "avisoCelular": "Mobile (10 digits)",
+  "avisoGuardar": "Save",
+  "avisoCancelar": "Cancel",
+  "avisoErrorNombre": "Write a name of 2 to 40 characters",
+  "avisoErrorCelular": "Write the 10 digits of the mobile number",
+  "avisoErrorRepetido": "That number is already on your list",
+  "avisoErrorLleno": "You already have 10 contacts. Delete one to add another.",
+  "avisoEnviarSms": "Send by SMS",
+  "avisoEnviarWhatsapp": "Send by WhatsApp",
+  "avisoCompartir": "Share without saving",
+  "avisoSinApp": "We couldn't find an app to send it. Use “Share”.",
+  "avisoNoPermitido": "This visit no longer allows notices",
+  "avisoSinRegistro": "We couldn't record the notice; you can still send it",
+  "avisoSinDatos": "We couldn't prepare the notice. Try again when you're online.",
+  "avisoLocalEncabezado": "Today I'm getting a visit from a Knock pro.",
+  "avisoLocalVerificado": "Their name is {nombre} and they're verified by Knock.",
+  "@avisoLocalVerificado": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalSinVerificar": "Their name is {nombre}; they're not verified yet.",
+  "@avisoLocalSinVerificar": {
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalCuando": "They're coming on {dia} at {hora}.",
+  "@avisoLocalCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalRecomendacion": "I'll ask for the code at the door before opening.",
+  "cuentaContactosConfianza": "Trusted contacts",
+  "avisoCerrar": "Close"
 }

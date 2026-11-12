@@ -360,6 +360,21 @@ void main() {
   });
 
   group('CA_016_06 botón de aviso de confianza', () {
+    testWidgets('CA_016_06 con puedeAvisar verdadero abre la hoja de la 022', (
+      tester,
+    ) async {
+      visitas.visita = _visita();
+      await montar(tester);
+
+      await tester.ensureVisible(find.text('Avisar a alguien de confianza'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Avisar a alguien de confianza'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Avisar a alguien de confianza'), findsNWidgets(2));
+      expect(find.text('Cerrar'), findsOneWidget);
+    });
+
     testWidgets('CA_016_06 con puedeAvisar falso no aparece', (tester) async {
       visitas.visita = _visita(puedeAvisar: false);
       await montar(tester);

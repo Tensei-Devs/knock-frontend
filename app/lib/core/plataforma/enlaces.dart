@@ -26,6 +26,22 @@ abstract final class Enlaces {
     return Uri.parse('https://wa.me/$completo');
   }
 
+  /// SMS con el número y el texto ya escritos; lo envía la persona (spec 022,
+  /// CA-09, sin el permiso `SEND_SMS`).
+  static Uri? sms(String celular, String texto) {
+    final digitos = _soloDigitos(celular);
+    if (digitos.length != 10) return null;
+    return Uri.parse('sms:$digitos?body=${Uri.encodeComponent(texto)}');
+  }
+
+  /// WhatsApp con el texto ya escrito: `https://wa.me/52<celular>?text=…`
+  /// (spec 022, CA-10).
+  static Uri? whatsappConTexto(String celular, String texto) {
+    final chat = whatsapp(celular);
+    if (chat == null) return null;
+    return Uri.parse('$chat?text=${Uri.encodeComponent(texto)}');
+  }
+
   static String _soloDigitos(String texto) =>
       texto.replaceAll(RegExp(r'[^0-9]'), '');
 }

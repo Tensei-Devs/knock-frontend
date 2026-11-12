@@ -32,6 +32,9 @@ abstract final class Rutas {
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 
+  /// Contactos de confianza desde Mi cuenta (spec 022, CA-14).
+  static const contactosConfianza = '/cuenta/contactos';
+
   /// Entrada con celular (HU-001): fuera de la barra inferior.
   static const entrar = '/entrar';
 

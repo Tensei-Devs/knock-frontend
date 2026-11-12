@@ -10,6 +10,7 @@ import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/visita_controller.dart';
 import 'package:app/features/actividad/presentation/widgets/codigo_visita.dart';
+import 'package:app/features/actividad/presentation/widgets/hoja_avisar.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -161,7 +162,7 @@ class _VisitaEnLinea extends ConsumerWidget {
         if (visita.puedeAvisar && avisoDisponible) ...[
           const SizedBox(height: 16),
           OutlinedButton.icon(
-            onPressed: null,
+            onPressed: () => mostrarHojaAvisar(context, visita.id),
             icon: const Icon(Icons.share_outlined),
             label: Text(textos.visitaAvisar),
           ),

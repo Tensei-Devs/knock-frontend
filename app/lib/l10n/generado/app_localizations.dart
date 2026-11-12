@@ -1621,6 +1621,192 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cancelada'**
   String get visitaEstadoCancelada;
+
+  /// Título de la hoja del aviso (spec 022).
+  ///
+  /// In es, this message translates to:
+  /// **'Avisar a alguien de confianza'**
+  String get avisoTitulo;
+
+  /// Título de la vista previa (R-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Así llegará tu mensaje'**
+  String get avisoVistaPrevia;
+
+  /// Título de la lista de contactos.
+  ///
+  /// In es, this message translates to:
+  /// **'¿A quién le avisas?'**
+  String get avisoElige;
+
+  /// Sin contactos (§7).
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega a alguien de confianza para avisarle cuando tengas una visita'**
+  String get avisoSinContactos;
+
+  /// Texto de privacidad (CA-14).
+  ///
+  /// In es, this message translates to:
+  /// **'Tus contactos se guardan solo en este teléfono'**
+  String get avisoPrivacidad;
+
+  /// Botón para agregar un contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar contacto'**
+  String get avisoAgregarContacto;
+
+  /// Título al editar un contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar contacto'**
+  String get avisoEditarContacto;
+
+  /// Botón para borrar un contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Borrar a {nombre}'**
+  String avisoBorrarContacto(String nombre);
+
+  /// Botón para editar un contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar a {nombre}'**
+  String avisoEditarA(String nombre);
+
+  /// Campo nombre del contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre'**
+  String get avisoNombre;
+
+  /// Campo celular del contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Celular (10 dígitos)'**
+  String get avisoCelular;
+
+  /// Guardar el contacto.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar'**
+  String get avisoGuardar;
+
+  /// Cancelar el formulario.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get avisoCancelar;
+
+  /// Nombre inválido (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un nombre de 2 a 40 caracteres'**
+  String get avisoErrorNombre;
+
+  /// Celular inválido (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe los 10 números del celular'**
+  String get avisoErrorCelular;
+
+  /// Celular repetido (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Ese celular ya está en tu lista'**
+  String get avisoErrorRepetido;
+
+  /// Máximo de 10 (CA-06).
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes 10 contactos. Borra uno para agregar otro.'**
+  String get avisoErrorLleno;
+
+  /// Canal SMS (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar por SMS'**
+  String get avisoEnviarSms;
+
+  /// Canal WhatsApp (CA-10).
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar por WhatsApp'**
+  String get avisoEnviarWhatsapp;
+
+  /// Hoja de compartir del sistema (CA-12).
+  ///
+  /// In es, this message translates to:
+  /// **'Compartir sin guardar'**
+  String get avisoCompartir;
+
+  /// Sin app de mensajes o WhatsApp (§7).
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos una app para enviar. Usa «Compartir».'**
+  String get avisoSinApp;
+
+  /// 409 visit_not_notifiable (CA-16).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no permite avisos'**
+  String get avisoNoPermitido;
+
+  /// Error o sin conexión (CA-16).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos registrar el aviso; puedes enviarlo de todos modos'**
+  String get avisoSinRegistro;
+
+  /// Sin texto del servidor ni copia local.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos preparar el aviso. Intenta de nuevo con conexión.'**
+  String get avisoSinDatos;
+
+  /// Plantilla local, encabezado (R-12).
+  ///
+  /// In es, this message translates to:
+  /// **'Hoy recibo a un técnico de Knock.'**
+  String get avisoLocalEncabezado;
+
+  /// Plantilla local, técnico verificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Se llama {nombre} y está verificado por Knock.'**
+  String avisoLocalVerificado(String nombre);
+
+  /// Plantilla local, técnico sin verificar.
+  ///
+  /// In es, this message translates to:
+  /// **'Se llama {nombre}; todavía no está verificado.'**
+  String avisoLocalSinVerificar(String nombre);
+
+  /// Plantilla local, día y hora.
+  ///
+  /// In es, this message translates to:
+  /// **'Viene el {dia} a las {hora}.'**
+  String avisoLocalCuando(String dia, String hora);
+
+  /// Plantilla local, recomendación.
+  ///
+  /// In es, this message translates to:
+  /// **'Le pediré el código en la puerta antes de abrir.'**
+  String get avisoLocalRecomendacion;
+
+  /// Entrada de Mi cuenta (CA-14).
+  ///
+  /// In es, this message translates to:
+  /// **'Contactos de confianza'**
+  String get cuentaContactosConfianza;
+
+  /// Cerrar la hoja del aviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrar'**
+  String get avisoCerrar;
 }
 
 class _AppLocalizationsDelegate

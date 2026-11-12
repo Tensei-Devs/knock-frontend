@@ -46,6 +46,9 @@ dependencies:
   # KNOCK-83 (spec 016, D-06): «Cómo llegar», llamar y WhatsApp desde la visita
   # con apps del sistema; sin permisos. Evaluada en Memoria.md.
   url_launcher: 6.3.3
+  # KNOCK-84 (spec 022): «Compartir sin guardar» con la hoja del sistema. Sin
+  # permisos. Evaluada en Memoria.md.
+  share_plus: 13.3.1
 
 dev_dependencies:
   flutter_test:

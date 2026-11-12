@@ -332,3 +332,23 @@
   - Abrir un enlace que no salga de `Enlaces`.
   - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
 
+## 2026-11-12 — Avisar a alguien de confianza (KNOCK-84, spec 022)
+- **Decisión:** «Avisar a alguien de confianza» (en la visita, `puedeAvisar`) abre una hoja que hace esto:
+  - Pide el texto **una vez** con `POST /visitas/{id}/aviso`, con cuerpo vacío y sin `Idempotency-Key`.
+  - Muestra la vista previa y la lista de contactos.
+  - Ofrece «Enviar por SMS» (`sms:` con `body`), «Enviar por WhatsApp» (`https://wa.me/52…?text=`, o la hoja de compartir si no hay WhatsApp) y «Compartir sin guardar» (`share_plus`).
+  - La app no envía nada por sí sola.
+- **Respaldo y casos especiales:**
+  - Un texto que dice traer código o dirección se descarta.
+  - Sin conexión o con error, el texto se arma con `DatosAvisoLocal`: solo nombre, verificación, día y hora, copiados de la visita guardada en `knock.aviso.respaldo.{id}`, que vence 24 h después del día de la cita.
+  - Con 409 `visit_not_notifiable` no se ofrece ningún canal.
+- **Contactos:**
+  - Máximo 10, nombre de 2 a 40 caracteres y celular de 10 dígitos, sin repetir.
+  - Viven solo en el almacén seguro (`knock.contactos.confianza`) y se administran también desde Mi cuenta (`/cuenta/contactos`, D-01).
+  - El cierre de sesión borra contactos y respaldos (`borrarDatosDeVisita`, solo lo que existe).
+- **Manifiesto:**
+  - Agrega la consulta SENDTO `sms` y `dataExtractionRules`, que excluye todo de la copia en la nube y de la transferencia entre teléfonos (Android 12+).
+  - Sin `READ_CONTACTS`, `SEND_SMS` ni `CALL_PHONE`.
+- **`share_plus` 13.3.1** (Flutter Community, BSD-3-Clause; sin avisos en OSV el 2026-11-12; no pide permisos). Puede necesitar EXC-002 para el SCA.
+- **A evitar:** pasarle a la plantilla local el código o la dirección, enviar el canal o el contacto al servidor, o pedir permisos de contactos o SMS.
+
