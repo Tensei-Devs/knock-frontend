@@ -6,7 +6,7 @@
 ## 1. Enfoque
 1. Vendorizar el contrato de backend 020, 021 y 032 en `contracts/openapi.v1.json` y regenerar el cliente Dart (spec 006); mientras no exista, trabajar `domain/` y `presentation/` contra la interfaz `SolicitudRepository` con un doble de pruebas.
 2. Escribir el dominio en Dart puro: entidades, validación de los tres pasos y mapeo de `code` a `Failure`.
-3. Escribir la capa `data`: mapeador del contrato, repositorio sobre el cliente generado con `Idempotency-Key`, preparación y subida de fotos (backend 032) y borrador en `core/preferencias/`.
+3. Escribir la capa `data`: mapeador del contrato, repositorio sobre el cliente generado, preparación y subida de fotos (backend 032) y borrador en `core/preferencias/`.
 4. Construir las pantallas del formulario, el detalle, la comparación y la hoja de confirmación con sus estados (cargando, con datos, vacío, error y sin conexión).
 5. Cerrar con seguridad negativa, accesibilidad, textos ARB, prueba del manifiesto y recorrido real contra el entorno desplegado con datos de semilla (KNOCK-246).
 
@@ -72,7 +72,7 @@ Además: prueba de contrato del cliente generado (spec 006), prueba global de re
 
 ## 7. Decisiones de la spec que este plan sigue
 - D-01 función en `features/actividad/`
-- D-02 y D-15 `Idempotency-Key` y mensajes por `code`
+- D-02 sin `Idempotency-Key` y D-15 mensajes por `code`
 - D-04 y D-16 nada de solicitudes, cotizaciones ni de la cita en caché o disco
 - D-10 dependencias evaluadas antes de agregarlas
 - D-11 `shared_preferences` solo en `core/preferencias/`

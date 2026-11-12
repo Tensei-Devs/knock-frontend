@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-066.md` · spec 003 «Arquitectura del panel web» · `docs/arquitectura-panel.md`
 > **Skills:** `angular-panel`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye las rutas del panel; las fija backend 033 y se vendorizan antes de implementar (spec 006). El cliente TypeScript se genera, no se escribe a mano.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -18,10 +18,10 @@ Que una persona del equipo de Knock entre al panel web interno con su celular, e
 - **CA-01:** Dada una persona con rol de administrador y TOTP configurado, cuando captura su celular, el código SMS y el código TOTP, entonces accede al panel y ve solo el menú de los permisos que tiene. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_01`
 - **CA-02:** Dado el paso del segundo factor, cuando no se captura el código TOTP o es incorrecto, entonces no se accede, se muestra un mensaje sin revelar cuál dato falló y no se avanza. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_02`
 - **CA-03:** Dada una cuenta sin rol de administrador, cuando intenta entrar, entonces recibe 403, ve «Esta cuenta no tiene acceso al panel» y no queda sesión. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_03`
-- **CA-04:** Dada una persona sin un permiso, cuando navega a una ruta que lo exige o dispara esa acción, entonces la guarda redirige a «Sin permiso»; si el servidor responde 403 `permiso_insuficiente`, se muestra el mismo aviso **sin** cerrar la sesión; el elemento de menú ni siquiera aparece. · Verificación: `panel/src/app/core/auth/permisos.guard.spec.ts` → `CA_023_04`
-- **CA-05:** Dado un cambio de permisos o una sesión revocada mientras usa el panel, cuando el servidor responde 401 con `permisos_cambiaron` o `sesion_invalida`, entonces se limpia la memoria, se vuelve a la pantalla de acceso y se lee «Tus permisos cambiaron. Entra de nuevo.» o «Tu sesión terminó. Entra de nuevo.». · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_05`
+- **CA-04:** Dada una persona sin un permiso, cuando navega a una ruta que lo exige o dispara esa acción, entonces la guarda redirige a «Sin permiso»; si el servidor responde 403 `insufficient_permission`, se muestra el mismo aviso **sin** cerrar la sesión; el elemento de menú ni siquiera aparece. · Verificación: `panel/src/app/core/auth/permisos.guard.spec.ts` → `CA_023_04`
+- **CA-05:** Dado un cambio de permisos o una sesión revocada mientras usa el panel, cuando el servidor responde 401 con `permissions_changed` o `invalid_session`, entonces se limpia la memoria, se vuelve a la pantalla de acceso y se lee «Tus permisos cambiaron. Entra de nuevo.» o «Tu sesión terminó. Entra de nuevo.». · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_05`
 - **CA-06:** Dada una persona inactiva durante 15 minutos, cuando pasa el tiempo, entonces el panel cierra la sesión, avisa «Cerramos tu sesión por inactividad» y pide entrar de nuevo. · Verificación: `panel/src/app/core/auth/inactividad.service.spec.ts` → `CA_023_06`
-- **CA-07:** Dados varios intentos fallidos (el servidor bloquea con 5 fallos por cuenta o 10 por IP en 15 minutos), cuando llega la respuesta 429 `limite_excedido` con `Retry-After`, entonces se muestra el tiempo de espera, se deshabilita el botón y no se reintenta solo. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_07`
+- **CA-07:** Dados varios intentos fallidos (el servidor bloquea con 5 fallos por cuenta o 10 por IP en 15 minutos), cuando llega la respuesta 429 `limit_exceeded` con `Retry-After`, entonces se muestra el tiempo de espera, se deshabilita el botón y no se reintenta solo. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_07`
 - **CA-08:** Dada una sesión iniciada, cuando se inspeccionan `localStorage`, `sessionStorage`, IndexedDB y las cookies accesibles, entonces no hay tokens, permisos ni datos de personas; los tokens viven solo en memoria. · Verificación: `panel/src/app/core/auth/almacen-sesion.spec.ts` → `CA_023_08`
 - **CA-09:** Dado el cierre de sesión, cuando se toca «Salir», entonces el panel llama al servidor, vacía la memoria y no se puede volver con el botón de atrás. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_09`
 - **CA-10:** Dado un componente que importa `HttpClient`, cuando corre el lint, entonces falla; solo los servicios hacen peticiones (spec 003, R-04). · Verificación: (comando) `cd panel && npm run lint` y `npm run test:architecture`
@@ -31,9 +31,9 @@ Que una persona del equipo de Knock entre al panel web interno con su celular, e
 - **CA-14:** Dada una cuenta de la app móvil (cliente o técnico) sin permisos de panel, cuando intenta entrar, entonces no obtiene permisos por sí sola (HU-066 §8) y recibe el mismo 403 de CA-03. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_14`
 - **CA-15:** Dada la pantalla de acceso, cuando se carga, entonces no usa `innerHTML` ni `bypassSecurityTrust*`, y el texto del error viene del catálogo, nunca del cuerpo de la respuesta. · Verificación: (comando) `cd panel && npm run lint`
 - **CA-16:** Dado el registro del navegador, cuando se entra o se falla, entonces `console` no contiene celular, códigos, tokens ni permisos. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_16`
-- **CA-17:** Dadas la renovación y el cierre, cuando el panel los llama, entonces van con `withCredentials`, el encabezado `X-Knock-Panel: 1` y sin cuerpo; un 403 `origen_no_permitido` limpia la memoria y vuelve al acceso. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_17`
-- **CA-18:** Dado un desafío de TOTP vencido (5 minutos) o agotado (5 códigos), cuando la persona captura el código, entonces recibe el mismo 401 `credenciales_invalidas`, ve «No pudimos verificar tus datos. Vuelve a empezar.» y el panel regresa al paso del celular. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_18`
-- **CA-19:** Dado un 503 `no_disponible` o `auditoria_no_disponible`, cuando se intenta entrar o actuar, entonces no se concede nada, se lee «El panel no está disponible en este momento. Intenta en unos minutos.» y «Reintentar» respeta `Retry-After`. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_19`
+- **CA-17:** Dadas la renovación y el cierre, cuando el panel los llama, entonces van con `withCredentials`, el encabezado `X-Knock-Panel: 1` y sin cuerpo; un 403 `origin_not_allowed` limpia la memoria y vuelve al acceso. · Verificación: `panel/src/app/core/auth/sesion-panel.service.spec.ts` → `CA_023_17`
+- **CA-18:** Dado un desafío de TOTP vencido (5 minutos) o agotado (5 códigos), cuando la persona captura el código, entonces recibe el mismo 401 `invalid_credentials`, ve «No pudimos verificar tus datos. Vuelve a empezar.» y el panel regresa al paso del celular. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_18`
+- **CA-19:** Dado un 503 `unavailable` o `audit_unavailable`, cuando se intenta entrar o actuar, entonces no se concede nada, se lee «El panel no está disponible en este momento. Intenta en unos minutos.» y «Reintentar» respeta `Retry-After`. · Verificación: `panel/src/app/features/acceso/pages/acceso-page.spec.ts` → `CA_023_19`
 
 ## 3. Alcance / No-alcance
 
@@ -60,10 +60,10 @@ Que una persona del equipo de Knock entre al panel web interno con su celular, e
 - **R-03:** Los tokens y los permisos viven solo en memoria del navegador (no en `localStorage`, `sessionStorage`, IndexedDB ni cookies accesibles por script).
 - **R-04:** Cada ruta de negocio declara el permiso que exige en sus datos de ruta; la guarda lo verifica y el servidor vuelve a verificarlo en cada acción.
 - **R-05:** El menú solo muestra lo que la persona puede usar.
-- **R-06:** Un 401 con `permisos_cambiaron` o `sesion_invalida` revoca la sesión local y vuelve al acceso; un 403 `permiso_insuficiente` solo muestra «Sin permiso» y conserva la sesión.
-- **R-07:** La sesión se cierra tras 15 minutos de inactividad y se avisa; además, el servidor la termina a las 8 horas del acceso y la renovación responde 401 `sesion_invalida`.
+- **R-06:** Un 401 con `permissions_changed` o `invalid_session` revoca la sesión local y vuelve al acceso; un 403 `insufficient_permission` solo muestra «Sin permiso» y conserva la sesión.
+- **R-07:** La sesión se cierra tras 15 minutos de inactividad y se avisa; además, el servidor la termina a las 8 horas del acceso y la renovación responde 401 `invalid_session`.
 - **R-08:** Los errores no revelan si fue el celular, el SMS o el TOTP lo que falló.
-- **R-09:** Ante un 429 `limite_excedido` el panel respeta `Retry-After` y no reintenta solo (el servidor cuenta 5 fallos por cuenta y 10 por IP en 15 minutos).
+- **R-09:** Ante un 429 `limit_exceeded` el panel respeta `Retry-After` y no reintenta solo (el servidor cuenta 5 fallos por cuenta y 10 por IP en 15 minutos).
 - **R-10:** Los componentes no usan `HttpClient` (spec 003, R-04); los servicios usan el cliente TypeScript generado (spec 006).
 - **R-11:** El panel no usa `innerHTML` ni `bypassSecurityTrust*` sin revisión (spec 003, R-07).
 - **R-12:** Cada pantalla tiene estados de carga, error, sin conexión y espera; los textos viven en el catálogo de traducciones del panel y los colores en el tema de Angular Material.
@@ -77,16 +77,16 @@ El panel **consume** las cuatro rutas de sesión de backend 033 («Panel interno
 
 | Método y ruta | Uso en el panel | Cuerpo / parámetros | Respuesta | Errores que el panel distingue |
 |---|---|---|---|---|
-| `POST /api/v1/panel/sesion/celular` | Paso 1: verificar el celular con el ID token de Firebase | `{ idToken }` (1 a 4 096 caracteres) | `200` con `{ desafioId, requiereTotp: true, venceEn }` | `400`, `401 credenciales_invalidas`, `403 sin_acceso_panel`, `429 limite_excedido` con `Retry-After`, `503 no_disponible` |
-| `POST /api/v1/panel/sesion/totp` | Paso 3: segundo factor | `{ desafioId, codigo }` (`codigo` de exactamente 6 dígitos) | `200` con `{ accessToken, expiraEn, permisos[], nombre }` y la cookie de renovación | `400`, `401 credenciales_invalidas`, `403 sin_acceso_panel`, `429 limite_excedido`, `503` (`no_disponible`, `auditoria_no_disponible`) |
-| `POST /api/v1/panel/sesion/renovar` | Renovar sin pedir todo de nuevo | sin cuerpo · cookie `HttpOnly` · `X-Knock-Panel: 1` · `withCredentials` | `200` como `totp` y cookie nueva | `401` (`sesion_invalida`, `permisos_cambiaron`), `403 origen_no_permitido`, `429`, `503` |
-| `POST /api/v1/panel/sesion/cerrar` | Salir | sin cuerpo · token del panel · `X-Knock-Panel: 1` | `204` (borra la cookie) | `401`, `403 origen_no_permitido` |
-| Cualquier ruta futura del panel | Acciones de negocio | según su spec | según su spec | además: `401 permisos_cambiaron`, `403 permiso_insuficiente`, `503 auditoria_no_disponible` |
+| `POST /api/v1/panel/sesion/celular` | Paso 1: verificar el celular con el ID token de Firebase | `{ idToken }` (1 a 4 096 caracteres) | `200` con `{ desafioId, requiereTotp: true, venceEn }` | `400`, `401 invalid_credentials`, `403 no_panel_access`, `429 limit_exceeded` con `Retry-After`, `503 unavailable` |
+| `POST /api/v1/panel/sesion/totp` | Paso 3: segundo factor | `{ desafioId, codigo }` (`codigo` de exactamente 6 dígitos) | `200` con `{ accessToken, expiraEn, permisos[], nombre }` y la cookie de renovación | `400`, `401 invalid_credentials`, `403 no_panel_access`, `429 limit_exceeded`, `503` (`unavailable`, `audit_unavailable`) |
+| `POST /api/v1/panel/sesion/renovar` | Renovar sin pedir todo de nuevo | sin cuerpo · cookie `HttpOnly` · `X-Knock-Panel: 1` · `withCredentials` | `200` como `totp` y cookie nueva | `401` (`invalid_session`, `permissions_changed`), `403 origin_not_allowed`, `429`, `503` |
+| `POST /api/v1/panel/sesion/cerrar` | Salir | sin cuerpo · token del panel · `X-Knock-Panel: 1` | `204` (borra la cookie) | `401`, `403 origin_not_allowed` |
+| Cualquier ruta futura del panel | Acciones de negocio | según su spec | según su spec | además: `401 permissions_changed`, `403 insufficient_permission`, `503 audit_unavailable` |
 
 Reglas del contrato que el panel da por ciertas:
 - **Sesión:** token de acceso de 15 minutos con destinatario propio del panel (no sirve en la API de la app); cookie de renovación de 20 minutos que el panel nunca lee; sesión máxima de 8 horas; 3 sesiones por cuenta.
-- **Permisos:** `permisos[]` con los cinco valores de R-02, sin repetidos; un cambio en el servidor invalida la sesión con `401 permisos_cambiaron`.
-- **Errores:** `credenciales_invalidas` no distingue celular, SMS ni TOTP; ProblemDetails con `code`; el panel nunca muestra el cuerpo.
+- **Permisos:** `permisos[]` con los cinco valores de R-02, sin repetidos; un cambio en el servidor invalida la sesión con `401 permissions_changed`.
+- **Errores:** `invalid_credentials` no distingue celular, SMS ni TOTP; ProblemDetails con `code`; el panel nunca muestra el cuerpo.
 - **Límites:** desafío de 5 minutos y 5 códigos; 5 fallos por cuenta y 10 por IP en 15 minutos; 10 peticiones por minuto por IP en las rutas de sesión; `Retry-After` en 429 y 503.
 - **Idempotencia:** el paso de TOTP no se repite (desafío de un solo uso), la renovación rota el token y el cierre repetido responde 401; el panel no reintenta solo después de un 2xx.
 - **Caché:** `Cache-Control: no-store` en todo.
@@ -113,7 +113,7 @@ Reglas del contrato que el panel da por ciertas:
 | **Suplantación:** robo del token por XSS | Tokens solo en memoria, sin `innerHTML`, CSP sin `unsafe-inline` para scripts | CA-08, CA-11, CA-15 |
 | **Elevación de privilegios:** una cuenta de la app obtiene permisos del panel | El servidor autoriza por permiso; el panel muestra 403 | CA-03, CA-14 |
 | **Elevación de privilegios:** usar una acción sin permiso | Guarda, menú por permisos y verificación del servidor en cada acción | CA-04 |
-| **Elevación de privilegios:** permisos revocados pero sesión viva | 401 `permisos_cambiaron` revoca la sesión | CA-05 |
+| **Elevación de privilegios:** permisos revocados pero sesión viva | 401 `permissions_changed` revoca la sesión | CA-05 |
 | **Fuga de información:** mensajes de error que revelan qué falló | Un solo mensaje para credenciales inválidas | CA-02 |
 | **Fuga de información:** datos de sesión en el navegador o consola | Memoria únicamente y sin registros | CA-08, CA-16 |
 | **Denegación:** fuerza bruta de TOTP o SMS | Límite de 5 intentos, espera obedecida y botón deshabilitado | CA-07 |
@@ -135,14 +135,14 @@ Reglas del contrato que el panel da por ciertas:
 
 | Situación | Texto en pantalla |
 |---|---|
-| `credenciales_invalidas` (401) | «No pudimos verificar tus datos. Vuelve a empezar.» |
-| `sin_acceso_panel` (403) | «Esta cuenta no tiene acceso al panel» |
-| `permiso_insuficiente` (403) | «No tienes permiso para esta sección» |
-| `permisos_cambiaron` (401) | «Tus permisos cambiaron. Entra de nuevo.» |
-| `sesion_invalida` (401) u `origen_no_permitido` (403) | «Tu sesión terminó. Entra de nuevo.» |
+| `invalid_credentials` (401) | «No pudimos verificar tus datos. Vuelve a empezar.» |
+| `no_panel_access` (403) | «Esta cuenta no tiene acceso al panel» |
+| `insufficient_permission` (403) | «No tienes permiso para esta sección» |
+| `permissions_changed` (401) | «Tus permisos cambiaron. Entra de nuevo.» |
+| `invalid_session` (401) u `origin_not_allowed` (403) | «Tu sesión terminó. Entra de nuevo.» |
 | Inactividad | «Cerramos tu sesión por inactividad» |
-| `limite_excedido` (429) | «Demasiados intentos. Espera {minutos} minutos.» |
-| `no_disponible` o `auditoria_no_disponible` (503) | «El panel no está disponible en este momento. Intenta en unos minutos.» |
+| `limit_exceeded` (429) | «Demasiados intentos. Espera {minutos} minutos.» |
+| `unavailable` o `audit_unavailable` (503) | «El panel no está disponible en este momento. Intenta en unos minutos.» |
 | Sin conexión | «No pudimos conectar» + «Reintentar» |
 
 Reglas de pantalla:
@@ -237,7 +237,7 @@ Se respeta la spec 003: `core`, `shared` y `features`, carga diferida por funci�
 | D-05 | Verificar el celular con Firebase y enviar el ID token | Reutiliza el mecanismo de la app y evita otro proveedor de SMS | Un SMS propio |
 | D-06 | Lista cerrada de cinco permisos | La ficha los enumera | Permisos libres por cadena |
 | D-07 | Las rutas del panel son las de backend 033 | Backend 033 ya las fija con los mismos nombres que propuso esta spec | Esperar para escribir |
-| D-08 | `403 permiso_insuficiente` no cierra la sesión | Backend 033 distingue «sin permiso para esta acción» de «permisos cambiaron» (401) | Cerrar la sesión ante cualquier 403 |
+| D-08 | `403 insufficient_permission` no cierra la sesión | Backend 033 distingue «sin permiso para esta acción» de «permisos cambiaron» (401) | Cerrar la sesión ante cualquier 403 |
 
 ## 13. Riesgos y dudas abiertas
 
@@ -245,12 +245,12 @@ Se respeta la spec 003: `core`, `shared` y `features`, carga diferida por funci�
 - **Resuelto en la revisión:** backend 033 usa la cookie `__Secure-knock-panel-rt` con `SameSite=None` y `Partitioned`, CORS con credenciales solo para el origen del panel y `X-Knock-Panel: 1` contra CSRF; el panel solo debe llamar con `withCredentials` (CA-17).
 - **Riesgo:** Firebase Phone Auth en web requiere reCAPTCHA y tiene cuotas y costo (KNOCK-146); puede chocar con el presupuesto.
 - **Riesgo:** la spec 003 dice que el acceso del personal «autenticado» queda fuera; esta spec lo completa y debe actualizar `docs/arquitectura-panel.md`.
-- **Duda abierta (para José):** ¿el panel usará Firebase o un SMS propio? Esta spec asume Firebase.
+- **Duda abierta (para José):** ¿el panel usará Firebase o un SMS propio? **Propuesta por defecto:** Firebase Phone Auth, el mismo proveedor de la app; un SMS propio exigiría cambiar backend 033 antes.
 - **Resuelto en la revisión:** los permisos vienen en la respuesta (`permisos[]`, en el orden de la lista cerrada).
-- **Duda abierta (para el equipo):** ¿hay una cuenta de semilla con TOTP para el ambiente de pruebas? Hace falta para el E2E.
+- **Duda abierta (para el equipo):** ¿hay una cuenta de semilla con TOTP para el ambiente de pruebas? Hace falta para el E2E. **Propuesta por defecto:** sembrar una cuenta de prueba con TOTP fijo solo en desarrollo y en el CI, nunca en producción.
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

@@ -1,6 +1,6 @@
 # Tareas 022 — Avisar a alguien de confianza
 
-> **Estado:** pendientes. En esta etapa **no se ejecutan**: se activan cuando la spec esté Aprobada y una persona lo indique.
+> **Estado:** pendientes; las specs 015 y 016 están aprobadas y las demás en borrador. Las tareas de cada spec se activan cuando esa spec esté Aprobada.
 > **Responsable sugerido por omisión:** Erick Trejo Reséndiz. «Paralelo» indica con qué tareas puede avanzar a la vez; «Bloquea» qué tareas esperan a esta.
 
 | Tarea | Qué se hace | Cubre | Depende de | Bloquea | Paralelo con | Responsable sugerido | Estado |
@@ -12,7 +12,7 @@
 | T-05 | Hoja del aviso: contactos, vista previa (sin código ni dirección), canales y «Compartir sin guardar» | R-04, R-05 · CA-01, CA-12 | T-02 | T-07 | T-06 | Erick Trejo Reséndiz | pendiente |
 | T-06 | Pantalla de contactos en Mi cuenta, formulario y ruta `/cuenta/contactos-de-confianza` | R-01, R-02 · CA-14 | T-03 | T-07 | T-05 | Erick Trejo Reséndiz | pendiente |
 | T-07 | Manifiesto (`queries` y sin permisos), accesibilidad y seguridad negativa | R-03, R-10, R-11 · CA-11, CA-17, CA-18 | T-04, T-05, T-06 | T-08 | — | Erick Trejo Reséndiz | pendiente |
-| T-08 | Integración con API simulada, recorrido en emulador con contactos ficticios, ARB, `Memoria.md` y PR | §11 | T-07 | — | — | Erick Trejo Reséndiz | pendiente |
+| T-08 | Integración con API simulada, recorrido en emulador con contactos ficticios, ARB es/en y colores y tipografías del tema, `Memoria.md` y PR | R-09 · §11 | T-07 | — | — | Erick Trejo Reséndiz | pendiente |
 
 ## Dependencias con backend y con otras specs
 - **Backend 022** fija el aviso; si no está, la hoja usa el texto local (CA-16) y el registro queda pendiente.

@@ -72,7 +72,7 @@ La app **consume** `GET /api/v1/busqueda` de backend 027 («Buscar un experto po
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/busqueda` | Buscar expertos | `q` (2–80 después de normalizar), `coloniaId` (de la zona guardada), `oficio?` (clave), `soloVerificados?` (`true`\|`false`), `cursor?`, `limit?` (1–20; la app pide 20) | `200` con `{ interpretacion{estado, oficioDetectado?, oficiosSugeridos?}, items[{ id, nombre, oficios[{clave, nombre}], calificacion, totalResenas, verificado, nivelVerificacion, coloniaBase, distanciaKm, atiendeTuColonia, fotoUrl }], nextCursor }` | `400` (`invalid_cursor`), `401`, `422` (`errors.q`, `colonia_not_found`, `trade_invalid`), `429` con `Retry-After`, `503 search_unavailable` |
+| `GET /api/v1/busqueda` | Buscar expertos | `q` (2–80 después de normalizar), `coloniaId` (de la zona guardada), `oficio?` (clave), `soloVerificados?` (`true`\|`false`), `cursor?`, `limit?` (1–20; la app pide 20) | `200` con `{ interpretacion{estado, oficioDetectado?, oficiosSugeridos?}, items[{ id, nombre, oficios[{clave, nombre}], calificacion, totalResenas, verificado, nivelVerificacion, coloniaBase, distanciaKm, atiendeTuColonia, fotoUrl }], nextCursor }` | `400` (`errors.q`, `invalid_cursor`), `401`, `422` (`colonia_not_found`, `trade_invalid`), `429` con `Retry-After`, `503 search_unavailable` |
 | `GET /api/v1/oficios` | Chips de oficio y selector «No entendimos» | — | Catálogo cacheado (spec 010) | Ver spec 002 |
 
 Reglas del contrato que la app da por ciertas:
@@ -227,6 +227,7 @@ La función vive en `features/inicio/` (D-01). **No se toca:** `app/packages/kno
 - **Duda abierta (para el equipo):** la ficha pone a Alexis como responsable por backend; esta spec asigna la capa Mobile a Erick.
 
 ## Aprobación
+
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

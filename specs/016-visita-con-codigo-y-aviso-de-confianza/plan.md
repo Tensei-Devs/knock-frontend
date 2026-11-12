@@ -6,7 +6,7 @@
 ## 1. Enfoque
 1. Vendorizar las rutas de backend 022 y regenerar el cliente Dart (spec 006).
 2. Dominio de la visita y de la llegada: entidades, estados en minúsculas del contrato, `motivoCodigo`, `puedeAvisar`, `puedeLlegar` y `ErrorLlegada`.
-3. Datos: mapeador por rol que rechaza un `codigo` en la vista del técnico, repositorio de la visita, repositorio de la llegada con `Idempotency-Key` y copia local en el almacén seguro con `borrarDatosDeVisita()`.
+3. Datos: mapeador por rol que rechaza un `codigo` en la vista del técnico, repositorio de la visita, repositorio de la llegada y copia local en el almacén seguro con `borrarDatosDeVisita()`.
 4. Pantallas: visita a domicilio (código en cuatro recuadros, ocultar, regla), cita en taller («Cómo llegar») y llegada del técnico con intentos y bloqueo; botón de entrada a la hoja de la spec 022.
 5. Cierre: accesibilidad, seguridad negativa (código fuera de registros, notificaciones y `shared_preferences`), captura en recientes desactivada en Android 13+ y recorrido real.
 
@@ -73,7 +73,7 @@ Además: prueba de contrato del cliente generado (spec 006), prueba global de re
 - D-08 mensajes por `code`
 - D-09 «Ya llegué» con `puedeLlegar`
 - D-10 intentos del servidor
-- D-11 `Idempotency-Key` en la llegada
+- D-11 sin `Idempotency-Key` en la llegada
 
 ## 8. Verificación (comandos exactos)
 ```bash

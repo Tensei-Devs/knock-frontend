@@ -69,7 +69,7 @@ Además: prueba de contrato del cliente generado (spec 006), prueba global de re
 - D-05 celular con Firebase
 - D-06 cinco permisos
 - D-07 rutas de backend 033
-- D-08 `403 permiso_insuficiente` no cierra la sesión
+- D-08 `403 insufficient_permission` no cierra la sesión
 
 ## 8. Verificación (comandos exactos)
 ```bash

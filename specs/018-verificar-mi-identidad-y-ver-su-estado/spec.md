@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/referencia/FUNCIONES_Y_FLUJOS.md` §4.2 y §7.3 · `docs/referencia/DECISIONES.md` #4 · `docs/backlog/HU-021.md` y `HU-022.md`
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye estas rutas; las fija backend 025 y se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -20,26 +20,26 @@ Que un técnico pueda dar su consentimiento biométrico, tomar las fotos de su I
 - **CA-02:** Dado el técnico que acepta el consentimiento, cuando continúa, entonces la app envía solo `aceptaBiometria: true` y `versionAviso`; el texto, la fecha y el dispositivo los guarda el servidor desde la sesión, y la app no los guarda por su cuenta. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_02`
 - **CA-03:** Dada una foto borrosa, oscura, con reflejo o con el INE en vertical, cuando la toma, entonces se rechaza en el teléfono con un mensaje claro y puede repetirla; la captura solo se pide a la cámara y nunca a la galería. · Verificación: `app/test/features/trabajo/domain/revision_foto_test.dart` → `CA_018_03`
 - **CA-04:** Dado el nivel básico (INE frente y selfie) o el completo (también el reverso), cuando termina, entonces la app sube cada foto a su enlace firmado, confirma cada una con `POST .../fotos/{tipo}/confirmar`, llama a `POST .../enviar`, el estado pasa a **En revisión** y ve «Revisamos en menos de 24 h»; el cifrado con la llave propia de la verificación lo hace el servidor al confirmar. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_04`
-- **CA-05:** Dado el técnico con una verificación **En revisión**, cuando intenta crear otra, entonces recibe 409 `verificacion_en_revision`, ve «Ya tienes una verificación en revisión» y no se crea otra. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_05`
-- **CA-06:** Dado un enlace de subida vencido (el almacenamiento rechaza la subida) o un 409 `captura_vencida`, cuando ocurre, entonces la app descarta la captura en memoria, muestra «Tu captura venció. Vuelve a tomar las fotos.» y una nueva creación hace que el servidor cancele la anterior, sin dejar dos capturas vivas. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_06`
-- **CA-07:** Dada una CURP que coincide con la de otra cuenta, cuando el servidor responde 409 `curp_duplicada`, entonces la app muestra «No pudimos continuar con esta CURP. Escríbenos a soporte para revisarlo.», sin revelar la otra cuenta. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_07`
+- **CA-05:** Dado el técnico con una verificación **En revisión**, cuando intenta crear otra, entonces recibe 409 `verification_under_review`, ve «Ya tienes una verificación en revisión» y no se crea otra. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_05`
+- **CA-06:** Dado un enlace de subida vencido (el almacenamiento rechaza la subida) o un 409 `capture_expired`, cuando ocurre, entonces la app descarta la captura en memoria, muestra «Tu captura venció. Vuelve a tomar las fotos.» y una nueva creación hace que el servidor cancele la anterior, sin dejar dos capturas vivas. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_06`
+- **CA-07:** Dada una CURP que coincide con la de otra cuenta, cuando el servidor responde 409 `curp_duplicate`, entonces la app muestra «No pudimos continuar con esta CURP. Escríbenos a soporte para revisarlo.», sin revelar la otra cuenta. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_07`
 - **CA-08:** Dado el técnico **En revisión**, cuando abre Verificación, entonces ve «Revisamos en menos de 24 h» y la fecha del envío. · Verificación: `app/test/features/trabajo/presentation/estado_verificacion_screen_test.dart` → `CA_018_08`
 - **CA-09:** Dado el técnico rechazado, cuando abre Verificación, entonces ve el motivo, los consejos y el botón «Intentar de nuevo». · Verificación: `app/test/features/trabajo/presentation/estado_verificacion_screen_test.dart` → `CA_018_09`
-- **CA-10:** Dado el técnico verificado con `nivelOtorgado = basica`, cuando abre Verificación, entonces ve la insignia y la opción «Subir a completa» con el reverso; con `completa` la opción no aparece y un 409 `ya_verificado_completo` se muestra como «Ya tienes la verificación completa»; un 409 `ya_verificado` (pedir `basica` cuando ya tiene `basica`) se muestra como «Ya tienes esta verificación». · Verificación: `app/test/features/trabajo/presentation/estado_verificacion_screen_test.dart` → `CA_018_10`
+- **CA-10:** Dado el técnico verificado con `nivelOtorgado = basica`, cuando abre Verificación, entonces ve la insignia y la opción «Subir a completa» con el reverso; con `completa` la opción no aparece y un 409 `already_fully_verified` se muestra como «Ya tienes la verificación completa»; un 409 `already_verified` (pedir `basica` cuando ya tiene `basica`) se muestra como «Ya tienes esta verificación». · Verificación: `app/test/features/trabajo/presentation/estado_verificacion_screen_test.dart` → `CA_018_10`
 - **CA-11:** Dados 7 días sin revisión, cuando abre Verificación, entonces el servidor devuelve `sin_verificar` con `motivo = fotos_borradas` y `puedeReintentar`, y la app muestra «Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.» con el estado **Sin verificar** y no «No verificado». · Verificación: `app/test/features/trabajo/domain/verificacion_test.dart` → `CA_018_11`
 - **CA-12:** Dado un cambio de estado, cuando llega el aviso push, entonces abre la pantalla de verificación y la carga del aviso no lleva el motivo, las fotos ni datos del INE. · Verificación: `app/test/features/trabajo/data/carga_verificacion_test.dart` → `CA_018_12`
 - **CA-13:** Dada la vista pública del técnico, cuando un cliente la consulta, entonces solo ve «Verificado» o «Sin verificar», nunca el motivo, los consejos ni las fotos. · Verificación: `app/test/features/trabajo/domain/verificacion_publica_test.dart` → `CA_018_13`
 - **CA-14:** Dadas las pantallas de consentimiento, captura y estado, cuando se recorren con lector de pantalla y texto al 200 %, entonces cada control tiene etiqueta, mide al menos 48 dp y no se corta el contenido. · Verificación: `app/test/features/trabajo/presentation/accesibilidad_verificacion_test.dart` → `CA_018_14`
 - **CA-15:** Dado un 429 con `Retry-After`, un 5xx o una caída de red, cuando se envía o se consulta la verificación, entonces se muestra el estado de error o el tiempo de espera, hay «Reintentar» cuando aplica y no se reintenta en bucle. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_15`
 - **CA-16:** Dadas las fotos capturadas, cuando se procesan y se suben, entonces no se guardan en la galería, la copia temporal se borra al terminar y no se registra ni se cachea ninguna imagen ni dato del INE. · Verificación: `app/test/features/trabajo/data/foto_local_repository_test.dart` → `CA_018_16`
-- **CA-17:** Dado el consentimiento sin aceptar, cuando el repositorio recibe la orden de crear la verificación, entonces lanza `AvisoNoAceptadoFailure` antes de llamar a la API, y un 422 `consentimiento_requerido` del servidor (por ejemplo, versión del aviso desactualizada) se muestra como «Necesitamos que aceptes el aviso vigente» con la opción de volver a aceptarlo. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_17`
+- **CA-17:** Dado el consentimiento sin aceptar, cuando el repositorio recibe la orden de crear la verificación, entonces lanza `AvisoNoAceptadoFailure` antes de llamar a la API, y un 422 `consent_required` del servidor (por ejemplo, versión del aviso desactualizada) se muestra como «Necesitamos que aceptes el aviso vigente» con la opción de volver a aceptarlo. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_17`
 - **CA-18:** Dada una foto con metadatos EXIF (fecha, modelo del teléfono o coordenadas), cuando se prepara para subir, entonces se re-codifica y la imagen enviada no conserva ningún metadato, comprobado con el paquete `image`. · Verificación: `app/test/features/trabajo/data/foto_local_repository_test.dart` → `CA_018_18`
 - **CA-19:** Dadas las fotos en memoria, cuando la persona abandona el flujo o se cierra la sesión, entonces la copia temporal se borra y una prueba comprueba que el directorio temporal y el estado del controlador quedan vacíos. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_19`
 - **CA-20:** Dado un fallo de red al crear la verificación, cuando la persona toca «Intentar de nuevo», entonces la app crea una nueva (el servidor cancela la captura anterior), no reintenta sola y, ante un 429 por el límite de 3 creaciones por hora, muestra el tiempo de espera. · Verificación: `app/test/features/trabajo/data/verificacion_repository_api_test.dart` → `CA_018_20`
-- **CA-21:** Dada una foto de más de 8 MB o de un tipo que no es JPEG ni PNG, cuando se va a subir, entonces se rechaza antes de decodificarla, con un mensaje del catálogo y sin consumir memoria del teléfono; si aun así el servidor responde 422 `contenido_no_valido` al confirmar, se pide repetir solo esa foto. · Verificación: `app/test/features/trabajo/data/foto_local_repository_test.dart` → `CA_018_21`
-- **CA-22:** Dado el campo de la CURP, cuando no tiene 18 caracteres con el patrón oficial (cuatro letras, seis dígitos, `H` o `M`, dos letras de entidad, tres consonantes, un carácter alfanumérico y un dígito), entonces muestra «Revisa tu CURP: son 18 caracteres» y no llama a la API; un 422 `curp_invalida` muestra el mismo texto. · Verificación: `app/test/features/trabajo/domain/curp_test.dart` → `CA_018_22`
+- **CA-21:** Dada una foto de más de 8 MB o de un tipo que no es JPEG ni PNG, cuando se va a subir, entonces se rechaza antes de decodificarla, con un mensaje del catálogo y sin consumir memoria del teléfono; si aun así el servidor responde 422 `content_invalid` al confirmar, se pide repetir solo esa foto. · Verificación: `app/test/features/trabajo/data/foto_local_repository_test.dart` → `CA_018_21`
+- **CA-22:** Dado el campo de la CURP, cuando no tiene 18 caracteres con el patrón oficial (cuatro letras, seis dígitos, `H` o `M`, dos letras de entidad, tres consonantes, un carácter alfanumérico y un dígito), entonces muestra «Revisa tu CURP: son 18 caracteres» y no llama a la API; un 422 `curp_invalid` muestra el mismo texto. · Verificación: `app/test/features/trabajo/domain/curp_test.dart` → `CA_018_22`
 - **CA-23:** Dada la CURP capturada, cuando se crea la verificación o se abandona el flujo, entonces la CURP solo vivió en memoria: no está en el estado persistido, en `shared_preferences`, en el almacén seguro, en un registro ni en un reporte de errores, y el campo se vacía al recibir la respuesta. · Verificación: `app/test/seguridad/curp_privada_test.dart` → `CA_018_23`
-- **CA-24:** Dado el paso de envío, cuando el servidor responde 409 `faltan_fotos`, `foto_no_subida` o `foto_ya_confirmada`, entonces la app vuelve a la foto que falta, vuelve a subir la que no llegó o trata la ya confirmada como lista, sin crear otra verificación. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_24`
+- **CA-24:** Dado el paso de envío, cuando el servidor responde 409 `photos_missing`, `photo_not_uploaded` o `photo_already_confirmed`, entonces la app vuelve a la foto que falta, vuelve a subir la que no llegó o trata la ya confirmada como lista, sin crear otra verificación. · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_24`
 - **CA-25:** Dada una cuenta con eliminación programada, cuando intenta verificarse, entonces el servidor responde 409 `deletion_scheduled` y la app muestra «Tu cuenta está por eliminarse; no puedes verificarla ahora.» · Verificación: `app/test/features/trabajo/presentation/verificacion_controller_test.dart` → `CA_018_25`
 
 ## 3. Alcance / No-alcance
@@ -76,7 +76,7 @@ Que un técnico pueda dar su consentimiento biométrico, tomar las fotos de su I
 - **R-06:** La copia temporal que entrega la cámara se lee en memoria y se borra al terminar la subida, al salir del flujo y al cerrar sesión.
 - **R-07:** El estado y el nivel los decide el servidor; la app solo los muestra y no inventa un estado local.
 - **R-08:** El motivo y los consejos de un rechazo se muestran solo al técnico; la vista pública solo dice «Verificado» o «Sin verificar».
-- **R-09:** Una captura vencida (enlace o `captura_vencida`) obliga a tomar de nuevo las fotos; la nueva creación cancela la anterior en el servidor y nunca quedan dos capturas vivas.
+- **R-09:** Una captura vencida (enlace o `capture_expired`) obliga a tomar de nuevo las fotos; la nueva creación cancela la anterior en el servidor y nunca quedan dos capturas vivas.
 - **R-10:** Si ya hay una verificación En revisión, la app no crea otra y muestra el estado.
 - **R-11:** A los 7 días sin revisión el servidor borra las fotos y deja el estado en Sin verificar; la app muestra el aviso y permite reenviar.
 - **R-12:** Todo error de la API se muestra con un texto del catálogo de traducciones; nunca con el código HTTP, la URL ni el cuerpo de la respuesta.
@@ -94,16 +94,16 @@ La app **consume**; el contrato lo fija backend 025 («Verificación de identida
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/me/verificacion` | Crear la verificación y recibir los enlaces de subida | `{ nivel (basica\|completa), aceptaBiometria: true, versionAviso, curp }` (cuerpo ≤ 8 KB) | `201` con `{ id, estado: "en_captura", nivel, fotos[{ tipo, urlSubida, venceEn }], capturaVenceEn }` | `401`, `409` (`verificacion_en_revision`, `curp_duplicada`, `ya_verificado`, `ya_verificado_completo`, `deletion_scheduled`), `413`, `422` (`consentimiento_requerido`, `curp_invalida`, `errors.nivel` si el `nivel` es inválido), `429` |
+| `POST /api/v1/me/verificacion` | Crear la verificación y recibir los enlaces de subida | `{ nivel (basica\|completa), aceptaBiometria: true, versionAviso, curp }` (cuerpo ≤ 8 KB) | `201` con `{ id, estado: "en_captura", nivel, fotos[{ tipo, urlSubida, venceEn }], capturaVenceEn }` | `401`, `409` (`verification_under_review`, `curp_duplicate`, `already_verified`, `already_fully_verified`, `deletion_scheduled`), `413`, `422` (`consent_required`, `curp_invalid`, `errors.nivel` si el `nivel` es inválido), `429` |
 | `PUT` a cada `urlSubida` | Subir la foto al almacenamiento | Binario JPEG o PNG ≤ 8 MB. Un `PUT` a un SAS de Azure Blob exige el encabezado `x-ms-blob-type: BlockBlob` (y conviene `Content-Type`); backend 025 R-08 solo devuelve `{ tipo, urlSubida, venceEn }`, sin encabezados: **dependencia abierta con backend 025** (§13); no se inventa el contrato aquí | Respuesta del almacenamiento | Enlace vencido o rechazado (CA-06); sin ese encabezado Azure responde 400 |
-| `POST /api/v1/me/verificacion/{id}/fotos/{tipo}/confirmar` | Confirmar cada foto subida | vacío | `200` con `{ tipo, estado }` | `400`, `401`, `404`, `409` (`foto_no_subida`, `foto_ya_confirmada`, `captura_vencida`), `422 contenido_no_valido`, `429` |
-| `POST /api/v1/me/verificacion/{id}/enviar` | Mandar a revisión | vacío | `200` con `{ id, estado: "en_revision", enviadoEn, expiraEn }` | `401`, `404`, `409 faltan_fotos`, `429` |
+| `POST /api/v1/me/verificacion/{id}/fotos/{tipo}/confirmar` | Confirmar cada foto subida | vacío | `200` con `{ tipo, estado }` | `400`, `401`, `404`, `409` (`photo_not_uploaded`, `photo_already_confirmed`, `capture_expired`), `422 content_invalid`, `429` |
+| `POST /api/v1/me/verificacion/{id}/enviar` | Mandar a revisión | vacío | `200` con `{ id, estado: "en_revision", enviadoEn, expiraEn }` | `401`, `404`, `409 photos_missing`, `429` |
 | `GET /api/v1/me/verificacion` | Ver el estado | — | `200` con `{ id?, nivel?, estado, motivo?, consejos[], nivelOtorgado?, fotos[{ tipo, estado }], creadoEn?, enviadoEn?, decididoEn?, expiraEn?, puedeReintentar }`; sin verificación previa, `{ estado: "sin_verificar", puedeReintentar: true }` | `401`, `429` |
 
 Reglas del contrato que la app da por ciertas:
 - **Autorización:** todas las rutas son de la persona del token; una verificación ajena responde `404` uniforme.
 - **Cifrado:** el servidor cifra cada foto con la llave propia de la verificación al confirmarla; la app sube por HTTPS al enlace firmado y nunca ve la llave.
-- **Consentimiento:** `aceptaBiometria` debe ser `true` y `versionAviso` debe coincidir con la vigente; si no, `422 consentimiento_requerido`.
+- **Consentimiento:** `aceptaBiometria` debe ser `true` y `versionAviso` debe coincidir con la vigente; si no, `422 consent_required`.
 - **Una captura viva:** crear de nuevo con una `en_captura` existente la cancela; con una `en_revision` responde `409`.
 - **Límites:** 3 creaciones y 10 confirmaciones por hora por persona; enlaces de 5 minutos; 8 MB por foto; solo JPEG o PNG validados por contenido en el servidor.
 - **Borrado:** a los 7 días sin decisión el servidor borra las fotos y deja `sin_verificar` con `motivo = fotos_borradas`.
@@ -165,15 +165,15 @@ Reglas del contrato que la app da por ciertas:
 | Situación | Texto en pantalla |
 |---|---|
 | Sin consentimiento | «Para tomar las fotos necesitamos tu permiso. Marca la casilla para continuar.» |
-| `consentimiento_requerido` (422) | «Necesitamos que aceptes el aviso vigente» |
-| CURP inválida (local o `curp_invalida`) | «Revisa tu CURP: son 18 caracteres» |
-| `curp_duplicada` (409) | «No pudimos continuar con esta CURP. Escríbenos a soporte para revisarlo.» |
-| `verificacion_en_revision` (409) | «Ya tienes una verificación en revisión» |
-| `ya_verificado` (409) | «Ya tienes esta verificación» |
-| `ya_verificado_completo` (409) | «Ya tienes la verificación completa» |
-| `captura_vencida` (409) o enlace vencido | «Tu captura venció. Vuelve a tomar las fotos.» |
-| `contenido_no_valido` (422) | «Esa foto no se pudo usar. Tómala de nuevo.» |
-| `faltan_fotos` (409) | «Falta una foto. Tómala para enviar.» |
+| `consent_required` (422) | «Necesitamos que aceptes el aviso vigente» |
+| CURP inválida (local o `curp_invalid`) | «Revisa tu CURP: son 18 caracteres» |
+| `curp_duplicate` (409) | «No pudimos continuar con esta CURP. Escríbenos a soporte para revisarlo.» |
+| `verification_under_review` (409) | «Ya tienes una verificación en revisión» |
+| `already_verified` (409) | «Ya tienes esta verificación» |
+| `already_fully_verified` (409) | «Ya tienes la verificación completa» |
+| `capture_expired` (409) o enlace vencido | «Tu captura venció. Vuelve a tomar las fotos.» |
+| `content_invalid` (422) | «Esa foto no se pudo usar. Tómala de nuevo.» |
+| `photos_missing` (409) | «Falta una foto. Tómala para enviar.» |
 | `deletion_scheduled` (409) | «Tu cuenta está por eliminarse; no puedes verificarla ahora.» |
 | En revisión | «Revisamos en menos de 24 h» |
 | `motivo = fotos_borradas` | «Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.» |
@@ -237,7 +237,7 @@ Reglas de pantalla:
 | Caso límite | Sin cámara disponible (emulador sin cámara) → mensaje claro, sin bloqueo |
 | Caso límite | Foto de exactamente 8 MB y de 8 MB + 1 byte |
 | Caso límite | CURP de 17, 18 y 19 caracteres; CURP en minúsculas (se normaliza a mayúsculas) |
-| Error esperado | 409 `curp_duplicada`, `verificacion_en_revision`, `faltan_fotos` y 422 `contenido_no_valido` → mensaje exacto de §7 |
+| Error esperado | 409 `curp_duplicate`, `verification_under_review`, `photos_missing` y 422 `content_invalid` → mensaje exacto de §7 |
 | Caso límite | Cuarta creación en la misma hora → 429 y espera |
 
 **Gates:** `flutter analyze --fatal-infos`, `dart format`, `flutter test` con cobertura ≥ 50 % (spec 008), revisión de la constitución, revisión de seguridad y PR con CI en verde (spec 007).
@@ -326,22 +326,22 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 - **Bloqueante:** las rutas de §4 no están en `contracts/openapi.v1.json`; hasta que backend 025 las publique y se vendorice, la capa `data` no se puede implementar ni probar contra el contrato.
 - **Resuelto en la revisión:** backend 025 fija `GET /api/v1/me/verificacion`; la ficha de HU-022 (`/tecnicos/me/verificacion`) queda desactualizada.
 - **Resuelto en la revisión cruzada (decisión automática, revisar):** los valores de `tipo` de foto son `ine_frente`, `ine_reverso` y `selfie` (backend 025 R-10).
-- **Bloqueante (coordinar con backend 025):** subir con `PUT` a un SAS de Azure Blob exige `x-ms-blob-type: BlockBlob` (y conviene `Content-Type`); backend 025 R-08 devuelve solo `{ tipo, urlSubida, venceEn }`, a diferencia de la spec 032, que sí devuelve `encabezados`. Opciones sin decidir: que backend 025 devuelva `encabezados` o fijar aquí los que manda la app, con una prueba de contrato. Hasta resolverlo no se implementa la subida.
-- **Duda abierta (CA-03 y estimación):** la revisión de calidad en el teléfono (borrosa, oscura, con reflejo) se puede hacer con el paquete `image`, pero la spec no fija los umbrales ni el criterio de «INE en vertical» (¿proporción del recuadro u orientación EXIF?). Hace falta fijar los tres umbrales (varianza del laplaciano, brillo medio, porcentaje de píxeles saturados) y el criterio de orientación, con imágenes sintéticas de prueba, antes de aprobar; sin eso CA-03 no tiene un resultado esperable que se pueda comprobar y la estimación de 5 puntos queda en duda.
-- **Duda abierta (entre specs):** CA-12 dice que el aviso del cambio de estado de la verificación lo define la spec 024, pero esa spec lista 8 eventos y ninguno es de verificación (backend 025 emite `VerificacionDecidida` «para el aviso»). O la spec 024 agrega un evento de verificación (técnico → `/trabajo/verificacion`) o se quita CA-12 de esta spec.
+- **Bloqueante (coordinar con backend 025):** subir con `PUT` a un SAS de Azure Blob exige `x-ms-blob-type: BlockBlob` (y conviene `Content-Type`); backend 025 R-08 devuelve solo `{ tipo, urlSubida, venceEn }`, a diferencia de la spec 032, que sí devuelve `encabezados`. Opciones: que backend 025 devuelva `encabezados` o fijar aquí los que manda la app, con una prueba de contrato. **Propuesta por defecto:** que backend 025 devuelva `encabezados` como la spec 032 y la app los envíe tal cual. Hasta resolverlo no se implementa la subida.
+- **Duda abierta (CA-03 y estimación):** la revisión de calidad en el teléfono (borrosa, oscura, con reflejo) se puede hacer con el paquete `image`, pero la spec no fija los umbrales ni el criterio de «INE en vertical» (¿proporción del recuadro u orientación EXIF?). Hace falta fijar los tres umbrales (varianza del laplaciano, brillo medio, porcentaje de píxeles saturados) y el criterio de orientación, con imágenes sintéticas de prueba, antes de aprobar; sin eso CA-03 no tiene un resultado esperable que se pueda comprobar y la estimación de 5 puntos queda en duda. **Propuesta por defecto (valores iniciales, a calibrar con las imágenes sintéticas):** varianza del laplaciano de 100 como mínimo, brillo medio entre 40 y 220, no más de 5 % de píxeles saturados y «INE en vertical» por la proporción del recuadro y no por la orientación EXIF.
+- **Duda abierta (entre specs):** CA-12 dice que el aviso del cambio de estado de la verificación lo define la spec 024, pero esa spec lista 8 eventos y ninguno es de verificación (backend 025 emite `VerificacionDecidida` «para el aviso»). O la spec 024 agrega un evento de verificación (técnico → `/trabajo/verificacion`) o se quita CA-12 de esta spec. **Propuesta por defecto:** la spec 024 agrega ese evento (`verificacion_decidida`), alineado con `VerificacionDecidida` de backend 025.
 - **Riesgo:** los umbrales de calidad (brillo, reflejo, nitidez) pueden rechazar fotos válidas con cámaras malas; se ajustan con imágenes sintéticas y se documentan en el código.
 - **Riesgo:** sin `FLAG_SECURE`, una captura de pantalla con el INE puede quedar en la galería del técnico; las fotos no se guardan en la app y el flujo se cierra al salir (D-06).
 - **Riesgo:** la app no puede comprobar el OCR ni el hash de la CURP; todo lo que muestra viene del servidor.
 - **Riesgo:** la re-codificación sin EXIF puede bajar la calidad de la foto y afectar el OCR del servidor; los parámetros se ajustan con imágenes sintéticas y se documentan en el código.
 - **Riesgo:** la versión del aviso de privacidad se fija en la app; si el texto cambia y la versión no sube, el consentimiento guardado apuntaría al texto equivocado. Dueño de la versión: quien publique el aviso; se revisa en cada PR que toque ese texto.
-- **Duda abierta (para José):** ¿la versión del aviso la entrega el servidor en `GET /me/verificacion` o la fija la app? Esta spec la fija en la app (D-14) y pide confirmarla antes de implementar.
-- **Duda abierta (para José):** ¿el aviso de privacidad completo se abre en la landing o se embebe en la app? Esta spec lo abre con el navegador y deja un resumen local.
+- **Duda abierta (para José):** ¿la versión del aviso la entrega el servidor en `GET /me/verificacion` o la fija la app? **Propuesta por defecto:** la fija la app (D-14), porque `GET /me/verificacion` no trae ese campo; si se prefiere que la entregue el servidor, backend 025 debe agregarlo antes de implementar.
+- **Duda abierta (para José):** ¿el aviso de privacidad completo se abre en la landing o se embebe en la app? **Propuesta por defecto:** se abre en el navegador, con el mismo mecanismo de la spec 028, y se deja un resumen local.
 - **Resuelto en la revisión:** sin verificación previa el servidor responde `200` con `estado = sin_verificar` y `puedeReintentar = true` (backend 025 R-14).
-- **Riesgo:** pedir la CURP en la app agrega un dato personal sensible al flujo; se mitiga con R-18 y CA-23. Si el equipo prefiere no pedirla, backend 025 debe cambiar primero.
+- **Riesgo:** pedir la CURP en la app agrega un dato personal sensible al flujo; se mitiga con R-18 y CA-23. Si el equipo prefiere no pedirla, backend 025 debe cambiar primero. **Propuesta por defecto:** pedirla como define backend 025.
 - **Duda abierta (para el equipo):** ¿la verificación se ofrece al enviar la primera cotización, al empezar un trabajo o al ponerse disponible, como dice HU-021? Esos avisos dependen de pantallas que no existen en este sprint; esta spec solo la ofrece desde Trabajo y desde Mi negocio cuando exista.
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

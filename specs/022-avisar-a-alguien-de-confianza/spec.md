@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-037.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §4.5
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** no agrega rutas; usa `POST /api/v1/visitas/{id}/aviso` ya fijado por backend 022.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -30,7 +30,7 @@ Que el cliente administre a las personas de confianza (quiénes son, cómo avisa
 - **CA-13:** Dada la persona que cierra sesión, cuando termina, entonces la lista de contactos y cualquier borrador del mensaje quedan vacíos. · Verificación: `app/test/features/actividad/data/borrado_visita_test.dart` → `CA_022_13`
 - **CA-14:** Dada la gestión de contactos desde Mi cuenta, cuando la persona la abre sin visita, entonces puede agregar, editar y borrar contactos y ve el texto de privacidad «Tus contactos se guardan solo en este teléfono». · Verificación: `app/test/features/cuenta/presentation/contactos_confianza_screen_test.dart` → `CA_022_14`
 - **CA-15:** Dado el aviso, cuando la app llama a `POST /visitas/{id}/aviso`, entonces el cuerpo va vacío (sin canal, sin nombre ni celular del contacto) y sin `Idempotency-Key`; un doble toque produce una sola llamada porque el botón se deshabilita mientras responde, y una respuesta con `incluyeCodigo` o `incluyeDireccion` verdaderos se rechaza y el texto no se usa. · Verificación: `app/test/features/actividad/data/aviso_repository_api_test.dart` → `CA_022_15`
-- **CA-16:** Dado un error del servidor o la falta de conexión al pedir el texto, cuando la persona quiere avisar, entonces la app arma el texto en `domain/` con los datos de la copia local de la visita (spec 016), muestra «No pudimos registrar el aviso; puedes enviarlo de todos modos» y no bloquea el envío; con 409 `visita_no_avisable` no se abre ningún canal y se lee «Esta visita ya no permite avisos». · Verificación: `app/test/features/actividad/presentation/hoja_avisar_test.dart` → `CA_022_16`
+- **CA-16:** Dado un error del servidor o la falta de conexión al pedir el texto, cuando la persona quiere avisar, entonces la app arma el texto en `domain/` con los datos de la copia local de la visita (spec 016), muestra «No pudimos registrar el aviso; puedes enviarlo de todos modos» y no bloquea el envío; con 409 `visit_not_notifiable` no se abre ningún canal y se lee «Esta visita ya no permite avisos». · Verificación: `app/test/features/actividad/presentation/hoja_avisar_test.dart` → `CA_022_16`
 - **CA-17:** Dados la lista, el formulario y la hoja, cuando se recorren con lector de pantalla y texto al 200 %, entonces cada control tiene etiqueta, mide al menos 48 dp, el código se lee dígito por dígito y no se corta el contenido. · Verificación: `app/test/features/actividad/presentation/accesibilidad_aviso_test.dart` → `CA_022_17`
 - **CA-18:** Dado el registro de la app, cuando se avisa, entonces ningún `print`, registro ni reporte de errores contiene el nombre ni el celular del contacto ni el código (prueba global de la spec 009). · Verificación: `app/test/seguridad/seguridad_cliente_test.dart` → `CA_022_18`
 
@@ -70,7 +70,7 @@ La app **consume** una ruta de backend 022 («Visita segura con código de 4 dí
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/visitas/{id}/aviso` | Pedir el texto del aviso y registrar que se avisó | vacío (sin `Idempotency-Key`) | `200` con `{ texto, incluyeCodigo: false, incluyeDireccion: false }` | `401`, `404` (ajena o inexistente), `409 visita_no_avisable` (la visita no está en `confirmada` ni `en_curso`), `429` con `Retry-After` |
+| `POST /api/v1/visitas/{id}/aviso` | Pedir el texto del aviso y registrar que se avisó | vacío (sin `Idempotency-Key`) | `200` con `{ texto, incluyeCodigo: false, incluyeDireccion: false }` | `401`, `404` (ajena o inexistente), `409 visit_not_notifiable` (la visita no está en `confirmada` ni `en_curso`), `429` con `Retry-After` |
 
 Reglas del contrato que la app da por ciertas:
 - **Autorización:** solo el cliente dueño de la visita; el servidor decide por el token.
@@ -127,7 +127,7 @@ Reglas del contrato que la app da por ciertas:
 | Celular repetido | «Ese celular ya está en tu lista» |
 | Máximo de 10 | «Ya tienes 10 contactos. Borra uno para agregar otro.» |
 | Sin app de mensajes o WhatsApp | «No encontramos una app para enviar. Usa «Compartir».» |
-| `visita_no_avisable` (409) | «Esta visita ya no permite avisos» |
+| `visit_not_notifiable` (409) | «Esta visita ya no permite avisos» |
 | Error o sin conexión al registrar | «No pudimos registrar el aviso; puedes enviarlo de todos modos» |
 | 429 | «Ya enviaste muchos avisos. Espera {minutos} minutos.» |
 
@@ -161,7 +161,7 @@ Reglas de pantalla:
 | Positivo | «Compartir sin guardar» abre la hoja del sistema |
 | Negativo | Celular de 9 dígitos o nombre de 1 letra: no se guarda |
 | Negativo | Persona que cierra la vista previa sin enviar: no se abre nada |
-| Error esperado | 409 `visita_no_avisable` (visita cancelada): mensaje y sin canal |
+| Error esperado | 409 `visit_not_notifiable` (visita cancelada): mensaje y sin canal |
 | Error esperado | 429 → `Retry-After`; sin conexión → el aviso al contacto no se bloquea |
 | Caso límite | 10 y 11 contactos; mismo celular con espacios o guiones; nombre con acentos y emojis |
 | Caso límite | Teléfono sin app de mensajes ni de WhatsApp |
@@ -230,6 +230,6 @@ Los contactos viven en `features/actividad/` (spec 016) y su pantalla en `featur
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/descripcion-del-proyecto.md` §4 «Notificaciones push» · backlog `HU-050.md`, `HU-051.md`, `HU-025.md`, `HU-027.md`, `HU-028.md`, `HU-029.md` · spec 012 (aprobada) · maqueta `js/knock.js` (`S.notifConfig`, `cNotif`)
 > **Skills:** `flutter-clean-architecture`, `security-core`, `testing-strategy-frontend`, `api-client-contract`, `reuse-before-create`
 > **Contrato:** la carga de la notificación (§4.1) la define esta spec y la debe adoptar la spec de backend del envío de notificaciones (hoy no existe). Las rutas REST que abre cada aviso ya están en backend 020, 021 y 022; las de conversaciones dependen de backend 030.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -20,12 +20,12 @@ La spec 012 (aprobada) dejó la infraestructura común: registro del identificad
 - **CA-01:** Dada una carga válida de cada evento del catálogo (§4.2), cuando la app arma la notificación, entonces el título y el cuerpo salen de los ARB del idioma del teléfono, coinciden exactamente con la tabla de §7 la notificación va al canal de Android de su tipo de aviso y es privada, con la versión pública «Tienes un aviso nuevo» en la pantalla de bloqueo. · Verificación: `app/test/core/notificaciones/catalogo_avisos_test.dart` → `CA_024_01`
 - **CA-02:** Dado cada texto del catálogo en español y en inglés, cuando se revisa con `revisarTextoDeNotificacion` (spec 012) y con la lista de palabras prohibidas de §6, entonces ninguno contiene códigos, números de 4 o más dígitos, montos, direcciones, colonias, nombres ni el texto de un mensaje. · Verificación: `app/test/core/notificaciones/catalogo_avisos_test.dart` → `CA_024_02`
 - **CA-03:** Dado un `cotizacion_nueva` con `recurso` válido tocado por un cliente con sesión, cuando se abre la app (cerrada, en segundo plano o en primer plano), entonces llega a `/actividad/solicitud/:id/cotizaciones` con ese `id` y la pantalla pide `GET /api/v1/solicitudes/{id}/cotizaciones`. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_03`
-- **CA-04:** Dado un `solicitud_vencida` tocado por el cliente, cuando se abre, entonces llega al detalle `/actividad/solicitud/:id`, que muestra el estado «Vencida» y la acción «Volver a pedir» de la spec 025; y dado un `solicitud_sin_tecnicos`, llega al mismo detalle, que sigue abierto. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_04`
-- **CA-05:** Dados `solicitud_nueva`, `solicitud_cancelada` y `cotizacion_vencida` tocados por un técnico, cuando se abre, entonces llega a `/trabajo` con la sección de solicitudes recargada; y dado `cotizacion_aceptada`, llega a `/trabajo/visita/:id` con el `visitaId` de la carga. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_05`
+- **CA-04:** Dado un `request_expired` tocado por el cliente, cuando se abre, entonces llega al detalle `/actividad/solicitud/:id`, que muestra el estado «Vencida» y la acción «Volver a pedir» de la spec 025; y dado un `solicitud_sin_tecnicos`, llega al mismo detalle, que sigue abierto. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_04`
+- **CA-05:** Dados `solicitud_nueva`, `request_cancelled` y `cotizacion_vencida` tocados por un técnico, cuando se abre, entonces llega a `/trabajo` con la sección de solicitudes recargada; y dado `cotizacion_aceptada`, llega a `/trabajo/visita/:id` con el `visitaId` de la carga. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_05`
 - **CA-06:** Dado un `mensaje_nuevo`, cuando se toca, entonces abre `/conversaciones` (spec 020) mientras no exista la pantalla de chat, y `/conversaciones/:id` cuando exista; nunca abre WhatsApp ni otra app. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_06`
 - **CA-07:** Dado un aviso cuyo recurso ya no existe, es ajeno o la cuenta cambió, cuando la pantalla destino lo pide, entonces el servidor responde 404 y la app muestra «Esta solicitud ya no está disponible» (o «Esta visita ya no está disponible») con «Ir a Actividad» o «Ir a Trabajo», sin revelar que existe. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_07`
 - **CA-08:** Dada una carga con `recurso` que no cumple `^[0-9a-f]{24}$`, con `evento` desconocido, con `v` distinto de `1`, con campos de más de 64 caracteres, con una ruta, una URL, un esquema (`http:`, `intent:`, `knock:`) o caracteres `/`, `?`, `#`, `%` o `..`, cuando se lee, entonces la app no navega a esa ruta: si el `tipo` es válido cae en la pestaña natural del tipo (spec 012) y si no, ignora el aviso; nunca lanza excepción. · Verificación: `app/test/core/notificaciones/carga_aviso_test.dart` → `CA_024_08`
-- **CA-09:** Dado un aviso de técnico (`solicitud_nueva`, `solicitud_cancelada`, `cotizacion_vencida`, `cotizacion_aceptada`) tocado en una cuenta sin rol de técnico, cuando se abre, entonces el `redirect` del router (spec 012) lo manda a Inicio y no se pide ningún recurso de Trabajo. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_09`
+- **CA-09:** Dado un aviso de técnico (`solicitud_nueva`, `request_cancelled`, `cotizacion_vencida`, `cotizacion_aceptada`) tocado en una cuenta sin rol de técnico, cuando se abre, entonces el `redirect` del router (spec 012) lo manda a Inicio y no se pide ningún recurso de Trabajo. · Verificación: `app/test/core/notificaciones/destino_aviso_test.dart` → `CA_024_09`
 - **CA-10:** Dadas dos cargas con el mismo `aviso`, o dos `cotizacion_nueva` de la misma solicitud, cuando llegan seguidas, entonces se muestra una sola notificación: la segunda se descarta (mismo `aviso`) o reemplaza a la primera por su etiqueta `evento:recurso`. · Verificación: `app/test/core/notificaciones/presentador_avisos_test.dart` → `CA_024_10`
 - **CA-11:** Dada la app en primer plano, cuando llega cualquier aviso del catálogo, entonces no se muestra una notificación del sistema: se muestra un aviso dentro de la app con el mismo texto y la acción «Ver», y se refrescan la lista o el detalle afectados (Actividad, Trabajo, detalle de la solicitud o contador de conversaciones). · Verificación: `app/test/core/notificaciones/aviso_en_primer_plano_test.dart` → `CA_024_11`
 - **CA-12:** Dado un `mensaje_nuevo` de la conversación que está abierta, cuando llega con la app en primer plano, entonces no se muestra nada (spec 012, R-04); y dado uno de otra conversación, se muestra el aviso dentro de la app y sube el contador del globo (spec 020). · Verificación: `app/test/core/notificaciones/aviso_en_primer_plano_test.dart` → `CA_024_12`
@@ -106,8 +106,8 @@ Reglas de lectura:
 | `solicitud_sin_tecnicos` | Cliente dueño | `SolicitudSinTecnicos { solicitudId }`, backend 028 (R-07): ninguna oleada encontró técnicos | `cotizaciones` | `solicitudId` | `/actividad/solicitud/{recurso}` (spec 015) | `GET /api/v1/solicitudes/{id}` (backend 020) |
 | `cotizacion_nueva` | Cliente dueño | `CotizacionEnviada`, backend 020 (R-16 y CA-06) | `cotizaciones` | `solicitudId` | `/actividad/solicitud/{recurso}/cotizaciones` (spec 015) | `GET /api/v1/solicitudes/{id}/cotizaciones` (backend 021) |
 | `cotizacion_aceptada` | Técnico elegido | `CotizacionAceptada` y `VisitaConfirmada`, backend 021 (R-18) | `visitas` | `visitaId` | `/trabajo/visita/{recurso}` (spec 016) | `GET /api/v1/visitas/{id}` (backend 022) |
-| `solicitud_cancelada` | Técnicos con cotización `enviada` al cancelar (`tecnicosAvisar`) | `SolicitudCancelada { solicitudId, tecnicosAvisar[] }`, backend 029 (R-07) | `cotizaciones` | `solicitudId` | `/trabajo` | `GET /api/v1/tecnicos/me/solicitudes` (028) y la lista de Trabajo de la spec 019 |
-| `solicitud_vencida` | Cliente dueño (`clienteId`) | `SolicitudVencida { solicitudId, clienteId, tecnicosAvisar[] }`, backend 029 (R-09) | `cotizaciones` | `solicitudId` | `/actividad/solicitud/{recurso}` (specs 015 y 025) | `GET /api/v1/solicitudes/{id}` (backend 020, con `puedeVolverAPedir` de 029) |
+| `request_cancelled` | Técnicos con cotización `enviada` al cancelar (`tecnicosAvisar`) | `SolicitudCancelada { solicitudId, tecnicosAvisar[] }`, backend 029 (R-07) | `cotizaciones` | `solicitudId` | `/trabajo` | `GET /api/v1/tecnicos/me/solicitudes` (028) y la lista de Trabajo de la spec 019 |
+| `request_expired` | Cliente dueño (`clienteId`) | `SolicitudVencida { solicitudId, clienteId, tecnicosAvisar[] }`, backend 029 (R-09) | `cotizaciones` | `solicitudId` | `/actividad/solicitud/{recurso}` (specs 015 y 025) | `GET /api/v1/solicitudes/{id}` (backend 020, con `puedeVolverAPedir` de 029) |
 | `cotizacion_vencida` | Técnicos con cotización `enviada` al vencer (`tecnicosAvisar` del mismo evento) | `SolicitudVencida`, backend 029 (R-09) | `cotizaciones` | `solicitudId` | `/trabajo` | La lista de Trabajo de la spec 019 |
 | `mensaje_nuevo` | La otra parte de la conversación cuando no está conectada (`destinatarioUsuarioId`) | `MensajeNuevo { conversacionId, destinatarioUsuarioId }`, backend 030 (R-14), sin texto | `mensajes` | `conversacionId` (`ObjectId`) | `/conversaciones` hoy; `/conversaciones/{recurso}` cuando exista la pantalla de chat (D-06) | `GET /api/v1/conversaciones` y, con chat, `GET /api/v1/conversaciones/{id}` (backend 030, R-17 y R-05) |
 
@@ -116,11 +116,11 @@ Reglas de lectura:
 | Método y ruta | Spec de backend | Errores que la app distingue al llegar desde un aviso |
 |---|---|---|
 | `GET /api/v1/solicitudes/{id}` | 020 (R-08) | `400` id mal formado → «ya no está disponible»; `401` → renovar (spec 002); `404` → «Esta solicitud ya no está disponible»; `429` con `Retry-After` |
-| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`solicitud_vencida`, `solicitud_cancelada`, `solicitud_ya_elegida`) lo pinta la spec 015 |
+| `GET /api/v1/solicitudes/{id}/cotizaciones` | 021 | Igual; además `200` con `puedeElegir = false` y `motivo` (`request_expired`, `request_cancelled`, `request_already_chosen`) lo pinta la spec 015 |
 | `GET /api/v1/visitas/{id}` | 022 | `404` → «Esta visita ya no está disponible»; `401`, `429` |
 | `GET /api/v1/conversaciones` | 030 (R-17): `cursor?`, `limit?` (1–20); `{ items[], totalNoLeidos, nextCursor }` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/{id}` | 030 (R-05), cuando exista la pantalla de chat | `404` → «Esta conversación ya no está disponible»; `401`, `429` |
-| `GET /api/v1/tecnicos/me/solicitudes` | 028 (R-13): `cursor?`, `limit?` (1–20) | `401`, `403 no_es_tecnico`, `429` |
+| `GET /api/v1/tecnicos/me/solicitudes` | 028 (R-13): `cursor?`, `limit?` (1–20) | `401`, `403 not_a_technician`, `429` |
 | `GET /api/v1/tecnicos/me/trabajo` | Propuesta de la spec 019; spec de backend 036 (Borrador) | Los de la spec 019 |
 
 Reglas del contrato que la app da por ciertas:
@@ -177,9 +177,9 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 | `cotizacion_nueva` | Recibiste una cotización | Ábrela para compararla. | You got a quote | Open it to compare. | `avisoCotizacionNuevaTitulo`, `avisoCotizacionNuevaCuerpo` |
 | `cotizacion_aceptada` | Te eligieron para un trabajo | Revisa el día y la hora de la visita. | You were chosen for a job | Check the visit day and time. | `avisoCotizacionAceptadaTitulo`, `avisoCotizacionAceptadaCuerpo` |
 | `solicitud_sin_tecnicos` | Todavía no hay técnicos disponibles | Tu solicitud sigue abierta. Revisa el detalle. | No pros available yet | Your request is still open. Check the details. | `avisoSolicitudSinTecnicosTitulo`, `avisoSolicitudSinTecnicosCuerpo` |
-| `solicitud_cancelada` | Una solicitud se canceló | El cliente ya no necesita el servicio. | A request was canceled | The client no longer needs the service. | `avisoSolicitudCanceladaTitulo`, `avisoSolicitudCanceladaCuerpo` |
+| `request_cancelled` | Una solicitud se canceló | El cliente ya no necesita el servicio. | A request was canceled | The client no longer needs the service. | `avisoSolicitudCanceladaTitulo`, `avisoSolicitudCanceladaCuerpo` |
 | `cotizacion_vencida` | Una solicitud que cotizaste venció | El cliente no eligió a tiempo. | A request you quoted expired | The client did not choose in time. | `avisoCotizacionVencidaTitulo`, `avisoCotizacionVencidaCuerpo` |
-| `solicitud_vencida` | Tu solicitud venció | Puedes volver a pedirla con un toque. | Your request expired | You can request it again with one tap. | `avisoSolicitudVencidaTitulo`, `avisoSolicitudVencidaCuerpo` |
+| `request_expired` | Tu solicitud venció | Puedes volver a pedirla con un toque. | Your request expired | You can request it again with one tap. | `avisoSolicitudVencidaTitulo`, `avisoSolicitudVencidaCuerpo` |
 | `mensaje_nuevo` | Tienes un mensaje nuevo | Ábrelo en Knock. | You have a new message | Open it in Knock. | `avisoMensajeNuevoTitulo`, `avisoMensajeNuevoCuerpo` |
 
 **Otros textos nuevos**
@@ -238,7 +238,7 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 |---|---|
 | Positivo | Cliente con la app cerrada recibe `cotizacion_nueva`: ve «Recibiste una cotización»; al tocar abre la comparación de esa solicitud |
 | Positivo | Técnico en primer plano recibe `solicitud_nueva`: aviso dentro de la app con «Ver» y la sección «Solicitudes nuevas» se recarga |
-| Positivo | Cliente recibe `solicitud_vencida`: al tocar ve el detalle con «Vencida» y «Volver a pedir» |
+| Positivo | Cliente recibe `request_expired`: al tocar ve el detalle con «Vencida» y «Volver a pedir» |
 | Negativo | Carga con `recurso = "../cuenta"` o `"https://x"`: no navega a esa ruta; abre la pestaña del tipo |
 | Negativo | Cliente toca `cotizacion_aceptada` (de técnico): el router lo manda a Inicio |
 | Negativo | Aviso de la cuenta anterior tocado después de cerrar sesión: abre Entrada y descarta el destino |
@@ -288,7 +288,7 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 | Backend 021 | `CotizacionAceptada`, `VisitaConfirmada`, `GET /solicitudes/{id}/cotizaciones` | Sin `cotizacion_aceptada` |
 | Backend 022 | `GET /visitas/{id}` | El técnico no puede abrir la visita |
 | Backend 028 (Borrador) | `SolicitudEnviadaATecnico`, `SolicitudSinTecnicos`, `GET /tecnicos/me/solicitudes` | Sin `solicitud_nueva` ni `solicitud_sin_tecnicos` |
-| Backend 029 (Borrador) | `SolicitudCancelada`, `SolicitudVencida`, `puedeVolverAPedir` | Sin `solicitud_cancelada`, `solicitud_vencida` ni `cotizacion_vencida` |
+| Backend 029 (Borrador) | `SolicitudCancelada`, `SolicitudVencida`, `puedeVolverAPedir` | Sin `request_cancelled`, `request_expired` ni `cotizacion_vencida` |
 | Backend 030 (Borrador) y 026 | `MensajeNuevo`, conversaciones y contador de no leídos | Sin `mensaje_nuevo` |
 | 015, 016, 019, 020, 025 | Pantallas destino y sus estados | El toque abre la pestaña natural del tipo (regla de la spec 012) |
 | 014 Alinear la UI (reservada) | Componente de aviso y contraste | Se crea un aviso propio y se migra después |
@@ -315,8 +315,8 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 | D-05 | En primer plano no hay notificación del sistema: aviso dentro de la app y refresco de lo afectado | Una notificación del sistema con la app abierta duplica la información y distrae | Mostrar siempre la notificación del sistema |
 | D-06 | `mensaje_nuevo` abre `/conversaciones` hasta que exista la pantalla de chat | La spec 020 dejó el chat como spec propia; abrir una ruta inexistente fallaría | Abrir el detalle de la solicitud |
 | D-07 | Todos los avisos de la cadena, salvo `cotizacion_aceptada` y `mensaje_nuevo`, usan el tipo `cotizaciones`, rebautizado en pantalla como «Cotizaciones y solicitudes» | `TipoAviso` (spec 012) no tiene un tipo «solicitudes» y agregar uno cambia la spec aprobada | Agregar un quinto tipo |
-| D-08 | No se avisa al cliente de la ampliación a otra oleada, ni al técnico de una cotización no elegida (`se_eligio_otra`, backend 021), ni a los técnicos que recibieron la solicitud sin cotizar cuando se cancela o vence (backend 029, decisión 2), ni hay recordatorio «por vencer» | No lo pide ninguna historia (HU-025, HU-027, HU-028) ni la descripción §4, y backend no emite esos eventos; menos avisos, menos ruido | Avisar todo cambio de estado |
-| D-12 | Un mismo evento de backend (`SolicitudVencida`) se convierte en dos avisos distintos: `solicitud_vencida` para el cliente y `cotizacion_vencida` para los técnicos de `tecnicosAvisar` | Cada destinatario necesita otro texto y otra pantalla; con un solo `evento` la app tendría que decidir el destino por rol | Un solo `evento` con el destino resuelto por rol en la app |
+| D-08 | No se avisa al cliente de la ampliación a otra oleada, ni al técnico de una cotización no elegida (`other_quote_chosen`, backend 021), ni a los técnicos que recibieron la solicitud sin cotizar cuando se cancela o vence (backend 029, decisión 2), ni hay recordatorio «por vencer» | No lo pide ninguna historia (HU-025, HU-027, HU-028) ni la descripción §4, y backend no emite esos eventos; menos avisos, menos ruido | Avisar todo cambio de estado |
+| D-12 | Un mismo evento de backend (`SolicitudVencida`) se convierte en dos avisos distintos: `request_expired` para el cliente y `cotizacion_vencida` para los técnicos de `tecnicosAvisar` | Cada destinatario necesita otro texto y otra pantalla; con un solo `evento` la app tendría que decidir el destino por rol | Un solo `evento` con el destino resuelto por rol en la app |
 | D-09 | `avisosVistos` vive solo en memoria (100 entradas) | No hace falta persistir para evitar duplicados cercanos y no deja rastro en disco | Guardarlo en `shared_preferences` |
 | D-10 | Las preferencias se aplican en la app (filtro local) mientras no exista la sincronización con el servidor | HU-051 (Sprint 6) define `PUT /me/preferencias-avisos`; la spec 012 ya guarda la preferencia localmente | Esperar a HU-051 para respetar preferencias |
 | D-11 | Se sigue la spec 012 (cada tipo se puede apagar, salvo `sistema`) aunque la maqueta muestre cotizaciones, mensajes y visitas como «Siempre activos» | La spec 012 está aprobada y manda sobre la maqueta | Copiar la maqueta, que contradice R-05 de la spec 012 |
@@ -328,12 +328,13 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 - **Resuelto (backend 028 §15):** `GET /api/v1/tecnicos/me/trabajo` (spec 019) tiene spec de backend 036 (Borrador); los avisos de técnico abren `/trabajo` igual.
 - **Riesgo:** con mensajes solo de datos, Android puede retrasar la entrega si el servidor no usa prioridad alta o si el fabricante restringe la app en segundo plano.
 - **Riesgo:** la dependencia de notificaciones locales (D-02) agrega permisos o receptores al manifiesto; se revisa con la prueba de manifiesto de la spec 009.
-- **Conflicto detectado:** la maqueta (`S.notifConfig`) dice que cotizaciones, mensajes y visitas no se pueden apagar; la spec 012 dice que sí (D-11). Lo decide José.
-- **Duda abierta (entre specs):** las specs 016 (aviso «tu técnico llegó») y 018 (CA-12, cambio de estado de la verificación) dicen que su aviso lo define esta spec, pero §4.2 no tiene un evento de llegada ni de verificación. Backend 022 ya emite `VisitaEnCurso` y backend 025 emite `VerificacionDecidida` «para el aviso». Opciones sin decidir: agregar `visita_en_curso` (cliente → `/actividad/visita/{recurso}`) y un evento de verificación (técnico → `/trabajo/verificacion`) a §4.2, o quitar esos avisos de las specs 016 y 018. Esta spec sigue con ocho eventos hasta que una persona lo decida.
+- **Riesgo:** esta spec depende de la implementación de la spec 012 (permisos y registro de dispositivo), que aún no está hecha: el `pubspec.yaml` no trae `firebase_messaging` ni `flutter_local_notifications`. La 012 se implementa antes que esta.
+- **Conflicto detectado:** la maqueta (`S.notifConfig`) dice que cotizaciones, mensajes y visitas no se pueden apagar; la spec 012 dice que sí (D-11). **Propuesta por defecto:** seguir la spec 012 (aprobada): la persona puede apagar cada tipo de aviso, y se ajusta la maqueta.
+- **Duda abierta (entre specs):** las specs 016 (aviso «tu técnico llegó») y 018 (CA-12, cambio de estado de la verificación) dicen que su aviso lo define esta spec, pero §4.2 no tiene un evento de llegada ni de verificación. Backend 022 ya emite `VisitaEnCurso` y backend 025 emite `VerificacionDecidida` «para el aviso». Opciones: agregar `visita_en_curso` (cliente → `/actividad/visita/{recurso}`) y un evento de verificación (técnico → `/trabajo/verificacion`) a §4.2, o quitar esos avisos de las specs 016 y 018. **Propuesta por defecto:** agregar ambos eventos, alineados con `VisitaEnCurso` y `VerificacionDecidida` de backend; esta spec sigue con ocho eventos hasta que se apruebe el cambio.
 - **Duda abierta:** ¿el técnico debe recibir aviso cuando el cliente eligió a otro? HU-027 y la descripción no lo piden (D-08).
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

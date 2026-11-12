@@ -1,6 +1,6 @@
 # Tareas 024 — Notificaciones de la cadena de solicitudes
 
-> **Estado:** pendientes. En esta etapa **no se ejecutan**: se activan cuando la spec esté Aprobada y una persona lo indique. **Jira:** KNOCK-60 (HU-050, capa Mobile).
+> **Estado:** pendientes; las specs 015 y 016 están aprobadas y las demás en borrador. Las tareas de cada spec se activan cuando esa spec esté Aprobada. **Jira:** KNOCK-60 (HU-050, capa Mobile).
 > Columna «Paralelo»: **P** = se puede tomar a la vez que otras P sin esperar; **B** = bloquea a las que la nombran en «Depende de».
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo | Dependencia de backend | Responsable sugerido | Estado |
