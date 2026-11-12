@@ -1,4 +1,5 @@
 import 'package:app/core/preferencias/almacen_avisos.dart';
+import 'package:app/core/preferencias/almacen_borrador_solicitud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +25,7 @@ abstract interface class AlmacenPreferencias {
 /// valores son nombres propios de Knock para que un cambio de Flutter no
 /// invalide lo guardado.
 class AlmacenPreferenciasShared
-    with AvisosSobreShared
+    with AvisosSobreShared, BorradorSobreShared
     implements AlmacenPreferencias {
   const AlmacenPreferenciasShared(this._preferencias);
 
@@ -42,6 +43,9 @@ class AlmacenPreferenciasShared
 
   @override
   SharedPreferences get preferenciasAvisos => _preferencias;
+
+  @override
+  SharedPreferences get preferenciasBorrador => _preferencias;
 
   @override
   ThemeMode? leerTema() => _temas[_preferencias.get(claveTema)];
@@ -64,7 +68,7 @@ class AlmacenPreferenciasShared
 /// Almacén sin persistencia: valor por defecto del proveedor y respaldo si el
 /// almacenamiento del dispositivo no está disponible (spec §8 decisión 5).
 class AlmacenPreferenciasEnMemoria
-    with AvisosEnMemoria
+    with AvisosEnMemoria, BorradorEnMemoria
     implements AlmacenPreferencias {
   ThemeMode? _modoTema;
   Locale? _idioma;
