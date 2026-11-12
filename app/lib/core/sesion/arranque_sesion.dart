@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:app/core/sesion/almacen_sesion.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -24,14 +25,18 @@ Future<bool> iniciarFirebase() async {
   }
 }
 
-/// Si hay una sesión guardada. Un fallo del almacenamiento cuenta como «sin
-/// sesión» (se vuelve a entrar) y no se registra. Fuera de un teléfono,
-/// siempre sin sesión.
-Future<bool> haySesionGuardada(AlmacenSesion almacen) async {
-  if (!esTelefono) return false;
+/// Los tokens guardados en el almacenamiento seguro, o `null` si no hay
+/// sesión. Un fallo del almacenamiento cuenta como «sin sesión» (se vuelve a
+/// entrar) y no se registra. Fuera de un teléfono, siempre sin sesión.
+Future<TokensSesion?> leerTokensGuardados(AlmacenSesion almacen) async {
+  if (!esTelefono) return null;
   try {
-    return await almacen.leerRefresco() != null;
+    final refresco = await almacen.leerRefresco();
+    if (refresco == null) return null;
+    // Sin token de acceso la primera llamada recibe 401 y se renueva.
+    final acceso = await almacen.leerAcceso() ?? '';
+    return TokensSesion(accessToken: acceso, refreshToken: refresco);
   } on Exception {
-    return false;
+    return null;
   }
 }

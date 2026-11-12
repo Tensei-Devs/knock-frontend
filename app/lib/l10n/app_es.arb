@@ -20,6 +20,14 @@
   "@tabActividad": {
     "description": "Pestaña de la barra inferior y título de la pantalla con las solicitudes y su historial."
   },
+  "actividadVaciaTitulo": "Aún no tienes actividad",
+  "@actividadVaciaTitulo": {
+    "description": "Título del estado vacío de la pestaña Actividad."
+  },
+  "actividadVaciaDetalle": "Cuando pidas una cotización, aquí verás en qué va cada una.",
+  "@actividadVaciaDetalle": {
+    "description": "Detalle del estado vacío de la pestaña Actividad."
+  },
   "tabTrabajo": "Trabajo",
   "@tabTrabajo": {
     "description": "Pestaña de la barra inferior y título de la pantalla de trabajo; solo la ven los técnicos."
@@ -292,7 +300,7 @@
   "@entradaContinuar": {
     "description": "Botón de la pantalla de entrada para pedir el código SMS."
   },
-  "entradaCargando": "Enviando código\u2026",
+  "entradaCargando": "Enviando código…",
   "@entradaCargando": {
     "description": "Etiqueta del botón mientras se envía el código SMS."
   },
@@ -405,5 +413,165 @@
   "entradaCambiarNumero": "Cambiar número",
   "@entradaCambiarNumero": {
     "description": "Botón de texto para volver a escribir el número de celular."
+  },
+  "previaEntrar": "Entrar",
+  "@previaEntrar": {
+    "description": "Botón de la barra de marca y de la hoja de invitación de la previa sin sesión; abre el flujo de celular."
+  },
+  "previaRegistrarme": "Registrarme",
+  "@previaRegistrarme": {
+    "description": "Botón de la barra de marca y de la hoja de invitación de la previa; abre el mismo flujo de celular que Entrar."
+  },
+  "previaBuscadorTitulo": "Busca un experto cerca de ti",
+  "@previaBuscadorTitulo": {
+    "description": "Título del buscador de la previa sin sesión."
+  },
+  "previaBuscadorLeyenda": "Mecánica · Plomería · Electricidad",
+  "@previaBuscadorLeyenda": {
+    "description": "Leyenda de ejemplos bajo el título del buscador de la previa."
+  },
+  "previaInvitacionTitulo": "Entra para continuar",
+  "@previaInvitacionTitulo": {
+    "description": "Título de la hoja que invita a entrar cuando la persona toca el buscador o una acción que requiere cuenta."
+  },
+  "previaInvitacionDetalle": "Para buscar expertos, pedir cotizaciones y ver su contacto necesitas una cuenta.",
+  "@previaInvitacionDetalle": {
+    "description": "Detalle de la hoja de invitación a entrar."
+  },
+  "previaAhoraNo": "Ahora no",
+  "@previaAhoraNo": {
+    "description": "Botón que cierra la hoja de invitación sin entrar."
+  },
+  "previaChipsEtiqueta": "Oficios",
+  "@previaChipsEtiqueta": {
+    "description": "Etiqueta de lectura de pantalla del grupo de chips de oficio."
+  },
+  "previaChipTodos": "Todos",
+  "@previaChipTodos": {
+    "description": "Chip que muestra todos los oficios del catálogo."
+  },
+  "previaChipNoSeCual": "No sé cuál",
+  "@previaChipNoSeCual": {
+    "description": "Chip para quien no sabe qué oficio necesita; invita a entrar."
+  },
+  "previaCatalogoTitulo": "Oficios disponibles",
+  "@previaCatalogoTitulo": {
+    "description": "Título de la lista del catálogo en la previa."
+  },
+  "previaCargando": "Cargando oficios",
+  "@previaCargando": {
+    "description": "Etiqueta de lectura de pantalla del indicador de carga del catálogo."
+  },
+  "previaVacioTitulo": "Todavía no hay oficios disponibles",
+  "@previaVacioTitulo": {
+    "description": "Título del estado vacío del catálogo de la previa."
+  },
+  "previaErrorTitulo": "No pudimos cargar los oficios",
+  "@previaErrorTitulo": {
+    "description": "Título del estado de error del catálogo de la previa."
+  },
+  "previaSinConexion": "Sin conexión. Se muestra lo último guardado.",
+  "@previaSinConexion": {
+    "description": "Aviso sobre la lista del catálogo cuando se muestra lo guardado por falta de red."
+  },
+  "previaReintentar": "Reintentar",
+  "@previaReintentar": {
+    "description": "Botón para volver a pedir el catálogo de oficios."
+  },
+  "previaModalidadDomicilio": "A domicilio",
+  "@previaModalidadDomicilio": {
+    "description": "Modalidad de un oficio que se presta en el domicilio."
+  },
+  "previaModalidadTaller": "En taller",
+  "@previaModalidadTaller": {
+    "description": "Modalidad de un oficio que se presta en taller."
+  },
+  "previaExplorarTitulo": "Explorar servicios y trabajos",
+  "@previaExplorarTitulo": {
+    "description": "Título de la tarjeta que abre el catálogo de oficios sin sesión."
+  },
+  "previaExplorarDetalle": "Mira los oficios que hay en Knock sin crear una cuenta.",
+  "@previaExplorarDetalle": {
+    "description": "Detalle de la tarjeta Explorar servicios y trabajos."
+  },
+  "previaDatosDeEjemplo": "Datos de ejemplo",
+  "@previaDatosDeEjemplo": {
+    "description": "Rótulo fijo que marca como inventados el panel, el mapa y las tarjetas de expertos de la previa; no se puede ocultar."
+  },
+  "previaVerLista": "Ver lista",
+  "@previaVerLista": {
+    "description": "Botón del panel de expertos de la previa: sube el panel para ver la lista (no pide cuenta)."
+  },
+  "previaMapaSemantica": "Mapa de ejemplo con expertos. Datos de ejemplo.",
+  "@previaMapaSemantica": {
+    "description": "Etiqueta de lectura de pantalla del mapa dibujado de la previa."
+  },
+  "previaExpertosCerca": "{cantidad, plural, one{{cantidad} experto cerca de ti} other{{cantidad} expertos cerca de ti}}",
+  "@previaExpertosCerca": {
+    "description": "Encabezado del panel de la previa con el número de expertos de ejemplo.",
+    "placeholders": {
+      "cantidad": {
+        "type": "int",
+        "description": "Número de expertos de ejemplo"
+      }
+    }
+  },
+  "previaPinSemantica": "Experto de ejemplo: {nombre}. Datos de ejemplo. Toca para entrar.",
+  "@previaPinSemantica": {
+    "description": "Etiqueta de lectura de pantalla de un pin del mapa de demostración.",
+    "placeholders": {
+      "nombre": {
+        "type": "String",
+        "description": "Nombre ficticio del experto"
+      }
+    }
+  },
+  "previaTarjetaSemantica": "{nombre}, {oficio}. Datos de ejemplo. Toca para entrar.",
+  "@previaTarjetaSemantica": {
+    "description": "Etiqueta de lectura de pantalla de una tarjeta de experto de demostración.",
+    "placeholders": {
+      "nombre": {
+        "type": "String",
+        "description": "Nombre ficticio del experto"
+      },
+      "oficio": {
+        "type": "String",
+        "description": "Oficio del experto de ejemplo"
+      }
+    }
+  },
+  "previaYoAqui": "Tú estás aquí",
+  "@previaYoAqui": {
+    "description": "Punto de ejemplo que marca dónde estás en el mapa dibujado de la previa; no usa ubicación real."
+  },
+  "previaMapaAcercar": "Acercar",
+  "@previaMapaAcercar": {
+    "description": "Botón del mapa de la previa: acerca el mapa."
+  },
+  "previaMapaAlejar": "Alejar",
+  "@previaMapaAlejar": {
+    "description": "Botón del mapa de la previa: aleja el mapa."
+  },
+  "previaMapaMiUbicacion": "Volver a mi ubicación",
+  "@previaMapaMiUbicacion": {
+    "description": "Botón del mapa de la previa: regresa a la vista inicial (punto de ejemplo, sin ubicación real)."
+  },
+  "previaVerMapa": "Ver mapa",
+  "@previaVerMapa": {
+    "description": "Botón del panel de expertos: baja el panel para ver el mapa."
+  },
+  "previaPanelEtiqueta": "Panel de expertos cerca de ti",
+  "@previaPanelEtiqueta": {
+    "description": "Etiqueta de lectura de pantalla del panel inferior de la previa."
+  },
+  "previaDistanciaKm": "a {km} km",
+  "@previaDistanciaKm": {
+    "description": "Distancia de un experto de ejemplo en su tarjeta.",
+    "placeholders": {
+      "km": {
+        "type": "String",
+        "description": "Distancia con un decimal"
+      }
+    }
   }
 }

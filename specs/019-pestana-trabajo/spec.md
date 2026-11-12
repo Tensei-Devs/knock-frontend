@@ -31,7 +31,7 @@ Que una persona con rol de técnico vea en una sola pantalla de la app Android s
 - **CA-14:** Dado Trabajo abierto, cuando se recorre con lector de pantalla y texto al 200 %, entonces cada tarjeta se lee completa («Solicitud de plomería en colonia X, para mañana por la tarde, 2 fotos»), los controles miden al menos 48 dp y no se corta el contenido. · Verificación: `app/test/features/trabajo/presentation/accesibilidad_trabajo_test.dart` → `CA_019_14`
 - **CA-15:** Dado un técnico que cierra sesión o cambia de cuenta, cuando entra otra persona, entonces no queda en el teléfono nada de Trabajo (ni caché ni estado en memoria). · Verificación: `app/test/features/trabajo/data/trabajo_repository_api_test.dart` → `CA_019_15`
 - **CA-16:** Dado el registro de la app, cuando se carga Trabajo, entonces ningún `print`, registro ni reporte de errores contiene descripciones, colonias, nombres ni direcciones (prueba global de la spec 009). · Verificación: `app/test/seguridad/seguridad_cliente_test.dart` → `CA_019_16`
-- **CA-17:** Dada una falla solo en el resumen o solo en la bandeja, cuando se abre Trabajo, entonces la sección que sí respondió se muestra con datos y la otra muestra su propio error con «Reintentar»; una solicitud con `yaCotizo` verdadero se marca «Ya cotizaste» y no ofrece «Descartar». · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_17`
+- **CA-17:** Dada una falla solo en el resumen o solo en la bandeja, cuando se abre Trabajo, entonces la sección que sí respondió se muestra con datos y la otra muestra su propio error con «Reintentar»; dentro del resumen no hay respuesta parcial: si falla cualquiera de sus partes (503 `unavailable`), toda la sección del resumen queda en error con «Reintentar» (spec 036 R-07); una solicitud con `yaCotizo` verdadero se marca «Ya cotizaste» y no ofrece «Descartar». · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_17`
 
 ## 3. Alcance / No-alcance
 
@@ -67,18 +67,18 @@ Que una persona con rol de técnico vea en una sola pantalla de la app Android s
 
 ## 4. Contrato API y eventos
 
-La app **consume**. La bandeja y el descarte los fija backend 028 («Repartir la solicitud por oleadas»); el resumen es una **propuesta de trabajo** (HU-020 §7) que debe fijarse en una spec de backend antes de implementar. Alineado el 9 de noviembre de 2026 con el borrador de backend 028.
+La app **consume**. La bandeja y el descarte los fija backend 028 («Repartir la solicitud por oleadas»); el resumen lo fija el borrador de la spec 036 de backend (R-02 a R-09; antes era una propuesta de HU-020 §7) y se confirma al vendorizar. Alineado con los borradores de backend 028 y 036.
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
 | `GET /api/v1/tecnicos/me/solicitudes` (backend 028) | Solicitudes nuevas | `cursor?`, `limit?` (1–20; la app pide 20) | `200` `CursorPage<SolicitudRecibida>` (`items[]`, `nextCursor`); cada elemento `{ solicitudId, oficio{clave, nombre}, colonia{nombre, cp}, descripcion, fotos[], dia, franja, modalidad, venceEn, oleada, recibidaEn, yaCotizo }` | `400`, `401`, `403 not_a_technician`, `429` con `Retry-After` |
 | `POST /api/v1/solicitudes/{id}/descartar` (backend 028) | Descartar una solicitud nueva | vacío | `204` (también al repetir) | `401`, `403`, `404` (sin envío o ajena), `409 request_not_dismissable`, `429` |
-| `GET /api/v1/tecnicos/me/trabajo` (spec 036, Borrador) | Visitas próximas, cotizaciones enviadas, terminadas y resumen | `cursorTerminadas?`, `limit?` (1–20) | `200` con `disponibleHoy`, `verificacion{estado}`, `nivel{clave, nombre}`, `proximasVisitas[]`, `cotizacionesEnviadas[]`, `terminadas{items[], nextCursor}`, `resumen{trabajosTerminados, calificacion}` | `401`, `403 not_a_technician`, `429`, `503` |
+| `GET /api/v1/tecnicos/me/trabajo` (spec 036, Borrador) | Visitas próximas, cotizaciones enviadas, terminadas y resumen | `cursorTerminadas?`, `limit?` (1–20) | `200` con `disponibleHoy`, `verificacion{estado}`, `nivel{clave, nombre}`, `proximasVisitas[]`, `cotizacionesEnviadas[]`, `terminadas{items[], nextCursor}`, `resumen{trabajosTerminados, calificacion}` | `400 invalid_cursor`, `401`, `403 not_a_technician`, `422` (`limit` fuera de rango), `429`, `503 unavailable` (si falla cualquier parte, falla todo el resumen; nunca llega una respuesta parcial, spec 036 R-07) |
 | `GET /api/v1/visitas/{id}` (backend 022) | Abrir la visita (spec 016) | — | vista del técnico | ver spec 016 |
 
-**Elementos del resumen propuesto**
+**Elementos del resumen** (spec 036)
 - Visita próxima: `visitaId`, `solicitudId`, `dia`, `hora`, `modalidad`, `cliente{colonia}`, `lugar{direccion}`, `precio`, `tope`, `estado` (`confirmada`\|`en_curso`), `puedeLlegar` (mismos nombres que la vista del técnico de backend 022).
-- Cotización enviada: `cotizacionId`, `solicitudId`, `oficioNombre`, `tipoPrecio`, `precio`, `precioMin?`, `precioMax?`, `tope`, `estado` (`enviada`, `aceptada`, `rechazada`, `retirada`, como en backend 020), `enviadaEn`.
+- Cotización enviada: `cotizacionId`, `solicitudId`, `oficioNombre`, `tipoPrecio`, `precio`, `precioMin?`, `precioMax?`, `tope`, `estado` (`enviada`, `aceptada`, `rechazada`, `retirada`, como en backend 020), `motivoRechazo?` (presente cuando el estado es `rechazada` o `retirada`, spec 036 R-04), `enviadaEn`.
 - Terminada: `solicitudId`, `oficioNombre`, `terminadaEn`, `precio`, `calificacion?`.
 
 Reglas del contrato que la app da por ciertas:

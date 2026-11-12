@@ -19,7 +19,7 @@ Que el cliente vea en la pestaña Actividad todos sus servicios en una sola list
 - **CA-01:** Dado un cliente con solicitudes en curso y terminadas, cuando abre Actividad, entonces ve primero las en curso (de la más reciente a la más antigua) y al final las terminadas. · Verificación: `app/test/features/actividad/domain/orden_actividad_test.dart` → `CA_020_01`
 - **CA-02:** Dada una solicitud con 3 cotizaciones, cuando se pinta su tarjeta, entonces dice «3 cotizaciones listas» y su acción principal es «Ver y elegir», que abre `/actividad/solicitud/:id/cotizaciones` (spec 015). · Verificación: `app/test/features/actividad/presentation/tarjeta_actividad_test.dart` → `CA_020_02`
 - **CA-03:** Dada una solicitud en cada estado de backend 020 (`enviada`, `cotizando`, `cita_confirmada`, `terminada`, `calificada`, `cancelada`, `vencida`), cuando se pinta, entonces la etiqueta y la acción principal corresponden al estado (tabla de §7), un estado desconocido se muestra como «En proceso» con «Ver detalle», y nada depende solo del color. · Verificación: `app/test/features/actividad/presentation/tarjeta_actividad_test.dart` → `CA_020_03`
-- **CA-04:** Dado un experto que escribió, cuando se pinta la tarjeta de ese servicio, entonces aparece su último mensaje (recortado a una línea) con el contador de no leídos. · Verificación: `app/test/features/actividad/presentation/tarjeta_actividad_test.dart` → `CA_020_04`
+- **CA-04:** Dado un experto que escribió, cuando se pinta la tarjeta de ese servicio, entonces aparece su último mensaje (recortado a una línea) con el contador de no leídos; si la solicitud tiene varias conversaciones (una por técnico, backend 030), la tarjeta muestra el último mensaje más reciente de todas y la suma de sus `noLeidos` (*decisión automática, revisar*). · Verificación: `app/test/features/actividad/presentation/tarjeta_actividad_test.dart` → `CA_020_04`
 - **CA-05:** Dado un cliente sin servicios, cuando abre Actividad, entonces ve el estado vacío que invita a «Pedir mi primera cotización» y lleva a `/actividad/solicitud/nueva`. · Verificación: `app/test/features/actividad/presentation/actividad_screen_test.dart` → `CA_020_05`
 - **CA-06:** Dado un cliente con más de 20 servicios, cuando llega al final de la lista, entonces la app pide la página siguiente con `nextCursor`, nunca pide más de 20 por vez y no duplica elementos. · Verificación: `app/test/features/actividad/data/actividad_repository_api_test.dart` → `CA_020_06`
 - **CA-07:** Dada la solicitud de otra persona, cuando la app pide su detalle desde un aviso o un enlace, entonces recibe 404 y muestra «Esta solicitud ya no está disponible» sin revelar que existe. · Verificación: `app/test/features/actividad/data/actividad_repository_api_test.dart` → `CA_020_07`
@@ -52,7 +52,7 @@ Que el cliente vea en la pestaña Actividad todos sus servicios en una sola list
 
 ### Requisitos
 
-- **R-01:** Actividad pide `GET /api/v1/solicitudes` con `cursor` y `limit=20` (el servidor acepta de 1 a 50) y muestra el orden que recibe (de la más reciente a la más antigua); solo agrupa «en curso» y «terminadas» con el campo `estado`. «Ver visita» obtiene el `visitaId` de `GET /solicitudes/{id}/cotizaciones` (backend 021), porque el resumen no lo trae.
+- **R-01:** Actividad pide `GET /api/v1/solicitudes` con `cursor` y `limit=20` (el servidor acepta de 1 a 50) y muestra el orden que recibe (de la más reciente a la más antigua); solo agrupa «en curso» y «terminadas» con el campo `estado`. «Ver visita» abre la visita con el `visitaId` que trae el resumen (backend 020 lo agregó a `SolicitudResumen`), sin otra llamada.
 - **R-02:** Cada tarjeta muestra oficio, estado, número de cotizaciones, acción principal y, si hay, último mensaje y contador; la acción principal depende solo del estado (tabla en §7).
 - **R-03:** El globo existe en las cinco pestañas y no en Entrada, Completar perfil ni dentro de una conversación; su contador viene del servidor y se actualiza con el canal de la spec 026.
 - **R-04:** El contador del globo es la suma de los no leídos de las conversaciones; la app no lo calcula sola a partir de mensajes que no tiene.
@@ -67,15 +67,16 @@ Que el cliente vea en la pestaña Actividad todos sus servicios en una sola list
 
 ## 4. Contrato API y eventos
 
-La app **consume**. `GET /api/v1/solicitudes` ya está fijado por backend 020 (CA-14); las demás rutas son **propuestas** (HU-026 §7 y HU-030 §7) y deben fijarse antes de implementar.
+La app **consume**. `GET /api/v1/solicitudes` ya está fijado por backend 020 (CA-14) y las rutas de conversaciones por el borrador de backend 030 (R-15, R-17, R-18 y R-19); ambos siguen sin aprobar y se confirman al vendorizar.
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/solicitudes` | Lista de Actividad (backend 020) | `cursor?`, `limit?` (1–50; la app pide 20), `estado?` | `200` `CursorPage<SolicitudResumen>`: `id`, `estado`, `oficioNombre`, `coloniaNombre`, `dia`, `franja`, `fotos`, `cotizaciones`, `venceEn`, `creadoEn` y `nextCursor` | `400`, `401`, `429` con `Retry-After` |
+| `GET /api/v1/solicitudes` | Lista de Actividad (backend 020) | `cursor?`, `limit?` (1–50; la app pide 20), `estado?` | `200` `CursorPage<SolicitudResumen>`: `id`, `estado`, `oficioNombre`, `coloniaNombre`, `dia`, `franja`, `totalFotos`, `totalCotizaciones`, `visitaId?` (presente cuando la solicitud tiene visita), `venceEn`, `creadoEn` y `nextCursor` | `400`, `401`, `429` con `Retry-After` |
 | ~~`GET /api/v1/me/actividad`~~ | Eliminada en la revisión cruzada (*decisión automática, revisar*): no hay spec de backend para ella; la pantalla usa `GET /solicitudes` (backend 020) y `GET /conversaciones` (backend 030 R-17, con `ultimoMensaje` y `noLeidos`), cada una con su estado de carga y error | — | — | — |
-| `GET /api/v1/conversaciones` | Lista de conversaciones (HU-030) — **propuesta, sin spec** | `cursor?`, `limit?` (≤ 20) | `200` con `items[]`: `conversacionId`, `visitaId`, `contraparte{nombre, fotoUrl}`, `servicio`, `ultimoMensaje{texto, enviadoEn}`, `noLeidos`, y `totalNoLeidos`, `nextCursor` | `401`, `429` |
-| `POST /api/v1/conversaciones/{id}/leido` | Marcar como leída — **propuesta, sin spec** | `hasta` (marca de tiempo del último mensaje leído) | `204` | `401`, `404`, `429` |
-| Hub `/hubs/chat` (backend 026) | Mensajes en vivo | `UnirseAVisita(visitaId)`; evento `mensaje` `{ visitaId, mensajeId, texto, enviadoEn }` (chat de visita) y evento `mensajeConversacion` `{ conversacionId, mensajeId, autorRol, texto, contactoOculto, enviadoEn }` (conversación previa a elegir, backend 030) | — | `unauthorized`, `conversation_unavailable`, `message_limit`, `chat_disabled` |
+| `GET /api/v1/conversaciones` | Lista de conversaciones (backend 030 R-17, borrador) | `cursor?`, `limit?` (1–20) | `200` con `items[]`: `conversacionId`, `solicitudId`, `visitaId?`, `rol`, `contraparte{nombre, fotoUrl}`, `servicio`, `estado`, `ultimoMensaje{texto, enviadoEn, autorRol}` o `null`, `noLeidos`, y `totalNoLeidos`, `nextCursor` | `400`, `401`, `429` |
+| `GET /api/v1/conversaciones/no-leidas` | Contador del globo (backend 030 R-18) | — | `200` con `{ total }` | `401`, `429` |
+| `POST /api/v1/conversaciones/{id}/leido` | Marcar como leída (backend 030 R-19, borrador) | `hasta` (marca de tiempo del último mensaje leído) | `204` | `401`, `404`, `429` |
+| Hub `/hubs/chat` (backend 026 y 030) | Mensajes en vivo | `UnirseAConversacion(conversacionId)` (backend 030 R-15; el chat de una visita de backend 026 usa `UnirseAVisita(visitaId)`); la conexión entra sola al grupo `usuario:{sub}` y recibe el evento `noLeidos` `{ conversacionId, noLeidos, total }`; evento `mensaje` `{ visitaId, mensajeId, texto, enviadoEn }` (chat de visita) y evento `mensajeConversacion` `{ conversacionId, mensajeId, autorRol, texto, contactoOculto, enviadoEn }` (conversación previa a elegir, backend 030) | — | `unauthorized`, `conversation_unavailable`, `message_limit`, `chat_disabled` |
 
 Reglas del contrato que la app da por ciertas:
 - **Autorización por recurso:** `404` para lo ajeno o inexistente.
@@ -83,7 +84,7 @@ Reglas del contrato que la app da por ciertas:
 - **Conflicto detectado con backend 026:** esa spec dice que **no** guarda mensajes (CA-12: «no hay colección de mensajes») y que el evento `mensaje` no lleva quién escribe. Con eso el servidor no puede dar `ultimoMensaje` ni `noLeidos` (HU-030 menciona `messaging.lecturas`). Esta spec lo deja como **bloqueante** (§13) y define la capa `data` detrás de una interfaz para no depender de la decisión.
 - **Eventos:** `mensaje` (chat de visita, backend 026) y `mensajeConversacion` (conversación previa a elegir, backend 030) suben el contador de la conversación que corresponda, salvo que esté abierta; la app no guarda el texto. *Decisión automática, revisar:* son eventos distintos por grupo y por carga, y la app escucha los dos.
 
-**Alineación del 9 de noviembre de 2026:** `GET /api/v1/solicitudes` responde `CursorPage<SolicitudResumen>` con `items[]` y `nextCursor` (backend 002), `Cache-Control: private, no-store` y filtro opcional `estado`; los errores son ProblemDetails con `code`. Las tres rutas de conversaciones se toman como **propuestas** hasta que exista backend 030; si su forma cambia, se corrige esta tabla antes de implementar.
+**Alineación del 9 de noviembre de 2026:** `GET /api/v1/solicitudes` responde `CursorPage<SolicitudResumen>` con `items[]` y `nextCursor` (backend 002), `Cache-Control: private, no-store` y filtro opcional `estado`; los errores son ProblemDetails con `code`. Las rutas de conversaciones se toman del borrador de backend 030; si su forma cambia, se corrige esta tabla antes de implementar. El globo pide `GET /conversaciones/no-leidas` y se actualiza con el evento `noLeidos`; no pide la lista entera para contar.
 
 ## 5. Modelo de datos
 
@@ -91,10 +92,10 @@ Reglas del contrato que la app da por ciertas:
 
 | Entidad | Campos | Reglas |
 |---|---|---|
-| `ServicioDeActividad` | `id`, `estado`, `oficioNombre`, `coloniaNombre`, `dia`, `franja`, `numeroFotos`, `numeroCotizaciones`, `venceEn`, `creadoEn` (forma `SolicitudResumen` de backend 020), `accionPrincipal`, `ultimoMensaje?`, `noLeidos?` | `accionPrincipal` se deriva solo del estado; el último mensaje y los no leídos solo existen cuando backend 030 los dé |
+| `ServicioDeActividad` | `id`, `estado`, `oficioNombre`, `coloniaNombre`, `dia`, `franja`, `numeroFotos`, `numeroCotizaciones`, `venceEn`, `creadoEn` (forma `SolicitudResumen` de backend 020; `numeroFotos` y `numeroCotizaciones` se mapean desde `totalFotos` y `totalCotizaciones`), `visitaId?`, `accionPrincipal`, `ultimoMensaje?`, `noLeidos?` | `accionPrincipal` se deriva solo del estado; el último mensaje y los no leídos solo existen cuando backend 030 los dé |
 | `AccionPrincipal` | `verYElegir`, `verVisita`, `verDetalle`, `pedirDeNuevo`, `ninguna` | Ver tabla de §7 |
-| `Conversacion` | `id`, `visitaId`, `contraparte` (nombre y foto), `servicio`, `ultimoMensaje`, `noLeidos` | Inmutable; el servidor decide el orden |
-| `UltimoMensaje` | `texto`, `enviadoEn` | Solo en memoria |
+| `Conversacion` | `id`, `solicitudId`, `visitaId?`, `rol`, `estado`, `contraparte` (nombre y foto), `servicio`, `ultimoMensaje?`, `noLeidos` | Inmutable; el servidor decide el orden; `ultimoMensaje` puede ser `null` |
+| `UltimoMensaje` | `texto`, `enviadoEn`, `autorRol` | Solo en memoria |
 | `ContadorDeNoLeidos` | `total` | Suma de `noLeidos`; baja al leer y sube con el evento en vivo |
 
 **Estado local**
@@ -205,7 +206,7 @@ Reglas de pantalla:
 |---|---|---|
 | Backend 020 | `GET /solicitudes` paginada | Actividad queda vacía o vuelve a la última solicitud (spec 015, D-03) |
 | Backend 026 | Canal en vivo, límites y errores | Contador sin tiempo real |
-| Backend 030 Chatear antes de elegir y mis conversaciones (en elaboración) | `ultimoMensaje`, `noLeidos`, marca de lectura | **Bloqueante** para CA-04, CA-09 a CA-11 |
+| Backend 030 Chatear antes de elegir y mis conversaciones (borrador) | `ultimoMensaje`, `noLeidos`, `GET /conversaciones/no-leidas`, evento `noLeidos` y marca de lectura | **Bloqueante** para CA-04, CA-09 a CA-11 |
 | 015 Pedir y comparar cotizaciones | Entidad `Solicitud`, rutas y mapeo | Se duplicarían modelos |
 | 016 Visita con código | Destino de «Ver visita» | La acción no tiene a dónde ir |
 | 012 Notificaciones | Aviso de mensaje con tipo y destino sin contenido | El contador solo cambia con la app abierta |
@@ -235,10 +236,10 @@ Reglas de pantalla:
 ## 13. Riesgos y dudas abiertas
 - **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La marca de leído no la envía y backend 030 la quitó; sigue idempotente por su marca de tiempo.
 
-- **Bloqueante:** `GET /conversaciones` y la marca de lectura dependen de backend 030 (R-17 y R-19; `GET /me/actividad` ya no se usa) «Chatear antes de elegir y mis conversaciones», que se está escribiendo esta noche y no se pudo validar; backend 026 declara que no persiste mensajes, así que el último mensaje y los no leídos solo existirán si backend 030 guarda un resumen. Hasta entonces CA-04 y CA-09 a CA-11 quedan detrás de la interfaz de D-03.
+- **Bloqueante:** `GET /conversaciones` y la marca de lectura dependen de backend 030 (R-17 y R-19; `GET /me/actividad` ya no se usa) «Chatear antes de elegir y mis conversaciones», cuyo borrador ya fija esas rutas pero aún no está aprobado; backend 026 no persiste mensajes y el último mensaje y los no leídos los guarda backend 030 (R-14). Hasta que se apruebe, CA-04 y CA-09 a CA-11 quedan detrás de la interfaz de D-03.
 - **Conflicto detectado:** backend 026 no incluye en el evento `mensaje` quién escribe; la lista necesita la contraparte. Se resuelve con la visita (una conversación por visita), pero conviene confirmarlo.
 - **Resuelto en la revisión:** la app pide `limit=20` y backend 020 acepta de 1 a 50; la spec 015 ya no pagina.
-- **Hallazgo abierto (backend 020):** el resumen de la lista no trae `visitaId`; «Ver visita» necesita una llamada extra a `GET /solicitudes/{id}/cotizaciones`. Se sugiere a backend agregar `visitaId?` al `SolicitudResumen`.
+- **Resuelto en la revisión:** backend 020 ya agregó `visitaId?` al `SolicitudResumen`; «Ver visita» no necesita otra llamada.
 - **Riesgo:** el globo puede tapar controles en pantallas pequeñas con texto al 200 % (R-12); se prueba a 320×640.
 - **Duda abierta (para José):** ¿el globo es para técnicos también? HU-030 dice «cliente o técnico»; esta spec lo permite, pero el técnico no tiene Actividad.
 - **Duda abierta (para el equipo):** ¿las conversaciones nacen al recibir una cotización (HU-029) o solo al elegir? Backend 026 solo permite chat en una visita confirmada, así que antes de elegir no hay conversación.

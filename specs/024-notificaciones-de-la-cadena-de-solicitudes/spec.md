@@ -329,6 +329,7 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 - **Riesgo:** con mensajes solo de datos, Android puede retrasar la entrega si el servidor no usa prioridad alta o si el fabricante restringe la app en segundo plano.
 - **Riesgo:** la dependencia de notificaciones locales (D-02) agrega permisos o receptores al manifiesto; se revisa con la prueba de manifiesto de la spec 009.
 - **Conflicto detectado:** la maqueta (`S.notifConfig`) dice que cotizaciones, mensajes y visitas no se pueden apagar; la spec 012 dice que sí (D-11). Lo decide José.
+- **Duda abierta (entre specs):** las specs 016 (aviso «tu técnico llegó») y 018 (CA-12, cambio de estado de la verificación) dicen que su aviso lo define esta spec, pero §4.2 no tiene un evento de llegada ni de verificación. Backend 022 ya emite `VisitaEnCurso` y backend 025 emite `VerificacionDecidida` «para el aviso». Opciones sin decidir: agregar `visita_en_curso` (cliente → `/actividad/visita/{recurso}`) y un evento de verificación (técnico → `/trabajo/verificacion`) a §4.2, o quitar esos avisos de las specs 016 y 018. Esta spec sigue con ocho eventos hasta que una persona lo decida.
 - **Duda abierta:** ¿el técnico debe recibir aviso cuando el cliente eligió a otro? HU-027 y la descripción no lo piden (D-08).
 
 ## Aprobación

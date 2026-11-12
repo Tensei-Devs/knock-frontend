@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/referencia/FUNCIONES_Y_FLUJOS.md` §3.6, §4.5 y §5 · `docs/backlog/HU-036.md`, `HU-037.md`, `HU-038.md`
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye estas rutas; las fija backend 022 y se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -24,19 +24,20 @@ Que el cliente vea su visita a domicilio con el código de 4 dígitos (o su cita
 - **CA-05:** Dada una visita de otra persona, cuando la app la pide, entonces recibe 404 y se muestra «Esta visita ya no está disponible», sin revelar que existe. · Verificación: `app/test/features/actividad/data/visita_repository_api_test.dart` → `CA_016_05`
 - **CA-06:** Dada una visita con `puedeAvisar` verdadero, cuando toco «Avisar a alguien de confianza», entonces se abre la hoja de la spec 022 con los datos públicos de la visita; con `puedeAvisar` falso el botón no aparece. · Verificación: `app/test/features/actividad/presentation/visita_screen_test.dart` → `CA_016_06`
 - **CA-07:** Dada una visita a domicilio cuya vista no trae `codigo` y trae `motivoCodigo` (`usado`, `vencido`, `bloqueada` o `no_aplica`), cuando la abro, entonces en lugar del código veo el mensaje exacto de ese motivo (§7), y la copia local del código se borra. · Verificación: `app/test/features/actividad/presentation/visita_controller_test.dart` → `CA_016_07`
-- **CA-08:** Dada la pantalla de la visita, cuando toco «Ocultar código», entonces los cuatro recuadros se tapan sin borrar el código, el lector anuncia «Código oculto», un toque lo vuelve a mostrar y en Android 13 o superior la vista de tareas recientes no muestra la miniatura (R-18). · Verificación: `app/test/features/actividad/presentation/codigo_visita_test.dart` → `CA_016_08`
+- **CA-08:** Dada la pantalla de la visita, cuando toco «Ocultar código», entonces los cuatro recuadros se tapan sin borrar el código, el lector anuncia «Código oculto», un toque lo vuelve a mostrar y en Android 13 o superior la vista de tareas recientes no muestra la miniatura (R-18; esta última parte necesita código nativo y una prueba de integración o una verificación manual en el teléfono, no una prueba de widget). · Verificación: `app/test/features/actividad/presentation/codigo_visita_test.dart` → `CA_016_08`
 - **CA-09:** Dado el código de la visita, cuando llega un aviso push o se abre la visita desde él, entonces el código **no** aparece en la notificación ni en su carga; solo se ve en la pantalla de la visita. · Verificación: `app/test/features/actividad/domain/contenido_visita_test.dart` → `CA_016_09`
-- **CA-10:** Dado el técnico en su visita con `puedeLlegar` verdadero, cuando captura el código correcto, entonces el servidor responde 200, la visita pasa a **En curso** con la hora `llegadaEn` y el cliente lo ve al refrescar o al abrir el aviso. · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_10`
+- **CA-10:** Dado el técnico en su visita con `puedeLlegar` verdadero, cuando captura el código correcto, entonces el servidor responde 200, la visita pasa a **En curso** con la hora `llegadaEn` y el cliente ve «En curso» al refrescar o al abrir el aviso (la hora de llegada solo en la vista del técnico: la vista del cliente de backend 022 R-02 no trae `llegadaEn`, ver §13). · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_10`
 - **CA-11:** Dado el técnico en su visita, cuando captura un código incorrecto y el servidor responde 422 `wrong_code`, entonces ve «El código no coincide. Confirma que estás en la dirección correcta.» y «Te quedan {n} intentos» con el `intentosRestantes` recibido. · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_11`
 - **CA-12:** Dado el técnico que falla el tercer intento, cuando el servidor responde 409 `visit_locked`, entonces el campo se deshabilita, ve «Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.» y la app no reintenta sola; el aviso al cliente y el reporte de gravedad alta los crea el servidor. · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_12`
-- **CA-13:** Dado un código ya usado, vencido, una visita cancelada, una cita en taller, una visita ajena o un cliente que llama a la llegada, cuando el técnico confirma, entonces recibe 409 (`code_used`, `code_expired`, `visit_cancelled`, `visit_without_code`), 404 (ajena) o 403 (`not_a_technician`) y la app muestra el mensaje exacto de §7 sin revelar el estado de otra persona. · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_13`
+- **CA-13:** Dado un código ya usado, vencido, una visita cancelada, terminada o no presentada, una cita en taller, una confirmación antes del día de la cita, una visita ajena o un cliente que llama a la llegada, cuando el técnico confirma, entonces recibe 409 (`code_used`, `code_expired`, `visit_cancelled`, `visit_not_active`, `visit_without_code`, `outside_window`), 404 (ajena) o 403 (`not_a_technician`) y la app muestra el mensaje exacto de §7 sin revelar el estado de otra persona; un código que no tiene 4 dígitos se rechaza en el teléfono con «Escribe los 4 dígitos» y, si aun así llega un 422 con `errors.codigo` (formato), se muestra el mismo texto y no se descuenta ningún intento. · Verificación: `app/test/features/trabajo/presentation/llegada_controller_test.dart` → `CA_016_13`
 - **CA-14:** Dadas las pantallas de visita y llegada, cuando se recorren con lector de pantalla y texto al 200 %, entonces el código se lee dígito por dígito, cada control tiene etiqueta, mide al menos 48 dp, el contraste cumple 4.5:1 y no se corta el contenido. · Verificación: `app/test/features/actividad/presentation/accesibilidad_visita_test.dart` → `CA_016_14`
 - **CA-15:** Dado un 429 con `Retry-After`, un 5xx o una caída de red, cuando se abre la visita o se confirma la llegada, entonces se muestra el estado de error o el tiempo de espera, hay «Reintentar» cuando aplica y no se reintenta en bucle. · Verificación: `app/test/features/actividad/presentation/visita_controller_test.dart` → `CA_016_15`
 - **CA-16:** Dada una visita abierta, cuando termina, se cancela o se cierra sesión, entonces el almacén seguro ya no contiene el código ni los datos de la visita. · Verificación: `app/test/features/actividad/data/borrado_visita_test.dart` → `CA_016_16`
-- **CA-17:** Dado un reintento de «Ya llegué» cuya respuesta se perdió por un tiempo agotado, cuando el servidor responde 409 `code_used`, entonces la app consulta la visita, la muestra en `en_curso` y no lo trata como error. · Verificación: `app/test/features/trabajo/data/llegada_repository_api_test.dart` → `CA_016_17`
+- **CA-17:** Dado un reintento de «Ya llegué» cuya respuesta se perdió por un tiempo agotado, cuando el servidor responde 409 `code_used`, entonces la app consulta la visita, la muestra en `en_curso` y no lo trata como error; si el primer intento fue un código incorrecto y se perdió la respuesta, el reintento **vuelve a contar como intento** (backend 022 R-10), por eso el reintento es siempre manual (R-08) y la pantalla avisa «Si el código era incorrecto, este reintento cuenta como intento». · Verificación: `app/test/features/trabajo/data/llegada_repository_api_test.dart` → `CA_016_17`
 - **CA-18:** Dada una visita a domicilio, cuando se guarda la copia local, entonces **no** contiene la dirección del cliente; en una visita a taller sí guarda `direccionTaller`. · Verificación: `app/test/features/actividad/data/visita_local_repository_test.dart` → `CA_016_18`
 - **CA-19:** Dado el código de una visita, cuando se revisan `shared_preferences`, el directorio de la app y los registros, entonces solo el almacén seguro lo contiene y no aparece en ningún registro ni archivo legible. · Verificación: `app/test/seguridad/codigo_visita_test.dart` → `CA_016_19`
 - **CA-20:** Dada la vista del técnico con `puedeLlegar` falso (fuera de la ventana de la cita, en taller, ya en curso o bloqueada), cuando abre la visita, entonces «Ya llegué» está deshabilitado con la razón y la app no llama a `/llegada`. · Verificación: `app/test/features/trabajo/presentation/llegada_screen_test.dart` → `CA_016_20`
+- **CA-21:** Dado el cliente con una visita confirmada, cuando la abre, entonces ve el contacto público del técnico (`telefono` o `whatsapp`) con las acciones de llamar o escribir por WhatsApp y, si el técnico no publicó ninguno, el texto «Este técnico no publicó un teléfono. Podrás escribirle por el chat cuando esté disponible»; la app elige el mapeador de la vista del cliente o del técnico por el campo `rol` de la respuesta, no por la ruta. · Verificación: `app/test/features/actividad/presentation/visita_screen_test.dart` → `CA_016_21`
 
 ## 3. Alcance / No-alcance
 
@@ -63,9 +64,9 @@ Que el cliente vea su visita a domicilio con el código de 4 dígitos (o su cita
 
 - **R-01:** La visita se muestra distinta según la modalidad: a domicilio con el código y la regla de seguridad; en taller con la dirección del taller y «Cómo llegar».
 - **R-02:** El código tiene 4 dígitos y se muestra solo al cliente, solo en su pantalla (y, por decisión de la persona, en el mensaje de la spec 022); nunca en la vista del técnico, en un aviso push ni en un registro.
-- **R-03:** El código y los datos mínimos de la visita (técnico, día, hora, modalidad y, **solo en taller**, la dirección del taller) se guardan cifrados en el almacenamiento seguro del teléfono para verlos sin conexión, y se borran al terminar la visita, al cancelarla y al cerrar sesión. La copia local **nunca** guarda la dirección del domicilio del cliente.
+- **R-03:** El código y los datos mínimos de la visita (técnico, día, hora, modalidad y, **solo en taller**, la dirección del taller) se guardan cifrados en el almacenamiento seguro del teléfono para verlos sin conexión, y se borran al terminar la visita, al cancelarla y al cerrar sesión. La copia local **nunca** guarda la dirección del domicilio del cliente ni el teléfono o el WhatsApp del técnico (*decisión automática, revisar*: igual que la spec 015, D-16, el contacto se vuelve a leer del servidor y no se deja en el teléfono).
 - **R-04:** La app no guarda la visita ni el código en la caché de respuestas (spec 010, R-04); la copia local es del almacén seguro y solo de la visita abierta.
-- **R-05:** «Cómo llegar» abre la app de mapas del teléfono con la dirección del taller en una URL `https://www.google.com/maps/search/?api=1&query=<dirección>` con la dirección codificada con `Uri.encodeComponent`; si no hay app de mapas, se muestra la dirección en texto y un aviso, sin bloquear la pantalla.
+- **R-05:** «Cómo llegar» abre la app de mapas del teléfono con la dirección del taller en una URL `https://www.google.com/maps/search/?api=1&query=<dirección>` con la dirección codificada con `Uri.encodeComponent`; si no hay app de mapas, se muestra la dirección en texto y un aviso, sin bloquear la pantalla. En Android 11 o superior `canLaunchUrl` solo responde bien si el manifiesto declara en `<queries>` la intención `VIEW` para `https` (§9).
 - **R-06:** El botón «Avisar a alguien de confianza» aparece solo cuando la vista del cliente trae `puedeAvisar` verdadero y abre la hoja de la spec 022; esta spec no arma el mensaje, no guarda contactos y no llama a `/aviso`.
 - **R-07:** Si la vista del cliente no trae `codigo` y trae `motivoCodigo`, se muestra el mensaje de ese motivo en lugar del código y se borra la copia local del código.
 - **R-08:** El técnico confirma la llegada con un campo de 4 dígitos; la app deshabilita el botón mientras hay una operación en curso y no reintenta sola.
@@ -78,7 +79,7 @@ Que el cliente vea su visita a domicilio con el código de 4 dígitos (o su cita
 - **R-15:** La vista del técnico usa `puedeLlegar` del servidor para habilitar «Ya llegué»; la app no calcula la ventana de la cita ni el estado.
 - **R-16:** La app no envía `Idempotency-Key` en `POST /visitas/{id}/llegada` (retirada por ahora; backend 022 ya no la exige): deshabilita el botón durante la operación y, si recibe 409 `code_used` tras un reintento, consulta la visita.
 - **R-17:** El borrado de R-03 se hace con una sola clave de visita abierta (o un índice de claves) y un método `borrarDatosDeVisita()` que se invoca desde el cierre de sesión, para que no queden códigos de una cuenta anterior.
-- **R-18:** En Android 13 o superior, la pantalla de la visita desactiva la captura en la vista de tareas recientes (`setRecentsScreenshotEnabled(false)`); las capturas manuales siguen permitidas y el código se puede ocultar con «Ocultar código».
+- **R-18:** En Android 13 o superior, la pantalla de la visita desactiva la captura en la vista de tareas recientes (`setRecentsScreenshotEnabled(false)`); las capturas manuales siguen permitidas y el código se puede ocultar con «Ocultar código». `setRecentsScreenshotEnabled(false)` es un método de `Activity` (API 33): exige código Kotlin en `MainActivity` y un `MethodChannel` que lo active al entrar a la visita y lo desactive al salir (§9).
 
 ## 4. Contrato API y eventos
 
@@ -86,15 +87,15 @@ La app **consume**; el contrato lo fija backend 022 («Visita segura con código
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/visitas/{id}` | Ver la visita (cliente) y la visita del técnico (sin código) | — | Cliente: `200` con `{ id, estado, modalidad, dia, hora, precio, tope, tecnico{nombre, fotoUrl, verificado, nivelVerificacion}, lugar{direccion}, codigo?, codigoVenceEn?, reglaSeguridad?, motivoCodigo?, puedeAvisar, puedeLlegar: false }` · Técnico: `200` con `{ id, estado, modalidad, dia, hora, precio, tope, cliente{colonia}, lugar{direccion}, puedeLlegar }` | `400` id mal formado, `401`, `404` (también cuando es de otra persona), `429` |
-| `POST /api/v1/visitas/{id}/llegada` | Confirmar la llegada (técnico) | `{ codigo }` de exactamente 4 dígitos | `200` con la visita en `en_curso` y `llegadaEn` | `400` (formato), `401`, `403 not_a_technician`, `404` ajena, `409` (`visit_locked`, `code_used`, `code_expired`, `visit_cancelled`, `visit_without_code`), `422 wrong_code` con `intentosRestantes`, `429` con `Retry-After` |
+| `GET /api/v1/visitas/{id}` | Ver la visita (cliente) y la visita del técnico (sin código) | — | Cliente: `200` con `{ id, rol: "cliente", estado, modalidad, dia, hora, precio, tope, tecnico{nombre, fotoUrl, verificado, nivelVerificacion, telefono?, whatsapp?}, lugar{tipo, direccion}, codigo?, codigoVenceEn?, reglaSeguridad?, motivoCodigo?, puedeAvisar, puedeLlegar: false }` · Técnico: `200` con `{ id, rol: "tecnico", estado, modalidad, dia, hora, precio, tope, cliente{colonia}, lugar{tipo, direccion}, puedeLlegar }` | `400` id mal formado, `401`, `404` (también cuando es de otra persona), `429` |
+| `POST /api/v1/visitas/{id}/llegada` | Confirmar la llegada (técnico) | `{ codigo }` de exactamente 4 dígitos | `200` con la visita en `en_curso` y `llegadaEn` | `400` (formato), `401`, `403 not_a_technician`, `404` ajena, `409` (`visit_locked`, `code_used`, `code_expired`, `visit_cancelled`, `visit_not_active`, `visit_without_code`, `outside_window`), `422` (`wrong_code` con `intentosRestantes`; `errors.codigo` por formato, que no cuenta como intento), `429` con `Retry-After` |
 | `POST /api/v1/visitas/{id}/aviso` | Lo consume la spec 022 | — | — | — |
 
 Reglas del contrato que la app da por ciertas:
 - **Autorización por recurso:** un `404` es la respuesta para una visita de otra persona o inexistente; la app lo trata como «ya no está disponible».
 - **Código:** 4 dígitos, de un solo uso, guardado cifrado en el servidor; vence a las 23:59:59 del día de la cita más 24 h; solo en la vista del cliente, en domicilio, en `confirmada` o `en_curso`, sin usar, sin vencer y sin bloqueo.
 - **Intentos:** 3 por visita; al tercer fallo el servidor bloquea (`409 visit_locked`), emite el evento y crea el reporte; el contador no se reinicia al reconectar.
-- **Idempotencia:** repetir una llegada ya exitosa responde `409 code_used` y no consume otro intento.
+- **Idempotencia:** repetir una llegada ya exitosa responde `409 code_used` y no consume otro intento; repetir un intento fallido vuelve a contar como intento (backend 022 R-10).
 - **Límites:** 5 peticiones de llegada por minuto por técnico.
 - **Caché:** respuestas con `Cache-Control: private, no-store`; la app no las pone en la caché de respuestas y solo guarda la copia mínima del almacén seguro (R-03).
 - **Taller:** sin código, `puedeLlegar` falso y «Cómo llegar» lo arma la app; el servidor no genera rutas.
@@ -106,9 +107,9 @@ Reglas del contrato que la app da por ciertas:
 
 | Entidad | Campos | Reglas |
 |---|---|---|
-| `Visita` | `id`, `estado` (`confirmada`, `enCurso`, `terminada`, `cancelada`, `noPresentado`, mapeados desde `confirmada`, `en_curso`, `terminada`, `cancelada`, `no_presentado`), `modalidad`, `dia`, `hora`, `precio`, `tope`, `tecnico` (`TecnicoVisita`: `nombre`, `fotoUrl`, `verificado`, `nivelVerificacion`), `clienteColonia` (solo vista del técnico), `direccion` (de `lugar.direccion`), `codigo?`, `codigoVenceEn?`, `reglaSeguridad?`, `motivoCodigo?`, `puedeAvisar`, `puedeLlegar`, `llegadaEn?` | Inmutable; `codigo` es `null` en la vista del técnico y cuando llega `motivoCodigo`; un estado desconocido se muestra como «En proceso» |
+| `Visita` | `id`, `estado` (`confirmada`, `enCurso`, `terminada`, `cancelada`, `noPresentado`, mapeados desde `confirmada`, `en_curso`, `terminada`, `cancelada`, `no_presentado`), `rol` (`cliente` o `tecnico`, elige el mapeador), `modalidad`, `dia`, `hora`, `precio`, `tope`, `tecnico` (`TecnicoVisita`: `nombre`, `fotoUrl`, `verificado`, `nivelVerificacion`, `telefono?`, `whatsapp?`; solo en memoria), `clienteColonia` (solo vista del técnico), `lugarTipo` (de `lugar.tipo`), `direccion` (de `lugar.direccion`), `codigo?`, `codigoVenceEn?`, `reglaSeguridad?`, `motivoCodigo?`, `puedeAvisar`, `puedeLlegar`, `llegadaEn?` | Inmutable; `codigo` es `null` en la vista del técnico y cuando llega `motivoCodigo`; un estado desconocido se muestra como «En proceso» |
 | `ResultadoLlegada` | `estado`, `llegadaEn` | Solo después de un código correcto |
-| `ErrorLlegada` | `codigo` (`codigoIncorrecto`, `visitaBloqueada`, `codigoUsado`, `codigoVencido`, `visitaCancelada`, `visitaSinCodigo`, `noEsTecnico`), `intentosRestantes?` | Lo construye el mapeador desde ProblemDetails |
+| `ErrorLlegada` | `codigo` (`codigoIncorrecto`, `codigoFormatoInvalido`, `visitaBloqueada`, `codigoUsado`, `codigoVencido`, `visitaCancelada`, `visitaNoVigente`, `visitaSinCodigo`, `fueraDeVentana`, `noEsTecnico`), `intentosRestantes?` | Lo construye el mapeador desde ProblemDetails |
 
 **Estado local**
 - `knock.visita.abierta` en el almacenamiento seguro (spec 009, `AlmacenSeguro`): `id`, `estado`, `dia`, `hora`, `modalidad`, `tecnicoNombre`, `tecnicoVerificado`, `direccionTaller`, `codigo`, `guardadoEn`, más un índice `knock.visita.claves` con los identificadores guardados. Se conserva mientras la visita esté confirmada o en curso y se borra al terminar, cancelar o cerrar sesión; una visita terminada se borra a las 24 h.
@@ -138,10 +139,10 @@ Reglas del contrato que la app da por ciertas:
 
 | Pantalla (ruta) | Estados | Contenido | Textos nuevos (ARB `visita*`, `aviso*`, `llegada*`) |
 |---|---|---|---|
-| Visita a domicilio (`/actividad/visita/:id`, fuera de la barra inferior) | carga, con datos, error, sin conexión, terminada, cancelada | Técnico con foto e insignia, día, hora, código en 4 recuadros y la regla de seguridad; «Avisar a alguien de confianza»; «Ver conversación» solo cuando exista mensajería | `visitaTitulo`, `visitaDomicilio`, `visitaTecnico`, `visitaVerificado`, `visitaSinVerificar`, `visitaDia`, `visitaHora`, `visitaCodigoTitulo`, `visitaCodigoRegla`, `visitaCodigoOcultar`, `visitaAvisar`, `visitaEnCurso`, `visitaLlego`, `visitaTerminada`, `visitaCancelada`, `visitaNoDisponible`, `visitaSinConexion` |
+| Visita a domicilio (`/actividad/visita/:id`, fuera de la barra inferior) | carga, con datos, error, sin conexión, terminada, cancelada | Técnico con foto e insignia, día, hora, código en 4 recuadros y la regla de seguridad; contacto público del técnico (llamar o WhatsApp; si no lo publicó, el texto de la spec 015); «Avisar a alguien de confianza»; «Ver conversación» solo cuando exista mensajería | `visitaTitulo`, `visitaDomicilio`, `visitaTecnico`, `visitaVerificado`, `visitaSinVerificar`, `visitaDia`, `visitaHora`, `visitaCodigoTitulo`, `visitaCodigoRegla`, `visitaCodigoOcultar`, `visitaAvisar`, `visitaEnCurso`, `visitaLlego`, `visitaTerminada`, `visitaCancelada`, `visitaNoDisponible`, `visitaSinConexion` |
 | Cita en taller (misma ruta, modalidad taller) | carga, con datos, error, sin conexión | Día, hora, dirección del taller, «Cómo llegar» y el nombre del técnico | `visitaTaller`, `visitaDireccionTaller`, `visitaComoLlegar`, `visitaSinMapas` |
 | Botón «Avisar a alguien de confianza» | visible u oculto según `puedeAvisar` | Abre la hoja de la spec 022 | `visitaAvisar` |
-| Llegada del técnico (`/trabajo/visita/:id`, fuera de la barra inferior) | carga, con datos, error, sin conexión, bloqueada | Datos de la visita sin código, campo de 4 dígitos, «Ya llegué», intentos restantes y aviso de bloqueo | `llegadaTitulo`, `llegadaInstruccion`, `llegadaCodigo`, `llegadaConfirmar`, `llegadaConfirmando`, `llegadaIncorrecto`, `llegadaIntentos`, `llegadaBloqueada`, `llegadaTaller`, `llegadaYaUsado`, `llegadaNoDisponible` |
+| Llegada del técnico (`/trabajo/visita/:id`, fuera de la barra inferior) | carga, con datos, error, sin conexión, bloqueada | Datos de la visita sin código, campo de 4 dígitos, «Ya llegué», intentos restantes y aviso de bloqueo | `llegadaTitulo`, `llegadaInstruccion`, `llegadaCodigo`, `llegadaConfirmar`, `llegadaConfirmando`, `llegadaIncorrecto`, `llegadaIntentos`, `llegadaBloqueada`, `llegadaTaller`, `llegadaYaUsado`, `llegadaNoDisponible`, `llegadaCuatroDigitos`, `llegadaReintentoCuenta`, `visitaContactoTecnico`, `visitaLlamar`, `visitaWhatsApp`, `visitaSinTelefono` |
 | Común | — | Errores del catálogo y botón de reintentar | Reutiliza `errorSinConexion`, `errorServicio`, `errorSesion`, `errorDemasiadosIntentos` y `errorNoEncontrado` (spec 015); agrega `visitaErrorCodigo` |
 
 **Mensajes exactos** (español; el inglés va en `app_en.arb`)
@@ -160,6 +161,8 @@ Reglas del contrato que la app da por ciertas:
 | `outside_window` (409) | ES: «Podrás confirmar la llegada el día de la cita, desde las 00:00.» · EN: «You can confirm arrival on the day of the appointment, from 00:00.» (claves ARB: `errorFueraDeVentana`) |
 | `visit_not_active` (409) | ES: «Esta visita ya no está vigente.» · EN: «This visit is no longer active.» (claves ARB: `errorVisitaNoVigente`) |
 | `visit_cancelled` (409) | «Esta visita se canceló.» |
+| 422 con `errors.codigo` (formato) o menos de 4 dígitos en el campo | «Escribe los 4 dígitos.» (no cuenta como intento) |
+| Reintento manual tras un tiempo agotado | «Si el código era incorrecto, este reintento cuenta como intento.» |
 | `visit_without_code` (409) | «Esta cita es en el taller y no necesita código.» |
 | `not_a_technician` (403) | «Solo el técnico de la visita puede confirmar la llegada.» |
 | 404 | «Esta visita ya no está disponible.» |
@@ -183,7 +186,7 @@ Reglas de pantalla:
 |---|---|---|
 | Unitarias (UM) | Sí | Mapeo de la vista por rol, máquina de estados de la visita y de la llegada, mapeo de errores, borrado local |
 | Widget (W) | Sí | Visita a domicilio, taller, código oculto, motivos sin código y llegada del técnico |
-| Aceptación (ACC) | Sí | CA-01 a CA-20 |
+| Aceptación (ACC) | Sí | CA-01 a CA-21 |
 | Contrato (CON) | Sí | Cliente generado contra `contracts/openapi.v1.json` y `flutter test test/api/cliente_generado_test.dart` (spec 006) |
 | Integración (INT) | Sí | Recorrido elegir → visita → avisar → llegada con API simulada en `integration_test/` y humo contra el entorno desplegado |
 | Seguridad negativa (NEG) | Sí | Visita ajena (404), código usado (409), intentos agotados (422), 429, código fuera de registros y de la vista del técnico |
@@ -213,6 +216,8 @@ Reglas de pantalla:
 | Caso límite | Sin app de mapas: dirección en texto y aviso |
 | Caso límite | Código que vence (`motivoCodigo = vencido`) con la pantalla abierta y visita bloqueada tras el tercer intento |
 | Caso límite | Visita que termina o se cancela mientras la pantalla está abierta |
+| Error esperado | Tiempo agotado tras un código incorrecto → reintento manual con aviso de que cuenta como intento |
+| Caso límite | Técnico sin teléfono ni WhatsApp publicados → texto de la spec 015 |
 | Caso límite | Código que deja de estar disponible al terminar la visita |
 
 **Gates:** `flutter analyze --fatal-infos`, `dart format`, `flutter test` con cobertura ≥ 50 % (spec 008), revisión de la constitución, revisión de seguridad y PR con CI en verde (spec 007).
@@ -241,10 +246,13 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 | `app/lib/features/trabajo/presentation/trabajo_screen.dart` | Modificar | Acceso a la próxima visita |
 | `app/lib/core/router/rutas.dart` | Modificar | `visitaCliente` y `visitaTecnico` |
 | `app/lib/core/router/app_router.dart` | Modificar | Rama de Actividad y rama de Trabajo |
-| `app/lib/core/errores/failure.dart` | Modificar | `IntentosAgotadosFailure` (422); el 404 reutiliza `NoEncontradoFailure` de la spec 015 |
-| `app/lib/core/red/errores_api.dart` | Modificar | 422 de llegada → `IntentosAgotadosFailure`; el 404 ya se mapea a `NoEncontradoFailure` (spec 015) |
+| `app/lib/core/errores/failure.dart` | Modificar | `CodigoIncorrectoFailure` (422 `wrong_code`, con `intentosRestantes`) e `IntentosAgotadosFailure` (409 `visit_locked`); el 404 reutiliza `NoEncontradoFailure` de la spec 015 |
+| `app/lib/core/red/errores_api.dart` | Modificar | 422 `wrong_code` → `CodigoIncorrectoFailure` y 409 `visit_locked` → `IntentosAgotadosFailure`; 422 con `errors.codigo` y 409 `outside_window` o `visit_not_active` a sus propios errores; el 404 ya se mapea a `NoEncontradoFailure` (spec 015) |
 | `app/lib/core/errores/mensaje_failure.dart` | Modificar | Traducción de los errores nuevos |
 | `app/lib/l10n/app_es.arb`, `app_en.arb` | Modificar | Textos de §7 en ambos idiomas |
+| `app/android/app/src/main/kotlin/app/knock/mobile/MainActivity.kt` | Modificar | `MethodChannel` que llama a `setRecentsScreenshotEnabled` (API 33) al entrar y salir de la visita (R-18) |
+| `app/lib/features/actividad/presentation/widgets/proteccion_recientes.dart` | Crear | Puente Dart del `MethodChannel`; activa la protección al abrir la visita y la quita al salir |
+| `app/android/app/src/main/AndroidManifest.xml` | Modificar | Agregar al `<queries>` existente la intención `VIEW` para `https` (que `canLaunchUrl` funcione en Android 11 o superior); el manifiesto es de la spec 009 y su prueba debe actualizarse |
 | `app/pubspec.yaml` | Modificar | `url_launcher` evaluada (D-06); `share_plus` la agrega la spec 022 |
 
 **No se toca:** `app/packages/knock_api/`, `contracts/`, `scripts/`, `.github/`, `.agents/` y las specs aprobadas.
@@ -256,7 +264,7 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 | Backend 022 (otro repositorio) | Rutas, esquemas, código, intentos y reporte | Sin contrato vendorizado no se implementa la capa `data` |
 | 006 Contrato y cliente generado | Cliente Dart y verificación en CI | No hay forma permitida de llamar a la API |
 | 002 Piezas comunes | Sesión, renovación, `Failure` y mensajes | Sin token ni manejo de errores común |
-| 009 Seguridad del cliente | Almacenamiento seguro, espera por 429 y reglas de privacidad | El código y los contactos quedarían en claro |
+| 009 Seguridad del cliente | Almacenamiento seguro, espera por 429, reglas de privacidad y el manifiesto (hay que agregar el `<queries>` de `https` para «Cómo llegar») | El código y los contactos quedarían en claro y «Cómo llegar» caería siempre en el texto |
 | 010 Caché y sin conexión | Política de caché y de datos personales | Se guardarían visitas que no deben guardarse |
 | 012 Notificaciones y permisos | Aviso previo, apertura de la visita desde un aviso y contenido sin datos | El aviso de «llegó» no abriría la visita |
 | 008 Calidad y pruebas | Reglas del analizador, accesibilidad y cobertura | Los gates no existirían |
@@ -268,7 +276,7 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 
 ## 11. Definición de terminado
 
-- CA-01 a CA-20 con prueba que falla si la lógica está mal; `python scripts/sdd_lint.py --trace 016` sin `FALTA`.
+- CA-01 a CA-21 con prueba que falla si la lógica está mal; `python scripts/sdd_lint.py --trace 016` sin `FALTA`.
 - `flutter analyze --fatal-infos`, `dart format --set-exit-if-changed` y `flutter test` en verde, con cobertura ≥ 50 %.
 - Los ARB de español e inglés completos y la prueba de traducciones en verde; ningún texto escrito en la pantalla.
 - El contrato vendorizado incluye las rutas de §4 y el cliente generado compila; el manifiesto del cliente coincide (spec 006).
@@ -306,10 +314,13 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 - **Resuelto en la revisión:** el aviso y su `POST /visitas/{id}/aviso` pasan a la spec 022.
 - **Duda abierta (para el equipo):** ¿la visita se comparte también por correo o solo por la hoja del sistema? Esta spec usa solo la hoja del sistema.
 - **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La spec 010 §5 ya decía que la app no la usa en esta etapa y backend 022 la quitó. Sin ella, si la respuesta de una llegada exitosa se pierde, el reintento recibe 409 `code_used` y la app debe consultar la visita antes de mostrar un error (D-11).
+- **Duda abierta (backend 022):** la vista del cliente no trae `llegadaEn`; o se pide el campo en backend 022 o el cliente solo ve «En curso» sin la hora (CA-10). Se comenta también en el PR de backend.
+- **Duda abierta (entre specs):** el aviso «tu técnico llegó» se atribuye a la spec 024, pero esa spec lista 8 eventos y ninguno es de llegada (backend 022 ya emite `VisitaEnCurso`). O la spec 024 agrega un evento como `visita_en_curso` (cliente → `/actividad/visita/{recurso}`) o se quita ese aviso de esta spec; hasta decidirlo, el aviso no es criterio verificable de esta spec.
+- **Duda abierta (backend 022):** el formato de `telefono` y `whatsapp` (número o enlace) se confirma al vendorizar; la app solo los abre con el sistema y no los guarda.
 - **Riesgo aceptado:** el código de 4 dígitos tiene 10 000 combinaciones; el bloqueo a los 3 intentos es del servidor, por visita y por técnico, y no se reinicia al reinstalar (D-10).
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

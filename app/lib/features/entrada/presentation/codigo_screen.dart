@@ -86,10 +86,7 @@ class _CodigoScreenState extends ConsumerState<CodigoScreen> {
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(digitosDeCodigo),
           ],
-          style: tema.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w700,
-            letterSpacing: 8,
-          ),
+          style: tema.textTheme.headlineSmall?.copyWith(letterSpacing: 8),
           decoration: decoracionDeEntrada(
             etiqueta: textos.entradaCodigoEtiqueta,
             error: _error ? textos.entradaCodigoError : null,
