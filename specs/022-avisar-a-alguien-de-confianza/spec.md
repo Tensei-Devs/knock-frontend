@@ -234,6 +234,6 @@ Los contactos viven en `features/actividad/` (spec 016) y su pantalla en `featur
 
 ## Aprobación
 
-- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-12
 - [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)
