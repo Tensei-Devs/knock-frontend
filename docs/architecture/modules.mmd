@@ -22,12 +22,13 @@ graph LR
   tema["tema"]
   trabajo["trabajo"]
   widgets["widgets"]
+  actividad -->|4| oficios
   app -->|1| inicio
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
   previa -->|5| oficios
-  router -->|1| actividad
+  router -->|3| actividad
   router -->|4| cuenta
   router -->|2| entrada
   router -->|1| explorar
