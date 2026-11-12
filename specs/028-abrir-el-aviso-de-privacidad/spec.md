@@ -102,6 +102,6 @@ Las pruebas citan el caso como `CA-028-NN` en el nombre (para `python scripts/sd
 - Algunos teléfonos sin navegador instalado no podrán abrirla; por eso existe el mensaje de R-03.
 
 ## Aprobación
-- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
