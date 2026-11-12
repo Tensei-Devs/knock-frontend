@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T18:02:06Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-12T18:02:21Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -10,8 +10,10 @@
 | `actividad` | -, data, domain, presentation | 19 | 35 | 61 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
+| `config` | core | 1 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
-| `entrada` | domain, presentation | 7 | 12 | 24 |
+| `enlaces` | core | 1 | 2 | 1 |
+| `entrada` | domain, presentation | 7 | 13 | 25 |
 | `errores` | core | 3 | 20 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
@@ -108,6 +110,13 @@
 - `app/lib/core/cache/revalidador_etag.dart` — enum `OrigenCache`, class `RespuestaCache`, class `RevalidadorEtag`
   - `leerGuardado()`:52
 
+### config
+
+**core**
+
+- `app/lib/core/config/aviso_de_privacidad.dart` — —
+  - `direccionDelAvisoDePrivacidad()`:17
+
 ### cuenta
 
 **-**
@@ -150,6 +159,13 @@
 - `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`, class `_SeccionAvisosState`
   - `initState()`:28, `build()`:55
 
+### enlaces
+
+**core**
+
+- `app/lib/core/enlaces/abridor_de_enlaces.dart` — class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
+  - `abrir()`:19
+
 ### entrada
 
 **domain**
@@ -159,8 +175,8 @@
 
 **presentation**
 
-- `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`
-  - `dispose()`:35, `build()`:59, `build()`:141, `CheckboxListTile()`:170
+- `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`, class `_CasillaDelAvisoState`
+  - `dispose()`:38, `build()`:62, `dispose()`:154, `build()`:172, `CheckboxListTile()`:202
 - `app/lib/features/entrada/presentation/codigo_screen.dart` — class `CodigoScreen`, class `_CodigoScreenState`
   - `dispose()`:35, `build()`:67
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
@@ -258,11 +274,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:1229, `isSupported()`:1234, `shouldReload()`:1238, `lookupAppLocalizations()`:1241
+  - `of()`:70, `load()`:1241, `isSupported()`:1246, `shouldReload()`:1250, `lookupAppLocalizations()`:1253
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:326, `entradaReenviarEn()`:340, `previaExpertosCerca()`:422, `previaPinSemantica()`:433, `previaTarjetaSemantica()`:438, `previaDistanciaKm()`:461, `solicitudPasoDeTotal()`:472, `solicitudFotos()`:505, `solicitudFotoEtiqueta()`:523, `solicitudFotoQuitar()`:528, `solicitudEspera()`:595, `solicitudCuando()`:639, `solicitudTotalFotos()`:644
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:329, `entradaReenviarEn()`:343, `previaExpertosCerca()`:427, `previaPinSemantica()`:438, `previaTarjetaSemantica()`:443, `previaDistanciaKm()`:466, `solicitudPasoDeTotal()`:477, `solicitudFotos()`:510, `solicitudFotoEtiqueta()`:528, `solicitudFotoQuitar()`:533, `solicitudEspera()`:600, `solicitudCuando()`:644, `solicitudTotalFotos()`:649
 
 ### layout
 

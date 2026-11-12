@@ -572,6 +572,18 @@ abstract class AppLocalizations {
   /// **'Acepta el aviso de privacidad para continuar'**
   String get entradaAvisoError;
 
+  /// Mensaje breve cuando el teléfono no puede abrir la página del aviso de privacidad (spec 028).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir el aviso de privacidad. Inténtalo de nuevo más tarde.'**
+  String get entradaAvisoNoSeAbrio;
+
+  /// Indicación de accesibilidad del enlace del aviso de privacidad (spec 028).
+  ///
+  /// In es, this message translates to:
+  /// **'Se abre en el navegador'**
+  String get entradaAvisoAbrirIndicacion;
+
   /// Error de entrada: código SMS incorrecto.
   ///
   /// In es, this message translates to:
