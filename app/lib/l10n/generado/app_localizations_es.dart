@@ -749,4 +749,58 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cotizacionVerMiVisita => 'Ver mi visita';
+
+  @override
+  String get cotizacionElegir => 'Elegir';
+
+  @override
+  String cotizacionConfirmarTitulo(String tecnico) {
+    return '¿Eliges a $tecnico?';
+  }
+
+  @override
+  String get cotizacionConfirmarAvisoContacto =>
+      'Al elegir, verás el teléfono del técnico y él verá la dirección de tu servicio. Las demás cotizaciones se cerrarán.';
+
+  @override
+  String get cotizacionConfirmar => 'Confirmar elección';
+
+  @override
+  String get cotizacionCancelar => 'Cancelar';
+
+  @override
+  String get cotizacionEligiendo => 'Confirmando tu elección…';
+
+  @override
+  String get cotizacionCitaConfirmada => 'Cita confirmada';
+
+  @override
+  String cotizacionTelefono(String telefono) {
+    return 'Teléfono: $telefono';
+  }
+
+  @override
+  String cotizacionWhatsapp(String whatsapp) {
+    return 'WhatsApp: $whatsapp';
+  }
+
+  @override
+  String get cotizacionSinTelefono =>
+      'Este técnico no publicó un teléfono. Podrás escribirle por el chat cuando esté disponible';
+
+  @override
+  String cotizacionLugar(String direccion) {
+    return 'Lugar: $direccion';
+  }
+
+  @override
+  String get cotizacionListo => 'Listo';
+
+  @override
+  String get cotizacionRetirada =>
+      'Esta cotización ya no está disponible. Elige otra.';
+
+  @override
+  String get cotizacionErrorEleccion =>
+      'No pudimos confirmar tu elección. Intenta de nuevo.';
 }

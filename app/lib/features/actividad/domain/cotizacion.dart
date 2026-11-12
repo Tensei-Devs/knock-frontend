@@ -160,3 +160,57 @@ final class ResultadoComparacion {
   /// Cuántas no se muestran: «Te mostramos 5 de N» (CA-07).
   bool get hayMasDeLasMostradas => totalCotizaciones > cotizaciones.length;
 }
+
+/// El técnico elegido **después** de confirmar: solo aquí aparece su contacto
+/// público (R-09, CA-11; backend 021 R-15).
+final class TecnicoElegido {
+  const TecnicoElegido({
+    required this.nombre,
+    required this.verificado,
+    this.nivelVerificacion,
+    this.telefono,
+    this.whatsapp,
+  });
+
+  final String nombre;
+  final bool verificado;
+  final String? nivelVerificacion;
+
+  /// Contacto público; ausente si el técnico no lo publicó.
+  final String? telefono;
+  final String? whatsapp;
+
+  bool get publicoContacto => telefono != null || whatsapp != null;
+}
+
+/// La cita que devuelve la elección (backend 021 R-14). Vive solo en memoria:
+/// no se guarda en disco (R-18, D-16).
+final class CitaConfirmada {
+  const CitaConfirmada({
+    required this.visitaId,
+    required this.solicitudId,
+    required this.cotizacionId,
+    required this.modalidad,
+    required this.dia,
+    required this.hora,
+    required this.tope,
+    required this.tecnico,
+    required this.direccion,
+    this.precio,
+  });
+
+  final String visitaId;
+  final String solicitudId;
+  final String cotizacionId;
+
+  /// `domicilio` o `taller`.
+  final String modalidad;
+  final DateTime dia;
+  final String hora;
+  final int? precio;
+  final int tope;
+  final TecnicoElegido tecnico;
+
+  /// `lugar.direccion`: la del taller o la que escribió la persona.
+  final String direccion;
+}

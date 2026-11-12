@@ -1,22 +1,22 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-11T19:53:05Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-12T16:24:58Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 23 | 47 | 77 |
+| `actividad` | -, data, domain, presentation | 24 | 58 | 86 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
 | `entrada` | domain, presentation | 7 | 12 | 24 |
-| `errores` | core | 3 | 20 | 3 |
+| `errores` | core | 3 | 22 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 51 |
+| `l10n` | - | 3 | 4 | 59 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -53,13 +53,13 @@
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
-  - `subirFoto()`:52, `crear()`:55, `obtener()`:76, `cotizaciones()`:95, `cotizacion()`:122, `etiquetarComoElServidor()`:216, `ordenarComoElServidor()`:253, `porCalificacion()`:257, `porTope()`:259
+  - `subirFoto()`:66, `crear()`:69, `obtener()`:91, `cotizaciones()`:112, `elegir()`:142, `cotizacion()`:188, `etiquetarComoElServidor()`:282, `ordenarComoElServidor()`:319, `porCalificacion()`:323, `porTope()`:325
 
 **domain**
 
 - `app/lib/features/actividad/domain/borrador_solicitud.dart` — class `BorradorSolicitud`
   - `aMapa()`:38, `desdeMapa()`:51
-- `app/lib/features/actividad/domain/cotizacion.dart` — enum `TipoPrecio`, enum `EtiquetaCotizacion`, enum `OrdenCotizaciones`, enum `MotivoSinEleccion`, class `TecnicoResumen`, class `Cotizacion`, class `ResultadoComparacion`
+- `app/lib/features/actividad/domain/cotizacion.dart` — enum `TipoPrecio`, enum `EtiquetaCotizacion`, enum `OrdenCotizaciones`, enum `MotivoSinEleccion`, class `TecnicoResumen`, class `Cotizacion`, class `ResultadoComparacion`, class `TecnicoElegido`, class `CitaConfirmada`
   - `desdeTexto()`:15, `desdeTexto()`:34, `desdeTexto()`:66
 - `app/lib/features/actividad/domain/fotos_permitidas.dart` — —
   - `esFotoPermitida()`:10, `fotosPermitidas()`:23
@@ -75,10 +75,10 @@
 
 - `app/lib/features/actividad/presentation/actividad_screen.dart` — class `ActividadScreen`
   - `build()`:18, `PantallaTitulada()`:21
-- `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`
-  - `build()`:17, `elegir()`:19
+- `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionFallida`, class `EleccionController`
+  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:100
 - `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
-  - `build()`:22, `nombreOrden()`:27, `build()`:91, `build()`:165
+  - `build()`:24, `nombreOrden()`:29, `build()`:97, `build()`:187
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
   - `initState()`:22, `dispose()`:30, `build()`:36, `nombreFranja()`:53
 - `app/lib/features/actividad/presentation/pasos/paso_descripcion_fotos.dart` — class `PasoDescripcionFotos`, class `_PasoDescripcionFotosState`
@@ -91,6 +91,8 @@
   - `build()`:29, `build()`:64
 - `app/lib/features/actividad/presentation/solicitud_nueva_screen.dart` — class `SolicitudNuevaScreen`, class `_SolicitudNuevaScreenState`, class `_Avisos`, class `_Botones`
   - `initState()`:32, `build()`:44, `build()`:112, `build()`:154
+- `app/lib/features/actividad/presentation/widgets/hoja_confirmar_eleccion.dart` — class `HojaConfirmarEleccion`, class `_Confirmacion`, class `_Cita`
+  - `mostrarHojaConfirmarEleccion()`:15, `showModalBottomSheet()`:21, `build()`:52, `build()`:104, `build()`:182
 - `app/lib/features/actividad/presentation/widgets/selector_fotos.dart` — class `SelectorFotos`, class `_Miniatura`
   - `build()`:16, `build()`:117
 - `app/lib/features/actividad/presentation/widgets/tarjeta_cotizacion.dart` — class `TarjetaCotizacion`
@@ -184,7 +186,7 @@
 
 **core**
 
-- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`, class `CodigoIncorrectoFailure`, class `CodigoVencidoFailure`, class `CelularRechazadoFailure`, class `VerificacionNoDisponibleFailure`, class `NoEncontradoFailure`, class `ContenidoRechazadoFailure`, class `ModeracionNoDisponibleFailure`, class `OpcionNoDisponibleFailure`, class `FotoNoValidaFailure`
+- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`, class `CodigoIncorrectoFailure`, class `CodigoVencidoFailure`, class `CelularRechazadoFailure`, class `VerificacionNoDisponibleFailure`, class `NoEncontradoFailure`, class `ContenidoRechazadoFailure`, class `ModeracionNoDisponibleFailure`, class `OpcionNoDisponibleFailure`, class `FotoNoValidaFailure`, enum `MotivoEleccionRechazada`, class `EleccionRechazadaFailure`
   - `toString()`:10
 - `app/lib/core/errores/mensaje_failure.dart` — —
   - `mensajeDeError()`:10
@@ -266,11 +268,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:1379, `isSupported()`:1384, `shouldReload()`:1388, `lookupAppLocalizations()`:1391
+  - `of()`:70, `load()`:1463, `isSupported()`:1468, `shouldReload()`:1472, `lookupAppLocalizations()`:1475
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637, `solicitudVerCotizaciones()`:651, `cotizacionMostrandoDe()`:671, `cotizacionPrecioFijo()`:680, `cotizacionPrecioRango()`:685, `cotizacionPrecioVisita()`:690, `cotizacionTope()`:695, `cotizacionCalificacion()`:716, `cotizacionNivelVerificacion()`:721, `cotizacionCuando()`:726
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637, `solicitudVerCotizaciones()`:651, `cotizacionMostrandoDe()`:671, `cotizacionPrecioFijo()`:680, `cotizacionPrecioRango()`:685, `cotizacionPrecioVisita()`:690, `cotizacionTope()`:695, `cotizacionCalificacion()`:716, `cotizacionNivelVerificacion()`:721, `cotizacionCuando()`:726, `cotizacionConfirmarTitulo()`:752, `cotizacionTelefono()`:773 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642, `solicitudVerCotizaciones()`:656, `cotizacionMostrandoDe()`:676, `cotizacionPrecioFijo()`:685, `cotizacionPrecioRango()`:690, `cotizacionPrecioVisita()`:695, `cotizacionTope()`:700, `cotizacionCalificacion()`:721, `cotizacionNivelVerificacion()`:726, `cotizacionCuando()`:731
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642, `solicitudVerCotizaciones()`:656, `cotizacionMostrandoDe()`:676, `cotizacionPrecioFijo()`:685, `cotizacionPrecioRango()`:690, `cotizacionPrecioVisita()`:695, `cotizacionTope()`:700, `cotizacionCalificacion()`:721, `cotizacionNivelVerificacion()`:726, `cotizacionCuando()`:731, `cotizacionConfirmarTitulo()`:757, `cotizacionTelefono()`:778 …
 
 ### layout
 

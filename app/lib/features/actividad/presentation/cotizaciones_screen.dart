@@ -5,6 +5,7 @@ import 'package:app/core/widgets/estado_knock.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/presentation/cotizaciones_controller.dart';
+import 'package:app/features/actividad/presentation/widgets/hoja_confirmar_eleccion.dart';
 import 'package:app/features/actividad/presentation/widgets/tarjeta_cotizacion.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// «Ver y elegir»: compara hasta cinco cotizaciones en el orden del servidor
-/// (spec 015, CA-07 a CA-10). Elegir es de KNOCK-245.
+/// (spec 015, CA-07 a CA-10) y elige una con la hoja de confirmación (CA-11,
+/// CA-12).
 class CotizacionesScreen extends ConsumerWidget {
   const CotizacionesScreen({required this.solicitudId, super.key});
 
@@ -56,7 +58,10 @@ class CotizacionesScreen extends ConsumerWidget {
           ),
           Expanded(
             child: switch (comparacion) {
-              AsyncData(:final value) => _Lista(resultado: value),
+              AsyncData(:final value) => _Lista(
+                solicitudId: solicitudId,
+                resultado: value,
+              ),
               AsyncError(:final error) => EstadoKnock(
                 icono: error is NoEncontradoFailure
                     ? Icons.search_off_outlined
@@ -83,8 +88,9 @@ class CotizacionesScreen extends ConsumerWidget {
 }
 
 class _Lista extends ConsumerWidget {
-  const _Lista({required this.resultado});
+  const _Lista({required this.solicitudId, required this.resultado});
 
+  final String solicitudId;
   final ResultadoComparacion resultado;
 
   @override
@@ -93,6 +99,9 @@ class _Lista extends ConsumerWidget {
     final tema = Theme.of(context);
     final dominios = ref.watch(dominiosDeFotosProvider);
     final visitaDisponible = ref.watch(visitaDisponibleProvider);
+    // Mientras una elección está en curso no se puede elegir otra (R-18).
+    final eligiendo =
+        ref.watch(eleccionProvider(solicitudId)) is EleccionEnCurso;
 
     final motivo = resultado.puedeElegir ? null : resultado.motivo;
     final textoMotivo = switch (motivo) {
@@ -147,6 +156,19 @@ class _Lista extends ConsumerWidget {
             child: TarjetaCotizacion(
               cotizacion: cotizacion,
               dominiosDeFotos: dominios,
+              // Sin «Elegir» cuando el servidor dice que no se puede (CA-09).
+              accion: resultado.puedeElegir
+                  ? FilledButton(
+                      onPressed: eligiendo
+                          ? null
+                          : () => mostrarHojaConfirmarEleccion(
+                              context,
+                              solicitudId: solicitudId,
+                              cotizacion: cotizacion,
+                            ),
+                      child: Text(textos.cotizacionElegir),
+                    )
+                  : null,
             ),
           ),
       ],

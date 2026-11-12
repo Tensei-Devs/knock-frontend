@@ -30,6 +30,20 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
   final Duration esperaCotizaciones;
   final _solicitudes = <String, Solicitud>{};
 
+  /// Dirección escrita en cada solicitud a domicilio (solo en memoria).
+  final _direcciones = <String, String?>{};
+
+  /// Cita de cada solicitud ya elegida.
+  final _citas = <String, CitaConfirmada>{};
+
+  /// Contacto público ficticio de cada técnico de prueba (sin datos reales).
+  /// El técnico C no publicó contacto (CA-11).
+  static const _contactos = {
+    'tc1': (telefono: '5500000001', whatsapp: '5500000001'),
+    'tc2': (telefono: '5500000002', whatsapp: null),
+    'tc4': (telefono: null, whatsapp: '5500000004'),
+  };
+
   /// Nombres de los oficios piloto, para el detalle.
   static const _nombres = {
     'ele': 'Electricidad',
@@ -66,6 +80,7 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
       venceEn: ahora.add(const Duration(hours: 48)),
     );
     _solicitudes[creada.id] = creada;
+    _direcciones[creada.id] = solicitud.direccion;
     return creada;
   }
 
@@ -79,7 +94,9 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
     if (!_yaHayCotizaciones(solicitud)) return solicitud;
     return Solicitud(
       id: solicitud.id,
-      estado: EstadoSolicitud.cotizando,
+      estado: _citas.containsKey(id)
+          ? EstadoSolicitud.citaConfirmada
+          : EstadoSolicitud.cotizando,
       oficioNombre: solicitud.oficioNombre,
       descripcion: solicitud.descripcion,
       totalFotos: solicitud.totalFotos,
@@ -108,12 +125,61 @@ class SolicitudRepositoryDePrueba implements SolicitudRepository {
       );
     }
     final todas = ordenarComoElServidor(_semillas(solicitud), orden);
+    final cita = _citas[solicitudId];
     return ResultadoComparacion(
       cotizaciones: todas.take(5).toList(),
       totalCotizaciones: todas.length,
       tiposMixtos: todas.map((c) => c.tipoPrecio).toSet().length > 1,
-      puedeElegir: true,
+      puedeElegir: cita == null,
+      motivo: cita == null ? null : MotivoSinEleccion.yaElegida,
+      visitaId: cita?.visitaId,
     );
+  }
+
+  /// Como backend 021 R-10 y R-11: una sola elección por solicitud; la
+  /// segunda responde `request_already_chosen` y no crea otra cita.
+  @override
+  Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId) async {
+    final solicitud = _solicitudes[solicitudId];
+    if (solicitud == null) throw const NoEncontradoFailure();
+    if (_citas.containsKey(solicitudId)) {
+      throw const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida);
+    }
+    if (!_yaHayCotizaciones(solicitud)) {
+      throw const EleccionRechazadaFailure(
+        MotivoEleccionRechazada.sinCotizaciones,
+      );
+    }
+    final cotizacion = _semillas(solicitud)
+        .where((c) => c.id == cotizacionId)
+        .firstOrNull;
+    if (cotizacion == null) {
+      throw const EleccionRechazadaFailure(
+        MotivoEleccionRechazada.cotizacionNoDisponible,
+      );
+    }
+    final direccion = _direcciones[solicitudId];
+    final contacto = _contactos[cotizacion.tecnico.id];
+    final cita = CitaConfirmada(
+      visitaId: _idHexadecimal(),
+      solicitudId: solicitudId,
+      cotizacionId: cotizacionId,
+      modalidad: direccion == null ? 'taller' : 'domicilio',
+      dia: cotizacion.dia,
+      hora: cotizacion.hora,
+      precio: cotizacion.precio ?? cotizacion.precioMax,
+      tope: cotizacion.tope,
+      direccion: direccion ?? 'Taller de prueba, Av. Ficticia 100',
+      tecnico: TecnicoElegido(
+        nombre: cotizacion.tecnico.nombre,
+        verificado: cotizacion.tecnico.verificado,
+        nivelVerificacion: cotizacion.tecnico.nivelVerificacion,
+        telefono: contacto?.telefono,
+        whatsapp: contacto?.whatsapp,
+      ),
+    );
+    _citas[solicitudId] = cita;
+    return cita;
   }
 
   /// Cuatro técnicos ficticios con tipos de precio distintos.

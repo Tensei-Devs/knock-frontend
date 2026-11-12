@@ -639,5 +639,47 @@
   "cotizacionMotivoVencida": "This request expired. You can make a new one.",
   "cotizacionMotivoCancelada": "This request was canceled.",
   "cotizacionYaElegida": "You already chose a quote for this request.",
-  "cotizacionVerMiVisita": "See my visit"
+  "cotizacionVerMiVisita": "See my visit",
+  "cotizacionElegir": "Choose",
+  "cotizacionConfirmarTitulo": "Choose {tecnico}?",
+  "@cotizacionConfirmarTitulo": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionConfirmarAvisoContacto": "When you choose, you'll see the pro's phone and they'll see your service address. The other quotes will close.",
+  "cotizacionConfirmar": "Confirm choice",
+  "cotizacionCancelar": "Cancel",
+  "cotizacionEligiendo": "Confirming your choice…",
+  "cotizacionCitaConfirmada": "Appointment confirmed",
+  "cotizacionTelefono": "Phone: {telefono}",
+  "@cotizacionTelefono": {
+    "placeholders": {
+      "telefono": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionWhatsapp": "WhatsApp: {whatsapp}",
+  "@cotizacionWhatsapp": {
+    "placeholders": {
+      "whatsapp": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionSinTelefono": "This pro didn't share a phone number. You'll be able to message them in the chat when it's available",
+  "cotizacionLugar": "Place: {direccion}",
+  "@cotizacionLugar": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionListo": "Done",
+  "cotizacionRetirada": "This quote is no longer available. Choose another one.",
+  "cotizacionErrorEleccion": "We couldn't confirm your choice. Try again."
 }

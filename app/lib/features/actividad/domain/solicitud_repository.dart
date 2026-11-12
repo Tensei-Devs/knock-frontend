@@ -27,6 +27,11 @@ abstract interface class SolicitudRepository {
     String solicitudId, {
     OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
   });
+
+  /// Elige la cotización [cotizacionId] (backend 021 R-09). Devuelve la cita
+  /// con el contacto público y el lugar. Falla con `EleccionRechazadaFailure`
+  /// (409) o con `ServicioNoDisponibleFailure` (503, se puede repetir a mano).
+  Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId);
 }
 
 /// El borrador del formulario y las copias privadas de sus fotos (R-07).
