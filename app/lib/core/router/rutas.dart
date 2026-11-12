@@ -10,6 +10,17 @@ abstract final class Rutas {
   /// conserva la barra inferior.
   static const oficios = '/explorar/oficios';
 
+  /// Pedir una cotización en tres pasos (spec 015): conserva la barra inferior.
+  /// Acepta `?oficioClave=` para saltar el paso 1.
+  static const solicitudNueva = '/actividad/solicitud/nueva';
+
+  /// Detalle de una solicitud (spec 015): `/actividad/solicitud/<id>`.
+  static String solicitudDetalle(String id) =>
+      '/actividad/solicitud/${Uri.encodeComponent(id)}';
+
+  /// Parámetro de `solicitudNueva` con el oficio ya elegido.
+  static const parametroOficio = 'oficioClave';
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 

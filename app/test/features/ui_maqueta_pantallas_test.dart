@@ -148,8 +148,8 @@ void main() {
       );
 
       testWidgets(
-        'CA_014_06 Actividad: estado vacío de la maqueta y ningún botón sin '
-        'destino',
+        'CA_014_06 Actividad: estado vacío de la maqueta; su único botón '
+        'lleva a pedir una cotización (spec 015)',
         (tester) async {
           fijarPantalla(tester, escalaDeTexto: 2);
           final semantica = tester.ensureSemantics();
@@ -162,7 +162,8 @@ void main() {
           expect(find.byType(EstadoKnock), findsOneWidget);
           expect(find.text(_es['actividadVaciaTitulo']!), findsOneWidget);
           expect(find.text(_es['actividadVaciaDetalle']!), findsOneWidget);
-          expect(find.byType(FilledButton), findsNothing);
+          expect(find.byType(FilledButton), findsOneWidget);
+          expect(find.text('Pedir cotización'), findsOneWidget);
           expect(find.byType(OutlinedButton), findsNothing);
           expect(find.byType(TextButton), findsNothing);
           expect(tester.takeException(), isNull);
