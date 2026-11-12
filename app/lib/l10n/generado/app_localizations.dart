@@ -901,6 +901,336 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'a {km} km'**
   String previaDistanciaKm(String km);
+
+  /// Botón del estado vacío de Actividad que abre «Pedir cotización».
+  ///
+  /// In es, this message translates to:
+  /// **'Pide tu primera cotización'**
+  String get actividadPedirCotizacion;
+
+  /// Título del formulario de solicitud (spec 015).
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir cotización'**
+  String get solicitudTitulo;
+
+  /// Indicador del paso del formulario.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso {paso} de {total}'**
+  String solicitudPasoDeTotal(int paso, int total);
+
+  /// Título del paso 1: elegir el oficio.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas?'**
+  String get solicitudPaso1;
+
+  /// Título del paso 2: descripción y fotos.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué pasa?'**
+  String get solicitudPaso2;
+
+  /// Título del paso 3: día, franja y lugar.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuándo y dónde?'**
+  String get solicitudPaso3;
+
+  /// Modalidad del oficio: a domicilio.
+  ///
+  /// In es, this message translates to:
+  /// **'Va a tu domicilio'**
+  String get solicitudModalidadDomicilio;
+
+  /// Modalidad del oficio: en taller.
+  ///
+  /// In es, this message translates to:
+  /// **'Llevas tu auto al taller'**
+  String get solicitudModalidadTaller;
+
+  /// Etiqueta del campo de descripción.
+  ///
+  /// In es, this message translates to:
+  /// **'Describe el problema'**
+  String get solicitudDescripcion;
+
+  /// Ayuda bajo el campo de descripción.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntale al técnico qué pasa, desde cuándo y qué ya intentaste.'**
+  String get solicitudDescripcionAyuda;
+
+  /// Error: descripción corta (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres.'**
+  String get solicitudDescripcionCorta;
+
+  /// Error: descripción larga (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe como máximo 500 caracteres.'**
+  String get solicitudDescripcionLarga;
+
+  /// Título de la sección de fotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos ({cantidad} de 5)'**
+  String solicitudFotos(int cantidad);
+
+  /// Aviso de foto obligatoria (CA-03).
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega al menos una foto: le dice al técnico qué llevar'**
+  String get solicitudFotoFalta;
+
+  /// Aviso del máximo de fotos (CA-03).
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes 5 fotos, el máximo.'**
+  String get solicitudFotoMaximo;
+
+  /// Botón para tomar una foto con la cámara.
+  ///
+  /// In es, this message translates to:
+  /// **'Tomar foto'**
+  String get solicitudFotoTomar;
+
+  /// Botón para elegir fotos del teléfono.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir de la galería'**
+  String get solicitudFotoElegir;
+
+  /// Etiqueta de accesibilidad de una miniatura.
+  ///
+  /// In es, this message translates to:
+  /// **'Foto {numero} de {total}'**
+  String solicitudFotoEtiqueta(int numero, int total);
+
+  /// Botón para quitar una foto.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar foto {numero}'**
+  String solicitudFotoQuitar(int numero);
+
+  /// Error: foto no válida (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Esa foto es muy pesada o no es JPG ni PNG. Elige otra.'**
+  String get solicitudFotoNoValida;
+
+  /// Título de la elección de día.
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get solicitudDia;
+
+  /// Chip del día de hoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Hoy'**
+  String get solicitudHoy;
+
+  /// Título de la elección de franja.
+  ///
+  /// In es, this message translates to:
+  /// **'Horario'**
+  String get solicitudFranja;
+
+  /// Franja de la mañana.
+  ///
+  /// In es, this message translates to:
+  /// **'Mañana'**
+  String get solicitudFranjaManana;
+
+  /// Franja de la tarde.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarde'**
+  String get solicitudFranjaTarde;
+
+  /// Franja de la noche.
+  ///
+  /// In es, this message translates to:
+  /// **'Noche'**
+  String get solicitudFranjaNoche;
+
+  /// Error: falta día o franja.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el día y el horario.'**
+  String get solicitudFaltaDiaYFranja;
+
+  /// Aviso del oficio en taller (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Llevarás tu auto al taller'**
+  String get solicitudTallerAviso;
+
+  /// Etiqueta del campo de dirección (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Calle y número'**
+  String get solicitudDireccion;
+
+  /// Ayuda del campo de dirección.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo la verá el técnico que elijas.'**
+  String get solicitudDireccionAyuda;
+
+  /// Error: dirección corta (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres.'**
+  String get solicitudDireccionCorta;
+
+  /// Error: dirección larga (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe como máximo 200 caracteres.'**
+  String get solicitudDireccionLarga;
+
+  /// Aviso cuando no hay zona guardada (R-05, spec 017).
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu zona en Mi cuenta para poder enviar tu solicitud.'**
+  String get solicitudSinZona;
+
+  /// Botón para avanzar de paso.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get solicitudSiguiente;
+
+  /// Botón para volver al paso anterior.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get solicitudAtras;
+
+  /// Botón para enviar la solicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar solicitud'**
+  String get solicitudEnviar;
+
+  /// Indicador mientras se envía.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get solicitudEnviando;
+
+  /// Aviso al crear la solicitud (CA-01).
+  ///
+  /// In es, this message translates to:
+  /// **'Solicitud enviada'**
+  String get solicitudEnviada;
+
+  /// Botón para descartar el borrador.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar borrador'**
+  String get solicitudDescartar;
+
+  /// Aviso de 429 con Retry-After (CA-15).
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchos intentos. Espera {segundos} segundos.'**
+  String solicitudEspera(int segundos);
+
+  /// Error 422 content_rejected (CA-22).
+  ///
+  /// In es, this message translates to:
+  /// **'Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.'**
+  String get solicitudErrorContenidoRechazado;
+
+  /// Error 503 moderation_unavailable (CA-22).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.'**
+  String get solicitudErrorModeracion;
+
+  /// Error 422 trade_invalid o colonia_not_found.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.'**
+  String get solicitudErrorOpcionNoDisponible;
+
+  /// Error 404 (CA-13).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no está disponible.'**
+  String get solicitudNoDisponible;
+
+  /// Título del detalle de la solicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu solicitud'**
+  String get solicitudDetalleTitulo;
+
+  /// Estado enviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviada'**
+  String get solicitudEstadoEnviada;
+
+  /// Estado cotizando.
+  ///
+  /// In es, this message translates to:
+  /// **'Recibiendo cotizaciones'**
+  String get solicitudEstadoCotizando;
+
+  /// Estado cita_confirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cita confirmada'**
+  String get solicitudEstadoCita;
+
+  /// Estado terminada o calificada.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminada'**
+  String get solicitudEstadoTerminada;
+
+  /// Estado cancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelada'**
+  String get solicitudEstadoCancelada;
+
+  /// Estado vencida.
+  ///
+  /// In es, this message translates to:
+  /// **'Vencida'**
+  String get solicitudEstadoVencida;
+
+  /// Estado desconocido.
+  ///
+  /// In es, this message translates to:
+  /// **'En proceso'**
+  String get solicitudEstadoEnProceso;
+
+  /// Día y franja en el detalle.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia}, {franja}'**
+  String solicitudCuando(String dia, String franja);
+
+  /// Número de fotos en el detalle.
+  ///
+  /// In es, this message translates to:
+  /// **'{cantidad, plural, =1{1 foto} other{{cantidad} fotos}}'**
+  String solicitudTotalFotos(int cantidad);
+
+  /// Botón para volver a Actividad.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver a Actividad'**
+  String get solicitudVolverActividad;
 }
 
 class _AppLocalizationsDelegate

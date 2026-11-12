@@ -437,5 +437,118 @@
         "description": "Distance with one decimal"
       }
     }
-  }
+  },
+  "actividadPedirCotizacion": "Request your first quote",
+  "solicitudTitulo": "Request a quote",
+  "solicitudPasoDeTotal": "Step {paso} of {total}",
+  "@solicitudPasoDeTotal": {
+    "placeholders": {
+      "paso": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudPaso1": "What do you need?",
+  "solicitudPaso2": "What's wrong?",
+  "solicitudPaso3": "When and where?",
+  "solicitudModalidadDomicilio": "They come to your home",
+  "solicitudModalidadTaller": "You take your car to the shop",
+  "solicitudDescripcion": "Describe the problem",
+  "solicitudDescripcionAyuda": "Tell the pro what happens, since when and what you already tried.",
+  "solicitudDescripcionCorta": "Write at least 8 characters.",
+  "solicitudDescripcionLarga": "Write 500 characters at most.",
+  "solicitudFotos": "Photos ({cantidad} of 5)",
+  "@solicitudFotos": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoFalta": "Add at least one photo: it tells the pro what to bring",
+  "solicitudFotoMaximo": "You already have 5 photos, the maximum.",
+  "solicitudFotoTomar": "Take photo",
+  "solicitudFotoElegir": "Choose from gallery",
+  "solicitudFotoEtiqueta": "Photo {numero} of {total}",
+  "@solicitudFotoEtiqueta": {
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoQuitar": "Remove photo {numero}",
+  "@solicitudFotoQuitar": {
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoNoValida": "That photo is too large or isn't a JPG or PNG. Choose another one.",
+  "solicitudDia": "Day",
+  "solicitudHoy": "Today",
+  "solicitudFranja": "Time",
+  "solicitudFranjaManana": "Morning",
+  "solicitudFranjaTarde": "Afternoon",
+  "solicitudFranjaNoche": "Evening",
+  "solicitudFaltaDiaYFranja": "Choose the day and the time.",
+  "solicitudTallerAviso": "You'll take your car to the shop",
+  "solicitudDireccion": "Street and number",
+  "solicitudDireccionAyuda": "Only the pro you choose will see it.",
+  "solicitudDireccionCorta": "Write at least 8 characters.",
+  "solicitudDireccionLarga": "Write 200 characters at most.",
+  "solicitudSinZona": "Choose your area in My account to send your request.",
+  "solicitudSiguiente": "Next",
+  "solicitudAtras": "Back",
+  "solicitudEnviar": "Send request",
+  "solicitudEnviando": "Sending…",
+  "solicitudEnviada": "Request sent",
+  "solicitudDescartar": "Discard draft",
+  "solicitudEspera": "Too many attempts. Wait {segundos} seconds.",
+  "@solicitudEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudErrorContenidoRechazado": "Your description couldn't be posted. Review it and remove personal data or offensive words.",
+  "solicitudErrorModeracion": "We couldn't review your description right now. Try again in a few minutes.",
+  "solicitudErrorOpcionNoDisponible": "That service or area is no longer available. Choose another option.",
+  "solicitudNoDisponible": "This request is no longer available.",
+  "solicitudDetalleTitulo": "Your request",
+  "solicitudEstadoEnviada": "Sent",
+  "solicitudEstadoCotizando": "Receiving quotes",
+  "solicitudEstadoCita": "Appointment confirmed",
+  "solicitudEstadoTerminada": "Done",
+  "solicitudEstadoCancelada": "Canceled",
+  "solicitudEstadoVencida": "Expired",
+  "solicitudEstadoEnProceso": "In progress",
+  "solicitudCuando": "{dia}, {franja}",
+  "@solicitudCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "solicitudTotalFotos": "{cantidad, plural, =1{1 photo} other{{cantidad} photos}}",
+  "@solicitudTotalFotos": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudVolverActividad": "Back to Activity"
 }

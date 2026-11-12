@@ -581,5 +581,269 @@
         "description": "Distancia con un decimal"
       }
     }
+  },
+  "actividadPedirCotizacion": "Pide tu primera cotización",
+  "@actividadPedirCotizacion": {
+    "description": "Botón del estado vacío de Actividad que abre «Pedir cotización»."
+  },
+  "solicitudTitulo": "Pedir cotización",
+  "@solicitudTitulo": {
+    "description": "Título del formulario de solicitud (spec 015)."
+  },
+  "solicitudPasoDeTotal": "Paso {paso} de {total}",
+  "@solicitudPasoDeTotal": {
+    "description": "Indicador del paso del formulario.",
+    "placeholders": {
+      "paso": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudPaso1": "¿Qué necesitas?",
+  "@solicitudPaso1": {
+    "description": "Título del paso 1: elegir el oficio."
+  },
+  "solicitudPaso2": "¿Qué pasa?",
+  "@solicitudPaso2": {
+    "description": "Título del paso 2: descripción y fotos."
+  },
+  "solicitudPaso3": "¿Cuándo y dónde?",
+  "@solicitudPaso3": {
+    "description": "Título del paso 3: día, franja y lugar."
+  },
+  "solicitudModalidadDomicilio": "Va a tu domicilio",
+  "@solicitudModalidadDomicilio": {
+    "description": "Modalidad del oficio: a domicilio."
+  },
+  "solicitudModalidadTaller": "Llevas tu auto al taller",
+  "@solicitudModalidadTaller": {
+    "description": "Modalidad del oficio: en taller."
+  },
+  "solicitudDescripcion": "Describe el problema",
+  "@solicitudDescripcion": {
+    "description": "Etiqueta del campo de descripción."
+  },
+  "solicitudDescripcionAyuda": "Cuéntale al técnico qué pasa, desde cuándo y qué ya intentaste.",
+  "@solicitudDescripcionAyuda": {
+    "description": "Ayuda bajo el campo de descripción."
+  },
+  "solicitudDescripcionCorta": "Escribe al menos 8 caracteres.",
+  "@solicitudDescripcionCorta": {
+    "description": "Error: descripción corta (CA-02)."
+  },
+  "solicitudDescripcionLarga": "Escribe como máximo 500 caracteres.",
+  "@solicitudDescripcionLarga": {
+    "description": "Error: descripción larga (CA-02)."
+  },
+  "solicitudFotos": "Fotos ({cantidad} de 5)",
+  "@solicitudFotos": {
+    "description": "Título de la sección de fotos.",
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoFalta": "Agrega al menos una foto: le dice al técnico qué llevar",
+  "@solicitudFotoFalta": {
+    "description": "Aviso de foto obligatoria (CA-03)."
+  },
+  "solicitudFotoMaximo": "Ya tienes 5 fotos, el máximo.",
+  "@solicitudFotoMaximo": {
+    "description": "Aviso del máximo de fotos (CA-03)."
+  },
+  "solicitudFotoTomar": "Tomar foto",
+  "@solicitudFotoTomar": {
+    "description": "Botón para tomar una foto con la cámara."
+  },
+  "solicitudFotoElegir": "Elegir de la galería",
+  "@solicitudFotoElegir": {
+    "description": "Botón para elegir fotos del teléfono."
+  },
+  "solicitudFotoEtiqueta": "Foto {numero} de {total}",
+  "@solicitudFotoEtiqueta": {
+    "description": "Etiqueta de accesibilidad de una miniatura.",
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoQuitar": "Quitar foto {numero}",
+  "@solicitudFotoQuitar": {
+    "description": "Botón para quitar una foto.",
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoNoValida": "Esa foto es muy pesada o no es JPG ni PNG. Elige otra.",
+  "@solicitudFotoNoValida": {
+    "description": "Error: foto no válida (spec 015 §7)."
+  },
+  "solicitudDia": "Día",
+  "@solicitudDia": {
+    "description": "Título de la elección de día."
+  },
+  "solicitudHoy": "Hoy",
+  "@solicitudHoy": {
+    "description": "Chip del día de hoy."
+  },
+  "solicitudFranja": "Horario",
+  "@solicitudFranja": {
+    "description": "Título de la elección de franja."
+  },
+  "solicitudFranjaManana": "Mañana",
+  "@solicitudFranjaManana": {
+    "description": "Franja de la mañana."
+  },
+  "solicitudFranjaTarde": "Tarde",
+  "@solicitudFranjaTarde": {
+    "description": "Franja de la tarde."
+  },
+  "solicitudFranjaNoche": "Noche",
+  "@solicitudFranjaNoche": {
+    "description": "Franja de la noche."
+  },
+  "solicitudFaltaDiaYFranja": "Elige el día y el horario.",
+  "@solicitudFaltaDiaYFranja": {
+    "description": "Error: falta día o franja."
+  },
+  "solicitudTallerAviso": "Llevarás tu auto al taller",
+  "@solicitudTallerAviso": {
+    "description": "Aviso del oficio en taller (CA-05)."
+  },
+  "solicitudDireccion": "Calle y número",
+  "@solicitudDireccion": {
+    "description": "Etiqueta del campo de dirección (CA-17)."
+  },
+  "solicitudDireccionAyuda": "Solo la verá el técnico que elijas.",
+  "@solicitudDireccionAyuda": {
+    "description": "Ayuda del campo de dirección."
+  },
+  "solicitudDireccionCorta": "Escribe al menos 8 caracteres.",
+  "@solicitudDireccionCorta": {
+    "description": "Error: dirección corta (CA-17)."
+  },
+  "solicitudDireccionLarga": "Escribe como máximo 200 caracteres.",
+  "@solicitudDireccionLarga": {
+    "description": "Error: dirección larga (CA-17)."
+  },
+  "solicitudSinZona": "Elige tu zona en Mi cuenta para poder enviar tu solicitud.",
+  "@solicitudSinZona": {
+    "description": "Aviso cuando no hay zona guardada (R-05, spec 017)."
+  },
+  "solicitudSiguiente": "Siguiente",
+  "@solicitudSiguiente": {
+    "description": "Botón para avanzar de paso."
+  },
+  "solicitudAtras": "Atrás",
+  "@solicitudAtras": {
+    "description": "Botón para volver al paso anterior."
+  },
+  "solicitudEnviar": "Enviar solicitud",
+  "@solicitudEnviar": {
+    "description": "Botón para enviar la solicitud."
+  },
+  "solicitudEnviando": "Enviando…",
+  "@solicitudEnviando": {
+    "description": "Indicador mientras se envía."
+  },
+  "solicitudEnviada": "Solicitud enviada",
+  "@solicitudEnviada": {
+    "description": "Aviso al crear la solicitud (CA-01)."
+  },
+  "solicitudDescartar": "Descartar borrador",
+  "@solicitudDescartar": {
+    "description": "Botón para descartar el borrador."
+  },
+  "solicitudEspera": "Hiciste muchos intentos. Espera {segundos} segundos.",
+  "@solicitudEspera": {
+    "description": "Aviso de 429 con Retry-After (CA-15).",
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudErrorContenidoRechazado": "Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.",
+  "@solicitudErrorContenidoRechazado": {
+    "description": "Error 422 content_rejected (CA-22)."
+  },
+  "solicitudErrorModeracion": "No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.",
+  "@solicitudErrorModeracion": {
+    "description": "Error 503 moderation_unavailable (CA-22)."
+  },
+  "solicitudErrorOpcionNoDisponible": "Ese oficio o esa colonia ya no están disponibles. Elige otra opción.",
+  "@solicitudErrorOpcionNoDisponible": {
+    "description": "Error 422 trade_invalid o colonia_not_found."
+  },
+  "solicitudNoDisponible": "Esta solicitud ya no está disponible.",
+  "@solicitudNoDisponible": {
+    "description": "Error 404 (CA-13)."
+  },
+  "solicitudDetalleTitulo": "Tu solicitud",
+  "@solicitudDetalleTitulo": {
+    "description": "Título del detalle de la solicitud."
+  },
+  "solicitudEstadoEnviada": "Enviada",
+  "@solicitudEstadoEnviada": {
+    "description": "Estado enviada."
+  },
+  "solicitudEstadoCotizando": "Recibiendo cotizaciones",
+  "@solicitudEstadoCotizando": {
+    "description": "Estado cotizando."
+  },
+  "solicitudEstadoCita": "Cita confirmada",
+  "@solicitudEstadoCita": {
+    "description": "Estado cita_confirmada."
+  },
+  "solicitudEstadoTerminada": "Terminada",
+  "@solicitudEstadoTerminada": {
+    "description": "Estado terminada o calificada."
+  },
+  "solicitudEstadoCancelada": "Cancelada",
+  "@solicitudEstadoCancelada": {
+    "description": "Estado cancelada."
+  },
+  "solicitudEstadoVencida": "Vencida",
+  "@solicitudEstadoVencida": {
+    "description": "Estado vencida."
+  },
+  "solicitudEstadoEnProceso": "En proceso",
+  "@solicitudEstadoEnProceso": {
+    "description": "Estado desconocido."
+  },
+  "solicitudCuando": "{dia}, {franja}",
+  "@solicitudCuando": {
+    "description": "Día y franja en el detalle.",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "solicitudTotalFotos": "{cantidad, plural, =1{1 foto} other{{cantidad} fotos}}",
+  "@solicitudTotalFotos": {
+    "description": "Número de fotos en el detalle.",
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudVolverActividad": "Volver a Actividad",
+  "@solicitudVolverActividad": {
+    "description": "Botón para volver a Actividad."
   }
 }
