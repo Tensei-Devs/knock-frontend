@@ -429,5 +429,281 @@
         "description": "Distance with one decimal"
       }
     }
+  },
+  "actividadPedirCotizacion": "Request a quote",
+  "@actividadPedirCotizacion": {
+    "description": "Botón de Actividad que abre el formulario para pedir una cotización."
+  },
+  "actividadUltimaSolicitud": "Your latest request",
+  "@actividadUltimaSolicitud": {
+    "description": "Encabezado de la tarjeta con la última solicitud en Actividad."
+  },
+  "solicitudTitulo": "Request a quote",
+  "@solicitudTitulo": {
+    "description": "Título del formulario de tres pasos."
+  },
+  "solicitudPaso1": "Step 1 of 3: trade",
+  "@solicitudPaso1": {
+    "description": "Encabezado del paso 1 del formulario."
+  },
+  "solicitudPaso2": "Step 2 of 3: what is wrong",
+  "@solicitudPaso2": {
+    "description": "Encabezado del paso 2 del formulario."
+  },
+  "solicitudPaso3": "Step 3 of 3: when and where",
+  "@solicitudPaso3": {
+    "description": "Encabezado del paso 3 del formulario."
+  },
+  "solicitudEligeOficio": "Which trade do you need?",
+  "@solicitudEligeOficio": {
+    "description": "Pregunta del paso 1."
+  },
+  "solicitudSiguiente": "Next",
+  "@solicitudSiguiente": {
+    "description": "Botón para pasar al siguiente paso del formulario."
+  },
+  "solicitudAtras": "Back",
+  "@solicitudAtras": {
+    "description": "Botón para volver al paso anterior del formulario."
+  },
+  "solicitudFraseMecanica1": "My car will not start",
+  "@solicitudFraseMecanica1": {
+    "description": "Frase sugerida para describir un problema de mecánica."
+  },
+  "solicitudFraseMecanica2": "It makes a strange noise when braking",
+  "@solicitudFraseMecanica2": {
+    "description": "Frase sugerida para describir un problema de mecánica."
+  },
+  "solicitudFraseMecanica3": "The engine light is on",
+  "@solicitudFraseMecanica3": {
+    "description": "Frase sugerida para describir un problema de mecánica."
+  },
+  "solicitudFrasePlomeria1": "There is a water leak",
+  "@solicitudFrasePlomeria1": {
+    "description": "Frase sugerida para describir un problema de plomería."
+  },
+  "solicitudFrasePlomeria2": "The sink is clogged",
+  "@solicitudFrasePlomeria2": {
+    "description": "Frase sugerida para describir un problema de plomería."
+  },
+  "solicitudFrasePlomeria3": "The water heater does not heat",
+  "@solicitudFrasePlomeria3": {
+    "description": "Frase sugerida para describir un problema de plomería."
+  },
+  "solicitudFraseElectricidad1": "The power keeps tripping",
+  "@solicitudFraseElectricidad1": {
+    "description": "Frase sugerida para describir un problema de electricidad."
+  },
+  "solicitudFraseElectricidad2": "An outlet does not work",
+  "@solicitudFraseElectricidad2": {
+    "description": "Frase sugerida para describir un problema de electricidad."
+  },
+  "solicitudFraseElectricidad3": "I need a light fixture installed",
+  "@solicitudFraseElectricidad3": {
+    "description": "Frase sugerida para describir un problema de electricidad."
+  },
+  "solicitudDescripcionAyuda": "Tell us what is going on",
+  "@solicitudDescripcionAyuda": {
+    "description": "Etiqueta del campo de descripción del problema."
+  },
+  "solicitudDescripcionCorta": "Write at least 8 characters.",
+  "@solicitudDescripcionCorta": {
+    "description": "Error en línea cuando la descripción es muy corta."
+  },
+  "solicitudDescripcionLarga": "Use 500 characters at most.",
+  "@solicitudDescripcionLarga": {
+    "description": "Error en línea cuando la descripción es muy larga."
+  },
+  "solicitudContador": "{n}/500",
+  "@solicitudContador": {
+    "description": "Contador de caracteres de la descripción.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "description": "n"
+      }
+    }
+  },
+  "solicitudAgregarFoto": "Add photo",
+  "@solicitudAgregarFoto": {
+    "description": "Botón para agregar una foto a la solicitud."
+  },
+  "solicitudFotoFalta": "Add at least one photo: it tells the technician what to bring",
+  "@solicitudFotoFalta": {
+    "description": "Aviso cuando no hay fotos."
+  },
+  "solicitudFotoMaximo": "You can add up to 5 photos.",
+  "@solicitudFotoMaximo": {
+    "description": "Aviso cuando ya hay 5 fotos."
+  },
+  "solicitudFotoQuitar": "Remove photo",
+  "@solicitudFotoQuitar": {
+    "description": "Botón para quitar una foto."
+  },
+  "solicitudFotoEtiqueta": "Photo {n} of {total}",
+  "@solicitudFotoEtiqueta": {
+    "description": "Etiqueta de accesibilidad de una miniatura.",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "description": "n"
+      },
+      "total": {
+        "type": "int",
+        "description": "total"
+      }
+    }
+  },
+  "solicitudDia": "Which day?",
+  "@solicitudDia": {
+    "description": "Pregunta de la selección de día."
+  },
+  "solicitudFranja": "What time of day?",
+  "@solicitudFranja": {
+    "description": "Pregunta de la selección de franja."
+  },
+  "solicitudFranjaManana": "Morning",
+  "@solicitudFranjaManana": {
+    "description": "Franja de la mañana."
+  },
+  "solicitudFranjaTarde": "Afternoon",
+  "@solicitudFranjaTarde": {
+    "description": "Franja de la tarde."
+  },
+  "solicitudFranjaNoche": "Evening",
+  "@solicitudFranjaNoche": {
+    "description": "Franja de la noche."
+  },
+  "solicitudSeleccionado": "{opcion}, selected",
+  "@solicitudSeleccionado": {
+    "description": "Etiqueta de accesibilidad de una opción elegida.",
+    "placeholders": {
+      "opcion": {
+        "type": "String",
+        "description": "opcion"
+      }
+    }
+  },
+  "solicitudDomicilio": "The technician comes to your home",
+  "@solicitudDomicilio": {
+    "description": "Modalidad a domicilio del oficio."
+  },
+  "solicitudTallerAviso": "You will take your car to the shop",
+  "@solicitudTallerAviso": {
+    "description": "Aviso cuando el oficio se presta en taller y no se pide dirección."
+  },
+  "solicitudDireccion": "Street and number",
+  "@solicitudDireccion": {
+    "description": "Etiqueta del campo de dirección del domicilio."
+  },
+  "solicitudDireccionAyuda": "8 to 200 characters. Only the technician you choose will see it.",
+  "@solicitudDireccionAyuda": {
+    "description": "Ayuda del campo de dirección."
+  },
+  "solicitudDireccionCorta": "Write at least 8 characters.",
+  "@solicitudDireccionCorta": {
+    "description": "Error en línea cuando la dirección es muy corta."
+  },
+  "solicitudDireccionLarga": "Use 200 characters at most.",
+  "@solicitudDireccionLarga": {
+    "description": "Error en línea cuando la dirección es muy larga."
+  },
+  "solicitudEnviar": "Send",
+  "@solicitudEnviar": {
+    "description": "Botón que envía la solicitud."
+  },
+  "solicitudEnviando": "Sending…",
+  "@solicitudEnviando": {
+    "description": "Texto del botón mientras se envía la solicitud."
+  },
+  "solicitudEnviada": "Request sent",
+  "@solicitudEnviada": {
+    "description": "Aviso al enviar la solicitud."
+  },
+  "solicitudCargandoOficios": "Loading trades",
+  "@solicitudCargandoOficios": {
+    "description": "Etiqueta del indicador de carga de oficios."
+  },
+  "solicitudEspera": "You made too many attempts. Wait {segundos} seconds.",
+  "@solicitudEspera": {
+    "description": "Aviso de límite de intentos con el tiempo de espera.",
+    "placeholders": {
+      "segundos": {
+        "type": "int",
+        "description": "segundos"
+      }
+    }
+  },
+  "solicitudSinZona": "Choose your area to request a quote.",
+  "@solicitudSinZona": {
+    "description": "Aviso cuando todavía no hay una zona guardada."
+  },
+  "solicitudBorradorGuardado": "No connection. We saved your draft.",
+  "@solicitudBorradorGuardado": {
+    "description": "Aviso de sin conexión al enviar."
+  },
+  "solicitudReintentar": "Try again",
+  "@solicitudReintentar": {
+    "description": "Botón de reintentar de las pantallas de la solicitud."
+  },
+  "solicitudDetalleTitulo": "Your request",
+  "@solicitudDetalleTitulo": {
+    "description": "Título del detalle de la solicitud."
+  },
+  "solicitudEstadoEnviada": "Sent",
+  "@solicitudEstadoEnviada": {
+    "description": "Estado de la solicitud recién enviada."
+  },
+  "solicitudEstadoCotizando": "Receiving quotes",
+  "@solicitudEstadoCotizando": {
+    "description": "Estado de la solicitud con cotizaciones."
+  },
+  "solicitudEstadoCita": "Appointment confirmed",
+  "@solicitudEstadoCita": {
+    "description": "Estado de la solicitud con cita confirmada."
+  },
+  "solicitudEstadoVencida": "Expired",
+  "@solicitudEstadoVencida": {
+    "description": "Estado de la solicitud vencida."
+  },
+  "solicitudEstadoEnProceso": "In progress",
+  "@solicitudEstadoEnProceso": {
+    "description": "Estado de la solicitud cuando la app no lo conoce."
+  },
+  "solicitudEstadoTerminada": "Finished",
+  "@solicitudEstadoTerminada": {
+    "description": "Estado de la solicitud terminada."
+  },
+  "solicitudEstadoCancelada": "Cancelled",
+  "@solicitudEstadoCancelada": {
+    "description": "Estado de la solicitud cancelada."
+  },
+  "solicitudSinCotizaciones": "There are no quotes yet. We will let you know when the first one arrives.",
+  "@solicitudSinCotizaciones": {
+    "description": "Texto del detalle cuando aún no hay cotizaciones."
+  },
+  "solicitudVencidaAviso": "This request expired. You can make a new one.",
+  "@solicitudVencidaAviso": {
+    "description": "Aviso de solicitud vencida."
+  },
+  "solicitudNoDisponible": "This request is no longer available.",
+  "@solicitudNoDisponible": {
+    "description": "Mensaje del 404 de una solicitud."
+  },
+  "solicitudErrorContenido": "We could not publish your description. Review it and remove personal data or offensive words.",
+  "@solicitudErrorContenido": {
+    "description": "Error: moderación rechazó la descripción (content_rejected)."
+  },
+  "solicitudErrorModeracion": "We could not review your description right now. Try again in a few minutes.",
+  "@solicitudErrorModeracion": {
+    "description": "Error: la moderación no está disponible (moderation_unavailable)."
+  },
+  "solicitudErrorOficioColonia": "That trade or area is no longer available. Choose another option.",
+  "@solicitudErrorOficioColonia": {
+    "description": "Error: oficio o colonia inválidos (trade_invalid, colonia_not_found)."
+  },
+  "solicitudErrorFotoNoValida": "One of your photos is no longer valid. Remove it and add it again.",
+  "@solicitudErrorFotoNoValida": {
+    "description": "Error: una foto no es válida (photo_invalid)."
   }
 }

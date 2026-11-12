@@ -459,4 +459,207 @@ class AppLocalizationsEs extends AppLocalizations {
   String previaDistanciaKm(String km) {
     return 'a $km km';
   }
+
+  @override
+  String get actividadPedirCotizacion => 'Pedir cotización';
+
+  @override
+  String get actividadUltimaSolicitud => 'Tu última solicitud';
+
+  @override
+  String get solicitudTitulo => 'Pedir cotización';
+
+  @override
+  String get solicitudPaso1 => 'Paso 1 de 3: oficio';
+
+  @override
+  String get solicitudPaso2 => 'Paso 2 de 3: qué pasa';
+
+  @override
+  String get solicitudPaso3 => 'Paso 3 de 3: cuándo y dónde';
+
+  @override
+  String get solicitudEligeOficio => '¿Qué oficio necesitas?';
+
+  @override
+  String get solicitudSiguiente => 'Siguiente';
+
+  @override
+  String get solicitudAtras => 'Atrás';
+
+  @override
+  String get solicitudFraseMecanica1 => 'Mi auto no enciende';
+
+  @override
+  String get solicitudFraseMecanica2 => 'Hace un ruido raro al frenar';
+
+  @override
+  String get solicitudFraseMecanica3 => 'Se prende la luz del motor';
+
+  @override
+  String get solicitudFrasePlomeria1 => 'Hay una fuga de agua';
+
+  @override
+  String get solicitudFrasePlomeria2 => 'El lavabo está tapado';
+
+  @override
+  String get solicitudFrasePlomeria3 => 'El boiler no calienta';
+
+  @override
+  String get solicitudFraseElectricidad1 => 'Se botó la luz';
+
+  @override
+  String get solicitudFraseElectricidad2 => 'Un contacto no funciona';
+
+  @override
+  String get solicitudFraseElectricidad3 => 'Necesito instalar una lámpara';
+
+  @override
+  String get solicitudDescripcionAyuda => 'Cuéntanos qué pasa';
+
+  @override
+  String get solicitudDescripcionCorta => 'Escribe al menos 8 caracteres.';
+
+  @override
+  String get solicitudDescripcionLarga => 'Usa 500 caracteres como máximo.';
+
+  @override
+  String solicitudContador(int n) {
+    return '$n/500';
+  }
+
+  @override
+  String get solicitudAgregarFoto => 'Agregar foto';
+
+  @override
+  String get solicitudFotoFalta =>
+      'Agrega al menos una foto: le dice al técnico qué llevar';
+
+  @override
+  String get solicitudFotoMaximo => 'Puedes agregar hasta 5 fotos.';
+
+  @override
+  String get solicitudFotoQuitar => 'Quitar foto';
+
+  @override
+  String solicitudFotoEtiqueta(int n, int total) {
+    return 'Foto $n de $total';
+  }
+
+  @override
+  String get solicitudDia => '¿Qué día?';
+
+  @override
+  String get solicitudFranja => '¿A qué hora del día?';
+
+  @override
+  String get solicitudFranjaManana => 'Mañana';
+
+  @override
+  String get solicitudFranjaTarde => 'Tarde';
+
+  @override
+  String get solicitudFranjaNoche => 'Noche';
+
+  @override
+  String solicitudSeleccionado(String opcion) {
+    return '$opcion, seleccionado';
+  }
+
+  @override
+  String get solicitudDomicilio => 'El técnico va a tu domicilio';
+
+  @override
+  String get solicitudTallerAviso => 'Llevarás tu auto al taller';
+
+  @override
+  String get solicitudDireccion => 'Calle y número';
+
+  @override
+  String get solicitudDireccionAyuda =>
+      'De 8 a 200 caracteres. Solo la verá el técnico que elijas.';
+
+  @override
+  String get solicitudDireccionCorta => 'Escribe al menos 8 caracteres.';
+
+  @override
+  String get solicitudDireccionLarga => 'Usa 200 caracteres como máximo.';
+
+  @override
+  String get solicitudEnviar => 'Enviar';
+
+  @override
+  String get solicitudEnviando => 'Enviando…';
+
+  @override
+  String get solicitudEnviada => 'Solicitud enviada';
+
+  @override
+  String get solicitudCargandoOficios => 'Cargando oficios';
+
+  @override
+  String solicitudEspera(int segundos) {
+    return 'Hiciste muchos intentos. Espera $segundos segundos.';
+  }
+
+  @override
+  String get solicitudSinZona => 'Elige tu zona para pedir una cotización.';
+
+  @override
+  String get solicitudBorradorGuardado =>
+      'Sin conexión. Guardamos tu borrador.';
+
+  @override
+  String get solicitudReintentar => 'Reintentar';
+
+  @override
+  String get solicitudDetalleTitulo => 'Tu solicitud';
+
+  @override
+  String get solicitudEstadoEnviada => 'Enviada';
+
+  @override
+  String get solicitudEstadoCotizando => 'Cotizando';
+
+  @override
+  String get solicitudEstadoCita => 'Cita confirmada';
+
+  @override
+  String get solicitudEstadoVencida => 'Vencida';
+
+  @override
+  String get solicitudEstadoEnProceso => 'En proceso';
+
+  @override
+  String get solicitudEstadoTerminada => 'Terminada';
+
+  @override
+  String get solicitudEstadoCancelada => 'Cancelada';
+
+  @override
+  String get solicitudSinCotizaciones =>
+      'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.';
+
+  @override
+  String get solicitudVencidaAviso =>
+      'Esta solicitud venció. Puedes pedir una nueva.';
+
+  @override
+  String get solicitudNoDisponible => 'Esta solicitud ya no está disponible.';
+
+  @override
+  String get solicitudErrorContenido =>
+      'Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.';
+
+  @override
+  String get solicitudErrorModeracion =>
+      'No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.';
+
+  @override
+  String get solicitudErrorOficioColonia =>
+      'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.';
+
+  @override
+  String get solicitudErrorFotoNoValida =>
+      'Una de tus fotos ya no es válida. Quítala y agrégala de nuevo.';
 }
