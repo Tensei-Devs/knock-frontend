@@ -354,15 +354,15 @@
   - Un `motivoCodigo` borra el código de la copia (R-07). Una visita terminada o cancelada borra la copia completa.
   - La pantalla se refresca al volver a la app, sin sondeo.
   - `visitaDisponibleProvider` queda en verdadero, así que «Ver mi visita» ya lleva aquí desde la comparación y la cita.
-- **`url_launcher` 6.3.3 (flutter.dev, BSD-3-Clause; sin avisos en OSV el 2026-11-12):**
-  - Se usa para «Cómo llegar» (`https://www.google.com/maps/search/?api=1&query=` con `Uri.encodeComponent`), llamar (`tel:`) y WhatsApp (`https://wa.me/52…`), siempre con enlaces armados en `core/plataforma/enlaces.dart`, nunca con uno que llegue del servidor.
+- **`url_launcher` 6.3.3, el mismo que ya trajo la spec 028 (KNOCK-260); se reutiliza su `AbridorDeEnlaces` de `core/enlaces/`:**
+  - Se usa para «Cómo llegar» (`https://www.google.com/maps/search/?api=1&query=` con `Uri.encodeComponent`), llamar (`tel:`) y WhatsApp (`https://wa.me/52…`), siempre con enlaces armados en `core/enlaces/enlaces.dart`, nunca con uno que llegue del servidor.
   - El manifiesto declara en `<queries>` VIEW `https` y DIAL `tel` (Android 11+).
   - Sus paquetes de plataforma pueden necesitar entrar a EXC-002 para el SCA, como pasó con `image`.
 - **R-18:** `MainActivity` expone el canal `knock/pantalla` con `capturaEnRecientes`. La visita lo apaga al entrar y lo prende al salir (`setRecentsScreenshotEnabled`, Android 13+). Se verifica a mano en el teléfono.
 - **A evitar:**
   - Guardar el código en `shared_preferences` o en un archivo.
   - Guardar la dirección del domicilio o el contacto en la copia local.
-  - Abrir un enlace que no salga de `Enlaces`.
+  - Abrir un enlace que no salga de `Enlaces`, o crear un segundo abridor en lugar de usar `core/enlaces/abridor_de_enlaces.dart`.
   - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
 
 ## 2026-11-12 — Avisar a alguien de confianza (KNOCK-84, spec 022)

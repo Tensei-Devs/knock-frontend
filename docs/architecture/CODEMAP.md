@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-12T21:29:52Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-12T22:00:28Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -12,7 +12,7 @@
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 1 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 17 | 24 | 30 |
-| `enlaces` | core | 1 | 2 | 1 |
+| `enlaces` | core | 2 | 3 | 6 |
 | `entrada` | domain, presentation | 7 | 13 | 25 |
 | `errores` | core | 3 | 22 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
@@ -24,7 +24,7 @@
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
-| `plataforma` | core | 3 | 7 | 8 |
+| `plataforma` | core | 2 | 4 | 2 |
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
@@ -36,8 +36,6 @@
 
 ## Tipos con el mismo nombre en varios lugares
 
-- `AbridorDeEnlaces`: `app/lib/core/enlaces/abridor_de_enlaces.dart:8`, `app/lib/core/plataforma/enlaces.dart:51`
-- `AbridorDeEnlacesDelSistema`: `app/lib/core/enlaces/abridor_de_enlaces.dart:15`, `app/lib/core/plataforma/enlaces.dart:55`
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
 - `SesionNotifier`: `app/lib/core/sesion/sesion.dart:60`, `app/lib/core/sesion/sesion_provider.dart:26`
 
@@ -109,13 +107,13 @@
   - `initState()`:32, `build()`:44, `build()`:112, `build()`:154
 - `app/lib/features/actividad/presentation/visita_controller.dart` — class `VistaDeVisita`, class `VisitaEnLinea`, class `VisitaSinConexion`
 - `app/lib/features/actividad/presentation/visita_screen.dart` — class `VisitaScreen`, class `_VisitaScreenState`, class `_VisitaEnLinea`, class `_VisitaGuardada`, class `_Contacto`, class `_BotonEnlace`
-  - `initState()`:37, `dispose()`:46, `didChangeAppLifecycleState()`:53, `build()`:60, `build()`:107, `build()`:182, `build()`:226, `build()`:273
+  - `initState()`:38, `dispose()`:47, `didChangeAppLifecycleState()`:54, `build()`:61, `build()`:108, `build()`:183, `build()`:227, `build()`:274
 - `app/lib/features/actividad/presentation/widgets/codigo_visita.dart` — class `CodigoVisita`, class `_CodigoVisitaState`
   - `build()`:37
 - `app/lib/features/actividad/presentation/widgets/formulario_contacto.dart` — class `_FormularioContacto`, class `_FormularioContactoState`
   - `mostrarFormularioContacto()`:10, `showDialog()`:14, `mensajeErrorContacto()`:24, `initState()`:54, `dispose()`:61, `build()`:88
 - `app/lib/features/actividad/presentation/widgets/hoja_avisar.dart` — class `HojaAvisar`, class `_HojaAvisarState`
-  - `mostrarHojaAvisar()`:13, `build()`:67
+  - `mostrarHojaAvisar()`:14, `build()`:68
 - `app/lib/features/actividad/presentation/widgets/hoja_confirmar_eleccion.dart` — class `HojaConfirmarEleccion`, class `_Confirmacion`, class `_Cita`
   - `mostrarHojaConfirmarEleccion()`:15, `showModalBottomSheet()`:21, `build()`:52, `build()`:104, `build()`:182
 - `app/lib/features/actividad/presentation/widgets/selector_fotos.dart` — class `SelectorFotos`, class `_Miniatura`
@@ -200,6 +198,8 @@
 
 - `app/lib/core/enlaces/abridor_de_enlaces.dart` — class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
   - `abrir()`:19
+- `app/lib/core/enlaces/enlaces.dart` — class `Enlaces`
+  - `mapa()`:6, `llamada()`:12, `whatsapp()`:18, `sms()`:27, `whatsappConTexto()`:35
 
 ### entrada
 
@@ -397,8 +397,6 @@
   - `permitir()`:17
 - `app/lib/core/plataforma/compartir.dart` — class `CompartidorDeTexto`, class `CompartidorDelSistema`
   - `compartir()`:14
-- `app/lib/core/plataforma/enlaces.dart` — class `Enlaces`, class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
-  - `mapa()`:10, `llamada()`:16, `whatsapp()`:22, `sms()`:31, `whatsappConTexto()`:39, `abrir()`:59
 
 ### preferencias
 

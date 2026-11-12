@@ -1,5 +1,6 @@
 import 'package:app/core/plataforma/compartir.dart';
-import 'package:app/core/plataforma/enlaces.dart';
+import 'package:app/core/enlaces/abridor_de_enlaces.dart';
+import 'package:app/core/enlaces/enlaces.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/presentation/aviso_controller.dart';
 import 'package:app/features/actividad/presentation/widgets/formulario_contacto.dart';

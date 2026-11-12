@@ -1,6 +1,6 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/plataforma/compartir.dart';
-import 'package:app/core/plataforma/enlaces.dart';
+import 'package:app/core/enlaces/abridor_de_enlaces.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/tema/tema.dart';
 import 'package:app/features/actividad/actividad_providers.dart';

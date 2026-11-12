@@ -1,9 +1,5 @@
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-/// Enlaces que la app abre en apps del sistema (spec 016, R-05 y CA-21). Solo
-/// se arman con estas funciones: nunca se abre una dirección que llegue tal
+/// Enlaces que la app abre en apps del sistema con `AbridorDeEnlaces`
+/// (spec 016, R-05 y CA-21). Solo se arman con estas funciones: nunca se abre una dirección que llegue tal
 /// cual del servidor (sin esquemas arbitrarios).
 abstract final class Enlaces {
   /// Mapas: `https://www.google.com/maps/search/?api=1&query=<dirección>`.
@@ -45,26 +41,3 @@ abstract final class Enlaces {
   static String _soloDigitos(String texto) =>
       texto.replaceAll(RegExp(r'[^0-9]'), '');
 }
-
-/// Abre un enlace en una app del sistema. Devuelve `false` si no hay app que
-/// lo abra (la pantalla avisa sin bloquearse, R-05).
-abstract interface class AbridorDeEnlaces {
-  Future<bool> abrir(Uri enlace);
-}
-
-class AbridorDeEnlacesDelSistema implements AbridorDeEnlaces {
-  const AbridorDeEnlacesDelSistema();
-
-  @override
-  Future<bool> abrir(Uri enlace) async {
-    try {
-      return await launchUrl(enlace, mode: LaunchMode.externalApplication);
-    } on PlatformException {
-      return false;
-    }
-  }
-}
-
-final abridorDeEnlacesProvider = Provider<AbridorDeEnlaces>(
-  (ref) => const AbridorDeEnlacesDelSistema(),
-);

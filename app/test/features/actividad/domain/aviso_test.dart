@@ -1,4 +1,4 @@
-import 'package:app/core/plataforma/enlaces.dart';
+import 'package:app/core/enlaces/enlaces.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_test/flutter_test.dart';
