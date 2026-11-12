@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-012.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §3.3
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye la búsqueda; la fija backend 027 y se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -227,7 +227,6 @@ La función vive en `features/inicio/` (D-01). **No se toca:** `app/packages/kno
 - **Duda abierta (para el equipo):** la ficha pone a Alexis como responsable por backend; esta spec asigna la capa Mobile a Erick.
 
 ## Aprobación
-
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)
