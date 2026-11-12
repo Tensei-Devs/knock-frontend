@@ -19,7 +19,7 @@ Que una persona que no sabe qué categoría elegir escriba con sus palabras («b
 - **CA-02:** Dado «frenso» (con error), cuando busca y el servidor responde `interpretacion.estado = detectado` con `oficioDetectado`, entonces la app muestra «Buscamos: Mecánica» con el nombre recibido, sin corregir el texto en el teléfono. · Verificación: `app/test/features/inicio/presentation/busqueda_resultados_test.dart` → `CA_021_02`
 - **CA-03:** Dada una respuesta con `interpretacion.estado = no_entendido`, cuando termina, entonces ve «No entendimos qué necesitas» y puede elegir la categoría con los oficios del catálogo; con `ambiguo` ve «¿Cuál de estos buscas?» con hasta 3 chips de `oficiosSugeridos`, y elegir uno repite la búsqueda con `oficio`. · Verificación: `app/test/features/inicio/presentation/busqueda_estados_test.dart` → `CA_021_03`
 - **CA-04:** Dado el nombre de un negocio, cuando busca, entonces aparece ese experto si el servidor lo devuelve. · Verificación: `app/test/features/inicio/presentation/busqueda_resultados_test.dart` → `CA_021_04`
-- **CA-05:** Dado un texto que, sin espacios al inicio y al final, mide menos de 2 caracteres, cuando la persona intenta buscar, entonces no se llama al servidor y se lee «Escribe al menos 2 letras»; si el servidor responde 400 con `errors.q`, se muestra «Prueba con otras palabras». · Verificación: `app/test/features/inicio/domain/consulta_busqueda_test.dart` → `CA_021_05`
+- **CA-05:** Dado un texto que, sin espacios al inicio y al final, mide menos de 2 caracteres, cuando la persona intenta buscar, entonces no se llama al servidor y se lee «Escribe al menos 2 letras»; si el servidor responde 422 con `errors.q`, se muestra «Prueba con otras palabras». · Verificación: `app/test/features/inicio/domain/consulta_busqueda_test.dart` → `CA_021_05`
 - **CA-06:** Dado un texto de más de 80 caracteres, cuando la persona escribe, entonces el campo no acepta más y el contador lo indica. · Verificación: `app/test/features/inicio/domain/consulta_busqueda_test.dart` → `CA_021_06`
 - **CA-07:** Dada una persona que escribe rápido, cuando teclea varias letras seguidas, entonces la app espera 400 ms de pausa antes de pedir, cancela la petición anterior y solo pinta la respuesta de la última consulta. · Verificación: `app/test/features/inicio/presentation/busqueda_controller_test.dart` → `CA_021_07`
 - **CA-08:** Dados los filtros «Oficio» y «Solo verificados», cuando la persona los activa, entonces viajan al servidor como parámetros y la lista se pide de nuevo; la app no filtra en el teléfono. · Verificación: `app/test/features/inicio/presentation/busqueda_controller_test.dart` → `CA_021_08`
@@ -121,7 +121,7 @@ Reglas del contrato que la app da por ciertas:
 | Situación | Texto en pantalla |
 |---|---|
 | Menos de 2 caracteres | «Escribe al menos 2 letras» |
-| 400 `errors.q` | «Prueba con otras palabras» |
+| 422 `errors.q` | «Prueba con otras palabras» |
 | `no_entendido` | «No entendimos qué necesitas» + «Elige una categoría» |
 | `ambiguo` | «¿Cuál de estos buscas?» |
 | Sin resultados con oficio | «Todavía no hay expertos de {oficio} en tu colonia» + «Pedir cotización de todos modos» |
