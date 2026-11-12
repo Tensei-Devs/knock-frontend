@@ -280,7 +280,7 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 - **Pendiente de validar:** si el detalle de una solicitud cerrada devuelve `vencidaEn` (029 lo guarda pero no lo lista en la respuesta) y si las referencias de fotos del detalle se pueden reenviar en `POST /solicitudes` (029 no lo dice; la spec 015 habla de URL firmadas de 5 minutos, que no servirían).
 - **Dependencia:** `GET /api/v1/tecnicos/me/trabajo` (spec 019) lo fija la spec 036 (Borrador); sin ella, CA-15 solo se cumple en «Solicitudes nuevas».
 - **Riesgo:** el texto «Pasaron 48 horas…» supone el plazo por omisión; si el servidor configura otro (`Solicitudes:HorasVencimiento`), el texto quedaría mal. Alternativa para quien apruebe: «Se cerró sin que eligieras una cotización.»
-- **Conflicto detectado:** la spec 020 usa «Pedir de nuevo» y esta spec «Volver a pedir» (D-06); conviene unificar en la 020.
+- **Resuelto:** la spec 020 ya usa «Volver a pedir», igual que esta spec (D-06); no queda otro texto para la misma acción.
 - **Resuelto con backend 029:** la cotización de una solicitud cerrada queda `rechazada` con `motivoRechazo`; la etiqueta «Vencida» de la spec 019 (`trabajoEstadoVencida`) debe leerse de ese motivo y no de un estado.
 - **Riesgo:** si la tarea `VencerSolicitud` se pierde, el barrido de respaldo tarda hasta 10 minutos y el cliente verá «Cerrando tu solicitud…» ese tiempo; se mitiga con un solo reintento y el refresco manual.
 - **Resuelto:** backend 029 avisa a los técnicos que cotizaron cuando la solicitud vence (`tecnicosAvisar` de `SolicitudVencida`); la spec 024 lo entrega como `cotizacion_vencida`.
