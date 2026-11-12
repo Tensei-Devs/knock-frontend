@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../soporte/accesibilidad.dart';
-import 'soporte_solicitud.dart';
+import '../../../soporte/montar_solicitud.dart';
 
 ProviderContainer _contenedor(WidgetTester tester) =>
     ProviderScope.containerOf(tester.element(find.byType(Scaffold).first));
