@@ -3,6 +3,7 @@ import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/solicitud_repository_simulado.dart';
 import 'package:app/features/actividad/domain/selector_de_fotos.dart';
+import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,3 +49,10 @@ final hoyProvider = Provider<DateTime>((ref) {
   final ahora = DateTime.now().toUtc().subtract(const Duration(hours: 6));
   return DateTime(ahora.year, ahora.month, ahora.day);
 });
+
+/// Una solicitud por su id. Sin caché: lo personal que cambia no se guarda
+/// (spec 015, D-04).
+final solicitudDetalleProvider = FutureProvider.autoDispose
+    .family<Solicitud, String>(
+      (ref, id) => ref.watch(solicitudRepositoryProvider).obtener(id),
+    );
