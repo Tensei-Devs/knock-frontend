@@ -31,7 +31,7 @@ Que una persona que no sabe qué categoría elegir escriba con sus palabras («b
 - **CA-14:** Dada una búsqueda, cuando se inspecciona el disco, la caché de respuestas y los registros, entonces el texto buscado no se guardó en ninguno; no hay historial de búsquedas. · Verificación: `app/test/features/inicio/data/busqueda_repository_api_test.dart` → `CA_021_14`
 - **CA-15:** Dada una persona sin colonia guardada, cuando busca, entonces la app pide elegir la zona (spec 017) antes de mostrar distancias o resultados cercanos. · Verificación: `app/test/features/inicio/presentation/busqueda_estados_test.dart` → `CA_021_15`
 - **CA-16:** Dados la barra, los chips y las tarjetas de resultado, cuando se recorren con lector de pantalla y texto al 200 %, entonces tienen etiqueta, miden al menos 48 dp y el resultado se lee completo («Plomería, 4.8 estrellas, 12 reseñas, a unos 2 km, verificado»). · Verificación: `app/test/features/inicio/presentation/accesibilidad_busqueda_test.dart` → `CA_021_16`
-- **CA-17:** Dada una respuesta 400 `cursor_invalido`, 422 `colonia_no_encontrada` o 503 `busqueda_no_disponible`, cuando llega, entonces la app reinicia la búsqueda desde la primera página, pide elegir la zona otra vez o muestra el error con «Reintentar», respectivamente, sin reintentar sola. · Verificación: `app/test/features/inicio/presentation/busqueda_controller_test.dart` → `CA_021_17`
+- **CA-17:** Dada una respuesta 400 `invalid_cursor`, 422 `colonia_not_found` o 503 `search_unavailable`, cuando llega, entonces la app reinicia la búsqueda desde la primera página, pide elegir la zona otra vez o muestra el error con «Reintentar», respectivamente, sin reintentar sola. · Verificación: `app/test/features/inicio/presentation/busqueda_controller_test.dart` → `CA_021_17`
 - **CA-18:** Dada una búsqueda con más resultados, cuando la persona llega al final de la lista, entonces la app pide la siguiente página con `nextCursor` (20 por página) y, sin `nextCursor` después de 100 resultados, muestra «Mostramos los primeros 100. Agrega más palabras para afinar.» · Verificación: `app/test/features/inicio/data/busqueda_repository_api_test.dart` → `CA_021_18`
 
 ## 3. Alcance / No-alcance
@@ -72,7 +72,7 @@ La app **consume** `GET /api/v1/busqueda` de backend 027 («Buscar un experto po
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/busqueda` | Buscar expertos | `q` (2–80 después de normalizar), `coloniaId` (de la zona guardada), `oficio?` (clave), `soloVerificados?` (`true`\|`false`), `cursor?`, `limit?` (1–20; la app pide 20) | `200` con `{ interpretacion{estado, oficioDetectado?, oficiosSugeridos?}, items[{ id, nombre, oficios[{clave, nombre}], calificacion, totalResenas, verificado, nivelVerificacion, coloniaBase, distanciaKm, atiendeTuColonia, fotoUrl }], nextCursor }` | `400` (`errors.q`, `cursor_invalido`), `401`, `422` (`colonia_no_encontrada`, `oficio_no_valido`), `429` con `Retry-After`, `503 busqueda_no_disponible` |
+| `GET /api/v1/busqueda` | Buscar expertos | `q` (2–80 después de normalizar), `coloniaId` (de la zona guardada), `oficio?` (clave), `soloVerificados?` (`true`\|`false`), `cursor?`, `limit?` (1–20; la app pide 20) | `200` con `{ interpretacion{estado, oficioDetectado?, oficiosSugeridos?}, items[{ id, nombre, oficios[{clave, nombre}], calificacion, totalResenas, verificado, nivelVerificacion, coloniaBase, distanciaKm, atiendeTuColonia, fotoUrl }], nextCursor }` | `400` (`errors.q`, `invalid_cursor`), `401`, `422` (`colonia_not_found`, `trade_invalid`), `429` con `Retry-After`, `503 search_unavailable` |
 | `GET /api/v1/oficios` | Chips de oficio y selector «No entendimos» | — | Catálogo cacheado (spec 010) | Ver spec 002 |
 
 Reglas del contrato que la app da por ciertas:
@@ -126,7 +126,7 @@ Reglas del contrato que la app da por ciertas:
 | `ambiguo` | «¿Cuál de estos buscas?» |
 | Sin resultados con oficio | «Todavía no hay expertos de {oficio} en tu colonia» + «Pedir cotización de todos modos» |
 | Tope de 100 | «Mostramos los primeros 100. Agrega más palabras para afinar.» |
-| Sin zona o `colonia_no_encontrada` | «Elige tu zona para buscar expertos cerca» |
+| Sin zona o `colonia_not_found` | «Elige tu zona para buscar expertos cerca» |
 | 429 | «Hiciste muchas búsquedas seguidas. Espera {segundos} segundos.» |
 | Sin conexión | «Sin conexión» + «Reintentar» |
 | 503 o 5xx | «La búsqueda no está disponible en este momento. Intenta de nuevo.» |

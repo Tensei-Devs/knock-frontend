@@ -17,21 +17,21 @@ Que una persona con rol de técnico vea en una sola pantalla de la app Android s
 
 - **CA-01:** Dado un técnico con sesión, cuando abre Trabajo, entonces ve las secciones en este orden: cabecera con su disponibilidad y el aviso de verificación, próximas visitas, solicitudes nuevas, cotizaciones enviadas, terminadas (plegada) y resumen con su nivel. · Verificación: `app/test/features/trabajo/presentation/trabajo_screen_test.dart` → `CA_019_01`
 - **CA-02:** Dada una solicitud nueva, cuando se pinta su tarjeta, entonces muestra descripción, número de fotos, colonia y cuándo la quiere, y **nunca** dirección, teléfono ni nombre completo; el modelo de la app ni siquiera tiene esos campos. · Verificación: `app/test/features/trabajo/data/trabajo_mapper_test.dart` → `CA_019_02`
-- **CA-03:** Dada una solicitud nueva, cuando el técnico toca «Descartar» y confirma, entonces la app llama a `POST /solicitudes/{id}/descartar`, al recibir 204 la tarjeta desaparece y no vuelve a aparecer al refrescar; un 409 `solicitud_no_descartable` o un 404 la quitan con el mensaje de §7. · Verificación: `app/test/features/trabajo/presentation/trabajo_controller_test.dart` → `CA_019_03`
+- **CA-03:** Dada una solicitud nueva, cuando el técnico toca «Descartar» y confirma, entonces la app llama a `POST /solicitudes/{id}/descartar`, al recibir 204 la tarjeta desaparece y no vuelve a aparecer al refrescar; un 409 `request_not_dismissable` o un 404 la quitan con el mensaje de §7. · Verificación: `app/test/features/trabajo/presentation/trabajo_controller_test.dart` → `CA_019_03`
 - **CA-04:** Dado que el técnico toca «Descartar» y se arrepiente, cuando cierra la hoja de confirmación, entonces la solicitud sigue en la lista y no se llama al servidor. · Verificación: `app/test/features/trabajo/presentation/trabajo_controller_test.dart` → `CA_019_04`
 - **CA-05:** Dada una visita aceptada, cuando se pinta su tarjeta, entonces muestra día, hora, colonia del cliente, dirección exacta (`lugar.direccion`), precio, «Cómo llegar» y «Ya llegué»; no muestra el nombre ni el teléfono del cliente (backend 022 R-05 y backend 020, decisión 6), y la dirección solo existe en las visitas aceptadas. · Verificación: `app/test/features/trabajo/presentation/tarjeta_visita_test.dart` → `CA_019_05`
 - **CA-06:** Dada una visita a domicilio, cuando el técnico toca «Cómo llegar», entonces se abre la app de mapas con la dirección codificada con `Uri.encodeComponent` en una URL `https`, sin esquemas arbitrarios; si no hay app de mapas se muestra la dirección en texto. · Verificación: `app/test/features/trabajo/domain/enlace_mapa_test.dart` → `CA_019_06`
 - **CA-07:** Dada una visita a domicilio, cuando el técnico toca «Ya llegué», entonces va a `/trabajo/visita/:id` (spec 016) y no se confirma nada en esta pantalla. · Verificación: `app/test/features/trabajo/presentation/tarjeta_visita_test.dart` → `CA_019_07`
 - **CA-08:** Dado un técnico sin visitas, solicitudes ni cotizaciones, cuando abre Trabajo, entonces cada sección vacía explica qué sigue («Cuando te elijan, tus visitas aparecerán aquí») y no hay botones sin destino. · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_08`
 - **CA-09:** Dada una respuesta lenta, un error del servidor o la falta de red, cuando se abre Trabajo, entonces se muestran carga, error con «Reintentar» o «Sin conexión» con los textos del catálogo, nunca el código HTTP. · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_09`
-- **CA-10:** Dada una persona que no es técnico, cuando intenta abrir `/trabajo`, entonces el router la lleva a Inicio (spec 001) y un `403 no_es_tecnico` del servidor se trata igual, sin mostrar el contenido. · Verificación: `app/test/core/router/redireccion_trabajo_test.dart` → `CA_019_10`
+- **CA-10:** Dada una persona que no es técnico, cuando intenta abrir `/trabajo`, entonces el router la lleva a Inicio (spec 001) y un `403 not_a_technician` del servidor se trata igual, sin mostrar el contenido. · Verificación: `app/test/core/router/redireccion_trabajo_test.dart` → `CA_019_10`
 - **CA-11:** Dadas la bandeja de solicitudes nuevas o la sección «Terminadas» con más de 20 elementos, cuando el técnico llega al final, entonces la app pide la página siguiente con `nextCursor`, nunca más de 20 por página y sin duplicar. · Verificación: `app/test/features/trabajo/data/trabajo_repository_api_test.dart` → `CA_019_11`
 - **CA-12:** Dado un `429` con `Retry-After`, cuando se abre o se refresca Trabajo, entonces la app espera el tiempo indicado, lo dice y no reintenta en bucle. · Verificación: `app/test/features/trabajo/presentation/trabajo_controller_test.dart` → `CA_019_12`
 - **CA-13:** Dada una verificación pendiente o rechazada, cuando se pinta la cabecera, entonces aparece el aviso con un botón a la verificación (spec 018, `/trabajo/verificacion`) y el nivel del resumen no sube hasta que el servidor lo diga. · Verificación: `app/test/features/trabajo/presentation/cabecera_trabajo_test.dart` → `CA_019_13`
 - **CA-14:** Dado Trabajo abierto, cuando se recorre con lector de pantalla y texto al 200 %, entonces cada tarjeta se lee completa («Solicitud de plomería en colonia X, para mañana por la tarde, 2 fotos»), los controles miden al menos 48 dp y no se corta el contenido. · Verificación: `app/test/features/trabajo/presentation/accesibilidad_trabajo_test.dart` → `CA_019_14`
 - **CA-15:** Dado un técnico que cierra sesión o cambia de cuenta, cuando entra otra persona, entonces no queda en el teléfono nada de Trabajo (ni caché ni estado en memoria). · Verificación: `app/test/features/trabajo/data/trabajo_repository_api_test.dart` → `CA_019_15`
 - **CA-16:** Dado el registro de la app, cuando se carga Trabajo, entonces ningún `print`, registro ni reporte de errores contiene descripciones, colonias, nombres ni direcciones (prueba global de la spec 009). · Verificación: `app/test/seguridad/seguridad_cliente_test.dart` → `CA_019_16`
-- **CA-17:** Dada una falla solo en el resumen o solo en la bandeja, cuando se abre Trabajo, entonces la sección que sí respondió se muestra con datos y la otra muestra su propio error con «Reintentar»; dentro del resumen no hay respuesta parcial: si falla cualquiera de sus partes (503 `no_disponible`), toda la sección del resumen queda en error con «Reintentar» (spec 036 R-07); una solicitud con `yaCotizo` verdadero se marca «Ya cotizaste» y no ofrece «Descartar». · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_17`
+- **CA-17:** Dada una falla solo en el resumen o solo en la bandeja, cuando se abre Trabajo, entonces la sección que sí respondió se muestra con datos y la otra muestra su propio error con «Reintentar»; dentro del resumen no hay respuesta parcial: si falla cualquiera de sus partes (503 `unavailable`), toda la sección del resumen queda en error con «Reintentar» (spec 036 R-07); una solicitud con `yaCotizo` verdadero se marca «Ya cotizaste» y no ofrece «Descartar». · Verificación: `app/test/features/trabajo/presentation/trabajo_estados_test.dart` → `CA_019_17`
 
 ## 3. Alcance / No-alcance
 
@@ -52,11 +52,11 @@ Que una persona con rol de técnico vea en una sola pantalla de la app Android s
 
 ### Requisitos
 
-- **R-01:** Trabajo solo se muestra al técnico: el router redirige a quien no tiene el rol (spec 001) y el servidor autoriza (`403 no_es_tecnico`).
+- **R-01:** Trabajo solo se muestra al técnico: el router redirige a quien no tiene el rol (spec 001) y el servidor autoriza (`403 not_a_technician`).
 - **R-02:** La pantalla pide dos fuentes: la bandeja de solicitudes nuevas (`GET /tecnicos/me/solicitudes`, backend 028) y el resumen con visitas, enviadas, terminadas y nivel (`GET /tecnicos/me/trabajo`, spec 036); cada sección tiene su propio estado y la app no combina ni reordena las listas.
 - **R-03:** Una solicitud nueva nunca muestra dirección, teléfono ni nombre completo del cliente; solo descripción, fotos, colonia y cuándo la quiere.
 - **R-04:** La dirección exacta y la colonia del cliente solo aparecen en las visitas aceptadas; el nombre y el teléfono del cliente no se muestran al técnico en esta etapa (backend 020, decisión 6).
-- **R-05:** «Descartar» pide confirmación y quita la tarjeta al recibir 204; con 409 `solicitud_no_descartable` o 404 la quita y lo explica; con otro error la deja y explica el motivo. Una solicitud con `yaCotizo` no se puede descartar.
+- **R-05:** «Descartar» pide confirmación y quita la tarjeta al recibir 204; con 409 `request_not_dismissable` o 404 la quita y lo explica; con otro error la deja y explica el motivo. Una solicitud con `yaCotizo` no se puede descartar.
 - **R-06:** Las fotos de las solicitudes se muestran solo desde direcciones `https` de los dominios permitidos de Knock (misma regla que la spec 015, CA-21) y no se guardan en la caché de respuestas ni en disco (spec 010).
 - **R-07:** Trabajo **no** se guarda en la caché de respuestas (spec 010, R-04): contiene datos personales y cambia a cada solicitud.
 - **R-08:** La bandeja y «Terminadas» paginan con cursor (`cursor`, `limit` ≤ 20, `nextCursor`); «Terminadas» llega plegada.
@@ -71,9 +71,9 @@ La app **consume**. La bandeja y el descarte los fija backend 028 («Repartir la
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/tecnicos/me/solicitudes` (backend 028) | Solicitudes nuevas | `cursor?`, `limit?` (1–20; la app pide 20) | `200` `CursorPage<SolicitudRecibida>` (`items[]`, `nextCursor`); cada elemento `{ solicitudId, oficio{clave, nombre}, colonia{nombre, cp}, descripcion, fotos[], dia, franja, modalidad, venceEn, oleada, recibidaEn, yaCotizo }` | `400`, `401`, `403 no_es_tecnico`, `429` con `Retry-After` |
-| `POST /api/v1/solicitudes/{id}/descartar` (backend 028) | Descartar una solicitud nueva | vacío | `204` (también al repetir) | `401`, `403`, `404` (sin envío o ajena), `409 solicitud_no_descartable`, `429` |
-| `GET /api/v1/tecnicos/me/trabajo` (spec 036, Borrador) | Visitas próximas, cotizaciones enviadas, terminadas y resumen | `cursorTerminadas?`, `limit?` (1–20) | `200` con `disponibleHoy`, `verificacion{estado}`, `nivel{clave, nombre}`, `proximasVisitas[]`, `cotizacionesEnviadas[]`, `terminadas{items[], nextCursor}`, `resumen{trabajosTerminados, calificacion}` | `400 cursor_invalido`, `401`, `403 no_es_tecnico`, `422` (`limit` fuera de rango), `429`, `503 no_disponible` (si falla cualquier parte, falla todo el resumen; nunca llega una respuesta parcial, spec 036 R-07) |
+| `GET /api/v1/tecnicos/me/solicitudes` (backend 028) | Solicitudes nuevas | `cursor?`, `limit?` (1–20; la app pide 20) | `200` `CursorPage<SolicitudRecibida>` (`items[]`, `nextCursor`); cada elemento `{ solicitudId, oficio{clave, nombre}, colonia{nombre, cp}, descripcion, fotos[], dia, franja, modalidad, venceEn, oleada, recibidaEn, yaCotizo }` | `400`, `401`, `403 not_a_technician`, `429` con `Retry-After` |
+| `POST /api/v1/solicitudes/{id}/descartar` (backend 028) | Descartar una solicitud nueva | vacío | `204` (también al repetir) | `401`, `403`, `404` (sin envío o ajena), `409 request_not_dismissable`, `429` |
+| `GET /api/v1/tecnicos/me/trabajo` (spec 036, Borrador) | Visitas próximas, cotizaciones enviadas, terminadas y resumen | `cursorTerminadas?`, `limit?` (1–20) | `200` con `disponibleHoy`, `verificacion{estado}`, `nivel{clave, nombre}`, `proximasVisitas[]`, `cotizacionesEnviadas[]`, `terminadas{items[], nextCursor}`, `resumen{trabajosTerminados, calificacion}` | `400 invalid_cursor`, `401`, `403 not_a_technician`, `422` (`limit` fuera de rango), `429`, `503 unavailable` (si falla cualquier parte, falla todo el resumen; nunca llega una respuesta parcial, spec 036 R-07) |
 | `GET /api/v1/visitas/{id}` (backend 022) | Abrir la visita (spec 016) | — | vista del técnico | ver spec 016 |
 
 **Elementos del resumen** (spec 036)
@@ -142,8 +142,8 @@ Reglas del contrato que la app da por ciertas:
 | Sin terminadas | «Aquí verás tus trabajos terminados» |
 | Confirmar descarte | «¿Descartar esta solicitud? Ya no la verás en tu lista.» |
 | 404 al descartar | «Esta solicitud ya no está disponible.» |
-| `solicitud_no_descartable` (409) | «Esta solicitud ya no se puede descartar» |
-| `no_es_tecnico` (403) | Se redirige a Inicio sin mensaje |
+| `request_not_dismissable` (409) | «Esta solicitud ya no se puede descartar» |
+| `not_a_technician` (403) | Se redirige a Inicio sin mensaje |
 | 429 | «Hiciste muchos intentos. Espera {segundos} segundos.» |
 | Sin conexión | «Sin conexión. Desliza hacia abajo para intentar de nuevo.» |
 | 5xx | «Algo salió mal de nuestro lado. Intenta de nuevo.» |
@@ -180,7 +180,7 @@ Reglas de pantalla:
 | Negativo | El servidor responde 404 al descartar una solicitud que otra persona ya cotizó: mensaje claro y refresco |
 | Error esperado | 401 → renueva una vez; si falla, cierra sesión (spec 002) |
 | Error esperado | 429 → espera `Retry-After` y lo dice |
-| Error esperado | 409 `solicitud_no_descartable` → «Esta solicitud ya no se puede descartar» y refresco |
+| Error esperado | 409 `request_not_dismissable` → «Esta solicitud ya no se puede descartar» y refresco |
 | Error esperado | 5xx o tiempo agotado → error con «Reintentar» |
 | Caso límite | 0 elementos en las cuatro listas; 1 elemento; 20 y 21 terminadas |
 | Caso límite | Solicitud que vence mientras la pantalla está abierta: desaparece al refrescar |
