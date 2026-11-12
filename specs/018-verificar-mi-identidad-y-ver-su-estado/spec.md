@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/referencia/FUNCIONES_Y_FLUJOS.md` §4.2 y §7.3 · `docs/referencia/DECISIONES.md` #4 · `docs/backlog/HU-021.md` y `HU-022.md`
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye estas rutas; las fija backend 025 y se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -342,6 +342,6 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

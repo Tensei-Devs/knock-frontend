@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/descripcion-del-proyecto.md` §4 «Notificaciones push» · backlog `HU-050.md`, `HU-051.md`, `HU-025.md`, `HU-027.md`, `HU-028.md`, `HU-029.md` · spec 012 (aprobada) · maqueta `js/knock.js` (`S.notifConfig`, `cNotif`)
 > **Skills:** `flutter-clean-architecture`, `security-core`, `testing-strategy-frontend`, `api-client-contract`, `reuse-before-create`
 > **Contrato:** la carga de la notificación (§4.1) la define esta spec y la debe adoptar la spec de backend del envío de notificaciones (hoy no existe). Las rutas REST que abre cada aviso ya están en backend 020, 021 y 022; las de conversaciones dependen de backend 030.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -335,6 +335,6 @@ Esta spec no crea pantallas: crea la notificación del sistema, el aviso dentro 
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

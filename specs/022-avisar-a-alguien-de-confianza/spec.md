@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-037.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §4.5
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** no agrega rutas; usa `POST /api/v1/visitas/{id}/aviso` ya fijado por backend 022.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -230,6 +230,6 @@ Los contactos viven en `features/actividad/` (spec 016) y su pantalla en `featur
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

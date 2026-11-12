@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-026.md`, `HU-030.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §3.6 y §3.7
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye `GET /api/v1/solicitudes` ni las rutas de conversaciones; las fijan backend 020 (lista) y backend 030 (conversaciones, en elaboración). Se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -246,6 +246,6 @@ Reglas de pantalla:
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

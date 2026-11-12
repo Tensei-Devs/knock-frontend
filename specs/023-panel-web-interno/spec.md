@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-066.md` · spec 003 «Arquitectura del panel web» · `docs/arquitectura-panel.md`
 > **Skills:** `angular-panel`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye las rutas del panel; las fija backend 033 y se vendorizan antes de implementar (spec 006). El cliente TypeScript se genera, no se escribe a mano.
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -251,6 +251,6 @@ Se respeta la spec 003: `core`, `shared` y `features`, carga diferida por funci�
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

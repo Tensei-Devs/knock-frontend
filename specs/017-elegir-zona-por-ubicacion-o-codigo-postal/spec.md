@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/referencia/FUNCIONES_Y_FLUJOS.md` §3.3 y §7.2 · `docs/referencia/DECISIONES.md` #12 y #22 · `docs/backlog/HU-009.md`
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `GET /api/v1/colonias/en-punto` (KNOCK-141) ya está desplegado; `GET /api/v1/zonas/cp/{cp}` y `POST /api/v1/zonas/lista-espera` los fija backend 023, y el guardado en el perfil es `PUT /api/v1/me` de backend 017 (aprobada). Se vendorizan antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -286,6 +286,6 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

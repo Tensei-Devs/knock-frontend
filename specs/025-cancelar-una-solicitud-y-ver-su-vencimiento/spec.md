@@ -5,7 +5,7 @@
 > **Fuentes:** backlog `HU-027.md` y `HU-028.md` · `docs/descripcion-del-proyecto.md` §3 (estados de la solicitud: «vence a las 48 horas, y el cliente puede cancelarla antes») · maqueta `js/knock.js` (`A.cancelJob`: hoja de confirmación «Sí, cancelar» / «No, mantener»)
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`, `reuse-before-create`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye la cancelación ni `puedeVolverAPedir`; los fija backend 029 (§5) y se vendorizan antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -287,6 +287,6 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

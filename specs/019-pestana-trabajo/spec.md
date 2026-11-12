@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-020.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §4 y §5 · `docs/referencia/DECISIONES.md` #4 y #6
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye estas rutas; la bandeja y el descarte los fija backend 028 y el resumen debe fijarlo una spec de backend que hoy no existe; se vendorizan antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -257,6 +257,6 @@ Se respeta la spec 001: `domain` en Dart puro, `presentation` sin `data/`, un `t
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)
