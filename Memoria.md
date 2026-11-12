@@ -250,6 +250,28 @@
 - **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
 - **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
 
+## 2026-11-10 — Dependencias de las fotos de la solicitud (KNOCK-244, spec 015 D-10)
+- **Decisión:** se agregan `image_picker` 1.2.4, `path_provider` 2.1.6 e `image` 4.12.0, con la versión exacta en el `pubspec.yaml`.
+  - `image_picker` y `path_provider` son del equipo de Flutter (flutter.dev, BSD-3-Clause).
+  - `image` es de Brendan Duncan (MIT), mantenida y en Dart puro.
+  - En OSV (`api.osv.dev`, ecosistema Pub) no hay avisos para esas versiones (consulta del 2026-11-10).
+  - Paquetes que entran como transitivos: `archive`, `cross_file`, `mime`, `posix`, las implementaciones de plataforma de `image_picker` y `file_selector_*`.
+  - `image_picker` usa la cámara y el selector del sistema por intención: el manifiesto no declara `CAMERA` (D-12).
+- **Porqué:** HU-024 pide de 1 a 5 fotos. La app reduce cada foto a 1600 px de lado mayor y le quita el EXIF, incluida la ubicación, antes de subirla (CA-18). El borrador guarda las copias en un directorio privado de la app (R-07).
+- **A evitar:** pedir el permiso `CAMERA` o de almacenamiento, guardar fotos en la galería, decodificar una foto antes de revisar su tamaño y su tipo por contenido, o hacerlo en el isolate principal (`prepararFotoEnSegundoPlano` usa `Isolate.run`).
+
+## 2026-11-10 — Formulario «Pedir cotización» sin contrato todavía (KNOCK-244, spec 015)
+- **Decisión:** se construyeron el dominio, el borrador, la preparación de fotos, el controlador y las tres pantallas, más el detalle. Los datos vienen de `SolicitudRepositoryDePrueba`, en memoria, porque el contrato todavía no tiene `/solicitudes` ni `/archivos` (backend 020 en Borrador; PR #63 de backend sin fusionar). Acuerdo con Julián: un solo PR de KNOCK-244 en borrador, que pasa a «listo» cuando llegue el contrato y se conecte el cliente generado en `solicitudRepositoryProvider`.
+  - «Pide tu primera cotización» solo aparece fuera de release (`pedirCotizacionDisponibleProvider`), para que una versión publicada no cree solicitudes falsas.
+  - La zona (`coloniaId`) es de la spec 017, que aún no está en la app. En release es `null` y el formulario avisa «Elige tu zona» sin enviar. Fuera de release se usa una colonia ficticia para la demo.
+  - Las fotos remotas solo se pintan desde `dominiosDeFotosProvider`, que está vacío hasta que backend 020 y la spec 013 fijen el dominio de los enlaces firmados (CA-21).
+  - La app sale de la copia de seguridad de Android (`android:allowBackup="false"` y `fullBackupContent="false"`, R-16). Así se cierra la duda de `allowBackup` que la spec 009 tenía abierta.
+  - Al cerrar sesión se borran el borrador y la carpeta `fotos_solicitud` (`borrarBorradorDeSolicitud`, desde `SesionNotifier.cerrar`).
+- **Porqué:** Julián aprobó avanzar con dominio, pantallas, repositorio falso, borrador y pruebas mientras no haya contrato (2026-11-10). El reparto de la spec 015 deja en KNOCK-244 los CA-01 a CA-06, CA-13 a CA-15, CA-17 a CA-19 y CA-21 a CA-24.
+- **Pendiente:** CA-06, CA-13 y CA-23 en `solicitud_repository_api_test.dart` (capa `data` con el cliente generado); el dominio real de las fotos (CA-21); la zona de la spec 017.
+- **A evitar:** publicar una versión con `SolicitudRepositoryDePrueba` o guardar la dirección en el borrador.
+- **Actualización (2026-11-11):** se alineó con el retiro de `Idempotency-Key` (PR #33, decisión de Julián del 2026-11-10) y con los códigos de error en inglés (PR #39). La app ya no genera ni envía la clave. El doble envío se evita con el botón deshabilitado mientras se envía (CA-06), y el reintento tras un fallo de red es manual y no vuelve a subir las fotos.
+
 ## 2026-11-11 — Ícono de Instagram en la landing (KNOCK-258)
 - **Decisión:** el pie de la página principal lleva un ícono de Instagram dibujado en SVG, enlazado a `https://www.instagram.com/knock.mx/` con `rel="noopener noreferrer"` y `aria-label="Instagram de Knock"`; las pruebas y `check_links.py` permiten esa URL además de la de Google Play (spec 004 R-09 y CA-06, sin red al revisar).
 - **Por qué:** el profesor pidió los íconos de las redes del proyecto y la primera cuenta ya existe; las demás se agregan cuando tengan URL oficial, y Google Analytics queda fuera porque la spec y la CSP prohíben scripts de terceros.
