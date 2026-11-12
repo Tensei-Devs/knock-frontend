@@ -270,6 +270,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Acepta el aviso de privacidad para continuar';
 
   @override
+  String get entradaAvisoNoSeAbrio =>
+      'No pudimos abrir el aviso de privacidad. Inténtalo de nuevo más tarde.';
+
+  @override
+  String get entradaAvisoAbrirIndicacion => 'Se abre en el navegador';
+
+  @override
   String get entradaErrorCodigoIncorrecto =>
       'El código no es correcto. Revísalo e inténtalo otra vez.';
 
