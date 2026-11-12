@@ -7,7 +7,7 @@
 |---|---|---|---|---|---|---|---|
 | T-01 | Vendorizar la bandeja y el descarte de backend 028 y regenerar el cliente | §4 | Backend 028 publicado en OpenAPI | T-03 | T-02 | Guillermo (contrato) y Erick | pendiente |
 | T-02 | Dominio: `ResumenDeTrabajo`, `VisitaProxima`, `SolicitudNueva`, `CotizacionEnviada`, `TrabajoTerminado` | R-03, R-04 · CA-02 | — | T-03, T-04, T-05 | T-01 | Erick Trejo Reséndiz | pendiente |
-| T-03 | Datos: bandeja con cursor y descarte con `Idempotency-Key` (204, 404, 409) | R-05, R-08 · CA-03, CA-04, CA-11 | T-01, T-02 | T-06, T-07 | T-05 | Erick Trejo Reséndiz | pendiente |
+| T-03 | Datos: bandeja con cursor y descarte (204, 404, 409) | R-05, R-08 · CA-03, CA-04, CA-11 | T-01, T-02 | T-06, T-07 | T-05 | Erick Trejo Reséndiz | pendiente |
 | T-04 | Datos: resumen `GET /tecnicos/me/trabajo` con «Terminadas» paginado | R-02, R-08 · CA-05, CA-11, CA-13 | T-02 y la spec de backend del resumen | — | T-03, T-05 | Erick Trejo Reséndiz | pendiente |
 | T-05 | Pantalla Trabajo: secciones, estados por sección, mensajes de §7, confirmación de descarte, «Cómo llegar» y «Ya llegué» | R-01, R-02, R-09–R-11 · CA-01, CA-05–CA-10, CA-12, CA-17 | T-02 | T-06 | T-03, T-04 | Erick Trejo Reséndiz | pendiente |
 | T-06 | Seguridad negativa, accesibilidad y limpieza al cerrar sesión | R-06, R-07, R-12 · CA-14–CA-16 | T-03, T-05 | T-07 | T-04 | Erick Trejo Reséndiz | pendiente |

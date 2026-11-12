@@ -75,7 +75,7 @@ La app **consume**. `GET /api/v1/solicitudes` ya está fijado por backend 020 (C
 | ~~`GET /api/v1/me/actividad`~~ | Eliminada en la revisión cruzada (*decisión automática, revisar*): no hay spec de backend para ella; la pantalla usa `GET /solicitudes` (backend 020) y `GET /conversaciones` (backend 030 R-17, con `ultimoMensaje` y `noLeidos`), cada una con su estado de carga y error | — | — | — |
 | `GET /api/v1/conversaciones` | Lista de conversaciones (backend 030 R-17, borrador) | `cursor?`, `limit?` (1–20) | `200` con `items[]`: `conversacionId`, `solicitudId`, `visitaId?`, `rol`, `contraparte{nombre, fotoUrl}`, `servicio`, `estado`, `ultimoMensaje{texto, enviadoEn, autorRol}` o `null`, `noLeidos`, y `totalNoLeidos`, `nextCursor` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/no-leidas` | Contador del globo (backend 030 R-18) | — | `200` con `{ total }` | `401`, `429` |
-| `POST /api/v1/conversaciones/{id}/leido` | Marcar como leída (backend 030 R-19, borrador) | `hasta` (marca de tiempo del último mensaje leído) · `Idempotency-Key` | `204` | `401`, `404`, `429` |
+| `POST /api/v1/conversaciones/{id}/leido` | Marcar como leída (backend 030 R-19, borrador) | `hasta` (marca de tiempo del último mensaje leído) | `204` | `401`, `404`, `429` |
 | Hub `/hubs/chat` (backend 026 y 030) | Mensajes en vivo | `UnirseAConversacion(conversacionId)` (backend 030 R-15; el chat de una visita de backend 026 usa `UnirseAVisita(visitaId)`); la conexión entra sola al grupo `usuario:{sub}` y recibe el evento `noLeidos` `{ conversacionId, noLeidos, total }`; evento `mensaje` `{ visitaId, mensajeId, texto, enviadoEn }` (chat de visita) y evento `mensajeConversacion` `{ conversacionId, mensajeId, autorRol, texto, contactoOculto, enviadoEn }` (conversación previa a elegir, backend 030) | — | `no_autorizado`, `conversacion_no_disponible`, `limite_de_mensajes`, `chat_apagado` |
 
 Reglas del contrato que la app da por ciertas:
@@ -234,6 +234,7 @@ Reglas de pantalla:
 | D-06 | El contador viene del servidor y solo se ajusta con el evento en vivo y con la marca de lectura | La app no tiene mensajes para recalcularlo | Contar mensajes recibidos en el teléfono |
 
 ## 13. Riesgos y dudas abiertas
+- **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La marca de leído no la envía y backend 030 la quitó; sigue idempotente por su marca de tiempo.
 
 - **Bloqueante:** `GET /conversaciones` y la marca de lectura dependen de backend 030 (R-17 y R-19; `GET /me/actividad` ya no se usa) «Chatear antes de elegir y mis conversaciones», cuyo borrador ya fija esas rutas pero aún no está aprobado; backend 026 no persiste mensajes y el último mensaje y los no leídos los guarda backend 030 (R-14). Hasta que se apruebe, CA-04 y CA-09 a CA-11 quedan detrás de la interfaz de D-03.
 - **Conflicto detectado:** backend 026 no incluye en el evento `mensaje` quién escribe; la lista necesita la contraparte. Se resuelve con la visita (una conversación por visita), pero conviene confirmarlo.

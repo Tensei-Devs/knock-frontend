@@ -7,7 +7,7 @@
 |---|---|---|---|---|---|---|---|
 | T-01 | Vendorizar el contrato de backend 020, 021 y 032 y regenerar el cliente Dart | §4 · CA-23 | Backend 020, 021 y 032 publicados en OpenAPI | T-03, T-04, T-05 | T-02 | José Julián Hernández Hernández (contrato) y Erick | pendiente |
 | T-02 | Dominio: entidades, `Franja`, validaciones de R-02 a R-05 y mapeo de `code` a `Failure` | R-01–R-05, R-17 · CA-02, CA-04, CA-17 | — | T-03, T-04, T-06, T-07, T-08 | T-01, T-06 | Erick Trejo Reséndiz | pendiente |
-| T-03 | Datos: mapeador y `SolicitudRepositoryApi` (crear, obtener, cotizaciones, elegir) con `Idempotency-Key` y `Idempotent-Replay` | R-06, R-08, R-11 · CA-06, CA-13, CA-20, CA-23 | T-01, T-02 | T-09, T-10 | T-04, T-05 | Erick Trejo Reséndiz | pendiente |
+| T-03 | Datos: mapeador y `SolicitudRepositoryApi` (crear, obtener, cotizaciones, elegir) | R-06, R-08, R-11 · CA-06, CA-13, CA-20, CA-23 | T-01, T-02 | T-09, T-10 | T-04, T-05 | Erick Trejo Reséndiz | pendiente |
 | T-04 | Datos: `foto_preparada.dart` (tipo, 5 MB, píxeles, reducción solo si el lado mayor pasa de 1600 px, sin EXIF) y subida en tres pasos de backend 032 | R-03 · CA-03, CA-18 | T-01, T-02 | T-10 | T-03, T-05 | Erick Trejo Reséndiz | pendiente |
 | T-05 | Datos: fotos remotas solo de dominios permitidos y sin caché en disco | CA-21 | T-01 | T-10 | T-03, T-04 | Erick Trejo Reséndiz | pendiente |
 | T-06 | Borrador: `almacen_borrador_solicitud.dart`, directorio privado de fotos y borrado al enviar, descartar y cerrar sesión | R-07, R-16 · CA-14, CA-19 | T-02 | T-10 | T-03, T-04, T-07 | Erick Trejo Reséndiz | pendiente |

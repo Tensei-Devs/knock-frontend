@@ -4,7 +4,7 @@
 
 ## Enfoque
 1. **Dominio puro primero:** `Vencimiento` (presentación absoluta, relativa, menos de una hora y «cerrando»), `ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion` y `PrellenadoSolicitud`, con pruebas y mutación. No depende de backend.
-2. **Datos:** `cancelar(id, idempotencyKey, motivo?)` en el repositorio de la spec 015 sobre el cliente generado; mapeo de `409` por `code` (`solicitud_con_cita`, `solicitud_vencida`), `400`, `404`, `429`; campos `canceladaEn` y `puedeVolverAPedir` en el mapeador.
+2. **Datos:** `cancelar(id, motivo?)` en el repositorio de la spec 015 sobre el cliente generado; mapeo de `409` por `code` (`solicitud_con_cita`, `solicitud_vencida`), `400`, `404`, `429`; campos `canceladaEn` y `puedeVolverAPedir` en el mapeador.
 3. **Presentación:** línea de vencimiento y botón en el detalle; hoja de confirmación con motivo opcional; estados «Cancelada» y «Vencida»; franja en la comparación; formulario prellenado de «Volver a pedir».
 4. **Trabajo (spec 019):** etiqueta por `motivoRechazo` en las cotizaciones enviadas.
 5. **Integración y E2E** con API simulada y con semillas de demo (KNOCK-246).
