@@ -2,7 +2,7 @@ name: app
 description: "Knock: app móvil para clientes y técnicos (TT-MOB-01)."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.1+1
 
 # Flutter 3.47.7 stable · Dart 3.13.5 (TT-MOB-01, spec §8 decisión 4).
 # TT-CI-01 debe usar la misma versión.
@@ -37,6 +37,15 @@ dependencies:
   flutter_secure_storage: 11.2.0
   # deviceId (UUID v4) que genera la app y guarda en almacenamiento seguro.
   uuid: 4.5.3
+  # Spec 028 (KNOCK-260): abrir el aviso de privacidad en el navegador. Solo lo
+  # importa core/enlaces. Evaluada en Memoria.md.
+  url_launcher: 6.3.3
+  # KNOCK-244 (spec 015, D-10): fotos de la solicitud. Cámara y selector del
+  # sistema sin permiso CAMERA (D-12), directorio privado del borrador y
+  # reducción a 1600 px sin EXIF. Evaluadas en Memoria.md.
+  image_picker: 1.2.4
+  path_provider: 2.1.6
+  image: 4.12.0
 
 dev_dependencies:
   flutter_test:

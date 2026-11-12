@@ -25,5 +25,10 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     CodigoVencidoFailure() => textos.errorCodigoVencido,
     CelularRechazadoFailure() => textos.errorCelularRechazado,
     VerificacionNoDisponibleFailure() => textos.errorVerificacionNoDisponible,
+    NoEncontradoFailure() => textos.solicitudNoDisponible,
+    ContenidoRechazadoFailure() => textos.solicitudErrorContenidoRechazado,
+    ModeracionNoDisponibleFailure() => textos.solicitudErrorModeracion,
+    OpcionNoDisponibleFailure() => textos.solicitudErrorOpcionNoDisponible,
+    FotoNoValidaFailure() => textos.solicitudFotoNoValida,
   };
 }

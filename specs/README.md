@@ -18,5 +18,17 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 012 | Notificaciones push y permisos del teléfono | Aprobada | [`012-notificaciones-push-y-permisos-del-telefono`](012-notificaciones-push-y-permisos-del-telefono/spec.md) |
 | 013 | MCP del proyecto | Aprobada | [`013-mcp-del-proyecto`](013-mcp-del-proyecto/spec.md) |
 | 014 | Alinear la UI con la maqueta | Aprobada | [`014-alinear-la-ui-con-la-maqueta`](014-alinear-la-ui-con-la-maqueta/spec.md) |
+| 015 | Pedir y comparar cotizaciones (pantallas) | Borrador | [`015-pedir-y-comparar-cotizaciones`](015-pedir-y-comparar-cotizaciones/spec.md) |
+| 016 | Visita con código y aviso de confianza (pantallas) | Borrador | [`016-visita-con-codigo-y-aviso-de-confianza`](016-visita-con-codigo-y-aviso-de-confianza/spec.md) |
+| 017 | Elegir zona por ubicación o código postal (pantalla) | Borrador | [`017-elegir-zona-por-ubicacion-o-codigo-postal`](017-elegir-zona-por-ubicacion-o-codigo-postal/spec.md) |
+| 018 | Verificar mi identidad y ver su estado (pantallas) | Borrador | [`018-verificar-mi-identidad-y-ver-su-estado`](018-verificar-mi-identidad-y-ver-su-estado/spec.md) |
+| 019 | Pestaña Trabajo (lado del técnico) | Borrador | [`019-pestana-trabajo`](019-pestana-trabajo/spec.md) |
+| 020 | Mi actividad y mis conversaciones | Borrador | [`020-mi-actividad-y-mis-conversaciones`](020-mi-actividad-y-mis-conversaciones/spec.md) |
+| 021 | Buscar un experto por texto (app) | Borrador | [`021-buscar-un-experto-por-texto`](021-buscar-un-experto-por-texto/spec.md) |
+| 022 | Avisar a alguien de confianza | Borrador | [`022-avisar-a-alguien-de-confianza`](022-avisar-a-alguien-de-confianza/spec.md) |
+| 023 | Panel web interno: entrada con permisos y doble factor | Borrador | [`023-panel-web-interno`](023-panel-web-interno/spec.md) |
+| 024 | Notificaciones de la cadena de solicitudes | Borrador | [`024-notificaciones-de-la-cadena-de-solicitudes`](024-notificaciones-de-la-cadena-de-solicitudes/spec.md) |
+| 025 | Cancelar una solicitud y ver su vencimiento (app) | Borrador | [`025-cancelar-una-solicitud-y-ver-su-vencimiento`](025-cancelar-una-solicitud-y-ver-su-vencimiento/spec.md) |
 | 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Aprobada | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
 | 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Aprobada | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |
+| 028 | Abrir el aviso de privacidad desde la entrada con celular | Borrador | [`028-abrir-el-aviso-de-privacidad`](028-abrir-el-aviso-de-privacidad/spec.md) |
