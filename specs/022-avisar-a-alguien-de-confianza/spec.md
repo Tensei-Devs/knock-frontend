@@ -30,9 +30,11 @@ Que el cliente administre a las personas de confianza (quiénes son, cómo avisa
 - **CA-13:** Dada la persona que cierra sesión, cuando termina, entonces la lista de contactos y cualquier borrador del mensaje quedan vacíos. · Verificación: `app/test/features/actividad/data/borrado_visita_test.dart` → `CA_022_13`
 - **CA-14:** Dada la gestión de contactos desde Mi cuenta, cuando la persona la abre sin visita, entonces puede agregar, editar y borrar contactos y ve el texto de privacidad «Tus contactos se guardan solo en este teléfono». · Verificación: `app/test/features/cuenta/presentation/contactos_confianza_screen_test.dart` → `CA_022_14`
 - **CA-15:** Dado el aviso, cuando la app llama a `POST /visitas/{id}/aviso`, entonces el cuerpo va vacío (sin canal, sin nombre ni celular del contacto) y sin `Idempotency-Key`; un doble toque produce una sola llamada porque el botón se deshabilita mientras responde, y una respuesta con `incluyeCodigo` o `incluyeDireccion` verdaderos se rechaza y el texto no se usa. · Verificación: `app/test/features/actividad/data/aviso_repository_api_test.dart` → `CA_022_15`
-- **CA-16:** Dado un error del servidor o la falta de conexión al pedir el texto, cuando la persona quiere avisar, entonces la app arma el texto en `domain/` con los datos de la copia local de la visita (spec 016), muestra «No pudimos registrar el aviso; puedes enviarlo de todos modos» y no bloquea el envío; con 409 `visit_not_notifiable` no se abre ningún canal y se lee «Esta visita ya no permite avisos». · Verificación: `app/test/features/actividad/presentation/hoja_avisar_test.dart` → `CA_022_16`
+- **CA-16:** Dado un error del servidor o la falta de conexión al pedir el texto, cuando la persona quiere avisar, entonces la app arma el texto en `domain/` con `DatosAvisoLocal` (R-12), muestra «No pudimos registrar el aviso; puedes enviarlo de todos modos» y no bloquea el envío; con 409 `visit_not_notifiable` no se abre ningún canal y se lee «Esta visita ya no permite avisos». · Verificación: `app/test/features/actividad/presentation/hoja_avisar_test.dart` → `CA_022_16`
 - **CA-17:** Dados la lista, el formulario y la hoja, cuando se recorren con lector de pantalla y texto al 200 %, entonces cada control tiene etiqueta, mide al menos 48 dp, el código se lee dígito por dígito y no se corta el contenido. · Verificación: `app/test/features/actividad/presentation/accesibilidad_aviso_test.dart` → `CA_022_17`
 - **CA-18:** Dado el registro de la app, cuando se avisa, entonces ningún `print`, registro ni reporte de errores contiene el nombre ni el celular del contacto ni el código (prueba global de la spec 009). · Verificación: `app/test/seguridad/seguridad_cliente_test.dart` → `CA_022_18`
+- **CA-19:** Dada una visita de prueba con código 4821 y una dirección, cuando se arman el texto del servidor y el de respaldo local, entonces ninguno contiene esos dígitos ni algún fragmento de la dirección, comparados carácter por carácter, y la plantilla local no recibe esos campos. · Verificación: `app/test/features/actividad/domain/mensaje_aviso_local_test.dart` → `CA_022_19`
+- **CA-20:** Dado el cierre de sesión, cuando termina, entonces se borra la copia local del aviso; dada una copia vencida, cuando se necesita, entonces no se usa; y dado el manifiesto de Android, cuando se revisa, entonces `allowBackup` es `false` y las reglas de extracción excluyen el almacenamiento seguro. · Verificación: `app/test/seguridad/respaldo_local_test.dart` → `CA_022_20`
 
 ## 3. Alcance / No-alcance
 
@@ -58,11 +60,12 @@ Que el cliente administre a las personas de confianza (quiénes son, cómo avisa
 - **R-04:** El mensaje es el `texto` que prepara el servidor, tal cual, sin código ni dirección (*decisión automática, revisar*: alineado con backend 022 R-12, `incluyeCodigo: false`); **no** incluye la dirección ni el teléfono del cliente. Antes de abrir cualquier canal se muestra la vista previa final.
 - **R-05:** Los enlaces de SMS y WhatsApp se construyen con el celular validado y el texto codificado con `Uri.encodeComponent`; solo se abren los esquemas `sms:` y `https:` (`wa.me`), nunca esquemas arbitrarios.
 - **R-06:** El código nunca aparece en el mensaje de aviso, ni en un aviso push, ni en un registro, ni en el evento del servidor.
-- **R-07:** `POST /visitas/{id}/aviso` va con cuerpo vacío y sin `Idempotency-Key` (así lo define backend 022); no lleva el canal ni datos del contacto. Cada aviso confirmado cuenta para el límite de 10 por hora.
+- **R-07:** `POST /visitas/{id}/aviso` va con cuerpo vacío y sin `Idempotency-Key` (así lo define backend 022); no lleva el canal ni datos del contacto. El conteo de avisos del servidor es solo informativo: no hay límite de 10 por hora (decisión del 2026-11-12, backend 022). La app llama una sola vez al abrir la hoja y reutiliza el texto mientras siga abierta; una segunda apertura es una llamada nueva.
 - **R-08:** Todo error de la API se muestra con un texto del catálogo; nunca con el código HTTP.
 - **R-09:** Todos los textos viven en los ARB de español e inglés y los colores y tipografías en el tema (spec 014).
 - **R-10:** Cada control mide al menos 48 dp, tiene etiqueta y funciona con texto al 200 %.
 - **R-11:** La app nunca registra el nombre ni el celular de un contacto, ni el código, en consola, caché o reporte de errores.
+- **R-12:** **Respaldo local sin conexión.** El texto de respaldo se arma en `domain/` con `DatosAvisoLocal` (nombre público del técnico, verificación, día y hora), un objeto que un mapeador construye copiando solo esos cuatro campos de la copia local de la visita; la plantilla local **nunca** recibe el código ni la dirección. La copia vive en el almacenamiento seguro (`knock.aviso.respaldo.{visitaId}`), vence 24 horas después de la hora de la cita, se borra al cerrar sesión y queda fuera de los respaldos del teléfono: el manifiesto de Android declara `android:allowBackup="false"` y las reglas `dataExtractionRules` y `fullBackupContent` excluyen los archivos del almacenamiento seguro y de las preferencias (hoy el manifiesto no declara ninguno de los tres).
 
 ## 4. Contrato API y eventos
 
@@ -75,7 +78,7 @@ La app **consume** una ruta de backend 022 («Visita segura con código de 4 dí
 Reglas del contrato que la app da por ciertas:
 - **Autorización:** solo el cliente dueño de la visita; el servidor decide por el token.
 - **Contenido:** el texto incluye el nombre público del técnico, su verificación, el día, la hora y la recomendación de pedir el código en la puerta; nunca el código ni la dirección. La app rechaza una respuesta con `incluyeCodigo` o `incluyeDireccion` verdaderos.
-- **Límites:** 10 avisos por hora por cliente.
+- **Límites:** el aviso no tiene límite propio; rige el límite general por usuario del gateway (429 con `Retry-After`).
 - **Privacidad:** el servidor no recibe ni guarda el contacto ni el canal; solo cuenta el aviso (`avisosEnviados`) y emite `AvisoConfianzaPreparado` sin teléfonos ni texto.
 - **Caché:** la respuesta no se guarda.
 - **Eventos:** ninguno consumido.
@@ -90,6 +93,7 @@ Reglas del contrato que la app da por ciertas:
 
 **Estado local**
 - `knock.contactos.confianza` en el almacenamiento seguro (lista de hasta 10).
+- `knock.aviso.respaldo.{visitaId}` en el almacenamiento seguro (`DatosAvisoLocal`, vence 24 horas después de la cita; R-12).
 - Nada en `shared_preferences` ni en la caché de respuestas; todo se borra al cerrar sesión.
 - Fuera de la copia de seguridad del sistema, comprobado con la prueba del manifiesto de la spec 015 (R-16).
 
@@ -103,7 +107,7 @@ Reglas del contrato que la app da por ciertas:
 | **Suplantación:** enlaces manipulados hacia otros esquemas o números | Solo `sms:` y `https://wa.me/`, celular validado y texto codificado | CA-09, CA-10 |
 | **Elevación de privilegios:** pedir permisos de contactos o SMS | No se declaran (prueba del manifiesto) | CA-11 |
 | **Alteración:** doble aviso por doble toque | Botón deshabilitado durante la llamada y sin reintento automático | CA-15 |
-| **Denegación:** muchos avisos | Límite de 10 por hora del servidor y `Retry-After` | CA-16 |
+| **Denegación:** muchos avisos | El aviso no tiene límite propio (el conteo es solo informativo); rige el límite general del gateway y `Retry-After` | CA-16 |
 | **Datos en el teléfono:** cuenta anterior con contactos | Borrado al cerrar sesión | CA-13 |
 | **Dependencias:** `url_launcher` o `share_plus` vulnerables | `url_launcher` la evalúa la spec 016 (D-06); `share_plus` la evalúa esta spec antes de agregarla y la registra en `Memoria.md` | (comando) `flutter pub outdated` + revisión en el PR |
 
@@ -142,7 +146,7 @@ Reglas de pantalla:
 |---|---|---|
 | Unitarias (UM) | Sí | Validación, mensaje, enlaces, repositorio |
 | Widget (W) | Sí | Hoja, lista, formulario, estados |
-| Aceptación (ACC) | Sí | CA-01 a CA-18 |
+| Aceptación (ACC) | Sí | CA-01 a CA-20 |
 | Contrato (CON) | Sí | Cliente generado contra `contracts/openapi.v1.json` con la ruta de aviso de backend 022 (cuerpo vacío y respuesta `{ texto, incluyeCodigo, incluyeDireccion }`) |
 | Integración (INT) | Sí | Recorrido con API simulada en `integration_test/` y humo contra el entorno desplegado con una visita de semilla |
 | Seguridad negativa (NEG) | Sí | Manifiesto sin permisos, enlaces con caracteres raros, ausencia de datos en registros |
@@ -193,7 +197,7 @@ Los contactos viven en `features/actividad/` (spec 016) y su pantalla en `featur
 | Spec | Qué aporta | Efecto si falta |
 |---|---|---|
 | 016 Visita con código | Botón de entrada, `puedeAvisar` y copia local de la visita para el texto de respaldo | La hoja no tiene desde dónde abrirse: **se implementa después de la 016** |
-| Backend 022 | `POST /visitas/{id}/aviso` y su límite | No se registra el aviso |
+| Backend 022 | `POST /visitas/{id}/aviso` (sin límite propio) | No se registra el aviso |
 | 012 Notificaciones y permisos | Regla de no pedir permisos de contactos | Se contradiría R-03 |
 | 009 Seguridad del cliente | Almacenamiento seguro y prueba global de registros | Contactos en claro |
 | 014 Alinear la UI | la «fila» y el «estado vacío o de error» de la spec 014 | Estilos duplicados |
@@ -201,7 +205,7 @@ Los contactos viven en `features/actividad/` (spec 016) y su pantalla en `featur
 
 ## 11. Definición de terminado
 
-- CA-01 a CA-18 con prueba que falla si la lógica está mal; `python scripts/sdd_lint.py --trace 022` sin `FALTA`.
+- CA-01 a CA-20 con prueba que falla si la lógica está mal; `python scripts/sdd_lint.py --trace 022` sin `FALTA`.
 - `flutter analyze --fatal-infos`, `dart format --set-exit-if-changed` y `flutter test` en verde.
 - Manifiesto sin permisos de contactos, SMS ni llamadas, comprobado con prueba.
 - ARB completos; PR con la plantilla completa, etiqueta `puntos-app-N`, CI en verde y `Memoria.md` al día.
