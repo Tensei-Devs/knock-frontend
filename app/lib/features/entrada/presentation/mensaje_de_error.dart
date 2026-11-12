@@ -18,5 +18,11 @@ String mensajeDeErrorDeEntrada(AppLocalizations textos, Failure error) =>
       ApiNoConfiguradaFailure() => textos.entradaErrorApiNoConfigurada,
       AvisoNoAceptadoFailure() => textos.entradaErrorAvisoNoAceptado,
       AccesoDenegadoFailure() ||
-      NoAutorizadoFailure() => textos.entradaErrorGenerico,
+      NoAutorizadoFailure() ||
+      // Errores de solicitudes (spec 015): no ocurren en la entrada.
+      NoEncontradoFailure() ||
+      ContenidoRechazadoFailure() ||
+      ModeracionNoDisponibleFailure() ||
+      OpcionNoDisponibleFailure() ||
+      FotoNoValidaFailure() => textos.entradaErrorGenerico,
     };

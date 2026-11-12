@@ -1,31 +1,31 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-10T08:46:13Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-11T18:02:06Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | presentation | 1 | 1 | 1 |
+| `actividad` | -, data, domain, presentation | 19 | 35 | 61 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
 | `entrada` | domain, presentation | 7 | 12 | 24 |
-| `errores` | core | 3 | 15 | 3 |
+| `errores` | core | 3 | 20 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 19 | 41 | 28 |
-| `l10n` | - | 3 | 4 | 19 |
+| `l10n` | - | 3 | 4 | 33 |
 | `layout` | core | 1 | 1 | 0 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
-| `preferencias` | core | 4 | 9 | 17 |
+| `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
-| `router` | core | 4 | 4 | 12 |
+| `router` | core | 4 | 4 | 13 |
 | `sesion` | core | 14 | 24 | 41 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
@@ -34,16 +34,59 @@
 ## Tipos con el mismo nombre en varios lugares
 
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
-- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:57`, `app/lib/core/sesion/sesion_provider.dart:26`
+- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:58`, `app/lib/core/sesion/sesion_provider.dart:26`
 
 ## Índice por módulo
 
 ### actividad
 
+**-**
+
+- `app/lib/features/actividad/actividad_providers.dart` — —
+
+**data**
+
+- `app/lib/features/actividad/data/borrador_repository.dart` — class `BorradorRepository`
+  - `leer()`:27, `guardar()`:53, `borrarTodo()`:60, `agregarFoto()`:73, `quitarFoto()`:94
+- `app/lib/features/actividad/data/foto_preparada.dart` — enum `MotivoFotoRechazada`, class `ResultadoFoto`, class `FotoLista`, class `FotoRechazada`, enum `_Formato`
+  - `prepararFoto()`:88, `prepararFotoEnSegundoPlano()`:147
+- `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
+  - `tomarConCamara()`:16, `elegirDeGaleria()`:22
+- `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
+  - `subirFoto()`:34, `crear()`:37, `obtener()`:55
+
+**domain**
+
+- `app/lib/features/actividad/domain/borrador_solicitud.dart` — class `BorradorSolicitud`
+  - `aMapa()`:38, `desdeMapa()`:51
+- `app/lib/features/actividad/domain/fotos_permitidas.dart` — —
+  - `esFotoPermitida()`:10, `fotosPermitidas()`:23
+- `app/lib/features/actividad/domain/franja.dart` — enum `Franja`
+  - `desdeTexto()`:16
+- `app/lib/features/actividad/domain/solicitud.dart` — enum `EstadoSolicitud`, class `Solicitud`, class `NuevaSolicitud`
+  - `desdeTexto()`:21
+- `app/lib/features/actividad/domain/solicitud_repository.dart` — class `SolicitudRepository`, class `BorradorSolicitudRepository`, class `FuenteDeFotos`
+- `app/lib/features/actividad/domain/validacion_solicitud.dart` — enum `ErrorDeLargo`, enum `ErrorDeFotos`
+  - `largoVisible()`:30, `validarDescripcion()`:40, `validarDireccion()`:44, `validarCantidadDeFotos()`:48, `puedeAgregarFoto()`:55, `soloFecha()`:58, `diasPermitidos()`:65, `esDiaPermitido()`:74, `diaDelContrato()`:78, `dos()`:79
+
 **presentation**
 
 - `app/lib/features/actividad/presentation/actividad_screen.dart` — class `ActividadScreen`
+  - `build()`:18, `PantallaTitulada()`:21
+- `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
+  - `initState()`:22, `dispose()`:30, `build()`:36, `nombreFranja()`:53
+- `app/lib/features/actividad/presentation/pasos/paso_descripcion_fotos.dart` — class `PasoDescripcionFotos`, class `_PasoDescripcionFotosState`
+  - `initState()`:22, `dispose()`:30, `build()`:36
+- `app/lib/features/actividad/presentation/pasos/paso_oficio.dart` — class `PasoOficio`
   - `build()`:13
+- `app/lib/features/actividad/presentation/solicitud_controller.dart` — enum `PasoSolicitud`, class `FormularioSolicitud`, class `SolicitudController`
+  - `build()`:146, `iniciar()`:153, `reintentarOficios()`:181, `elegirOficio()`:191, `cambiarDescripcion()`:201, `elegirDia()`:204, `elegirFranja()`:209, `cambiarDireccion()`:213, `tomarFoto()`:217, `elegirFotos()`:222, `quitarFoto()`:257, `avanzar()`:270, `retroceder()`:287, `enviar()`:299, `descartar()`:368
+- `app/lib/features/actividad/presentation/solicitud_detalle_screen.dart` — class `SolicitudDetalleScreen`, class `_Contenido`
+  - `build()`:29, `build()`:64
+- `app/lib/features/actividad/presentation/solicitud_nueva_screen.dart` — class `SolicitudNuevaScreen`, class `_SolicitudNuevaScreenState`, class `_Avisos`, class `_Botones`
+  - `initState()`:32, `build()`:44, `build()`:112, `build()`:154
+- `app/lib/features/actividad/presentation/widgets/selector_fotos.dart` — class `SelectorFotos`, class `_Miniatura`
+  - `build()`:16, `build()`:117
 
 ### app
 
@@ -133,7 +176,7 @@
 
 **core**
 
-- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`, class `CodigoIncorrectoFailure`, class `CodigoVencidoFailure`, class `CelularRechazadoFailure`, class `VerificacionNoDisponibleFailure`
+- `app/lib/core/errores/failure.dart` — class `Failure`, class `DatosInvalidosFailure`, class `ServicioNoDisponibleFailure`, class `ApiNoConfiguradaFailure`, class `NoAutorizadoFailure`, class `CuentaSuspendidaFailure`, class `AccesoDenegadoFailure`, class `ConflictoFailure`, class `DatosRechazadosFailure`, class `DemasiadosIntentosFailure`, class `AvisoNoAceptadoFailure`, class `CodigoIncorrectoFailure`, class `CodigoVencidoFailure`, class `CelularRechazadoFailure`, class `VerificacionNoDisponibleFailure`, class `NoEncontradoFailure`, class `ContenidoRechazadoFailure`, class `ModeracionNoDisponibleFailure`, class `OpcionNoDisponibleFailure`, class `FotoNoValidaFailure`
   - `toString()`:10
 - `app/lib/core/errores/mensaje_failure.dart` — —
   - `mensajeDeError()`:10
@@ -215,11 +258,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:899, `isSupported()`:904, `shouldReload()`:908, `lookupAppLocalizations()`:911
+  - `of()`:70, `load()`:1229, `isSupported()`:1234, `shouldReload()`:1238, `lookupAppLocalizations()`:1241
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642
 
 ### layout
 
@@ -301,9 +344,13 @@
 
 - `app/lib/core/preferencias/almacen_avisos.dart` — enum `TipoAviso`, class `AlmacenAvisos`, mixin `AvisosSobreShared`, mixin `AvisosEnMemoria`
   - `claveDeAviso()`:28, `leerAviso()`:34, `guardarAviso()`:40, `leerAviso()`:48, `guardarAviso()`:51
+- `app/lib/core/preferencias/almacen_borrador_solicitud.dart` — class `AlmacenBorradorSolicitud`, mixin `BorradorSobreShared`, mixin `BorradorEnMemoria`
+  - `leerBorrador()`:28, `guardarBorrador()`:40, `borrarBorrador()`:47, `leerBorrador()`:55, `guardarBorrador()`:58, `borrarBorrador()`:62
 - `app/lib/core/preferencias/almacen_preferencias.dart` — class `AlmacenPreferencias`, class `AlmacenPreferenciasShared`, class `AlmacenPreferenciasEnMemoria`
-  - `leerTema()`:47, `leerIdioma()`:50, `guardarTema()`:53, `guardarIdioma()`:57, `leerTema()`:73, `leerIdioma()`:76, `guardarTema()`:79, `guardarIdioma()`:82
+  - `leerTema()`:53, `leerIdioma()`:56, `guardarTema()`:59, `guardarIdioma()`:63, `leerTema()`:79, `leerIdioma()`:82, `guardarTema()`:85, `guardarIdioma()`:88
 - `app/lib/core/preferencias/arranque.dart` — —
+- `app/lib/core/preferencias/directorio_fotos_borrador.dart` — —
+  - `directorioFotosBorrador()`:14, `borrarBorradorDeSolicitud()`:30
 - `app/lib/core/preferencias/preferencias_provider.dart` — class `Preferencias`, class `PreferenciasNotifier`
   - `copyWith()`:25, `build()`:47, `cambiarTema()`:55, `cambiarIdioma()`:61
 
@@ -377,7 +424,7 @@
 - `app/lib/core/router/destino_de_regreso_provider.dart` — class `DestinoDeRegreso`
   - `build()`:9, `recordar()`:12, `olvidar()`:14
 - `app/lib/core/router/rutas.dart` — class `Rutas`
-  - `esRutaPublica()`:42, `redireccionPorSesion()`:51, `rutaDeEntrada()`:66, `destinoDeRegreso()`:81, `destinoValidoODescartar()`:86, `redireccionPorRol()`:111, `redireccionPorPerfil()`:121
+  - `solicitud()`:21, `esRutaPublica()`:53, `redireccionPorSesion()`:62, `rutaDeEntrada()`:77, `destinoDeRegreso()`:92, `destinoValidoODescartar()`:97, `redireccionPorRol()`:122, `redireccionPorPerfil()`:132
 
 ### sesion
 
@@ -404,7 +451,7 @@
 - `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
   - `enviarCodigo()`:48, `verificarCodigo()`:54
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`
-  - `toString()`:29, `renovar()`:46, `build()`:61, `iniciar()`:64, `cerrar()`:77, `renovar()`:93
+  - `toString()`:30, `renovar()`:47, `build()`:62, `iniciar()`:65, `cerrar()`:79, `renovar()`:97
 - `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
   - `build()`:28, `iniciar()`:31, `cerrar()`:34, `nombreDeDispositivo()`:53
 - `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`

@@ -277,6 +277,28 @@
 - **No se tocó:** la spec 021 (ya renombrada en su propio PR) ni los tipos de aviso de la spec 024 (`solicitud_cancelada`, `solicitud_vencida`), que son eventos de notificación y no códigos de error.
 - **A evitar:** aprobar una spec de la app mientras su código de error difiera del de backend.
 
+## 2026-11-10 — Dependencias de las fotos de la solicitud (KNOCK-244, spec 015 D-10)
+- **Decisión:** se agregan `image_picker` 1.2.4, `path_provider` 2.1.6 e `image` 4.12.0, con la versión exacta en el `pubspec.yaml`.
+  - `image_picker` y `path_provider` son del equipo de Flutter (flutter.dev, BSD-3-Clause).
+  - `image` es de Brendan Duncan (MIT), mantenida y en Dart puro.
+  - En OSV (`api.osv.dev`, ecosistema Pub) no hay avisos para esas versiones (consulta del 2026-11-10).
+  - Paquetes que entran como transitivos: `archive`, `cross_file`, `mime`, `posix`, las implementaciones de plataforma de `image_picker` y `file_selector_*`.
+  - `image_picker` usa la cámara y el selector del sistema por intención: el manifiesto no declara `CAMERA` (D-12).
+- **Porqué:** HU-024 pide de 1 a 5 fotos. La app reduce cada foto a 1600 px de lado mayor y le quita el EXIF, incluida la ubicación, antes de subirla (CA-18). El borrador guarda las copias en un directorio privado de la app (R-07).
+- **A evitar:** pedir el permiso `CAMERA` o de almacenamiento, guardar fotos en la galería, decodificar una foto antes de revisar su tamaño y su tipo por contenido, o hacerlo en el isolate principal (`prepararFotoEnSegundoPlano` usa `Isolate.run`).
+
+## 2026-11-10 — Formulario «Pedir cotización» sin contrato todavía (KNOCK-244, spec 015)
+- **Decisión:** se construyeron el dominio, el borrador, la preparación de fotos, el controlador y las tres pantallas, más el detalle. Los datos vienen de `SolicitudRepositoryDePrueba`, en memoria, porque el contrato todavía no tiene `/solicitudes` ni `/archivos` (backend 020 en Borrador; PR #63 de backend sin fusionar). Acuerdo con Julián: un solo PR de KNOCK-244 en borrador, que pasa a «listo» cuando llegue el contrato y se conecte el cliente generado en `solicitudRepositoryProvider`.
+  - «Pide tu primera cotización» solo aparece fuera de release (`pedirCotizacionDisponibleProvider`), para que una versión publicada no cree solicitudes falsas.
+  - La zona (`coloniaId`) es de la spec 017, que aún no está en la app. En release es `null` y el formulario avisa «Elige tu zona» sin enviar. Fuera de release se usa una colonia ficticia para la demo.
+  - Las fotos remotas solo se pintan desde `dominiosDeFotosProvider`, que está vacío hasta que backend 020 y la spec 013 fijen el dominio de los enlaces firmados (CA-21).
+  - La app sale de la copia de seguridad de Android (`android:allowBackup="false"` y `fullBackupContent="false"`, R-16). Así se cierra la duda de `allowBackup` que la spec 009 tenía abierta.
+  - Al cerrar sesión se borran el borrador y la carpeta `fotos_solicitud` (`borrarBorradorDeSolicitud`, desde `SesionNotifier.cerrar`).
+- **Porqué:** Julián aprobó avanzar con dominio, pantallas, repositorio falso, borrador y pruebas mientras no haya contrato (2026-11-10). El reparto de la spec 015 deja en KNOCK-244 los CA-01 a CA-06, CA-13 a CA-15, CA-17 a CA-19 y CA-21 a CA-24.
+- **Pendiente:** CA-06, CA-13 y CA-23 en `solicitud_repository_api_test.dart` (capa `data` con el cliente generado); el dominio real de las fotos (CA-21); la zona de la spec 017.
+- **A evitar:** publicar una versión con `SolicitudRepositoryDePrueba` o guardar la dirección en el borrador.
+- **Actualización (2026-11-11):** se alineó con el retiro de `Idempotency-Key` (PR #33, decisión de Julián del 2026-11-10) y con los códigos de error en inglés (PR #39). La app ya no genera ni envía la clave. El doble envío se evita con el botón deshabilitado mientras se envía (CA-06), y el reintento tras un fallo de red es manual y no vuelve a subir las fotos.
+
 ## 2026-11-11 — Ícono de Instagram en la landing (KNOCK-258)
 - **Decisión:** el pie de la página principal lleva un ícono de Instagram dibujado en SVG, enlazado a `https://www.instagram.com/knock.mx/` con `rel="noopener noreferrer"` y `aria-label="Instagram de Knock"`; las pruebas y `check_links.py` permiten esa URL además de la de Google Play (spec 004 R-09 y CA-06, sin red al revisar).
 - **Por qué:** el profesor pidió los íconos de las redes del proyecto y la primera cuenta ya existe; las demás se agregan cuando tengan URL oficial, y Google Analytics queda fuera porque la spec y la CSP prohíben scripts de terceros.
@@ -301,3 +323,9 @@
 - **Por qué:** backend 033 y 037 cambiaron sus contratos; hoy el `<application>` de `AndroidManifest.xml` no declara `allowBackup`, `dataExtractionRules` ni `fullBackupContent`, y el registro de dispositivos sigue contra `RegistroDispositivosSimulado` porque backend aún no publica el endpoint.
 - **Pendiente de firma:** las specs 017, 022 y 023 de la app cambiaron de fondo y las firma una persona a mano; este cambio no toca ninguna sección «Aprobación». Los renombres de #39 y #35 no piden firma nueva.
 - **A evitar:** mostrar un contador de intentos del panel como si decidiera algo; guardar el token de activación o el secreto TOTP en el navegador; guardar datos de la visita fuera del almacenamiento seguro o dejarlos en los respaldos del teléfono.
+
+## 2026-11-12 — Memoria.md se fusiona sin conflictos al agregar entradas (KNOCK-265)
+- **Decisión:** `.gitattributes` marca `Memoria.md` con `merge=union`. Cuando dos ramas agregan entradas distintas al final, `git merge` en local conserva las dos y ya no marca conflicto.
+- **Por qué:** casi todos los conflictos de los PR de las últimas semanas eran de `Memoria.md`, porque cada PR agrega su entrada en el mismo lugar. Se probó en un repositorio de prueba: dos ramas con entradas distintas se fusionaron sin conflicto y quedaron las dos.
+- **Límite (sin verificar en GitHub):** `merge=union` lo aplica Git en la máquina de quien hace `git merge origin/sprint-04`. No se verificó si el botón «Merge» de GitHub también lo aplica; si no, la ficha del PR puede seguir mostrando conflicto hasta que se traiga `sprint-04` a la rama con `git merge`. Se mide con el primer PR que lo necesite.
+- **A evitar:** editar una entrada ya existente de `Memoria.md` en dos ramas a la vez (el driver duplica o mezcla líneas); fusionar sin revisar que la entrada nueva quedó entera y separada de la anterior por una línea en blanco.
