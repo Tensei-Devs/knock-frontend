@@ -245,9 +245,9 @@ Se respeta la spec 003: `core`, `shared` y `features`, carga diferida por funci�
 - **Resuelto en la revisión:** backend 033 usa la cookie `__Secure-knock-panel-rt` con `SameSite=None` y `Partitioned`, CORS con credenciales solo para el origen del panel y `X-Knock-Panel: 1` contra CSRF; el panel solo debe llamar con `withCredentials` (CA-17).
 - **Riesgo:** Firebase Phone Auth en web requiere reCAPTCHA y tiene cuotas y costo (KNOCK-146); puede chocar con el presupuesto.
 - **Riesgo:** la spec 003 dice que el acceso del personal «autenticado» queda fuera; esta spec lo completa y debe actualizar `docs/arquitectura-panel.md`.
-- **Duda abierta (para José):** ¿el panel usará Firebase o un SMS propio? Esta spec asume Firebase.
+- **Duda abierta (para José):** ¿el panel usará Firebase o un SMS propio? **Propuesta por defecto:** Firebase Phone Auth, el mismo proveedor de la app; un SMS propio exigiría cambiar backend 033 antes.
 - **Resuelto en la revisión:** los permisos vienen en la respuesta (`permisos[]`, en el orden de la lista cerrada).
-- **Duda abierta (para el equipo):** ¿hay una cuenta de semilla con TOTP para el ambiente de pruebas? Hace falta para el E2E.
+- **Duda abierta (para el equipo):** ¿hay una cuenta de semilla con TOTP para el ambiente de pruebas? Hace falta para el E2E. **Propuesta por defecto:** sembrar una cuenta de prueba con TOTP fijo solo en desarrollo y en el CI, nunca en producción.
 
 ## Aprobación
 
