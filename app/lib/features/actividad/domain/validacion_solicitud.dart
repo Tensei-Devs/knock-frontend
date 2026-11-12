@@ -1,4 +1,4 @@
-/// Reglas puras de la solicitud (spec 015, R-02 a R-05). Sin Flutter ni red.
+// Reglas puras de la solicitud (spec 015, R-02 a R-05). Sin Flutter ni red.
 
 const longitudMinimaDescripcion = 8;
 const longitudMaximaDescripcion = 500;
