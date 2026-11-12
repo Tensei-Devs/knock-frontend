@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-12T16:42:50Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-12T21:27:03Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -10,8 +10,10 @@
 | `actividad` | -, data, domain, presentation | 29 | 77 | 103 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
+| `config` | core | 1 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 16 | 23 | 29 |
-| `entrada` | domain, presentation | 7 | 12 | 24 |
+| `enlaces` | core | 1 | 2 | 1 |
+| `entrada` | domain, presentation | 7 | 13 | 25 |
 | `errores` | core | 3 | 22 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
@@ -34,6 +36,8 @@
 
 ## Tipos con el mismo nombre en varios lugares
 
+- `AbridorDeEnlaces`: `app/lib/core/enlaces/abridor_de_enlaces.dart:8`, `app/lib/core/plataforma/enlaces.dart:35`
+- `AbridorDeEnlacesDelSistema`: `app/lib/core/enlaces/abridor_de_enlaces.dart:15`, `app/lib/core/plataforma/enlaces.dart:39`
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
 - `SesionNotifier`: `app/lib/core/sesion/sesion.dart:60`, `app/lib/core/sesion/sesion_provider.dart:26`
 
@@ -128,6 +132,13 @@
 - `app/lib/core/cache/revalidador_etag.dart` — enum `OrigenCache`, class `RespuestaCache`, class `RevalidadorEtag`
   - `leerGuardado()`:52
 
+### config
+
+**core**
+
+- `app/lib/core/config/aviso_de_privacidad.dart` — —
+  - `direccionDelAvisoDePrivacidad()`:17
+
 ### cuenta
 
 **-**
@@ -170,6 +181,13 @@
 - `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`, class `_SeccionAvisosState`
   - `initState()`:28, `build()`:55
 
+### enlaces
+
+**core**
+
+- `app/lib/core/enlaces/abridor_de_enlaces.dart` — class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
+  - `abrir()`:19
+
 ### entrada
 
 **domain**
@@ -179,8 +197,8 @@
 
 **presentation**
 
-- `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`
-  - `dispose()`:35, `build()`:59, `build()`:141, `CheckboxListTile()`:170
+- `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`, class `_CasillaDelAvisoState`
+  - `dispose()`:38, `build()`:62, `dispose()`:154, `build()`:172, `CheckboxListTile()`:202
 - `app/lib/features/entrada/presentation/codigo_screen.dart` — class `CodigoScreen`, class `_CodigoScreenState`
   - `dispose()`:35, `build()`:67
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
@@ -278,11 +296,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:1631, `isSupported()`:1636, `shouldReload()`:1640, `lookupAppLocalizations()`:1643
+  - `of()`:70, `load()`:1643, `isSupported()`:1648, `shouldReload()`:1652, `lookupAppLocalizations()`:1655
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:319, `entradaReenviarEn()`:333, `previaExpertosCerca()`:415, `previaPinSemantica()`:426, `previaTarjetaSemantica()`:431, `previaDistanciaKm()`:454, `solicitudPasoDeTotal()`:465, `solicitudFotos()`:498, `solicitudFotoEtiqueta()`:516, `solicitudFotoQuitar()`:521, `solicitudEspera()`:588, `solicitudCuando()`:632, `solicitudTotalFotos()`:637, `solicitudVerCotizaciones()`:651, `cotizacionMostrandoDe()`:671, `cotizacionPrecioFijo()`:680, `cotizacionPrecioRango()`:685, `cotizacionPrecioVisita()`:690, `cotizacionTope()`:695, `cotizacionCalificacion()`:716, `cotizacionNivelVerificacion()`:721, `cotizacionCuando()`:726, `cotizacionConfirmarTitulo()`:752, `cotizacionTelefono()`:773 …
+  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:326, `entradaReenviarEn()`:340, `previaExpertosCerca()`:422, `previaPinSemantica()`:433, `previaTarjetaSemantica()`:438, `previaDistanciaKm()`:461, `solicitudPasoDeTotal()`:472, `solicitudFotos()`:505, `solicitudFotoEtiqueta()`:523, `solicitudFotoQuitar()`:528, `solicitudEspera()`:595, `solicitudCuando()`:639, `solicitudTotalFotos()`:644, `solicitudVerCotizaciones()`:658, `cotizacionMostrandoDe()`:678, `cotizacionPrecioFijo()`:687, `cotizacionPrecioRango()`:692, `cotizacionPrecioVisita()`:697, `cotizacionTope()`:702, `cotizacionCalificacion()`:723, `cotizacionNivelVerificacion()`:728, `cotizacionCuando()`:733, `cotizacionConfirmarTitulo()`:759, `cotizacionTelefono()`:780 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:322, `entradaReenviarEn()`:336, `previaExpertosCerca()`:420, `previaPinSemantica()`:431, `previaTarjetaSemantica()`:436, `previaDistanciaKm()`:459, `solicitudPasoDeTotal()`:470, `solicitudFotos()`:503, `solicitudFotoEtiqueta()`:521, `solicitudFotoQuitar()`:526, `solicitudEspera()`:593, `solicitudCuando()`:637, `solicitudTotalFotos()`:642, `solicitudVerCotizaciones()`:656, `cotizacionMostrandoDe()`:676, `cotizacionPrecioFijo()`:685, `cotizacionPrecioRango()`:690, `cotizacionPrecioVisita()`:695, `cotizacionTope()`:700, `cotizacionCalificacion()`:721, `cotizacionNivelVerificacion()`:726, `cotizacionCuando()`:731, `cotizacionConfirmarTitulo()`:757, `cotizacionTelefono()`:778 …
+  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:329, `entradaReenviarEn()`:343, `previaExpertosCerca()`:427, `previaPinSemantica()`:438, `previaTarjetaSemantica()`:443, `previaDistanciaKm()`:466, `solicitudPasoDeTotal()`:477, `solicitudFotos()`:510, `solicitudFotoEtiqueta()`:528, `solicitudFotoQuitar()`:533, `solicitudEspera()`:600, `solicitudCuando()`:644, `solicitudTotalFotos()`:649, `solicitudVerCotizaciones()`:663, `cotizacionMostrandoDe()`:683, `cotizacionPrecioFijo()`:692, `cotizacionPrecioRango()`:697, `cotizacionPrecioVisita()`:702, `cotizacionTope()`:707, `cotizacionCalificacion()`:728, `cotizacionNivelVerificacion()`:733, `cotizacionCuando()`:738, `cotizacionConfirmarTitulo()`:764, `cotizacionTelefono()`:785 …
 
 ### layout
 
