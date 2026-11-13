@@ -14,16 +14,16 @@ Definir las pantallas, los estados y el consumo del contrato de backend 049 en l
 
 - **CA-01:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/cotizacion-final`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/cotizacion-final`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/cotizacion-final`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 403, 409 `final_quote_not_allowed` de `POST /api/v1/visitas/{id}/cotizacion-final`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/cotizacion-final/decision`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/cotizacion-final/decision`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-06:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/cotizacion-final/decision`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-06:** Dadas las respuestas 403, 409 `final_quote_already_decided` de `POST /api/v1/visitas/{id}/cotizacion-final/decision`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-07:** Dada una respuesta correcta de `POST /api/v1/cotizaciones/{id}/ajuste-precio`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-08:** Dada una respuesta 401 de `POST /api/v1/cotizaciones/{id}/ajuste-precio`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-09:** Dadas las respuestas 403, 409, 422 de `POST /api/v1/cotizaciones/{id}/ajuste-precio`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-09:** Dadas las respuestas 403, 409 `adjustment_not_allowed`, 422 de `POST /api/v1/cotizaciones/{id}/ajuste-precio`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-10:** Dada una respuesta correcta de `POST /api/v1/ajustes/{id}/decision`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-11:** Dada una respuesta 401 de `POST /api/v1/ajustes/{id}/decision`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-12:** Dadas las respuestas 403, 404, 409 de `POST /api/v1/ajustes/{id}/decision`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-12:** Dadas las respuestas 403, 404, 409 `adjustment_already_decided` de `POST /api/v1/ajustes/{id}/decision`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-13:** Dada la pantalla «Terminar servicio», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-14:** Dada la pantalla «Chat», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-15:** Dada la pantalla «Mensajes», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -112,11 +112,12 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El técnico ve el estado de su cotización final y su ajuste con la cuenta regresiva de la vigencia; el cliente decide desde el aviso o desde la visita.
 
 ## 13. Riesgos y dudas abiertas
-- El tope de ajuste sobre la cotización inicial lo fija la spec 020 (10 %): confirmar que se reutiliza el mismo cálculo.
-- Confirmar qué pasa con la visita si el cliente rechaza la cotización final (cancelar o reprogramar).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar cómo se registra el pago de la visita rechazada si Knock no procesa pagos.
+- Confirmar que 100 000 pesos como máximo y las vigencias de 48 y 24 horas son las que quiere el equipo.
+- Confirmar si el cliente puede pedir cambios en vez de solo aprobar o rechazar la cotización final.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

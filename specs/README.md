@@ -41,7 +41,7 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 035 | Pedir un oficio y consultar oficios (app) | Borrador | [`035-pedir-un-oficio-y-consultar-oficios`](035-pedir-un-oficio-y-consultar-oficios/spec.md) |
 | 036 | Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas) | Borrador | [`036-tecnico-perfil-horarios-y-exploracion`](036-tecnico-perfil-horarios-y-exploracion/spec.md) |
 | 037 | Servicios y precios de cada técnico (pantallas) | Borrador | [`037-servicios-del-tecnico`](037-servicios-del-tecnico/spec.md) |
-| 038 | Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado, cotizaciones del técnico… (pantallas) | Borrador | [`038-solicitudes-y-cotizaciones-complementos`](038-solicitudes-y-cotizaciones-complementos/spec.md) |
+| 038 | Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado y cotizaciones del técnico (pantallas) | Borrador | [`038-solicitudes-y-cotizaciones-complementos`](038-solicitudes-y-cotizaciones-complementos/spec.md) |
 | 039 | Cotización final tras la visita y ajustes de precio (pantallas) | Borrador | [`039-cotizacion-final-y-ajustes-de-precio`](039-cotizacion-final-y-ajustes-de-precio/spec.md) |
 | 040 | Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas) | Borrador | [`040-visita-agenda-y-cierre`](040-visita-agenda-y-cierre/spec.md) |
 | 041 | Opiniones y reputación del técnico (pantallas) | Borrador | [`041-opiniones-y-reputacion`](041-opiniones-y-reputacion/spec.md) |

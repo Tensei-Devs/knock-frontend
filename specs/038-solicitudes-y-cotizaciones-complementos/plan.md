@@ -1,4 +1,4 @@
-# Plan 038 — Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado, cotizaciones del técnico y cierre por elección (pantallas)
+# Plan 038 — Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado y cotizaciones del técnico (pantallas)
 
 > Parte de `spec.md` (Borrador).
 

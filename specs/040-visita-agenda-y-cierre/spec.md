@@ -18,22 +18,22 @@ Definir las pantallas, los estados y el consumo del contrato de backend 050 en l
 - **CA-04:** Dado un listado de `/api/v1/agenda`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
 - **CA-05:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/reprogramar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-06:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/reprogramar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-07:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/reprogramar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-07:** Dadas las respuestas 403, 409 `visit_not_reschedulable` de `POST /api/v1/visitas/{id}/reprogramar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-08:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/reprogramar/respuesta`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-09:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/reprogramar/respuesta`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-10:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/reprogramar/respuesta`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-10:** Dadas las respuestas 403, 409 `no_pending_proposal` de `POST /api/v1/visitas/{id}/reprogramar/respuesta`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-11:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/cancelar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-12:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/cancelar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-13:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/cancelar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-13:** Dadas las respuestas 403, 409 `visit_already_closed` de `POST /api/v1/visitas/{id}/cancelar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-14:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/cliente-ausente`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-15:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/cliente-ausente`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-16:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/cliente-ausente`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-16:** Dadas las respuestas 403, 409 `outside_arrival_window` de `POST /api/v1/visitas/{id}/cliente-ausente`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-17:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/terminar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-18:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/terminar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-19:** Dadas las respuestas 403, 409, 422 de `POST /api/v1/visitas/{id}/terminar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-19:** Dadas las respuestas 403, 409 `visit_not_in_progress`, 422 de `POST /api/v1/visitas/{id}/terminar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-20:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/no-terminado`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-21:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/no-terminado`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-22:** Dadas las respuestas 403, 409 de `POST /api/v1/visitas/{id}/no-terminado`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-22:** Dadas las respuestas 403, 409 `report_window_closed` de `POST /api/v1/visitas/{id}/no-terminado`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-23:** Dada una respuesta correcta de `PUT /api/v1/visitas/{id}/permiso-fotos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-24:** Dada una respuesta 401 de `PUT /api/v1/visitas/{id}/permiso-fotos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-25:** Dadas las respuestas 403 de `PUT /api/v1/visitas/{id}/permiso-fotos`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
@@ -138,12 +138,12 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El permiso de fotos se pregunta al cliente al terminar la visita, con el texto de consentimiento de la spec 012.
+- **D-04:** La agenda del técnico y sus acciones (reprogramar, cancelar, ausente, terminar) viven en la pestaña Trabajo (spec 019).
 
 ## 13. Riesgos y dudas abiertas
-- VIS-08 (aviso a la persona de confianza) ya lo cubre la spec 022 con `/visitas/{id}/aviso`.
-- Las penalizaciones por cancelar o ausencia no están definidas en el Excel: confirmar con el equipo antes de implementar.
-- El permiso de fotos del trabajo interactúa con la moderación (spec 031) y las imágenes (spec 032).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño el flujo de reprogramación (propuesta y respuesta) contra la maqueta.
+- Los estados nuevos de la visita deben reflejarse en la spec 016 al aprobarse.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
