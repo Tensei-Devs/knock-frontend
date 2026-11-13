@@ -355,3 +355,15 @@
 - **Por qué:** casi todos los conflictos de los PR de las últimas semanas eran de `Memoria.md`, porque cada PR agrega su entrada en el mismo lugar. Se probó en un repositorio de prueba: dos ramas con entradas distintas se fusionaron sin conflicto y quedaron las dos.
 - **Límite (sin verificar en GitHub):** `merge=union` lo aplica Git en la máquina de quien hace `git merge origin/sprint-04`. No se verificó si el botón «Merge» de GitHub también lo aplica; si no, la ficha del PR puede seguir mostrando conflicto hasta que se traiga `sprint-04` a la rama con `git merge`. Se mide con el primer PR que lo necesite.
 - **A evitar:** editar una entrada ya existente de `Memoria.md` en dos ramas a la vez (el driver duplica o mezcla líneas); fusionar sin revisar que la entrada nueva quedó entera y separada de la anterior por una línea en blanco.
+
+## 2026-11-13 — Rutas de las pruebas de la spec 015 distintas a las de la spec (KNOCK-244 y KNOCK-81)
+- **Decisión:** algunas pruebas de la spec 015 viven en archivos que agrupan una pantalla, no en el archivo exacto que dice la columna «Verificación». `sdd_lint --trace 015` las encuentra igual, porque busca por el nombre del caso.
+
+  | Casos | Archivo en la spec | Archivo real |
+  |---|---|---|
+  | CA_015_07 a CA_015_10 | `cotizaciones_screen_test.dart`, `cotizaciones_controller_test.dart`, `tarjeta_cotizacion_test.dart` | `test/features/actividad/presentation/cotizaciones_test.dart` |
+  | CA_015_03, CA_015_05, CA_015_16 y CA_015_17 (pantalla) | `selector_fotos_test.dart`, `paso_cuando_donde_test.dart`, `accesibilidad_solicitud_test.dart` | `test/features/actividad/presentation/pantallas_solicitud_test.dart` |
+
+- **CA_015_10:** ya no es una lista literal. Lee los campos de `TecnicoResumen` y `Cotizacion` en `domain/cotizacion.dart` y falla si alguno se llama `telefono`, `whatsapp`, `direccion` o `celular`.
+- **A evitar:** pruebas de aceptación que no fallen aunque cambie el modelo, como contar los elementos de una lista escrita en la misma prueba.
+
