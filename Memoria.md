@@ -404,3 +404,7 @@
   - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
   - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
 
+
+## 2026-11-13 — Estado real de las tareas de la spec 007 (KNOCK-221)
+- **Qué cambió:** `specs/007-integracion-continua-y-publicacion/task.md` marca T-01 a T-04 como hechas (`ci-pr.yml`, jobs de app y panel, jobs de secretos y dependencias, `publish-android.yml`) y T-05 como parcial. Antes decía «pendiente» en todas, aunque el cierre ya estaba en la entrada del 2026-11-05.
+- **Pendiente:** la revisión de pares de la PR #11, que se fusionó sin revisión registrada; comprobar en Play Console que la versión aparece en la pista interna; la prueba cerrada con 12 testers (R-06) es manual. `plan.md` dice «Borrador» y la spec «Aprobada»: lo decide una persona.
