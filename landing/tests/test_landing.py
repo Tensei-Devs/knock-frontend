@@ -17,6 +17,42 @@ URL_PLAY = (
     "https://play.google.com/store/apps/details?id=app.knock.mobile"
     "&referrer=utm_source%3Dlanding%26utm_medium%3Dweb%26utm_campaign%3Dlanding"
 )
+URL_BETA_WEB = "https://play.google.com/apps/testing/app.knock.mobile"
+URL_BETA_ANDROID = "https://play.google.com/store/apps/details?id=app.knock.mobile"
+URLS_BETA = [URL_BETA_ANDROID, URL_BETA_WEB]
+URL_INSTAGRAM = "https://www.instagram.com/knock.mx/"
+# Redes del proyecto, en el orden del pie: (URL exacta, nombre accesible).
+REDES = (
+    (URL_INSTAGRAM, "Instagram de Knock"),
+    ("https://www.tiktok.com/@knockmx", "TikTok de Knock"),
+    ("https://x.com/knock_mx", "X de Knock"),
+    ("https://www.facebook.com/share/1C3PA8XoUb/", "Facebook de Knock"),
+)
+URLS_REDES = [url for url, _ in REDES]
+FOTOS = (
+    "h6-electricidad.webp",
+    "h6-familia.webp",
+    "h6-herramientas.webp",
+    "h6-manos.webp",
+    "h6-mecanica.webp",
+    "h7-electricidad.webp",
+    "h7-llegada.webp",
+    "h7-manos.webp",
+    "h7-mecanica.webp",
+    "h7-plomeria.webp",
+    "h7-telefono.webp",
+    "h8-electricidad.webp",
+    "h8-llegada.webp",
+    "h8-manos.webp",
+    "h8-mecanica.webp",
+    "h8-plomeria.webp",
+    "h8-telefono.webp",
+    "h9-electricidad.webp",
+    "h9-llegada.webp",
+    "h9-manos.webp",
+    "h9-plomeria.webp",
+    "h9-telefono.webp",
+)
 TEXTO_PROXIMAMENTE = "Próximamente en Google Play"
 TEXTO_ANTIPHISHING = "Knock nunca te pedirá códigos SMS ni contraseñas en esta página"
 DESCRIPCION = (
@@ -53,12 +89,12 @@ PARES_CLARO = {
     (texto, fondo)
     for texto in (INK, INK2, MUT, AMBER_INK)
     for fondo in (CREMA, BLANCO)
-} | {(INK, AMBER)}
+} | {(INK, AMBER), (CREMA, INK)}
 PARES_OSCURO = {
     (texto, fondo)
     for texto in (INK_O, INK2_O, MUT_O, AMBER)
     for fondo in (BG, SURFACE)
-} | {(BG, AMBER)}
+} | {(BG, AMBER), (BG, INK_O)}
 
 
 class Pagina(HTMLParser):
@@ -145,6 +181,11 @@ def estado_de_play(pagina):
             if "noopener" not in rel or "noreferrer" not in rel:
                 raise AssertionError('target="_blank" sin rel="noopener noreferrer"')
         return "disponible"
+    if marcados == ["beta"]:
+        hrefs = [e["attrs"]["href"] for e in enlaces_play]
+        if hrefs != URLS_BETA:
+            raise AssertionError(f"Enlaces de la beta distintos: {hrefs}")
+        return "beta"
     raise AssertionError(f"Estado de Play desconocido: {marcados}")
 
 
@@ -218,7 +259,7 @@ def pares_declarados(reglas):
             con_color.append((declaradas["color"], fondo))
     pares = set()
     for color, fondo in con_color:
-        for destino in [fondo] if fondo else fondos - {"var(--color-boton-fondo)"}:
+        for destino in [fondo] if fondo else fondos - {"var(--color-boton-fondo)", "var(--color-texto)"}:
             pares.add((color, destino))
     return pares
 
@@ -365,7 +406,7 @@ class Landing(unittest.TestCase):
                 for origen in origenes:
                     self.assertIn(
                         origen,
-                        ("index.html", "404.html", "css", "fonts", "privacidad", "eliminar-cuenta", "nginx.conf"),
+                        ("index.html", "404.html", "css", "fonts", "img", "privacidad", "eliminar-cuenta", "nginx.conf"),
                         "Solo se copian los archivos públicos",
                     )
 
@@ -378,14 +419,14 @@ class Landing(unittest.TestCase):
         self.assertRegex(texto, r"landing-v\d+\.\d+\.\d+")
         self.assertIn(TEXTO_ANTIPHISHING, texto)
         estado = estado_de_play(pagina)
-        self.assertIn(estado, ("disponible", "proximamente"))
+        self.assertIn(estado, ("disponible", "proximamente", "beta"))
 
         privacidad = [e for e in pagina.enlaces if e["attrs"].get("href") == "/privacidad/"]
         self.assertTrue(privacidad, "Falta el enlace a /privacidad/")
         self.assertTrue(all(e["texto"].strip() == "Aviso de privacidad" for e in privacidad))
 
-        permitidos = [URL_PLAY] if estado == "disponible" else []
-        self.assertEqual(enlaces_externos(pagina), permitidos)
+        permitidos = {"disponible": [URL_PLAY], "beta": URLS_BETA}.get(estado, [])
+        self.assertEqual(enlaces_externos(pagina), permitidos + URLS_REDES)
 
     def test_TC_TT_WEB_01_03_privacidad(self):
         html = leer("privacidad/index.html")
@@ -452,7 +493,9 @@ class Landing(unittest.TestCase):
                 if recurso:
                     self.assertFalse(es_externo(recurso), f"{recurso} en {nombre}")
             externos = enlaces_externos(pagina)
-            self.assertTrue(set(externos) <= {URL_PLAY}, f"{externos} en {nombre}")
+            self.assertTrue(
+                set(externos) <= {URL_PLAY, *URLS_BETA, *URLS_REDES}, f"{externos} en {nombre}"
+            )
 
         hojas = sorted((LANDING / "css").glob("*.css"))
         self.assertTrue(hojas, "Falta el CSS")
@@ -471,7 +514,8 @@ class Landing(unittest.TestCase):
             for region in ("header", "main", "footer"):
                 self.assertEqual(len(pagina.de(region)), 1, f"<{region}> en {nombre}")
             for enlace in pagina.enlaces:
-                self.assertTrue(enlace["texto"].strip(), f"Enlace sin nombre en {nombre}")
+                nombre_accesible = enlace["texto"].strip() or enlace["attrs"].get("aria-label", "").strip()
+                self.assertTrue(nombre_accesible, f"Enlace sin nombre en {nombre}")
             for imagen in pagina.de("img"):
                 self.assertIn("alt", imagen, f"<img> sin alt en {nombre}")
             viewport = [m for m in pagina.de("meta") if m.get("name") == "viewport"]
@@ -519,13 +563,17 @@ class Landing(unittest.TestCase):
             ["/fonts/nunito-400-latin.woff2", "/fonts/nunito-700-latin.woff2"],
         )
         total = len(html.encode("utf-8")) + len(css.encode("utf-8"))
+        fotos = [p.stat().st_size for p in (LANDING / "img").glob("*")]
+        self.assertTrue(all(peso <= 24_000 for peso in fotos), "Una foto pasa de 24 KB")
+        self.assertLessEqual(sum(fotos), 215_000, "Las fotos suman más de 215 KB")
+        total += sum(fotos)
         for fuente in fuentes:
             ruta = LANDING / fuente.lstrip("/")
             contenido = ruta.read_bytes()
             self.assertEqual(contenido[:4], b"wOF2", fuente)
             self.assertLessEqual(len(contenido), 50_000, fuente)
             total += len(contenido)
-        self.assertLessEqual(total, 150_000)
+        self.assertLessEqual(total, 300_000)
 
         caras = [c for s, c in bloques_css(css) if s == "@font-face"]
         self.assertEqual(len(caras), 2)
@@ -535,6 +583,155 @@ class Landing(unittest.TestCase):
         servidor, _ = bloques_nginx(leer("nginx.conf"))
         self.assertIn("gzip on", servidor)
         self.assertTrue(any(d.startswith("gzip_types") and "text/css" in d for d in servidor))
+
+
+    def test_TC_TT_WEB_01_10_una_pantalla_y_movimiento_reducido(self):
+        """KNOCK-258 (spec 004, R-06 y R-07, CA-05). CA-04 se mide en un navegador."""
+        css = leer("css/landing.css")
+        reglas = bloques_css(css)
+
+        reducido = [c for s, c in reglas if "prefers-reduced-motion: reduce" in s]
+        self.assertTrue(reducido, "Sin @media (prefers-reduced-motion: reduce)")
+        self.assertTrue(any("animation: none" in c for c in reducido), "No apaga las animaciones")
+        self.assertTrue(any("transition: none" in c for c in reducido), "No apaga las transiciones")
+
+        inicio = [c for s, c in reglas if s == ".inicio"]
+        self.assertTrue(inicio, "Falta la regla .inicio")
+        self.assertTrue(any("100dvh" in c for c in inicio), "La página principal no ocupa una pantalla")
+
+        pagina = analizar(leer("index.html"))
+        cuerpo = [a for t, a in pagina.etiquetas if t == "body"]
+        self.assertEqual(cuerpo[0].get("class"), "inicio")
+        for tag, atributos in pagina.etiquetas:
+            if tag == "svg":
+                decorativo = atributos.get("aria-hidden") == "true"
+                con_nombre = atributos.get("role") == "img" and atributos.get("aria-label")
+                self.assertTrue(decorativo or con_nombre, "<svg> sin aria-hidden ni nombre")
+        self.assertEqual(pagina.de("script"), [])
+
+    def test_TC_TT_WEB_01_11_instagram(self):
+        """KNOCK-258 (spec 004, R-09 y CA-06): Instagram, TikTok, X y Facebook."""
+        html = leer("index.html")
+        pagina = analizar(html)
+        redes = [
+            e
+            for e in pagina.enlaces
+            if es_externo(e["attrs"].get("href", "")) and e["attrs"]["href"] not in {URL_PLAY, *URLS_BETA}
+        ]
+        self.assertEqual([e["attrs"]["href"] for e in redes], URLS_REDES)
+        for enlace, (url, nombre) in zip(redes, REDES):
+            atributos = enlace["attrs"]
+            self.assertEqual(atributos.get("aria-label"), nombre)
+            self.assertEqual(atributos.get("target"), "_blank")
+            self.assertEqual(sorted(atributos.get("rel", "").split()), ["noopener", "noreferrer"])
+            self.assertEqual(enlace["texto"].strip(), "", f"El ícono de {nombre} no duplica el nombre")
+            bloque = html[html.index(f'href="{url}"') :]
+            bloque = bloque[: bloque.index("</a>")]
+            self.assertIn('<svg viewBox="0 0 24 24" aria-hidden="true">', bloque)
+            self.assertNotIn("<img", bloque)
+        self.assertEqual(html.count('class="red"'), 4)
+        self.assertEqual(enlaces_externos(pagina).count(URL_INSTAGRAM), 1)
+
+        # Objetivo táctil de al menos 44 px (3rem de ancho y 2.75rem de alto).
+        reglas = bloques_css(leer("css/landing.css"))
+        red = [propiedades(c) for s, c in reglas if s == ".enlaces .red"]
+        self.assertTrue(red, "Falta la regla .enlaces .red")
+        self.assertEqual(red[0].get("width"), "3rem")
+        self.assertEqual(red[0].get("min-height"), "2.75rem")
+
+    def test_TC_TT_WEB_01_12_imagen_con_personas_y_leyenda(self):
+        """KNOCK-258 (spec 004, R-09 y CA-06): mosaico de 22 fotos propias, lema en HTML, sin terceros."""
+        html = leer("index.html")
+        pagina = analizar(html)
+        imagenes = pagina.de("img")
+        self.assertEqual(sorted(i.get("src") for i in imagenes), sorted(f"/img/{f}" for f in FOTOS))
+        for imagen in imagenes:
+            self.assertIn("alt", imagen, f"{imagen.get('src')} sin atributo alt")
+            self.assertNotIn("Tu técnico de confianza", imagen.get("alt", ""))
+            self.assertRegex(imagen.get("width", ""), r"^[1-9]\d*$")
+            self.assertRegex(imagen.get("height", ""), r"^[1-9]\d*$")
+            self.assertEqual(imagen.get("decoding"), "async")
+            self.assertNotEqual(imagen.get("loading"), "lazy")
+        con_texto = [i for i in imagenes if i.get("alt", "").strip()]
+        self.assertGreaterEqual(len(con_texto), 4, "Al menos 4 fotos con alt descriptivo")
+        self.assertLessEqual(len(con_texto), 6, "El resto son decorativas (alt vacío)")
+        grupos = [a for a in pagina.de("div") if a.get("class") == "moodboard"]
+        self.assertEqual(len(grupos), 1)
+        self.assertEqual(grupos[0].get("role"), "group")
+        self.assertTrue(grupos[0].get("aria-label", "").strip())
+
+        carpeta = LANDING / "img"
+        self.assertEqual(sorted(p.name for p in carpeta.iterdir()), sorted(FOTOS))
+        pesos = []
+        for nombre in FOTOS:
+            contenido = (carpeta / nombre).read_bytes()
+            self.assertEqual(contenido[:4], b"RIFF", nombre)
+            self.assertEqual(contenido[8:12], b"WEBP", nombre)
+            self.assertLessEqual(len(contenido), 24_000, nombre)
+            pesos.append(len(contenido))
+        self.assertLessEqual(sum(pesos), 215_000)
+
+        adornos = [a for t, a in pagina.etiquetas if t == "svg" and "adorno" in a.get("class", "")]
+        self.assertGreaterEqual(len(adornos), 4)
+        for adorno in adornos:
+            self.assertEqual(adorno.get("aria-hidden"), "true")
+        for sin_texto in ("text", "desc"):
+            self.assertEqual(pagina.de(sin_texto), [], f"<{sin_texto}> en un SVG")
+
+        self.assertIn('Tu técnico de confianza, a tu puerta', pagina.texto_visible())
+        for prohibida in ("script", "input", "form", "iframe"):
+            self.assertEqual(pagina.de(prohibida), [], f"<{prohibida}>")
+        self.assertNotIn('style="', html)
+        self.assertEqual(html.count("<h1"), 1)
+        self.assertIn("Técnicos de", html)
+
+
+    def test_interruptor_de_tema_en_las_tres_paginas(self):
+        """KNOCK-258 (spec 004, R-08): un interruptor con dos enlaces de ancla, sin JavaScript ni formularios."""
+        for nombre in ("index.html", "privacidad/index.html", "eliminar-cuenta/index.html"):
+            html = leer(nombre)
+            pagina = analizar(html)
+            for prohibida in ("input", "button", "script", "form", "select"):
+                self.assertEqual(pagina.de(prohibida), [], f"<{prohibida}> en {nombre}")
+            self.assertIn('<span id="tema-claro"></span><span id="tema-oscuro"></span>', html, nombre)
+            interruptores = {
+                a.get("href"): a
+                for a in (e["attrs"] for e in pagina.enlaces)
+                if "tema-sw" in a.get("class", "")
+            }
+            self.assertEqual(sorted(interruptores), ["#tema-claro", "#tema-oscuro"], nombre)
+            self.assertEqual(interruptores["#tema-oscuro"].get("aria-label"), "Cambiar a modo oscuro")
+            self.assertEqual(interruptores["#tema-claro"].get("aria-label"), "Cambiar a modo claro")
+            self.assertIn("tema-a-oscuro", interruptores["#tema-oscuro"]["class"])
+            self.assertIn("tema-a-claro", interruptores["#tema-claro"]["class"])
+            for tag, atributos in pagina.etiquetas:
+                if tag == "svg" and "tema-ic" in atributos.get("class", ""):
+                    self.assertEqual(atributos.get("aria-hidden"), "true", nombre)
+            for visible in ("Tema", "Claro", "Oscuro"):
+                self.assertNotIn(visible, pagina.texto_visible().split(), nombre)
+            self.assertNotIn("tema-sel", html, nombre)
+
+        css = leer("css/landing.css")
+        reglas = bloques_css(css)
+        selectores = [s for s, _ in reglas]
+        for esperado in (
+            ":root:has(#tema-claro:target) .tema-a-claro",
+            ":root:has(#tema-claro:target) .tema-a-oscuro",
+            ":root:has(#tema-oscuro:target) .tema-a-oscuro",
+            ":root:has(#tema-oscuro:target) .tema-a-claro",
+        ):
+            self.assertIn(esperado, selectores)
+        base = [propiedades(c) for s, c in reglas if s == ".tema-a-claro"]
+        self.assertEqual(base[0].get("display"), "none")
+        interruptor = [propiedades(c) for s, c in reglas if s == ".tema-sw"]
+        self.assertEqual(interruptor[0].get("min-height"), "2.75rem")
+        self.assertTrue(
+            any(
+                "prefers-color-scheme: dark" in s and ".tema-a-oscuro" in s and propiedades(c).get("display") == "none"
+                for s, c in reglas
+            ),
+            "Sin tema elegido, el interruptor sigue al del sistema",
+        )
 
 
 if __name__ == "__main__":
