@@ -1,6 +1,7 @@
 /// Enlaces que la app abre en apps del sistema con `AbridorDeEnlaces`
-/// (spec 016, R-05 y CA-21). Solo se arman con estas funciones: nunca se abre una dirección que llegue tal
-/// cual del servidor (sin esquemas arbitrarios).
+/// (spec 016, R-05 y CA-21). Solo se arman con estas funciones: nunca se
+/// abre una dirección que llegue tal cual del servidor (sin esquemas
+/// arbitrarios).
 abstract final class Enlaces {
   /// Mapas: `https://www.google.com/maps/search/?api=1&query=<dirección>`.
   static Uri mapa(String direccion) => Uri.parse(

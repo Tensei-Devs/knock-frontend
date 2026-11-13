@@ -25,17 +25,21 @@ class VisitaLocalRepositorySeguro implements VisitaLocalRepository {
     }
   }
 
+  /// Primero el índice y después los datos: si la app se cierra entre las dos
+  /// escrituras, queda en el índice una visita sin datos (inofensiva), nunca
+  /// un código guardado que el cierre de sesión no encuentre (R-17).
   @override
   Future<void> guardar(VisitaGuardada visita) async {
+    final ids = await leerIndiceDeVisitas(_almacen)
+      ..add(visita.id);
+    await escribirIndiceDeVisitas(_almacen, ids);
     await _almacen.escribir(
       '$prefijoVisitaGuardada${visita.id}',
       jsonEncode(visita.aMapa()),
     );
-    final ids = await leerIndiceDeVisitas(_almacen)
-      ..add(visita.id);
-    await escribirIndiceDeVisitas(_almacen, ids);
   }
 
+  /// Primero los datos y después el índice, por la misma razón.
   @override
   Future<void> borrar(String id) async {
     await _almacen.borrar('$prefijoVisitaGuardada$id');

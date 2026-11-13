@@ -418,6 +418,21 @@ void main() {
     });
   });
 
+  test('CA_016_16 si la app se cierra a mitad de guardar, no queda un código huérfano', () async {
+    // La segunda escritura falla, como si la app se cerrara entre las dos.
+    final cortado = _AlmacenQueSeCorta();
+    final local = VisitaLocalRepositorySeguro(cortado);
+
+    await expectLater(
+      local.guardar(VisitaGuardada.de(_visita(), DateTime(2026, 11, 12))),
+      throwsA(isA<StateError>()),
+    );
+    await borrarDatosDeVisita(cortado);
+
+    expect(cortado.contenido.values.join(), isNot(contains('4712')));
+    expect(cortado.contenido, isEmpty);
+  });
+
   test('CA_016_16 cerrar sesión borra todas las visitas guardadas', () async {
     final local = VisitaLocalRepositorySeguro(almacen);
     await local.guardar(VisitaGuardada.de(_visita(), DateTime(2026, 11, 12)));
@@ -462,4 +477,16 @@ void main() {
       expect(Enlaces.whatsapp('abc'), isNull);
     });
   });
+}
+
+/// Almacén cuya segunda escritura falla (corte a mitad de guardar).
+class _AlmacenQueSeCorta extends AlmacenSeguroEnMemoria {
+  var _escrituras = 0;
+
+  @override
+  Future<void> escribir(String clave, String valor) async {
+    _escrituras++;
+    if (_escrituras == 2) throw StateError('corte');
+    await super.escribir(clave, valor);
+  }
 }

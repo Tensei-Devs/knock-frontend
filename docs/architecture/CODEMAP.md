@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-12T22:00:28Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-13T13:11:45Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -61,7 +61,7 @@
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:72, `crear()`:75, `obtener()`:97, `cotizaciones()`:118, `elegir()`:148, `obtenerVisita()`:197, `pedirAviso()`:226, `cotizacion()`:244, `etiquetarComoElServidor()`:338, `ordenarComoElServidor()`:375, `porCalificacion()`:379, `porTope()`:381
 - `app/lib/features/actividad/data/visita_local_repository.dart` — class `VisitaLocalRepositorySeguro`
-  - `leer()`:15, `guardar()`:29, `borrar()`:40
+  - `leer()`:15, `guardar()`:32, `borrar()`:44
 
 **domain**
 
@@ -90,7 +90,7 @@
 - `app/lib/features/actividad/presentation/aviso_controller.dart` — class `TextoDeAviso`, class `AvisoDelServidor`, class `AvisoDeRespaldo`, class `AvisoNoPermitido`, class `AvisoSinDatos`, class `ContactosController`
   - `build()`:69, `guardar()`:73, `borrar()`:105
 - `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionFallida`, class `EleccionController`
-  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:100
+  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:146
 - `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
   - `build()`:24, `nombreOrden()`:29, `build()`:97, `build()`:187
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
@@ -199,7 +199,7 @@
 - `app/lib/core/enlaces/abridor_de_enlaces.dart` — class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
   - `abrir()`:19
 - `app/lib/core/enlaces/enlaces.dart` — class `Enlaces`
-  - `mapa()`:6, `llamada()`:12, `whatsapp()`:18, `sms()`:27, `whatsappConTexto()`:35
+  - `mapa()`:7, `llamada()`:13, `whatsapp()`:19, `sms()`:28, `whatsappConTexto()`:36
 
 ### entrada
 

@@ -88,11 +88,57 @@ class EleccionController extends Notifier<EstadoEleccion> {
       // La comparación pasa a «ya elegiste» (backend 021 R-08).
       ref.invalidate(cotizacionesProvider(solicitudId));
     } on Failure catch (falla) {
+      // CA-20: un reintento que llega a una solicitud ya elegida no es un
+      // error si la cita existe: se consulta y se muestra.
+      if (falla is EleccionRechazadaFailure &&
+          falla.motivo == MotivoEleccionRechazada.yaElegida) {
+        final cita = await _citaYaConfirmada(cotizacionId);
+        if (cita != null) {
+          state = EleccionHecha(cita);
+          ref.invalidate(cotizacionesProvider(solicitudId));
+          return;
+        }
+      }
       state = EleccionFallida(falla, cotizacionId);
       // Con un 409 la lista ya no es la que se veía: se vuelve a pedir (CA-12).
       if (falla is EleccionRechazadaFailure) {
         ref.invalidate(cotizacionesProvider(solicitudId));
       }
+    }
+  }
+
+  /// La cita de una solicitud ya elegida: la visita de `visitaId` (spec 016).
+  /// `null` si no se puede consultar; entonces queda el mensaje de CA-12.
+  Future<CitaConfirmada?> _citaYaConfirmada(String cotizacionId) async {
+    try {
+      final comparacion = await ref
+          .read(solicitudRepositoryProvider)
+          .cotizaciones(solicitudId);
+      final visitaId = comparacion.visitaId;
+      if (visitaId == null) return null;
+      final visita = await ref
+          .read(visitaRepositoryProvider)
+          .obtenerVisita(visitaId);
+      return CitaConfirmada(
+        visitaId: visita.id,
+        solicitudId: solicitudId,
+        cotizacionId: cotizacionId,
+        modalidad: visita.esTaller ? 'taller' : 'domicilio',
+        dia: visita.dia,
+        hora: visita.hora,
+        precio: visita.precio,
+        tope: visita.tope ?? 0,
+        direccion: visita.direccion,
+        tecnico: TecnicoElegido(
+          nombre: visita.tecnico.nombre,
+          verificado: visita.tecnico.verificado,
+          nivelVerificacion: visita.tecnico.nivelVerificacion,
+          telefono: visita.tecnico.telefono,
+          whatsapp: visita.tecnico.whatsapp,
+        ),
+      );
+    } on Failure {
+      return null;
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/core/tema/tema.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
@@ -297,18 +299,36 @@ void main() {
     });
 
     test('CA_015_10 el modelo de la cotización no tiene contacto', () {
-      // El tipo solo expone lo público del técnico; si alguien le agrega
-      // teléfono o dirección, esta lista debe actualizarse a propósito.
-      final tecnico = cotizacionDePrueba('c1').tecnico;
-      expect(tecnico.toString(), isNot(contains('telefono')));
-      expect([
-        tecnico.id,
-        tecnico.nombre,
-        tecnico.fotoUrl,
-        tecnico.calificacion,
-        tecnico.verificado,
-        tecnico.nivelVerificacion,
-      ], hasLength(6));
+      // Lee los campos de `TecnicoResumen` y `Cotizacion` en el código: si
+      // alguien les agrega teléfono, WhatsApp o dirección, esta prueba falla
+      // (el contacto solo existe en `TecnicoElegido`, después de elegir).
+      final fuente = File('lib/features/actividad/domain/cotizacion.dart')
+          .readAsStringSync();
+      for (final clase in ['TecnicoResumen', 'Cotizacion']) {
+        final cuerpo = RegExp(
+          'final class $clase '
+          r'\{(.*?)\n\}',
+          dotAll: true,
+        ).firstMatch(fuente)?.group(1);
+        expect(cuerpo, isNotNull, reason: 'no encontré $clase');
+        final campos = RegExp(r'final [\w<>?, ]+ (\w+);')
+            .allMatches(cuerpo!)
+            .map((m) => m.group(1)!.toLowerCase())
+            .toList();
+        expect(campos, isNotEmpty, reason: '$clase sin campos');
+        for (final prohibido in [
+          'telefono',
+          'whatsapp',
+          'direccion',
+          'celular',
+        ]) {
+          expect(
+            campos.where((c) => c.contains(prohibido)),
+            isEmpty,
+            reason: '$clase tiene un campo de contacto',
+          );
+        }
+      }
     });
   });
 
