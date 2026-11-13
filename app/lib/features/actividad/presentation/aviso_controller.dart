@@ -1,4 +1,5 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:flutter/foundation.dart';
@@ -77,9 +78,13 @@ final textoDeAvisoProvider = FutureProvider.autoDispose
 /// Los contactos de confianza del teléfono, con alta, edición y baja
 /// (spec 022, CA-04 a CA-08).
 class ContactosController extends AsyncNotifier<List<ContactoConfianza>> {
+  /// Se vuelve a leer cada vez que se cierra la sesión, ya con el almacén
+  /// vacío: nadie ve los contactos de la cuenta anterior (CA-13).
   @override
-  Future<List<ContactoConfianza>> build() =>
-      ref.read(contactosConfianzaRepositoryProvider).listar();
+  Future<List<ContactoConfianza>> build() {
+    ref.watch(cierresDeSesionProvider);
+    return ref.read(contactosConfianzaRepositoryProvider).listar();
+  }
 
   /// Guarda o reemplaza; devuelve el error si no se puede (no lanza).
   Future<ErrorContacto?> guardar({
@@ -128,6 +133,7 @@ class ContactosController extends AsyncNotifier<List<ContactoConfianza>> {
 }
 
 final contactosProvider =
-    AsyncNotifierProvider<ContactosController, List<ContactoConfianza>>(
-      ContactosController.new,
-    );
+    AsyncNotifierProvider.autoDispose<
+      ContactosController,
+      List<ContactoConfianza>
+    >(ContactosController.new);
