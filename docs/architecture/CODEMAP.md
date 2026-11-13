@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-12T19:06:43Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-13T17:03:05Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 23 | 47 | 77 |
+| `actividad` | -, data, domain, presentation | 24 | 47 | 78 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 1 | 0 | 1 |
@@ -54,6 +54,8 @@
   - `prepararFoto()`:88, `prepararFotoEnSegundoPlano()`:147
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
+- `app/lib/features/actividad/data/solicitud_mapper.dart` — —
+  - `cuerpoDeSolicitud()`:11
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:52, `crear()`:55, `obtener()`:76, `cotizaciones()`:95, `cotizacion()`:122, `etiquetarComoElServidor()`:216, `ordenarComoElServidor()`:253, `porCalificacion()`:257, `porTope()`:259
 
