@@ -1,17 +1,15 @@
 import 'dart:io';
 
 import 'package:app/core/tema/tema.dart';
-import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
-import 'package:app/features/actividad/presentation/cotizaciones_screen.dart';
 import 'package:app/features/actividad/presentation/widgets/tarjeta_cotizacion.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../soporte/accesibilidad.dart';
+import '../../../soporte/montar_comparacion.dart';
 import '../../../soporte/pantalla_maqueta.dart';
 import '../../../soporte/solicitud_falsa.dart';
 
@@ -23,26 +21,12 @@ Future<void> _montar(
   String id = _id,
   bool visitaDisponible = false,
 }) async {
-  final contenedor = ProviderContainer(
-    overrides: [
-      ...dobles(solicitudes: solicitudes, borrador: BorradorFalso()),
-      visitaDisponibleProvider.overrideWithValue(visitaDisponible),
-    ],
+  await montarComparacion(
+    tester,
+    solicitudes,
+    id: id,
+    visitaDisponible: visitaDisponible,
   );
-  addTearDown(contenedor.dispose);
-  await tester.pumpWidget(
-    UncontrolledProviderScope(
-      container: contenedor,
-      child: MaterialApp(
-        theme: temaClaro,
-        locale: const Locale('es'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: CotizacionesScreen(solicitudId: id),
-      ),
-    ),
-  );
-  await tester.pumpAndSettle();
 }
 
 void main() {
