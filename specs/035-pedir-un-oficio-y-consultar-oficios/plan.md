@@ -1,4 +1,4 @@
-# Plan 035 — Catálogo de oficios, oficios pedidos y lista de espera (consulta interna) (pantallas)
+# Plan 035 — Pedir un oficio que no está y consultar un oficio (app) (pantallas)
 
 > Parte de `spec.md` (Borrador).
 
@@ -10,9 +10,9 @@
 5. Pruebas, mapa de arquitectura y `Memoria.md`.
 
 ## Archivos que se crean o cambian
-- `app/lib/features/catalogos/`
+- `app/lib/features/pedir/`
 - `app/lib/l10n/app_es.arb`, `app_en.arb`
-- `app/test/features/catalogos/`
+- `app/test/features/pedir/`
 - `Memoria.md`
 
 ## Dependencias y orden

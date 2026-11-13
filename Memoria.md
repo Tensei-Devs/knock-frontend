@@ -8,7 +8,7 @@
 - Sin código de producto todavía.
 
 ## 2026-11-13 — Specs de los endpoints que ninguna spec cubría (borradores)
-- **Decisión:** se redactan en un solo cambio 15 specs de backend (039 a 053) y 15 de frontend (029 a 043) para 90 endpoints del Excel `Knock_Endpoints_CRUD.xlsx` que las specs 001 a 038 no cubren; salen en Borrador y sin tareas activas.
+- **Decisión:** se redactan en un solo cambio 15 specs de backend (039 a 053) y 16 de frontend (029 a 044, con el panel web) para 90 endpoints del Excel `Knock_Endpoints_CRUD.xlsx` que las specs 001 a 038 no cubren; salen en Borrador y sin tareas activas.
 - **Porqué:** las specs numeradas cubren cerca del 30 % de los 130 endpoints del Excel; el resto se especifica de una vez para poder aprobarlas y repartirlas.
 - **Cómo:** una spec por grupo de colecciones, armada con las rutas, roles, reglas de campos, paginación, caché y respuestas de cada hoja; los códigos de negocio en inglés, los plazos y las dudas de cada grupo quedan en su §15 (backend) y §13 (frontend) para confirmarse al aprobar.
 

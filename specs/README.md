@@ -38,7 +38,7 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 032 | Contactos de confianza y técnicos de confianza (pantallas) | Borrador | [`032-contactos-y-tecnicos-de-confianza`](032-contactos-y-tecnicos-de-confianza/spec.md) |
 | 033 | Bloqueos entre personas y reportes con apelación (pantallas) | Borrador | [`033-bloqueos-y-reportes`](033-bloqueos-y-reportes/spec.md) |
 | 034 | Avisos dentro de la app y preferencias de avisos (pantallas) | Borrador | [`034-avisos-dentro-de-la-app`](034-avisos-dentro-de-la-app/spec.md) |
-| 035 | Catálogo de oficios, oficios pedidos y lista de espera (consulta interna) (pantallas) | Borrador | [`035-catalogos-y-lista-de-espera`](035-catalogos-y-lista-de-espera/spec.md) |
+| 035 | Pedir un oficio y consultar oficios (app) | Borrador | [`035-pedir-un-oficio-y-consultar-oficios`](035-pedir-un-oficio-y-consultar-oficios/spec.md) |
 | 036 | Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas) | Borrador | [`036-tecnico-perfil-horarios-y-exploracion`](036-tecnico-perfil-horarios-y-exploracion/spec.md) |
 | 037 | Servicios y precios de cada técnico (pantallas) | Borrador | [`037-servicios-del-tecnico`](037-servicios-del-tecnico/spec.md) |
 | 038 | Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado, cotizaciones del técnico… (pantallas) | Borrador | [`038-solicitudes-y-cotizaciones-complementos`](038-solicitudes-y-cotizaciones-complementos/spec.md) |
@@ -46,4 +46,5 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 040 | Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas) | Borrador | [`040-visita-agenda-y-cierre`](040-visita-agenda-y-cierre/spec.md) |
 | 041 | Opiniones y reputación del técnico (pantallas) | Borrador | [`041-opiniones-y-reputacion`](041-opiniones-y-reputacion/spec.md) |
 | 042 | Asistente de IA: resumen de chat, borrador de cotización, rango de precio y bitácora (pantallas) | Borrador | [`042-asistente-de-ia`](042-asistente-de-ia/spec.md) |
-| 043 | Panel de revisión: verificaciones de identidad y reportes (pantallas) | Borrador | [`043-panel-de-revision`](043-panel-de-revision/spec.md) |
+| 043 | Panel web: revisión de verificaciones y reportes | Borrador | [`043-panel-revision-de-verificaciones-y-reportes`](043-panel-revision-de-verificaciones-y-reportes/spec.md) |
+| 044 | Panel web: catálogo de oficios, oficios pedidos y lista de espera | Borrador | [`044-panel-catalogo-de-oficios`](044-panel-catalogo-de-oficios/spec.md) |
