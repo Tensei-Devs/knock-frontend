@@ -25,7 +25,8 @@ final class AvisoDeRespaldo extends TextoDeAviso {
   final DatosAvisoLocal datos;
 }
 
-/// 409 `visit_not_notifiable`: no se abre ningún canal.
+/// 409 `visit_not_notifiable` (`AvisoNoPermitidoFailure`): no se abre ningún
+/// canal.
 final class AvisoNoPermitido extends TextoDeAviso {
   const AvisoNoPermitido();
 }
@@ -46,9 +47,20 @@ final textoDeAvisoProvider = FutureProvider.autoDispose
         final mensaje = await ref
             .read(avisoRepositoryProvider)
             .pedirAviso(visitaId);
-        if (mensaje.esSeguro) return AvisoDelServidor(mensaje.texto);
+        // Defensa extra: aunque diga que no, se revisa contra el código de la
+        // copia local de la visita (R-06).
+        final codigo =
+            (await ref.read(visitaLocalRepositoryProvider).leer(visitaId))
+                ?.codigo;
+        final traeCodigo =
+            codigo != null && textoContieneCodigo(mensaje.texto, codigo);
+        if (mensaje.esSeguro && !traeCodigo) {
+          return AvisoDelServidor(mensaje.texto);
+        }
         falla = const DatosInvalidosFailure();
-      } on ConflictoFailure {
+      } on AvisoNoPermitidoFailure {
+        // Solo `visit_not_notifiable` bloquea el aviso; otro 409 cae en el
+        // respaldo con su advertencia (CA-16).
         return const AvisoNoPermitido();
       } on Failure catch (error) {
         falla = error;
@@ -88,7 +100,12 @@ class ContactosController extends AsyncNotifier<List<ContactoConfianza>> {
           .read(contactosConfianzaRepositoryProvider)
           .guardar(
             ContactoConfianza(
-              id: id ?? DateTime.now().microsecondsSinceEpoch.toString(),
+              id:
+                  id ??
+                  ref
+                      .read(relojSolicitudProvider)()
+                      .microsecondsSinceEpoch
+                      .toString(),
               nombre: nombre,
               celular: celular,
             ),

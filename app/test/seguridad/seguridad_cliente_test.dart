@@ -9,6 +9,7 @@ import 'package:app/features/inicio/domain/ubicacion_repository.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../features/inicio/presentation/mapa/fakes_ubicacion.dart';
@@ -226,6 +227,61 @@ void main() {
             isFalse,
             reason: archivo.path,
           );
+        }
+      },
+    );
+
+    test(
+      'CA_022_18 el aviso de confianza no registra contactos, código ni texto',
+      () {
+        // Los archivos del aviso (spec 022) y de la visita (spec 016): sin
+        // consola, registros ni reportes de errores.
+        final prohibido = RegExp(
+          r'\b(print|debugPrint|debugPrintStack)\s*\(|dart:developer|'
+          r'\blog\s*\(|package:logging|FlutterError\.report|recordError|'
+          r'crashlytics|sentry',
+          caseSensitive: false,
+        );
+        final archivos = [
+          ..._archivos(
+            ['lib/features/actividad'],
+            {'.dart'},
+          ).where((f) => RegExp(r'aviso|contacto|visita').hasMatch(f.path)),
+          ..._archivos(['lib/core/enlaces', 'lib/core/plataforma'], {'.dart'}),
+          File(
+            'lib/features/cuenta/presentation/contactos_confianza_screen.dart',
+          ),
+        ];
+        expect(archivos.length, greaterThan(5));
+        for (final archivo in archivos) {
+          expect(
+            prohibido.hasMatch(archivo.readAsStringSync()),
+            isFalse,
+            reason: archivo.path,
+          );
+        }
+
+        // Si algo los convierte en texto, no salen el nombre, el celular ni
+        // el mensaje.
+        const contacto = ContactoConfianza(
+          id: '1',
+          nombre: 'Mamá',
+          celular: '5500000001',
+        );
+        const mensaje = MensajeAviso(
+          texto: 'Hoy recibo a un técnico',
+          incluyeCodigo: false,
+          incluyeDireccion: false,
+        );
+        for (final objeto in <Object>[
+          contacto,
+          mensaje,
+          const ContactoNoGuardado(ErrorContacto.repetido),
+        ]) {
+          final texto = objeto.toString();
+          expect(texto, isNot(contains('Mamá')));
+          expect(texto, isNot(contains('5500000001')));
+          expect(texto, isNot(contains('Hoy recibo')));
         }
       },
     );

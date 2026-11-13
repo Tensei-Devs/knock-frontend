@@ -87,8 +87,13 @@ class RespaldoAvisoSeguro implements RespaldoAvisoRepository {
     }
   }
 
+  /// Primero el índice y después los datos, como la copia de la visita: si la
+  /// app se cierra en medio, el cierre de sesión igual la encuentra.
   @override
   Future<void> guardar(String visitaId, DatosAvisoLocal datos) async {
+    final ids = await leerIndiceDeVisitas(_almacen)
+      ..add(visitaId);
+    await escribirIndiceDeVisitas(_almacen, ids);
     await _almacen.escribir(
       '$prefijoRespaldoAviso$visitaId',
       jsonEncode({
@@ -98,8 +103,5 @@ class RespaldoAvisoSeguro implements RespaldoAvisoRepository {
         'hora': datos.hora,
       }),
     );
-    final ids = await leerIndiceDeVisitas(_almacen)
-      ..add(visitaId);
-    await escribirIndiceDeVisitas(_almacen, ids);
   }
 }

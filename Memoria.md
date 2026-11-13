@@ -424,3 +424,14 @@
   - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
   - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
 
+## 2026-11-13 — Ajustes de la revisión de Julián a KNOCK-84 (spec 022)
+- **CA_022_18:** prueba con ese nombre en `test/seguridad/seguridad_cliente_test.dart`. Revisa que los archivos del aviso y de la visita no escriban en consola, registros ni reportes (`print`, `log`, `FlutterError.report`, Crashlytics, Sentry). También revisa que `ContactoConfianza`, `MensajeAviso` y `ContactoNoGuardado` no muestren nombre, celular ni texto en su `toString()`. `sdd_lint --trace 022` ya no marca ningún caso faltante.
+- **409:**
+  - Solo `visit_not_notifiable` bloquea el aviso; tiene su propio error, `AvisoNoPermitidoFailure`.
+  - Cualquier otro `ConflictoFailure` cae en el respaldo con la advertencia de CA-16.
+  - El adaptador de la API debe mapear ese código a ese error.
+- **Defensa extra (R-06):**
+  - El texto del servidor se revisa contra el código de la copia local de la visita, junto o separado por espacios, puntos o guiones. Si lo trae, no se usa, aunque diga `incluyeCodigo: false`.
+  - Los ids de contacto usan `relojSolicitudProvider` y no `DateTime.now()`.
+  - El respaldo del aviso escribe primero el índice, igual que la copia de la visita.
+

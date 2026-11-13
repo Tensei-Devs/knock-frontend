@@ -5,7 +5,9 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/tema/tema.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/data/aviso_local_repository.dart';
+import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/widgets/hoja_avisar.dart';
 import 'package:app/features/cuenta/presentation/contactos_confianza_screen.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -80,6 +82,9 @@ void main() {
         ),
         respaldoAvisoRepositoryProvider.overrideWithValue(
           RespaldoAvisoSeguro(almacen),
+        ),
+        visitaLocalRepositoryProvider.overrideWithValue(
+          VisitaLocalRepositorySeguro(almacen),
         ),
         relojSolicitudProvider.overrideWithValue(() => DateTime(2026, 11, 14)),
       ],
@@ -226,7 +231,7 @@ void main() {
 
     testWidgets('CA_022_16 con 409 no se ofrece ningún canal', (tester) async {
       await conRespaldo();
-      avisos.falla = const ConflictoFailure();
+      avisos.falla = const AvisoNoPermitidoFailure();
       await montar(tester, const HojaAvisar(visitaId: _visita));
 
       expect(find.text('Esta visita ya no permite avisos'), findsOneWidget);
@@ -234,6 +239,71 @@ void main() {
       expect(find.text('Enviar por SMS'), findsNothing);
     });
   });
+
+  testWidgets('CA_022_16 otro 409 no bloquea: se usa el respaldo', (
+    tester,
+  ) async {
+    await RespaldoAvisoSeguro(almacen).guardar(
+      _visita,
+      DatosAvisoLocal(
+        tecnicoNombre: 'Técnico de prueba',
+        tecnicoVerificado: true,
+        dia: DateTime(2026, 11, 14),
+        hora: '10:30',
+      ),
+    );
+    avisos.falla = const ConflictoFailure();
+    await montar(tester, const HojaAvisar(visitaId: _visita));
+
+    expect(find.text('Esta visita ya no permite avisos'), findsNothing);
+    expect(
+      find.text(
+        'No pudimos registrar el aviso; puedes enviarlo de todos modos',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Compartir sin guardar'), findsOneWidget);
+  });
+
+  testWidgets(
+    'R-06 un texto del servidor con el código de la visita no se usa',
+    (tester) async {
+      await VisitaLocalRepositorySeguro(almacen).guardar(
+        VisitaGuardada(
+          id: _visita,
+          estado: EstadoVisita.confirmada,
+          esTaller: false,
+          dia: DateTime(2026, 11, 14),
+          hora: '10:30',
+          tecnicoNombre: 'Técnico de prueba',
+          tecnicoVerificado: true,
+          codigo: '4821',
+          guardadoEn: DateTime(2026, 11, 12),
+        ),
+      );
+      await RespaldoAvisoSeguro(almacen).guardar(
+        _visita,
+        DatosAvisoLocal(
+          tecnicoNombre: 'Técnico de prueba',
+          tecnicoVerificado: true,
+          dia: DateTime(2026, 11, 14),
+          hora: '10:30',
+        ),
+      );
+      avisos.mensaje = const MensajeAviso(
+        texto: 'Pídele el 4 8 2 1 en la puerta',
+        incluyeCodigo: false,
+        incluyeDireccion: false,
+      );
+      await montar(tester, const HojaAvisar(visitaId: _visita));
+
+      expect(find.textContaining('4 8 2 1'), findsNothing);
+      expect(
+        find.textContaining('Le pediré el código en la puerta'),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets('CA_022_17 la hoja es accesible con texto al 200 %', (
     tester,

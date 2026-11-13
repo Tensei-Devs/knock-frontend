@@ -105,6 +105,15 @@ final class MensajeAviso {
   bool get esSeguro => !incluyeCodigo && !incluyeDireccion;
 }
 
+/// Si [texto] trae los dígitos de [codigo] juntos o separados por espacios,
+/// puntos o guiones (defensa extra de R-06: el servidor no debe mandarlo).
+bool textoContieneCodigo(String texto, String codigo) {
+  final digitos = soloDigitos(codigo);
+  if (digitos.isEmpty) return false;
+  final patron = digitos.split('').join(r'[\s.\-]?');
+  return RegExp('(?<![0-9])$patron(?![0-9])').hasMatch(texto);
+}
+
 /// Lo único que la plantilla local puede usar (R-12): nombre público del
 /// técnico, verificación, día y hora. **Nunca** el código ni la dirección.
 final class DatosAvisoLocal {
@@ -177,7 +186,8 @@ enum CanalDeAviso { sms, whatsapp, compartir }
 
 /// El texto del aviso desde la API (backend 022). Falla con un `Failure`.
 abstract interface class AvisoRepository {
-  /// `POST /visitas/{id}/aviso` con cuerpo vacío (R-07, CA-15).
+  /// `POST /visitas/{id}/aviso` con cuerpo vacío (R-07, CA-15). Con 409
+  /// `visit_not_notifiable` lanza `AvisoNoPermitidoFailure`.
   Future<MensajeAviso> pedirAviso(String visitaId);
 }
 

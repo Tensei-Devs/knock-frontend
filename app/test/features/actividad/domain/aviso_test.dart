@@ -168,6 +168,17 @@ void main() {
     },
   );
 
+  test(
+    'R-06 detecta el código junto o separado, sin falsos con otros números',
+    () {
+      expect(textoContieneCodigo('Código 4821', '4821'), isTrue);
+      expect(textoContieneCodigo('Di 4 8 2 1', '4821'), isTrue);
+      expect(textoContieneCodigo('Di 4-8-2-1', '4821'), isTrue);
+      expect(textoContieneCodigo('El 14/11 a las 10:30', '4821'), isFalse);
+      expect(textoContieneCodigo('Llama al 5548210000', '4821'), isFalse);
+    },
+  );
+
   group('CA_022_09 y CA_022_10 enlaces de envío', () {
     test('CA_022_09 SMS con número y texto codificado, sin enviar solo', () {
       expect(
