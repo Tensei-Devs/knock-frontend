@@ -14,7 +14,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 046 en l
 
 - **CA-01:** Dada una respuesta correcta de `POST /api/v1/tecnicos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `POST /api/v1/tecnicos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 409, 422 de `POST /api/v1/tecnicos`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 409 `already_a_technician`, 422 de `POST /api/v1/tecnicos`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `GET /api/v1/tecnicos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `GET /api/v1/tecnicos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-06:** Dado un listado de `/api/v1/tecnicos`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
@@ -27,15 +27,15 @@ Definir las pantallas, los estados y el consumo del contrato de backend 046 en l
 - **CA-13:** Dada una consulta de `/api/v1/mapa/tecnicos` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-14:** Dada una respuesta correcta de `GET /api/v1/tecnicos/{id}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-15:** Dada una respuesta 401 de `GET /api/v1/tecnicos/{id}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-16:** Dadas las respuestas 404 de `GET /api/v1/tecnicos/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-16:** Dadas las respuestas 404 `technician_not_found` de `GET /api/v1/tecnicos/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-17:** Dada una consulta de `/api/v1/tecnicos/{id}` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-18:** Dada una respuesta correcta de `GET /api/v1/tecnicos/{id}/llega-a-mi-colonia`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-19:** Dada una respuesta 401 de `GET /api/v1/tecnicos/{id}/llega-a-mi-colonia`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-20:** Dadas las respuestas 404 de `GET /api/v1/tecnicos/{id}/llega-a-mi-colonia`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-20:** Dadas las respuestas 404 `technician_not_found` de `GET /api/v1/tecnicos/{id}/llega-a-mi-colonia`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-21:** Dada una consulta de `/api/v1/tecnicos/{id}/llega-a-mi-colonia` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-22:** Dada una respuesta correcta de `GET /api/v1/tecnicos/{id}/fotos-trabajos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-23:** Dada una respuesta 401 de `GET /api/v1/tecnicos/{id}/fotos-trabajos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-24:** Dadas las respuestas 404 de `GET /api/v1/tecnicos/{id}/fotos-trabajos`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-24:** Dadas las respuestas 404 `technician_not_found` de `GET /api/v1/tecnicos/{id}/fotos-trabajos`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-25:** Dado un listado de `/api/v1/tecnicos/{id}/fotos-trabajos`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
 - **CA-26:** Dada una consulta de `/api/v1/tecnicos/{id}/fotos-trabajos` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-27:** Dada una respuesta correcta de `PUT /api/v1/tecnicos/me`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
@@ -170,12 +170,12 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** La búsqueda por texto vive en la spec 021 de la app; Explorar y el mapa usan `/explorar` y `/mapa/tecnicos`.
+- **D-04:** El interruptor «Disponible hoy» muestra un aviso si el técnico aún no está verificado.
 
 ## 13. Riesgos y dudas abiertas
-- TEC-12 (resumen del técnico) ya lo cubre la spec 036 con la ruta `/tecnicos/me/trabajo`: el Excel conserva el nombre antiguo.
-- La búsqueda por texto vive en la spec 027 (`/busqueda`); aquí se confirma que `/tecnicos` y `/explorar` no la duplican.
-- La verificación de identidad del técnico (spec 025) condiciona qué perfiles se muestran: confirmar el filtro.
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño el mapa con grupos de técnicos (agrupación por zoom) contra la maqueta.
+- Confirmar el flujo de registro como técnico y su conexión con la verificación (spec 018).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
