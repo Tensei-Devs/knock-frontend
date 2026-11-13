@@ -1381,6 +1381,90 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Ver mi visita'**
   String get cotizacionVerMiVisita;
+
+  /// Botón de la tarjeta que abre la confirmación (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir'**
+  String get cotizacionElegir;
+
+  /// Título de la hoja de confirmación.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliges a {tecnico}?'**
+  String cotizacionConfirmarTitulo(String tecnico);
+
+  /// Aviso antes de confirmar (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Al elegir, verás el teléfono del técnico y él verá la dirección de tu servicio. Las demás cotizaciones se cerrarán.'**
+  String get cotizacionConfirmarAvisoContacto;
+
+  /// Botón que confirma la elección.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar elección'**
+  String get cotizacionConfirmar;
+
+  /// Botón que cierra la hoja sin elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get cotizacionCancelar;
+
+  /// Indicador mientras se elige.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmando tu elección…'**
+  String get cotizacionEligiendo;
+
+  /// Título de la hoja tras elegir (CA-11).
+  ///
+  /// In es, this message translates to:
+  /// **'Cita confirmada'**
+  String get cotizacionCitaConfirmada;
+
+  /// Teléfono público del técnico, solo tras elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'Teléfono: {telefono}'**
+  String cotizacionTelefono(String telefono);
+
+  /// WhatsApp público del técnico, solo tras elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'WhatsApp: {whatsapp}'**
+  String cotizacionWhatsapp(String whatsapp);
+
+  /// Técnico sin contacto público (CA-11).
+  ///
+  /// In es, this message translates to:
+  /// **'Este técnico no publicó un teléfono. Podrás escribirle por el chat cuando esté disponible'**
+  String get cotizacionSinTelefono;
+
+  /// Dirección de la cita: la del taller o la que escribió la persona.
+  ///
+  /// In es, this message translates to:
+  /// **'Lugar: {direccion}'**
+  String cotizacionLugar(String direccion);
+
+  /// Botón que cierra la hoja de la cita.
+  ///
+  /// In es, this message translates to:
+  /// **'Listo'**
+  String get cotizacionListo;
+
+  /// Error 409 quote_unavailable (CA-12).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cotización ya no está disponible. Elige otra.'**
+  String get cotizacionRetirada;
+
+  /// Error 503 service_unavailable al elegir (CA-20).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos confirmar tu elección. Intenta de nuevo.'**
+  String get cotizacionErrorEleccion;
 }
 
 class _AppLocalizationsDelegate

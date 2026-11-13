@@ -999,5 +999,81 @@
   "cotizacionVerMiVisita": "Ver mi visita",
   "@cotizacionVerMiVisita": {
     "description": "Botón que abre la visita (CA-09)."
+  },
+  "cotizacionElegir": "Elegir",
+  "@cotizacionElegir": {
+    "description": "Botón de la tarjeta que abre la confirmación (spec 015 §7)."
+  },
+  "cotizacionConfirmarTitulo": "¿Eliges a {tecnico}?",
+  "@cotizacionConfirmarTitulo": {
+    "description": "Título de la hoja de confirmación.",
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionConfirmarAvisoContacto": "Al elegir, verás el teléfono del técnico y él verá la dirección de tu servicio. Las demás cotizaciones se cerrarán.",
+  "@cotizacionConfirmarAvisoContacto": {
+    "description": "Aviso antes de confirmar (spec 015 §7)."
+  },
+  "cotizacionConfirmar": "Confirmar elección",
+  "@cotizacionConfirmar": {
+    "description": "Botón que confirma la elección."
+  },
+  "cotizacionCancelar": "Cancelar",
+  "@cotizacionCancelar": {
+    "description": "Botón que cierra la hoja sin elegir."
+  },
+  "cotizacionEligiendo": "Confirmando tu elección…",
+  "@cotizacionEligiendo": {
+    "description": "Indicador mientras se elige."
+  },
+  "cotizacionCitaConfirmada": "Cita confirmada",
+  "@cotizacionCitaConfirmada": {
+    "description": "Título de la hoja tras elegir (CA-11)."
+  },
+  "cotizacionTelefono": "Teléfono: {telefono}",
+  "@cotizacionTelefono": {
+    "description": "Teléfono público del técnico, solo tras elegir.",
+    "placeholders": {
+      "telefono": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionWhatsapp": "WhatsApp: {whatsapp}",
+  "@cotizacionWhatsapp": {
+    "description": "WhatsApp público del técnico, solo tras elegir.",
+    "placeholders": {
+      "whatsapp": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionSinTelefono": "Este técnico no publicó un teléfono. Podrás escribirle por el chat cuando esté disponible",
+  "@cotizacionSinTelefono": {
+    "description": "Técnico sin contacto público (CA-11)."
+  },
+  "cotizacionLugar": "Lugar: {direccion}",
+  "@cotizacionLugar": {
+    "description": "Dirección de la cita: la del taller o la que escribió la persona.",
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionListo": "Listo",
+  "@cotizacionListo": {
+    "description": "Botón que cierra la hoja de la cita."
+  },
+  "cotizacionRetirada": "Esta cotización ya no está disponible. Elige otra.",
+  "@cotizacionRetirada": {
+    "description": "Error 409 quote_unavailable (CA-12)."
+  },
+  "cotizacionErrorEleccion": "No pudimos confirmar tu elección. Intenta de nuevo.",
+  "@cotizacionErrorEleccion": {
+    "description": "Error 503 service_unavailable al elegir (CA-20)."
   }
 }

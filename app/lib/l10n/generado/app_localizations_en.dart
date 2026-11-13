@@ -751,4 +751,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cotizacionVerMiVisita => 'See my visit';
+
+  @override
+  String get cotizacionElegir => 'Choose';
+
+  @override
+  String cotizacionConfirmarTitulo(String tecnico) {
+    return 'Choose $tecnico?';
+  }
+
+  @override
+  String get cotizacionConfirmarAvisoContacto =>
+      'When you choose, you\'ll see the pro\'s phone and they\'ll see your service address. The other quotes will close.';
+
+  @override
+  String get cotizacionConfirmar => 'Confirm choice';
+
+  @override
+  String get cotizacionCancelar => 'Cancel';
+
+  @override
+  String get cotizacionEligiendo => 'Confirming your choice…';
+
+  @override
+  String get cotizacionCitaConfirmada => 'Appointment confirmed';
+
+  @override
+  String cotizacionTelefono(String telefono) {
+    return 'Phone: $telefono';
+  }
+
+  @override
+  String cotizacionWhatsapp(String whatsapp) {
+    return 'WhatsApp: $whatsapp';
+  }
+
+  @override
+  String get cotizacionSinTelefono =>
+      'This pro didn\'t share a phone number. You\'ll be able to message them in the chat when it\'s available';
+
+  @override
+  String cotizacionLugar(String direccion) {
+    return 'Place: $direccion';
+  }
+
+  @override
+  String get cotizacionListo => 'Done';
+
+  @override
+  String get cotizacionRetirada =>
+      'This quote is no longer available. Choose another one.';
+
+  @override
+  String get cotizacionErrorEleccion =>
+      'We couldn\'t confirm your choice. Try again.';
 }

@@ -337,6 +337,17 @@
 - **Por qué:** el profesor pidió una landing emocional con varias fotos de gente y los íconos de las redes del proyecto; la CSP ya permite `img-src 'self'` y no hay recursos de terceros. Todo queda en una pantalla sin scroll y el movimiento sigue apagado con `prefers-reduced-motion`.
 - **A evitar:** pasar de 24 KB por foto o de 215 KB en conjunto, poner dos fotos de la misma escena una junto a otra, poner texto dentro de las imágenes, `loading="lazy"`, `style=""`, colores fuera de los tokens `--color-*`, copiar logos oficiales de las redes, volver a agregar parámetros de seguimiento a los enlaces y sacar fotos del panel sin `overflow:hidden` (generaría scroll), usar `<input>`, `<button>` o `role="switch"` en el interruptor (un enlace no responde a la barra espaciadora) y mostrar el panel en pantallas de menos de 36rem de alto.
 
+## 2026-11-12 — Elegir una cotización sin contrato todavía (KNOCK-245, spec 015)
+- **Decisión:** «Elegir» abre una hoja modal (D-08) que solo se cierra con sus botones mientras se confirma (R-18). Al confirmar muestra la cita: técnico, día y hora, precio y máximo, modalidad, contacto público (teléfono o WhatsApp, o «no publicó un teléfono») y lugar.
+  - La cita vive en `EleccionController` y se olvida al cerrar la hoja (D-16): no se guarda en disco.
+  - Un 409 (`EleccionRechazadaFailure`, con los cinco motivos de backend 021) muestra su texto, no ofrece reintentar y vuelve a pedir la comparación.
+  - Un 503 dice «No pudimos confirmar tu elección» y deja reintentar a mano.
+  - El repositorio de prueba permite una sola elección por solicitud, como backend 021 R-10 y R-11. Los teléfonos de prueba son ficticios (`5500000001`).
+- **Pendiente:**
+  - CA-20 completo (tras un 409 `request_already_chosen` por reintento, consultar la visita y mostrar la cita) necesita `GET /visitas/{id}` (spec 016, KNOCK-83) y el contrato.
+  - Llamar o abrir WhatsApp desde la cita espera `url_launcher` (spec 016, D-06). Por ahora el número se puede seleccionar y copiar.
+- **A evitar:** guardar la cita o el contacto en disco, o reintentar una elección sin que la persona lo pida.
+
 ## 2026-11-11 — Los agentes implementan las tareas de las specs aprobadas (KNOCK-243)
 - **Decisión:** `AGENTS.md` y `.opencode/agents/implementer.md` dejan de decir «esta primera etapa es solo de especificación: no ejecutes las tareas». Ahora dicen que, si la spec está **Aprobada**, el agente implementa solo las tareas de su `task.md`, de una en una y con sus pruebas escritas primero. Una persona decide qué spec o grupo de tareas se activa; el agente no aprueba, no firma y no fusiona.
 - **Porqué:** las specs 020 a 037 de backend y 015 a 028 de la app quedaron aprobadas el 11 de noviembre y el plazo del proyecto exige implementarlas; la regla anterior hacía que los agentes se negaran a programar aunque la spec estuviera aprobada. La autorización del cambio es del Tech Lead.

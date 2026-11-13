@@ -81,6 +81,26 @@ class SolicitudesFalsas implements SolicitudRepository {
     motivo: MotivoSinEleccion.sinCotizaciones,
   );
 
+  /// Elecciones pedidas (solicitud, cotización).
+  final elecciones = <(String, String)>[];
+
+  /// Fallas que devuelve `elegir`, una por llamada, en orden.
+  final fallasAlElegir = <Failure>[];
+
+  /// Si `elegir` se queda esperando (para probar la hoja bloqueada, R-18).
+  Future<void>? retrasoAlElegir;
+
+  /// La cita que devuelve `elegir`; por omisión, una con teléfono.
+  CitaConfirmada? citaAlElegir;
+
+  @override
+  Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId) async {
+    elecciones.add((solicitudId, cotizacionId));
+    if (retrasoAlElegir != null) await retrasoAlElegir;
+    if (fallasAlElegir.isNotEmpty) throw fallasAlElegir.removeAt(0);
+    return citaAlElegir ?? citaDePrueba(cotizacionId: cotizacionId);
+  }
+
   @override
   Future<ResultadoComparacion> cotizaciones(
     String solicitudId, {
@@ -204,5 +224,30 @@ Cotizacion cotizacionDePrueba(
     verificado: verificado,
     nivelVerificacion: verificado ? 'basico' : null,
     calificacion: calificacion,
+  ),
+);
+
+/// Una cita ficticia, con o sin contacto público del técnico.
+CitaConfirmada citaDePrueba({
+  String cotizacionId = 'c1',
+  String? telefono = '5500000001',
+  String? whatsapp,
+  String modalidad = 'domicilio',
+}) => CitaConfirmada(
+  visitaId: 'vvvvvvvvvvvvvvvvvvvvvvvv',
+  solicitudId: 'bbbbbbbbbbbbbbbbbbbbbbbb',
+  cotizacionId: cotizacionId,
+  modalidad: modalidad,
+  dia: DateTime(2026, 11, 12),
+  hora: '10:30',
+  precio: 1000,
+  tope: 1100,
+  direccion: 'Calle de Prueba 123',
+  tecnico: TecnicoElegido(
+    nombre: 'Técnico de prueba',
+    verificado: true,
+    nivelVerificacion: 'basico',
+    telefono: telefono,
+    whatsapp: whatsapp,
   ),
 );
