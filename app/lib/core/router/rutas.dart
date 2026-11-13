@@ -21,6 +21,14 @@ abstract final class Rutas {
   static String solicitud(String id) =>
       '/actividad/solicitud/${Uri.encodeComponent(id)}';
 
+  /// Comparación de cotizaciones de una solicitud (spec 015, KNOCK-81).
+  static String cotizaciones(String solicitudId) =>
+      '${solicitud(solicitudId)}/cotizaciones';
+
+  /// Visita del cliente (spec 016, KNOCK-83). La ruta la registra esa tarjeta.
+  static String visita(String id) =>
+      '/actividad/visita/${Uri.encodeComponent(id)}';
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 
