@@ -1,6 +1,6 @@
 # Tareas 017 — Elegir zona por ubicación o código postal (pantalla)
 
-> **Estado:** pendientes. En esta etapa **no se ejecutan**: se activan cuando la spec esté Aprobada y una persona lo indique.
+> **Estado:** pendientes; las specs 015 y 016 están aprobadas y las demás en borrador. Las tareas de cada spec se activan cuando esa spec esté Aprobada.
 > **Responsable sugerido por omisión:** Erick Trejo Reséndiz (contrato con Ángel Alexis Blas Castillo). «Paralelo» indica con qué tareas puede avanzar a la vez; «Bloquea» qué tareas esperan a esta.
 
 | Tarea | Qué se hace | Cubre | Depende de | Bloquea | Paralelo con | Responsable sugerido | Estado |

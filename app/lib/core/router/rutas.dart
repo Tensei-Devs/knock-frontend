@@ -10,6 +10,25 @@ abstract final class Rutas {
   /// conserva la barra inferior.
   static const oficios = '/explorar/oficios';
 
+  /// «Pedir cotización» (spec 015): subruta de Actividad. Acepta
+  /// `?oficio=<clave>` para saltar el paso 1 (CA-24).
+  static const solicitudNueva = '/actividad/solicitud/nueva';
+
+  /// Nombre del parámetro con la clave del oficio de [solicitudNueva].
+  static const parametroOficio = 'oficio';
+
+  /// Detalle de una solicitud (spec 015): `/actividad/solicitud/<id>`.
+  static String solicitud(String id) =>
+      '/actividad/solicitud/${Uri.encodeComponent(id)}';
+
+  /// Comparación de cotizaciones de una solicitud (spec 015, KNOCK-81).
+  static String cotizaciones(String solicitudId) =>
+      '${solicitud(solicitudId)}/cotizaciones';
+
+  /// Visita del cliente (spec 016, KNOCK-83). La ruta la registra esa tarjeta.
+  static String visita(String id) =>
+      '/actividad/visita/${Uri.encodeComponent(id)}';
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 

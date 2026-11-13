@@ -572,6 +572,18 @@ abstract class AppLocalizations {
   /// **'Acepta el aviso de privacidad para continuar'**
   String get entradaAvisoError;
 
+  /// Mensaje breve cuando el teléfono no puede abrir la página del aviso de privacidad (spec 028).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir el aviso de privacidad. Inténtalo de nuevo más tarde.'**
+  String get entradaAvisoNoSeAbrio;
+
+  /// Indicación de accesibilidad del enlace del aviso de privacidad (spec 028).
+  ///
+  /// In es, this message translates to:
+  /// **'Se abre en el navegador'**
+  String get entradaAvisoAbrirIndicacion;
+
   /// Error de entrada: código SMS incorrecto.
   ///
   /// In es, this message translates to:
@@ -889,6 +901,738 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'a {km} km'**
   String previaDistanciaKm(String km);
+
+  /// Botón del estado vacío de Actividad que abre «Pedir cotización».
+  ///
+  /// In es, this message translates to:
+  /// **'Pide tu primera cotización'**
+  String get actividadPedirCotizacion;
+
+  /// Título del formulario de solicitud (spec 015).
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir cotización'**
+  String get solicitudTitulo;
+
+  /// Indicador del paso del formulario.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso {paso} de {total}'**
+  String solicitudPasoDeTotal(int paso, int total);
+
+  /// Título del paso 1: elegir el oficio.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas?'**
+  String get solicitudPaso1;
+
+  /// Título del paso 2: descripción y fotos.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué pasa?'**
+  String get solicitudPaso2;
+
+  /// Título del paso 3: día, franja y lugar.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuándo y dónde?'**
+  String get solicitudPaso3;
+
+  /// Modalidad del oficio: a domicilio.
+  ///
+  /// In es, this message translates to:
+  /// **'Va a tu domicilio'**
+  String get solicitudModalidadDomicilio;
+
+  /// Modalidad del oficio: en taller.
+  ///
+  /// In es, this message translates to:
+  /// **'Llevas tu auto al taller'**
+  String get solicitudModalidadTaller;
+
+  /// Etiqueta del campo de descripción.
+  ///
+  /// In es, this message translates to:
+  /// **'Describe el problema'**
+  String get solicitudDescripcion;
+
+  /// Ayuda bajo el campo de descripción.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntale al técnico qué pasa, desde cuándo y qué ya intentaste.'**
+  String get solicitudDescripcionAyuda;
+
+  /// Error: descripción corta (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres.'**
+  String get solicitudDescripcionCorta;
+
+  /// Error: descripción larga (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe como máximo 500 caracteres.'**
+  String get solicitudDescripcionLarga;
+
+  /// Título de la sección de fotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos ({cantidad} de 5)'**
+  String solicitudFotos(int cantidad);
+
+  /// Aviso de foto obligatoria (CA-03).
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega al menos una foto: le dice al técnico qué llevar'**
+  String get solicitudFotoFalta;
+
+  /// Aviso del máximo de fotos (CA-03).
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes 5 fotos, el máximo.'**
+  String get solicitudFotoMaximo;
+
+  /// Botón para tomar una foto con la cámara.
+  ///
+  /// In es, this message translates to:
+  /// **'Tomar foto'**
+  String get solicitudFotoTomar;
+
+  /// Botón para elegir fotos del teléfono.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir de la galería'**
+  String get solicitudFotoElegir;
+
+  /// Etiqueta de accesibilidad de una miniatura.
+  ///
+  /// In es, this message translates to:
+  /// **'Foto {numero} de {total}'**
+  String solicitudFotoEtiqueta(int numero, int total);
+
+  /// Botón para quitar una foto.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar foto {numero}'**
+  String solicitudFotoQuitar(int numero);
+
+  /// Error: foto no válida (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Esa foto es muy pesada o no es JPG ni PNG. Elige otra.'**
+  String get solicitudFotoNoValida;
+
+  /// Título de la elección de día.
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get solicitudDia;
+
+  /// Chip del día de hoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Hoy'**
+  String get solicitudHoy;
+
+  /// Título de la elección de franja.
+  ///
+  /// In es, this message translates to:
+  /// **'Horario'**
+  String get solicitudFranja;
+
+  /// Franja de la mañana.
+  ///
+  /// In es, this message translates to:
+  /// **'Mañana'**
+  String get solicitudFranjaManana;
+
+  /// Franja de la tarde.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarde'**
+  String get solicitudFranjaTarde;
+
+  /// Franja de la noche.
+  ///
+  /// In es, this message translates to:
+  /// **'Noche'**
+  String get solicitudFranjaNoche;
+
+  /// Error: falta día o franja.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el día y el horario.'**
+  String get solicitudFaltaDiaYFranja;
+
+  /// Aviso del oficio en taller (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Llevarás tu auto al taller'**
+  String get solicitudTallerAviso;
+
+  /// Etiqueta del campo de dirección (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Calle y número'**
+  String get solicitudDireccion;
+
+  /// Ayuda del campo de dirección.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo la verá el técnico que elijas.'**
+  String get solicitudDireccionAyuda;
+
+  /// Error: dirección corta (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres.'**
+  String get solicitudDireccionCorta;
+
+  /// Error: dirección larga (CA-17).
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe como máximo 200 caracteres.'**
+  String get solicitudDireccionLarga;
+
+  /// Aviso cuando no hay zona guardada (R-05, spec 017).
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu zona en Mi cuenta para poder enviar tu solicitud.'**
+  String get solicitudSinZona;
+
+  /// Botón para avanzar de paso.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get solicitudSiguiente;
+
+  /// Botón para volver al paso anterior.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get solicitudAtras;
+
+  /// Botón para enviar la solicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar solicitud'**
+  String get solicitudEnviar;
+
+  /// Indicador mientras se envía.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get solicitudEnviando;
+
+  /// Aviso al crear la solicitud (CA-01).
+  ///
+  /// In es, this message translates to:
+  /// **'Solicitud enviada'**
+  String get solicitudEnviada;
+
+  /// Botón para descartar el borrador.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar borrador'**
+  String get solicitudDescartar;
+
+  /// Aviso de 429 con Retry-After (CA-15).
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchos intentos. Espera {segundos} segundos.'**
+  String solicitudEspera(int segundos);
+
+  /// Error 422 content_rejected (CA-22).
+  ///
+  /// In es, this message translates to:
+  /// **'Tu descripción no se pudo publicar. Revísala y quita datos personales o palabras ofensivas.'**
+  String get solicitudErrorContenidoRechazado;
+
+  /// Error 503 moderation_unavailable (CA-22).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos revisar tu descripción en este momento. Intenta de nuevo en unos minutos.'**
+  String get solicitudErrorModeracion;
+
+  /// Error 422 trade_invalid o colonia_not_found.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.'**
+  String get solicitudErrorOpcionNoDisponible;
+
+  /// Error 404 (CA-13).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no está disponible.'**
+  String get solicitudNoDisponible;
+
+  /// Título del detalle de la solicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu solicitud'**
+  String get solicitudDetalleTitulo;
+
+  /// Estado enviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviada'**
+  String get solicitudEstadoEnviada;
+
+  /// Estado cotizando.
+  ///
+  /// In es, this message translates to:
+  /// **'Recibiendo cotizaciones'**
+  String get solicitudEstadoCotizando;
+
+  /// Estado cita_confirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cita confirmada'**
+  String get solicitudEstadoCita;
+
+  /// Estado terminada o calificada.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminada'**
+  String get solicitudEstadoTerminada;
+
+  /// Estado cancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelada'**
+  String get solicitudEstadoCancelada;
+
+  /// Estado vencida.
+  ///
+  /// In es, this message translates to:
+  /// **'Vencida'**
+  String get solicitudEstadoVencida;
+
+  /// Estado desconocido.
+  ///
+  /// In es, this message translates to:
+  /// **'En proceso'**
+  String get solicitudEstadoEnProceso;
+
+  /// Día y franja en el detalle.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia}, {franja}'**
+  String solicitudCuando(String dia, String franja);
+
+  /// Número de fotos en el detalle.
+  ///
+  /// In es, this message translates to:
+  /// **'{cantidad, plural, =1{1 foto} other{{cantidad} fotos}}'**
+  String solicitudTotalFotos(int cantidad);
+
+  /// Botón para volver a Actividad.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver a Actividad'**
+  String get solicitudVolverActividad;
+
+  /// Botón del detalle que abre la comparación (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver y elegir ({cantidad})'**
+  String solicitudVerCotizaciones(int cantidad);
+
+  /// Título de la comparación de cotizaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizaciones'**
+  String get cotizacionTitulo;
+
+  /// Orden recomendadas (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendadas'**
+  String get cotizacionOrdenRecomendadas;
+
+  /// Orden por precio (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Menor precio'**
+  String get cotizacionOrdenPrecio;
+
+  /// Orden por calificación (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor calificadas'**
+  String get cotizacionOrdenCalificacion;
+
+  /// Orden por fecha (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Más pronto'**
+  String get cotizacionOrdenPronto;
+
+  /// Aviso cuando hay más de 5 cotizaciones (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Te mostramos {mostradas} de {total}'**
+  String cotizacionMostrandoDe(int mostradas, int total);
+
+  /// Aviso de tipos de precio mixtos (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Las cotizaciones cubren cosas distintas: revisa qué incluye cada una'**
+  String get cotizacionTiposMixtos;
+
+  /// Precio fijo ya formateado en pesos.
+  ///
+  /// In es, this message translates to:
+  /// **'{precio}'**
+  String cotizacionPrecioFijo(String precio);
+
+  /// Rango de precio.
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo}'**
+  String cotizacionPrecioRango(String minimo, String maximo);
+
+  /// Cuota de solo visita.
+  ///
+  /// In es, this message translates to:
+  /// **'Visita: {precio}'**
+  String cotizacionPrecioVisita(String precio);
+
+  /// Máximo que se puede cobrar (tope).
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {tope}'**
+  String cotizacionTope(String tope);
+
+  /// Aviso de requiereAprobacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Si el precio sube, el técnico te pedirá tu aprobación'**
+  String get cotizacionRequiereAprobacion;
+
+  /// Etiqueta verificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado'**
+  String get cotizacionEtiquetaVerificado;
+
+  /// Etiqueta mejor_precio.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor precio'**
+  String get cotizacionEtiquetaMejorPrecio;
+
+  /// Etiqueta puede_ir_mas_pronto.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede ir más pronto'**
+  String get cotizacionEtiquetaPronto;
+
+  /// Técnico sin calificaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin calificaciones'**
+  String get cotizacionSinCalificaciones;
+
+  /// Calificación del técnico.
+  ///
+  /// In es, this message translates to:
+  /// **'{calificacion} de 5'**
+  String cotizacionCalificacion(String calificacion);
+
+  /// Nivel de verificación del técnico.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificación {nivel}'**
+  String cotizacionNivelVerificacion(String nivel);
+
+  /// Día y hora propuestos.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} a las {hora}'**
+  String cotizacionCuando(String dia, String hora);
+
+  /// Motivo request_without_quotes (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.'**
+  String get cotizacionMotivoSinCotizaciones;
+
+  /// Motivo request_expired (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud venció. Puedes pedir una nueva.'**
+  String get cotizacionMotivoVencida;
+
+  /// Motivo request_cancelled (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud se canceló.'**
+  String get cotizacionMotivoCancelada;
+
+  /// Motivo request_already_chosen (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Ya elegiste una cotización para esta solicitud.'**
+  String get cotizacionYaElegida;
+
+  /// Botón que abre la visita (CA-09).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mi visita'**
+  String get cotizacionVerMiVisita;
+
+  /// Botón de la tarjeta que abre la confirmación (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir'**
+  String get cotizacionElegir;
+
+  /// Título de la hoja de confirmación.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliges a {tecnico}?'**
+  String cotizacionConfirmarTitulo(String tecnico);
+
+  /// Aviso antes de confirmar (spec 015 §7).
+  ///
+  /// In es, this message translates to:
+  /// **'Al elegir, verás el teléfono del técnico y él verá la dirección de tu servicio. Las demás cotizaciones se cerrarán.'**
+  String get cotizacionConfirmarAvisoContacto;
+
+  /// Botón que confirma la elección.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar elección'**
+  String get cotizacionConfirmar;
+
+  /// Botón que cierra la hoja sin elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get cotizacionCancelar;
+
+  /// Indicador mientras se elige.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmando tu elección…'**
+  String get cotizacionEligiendo;
+
+  /// Título de la hoja tras elegir (CA-11).
+  ///
+  /// In es, this message translates to:
+  /// **'Cita confirmada'**
+  String get cotizacionCitaConfirmada;
+
+  /// Teléfono público del técnico, solo tras elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'Teléfono: {telefono}'**
+  String cotizacionTelefono(String telefono);
+
+  /// WhatsApp público del técnico, solo tras elegir.
+  ///
+  /// In es, this message translates to:
+  /// **'WhatsApp: {whatsapp}'**
+  String cotizacionWhatsapp(String whatsapp);
+
+  /// Técnico sin contacto público (CA-11).
+  ///
+  /// In es, this message translates to:
+  /// **'Este técnico no publicó un teléfono. Podrás escribirle por el chat cuando esté disponible'**
+  String get cotizacionSinTelefono;
+
+  /// Dirección de la cita: la del taller o la que escribió la persona.
+  ///
+  /// In es, this message translates to:
+  /// **'Lugar: {direccion}'**
+  String cotizacionLugar(String direccion);
+
+  /// Botón que cierra la hoja de la cita.
+  ///
+  /// In es, this message translates to:
+  /// **'Listo'**
+  String get cotizacionListo;
+
+  /// Error 409 quote_unavailable (CA-12).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cotización ya no está disponible. Elige otra.'**
+  String get cotizacionRetirada;
+
+  /// Error 503 service_unavailable al elegir (CA-20).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos confirmar tu elección. Intenta de nuevo.'**
+  String get cotizacionErrorEleccion;
+
+  /// Título de la pantalla de la visita (spec 016).
+  ///
+  /// In es, this message translates to:
+  /// **'Tu visita'**
+  String get visitaTitulo;
+
+  /// Insignia de técnico verificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado'**
+  String get visitaVerificado;
+
+  /// Técnico sin verificar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin verificar'**
+  String get visitaSinVerificar;
+
+  /// Día y hora de la visita.
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} a las {hora}'**
+  String visitaCuando(String dia, String hora);
+
+  /// Título del código de 4 dígitos.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu código'**
+  String get visitaCodigoTitulo;
+
+  /// Regla de seguridad (CA-01).
+  ///
+  /// In es, this message translates to:
+  /// **'Pídele a {tecnico} que te diga este código en la puerta. Si no lo sabe, no abras.'**
+  String visitaCodigoRegla(String tecnico);
+
+  /// Lectura del código dígito por dígito (CA-14).
+  ///
+  /// In es, this message translates to:
+  /// **'Código: {digitos}'**
+  String visitaCodigoEtiqueta(String digitos);
+
+  /// Botón para tapar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Ocultar código'**
+  String get visitaOcultarCodigo;
+
+  /// Botón para destapar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Mostrar código'**
+  String get visitaMostrarCodigo;
+
+  /// Anuncio al ocultar el código (CA-08).
+  ///
+  /// In es, this message translates to:
+  /// **'Código oculto'**
+  String get visitaCodigoOculto;
+
+  /// motivoCodigo usado (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'El técnico ya confirmó su llegada con este código.'**
+  String get visitaMotivoUsado;
+
+  /// motivoCodigo vencido (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Este código ya venció.'**
+  String get visitaMotivoVencido;
+
+  /// motivoCodigo bloqueada (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.'**
+  String get visitaMotivoBloqueada;
+
+  /// motivoCodigo no_aplica (CA-07).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita no necesita código.'**
+  String get visitaMotivoNoAplica;
+
+  /// Título de la cita en taller (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Cita en el taller'**
+  String get visitaTaller;
+
+  /// Dirección del taller (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Dirección: {direccion}'**
+  String visitaDireccionTaller(String direccion);
+
+  /// Botón que abre la app de mapas (CA-04).
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo llegar'**
+  String get visitaComoLlegar;
+
+  /// Aviso sin app de mapas (R-05).
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos una app de mapas. Copia la dirección para buscarla.'**
+  String get visitaSinMapas;
+
+  /// Botón para llamar al técnico (CA-21).
+  ///
+  /// In es, this message translates to:
+  /// **'Llamar'**
+  String get visitaLlamar;
+
+  /// Botón para escribir por WhatsApp (CA-21).
+  ///
+  /// In es, this message translates to:
+  /// **'WhatsApp'**
+  String get visitaWhatsapp;
+
+  /// Aviso si no hay app para llamar o WhatsApp.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir la app. El número es {numero}.'**
+  String visitaNoSePudoAbrir(String numero);
+
+  /// Botón que abre la hoja de la spec 022 (CA-06).
+  ///
+  /// In es, this message translates to:
+  /// **'Avisar a alguien de confianza'**
+  String get visitaAvisar;
+
+  /// Error 404 (CA-05).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está disponible.'**
+  String get visitaNoDisponible;
+
+  /// Copia local sin conexión (CA-02).
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Te mostramos los datos guardados de tu visita.'**
+  String get visitaSinConexion;
+
+  /// Estado confirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmada'**
+  String get visitaEstadoConfirmada;
+
+  /// Estado en_curso.
+  ///
+  /// In es, this message translates to:
+  /// **'En curso'**
+  String get visitaEstadoEnCurso;
+
+  /// Estado terminada.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminada'**
+  String get visitaEstadoTerminada;
+
+  /// Estado cancelada o no presentado.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelada'**
+  String get visitaEstadoCancelada;
 }
 
 class _AppLocalizationsDelegate

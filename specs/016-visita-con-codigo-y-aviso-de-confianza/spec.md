@@ -95,7 +95,7 @@ Reglas del contrato que la app da por ciertas:
 - **Autorización por recurso:** un `404` es la respuesta para una visita de otra persona o inexistente; la app lo trata como «ya no está disponible».
 - **Código:** 4 dígitos, de un solo uso, guardado cifrado en el servidor; vence a las 23:59:59 del día de la cita más 24 h; solo en la vista del cliente, en domicilio, en `confirmada` o `en_curso`, sin usar, sin vencer y sin bloqueo.
 - **Intentos:** 3 por visita; al tercer fallo el servidor bloquea (`409 visit_locked`), emite el evento y crea el reporte; el contador no se reinicia al reconectar.
-- **Idempotencia:** repetir una llegada ya exitosa responde `409 code_used` y no consume otro intento; repetir un intento fallido vuelve a contar como intento (backend 022 R-10).
+- **Idempotencia:** repetir una llegada ya exitosa responde `409 code_used` y no consume otro intento; un intento fallido repetido vuelve a contar como intento (backend 022 R-10).
 - **Límites:** 5 peticiones de llegada por minuto por técnico.
 - **Caché:** respuestas con `Cache-Control: private, no-store`; la app no las pone en la caché de respuestas y solo guarda la copia mínima del almacén seguro (R-03).
 - **Taller:** sin código, `puedeLlegar` falso y «Cómo llegar» lo arma la app; el servidor no genera rutas.
@@ -321,6 +321,6 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 
 ## Aprobación
 
-- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-10
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

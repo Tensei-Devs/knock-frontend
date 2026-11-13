@@ -5,7 +5,7 @@
 > **Fuentes:** `docs/backlog/HU-026.md`, `HU-030.md` · `docs/referencia/FUNCIONES_Y_FLUJOS.md` §3.6 y §3.7
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye `GET /api/v1/solicitudes` ni las rutas de conversaciones; las fijan backend 020 (lista) y backend 030 (conversaciones, en elaboración). Se vendoriza antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -72,7 +72,7 @@ La app **consume**. `GET /api/v1/solicitudes` ya está fijado por backend 020 (C
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
 | `GET /api/v1/solicitudes` | Lista de Actividad (backend 020) | `cursor?`, `limit?` (1–50; la app pide 20), `estado?` | `200` `CursorPage<SolicitudResumen>`: `id`, `estado`, `oficioNombre`, `coloniaNombre`, `dia`, `franja`, `totalFotos`, `totalCotizaciones`, `visitaId?` (presente cuando la solicitud tiene visita), `venceEn`, `creadoEn` y `nextCursor` | `400`, `401`, `429` con `Retry-After` |
-| ~~`GET /api/v1/me/actividad`~~ | Eliminada en la revisión cruzada (*decisión automática, revisar*): no hay spec de backend para ella; la pantalla usa `GET /solicitudes` (backend 020) y `GET /conversaciones` (backend 030 R-17, con `ultimoMensaje` y `noLeidos`), cada una con su estado de carga y error | — | — | — |
+| ~~`GET /api/v1/me/actividad`~~ | Eliminada: no hay spec de backend para ella; la pantalla usa `GET /solicitudes` (backend 020) y `GET /conversaciones` (backend 030 R-17, con `ultimoMensaje` y `noLeidos`), cada una con su estado de carga y error | — | — | — |
 | `GET /api/v1/conversaciones` | Lista de conversaciones (backend 030 R-17, borrador) | `cursor?`, `limit?` (1–20) | `200` con `items[]`: `conversacionId`, `solicitudId`, `visitaId?`, `rol`, `contraparte{nombre, fotoUrl}`, `servicio`, `estado`, `ultimoMensaje{texto, enviadoEn, autorRol}` o `null`, `noLeidos`, y `totalNoLeidos`, `nextCursor` | `400`, `401`, `429` |
 | `GET /api/v1/conversaciones/no-leidas` | Contador del globo (backend 030 R-18) | — | `200` con `{ total }` | `401`, `429` |
 | `POST /api/v1/conversaciones/{id}/leido` | Marcar como leída (backend 030 R-19, borrador) | `hasta` (marca de tiempo del último mensaje leído) | `204` | `401`, `404`, `429` |
@@ -236,7 +236,7 @@ Reglas de pantalla:
 ## 13. Riesgos y dudas abiertas
 - **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La marca de leído no la envía y backend 030 la quitó; sigue idempotente por su marca de tiempo.
 
-- **Bloqueante:** `GET /conversaciones` y la marca de lectura dependen de backend 030 (R-17 y R-19; `GET /me/actividad` ya no se usa) «Chatear antes de elegir y mis conversaciones», cuyo borrador ya fija esas rutas pero aún no está aprobado; backend 026 no persiste mensajes y el último mensaje y los no leídos los guarda backend 030 (R-14). Hasta que se apruebe, CA-04 y CA-09 a CA-11 quedan detrás de la interfaz de D-03.
+- **Bloqueante:** `GET /conversaciones` y la marca de lectura dependen de backend 030 (R-17 y R-19) «Chatear antes de elegir y mis conversaciones», cuyo borrador ya fija esas rutas pero aún no está aprobado; backend 026 no persiste mensajes y el último mensaje y los no leídos los guarda backend 030 (R-14). Hasta que se apruebe, CA-04 y CA-09 a CA-11 quedan detrás de la interfaz de D-03.
 - **Conflicto detectado:** backend 026 no incluye en el evento `mensaje` quién escribe; la lista necesita la contraparte. Se resuelve con la visita (una conversación por visita), pero conviene confirmarlo.
 - **Resuelto en la revisión:** la app pide `limit=20` y backend 020 acepta de 1 a 50; la spec 015 ya no pagina.
 - **Resuelto en la revisión:** backend 020 ya agregó `visitaId?` al `SolicitudResumen`; «Ver visita» no necesita otra llamada.
@@ -246,6 +246,6 @@ Reglas de pantalla:
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

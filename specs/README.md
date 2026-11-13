@@ -31,3 +31,4 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 025 | Cancelar una solicitud y ver su vencimiento (app) | Borrador | [`025-cancelar-una-solicitud-y-ver-su-vencimiento`](025-cancelar-una-solicitud-y-ver-su-vencimiento/spec.md) |
 | 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Aprobada | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
 | 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Aprobada | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |
+| 028 | Abrir el aviso de privacidad desde la entrada con celular | Borrador | [`028-abrir-el-aviso-de-privacidad`](028-abrir-el-aviso-de-privacidad/spec.md) |

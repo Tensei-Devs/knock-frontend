@@ -5,7 +5,7 @@
 > **Fuentes:** backlog `HU-027.md` y `HU-028.md` · `docs/descripcion-del-proyecto.md` §3 (estados de la solicitud: «vence a las 48 horas, y el cliente puede cancelarla antes») · maqueta `js/knock.js` (`A.cancelJob`: hoja de confirmación «Sí, cancelar» / «No, mantener»)
 > **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`, `reuse-before-create`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye la cancelación ni `puedeVolverAPedir`; los fija backend 029 (§5) y se vendorizan antes de implementar (spec 006).
-> **Estado:** Borrador
+> **Estado:** Aprobada
 
 ## 1. Objetivo
 
@@ -73,7 +73,7 @@ La app **consume**. La ruta de cancelación y el campo `puedeVolverAPedir` los f
 
 | Método y ruta | Uso en la app | Cuerpo / encabezados | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/solicitudes/{id}/cancelar` | Cancelar (backend 029, R-02 a R-07) | `{ motivo? }` con `motivo` en `ya_no_lo_necesito`, `lo_resolvi_por_otro_medio`, `tarda_mucho` u `otro` (se omite si la persona no eligió) | `200` `{ id, estado: "cancelada", canceladaEn, motivo }`; si ya estaba cancelada, el mismo cuerpo · `Cache-Control: no-store` | `400` (`errors.motivo` o id mal formado) · `401` · `404` (ajena o inexistente) · `409 request_with_appointment` (cita confirmada, terminada o calificada) · `409 request_expired` · `429` con `Retry-After` (10 cancelaciones por hora por persona) · `5xx` |
+| `POST /api/v1/solicitudes/{id}/cancelar` | Cancelar (backend 029, R-02 a R-07) | `{ motivo? }` con `motivo` en `no_longer_needed`, `solved_elsewhere`, `takes_too_long` u `otro` (se omite si la persona no eligió) | `200` `{ id, estado: "cancelada", canceladaEn, motivo }`; si ya estaba cancelada, el mismo cuerpo · `Cache-Control: no-store` | `400` (`errors.motivo` o id mal formado) · `401` · `404` (ajena o inexistente) · `409 request_with_appointment` (cita confirmada, terminada o calificada) · `409 request_expired` · `429` con `Retry-After` (10 cancelaciones por hora por persona) · `5xx` |
 | `GET /api/v1/solicitudes/{id}` | Detalle con `estado`, `venceEn`, `puedeVolverAPedir` y la descripción, fotos, oficio, colonia, franja y dirección también en una solicitud cerrada (backend 020 R-08 y 029 R-13) | — | `200` | `400`, `401`, `404`, `429` |
 | `GET /api/v1/solicitudes/{id}/cotizaciones` | Comparación de una solicitud vencida o cancelada (backend 021) | `orden?` | `200` con `puedeElegir = false` y `motivo` (`request_expired`, `request_cancelled`) | `401`, `404`, `429` |
 | `GET /api/v1/solicitudes` | Actividad (backend 020; spec 020); admite `estado=vencida` y `estado=cancelada` (029 R-13) | `cursor?`, `limit?` (la app pide 20), `estado?` | `200` `CursorPage<SolicitudResumen>` con `estado` y `venceEn` | `400`, `401`, `429` |
@@ -89,7 +89,7 @@ Reglas del contrato que la app da por ciertas:
 - **Autorización por recurso:** 404 para lo ajeno o inexistente.
 - **Sin caché:** `Cache-Control: private, no-store` (backend 020, R-18); la app no guarda estas respuestas (spec 010, R-04).
 - **Paginación:** la de Actividad y Trabajo es por cursor (specs 019 y 020); cancelar no cambia la página pedida, solo invalida la lista.
-- **Eventos:** la app no escucha eventos de dominio; se entera del cambio por el aviso de la spec 024 (`solicitud_cancelada` para técnicos, `solicitud_vencida` para el cliente) o al refrescar.
+- **Eventos:** la app no escucha eventos de dominio; se entera del cambio por el aviso de la spec 024 (`request_cancelled` para técnicos, `request_expired` para el cliente) o al refrescar.
 
 ## 5. Modelo de datos
 
@@ -246,7 +246,7 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 | 015 Pedir y comparar cotizaciones | Detalle, comparación, formulario, borrador y entidad `Solicitud` | Se duplicarían pantallas y modelos |
 | 019 Pestaña Trabajo | Lista del técnico | Sin CA-15 |
 | 020 Mi actividad | Tarjeta con acción principal por estado | La tarjeta usaría otro texto (D-06) |
-| 024 Notificaciones | Aviso `solicitud_vencida` que abre el detalle y `solicitud_cancelada` para técnicos | El cambio solo se ve al refrescar |
+| 024 Notificaciones | Aviso `request_expired` que abre el detalle y `request_cancelled` para técnicos | El cambio solo se ve al refrescar |
 | 014 Alinear la UI (reservada) | Hoja inferior, botones de peligro y contraste | Estilos propios que se migran después |
 | 002, 006, 009, 010 | Errores, cliente generado, espera por 429, política de caché | Manejo incompleto |
 
@@ -280,13 +280,13 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 - **Pendiente de validar:** si el detalle de una solicitud cerrada devuelve `vencidaEn` (029 lo guarda pero no lo lista en la respuesta) y si las referencias de fotos del detalle se pueden reenviar en `POST /solicitudes` (029 no lo dice; la spec 015 habla de URL firmadas de 5 minutos, que no servirían).
 - **Dependencia:** `GET /api/v1/tecnicos/me/trabajo` (spec 019) lo fija la spec 036 (Borrador); sin ella, CA-15 solo se cumple en «Solicitudes nuevas».
 - **Riesgo:** el texto «Pasaron 48 horas…» supone el plazo por omisión; si el servidor configura otro (`Solicitudes:HorasVencimiento`), el texto quedaría mal. Alternativa para quien apruebe: «Se cerró sin que eligieras una cotización.»
-- **Conflicto detectado:** la spec 020 usa «Pedir de nuevo» y esta spec «Volver a pedir» (D-06); conviene unificar en la 020.
+- **Resuelto:** la spec 020 ya usa «Volver a pedir», igual que esta spec (D-06); no queda otro texto para la misma acción.
 - **Resuelto con backend 029:** la cotización de una solicitud cerrada queda `rechazada` con `motivoRechazo`; la etiqueta «Vencida» de la spec 019 (`trabajoEstadoVencida`) debe leerse de ese motivo y no de un estado.
 - **Riesgo:** si la tarea `VencerSolicitud` se pierde, el barrido de respaldo tarda hasta 10 minutos y el cliente verá «Cerrando tu solicitud…» ese tiempo; se mitiga con un solo reintento y el refresco manual.
 - **Resuelto:** backend 029 avisa a los técnicos que cotizaron cuando la solicitud vence (`tecnicosAvisar` de `SolicitudVencida`); la spec 024 lo entrega como `cotizacion_vencida`.
 
 ## Aprobación
 
-- [ ] Revisor 1 — nombre: ________ fecha: ________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

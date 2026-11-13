@@ -23,4 +23,17 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
   CelularRechazadoFailure() => 'El número de celular no es válido.',
   VerificacionNoDisponibleFailure() =>
     'La verificación por SMS no está disponible.',
+  NoEncontradoFailure() => 'Esta solicitud ya no está disponible.',
+  ContenidoRechazadoFailure() =>
+    'Tu descripción no se pudo publicar. Revísala y quita datos personales o '
+        'palabras ofensivas.',
+  ModeracionNoDisponibleFailure() =>
+    'No pudimos revisar tu descripción en este momento. Intenta de nuevo en '
+        'unos minutos.',
+  OpcionNoDisponibleFailure() =>
+    'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.',
+  FotoNoValidaFailure() =>
+    'Esa foto es muy pesada o no es JPG ni PNG. Elige otra.',
+  EleccionRechazadaFailure() =>
+    'No se pudo confirmar esa cotización. Revisa la lista.',
 };

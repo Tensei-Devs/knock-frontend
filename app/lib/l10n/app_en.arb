@@ -178,6 +178,14 @@
   "@entradaAvisoError": {
     "description": "Error shown if the privacy notice is not accepted."
   },
+  "entradaAvisoNoSeAbrio": "We couldn't open the privacy notice. Please try again later.",
+  "@entradaAvisoNoSeAbrio": {
+    "description": "Short message shown when the phone cannot open the privacy notice page (spec 028)."
+  },
+  "entradaAvisoAbrirIndicacion": "Opens in the browser",
+  "@entradaAvisoAbrirIndicacion": {
+    "description": "Accessibility hint of the privacy notice link (spec 028)."
+  },
   "entradaErrorCodigoIncorrecto": "The code is not correct. Review it and try again.",
   "@entradaErrorCodigoIncorrecto": {
     "description": "Sign-in error: incorrect SMS code."
@@ -429,5 +437,323 @@
         "description": "Distance with one decimal"
       }
     }
-  }
+  },
+  "actividadPedirCotizacion": "Request your first quote",
+  "solicitudTitulo": "Request a quote",
+  "solicitudPasoDeTotal": "Step {paso} of {total}",
+  "@solicitudPasoDeTotal": {
+    "placeholders": {
+      "paso": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudPaso1": "What do you need?",
+  "solicitudPaso2": "What's wrong?",
+  "solicitudPaso3": "When and where?",
+  "solicitudModalidadDomicilio": "They come to your home",
+  "solicitudModalidadTaller": "You take your car to the shop",
+  "solicitudDescripcion": "Describe the problem",
+  "solicitudDescripcionAyuda": "Tell the pro what happens, since when and what you already tried.",
+  "solicitudDescripcionCorta": "Write at least 8 characters.",
+  "solicitudDescripcionLarga": "Write 500 characters at most.",
+  "solicitudFotos": "Photos ({cantidad} of 5)",
+  "@solicitudFotos": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoFalta": "Add at least one photo: it tells the pro what to bring",
+  "solicitudFotoMaximo": "You already have 5 photos, the maximum.",
+  "solicitudFotoTomar": "Take photo",
+  "solicitudFotoElegir": "Choose from gallery",
+  "solicitudFotoEtiqueta": "Photo {numero} of {total}",
+  "@solicitudFotoEtiqueta": {
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoQuitar": "Remove photo {numero}",
+  "@solicitudFotoQuitar": {
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudFotoNoValida": "That photo is too large or isn't a JPG or PNG. Choose another one.",
+  "solicitudDia": "Day",
+  "solicitudHoy": "Today",
+  "solicitudFranja": "Time",
+  "solicitudFranjaManana": "Morning",
+  "solicitudFranjaTarde": "Afternoon",
+  "solicitudFranjaNoche": "Evening",
+  "solicitudFaltaDiaYFranja": "Choose the day and the time.",
+  "solicitudTallerAviso": "You'll take your car to the shop",
+  "solicitudDireccion": "Street and number",
+  "solicitudDireccionAyuda": "Only the pro you choose will see it.",
+  "solicitudDireccionCorta": "Write at least 8 characters.",
+  "solicitudDireccionLarga": "Write 200 characters at most.",
+  "solicitudSinZona": "Choose your area in My account to send your request.",
+  "solicitudSiguiente": "Next",
+  "solicitudAtras": "Back",
+  "solicitudEnviar": "Send request",
+  "solicitudEnviando": "Sending…",
+  "solicitudEnviada": "Request sent",
+  "solicitudDescartar": "Discard draft",
+  "solicitudEspera": "Too many attempts. Wait {segundos} seconds.",
+  "@solicitudEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudErrorContenidoRechazado": "Your description couldn't be posted. Review it and remove personal data or offensive words.",
+  "solicitudErrorModeracion": "We couldn't review your description right now. Try again in a few minutes.",
+  "solicitudErrorOpcionNoDisponible": "That service or area is no longer available. Choose another option.",
+  "solicitudNoDisponible": "This request is no longer available.",
+  "solicitudDetalleTitulo": "Your request",
+  "solicitudEstadoEnviada": "Sent",
+  "solicitudEstadoCotizando": "Receiving quotes",
+  "solicitudEstadoCita": "Appointment confirmed",
+  "solicitudEstadoTerminada": "Done",
+  "solicitudEstadoCancelada": "Canceled",
+  "solicitudEstadoVencida": "Expired",
+  "solicitudEstadoEnProceso": "In progress",
+  "solicitudCuando": "{dia}, {franja}",
+  "@solicitudCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "solicitudTotalFotos": "{cantidad, plural, =1{1 photo} other{{cantidad} photos}}",
+  "@solicitudTotalFotos": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "solicitudVolverActividad": "Back to Activity",
+  "solicitudVerCotizaciones": "See and choose ({cantidad})",
+  "@solicitudVerCotizaciones": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTitulo": "Quotes",
+  "cotizacionOrdenRecomendadas": "Recommended",
+  "cotizacionOrdenPrecio": "Lowest price",
+  "cotizacionOrdenCalificacion": "Top rated",
+  "cotizacionOrdenPronto": "Soonest",
+  "cotizacionMostrandoDe": "Showing {mostradas} of {total}",
+  "@cotizacionMostrandoDe": {
+    "placeholders": {
+      "mostradas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTiposMixtos": "These quotes cover different things: check what each one includes",
+  "cotizacionPrecioFijo": "{precio}",
+  "@cotizacionPrecioFijo": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioRango": "{minimo} to {maximo}",
+  "@cotizacionPrecioRango": {
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioVisita": "Visit: {precio}",
+  "@cotizacionPrecioVisita": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionTope": "Up to {tope}",
+  "@cotizacionTope": {
+    "placeholders": {
+      "tope": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionRequiereAprobacion": "If the price goes up, the pro will ask for your approval",
+  "cotizacionEtiquetaVerificado": "Verified",
+  "cotizacionEtiquetaMejorPrecio": "Best price",
+  "cotizacionEtiquetaPronto": "Can come sooner",
+  "cotizacionSinCalificaciones": "No ratings yet",
+  "cotizacionCalificacion": "{calificacion} out of 5",
+  "@cotizacionCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionNivelVerificacion": "{nivel} verification",
+  "@cotizacionNivelVerificacion": {
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionCuando": "{dia} at {hora}",
+  "@cotizacionCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionMotivoSinCotizaciones": "No quotes yet. We'll let you know when the first one arrives.",
+  "cotizacionMotivoVencida": "This request expired. You can make a new one.",
+  "cotizacionMotivoCancelada": "This request was canceled.",
+  "cotizacionYaElegida": "You already chose a quote for this request.",
+  "cotizacionVerMiVisita": "See my visit",
+  "cotizacionElegir": "Choose",
+  "cotizacionConfirmarTitulo": "Choose {tecnico}?",
+  "@cotizacionConfirmarTitulo": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionConfirmarAvisoContacto": "When you choose, you'll see the pro's phone and they'll see your service address. The other quotes will close.",
+  "cotizacionConfirmar": "Confirm choice",
+  "cotizacionCancelar": "Cancel",
+  "cotizacionEligiendo": "Confirming your choice…",
+  "cotizacionCitaConfirmada": "Appointment confirmed",
+  "cotizacionTelefono": "Phone: {telefono}",
+  "@cotizacionTelefono": {
+    "placeholders": {
+      "telefono": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionWhatsapp": "WhatsApp: {whatsapp}",
+  "@cotizacionWhatsapp": {
+    "placeholders": {
+      "whatsapp": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionSinTelefono": "This pro didn't share a phone number. You'll be able to message them in the chat when it's available",
+  "cotizacionLugar": "Place: {direccion}",
+  "@cotizacionLugar": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionListo": "Done",
+  "cotizacionRetirada": "This quote is no longer available. Choose another one.",
+  "cotizacionErrorEleccion": "We couldn't confirm your choice. Try again.",
+  "visitaTitulo": "Your visit",
+  "visitaVerificado": "Verified",
+  "visitaSinVerificar": "Not verified",
+  "visitaCuando": "{dia} at {hora}",
+  "@visitaCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoTitulo": "Your code",
+  "visitaCodigoRegla": "Ask {tecnico} to tell you this code at the door. If they don't know it, don't open.",
+  "@visitaCodigoRegla": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoEtiqueta": "Code: {digitos}",
+  "@visitaCodigoEtiqueta": {
+    "placeholders": {
+      "digitos": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaOcultarCodigo": "Hide code",
+  "visitaMostrarCodigo": "Show code",
+  "visitaCodigoOculto": "Code hidden",
+  "visitaMotivoUsado": "The pro already confirmed their arrival with this code.",
+  "visitaMotivoVencido": "This code expired.",
+  "visitaMotivoBloqueada": "This visit was locked for security. The Knock team will review it.",
+  "visitaMotivoNoAplica": "This appointment doesn't need a code.",
+  "visitaTaller": "Appointment at the shop",
+  "visitaDireccionTaller": "Address: {direccion}",
+  "@visitaDireccionTaller": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaComoLlegar": "Get directions",
+  "visitaSinMapas": "We couldn't find a maps app. Copy the address to look it up.",
+  "visitaLlamar": "Call",
+  "visitaWhatsapp": "WhatsApp",
+  "visitaNoSePudoAbrir": "Couldn't open the app. The number is {numero}.",
+  "@visitaNoSePudoAbrir": {
+    "placeholders": {
+      "numero": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaAvisar": "Tell someone you trust",
+  "visitaNoDisponible": "This visit is no longer available.",
+  "visitaSinConexion": "You're offline. We're showing your saved visit details.",
+  "visitaEstadoConfirmada": "Confirmed",
+  "visitaEstadoEnCurso": "In progress",
+  "visitaEstadoTerminada": "Done",
+  "visitaEstadoCancelada": "Canceled"
 }

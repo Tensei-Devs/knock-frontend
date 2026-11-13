@@ -7,6 +7,10 @@ import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
 import 'package:app/features/actividad/presentation/actividad_screen.dart';
+import 'package:app/features/actividad/presentation/cotizaciones_screen.dart';
+import 'package:app/features/actividad/presentation/solicitud_detalle_screen.dart';
+import 'package:app/features/actividad/presentation/solicitud_nueva_screen.dart';
+import 'package:app/features/actividad/presentation/visita_screen.dart';
 import 'package:app/features/cuenta/presentation/completar_perfil_screen.dart';
 import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
@@ -106,7 +110,36 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _rama(Rutas.actividad, const ActividadScreen()),
+          _rama(
+            Rutas.actividad,
+            const ActividadScreen(),
+            subrutas: [
+              GoRoute(
+                path: 'solicitud/nueva',
+                builder: (context, state) => SolicitudNuevaScreen(
+                  oficioClave: state.uri.queryParameters[Rutas.parametroOficio],
+                ),
+              ),
+              GoRoute(
+                path: 'visita/:id',
+                builder: (context, state) =>
+                    VisitaScreen(id: state.pathParameters['id']!),
+              ),
+              GoRoute(
+                path: 'solicitud/:id',
+                builder: (context, state) =>
+                    SolicitudDetalleScreen(id: state.pathParameters['id']!),
+                routes: [
+                  GoRoute(
+                    path: 'cotizaciones',
+                    builder: (context, state) => CotizacionesScreen(
+                      solicitudId: state.pathParameters['id']!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           _rama(Rutas.trabajo, const TrabajoScreen()),
           _rama(
             Rutas.cuenta,

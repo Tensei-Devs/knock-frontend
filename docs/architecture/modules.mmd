@@ -2,7 +2,9 @@ graph LR
   actividad["actividad"]
   app["app"]
   cache["cache"]
+  config["config"]
   cuenta["cuenta"]
+  enlaces["enlaces"]
   entrada["entrada"]
   errores["errores"]
   explorar["explorar"]
@@ -14,6 +16,7 @@ graph LR
   oficios["oficios"]
   panel["panel"]
   permisos["permisos"]
+  plataforma["plataforma"]
   preferencias["preferencias"]
   previa["previa"]
   red["red"]
@@ -22,12 +25,13 @@ graph LR
   tema["tema"]
   trabajo["trabajo"]
   widgets["widgets"]
+  actividad -->|1| oficios
   app -->|1| inicio
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
   previa -->|5| oficios
-  router -->|1| actividad
+  router -->|5| actividad
   router -->|4| cuenta
   router -->|2| entrada
   router -->|1| explorar

@@ -7,6 +7,17 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-11 — El CI de la app fija la versión de Flutter (KNOCK-263)
+- **Decisión:** `ci-pr.yml` (job de la app) y `publish-android.yml` fijan `flutter-version: 3.47.9` junto a `channel: stable` en `subosito/flutter-action`. 3.47.9 es la última 3.47 y la que resolvía `stable` mientras el CI estaba en verde.
+- **Porqué:** el 2026-11-11 a las 19:05 UTC salió Flutter 3.50.0 (Dart 3.14) y, con `channel: stable` sin versión, `flutter pub get --enforce-lockfile` empezó a fallar (código 65) en `sprint-04` y en todo PR que corre el job de la app, sin que cambiara ningún `pubspec`. Con 3.47.7 pasa en local. Causa probable: no se pudo confirmar con el log del job (GitHub devolvió 502).
+- **Cuándo migrar a 3.50.0:** en una tarea aparte, regenerando `pubspec.lock`, corrigiendo lo que cambie con Dart 3.14 y actualizando la versión de `README.md` y `app/README.md` (hoy dicen 3.47.7).
+- **A evitar:** dejar `channel: stable` sin versión en un workflow que usa `--enforce-lockfile`; migrar de versión de Flutter dentro de un PR de otra tarea.
+
+## 2026-11-11 — `sprint-04` recibe de `develop` el arreglo de publicación a Play (KNOCK-221)
+- **Decisión:** se trae `develop` a `sprint-04` con un merge normal. Lo único que faltaba era el PR #26 (KNOCK-221): `publish-android.yml` pasa `API_URL` (`vars.KNOCK_API_URL`) y la configuración de Firebase (secreto `GOOGLE_SERVICES_JSON`) al build de release de Android, con su nota en `docs/PUBLICACION_ANDROID.md`. Los otros tres commits de `develop` son merges de promoción sin cambios de archivos propios.
+- **Porqué:** `sprint-04` salió antes de que el #26 entrara por `sprint-03`, así que su workflow de publicación estaba desactualizado respecto de `main` y `develop`.
+- **A evitar:** publicar una versión desde `sprint-04` sin este arreglo; tocar `publish-android.yml` sin revisión del Tech Lead (archivo protegido).
+
 ## 2026-10-27 — Aclaración de «Uso de IA»
 - **Decisión:** la sección «Uso de IA» es del **pull request** (plantilla de PR), no de cada spec.
 - **Porqué:** `@constitution-reviewer` marcó FAIL a la spec 001 por leer «todo cambio» de forma literal; la redacción era ambigua.
@@ -93,6 +104,11 @@
 - **Porqué:** la spec 011 manda un cálculo reproducible y que un PR sin puntos no pase; es la misma lógica del backend (KNOCK-207), con otros componentes y con `versionCode`. El acarreo es a 10 (como en el backend) porque la spec no da otro umbral.
 - **Pendiente:** T-03 (integrar versión, `versionCode` y etiqueta de Git en la publicación; depende de KNOCK-221), así que CA-04 solo queda probado en el script. Reconciliar `docs/VERSIONAMIENTO.md` (primera versión `0.1.0`, `versionCode` = número de ejecución) con la spec 011 (`1.0.0`, `versionCode` derivado). Las etiquetas `puntos-*` no existen en el repositorio y las crea una persona con permiso. `sdd_lint.py --trace 011` marca FALTA hasta que `test_globs` de `.agents/knock.json` incluya `scripts/ci/test_*.py`.
 - **A evitar:** llevar el `versionCode` a mano o repetirlo (Google Play rechaza la subida); declarar puntos de menos para no subir de versión.
+
+## 2026-11-09 — La publicación a Google Play lleva la API y Firebase (KNOCK-221)
+- **Decisión:** `publish-android` pasa `--dart-define=KNOCK_API_URL` desde la variable `KNOCK_API_URL` y escribe `google-services.json` desde el secreto `GOOGLE_SERVICES_JSON`; ambos son obligatorios y el archivo se borra al terminar.
+- **Porqué:** sin ellos el AAB de la tienda compilaba sin URL de la API y sin Firebase: abría, pero no se podía entrar ni llamar al backend.
+- **A evitar:** subir `google-services.json` al repositorio o dejarlo en la máquina de CI; escribir la URL fija en el código.
 
 ## 2026-11-05 — Contrato vendorizado y cliente Dart generado (spec 006, KNOCK-220)
 - **Decisión:** se vendoriza en `contracts/openapi.v1.json` el contrato de **Identity** (`docs/openapi.identity.v1.json` de knock-backend, rama `sprint-03`, commit de la rama `d39bc18`, último commit del archivo `b6ddcf5`, SHA-256 `5767eb9d…`), no `docs/openapi.v1.json` del backend: ese archivo **no es la unión** de los servicios, es solo `Knock.Market.Api` (colonias y oficios). La app necesita hoy `POST /api/v1/auth/firebase`. Cuando el backend publique la unión (o el gateway), se reemplaza por ella.
@@ -196,17 +212,10 @@
 - **Porqué:** cada pantalla queda atada a endpoints de las specs de backend, con sus estados, mensajes, accesibilidad y pruebas previstas.
 - **A evitar:** implementar una pantalla cuyo endpoint no tiene spec aprobada; copiar a la app reglas de negocio que deben vivir en el servidor.
 
-## 2026-11-10 — Se retira Idempotency-Key de las specs del Sprint 4 de la app (KNOCK-243)
-- **Decisión:** la app no envía `Idempotency-Key` en la creación de solicitud, la elección, la llegada, el descarte, la cancelación ni la marca de leído (specs 015, 016, 019, 020 y 025). Backend 020, 021, 022, 028, 029 y 030 la quitaron. Una segunda elección responde 409 `solicitud_ya_elegida` y una segunda llegada, 409 `codigo_usado`: la app consulta el estado antes de mostrar un error. Quedó anotado el riesgo en cada spec.
-- **Porqué:** decisión de José del 2026-11-10: no hay tiempo de implementarla en el Sprint 4 y la spec 010 ya la dejaba fuera.
-- **A evitar:** reintroducir la clave en un repositorio de la app sin una spec propia de backend y de la app; dar por duplicada una solicitud sin consultar su estado. HU-024 CA4 y HU-033 CA3, que la exigían, se relajaron en `docs/backlog/`.
-
-## 2026-11-10 — Códigos de error de las specs 015 a 025 de la app en inglés y snake_case (KNOCK-253)
-- **Decisión:** las specs 015, 016, 018, 019, 020, 022, 023 y 025 de la app usan los mismos códigos de error en inglés que backend 020 a 037 (por ejemplo `request_already_chosen`, `code_used`, `request_not_dismissable`, `invalid_credentials`), y los valores de `motivo` coinciden con los del backend (`request_expired`, `request_cancelled`, `other_quote_chosen`). En la 015, `address_not_applicable` se lista como 422 junto con el resto de la validación de campos.
-- **Por qué:** convención de errores de la spec 002 (KNOCK-253): un solo nombre por error entre API y app. Alexis pidió el mismo renombrado en la app en la revisión del PR de backend.
-- **No se tocó:** la spec 021 (ya renombrada en su propio PR) ni los tipos de aviso de la spec 024 (`solicitud_cancelada`, `solicitud_vencida`), que son eventos de notificación y no códigos de error.
-- **A evitar:** aprobar una spec de la app mientras su código de error difiera del de backend.
-
+## 2026-11-10 — Spec 021 de la app: 422 para el texto inválido y códigos en inglés (KNOCK-243)
+- **Decisión:** la búsqueda trata el texto `q` inválido como 422 con `errors.q` (antes 400) y usa los códigos `invalid_cursor` (400), `colonia_not_found`, `trade_invalid` (422) y `search_unavailable` (503), según la convención de errores propuesta para la spec 002 (422 para validación de campos, 400 para lo ilegible, códigos en inglés).
+- **Por qué:** backend 027 responde 422 para `q` y la app esperaba 400; con la convención nueva coinciden. Los códigos de backend 027 siguen en español en el borrador y deben renombrarse igual antes de aprobarse.
+- **A evitar:** aprobar la 021 de la app mientras la 027 de backend use otros nombres de código.
 ## 2026-11-09 — Alinear la UI con la maqueta (spec 014, KNOCK-242)
 - **Decisión:** el cambio es solo visual. Tipografía: se agregan `Nunito-ExtraBold.ttf` (800) y `Nunito-Black.ttf` (900); salen de la fuente variable oficial `Nunito[wght].ttf` de google/fonts (versión 3.602, la misma de los cuatro TTF que ya había) instanciada con `fonttools varLib.instancer`, no de la carpeta `static` de la descarga; la prueba `CA_014_01` lee el `usWeightClass` de cada TTF. Tokens en `core/tema/tokens.dart` (radios, alturas, espaciado, sombras de `knock.css`) y `ColoresKnock` (`ThemeExtension` con navy-soft, amber-soft, navybg y línea, cada fondo con su texto ya validado; `context.colores` cae a los valores por brillo si el tema no es el de Knock). Botones, campos, barras, hoja y tarjeta se configuran en `ThemeData`; widgets nuevos solo `TarjetaKnock`, `GrupoDeFilas`/`FilaKnock` (sobre `ListTile`) y `EstadoKnock`. Migradas: celular, código, completar perfil, Inicio, Explorar, Actividad (estado vacío), Oficios y Mi cuenta (Cerrar sesión pasa a hoja inferior con los mismos textos); la barra inferior solo cambia de estilo.
 - **Porqué:** la maqueta usa 800 y 900 en casi todo y la app tenía hasta 700; `flutter` no carga `woff2`. Donde `knock.css` choca con las reglas de contraste gana la app: el contorno de los campos usa `outline` (≥ 3:1, no la línea de 1.2:1), los botones sin relleno siguen en `amber-ink` en claro (lo fija `contraste_test.dart`, la maqueta los pone azules), el botón relleno conserva su borde de tinta en claro y en oscuro sobre `navybg` va `ink`, no blanco. El logo `Knock.png` es RGB sin canal alfa y pesa 827 KB, así que se dejó el ícono provisional (spec §9, decisión 3). Los íconos siguen siendo Material.
@@ -237,13 +246,161 @@
 - **Porqué:** la app instalada seguía mostrando el ícono de Flutter; en Play y en el teléfono debe verse la marca.
 - **A evitar:** volver a generar los PNG a mano sin cuidar la zona segura del 66 %, agregar un paquete de íconos al `pubspec.yaml` solo para esto, o cambiar el `applicationId` o el nombre de la app al tocar los recursos.
 
+## 2026-11-10 — Versión 1.0.1 y registro de las dos primeras subidas a Play (KNOCK-230)
+- **Decisión:** `app/pubspec.yaml` sube a `1.0.1+1` (1.0.0 + 1 punto de #37 tras corregir su etiqueta a `puntos-app-1`) y `docs/VERSIONES_PUBLICADAS.md` registra las subidas `app-v1.0.0-n0` (versionCode 1000000) y `app-v1.0.0-n1` (1000001). La próxima subida será `1.0.1` con n=0, versionCode 1000100.
+- **Porqué:** `publish_info.py` toma el nombre de versión de `app/pubspec.yaml` y solo calcula `n` y el `versionCode` desde las etiquetas de Git; no suma puntos ni lee el registro. La segunda subida salió como 1.0.0 porque nadie subió la versión a mano. El `versionCode` nunca se repitió.
+- **A evitar:** publicar sin aplicar antes `python scripts/ci/version.py bump --current <versión> --points <N>` a `app/pubspec.yaml`, suponer que el registro de versiones cambia el nombre de versión, o etiquetar un cambio de estilo (ícono, color) con más de 1 punto.
 ## 2026-11-10 — Correcciones a las specs 015 a 025 tras la revisión del PR #27 (KNOCK-243)
 - **Decisión:** la spec 015 sube las fotos por el flujo de archivos privados de la spec 013 (`POST /api/v1/archivos/subidas`, `PUT` al SAS y `POST /api/v1/archivos/{id}/confirmar`, `uso: solicitud`) y envía `archivoId`, no el flujo de backend 032; los valores de `motivo` son los de backend 021 (`solicitud_sin_cotizaciones`, `solicitud_vencida`, `solicitud_cancelada`, `solicitud_ya_elegida`); la spec 016 agrega a la vista del cliente `rol`, el contacto público del técnico (`telefono?`, `whatsapp?`) y `lugar.tipo`, con un criterio nuevo (CA-21), y la 018 anota el 422 `errors.nivel` y el 409 `ya_verificado`. También se alinearon 015, 016, 019 y 020 con las specs de backend 020, 021, 022, 030 y 036.
 - **Porqué:** con el flujo de la 032 la capa `data` se armaría contra rutas que no son (las fotos de una solicitud son privadas, backend 020 R-04); con otros nombres de `motivo` dos de cuatro caerían en «desconocido»; sin el contacto en la visita el cliente lo pierde al cerrar la hoja de confirmación (HU-033).
 - **Reparto de la 015:** un PR por tarjeta (KNOCK-244, luego KNOCK-81 y luego KNOCK-245), con los CA repartidos en la spec (D-17) y los puntos de Jira (3, 3 y 2); decisión tomada sin consulta, ajustable por quien estima.
 - **Pendiente:** el `PUT` a un SAS de Azure Blob exige `x-ms-blob-type: BlockBlob` y backend 025 (y la spec 013) no devuelve encabezados: queda como dependencia abierta en las specs 015 y 018, sin inventar el contrato; los avisos «tu técnico llegó» (016) y «cambió tu verificación» (018) no tienen evento en la spec 024; backend 022 no trae `llegadaEn` en la vista del cliente; los umbrales de calidad de foto de la 018 y el reparto de puntos por tarjeta de la 015 siguen sin decidir; los comentarios de Alexis sobre las specs 017, 021, 022 y 023 no se atendieron en esta pasada.
 - **A evitar:** copiar rutas, códigos o nombres de campo de una spec de backend sin abrirla; dar por válido un `PUT` a un SAS sin los encabezados que exige Azure; guardar en el teléfono el contacto del técnico; inventar eventos en la spec 024 sin una decisión.
+
+## 2026-11-10 — Versión final de la landing: una pantalla y animaciones CSS (KNOCK-258)
+- **Decisión:** la página principal de la landing se rediseña en una sola pantalla sin scroll, con una ilustración en SVG incrustado y animaciones solo de CSS que se apagan con `prefers-reduced-motion`. El logo oficial de la maqueta (icono y letras) va incrustado solo en el encabezado; la ilustración es una casa dibujada aparte (techo de tejas, chimenea de ladrillo, ventanas con repisa y puerta de tablones), con insignias de oficios y ondas de «toc». Se conservan los enlaces (aviso de privacidad y eliminar mi cuenta y mis datos), el texto de «Próximamente en Google Play», las notas de seguridad, la versión del pie y las páginas legales. No se usa Lottie: necesita JavaScript y la política de contenido no lo permite. La spec 004 agrega R-06, R-07, CA-04 y CA-05.
+- **Por qué:** el profesor pidió una landing sin scroll y la versión de entonces hacía scroll en pantallas bajas (320×568, 360×520 y celular horizontal); además se quería un diseño más cuidado para la entrega final.
+- **Selector de tema:** enlaces «Claro» y «Oscuro» con `:target` (R-08), sin JavaScript ni `<input>`, porque la spec prohíbe formularios. Contacto e idioma quedan pendientes de decisión.
+- **jscpd:** la barra de las dos páginas legales era un clon de 18 líneas; se separó con `data-pagina` en cada página en vez de excluirlas en `.jscpd.json` (archivo protegido, no se baja ningún control).
+- **Pendiente de firma:** la nueva aprobación de la spec 004 la edita una persona a mano.
+- **A evitar:** `<script>`, `style=""`, fuentes o imágenes de otro origen y archivos nuevos que obliguen a ampliar la CSP o el Dockerfile; colores fuera de los tokens `--color-*`; animaciones que sigan activas con movimiento reducido.
+
 ## 2026-11-10 — Contraste de los rótulos del mapa de la previa (KNOCK-175)
 - **Decisión:** los rótulos del mapa dibujado (`PaletaMapa`, spec 027) se ajustan para cumplir 4.5:1 contra el halo que llevan detrás: en claro colonia `#585349`, avenida `#726440`, parque `#496B37` y río `#305B68`; en oscuro el río pasa a `#9CCBDB`. Se conserva el matiz de la maqueta. `colores_mapa_test.dart` (CA_014_03) revisa cada rótulo contra su halo (la colonia con su opacidad de 0.85) y el texto blanco de los pines.
 - **Porqué:** spec 014 R-04 y KNOCK-175: todo par de texto del tema cumple 4.5:1. Los colores de `worldSvg` de la maqueta daban entre 2.27:1 y 4.18:1 en claro, y el río en oscuro repetía el par prohibido navy/navybg (4.25:1).
 - **A evitar:** copiar de nuevo los colores de rótulos de la maqueta sin pasar la prueba, o medir el contraste contra el fondo del mapa en lugar del halo con el que se pinta cada rótulo.
+
+## 2026-11-10 — El aviso de privacidad abre la página de la landing; dependencia `url_launcher` (KNOCK-260)
+- **Decisión:** el texto «aviso de privacidad» de «Entra con tu celular» abre `https://knock-frontend-production.up.railway.app/privacidad/` en el navegador externo (spec 028). La dirección vive en `core/config/aviso_de_privacidad.dart` (valor por defecto, sustituible con `KNOCK_PRIVACY_URL`; solo `https`, sin credenciales). `AbridorDeEnlaces` en `core/enlaces/` envuelve `url_launcher`, que solo importa esa carpeta. El manifiesto declara la consulta de `https` en `<queries>` (Android 11 o posterior) sin permisos nuevos. Si no se puede abrir, sale un mensaje breve y la pantalla no cambia.
+- **Dependencia evaluada:** `url_launcher` 6.3.3 (paquete oficial de flutter.dev, licencia BSD de 3 cláusulas, repositorio `flutter/packages`), con `url_launcher_android` 6.3.33, `url_launcher_ios` 6.4.2, `url_launcher_platform_interface` 2.3.2 y las implementaciones de Linux, macOS, web y Windows, todas del mismo repositorio y licencia. Versión exacta en `pubspec.yaml`. Se descartó una vista web embebida (`webview_flutter`): da a la página un lugar dentro de la app y obliga a mantener otro paquete.
+- **Porqué:** el aviso solo tenía aspecto de enlace («aún no abre nada», pendiente de KNOCK-169) y las personas que instalaron la app desde la tienda no podían leerlo antes de aceptarlo; la tienda espera la política de privacidad accesible desde la app.
+- **Pendiente:** humo en teléfono con la app instalada (CA-10), que hace el Tech Lead; los permisos del teléfono siguen en KNOCK-169.
+- **A evitar:** importar `url_launcher` fuera de `core/enlaces`, abrir el aviso dentro de la app, escribir la dirección en otro archivo, poner celular o identificadores en la dirección, o hacer que tocar el aviso marque la casilla.
+## 2026-11-10 — Se retira Idempotency-Key de las specs del Sprint 4 de la app (KNOCK-243)
+- **Decisión:** la app no envía `Idempotency-Key` en la creación de solicitud, la elección, la llegada, el descarte, la cancelación ni la marca de leído (specs 015, 016, 019, 020 y 025). Backend 020, 021, 022, 028, 029 y 030 la quitaron. Una segunda elección responde 409 `solicitud_ya_elegida` y una segunda llegada, 409 `codigo_usado`: la app consulta el estado antes de mostrar un error. Quedó anotado el riesgo en cada spec.
+- **Porqué:** decisión de José del 2026-11-10: no hay tiempo de implementarla en el Sprint 4 y la spec 010 ya la dejaba fuera.
+- **A evitar:** reintroducir la clave en un repositorio de la app sin una spec propia de backend y de la app; dar por duplicada una solicitud sin consultar su estado. HU-024 CA4 y HU-033 CA3, que la exigían, se relajaron en `docs/backlog/`.
+
+## 2026-11-10 — Códigos de error de las specs 015 a 025 de la app en inglés y snake_case (KNOCK-253)
+- **Decisión:** las specs 015, 016, 018, 019, 020, 022, 023 y 025 de la app usan los mismos códigos de error en inglés que backend 020 a 037 (por ejemplo `request_already_chosen`, `code_used`, `request_not_dismissable`, `invalid_credentials`), y los valores de `motivo` coinciden con los del backend (`request_expired`, `request_cancelled`, `other_quote_chosen`). En la 015, `address_not_applicable` se lista como 422 junto con el resto de la validación de campos.
+- **Por qué:** convención de errores de la spec 002 (KNOCK-253): un solo nombre por error entre API y app. Alexis pidió el mismo renombrado en la app en la revisión del PR de backend.
+- **No se tocó:** la spec 021 (ya renombrada en su propio PR) ni los tipos de aviso de la spec 024 (`solicitud_cancelada`, `solicitud_vencida`), que son eventos de notificación y no códigos de error.
+- **A evitar:** aprobar una spec de la app mientras su código de error difiera del de backend.
+
+## 2026-11-10 — Dependencias de las fotos de la solicitud (KNOCK-244, spec 015 D-10)
+- **Decisión:** se agregan `image_picker` 1.2.4, `path_provider` 2.1.6 e `image` 4.12.0, con la versión exacta en el `pubspec.yaml`.
+  - `image_picker` y `path_provider` son del equipo de Flutter (flutter.dev, BSD-3-Clause).
+  - `image` es de Brendan Duncan (MIT), mantenida y en Dart puro.
+  - En OSV (`api.osv.dev`, ecosistema Pub) no hay avisos para esas versiones (consulta del 2026-11-10).
+  - Paquetes que entran como transitivos: `archive`, `cross_file`, `mime`, `posix`, las implementaciones de plataforma de `image_picker` y `file_selector_*`.
+  - `image_picker` usa la cámara y el selector del sistema por intención: el manifiesto no declara `CAMERA` (D-12).
+- **Porqué:** HU-024 pide de 1 a 5 fotos. La app reduce cada foto a 1600 px de lado mayor y le quita el EXIF, incluida la ubicación, antes de subirla (CA-18). El borrador guarda las copias en un directorio privado de la app (R-07).
+- **A evitar:** pedir el permiso `CAMERA` o de almacenamiento, guardar fotos en la galería, decodificar una foto antes de revisar su tamaño y su tipo por contenido, o hacerlo en el isolate principal (`prepararFotoEnSegundoPlano` usa `Isolate.run`).
+
+## 2026-11-10 — Formulario «Pedir cotización» sin contrato todavía (KNOCK-244, spec 015)
+- **Decisión:** se construyeron el dominio, el borrador, la preparación de fotos, el controlador y las tres pantallas, más el detalle. Los datos vienen de `SolicitudRepositoryDePrueba`, en memoria, porque el contrato todavía no tiene `/solicitudes` ni `/archivos` (backend 020 en Borrador; PR #63 de backend sin fusionar). Acuerdo con Julián: un solo PR de KNOCK-244 en borrador, que pasa a «listo» cuando llegue el contrato y se conecte el cliente generado en `solicitudRepositoryProvider`.
+  - «Pide tu primera cotización» solo aparece fuera de release (`pedirCotizacionDisponibleProvider`), para que una versión publicada no cree solicitudes falsas.
+  - La zona (`coloniaId`) es de la spec 017, que aún no está en la app. En release es `null` y el formulario avisa «Elige tu zona» sin enviar. Fuera de release se usa una colonia ficticia para la demo.
+  - Las fotos remotas solo se pintan desde `dominiosDeFotosProvider`, que está vacío hasta que backend 020 y la spec 013 fijen el dominio de los enlaces firmados (CA-21).
+  - La app sale de la copia de seguridad de Android (`android:allowBackup="false"` y `fullBackupContent="false"`, R-16). Así se cierra la duda de `allowBackup` que la spec 009 tenía abierta.
+  - Al cerrar sesión se borran el borrador y la carpeta `fotos_solicitud` (`borrarBorradorDeSolicitud`, desde `SesionNotifier.cerrar`).
+- **Porqué:** Julián aprobó avanzar con dominio, pantallas, repositorio falso, borrador y pruebas mientras no haya contrato (2026-11-10). El reparto de la spec 015 deja en KNOCK-244 los CA-01 a CA-06, CA-13 a CA-15, CA-17 a CA-19 y CA-21 a CA-24.
+- **Pendiente:** CA-06, CA-13 y CA-23 en `solicitud_repository_api_test.dart` (capa `data` con el cliente generado); el dominio real de las fotos (CA-21); la zona de la spec 017.
+- **A evitar:** publicar una versión con `SolicitudRepositoryDePrueba` o guardar la dirección en el borrador.
+- **Actualización (2026-11-11):** se alineó con el retiro de `Idempotency-Key` (PR #33, decisión de Julián del 2026-11-10) y con los códigos de error en inglés (PR #39). La app ya no genera ni envía la clave. El doble envío se evita con el botón deshabilitado mientras se envía (CA-06), y el reintento tras un fallo de red es manual y no vuelve a subir las fotos.
+
+## 2026-11-11 — Comparar cotizaciones sin contrato todavía (KNOCK-81, spec 015)
+- **Decisión:** «Ver y elegir» (`/actividad/solicitud/:id/cotizaciones`) muestra hasta 5 tarjetas en el orden que manda el servidor. Cada chip de orden vuelve a pedir la comparación con `orden` (R-08): la app no reordena ni filtra. Mientras no exista el contrato, `SolicitudRepositoryDePrueba` simula a backend 021: diez segundos después de crear la solicitud llegan cuatro cotizaciones ficticias, ordenadas y etiquetadas con sus reglas (R-04 a R-07).
+  - Los `motivo` usan los códigos en inglés (`request_without_quotes`, `request_expired`, `request_cancelled`, `request_already_chosen`).
+  - Montos y calificaciones salen con formato de México (`es_MX`: «$1,100», «4.5») aunque la app esté en inglés (spec 015 §7, pesos mexicanos).
+  - «Ver mi visita» depende de `visitaDisponibleProvider`, falso hasta que KNOCK-83 registre la ruta de la visita, para no dejar un botón sin destino.
+  - «Elegir» no aparece todavía: lo agrega KNOCK-245 con la hoja de confirmación.
+- **Porqué:** Julián pidió seguir con repositorio falso, un PR por tarjeta (244 → 81 → 245). El PR de 81 se apila sobre el de 244 porque necesita su detalle.
+- **A evitar:** ordenar o filtrar las cotizaciones en el teléfono, o agregar teléfono o dirección al modelo `TecnicoResumen` (CA-10).
+
+## 2026-11-11 — Ícono de Instagram en la landing (KNOCK-258)
+- **Decisión:** el pie de la página principal lleva un ícono de Instagram dibujado en SVG, enlazado a `https://www.instagram.com/knock.mx/` con `rel="noopener noreferrer"` y `aria-label="Instagram de Knock"`; las pruebas y `check_links.py` permiten esa URL además de la de Google Play (spec 004 R-09 y CA-06, sin red al revisar).
+- **Por qué:** el profesor pidió los íconos de las redes del proyecto y la primera cuenta ya existe; las demás se agregan cuando tengan URL oficial, y Google Analytics queda fuera porque la spec y la CSP prohíben scripts de terceros.
+- **A evitar:** inventar enlaces de otras redes o apuntar a portadas genéricas, descargar el logo oficial, bajar el objetivo táctil de 44 px y ampliar la lista de URL externas sin tocar la spec.
+## 2026-11-11 — El SCA de licencias deja pasar 15 paquetes de pub más (EXC-002, KNOCK-262)
+- **Decisión** (Tech Lead): se agregan a `allow-dependencies-licenses` de `ci-pr.yml` y al alcance de EXC-002 (sin cambiar `creada` ni `vence`, 2027-01-30) archive@4.6.0, cross_file@0.3.5+5, file_selector_linux@0.9.4+1, file_selector_macos@0.9.5+2, file_selector_windows@0.9.3+6, image@4.12.0, image_picker_ios@0.8.13+15, image_picker_platform_interface@2.11.2, mime@2.1.0, posix@6.5.4, url_launcher_android@6.3.33, url_launcher_ios@6.4.2, url_launcher_linux@3.2.3, url_launcher_macos@3.2.6 y url_launcher_windows@3.1.6. Se mantiene `deny-licenses` y el job de SCA. La lista queda en 57 paquetes.
+- **Porqué:** el CI de los PR #45 (KNOCK-244) y #46 (KNOCK-260) falla solo porque `dependency-review-action` recibe de pub las licencias en minúsculas y no las reconoce como SPDX (a url_launcher_windows no le detecta ninguna); no hay vulnerabilidades. Se leyó el LICENSE de cada versión en pub.dev: MIT (archive, image, posix), BSD-3-Clause (los otros 11) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios). Todas están en la lista permitida de CONTRIBUTING.md.
+- **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub. Tras fusionar este PR, #45 y #46 deben traer `sprint-04` para ver el SCA en verde.
+
+## 2026-11-11 — Imagen con personas reales en la landing (KNOCK-258)
+- **Decisión:** la casa animada se reemplaza por `landing/img/hero.webp` (foto de personas reales sonriendo, generada con IA por el Tech Lead, sin texto ni logotipos, 800×800, menos de 80 KB) con la leyenda «Tu técnico de confianza, a tu puerta» en HTML y `alt` útil; el Dockerfile copia `img/` y las pruebas permiten solo ese archivo (spec 004 R-09 y CA-06).
+- **Por qué:** el profesor pidió una landing emocional con una imagen grande de gente sonriendo y una leyenda sencilla; la CSP ya permite `img-src 'self'`, así que no hay recursos de terceros.
+- **A evitar:** subir una imagen de más de 80 KB, poner texto dentro de la imagen, quitar el `alt`, cargarla de otro origen o con `loading="lazy"`, y usar rostros reales de terceros o de famosos.
+
+## 2026-11-11 — Moodboard de fotos y cuatro redes en la landing (KNOCK-258)
+- **Decisión:** la foto única se reemplaza por un mosaico de 22 WebP propios en `landing/img/` (cada uno de 24 KB como máximo, 215 KB en conjunto; solo 4 con `alt` descriptivo y el resto `alt=""`) armado solo con CSS: recortes densos con tamaño, giro y capa distintos que sobresalen de los bordes del panel y una capa de respaldo con fotos veladas para que nunca quede un hueco, borde de impresión o papel rasgado (`clip-path`), cinta adhesiva y adornos SVG con `aria-hidden`, dentro de un panel que ocupa la mitad derecha de la pantalla de arriba a abajo (en celular, una franja inferior con 9 fotos), medido con `container-type: size` y `cqw`/`cqh` para que escale sin deformar y recorte lo que sobresale; el encabezado, el texto, el lema y el pie quedan a la izquierda. El interruptor de tema pasa a ser uno solo (pista y perilla con sol y luna en SVG) hecho con dos enlaces de ancla y `:target`, sin `<input>` ni JavaScript (spec 004 R-08). El tope de peso de la página sube de 150 KB a 300 KB. El pie lleva Instagram, TikTok, X y Facebook con íconos propios y las URL exactas, sin parámetros de seguimiento (`_r`, `_t`, `s`, `mibextid`); `test_landing.py` y `check_links.py` las permiten (spec 004 R-09 y CA-06).
+- **Por qué:** el profesor pidió una landing emocional con varias fotos de gente y los íconos de las redes del proyecto; la CSP ya permite `img-src 'self'` y no hay recursos de terceros. Todo queda en una pantalla sin scroll y el movimiento sigue apagado con `prefers-reduced-motion`.
+- **A evitar:** pasar de 24 KB por foto o de 215 KB en conjunto, poner dos fotos de la misma escena una junto a otra, poner texto dentro de las imágenes, `loading="lazy"`, `style=""`, colores fuera de los tokens `--color-*`, copiar logos oficiales de las redes, volver a agregar parámetros de seguimiento a los enlaces y sacar fotos del panel sin `overflow:hidden` (generaría scroll), usar `<input>`, `<button>` o `role="switch"` en el interruptor (un enlace no responde a la barra espaciadora) y mostrar el panel en pantallas de menos de 36rem de alto.
+
+## 2026-11-12 — Elegir una cotización sin contrato todavía (KNOCK-245, spec 015)
+- **Decisión:** «Elegir» abre una hoja modal (D-08) que solo se cierra con sus botones mientras se confirma (R-18). Al confirmar muestra la cita: técnico, día y hora, precio y máximo, modalidad, contacto público (teléfono o WhatsApp, o «no publicó un teléfono») y lugar.
+  - La cita vive en `EleccionController` y se olvida al cerrar la hoja (D-16): no se guarda en disco.
+  - Un 409 (`EleccionRechazadaFailure`, con los cinco motivos de backend 021) muestra su texto, no ofrece reintentar y vuelve a pedir la comparación.
+  - Un 503 dice «No pudimos confirmar tu elección» y deja reintentar a mano.
+  - El repositorio de prueba permite una sola elección por solicitud, como backend 021 R-10 y R-11. Los teléfonos de prueba son ficticios (`5500000001`).
+- **Pendiente:**
+  - CA-20 completo (tras un 409 `request_already_chosen` por reintento, consultar la visita y mostrar la cita) necesita `GET /visitas/{id}` (spec 016, KNOCK-83) y el contrato.
+  - Llamar o abrir WhatsApp desde la cita espera `url_launcher` (spec 016, D-06). Por ahora el número se puede seleccionar y copiar.
+- **A evitar:** guardar la cita o el contacto en disco, o reintentar una elección sin que la persona lo pida.
+
+## 2026-11-12 — Ver mi visita con el código, sin contrato todavía (KNOCK-83, spec 016)
+- **Decisión:** `/actividad/visita/:id` muestra la visita del cliente. Según la modalidad, aparece una de dos cosas:
+  - **A domicilio:** el técnico, su insignia, el día y la hora, el código en cuatro recuadros con «Ocultar código» y la regla de seguridad.
+  - **En taller:** la dirección y «Cómo llegar».
+- **Cómo funciona:**
+  - La copia mínima de la visita (sin dirección del domicilio ni contacto, R-03) se guarda en el almacén seguro con un índice (`core/sesion/datos_de_visita.dart`). `SesionNotifier.cerrar` la borra con `borrarDatosDeVisita`.
+  - Sin conexión se muestra esa copia (CA-02).
+  - Un `motivoCodigo` borra el código de la copia (R-07). Una visita terminada o cancelada borra la copia completa.
+  - La pantalla se refresca al volver a la app, sin sondeo.
+  - `visitaDisponibleProvider` queda en verdadero, así que «Ver mi visita» ya lleva aquí desde la comparación y la cita.
+- **`url_launcher` 6.3.3, el mismo que ya trajo la spec 028 (KNOCK-260); se reutiliza su `AbridorDeEnlaces` de `core/enlaces/`:**
+  - Se usa para «Cómo llegar» (`https://www.google.com/maps/search/?api=1&query=` con `Uri.encodeComponent`), llamar (`tel:`) y WhatsApp (`https://wa.me/52…`), siempre con enlaces armados en `core/enlaces/enlaces.dart`, nunca con uno que llegue del servidor.
+  - El manifiesto declara en `<queries>` VIEW `https` y DIAL `tel` (Android 11+).
+  - Sus paquetes de plataforma pueden necesitar entrar a EXC-002 para el SCA, como pasó con `image`.
+- **R-18:** `MainActivity` expone el canal `knock/pantalla` con `capturaEnRecientes`. La visita lo apaga al entrar y lo prende al salir (`setRecentsScreenshotEnabled`, Android 13+). Se verifica a mano en el teléfono.
+- **A evitar:**
+  - Guardar el código en `shared_preferences` o en un archivo.
+  - Guardar la dirección del domicilio o el contacto en la copia local.
+  - Abrir un enlace que no salga de `Enlaces`, o crear un segundo abridor en lugar de usar `core/enlaces/abridor_de_enlaces.dart`.
+  - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
+
+## 2026-11-11 — Los agentes implementan las tareas de las specs aprobadas (KNOCK-243)
+- **Decisión:** `AGENTS.md` y `.opencode/agents/implementer.md` dejan de decir «esta primera etapa es solo de especificación: no ejecutes las tareas». Ahora dicen que, si la spec está **Aprobada**, el agente implementa solo las tareas de su `task.md`, de una en una y con sus pruebas escritas primero. Una persona decide qué spec o grupo de tareas se activa; el agente no aprueba, no firma y no fusiona.
+- **Porqué:** las specs 020 a 037 de backend y 015 a 028 de la app quedaron aprobadas el 11 de noviembre y el plazo del proyecto exige implementarlas; la regla anterior hacía que los agentes se negaran a programar aunque la spec estuviera aprobada. La autorización del cambio es del Tech Lead.
+- **A evitar:** implementar una spec en Borrador o lo que no esté en sus tareas, activar todas las specs a la vez (son más de 250 tareas y no caben en el plazo: se activan por grupos), o que un agente apruebe, firme o fusione.
+## 2026-11-12 — Códigos de TOTP, Web Locks, activación, aviso sin límite y respaldo local seguro en las specs de la app (KNOCK-243)
+- **Decisión:** la 023 del panel usa los códigos `invalid_code`, `challenge_expired` y `locked` (el bloqueo lo decide el servidor; el contador del panel es solo visual), serializa la renovación entre pestañas con Web Locks y agrega la pantalla `/activar` con el token en el fragmento `#`. La 022 deja el conteo de avisos como solo informativo (sin límite de 10 por hora) y arma el respaldo sin conexión con `DatosAvisoLocal` en el almacenamiento seguro, con caducidad, borrado al cerrar sesión y fuera de los respaldos del teléfono. La 017 reutiliza la consulta por código postal 10 minutos en memoria y revalida con `ETag` (backend 023 R-16, `private, no-cache`). Las specs 024 y 012 llevan solo una nota que remite a backend 037.
+- **Por qué:** backend 033 y 037 cambiaron sus contratos; hoy el `<application>` de `AndroidManifest.xml` no declara `allowBackup`, `dataExtractionRules` ni `fullBackupContent`, y el registro de dispositivos sigue contra `RegistroDispositivosSimulado` porque backend aún no publica el endpoint.
+- **Pendiente de firma:** las specs 017, 022 y 023 de la app cambiaron de fondo y las firma una persona a mano; este cambio no toca ninguna sección «Aprobación». Los renombres de #39 y #35 no piden firma nueva.
+- **A evitar:** mostrar un contador de intentos del panel como si decidiera algo; guardar el token de activación o el secreto TOTP en el navegador; guardar datos de la visita fuera del almacenamiento seguro o dejarlos en los respaldos del teléfono.
+
+## 2026-11-12 — Memoria.md se fusiona sin conflictos al agregar entradas (KNOCK-265)
+- **Decisión:** `.gitattributes` marca `Memoria.md` con `merge=union`. Cuando dos ramas agregan entradas distintas al final, `git merge` en local conserva las dos y ya no marca conflicto.
+- **Por qué:** casi todos los conflictos de los PR de las últimas semanas eran de `Memoria.md`, porque cada PR agrega su entrada en el mismo lugar. Se probó en un repositorio de prueba: dos ramas con entradas distintas se fusionaron sin conflicto y quedaron las dos.
+- **Límite (sin verificar en GitHub):** `merge=union` lo aplica Git en la máquina de quien hace `git merge origin/sprint-04`. No se verificó si el botón «Merge» de GitHub también lo aplica; si no, la ficha del PR puede seguir mostrando conflicto hasta que se traiga `sprint-04` a la rama con `git merge`. Se mide con el primer PR que lo necesite.
+- **A evitar:** editar una entrada ya existente de `Memoria.md` en dos ramas a la vez (el driver duplica o mezcla líneas); fusionar sin revisar que la entrada nueva quedó entera y separada de la anterior por una línea en blanco.
+
+## 2026-11-13 — Rutas de las pruebas de la spec 015 distintas a las de la spec (KNOCK-244 y KNOCK-81)
+- **Decisión:** algunas pruebas de la spec 015 viven en archivos que agrupan una pantalla, no en el archivo exacto que dice la columna «Verificación». `sdd_lint --trace 015` las encuentra igual, porque busca por el nombre del caso.
+
+  | Casos | Archivo en la spec | Archivo real |
+  |---|---|---|
+  | CA_015_07 a CA_015_10 | `cotizaciones_screen_test.dart`, `cotizaciones_controller_test.dart`, `tarjeta_cotizacion_test.dart` | `test/features/actividad/presentation/cotizaciones_test.dart` |
+  | CA_015_03, CA_015_05, CA_015_16 y CA_015_17 (pantalla) | `selector_fotos_test.dart`, `paso_cuando_donde_test.dart`, `accesibilidad_solicitud_test.dart` | `test/features/actividad/presentation/pantallas_solicitud_test.dart` |
+
+- **CA_015_10:** ya no es una lista literal. Lee los campos de `TecnicoResumen` y `Cotizacion` en `domain/cotizacion.dart` y falla si alguno se llama `telefono`, `whatsapp`, `direccion` o `celular`.
+- **A evitar:** pruebas de aceptación que no fallen aunque cambie el modelo, como contar los elementos de una lista escrita en la misma prueba.
+
+## 2026-11-13 — Ajustes de la revisión de Julián a KNOCK-245 y KNOCK-83 (specs 015 y 016)
+- **CA-20 cerrado (spec 015):** si al reintentar la elección el servidor responde 409 `request_already_chosen`, `EleccionController` pide la comparación, toma su `visitaId`, consulta la visita (`VisitaRepository`, spec 016) y muestra esa cita como hecha. Si no hay visita que consultar, queda el mensaje de CA-12. Prueba: `CA_015_20` en `cotizaciones_controller_test.dart`. La parte contra el contrato sigue esperando el OpenAPI de backend 021.
+- **Índice de visitas:** `VisitaLocalRepositorySeguro.guardar` escribe **primero el índice** y después los datos; `borrar` hace lo contrario. Si la app se cierra entre las dos escrituras, queda un id sin datos (inofensivo) y nunca un código que el cierre de sesión no encuentre. Prueba: corte en la segunda escritura dentro de `visita_test.dart`.
+- **Fuera de la lista de archivos de la spec 016 (§9):** `android/app/src/main/kotlin/app/knock/mobile/MainActivity.kt` (canal `knock/pantalla`) y `lib/core/plataforma/captura_en_recientes.dart`, que implementan R-18.
+- **Pendiente:**
+  - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
+  - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
+

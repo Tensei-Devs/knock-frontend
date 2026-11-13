@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
+import 'package:app/core/sesion/datos_de_visita.dart';
 import 'package:app/core/red/cache_respuestas.dart';
 import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/renovador_sesion_api.dart';
@@ -69,7 +72,8 @@ class SesionNotifier extends Notifier<TokensSesion?> {
     state = tokens;
   }
 
-  /// Cierra la sesión en el teléfono: borra tokens y caché y deja la bandera
+  /// Cierra la sesión en el teléfono: borra tokens, caché y el borrador de
+  /// solicitud (spec 015) y deja la bandera
   /// de interfaz en falso para que el router lleve a `/entrar` (R-03, R-07).
   ///
   /// Nunca lanza: si el almacenamiento seguro falla al borrar, la sesión en
@@ -83,6 +87,10 @@ class SesionNotifier extends Notifier<TokensSesion?> {
     } on Object {
       // Sin registro (R-11): el error del almacén podría llevar datos.
     }
+    // Spec 015, CA-19: no quedan textos ni fotos del borrador de la cuenta.
+    await borrarBorradorDeSolicitud(ref);
+    // Spec 016, CA-16 y R-17: no quedan códigos de visita de la cuenta.
+    await borrarDatosDeVisita(ref.read(almacenSeguroProvider));
   }
 
   /// Renueva el token que la API rechazó ([vencido]). Peticiones simultáneas
