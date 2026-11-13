@@ -1075,5 +1075,145 @@
   "cotizacionErrorEleccion": "No pudimos confirmar tu elección. Intenta de nuevo.",
   "@cotizacionErrorEleccion": {
     "description": "Error 503 service_unavailable al elegir (CA-20)."
+  },
+  "visitaTitulo": "Tu visita",
+  "@visitaTitulo": {
+    "description": "Título de la pantalla de la visita (spec 016)."
+  },
+  "visitaVerificado": "Verificado",
+  "@visitaVerificado": {
+    "description": "Insignia de técnico verificado."
+  },
+  "visitaSinVerificar": "Sin verificar",
+  "@visitaSinVerificar": {
+    "description": "Técnico sin verificar."
+  },
+  "visitaCuando": "{dia} a las {hora}",
+  "@visitaCuando": {
+    "description": "Día y hora de la visita.",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoTitulo": "Tu código",
+  "@visitaCodigoTitulo": {
+    "description": "Título del código de 4 dígitos."
+  },
+  "visitaCodigoRegla": "Pídele a {tecnico} que te diga este código en la puerta. Si no lo sabe, no abras.",
+  "@visitaCodigoRegla": {
+    "description": "Regla de seguridad (CA-01).",
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoEtiqueta": "Código: {digitos}",
+  "@visitaCodigoEtiqueta": {
+    "description": "Lectura del código dígito por dígito (CA-14).",
+    "placeholders": {
+      "digitos": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaOcultarCodigo": "Ocultar código",
+  "@visitaOcultarCodigo": {
+    "description": "Botón para tapar el código (CA-08)."
+  },
+  "visitaMostrarCodigo": "Mostrar código",
+  "@visitaMostrarCodigo": {
+    "description": "Botón para destapar el código (CA-08)."
+  },
+  "visitaCodigoOculto": "Código oculto",
+  "@visitaCodigoOculto": {
+    "description": "Anuncio al ocultar el código (CA-08)."
+  },
+  "visitaMotivoUsado": "El técnico ya confirmó su llegada con este código.",
+  "@visitaMotivoUsado": {
+    "description": "motivoCodigo usado (CA-07)."
+  },
+  "visitaMotivoVencido": "Este código ya venció.",
+  "@visitaMotivoVencido": {
+    "description": "motivoCodigo vencido (CA-07)."
+  },
+  "visitaMotivoBloqueada": "Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.",
+  "@visitaMotivoBloqueada": {
+    "description": "motivoCodigo bloqueada (CA-07)."
+  },
+  "visitaMotivoNoAplica": "Esta cita no necesita código.",
+  "@visitaMotivoNoAplica": {
+    "description": "motivoCodigo no_aplica (CA-07)."
+  },
+  "visitaTaller": "Cita en el taller",
+  "@visitaTaller": {
+    "description": "Título de la cita en taller (CA-04)."
+  },
+  "visitaDireccionTaller": "Dirección: {direccion}",
+  "@visitaDireccionTaller": {
+    "description": "Dirección del taller (CA-04).",
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaComoLlegar": "Cómo llegar",
+  "@visitaComoLlegar": {
+    "description": "Botón que abre la app de mapas (CA-04)."
+  },
+  "visitaSinMapas": "No encontramos una app de mapas. Copia la dirección para buscarla.",
+  "@visitaSinMapas": {
+    "description": "Aviso sin app de mapas (R-05)."
+  },
+  "visitaLlamar": "Llamar",
+  "@visitaLlamar": {
+    "description": "Botón para llamar al técnico (CA-21)."
+  },
+  "visitaWhatsapp": "WhatsApp",
+  "@visitaWhatsapp": {
+    "description": "Botón para escribir por WhatsApp (CA-21)."
+  },
+  "visitaNoSePudoAbrir": "No se pudo abrir la app. El número es {numero}.",
+  "@visitaNoSePudoAbrir": {
+    "description": "Aviso si no hay app para llamar o WhatsApp.",
+    "placeholders": {
+      "numero": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaAvisar": "Avisar a alguien de confianza",
+  "@visitaAvisar": {
+    "description": "Botón que abre la hoja de la spec 022 (CA-06)."
+  },
+  "visitaNoDisponible": "Esta visita ya no está disponible.",
+  "@visitaNoDisponible": {
+    "description": "Error 404 (CA-05)."
+  },
+  "visitaSinConexion": "Sin conexión. Te mostramos los datos guardados de tu visita.",
+  "@visitaSinConexion": {
+    "description": "Copia local sin conexión (CA-02)."
+  },
+  "visitaEstadoConfirmada": "Confirmada",
+  "@visitaEstadoConfirmada": {
+    "description": "Estado confirmada."
+  },
+  "visitaEstadoEnCurso": "En curso",
+  "@visitaEstadoEnCurso": {
+    "description": "Estado en_curso."
+  },
+  "visitaEstadoTerminada": "Terminada",
+  "@visitaEstadoTerminada": {
+    "description": "Estado terminada."
+  },
+  "visitaEstadoCancelada": "Cancelada",
+  "@visitaEstadoCancelada": {
+    "description": "Estado cancelada o no presentado."
   }
 }

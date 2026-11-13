@@ -56,6 +56,16 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- Spec 016, R-05: «Cómo llegar» y WhatsApp abren https (Android 11+). -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+        <!-- Spec 016, CA-21: llamar al técnico con el marcador del sistema. -->
+        <intent>
+            <action android:name="android.intent.action.DIAL"/>
+            <data android:scheme="tel"/>
+        </intent>
         <!-- Abrir el aviso de privacidad en el navegador (spec 028, R-07): en
              Android 11 o posterior hay que declarar que la app consulta a los
              navegadores que abren enlaces https. No es un permiso. -->

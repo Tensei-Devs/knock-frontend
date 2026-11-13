@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/cotizaciones_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,7 +63,9 @@ void main() {
           expect((fallida.falla as EleccionRechazadaFailure).motivo, motivo);
           expect(fallida.sePuedeReintentar, isFalse);
           expect(solicitudes.elecciones, hasLength(1));
-          expect(solicitudes.ordenesPedidos.length, pedidasAntes + 1);
+          // Se vuelve a pedir (con `request_already_chosen`, también para
+          // buscar la visita, CA-20).
+          expect(solicitudes.ordenesPedidos.length, greaterThan(pedidasAntes));
         },
       );
     }
@@ -100,6 +104,72 @@ void main() {
     });
   });
 
+  group('CA_015_20 reintento que llega a una solicitud ya elegida', () {
+    Visita visita() => Visita(
+      id: 'vvvvvvvvvvvvvvvvvvvvvvvv',
+      estado: EstadoVisita.confirmada,
+      esTaller: false,
+      dia: DateTime(2026, 11, 14),
+      hora: '09:00',
+      tope: 1100,
+      precio: 1000,
+      direccion: 'Calle de Prueba 123',
+      puedeAvisar: true,
+      tecnico: const TecnicoDeVisita(
+        nombre: 'Técnico ya elegido',
+        verificado: true,
+        telefono: '5500000007',
+      ),
+    );
+
+    test(
+      'CA_015_20 con 409 request_already_chosen muestra la cita confirmada',
+      () async {
+        final con = ProviderContainer(
+          overrides: [
+            ...dobles(solicitudes: solicitudes, borrador: BorradorFalso()),
+            visitaRepositoryProvider.overrideWithValue(_VisitaFija(visita())),
+          ],
+        );
+        addTearDown(con.dispose);
+        con.listen(eleccionProvider(_id), (_, _) {});
+        solicitudes
+          ..fallasAlElegir.add(
+            const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+          )
+          ..comparacion = const ResultadoComparacion(
+            cotizaciones: [],
+            totalCotizaciones: 1,
+            tiposMixtos: false,
+            puedeElegir: false,
+            motivo: MotivoSinEleccion.yaElegida,
+            visitaId: 'vvvvvvvvvvvvvvvvvvvvvvvv',
+          );
+
+        await con.read(eleccionProvider(_id).notifier).elegir('c1');
+
+        final hecha = con.read(eleccionProvider(_id)) as EleccionHecha;
+        expect(hecha.cita.tecnico.nombre, 'Técnico ya elegido');
+        expect(hecha.cita.tecnico.telefono, '5500000007');
+        expect(hecha.cita.direccion, 'Calle de Prueba 123');
+        expect(solicitudes.elecciones, hasLength(1));
+      },
+    );
+
+    test(
+      'CA_015_20 sin visita que consultar queda el mensaje de CA-12',
+      () async {
+        solicitudes.fallasAlElegir.add(
+          const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+        );
+
+        await control().elegir('c1');
+
+        expect(estado(), isA<EleccionFallida>());
+      },
+    );
+  });
+
   group('CA_015_20 un 503 al elegir', () {
     test('CA_015_20 se muestra el error y se reintenta solo a mano', () async {
       solicitudes.fallasAlElegir.add(const ServicioNoDisponibleFailure());
@@ -117,4 +187,13 @@ void main() {
       expect(estado(), isA<EleccionHecha>());
     });
   });
+}
+
+class _VisitaFija implements VisitaRepository {
+  _VisitaFija(this.visita);
+
+  final Visita visita;
+
+  @override
+  Future<Visita> obtenerVisita(String id) async => visita;
 }
