@@ -32,3 +32,18 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Aprobada | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
 | 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Aprobada | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |
 | 028 | Abrir el aviso de privacidad desde la entrada con celular | Borrador | [`028-abrir-el-aviso-de-privacidad`](028-abrir-el-aviso-de-privacidad/spec.md) |
+| 029 | Cuenta y datos personales: cambio de número, recuperación de acceso, exportación, consentimien… (pantallas) | Borrador | [`029-cuenta-y-datos-personales`](029-cuenta-y-datos-personales/spec.md) |
+| 030 | Direcciones del cliente (pantallas) | Borrador | [`030-direcciones-del-cliente`](030-direcciones-del-cliente/spec.md) |
+| 031 | Mi casa y mi auto (pantallas) | Borrador | [`031-mi-casa-y-mi-auto`](031-mi-casa-y-mi-auto/spec.md) |
+| 032 | Contactos de confianza y técnicos de confianza (pantallas) | Borrador | [`032-contactos-y-tecnicos-de-confianza`](032-contactos-y-tecnicos-de-confianza/spec.md) |
+| 033 | Bloqueos entre personas y reportes con apelación (pantallas) | Borrador | [`033-bloqueos-y-reportes`](033-bloqueos-y-reportes/spec.md) |
+| 034 | Avisos dentro de la app y preferencias de avisos (pantallas) | Borrador | [`034-avisos-dentro-de-la-app`](034-avisos-dentro-de-la-app/spec.md) |
+| 035 | Catálogo de oficios, oficios pedidos y lista de espera (consulta interna) (pantallas) | Borrador | [`035-catalogos-y-lista-de-espera`](035-catalogos-y-lista-de-espera/spec.md) |
+| 036 | Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas) | Borrador | [`036-tecnico-perfil-horarios-y-exploracion`](036-tecnico-perfil-horarios-y-exploracion/spec.md) |
+| 037 | Servicios y precios de cada técnico (pantallas) | Borrador | [`037-servicios-del-tecnico`](037-servicios-del-tecnico/spec.md) |
+| 038 | Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado, cotizaciones del técnico… (pantallas) | Borrador | [`038-solicitudes-y-cotizaciones-complementos`](038-solicitudes-y-cotizaciones-complementos/spec.md) |
+| 039 | Cotización final tras la visita y ajustes de precio (pantallas) | Borrador | [`039-cotizacion-final-y-ajustes-de-precio`](039-cotizacion-final-y-ajustes-de-precio/spec.md) |
+| 040 | Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas) | Borrador | [`040-visita-agenda-y-cierre`](040-visita-agenda-y-cierre/spec.md) |
+| 041 | Opiniones y reputación del técnico (pantallas) | Borrador | [`041-opiniones-y-reputacion`](041-opiniones-y-reputacion/spec.md) |
+| 042 | Asistente de IA: resumen de chat, borrador de cotización, rango de precio y bitácora (pantallas) | Borrador | [`042-asistente-de-ia`](042-asistente-de-ia/spec.md) |
+| 043 | Panel de revisión: verificaciones de identidad y reportes (pantallas) | Borrador | [`043-panel-de-revision`](043-panel-de-revision/spec.md) |
