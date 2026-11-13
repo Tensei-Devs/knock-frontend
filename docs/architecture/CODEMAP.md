@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-12T21:54:45Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-13T13:11:16Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -58,7 +58,7 @@
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:71, `crear()`:74, `obtener()`:96, `cotizaciones()`:117, `elegir()`:147, `obtenerVisita()`:196, `cotizacion()`:225, `etiquetarComoElServidor()`:319, `ordenarComoElServidor()`:356, `porCalificacion()`:360, `porTope()`:362
 - `app/lib/features/actividad/data/visita_local_repository.dart` — class `VisitaLocalRepositorySeguro`
-  - `leer()`:15, `guardar()`:29, `borrar()`:40
+  - `leer()`:15, `guardar()`:32, `borrar()`:44
 
 **domain**
 
@@ -83,7 +83,7 @@
 - `app/lib/features/actividad/presentation/actividad_screen.dart` — class `ActividadScreen`
   - `build()`:18, `PantallaTitulada()`:21
 - `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionFallida`, class `EleccionController`
-  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:100
+  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:146
 - `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
   - `build()`:24, `nombreOrden()`:29, `build()`:97, `build()`:187
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
@@ -186,7 +186,7 @@
 - `app/lib/core/enlaces/abridor_de_enlaces.dart` — class `AbridorDeEnlaces`, class `AbridorDeEnlacesDelSistema`
   - `abrir()`:19
 - `app/lib/core/enlaces/enlaces.dart` — class `Enlaces`
-  - `mapa()`:6, `llamada()`:12, `whatsapp()`:18
+  - `mapa()`:7, `llamada()`:13, `whatsapp()`:19
 
 ### entrada
 

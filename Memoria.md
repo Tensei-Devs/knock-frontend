@@ -388,3 +388,11 @@
 - **CA_015_10:** ya no es una lista literal. Lee los campos de `TecnicoResumen` y `Cotizacion` en `domain/cotizacion.dart` y falla si alguno se llama `telefono`, `whatsapp`, `direccion` o `celular`.
 - **A evitar:** pruebas de aceptación que no fallen aunque cambie el modelo, como contar los elementos de una lista escrita en la misma prueba.
 
+## 2026-11-13 — Ajustes de la revisión de Julián a KNOCK-245 y KNOCK-83 (specs 015 y 016)
+- **CA-20 cerrado (spec 015):** si al reintentar la elección el servidor responde 409 `request_already_chosen`, `EleccionController` pide la comparación, toma su `visitaId`, consulta la visita (`VisitaRepository`, spec 016) y muestra esa cita como hecha. Si no hay visita que consultar, queda el mensaje de CA-12. Prueba: `CA_015_20` en `cotizaciones_controller_test.dart`. La parte contra el contrato sigue esperando el OpenAPI de backend 021.
+- **Índice de visitas:** `VisitaLocalRepositorySeguro.guardar` escribe **primero el índice** y después los datos; `borrar` hace lo contrario. Si la app se cierra entre las dos escrituras, queda un id sin datos (inofensivo) y nunca un código que el cierre de sesión no encuentre. Prueba: corte en la segunda escritura dentro de `visita_test.dart`.
+- **Fuera de la lista de archivos de la spec 016 (§9):** `android/app/src/main/kotlin/app/knock/mobile/MainActivity.kt` (canal `knock/pantalla`) y `lib/core/plataforma/captura_en_recientes.dart`, que implementan R-18.
+- **Pendiente:**
+  - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
+  - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
+
