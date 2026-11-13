@@ -33,7 +33,7 @@ abstract final class Rutas {
   static const configuracion = '/cuenta/configuracion';
 
   /// Contactos de confianza desde Mi cuenta (spec 022, CA-14).
-  static const contactosConfianza = '/cuenta/contactos';
+  static const contactosConfianza = '/cuenta/contactos-de-confianza';
 
   /// Entrada con celular (HU-001): fuera de la barra inferior.
   static const entrar = '/entrar';

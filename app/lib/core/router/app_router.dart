@@ -151,7 +151,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const ConfiguracionScreen(),
               ),
               GoRoute(
-                path: 'contactos',
+                path: 'contactos-de-confianza',
                 builder: (context, state) => const ContactosConfianzaScreen(),
               ),
             ],

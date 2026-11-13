@@ -435,3 +435,13 @@
   - Los ids de contacto usan `relojSolicitudProvider` y no `DateTime.now()`.
   - El respaldo del aviso escribe primero el índice, igual que la copia de la visita.
 
+## 2026-11-13 — Dos bugs de la revisión de Julián al #55 (KNOCK-84, spec 022)
+- **Contactos de otra cuenta tras cerrar sesión (CA-13):**
+  - `contactosProvider` no era `autoDispose` y nunca se volvía a leer, así que la lista de la cuenta anterior seguía en Mi cuenta y en la hoja.
+  - Ahora es `autoDispose` y observa `cierresDeSesionProvider` (`core/sesion/sesion.dart`), un contador que `SesionNotifier.cerrar` sube **después** de borrar los datos locales.
+  - Observar `sesionProvider` no bastaba: cambia antes del borrado, así que podía volver a leer contactos que aún existían.
+  - Prueba: `borrado_visita_test.dart` revisa la lista que ve la persona.
+- **Respaldo del aviso huérfano (CA-20):** `VisitaLocalRepositorySeguro.borrar` quitaba la visita del índice sin borrar `knock.aviso.respaldo.<id>`. Ahora lo borra con la visita. Prueba: abrir una visita guarda el respaldo solo; cuando la visita termina no queda nada en el almacén.
+- **Ruta:** los contactos viven en `/cuenta/contactos-de-confianza`, como dice la T-06 de la spec 022.
+- **A evitar:** que un proveedor que muestra datos locales de la cuenta dependa del cambio de sesión en vez del fin del borrado, o borrar una visita sin sus datos asociados.
+
