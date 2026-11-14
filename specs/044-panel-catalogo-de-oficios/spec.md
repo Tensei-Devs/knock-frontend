@@ -2,7 +2,7 @@
 
 > **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Origen:** `Documentacion/00_Profesores/Desarrollo_Movil/Entregables/Knock_Endpoints_CRUD.xlsx` (revisión 2026-11-02): endpoints OFI-03, OFI-04, OFI-05, OFP-02, LIS-02.
-> **Claves de trabajo:** por asignar (se crea la tarea de Jira cuando se decida el alcance) · **Sprint:** por definir · **Prioridad:** por definir
+> **Claves de trabajo:** KNOCK-266 (tarea paraguas de las specs de los endpoints del Excel) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (spec 045) y spec 033 (sesión del panel y permisos). **Skills:** `angular-panel`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
 > **Contrato:** `contracts/openapi.v1.json` todavía **no** incluye estas rutas; las fija backend 045 y se vendorizan antes de implementar (spec 006). El cliente TypeScript se genera, no se escribe a mano.
 > **Permiso del panel:** `catalog:manage` (spec 023).
