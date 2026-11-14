@@ -94,6 +94,8 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 047 (contrato) y las specs 006, 009, 010, 014 y 026 de este repositorio.
 - Backend 046.
 - Backend 020.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Perfil del técnico y catálogo de oficios activos (spec 046, hoy no implementada)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 037` sin faltantes.

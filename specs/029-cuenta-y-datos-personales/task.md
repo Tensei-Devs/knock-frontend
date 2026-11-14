@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Rutas internas con el token de la spec 037: sus claves `avisos-key-*` y el secreto nuevo `interno-key-identity` (Identidad firma, Mercado verifica) en Key Vault y Terraform (hoy no implementados ni creados); Contenedor privado `exportaciones` en la cuenta de almacenamiento privada de la spec 025 (hoy no existe en Terraform); Ejecutor de tareas y bandeja de salida de la spec 054 (hoy no implementados); Cola del panel de la spec 053 y panel de la spec 033 (hoy no implementados) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 039 y regenerar el cliente Dart | §4 | Backend 039 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-07, CA-10, CA-13, CA-15, CA-17, CA-19, CA-22 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/me/cambio-numero` (USR-03) y mapeo de errores | §4 · CA-01 a CA-06 | T-01, T-02 | otras rutas | pendiente |

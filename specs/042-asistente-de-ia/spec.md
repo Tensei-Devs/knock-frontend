@@ -112,6 +112,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 024.
 - Backend 030.
 - Backend 031.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Recurso de Azure OpenAI y cliente de la spec 024 (el recurso no está en Terraform; autorizado con límites)
+- Filtro de datos personales y `uso_ia` de la spec 024 (hoy no implementados)
+- Cálculo de la referencia de mercado de la spec 048 (hoy no implementado)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 042` sin faltantes.

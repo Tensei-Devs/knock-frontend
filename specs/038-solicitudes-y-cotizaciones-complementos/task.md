@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Oleadas y tarea `RepartirOleada` de la spec 028 (hoy no implementadas); Bandeja de salida de la spec 054 para el evento `CotizacionElegida` (hoy no implementada) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 048 y regenerar el cliente Dart | §4 | Backend 048 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-08 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/solicitudes/{id}/ampliar` (SOL-05) y mapeo de errores | §4 · CA-01 a CA-03 | T-01, T-02 | otras rutas | pendiente |

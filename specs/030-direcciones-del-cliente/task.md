@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Llaves de cifrado de campo en Key Vault (spec 025) y la copia de la dirección en la visita de la spec 022 (hoy no implementadas) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 040 y regenerar el cliente Dart | §4 | Backend 040 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-03, CA-06, CA-09 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/me/direcciones` (DIR-01) y mapeo de errores | §4 · CA-01 a CA-11 | T-01, T-02 | otras rutas | pendiente |

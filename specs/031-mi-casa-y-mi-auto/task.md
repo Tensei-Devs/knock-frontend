@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: El campo opcional `elementoId` en `POST /solicitudes` (se agrega en una tarea de esta spec; la fundación de la 020 ya está en `sprint-04`); Ruta interna de historial con el secreto nuevo `interno-key-identity` (hoy no implementada ni creada) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 041 y regenerar el cliente Dart | §4 | Backend 041 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-03, CA-06, CA-09, CA-12 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/me/casa-y-auto` (CAS-01) y mapeo de errores | §4 · CA-01 a CA-15 | T-01, T-02 | otras rutas | pendiente |

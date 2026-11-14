@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Panel con doble factor, permisos y auditoría de la spec 033 (hoy no implementados) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 045 y regenerar el cliente Dart | §4 | Backend 045 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-05 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/oficios/{clave}` (OFI-02) y mapeo de errores | §4 · CA-01 a CA-04 | T-01, T-02 | otras rutas | pendiente |

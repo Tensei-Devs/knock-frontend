@@ -91,6 +91,9 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 041 (contrato) y las specs 006, 009, 010, 014 y 026 de este repositorio.
 - Backend 020.
 - Backend 022.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- El campo opcional `elementoId` en `POST /solicitudes` (se agrega en una tarea de esta spec; la fundación de la 020 ya está en `sprint-04`)
+- Ruta interna de historial con el secreto nuevo `interno-key-identity` (hoy no implementada ni creada)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 031` sin faltantes.

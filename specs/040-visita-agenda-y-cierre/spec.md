@@ -129,6 +129,9 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 022.
 - Backend 031.
 - Backend 032.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Ciclo de la visita de las specs 021 y 022 y tareas de la 054 (hoy no implementados)
+- Moderación e imágenes de las specs 031 y 032 (hoy no implementadas)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 040` sin faltantes.

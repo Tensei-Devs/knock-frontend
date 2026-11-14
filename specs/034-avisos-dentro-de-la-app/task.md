@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Despachador de avisos de la spec 037, único que crea avisos (hoy no implementado) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 044 y regenerar el cliente Dart | §4 | Backend 044 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-06, CA-09, CA-11 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/avisos` (AVI-01) y mapeo de errores | §4 · CA-01 a CA-10 | T-01, T-02 | otras rutas | pendiente |

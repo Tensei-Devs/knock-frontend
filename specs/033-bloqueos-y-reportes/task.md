@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Mensajería y conversaciones de las specs 026 y 030 y el reparto de solicitudes de la 028 (hoy no implementados); Cola del panel de la spec 053 (hoy no implementada); Eventos `BloqueoCreado` y `BloqueoEliminado` por la bandeja de salida de la spec 054 y la proyección `bloqueos` en Mercado y Mensajería (hoy no existen) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 043 y regenerar el cliente Dart | §4 | Backend 043 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-07, CA-10, CA-13, CA-16 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/usuarios/{id}/bloqueo` (BLO-01) y mapeo de errores | §4 · CA-01 a CA-06 | T-01, T-02 | otras rutas | pendiente |

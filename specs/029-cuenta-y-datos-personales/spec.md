@@ -17,7 +17,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 039 en l
 - **CA-03:** Dadas las respuestas 409 `phone_already_registered`, 429 de `POST /api/v1/me/cambio-numero`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-06:** Dadas las respuestas 429 de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-06:** Dadas las respuestas 409, 429 de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-07:** Dada una respuesta correcta de `POST /api/v1/recuperacion-acceso`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-08:** Dada una respuesta 401 de `POST /api/v1/recuperacion-acceso`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-09:** Dadas las respuestas 429 de `POST /api/v1/recuperacion-acceso`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
@@ -69,14 +69,14 @@ La app **consume**; el contrato lo fija backend 039 y se vendoriza en `contracts
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/me/cambio-numero` | Pide un código SMS para el número nuevo | Cuerpo: celularNuevo | 202 | 202; 400; 401; 409 (ya existe); 429 |
-| `POST /api/v1/me/cambio-numero/confirmar` | Confirma el código, cambia el celular, cierra las sesiones anteriores y avisa al número anterior | Cuerpo: celularNuevo, codigo | 200 | 200; 400; 401; 429 |
-| `POST /api/v1/recuperacion-acceso` | Inicia la recuperación cuando la persona ya no tiene su número: técnico verificado repite selfie; c… | Cuerpo: celularNuevo, celularAnterior, tipo | 202 | 202; 400; 429 |
+| `POST /api/v1/me/cambio-numero` | Comprueba que el número nuevo no pertenece a otra cuenta, antes de que la app gaste un SMS de Fireb… | Cuerpo: celularNuevo (E.164 de México) | 204 | 204; 400; 401; 409 (el número ya pertenece a otra cuenta); 429 |
+| `POST /api/v1/me/cambio-numero/confirmar` | Confirma el cambio con el token de Firebase del número nuevo, cambia el celular, cierra las demás s… | Cuerpo: firebaseIdToken (del número nuevo) | 200 | 200; 400; 401; 409 (el número ya pertenece a otra cuenta); 429 |
+| `POST /api/v1/recuperacion-acceso` | Inicia la recuperación de acceso con el número nuevo verificado por Firebase; crea un caso para la… | Cuerpo: firebaseIdToken (del número nuevo), celularAnterior, tipo (tecnico/cliente) | 202 | 202; 400; 429 |
 | `POST /api/v1/me/exportaciones` | Pide la descarga de todos los datos propios; se entrega en 48 horas | Ninguno | 202 | 202; 401; 409 (ya hay una en curso); 429 |
 | `GET /api/v1/me/consentimientos` | Lista los consentimientos con su versión y fecha | Ninguno | 200 | 200; 401 |
 | `PUT /api/v1/me/consentimientos` | Activa o retira consentimientos opcionales (promociones, encuestas, recomendaciones) | Cuerpo: tipo, vigente | 200 | 200; 400; 401 |
 | `GET /api/v1/me/pendientes` | Lista lo que hay pendiente antes de eliminar la cuenta: citas y cotizaciones abiertas | Ninguno | 200 | 200; 401 |
-| `POST /api/v1/me/eliminacion` | Programa la eliminación de la cuenta con 7 días de gracia, tras confirmar con código SMS | Cuerpo: codigo (SMS) o texto ELIMINAR, motivo opcional | 202 | 202; 400; 401; 409 (ya está programada); 429 |
+| `POST /api/v1/me/eliminacion` | Programa la eliminación de la cuenta con 7 días de gracia; cancela de inmediato las solicitudes abi… | Cuerpo: confirmacion (el texto ELIMINAR), firebaseIdToken si la sesión tiene más de 24 ho… | 202 | 202; 400; 401; 409 (ya está programada o hay una visita en curso); 429 |
 | `POST /api/v1/me/eliminacion/cancelar` | Cancela la eliminación durante los 7 días de gracia | Ninguno | 200 | 200; 401; 409 |
 
 ## 5. Modelo de datos local
@@ -125,6 +125,11 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 017.
 - Backend 018.
 - Backend 025.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Rutas internas con el token de la spec 037: sus claves `avisos-key-*` y el secreto nuevo `interno-key-identity` (Identidad firma, Mercado verifica) en Key Vault y Terraform (hoy no implementados ni creados)
+- Contenedor privado `exportaciones` en la cuenta de almacenamiento privada de la spec 025 (hoy no existe en Terraform)
+- Ejecutor de tareas y bandeja de salida de la spec 054 (hoy no implementados)
+- Cola del panel de la spec 053 y panel de la spec 033 (hoy no implementados)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 029` sin faltantes.

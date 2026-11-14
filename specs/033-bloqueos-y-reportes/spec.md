@@ -111,6 +111,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 026.
 - Backend 030.
 - Backend 033.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Mensajería y conversaciones de las specs 026 y 030 y el reparto de solicitudes de la 028 (hoy no implementados)
+- Cola del panel de la spec 053 (hoy no implementada)
+- Eventos `BloqueoCreado` y `BloqueoEliminado` por la bandeja de salida de la spec 054 y la proyección `bloqueos` en Mercado y Mensajería (hoy no existen)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 033` sin faltantes.

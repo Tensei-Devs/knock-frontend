@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Almacén de técnicos y su visibilidad de las specs 027 y 028 (hoy no implementados) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 042 y regenerar el cliente Dart | §4 | Backend 042 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-07 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/me/tecnicos-confianza` (TCO-01) y mapeo de errores | §4 · CA-01 a CA-09 | T-01, T-02 | otras rutas | pendiente |

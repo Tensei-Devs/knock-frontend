@@ -48,9 +48,9 @@ La app **consume**; el contrato lo fija backend 048 y se vendoriza en `contracts
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `POST /api/v1/solicitudes/{id}/ampliar` | Pide también a más técnicos (Pedir también a otros) | Ruta: id | 200 | 200; 401; 403; 404; 409 |
+| `POST /api/v1/solicitudes/{id}/ampliar` | Adelanta la siguiente oleada de la spec 028 (Pedir también a otros) | Ruta: id | 200 | 200; 401; 403; 404; 409 |
 | `GET /api/v1/cotizaciones/referencia-mercado` | Rango de lo que cobran otros técnicos por trabajos parecidos (cotizaciones aceptadas en 90 días, pe… | Query: oficio, tipoTrabajo | 200 | 200; 401; 403 |
-| `GET /api/v1/tecnicos/me/cotizaciones` | Cotizaciones enviadas por el técnico con su estado (esperando respuesta, aceptada) | Query: estado, cursor, limite | 200 | 200; 401; 403 |
+| `GET /api/v1/tecnicos/me/cotizaciones` | Cotizaciones enviadas por el técnico con su estado (esperando respuesta, aceptada) | Query: estado (enviada/aceptada/rechazada/retirada), cursor, limite | 200 | 200; 401; 403 |
 
 ## 5. Modelo de datos local
 No se guarda nada en el teléfono salvo lo marcado como «caché» en §4: la última copia de lo que el Excel declara cacheable, en el almacén de la app, sin direcciones exactas, teléfonos ni coordenadas, y se borra al cerrar la sesión.
@@ -93,6 +93,9 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 021.
 - Backend 030.
 - Backend 032.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Oleadas y tarea `RepartirOleada` de la spec 028 (hoy no implementadas)
+- Bandeja de salida de la spec 054 para el evento `CotizacionElegida` (hoy no implementada)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 038` sin faltantes.

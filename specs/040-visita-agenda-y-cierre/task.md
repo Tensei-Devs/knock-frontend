@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Ciclo de la visita de las specs 021 y 022 y tareas de la 054 (hoy no implementados); Moderación e imágenes de las specs 031 y 032 (hoy no implementadas) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 050 y regenerar el cliente Dart | §4 | Backend 050 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-05, CA-08, CA-11, CA-14, CA-17, CA-20, CA-23 | — | T-01 | pendiente |
 | T-03 | Repositorio de `GET /api/v1/agenda` (VIS-02) y mapeo de errores | §4 · CA-01 a CA-04 | T-01, T-02 | otras rutas | pendiente |

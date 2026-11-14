@@ -90,6 +90,8 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Backend 017.
 - Backend 021.
 - Backend 022.
+**Prerrequisitos que hoy no existen (trabajo pendiente, no capacidades implementadas):**
+- Llaves de cifrado de campo en Key Vault (spec 025) y la copia de la dirección en la visita de la spec 022 (hoy no implementadas)
 
 ## 11. Definición de terminado
 - Los criterios de aceptación están cubiertos por pruebas en verde y `sdd_lint --trace 030` sin faltantes.

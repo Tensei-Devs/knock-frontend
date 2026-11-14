@@ -56,11 +56,11 @@ El panel **consume**; el contrato lo fija backend 053.
 
 | Método y ruta | Uso en el panel | Cuerpo / parámetros | Respuesta | Errores que el panel distingue |
 |---|---|---|---|---|
-| `GET /api/v1/admin/verificaciones` | Cola de revisión del panel | Query: estado, desde, hasta | 200 | 200; 401; 403 |
+| `GET /api/v1/admin/verificaciones` | Cola de revisión del panel: verificaciones de identidad y recuperaciones de acceso | Query: tipo (identidad/recuperacion), estado, desde, hasta | 200 | 200; 401; 403 |
 | `GET /api/v1/admin/verificaciones/{id}` | Abre una verificación; entrega enlaces de 5 minutos a las fotos y registra quién las abrió | Ruta: id | 200 | 200; 401; 403; 404; 410 (fotos ya destruidas) |
-| `POST /api/v1/admin/verificaciones/{id}/decision` | Aprueba o rechaza con motivo; destruye la llave de las fotos | Cuerpo: decision (aprobada/rechazada), motivo | 200 | 200; 400; 401; 403; 404; 409 |
+| `POST /api/v1/admin/verificaciones/{id}/decision` | Aprueba o rechaza con motivo; en una verificación destruye la llave de las fotos y en una recuperac… | Cuerpo: decision (aprobada/rechazada), motivo | 200 | 200; 400; 401; 403; 404; 409 |
 | `GET /api/v1/admin/reportes` | Cola de moderación | Query: gravedad, estado, desde, hasta | 200 | 200; 401; 403 |
-| `POST /api/v1/admin/reportes/{id}/decision` | Asigna gravedad y sanción; avisa a las dos partes sin revelar datos de la otra | Cuerpo: gravedad, sancion, motivo | 200 | 200; 400; 401; 403; 404 |
+| `POST /api/v1/admin/reportes/{id}/decision` | Asigna la gravedad (la respuesta se deriva de ella: suspensión preventiva, ocultar, advertencia o m… | Cuerpo: gravedad (critica/alta/media/baja), motivo | 200 | 200; 400; 401; 403; 404 |
 
 ## 5. Modelo de datos local
 No se guarda nada en el navegador: los tokens y los permisos viven solo en memoria (spec 023, R-03). Los datos de las personas y los enlaces firmados no se guardan ni se cachean; se descartan al cambiar de pantalla.

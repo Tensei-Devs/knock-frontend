@@ -5,6 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Recurso de Azure OpenAI y cliente de la spec 024 (el recurso no está en Terraform; autorizado con límites); Filtro de datos personales y `uso_ia` de la spec 024 (hoy no implementados); Cálculo de la referencia de mercado de la spec 048 (hoy no implementado) | §10 | — | T-01 | pendiente |
 | T-01 | Vendorizar las rutas de backend 052 y regenerar el cliente Dart | §4 | Backend 052 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-07, CA-10, CA-14, CA-17 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/asistente/conversaciones` (ASI-01) y mapeo de errores | §4 · CA-01 a CA-03 | T-01, T-02 | otras rutas | pendiente |
