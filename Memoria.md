@@ -369,6 +369,26 @@
   - Abrir un enlace que no salga de `Enlaces`, o crear un segundo abridor en lugar de usar `core/enlaces/abridor_de_enlaces.dart`.
   - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
 
+## 2026-11-12 — Avisar a alguien de confianza (KNOCK-84, spec 022)
+- **Decisión:** «Avisar a alguien de confianza» (en la visita, `puedeAvisar`) abre una hoja que hace esto:
+  - Pide el texto **una vez** con `POST /visitas/{id}/aviso`, con cuerpo vacío y sin `Idempotency-Key`.
+  - Muestra la vista previa y la lista de contactos.
+  - Ofrece «Enviar por SMS» (`sms:` con `body`), «Enviar por WhatsApp» (`https://wa.me/52…?text=`, o la hoja de compartir si no hay WhatsApp) y «Compartir sin guardar» (`share_plus`).
+  - La app no envía nada por sí sola.
+- **Respaldo y casos especiales:**
+  - Un texto que dice traer código o dirección se descarta.
+  - Sin conexión o con error, el texto se arma con `DatosAvisoLocal`: solo nombre, verificación, día y hora, copiados de la visita guardada en `knock.aviso.respaldo.{id}`, que vence 24 h después del día de la cita.
+  - Con 409 `visit_not_notifiable` no se ofrece ningún canal.
+- **Contactos:**
+  - Máximo 10, nombre de 2 a 40 caracteres y celular de 10 dígitos, sin repetir.
+  - Viven solo en el almacén seguro (`knock.contactos.confianza`) y se administran también desde Mi cuenta (`/cuenta/contactos`, D-01).
+  - El cierre de sesión borra contactos y respaldos (`borrarDatosDeVisita`, solo lo que existe).
+- **Manifiesto:**
+  - Agrega la consulta SENDTO `sms` y `dataExtractionRules`, que excluye todo de la copia en la nube y de la transferencia entre teléfonos (Android 12+).
+  - Sin `READ_CONTACTS`, `SEND_SMS` ni `CALL_PHONE`.
+- **`share_plus` 13.3.1** (Flutter Community, BSD-3-Clause; sin avisos en OSV el 2026-11-12; no pide permisos). Puede necesitar EXC-002 para el SCA.
+- **A evitar:** pasarle a la plantilla local el código o la dirección, enviar el canal o el contacto al servidor, o pedir permisos de contactos o SMS.
+
 ## 2026-11-11 — Los agentes implementan las tareas de las specs aprobadas (KNOCK-243)
 - **Decisión:** `AGENTS.md` y `.opencode/agents/implementer.md` dejan de decir «esta primera etapa es solo de especificación: no ejecutes las tareas». Ahora dicen que, si la spec está **Aprobada**, el agente implementa solo las tareas de su `task.md`, de una en una y con sus pruebas escritas primero. Una persona decide qué spec o grupo de tareas se activa; el agente no aprueba, no firma y no fusiona.
 - **Porqué:** las specs 020 a 037 de backend y 015 a 028 de la app quedaron aprobadas el 11 de noviembre y el plazo del proyecto exige implementarlas; la regla anterior hacía que los agentes se negaran a programar aunque la spec estuviera aprobada. La autorización del cambio es del Tech Lead.
@@ -404,6 +424,27 @@
   - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
   - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
 
+## 2026-11-13 — Ajustes de la revisión de Julián a KNOCK-84 (spec 022)
+- **CA_022_18:** prueba con ese nombre en `test/seguridad/seguridad_cliente_test.dart`. Revisa que los archivos del aviso y de la visita no escriban en consola, registros ni reportes (`print`, `log`, `FlutterError.report`, Crashlytics, Sentry). También revisa que `ContactoConfianza`, `MensajeAviso` y `ContactoNoGuardado` no muestren nombre, celular ni texto en su `toString()`. `sdd_lint --trace 022` ya no marca ningún caso faltante.
+- **409:**
+  - Solo `visit_not_notifiable` bloquea el aviso; tiene su propio error, `AvisoNoPermitidoFailure`.
+  - Cualquier otro `ConflictoFailure` cae en el respaldo con la advertencia de CA-16.
+  - El adaptador de la API debe mapear ese código a ese error.
+- **Defensa extra (R-06):**
+  - El texto del servidor se revisa contra el código de la copia local de la visita, junto o separado por espacios, puntos o guiones. Si lo trae, no se usa, aunque diga `incluyeCodigo: false`.
+  - Los ids de contacto usan `relojSolicitudProvider` y no `DateTime.now()`.
+  - El respaldo del aviso escribe primero el índice, igual que la copia de la visita.
+
+## 2026-11-13 — Dos bugs de la revisión de Julián al #55 (KNOCK-84, spec 022)
+- **Contactos de otra cuenta tras cerrar sesión (CA-13):**
+  - `contactosProvider` no era `autoDispose` y nunca se volvía a leer, así que la lista de la cuenta anterior seguía en Mi cuenta y en la hoja.
+  - Ahora es `autoDispose` y observa `cierresDeSesionProvider` (`core/sesion/sesion.dart`), un contador que `SesionNotifier.cerrar` sube **después** de borrar los datos locales.
+  - Observar `sesionProvider` no bastaba: cambia antes del borrado, así que podía volver a leer contactos que aún existían.
+  - Prueba: `borrado_visita_test.dart` revisa la lista que ve la persona.
+- **Respaldo del aviso huérfano (CA-20):** `VisitaLocalRepositorySeguro.borrar` quitaba la visita del índice sin borrar `knock.aviso.respaldo.<id>`. Ahora lo borra con la visita. Prueba: abrir una visita guarda el respaldo solo; cuando la visita termina no queda nada en el almacén.
+- **Ruta:** los contactos viven en `/cuenta/contactos-de-confianza`, como dice la T-06 de la spec 022.
+- **A evitar:** que un proveedor que muestra datos locales de la cuenta dependa del cambio de sesión en vez del fin del borrado, o borrar una visita sin sus datos asociados.
+
 
 ## 2026-11-13 — Estado real de las tareas de la spec 007 (KNOCK-221)
 - **Qué cambió:** `specs/007-integracion-continua-y-publicacion/task.md` marca T-01 a T-04 como hechas (`ci-pr.yml`, jobs de app y panel, jobs de secretos y dependencias, `publish-android.yml`) y T-05 como parcial. Antes decía «pendiente» en todas, aunque el cierre ya estaba en la entrada del 2026-11-05.
@@ -413,3 +454,9 @@
 - **Qué pasó:** desde el rediseño de la landing (KNOCK-258) el despliegue en Railway fallaba con `"/img": not found` y el sitio publicado seguía con el diseño anterior. `landing/.dockerignore` ignora todo salvo una lista de permitidos y no tenía `!img/`, aunque el `Dockerfile` copia esa carpeta.
 - **Decisión:** se añade `!img/` y una prueba (`landing/tests/test_contexto_build.py`) que falla si el `Dockerfile` copia una ruta que el `.dockerignore` no permite o que no existe.
 - **A evitar:** añadir carpetas a la landing sin revisar el `.dockerignore`; dar por bueno un cambio de landing solo porque pasa el CI de GitHub, que no construye la imagen.
+
+## 2026-11-14 — Aviso a un contacto: prueba de la miniatura y `share_plus` sin excepción (KNOCK-84, KNOCK-83)
+- **Prueba de la miniatura (spec 016 R-18 / CA-08):** según el reporte de Erick, en emulador Android 15 (API 35) la miniatura de recientes sale en blanco con la visita abierta y vuelve a verse normal al salir. Con las pestañas en `StatefulShellRoute.indexedStack`, si la visita queda abierta en Actividad y se cambia de pestaña, la miniatura sigue en blanco hasta salir de la visita: es más protección, no una fuga; el Tech Lead lo aceptó como riesgo.
+- **`share_plus` 13.3.1:** el SCA del CI de esta PR pasó en verde (commit 277a14c), así que no necesita EXC-002; esto aclara la nota del 2026-11-12, que decía que «puede necesitarla».
+- **Pendiente:** Erick sube las capturas del flujo, con nombre, teléfono, dirección y código tapados, a KNOCK-83 y KNOCK-84; todavía no hay adjuntos en Jira. T-09 de la 016 y T-08 de la 022 siguen pendientes por la integración con API simulada, el recorrido con semillas y esas capturas.
+- **A evitar:** dar por hechas las tareas de recorrido y capturas sin adjuntar la evidencia, o subir capturas con datos personales o con el código de la visita visible.
