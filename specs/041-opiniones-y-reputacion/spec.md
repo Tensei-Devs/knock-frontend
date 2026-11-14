@@ -14,15 +14,15 @@ Definir las pantallas, los estados y el consumo del contrato de backend 051 en l
 
 - **CA-01:** Dada una respuesta correcta de `GET /api/v1/tecnicos/{id}/opiniones`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `GET /api/v1/tecnicos/{id}/opiniones`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 404 de `GET /api/v1/tecnicos/{id}/opiniones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 404 `technician_not_found` de `GET /api/v1/tecnicos/{id}/opiniones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dado un listado de `/api/v1/tecnicos/{id}/opiniones`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
 - **CA-05:** Dada una consulta de `/api/v1/tecnicos/{id}/opiniones` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-06:** Dada una respuesta correcta de `POST /api/v1/visitas/{id}/opinion`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-07:** Dada una respuesta 401 de `POST /api/v1/visitas/{id}/opinion`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-08:** Dadas las respuestas 403, 409, 422 de `POST /api/v1/visitas/{id}/opinion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-08:** Dadas las respuestas 403, 409 `review_not_allowed`, 422 de `POST /api/v1/visitas/{id}/opinion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-09:** Dada una respuesta correcta de `POST /api/v1/opiniones/{id}/respuesta`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-10:** Dada una respuesta 401 de `POST /api/v1/opiniones/{id}/respuesta`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-11:** Dadas las respuestas 403, 409 de `POST /api/v1/opiniones/{id}/respuesta`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-11:** Dadas las respuestas 403, 409 `review_already_answered` de `POST /api/v1/opiniones/{id}/respuesta`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-12:** Dada la pantalla «Perfil del técnico», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-13:** Dada la pantalla «Opiniones», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-14:** Dada la pantalla «Calificar», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -104,11 +104,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El cliente califica desde el aviso de visita terminada o desde Actividad; el técnico responde desde «Mi reputación».
 
 ## 13. Riesgos y dudas abiertas
-- Las opiniones con texto o fotos pasan por la moderación (spec 031): confirmar si se publican antes o después de revisarlas.
-- Confirmar el cálculo de la reputación (promedio simple o ponderado por antigüedad).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño la pantalla de calificar (estrellas, partes y fotos) contra la maqueta.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

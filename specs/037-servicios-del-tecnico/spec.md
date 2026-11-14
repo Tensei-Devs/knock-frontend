@@ -14,17 +14,17 @@ Definir las pantallas, los estados y el consumo del contrato de backend 047 en l
 
 - **CA-01:** Dada una respuesta correcta de `GET /api/v1/tecnicos/{id}/servicios`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `GET /api/v1/tecnicos/{id}/servicios`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 404 de `GET /api/v1/tecnicos/{id}/servicios`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 404 `technician_not_found` de `GET /api/v1/tecnicos/{id}/servicios`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una consulta de `/api/v1/tecnicos/{id}/servicios` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-05:** Dada una respuesta correcta de `POST /api/v1/tecnicos/me/servicios`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-06:** Dada una respuesta 401 de `POST /api/v1/tecnicos/me/servicios`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-07:** Dadas las respuestas 422 de `POST /api/v1/tecnicos/me/servicios`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-08:** Dada una respuesta correcta de `PUT /api/v1/tecnicos/me/servicios/{id}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-09:** Dada una respuesta 401 de `PUT /api/v1/tecnicos/me/servicios/{id}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-10:** Dadas las respuestas 403, 404 de `PUT /api/v1/tecnicos/me/servicios/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-10:** Dadas las respuestas 403, 404 `service_not_found` de `PUT /api/v1/tecnicos/me/servicios/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-11:** Dada una respuesta correcta de `DELETE /api/v1/tecnicos/me/servicios/{id}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-12:** Dada una respuesta 401 de `DELETE /api/v1/tecnicos/me/servicios/{id}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-13:** Dadas las respuestas 403, 404 de `DELETE /api/v1/tecnicos/me/servicios/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-13:** Dadas las respuestas 403, 404 `service_not_found` de `DELETE /api/v1/tecnicos/me/servicios/{id}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-14:** Dada la pantalla «Perfil del técnico», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-15:** Dada la pantalla «Mi perfil público», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-16:** Dada la pantalla «Registro de técnico», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -103,10 +103,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El técnico administra sus servicios desde su perfil (spec 019); el cliente los ve en el perfil del técnico.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar la relación entre estos precios de referencia y la referencia de mercado de COT-03 (spec de complementos de cotización).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño la pantalla de servicios del técnico contra la maqueta de su perfil.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
