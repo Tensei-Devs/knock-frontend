@@ -113,11 +113,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** El técnico ve el estado de su cotización final y su ajuste con la cuenta regresiva de la vigencia; el cliente decide desde el aviso o desde la visita.
+- **D-04:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 049 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar cómo se registra el pago de la visita rechazada si Knock no procesa pagos.
-- Confirmar que 100 000 pesos como máximo y las vigencias de 48 y 24 horas son las que quiere el equipo.
-- Confirmar si el cliente puede pedir cambios en vez de solo aprobar o rechazar la cotización final.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

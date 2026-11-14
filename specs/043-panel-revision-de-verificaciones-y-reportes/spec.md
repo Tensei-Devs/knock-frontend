@@ -110,12 +110,13 @@ Puertas de CI: lint, tipos, pruebas, build y E2E de humo del panel, `sdd_lint --
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Una pantalla de lista y detalle por recurso, con la acción en el detalle.
 - **D-02:** Las acciones que cambian el estado piden confirmación; el servidor audita (spec 033).
+- **D-03:** La cola de verificaciones incluye las recuperaciones de acceso (backend 039) con el filtro `tipo`.
+- **D-04:** Al decidir un reporte el moderador elige la gravedad (crítica, alta, media o baja) y la respuesta se aplica según el Excel: suspensión preventiva, ocultar, advertencia o mediación.
+- **D-05:** Las colas muestran los últimos 30 días por omisión y se paginan por cursor.
 
 ## 13. Riesgos y dudas abiertas
-- Las fotos de verificación se ven solo con enlaces firmados de vida corta (spec 025); confirmar auditoría de cada vista y que el panel no las guarde ni las cachee.
-- Confirmar qué permiso exige ver reportes de opiniones (`reviews:moderate`) frente a `reports:resolve`.
-- Confirmar los motivos de rechazo permitidos y si la decisión pide nota obligatoria.
-- Esta spec se generó a partir del Excel y se afinó para el panel; antes de aprobarla hay que revisarla con quien opere el panel.
+- Sin dudas abiertas: todas las decisiones quedaron resueltas en el cierre del 2026-11-13.
+- Dependencias: el panel con doble factor y los permisos `verification:review` y `reports:resolve` (spec 023 y backend 033).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

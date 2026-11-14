@@ -92,9 +92,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** La app solo consulta un oficio y pide uno nuevo; la administración del catálogo y la lista de espera viven en el panel web (spec 044).
+- **D-04:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 045 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar los textos de «Otro oficio» y el mensaje de pedido recibido.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

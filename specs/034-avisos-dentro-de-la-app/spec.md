@@ -110,9 +110,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** La campana muestra el contador y abre la lista; tocar un aviso lo marca como leído y abre su destino.
+- **D-04:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 044 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño la campana, el contador y la lista contra la maqueta.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

@@ -1,4 +1,4 @@
-# Plan 032 — Contactos de confianza y técnicos de confianza (pantallas)
+# Plan 032 — Técnicos de confianza (pantallas)
 
 > Parte de `spec.md` (Borrador).
 
@@ -10,9 +10,9 @@
 5. Pruebas, mapa de arquitectura y `Memoria.md`.
 
 ## Archivos que se crean o cambian
-- `app/lib/features/contactos/`
+- `app/lib/features/tecnicos/`
 - `app/lib/l10n/app_es.arb`, `app_en.arb`
-- `app/test/features/contactos/`
+- `app/test/features/tecnicos/`
 - `Memoria.md`
 
 ## Dependencias y orden

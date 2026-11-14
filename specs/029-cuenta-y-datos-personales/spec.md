@@ -32,7 +32,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 039 en l
 - **CA-18:** Dada una respuesta 401 de `GET /api/v1/me/pendientes`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-19:** Dada una respuesta correcta de `POST /api/v1/me/eliminacion`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-20:** Dada una respuesta 401 de `POST /api/v1/me/eliminacion`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-21:** Dadas las respuestas 409 `deletion_already_scheduled`, 429 de `POST /api/v1/me/eliminacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-21:** Dadas las respuestas 409 `deletion_not_allowed`, 429 de `POST /api/v1/me/eliminacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-22:** Dada una respuesta correcta de `POST /api/v1/me/eliminacion/cancelar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-23:** Dada una respuesta 401 de `POST /api/v1/me/eliminacion/cancelar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-24:** Dadas las respuestas 409 `no_deletion_scheduled` de `POST /api/v1/me/eliminacion/cancelar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
@@ -134,11 +134,13 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
-- **D-03:** La eliminación de cuenta pide dos confirmaciones y muestra los pendientes antes.
-- **D-04:** El cambio de número y la eliminación viven en Perfil → Cuenta; los consentimientos, en Perfil → Privacidad.
+- **D-03:** Cambio de número: la app verifica el número nuevo con Firebase, comprueba disponibilidad primero y confirma con el token; la eliminación pide el texto `ELIMINAR` y muestra los pendientes antes.
+- **D-04:** La recuperación de acceso se inicia desde la entrada con celular («¿Ya no tienes ese número?») y muestra un mensaje de «recibimos tu solicitud».
+- **D-05:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 039 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño los textos de las dos confirmaciones de eliminación y la pantalla de pendientes.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
+- Dependencia: la app necesita Firebase para verificar el número nuevo (spec 012 y 015) y las pantallas del panel de la spec 043.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

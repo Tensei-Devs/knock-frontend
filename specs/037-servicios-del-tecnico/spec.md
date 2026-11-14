@@ -104,9 +104,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** El técnico administra sus servicios desde su perfil (spec 019); el cliente los ve en el perfil del técnico.
+- **D-04:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 047 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño la pantalla de servicios del técnico contra la maqueta de su perfil.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

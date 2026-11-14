@@ -108,12 +108,12 @@ Puertas de CI: lint, tipos, pruebas, build y E2E de humo del panel, `sdd_lint --
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Una pantalla de lista y detalle por recurso, con la acción en el detalle.
 - **D-02:** Las acciones que cambian el estado piden confirmación; el servidor audita (spec 033).
+- **D-03:** La lista de espera se muestra solo como conteos por código postal, sin celulares completos (backend 045).
+- **D-04:** Crear o editar un oficio pide confirmación y queda auditado; la clave del oficio no se puede cambiar.
 
 ## 13. Riesgos y dudas abiertas
-- El permiso `catalog:manage` viene de la spec 023 del panel; confirmar si ver la lista de espera exige otro permiso (`metrics:read`).
-- Confirmar si crear o editar un oficio pide confirmación en un cuadro de diálogo y se audita (spec 033).
-- La lista de espera contiene datos personales (código postal ligado a una persona): confirmar qué campos se muestran y cuáles se enmascaran.
-- Esta spec se generó a partir del Excel y se afinó para el panel; antes de aprobarla hay que revisarla con quien opere el panel.
+- Sin dudas abiertas: todas las decisiones quedaron resueltas en el cierre del 2026-11-13.
+- Dependencia: el panel con doble factor y el permiso `catalog:manage` (spec 023 y backend 033).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

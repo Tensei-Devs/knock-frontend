@@ -100,10 +100,12 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
-- **D-03:** Desde un elemento la persona puede pedir una cotización con el oficio ya elegido.
+- **D-03:** Desde un elemento la persona puede pedir una cotización con el oficio y el `elementoId` ya elegidos.
+- **D-04:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 041 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño la pantalla «Mi casa y mi auto» contra la maqueta.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
+- Dependencia: el formulario de pedir cotización envía `elementoId` cuando la persona entra desde un elemento (spec 015 y 029).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

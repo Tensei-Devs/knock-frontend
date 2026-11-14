@@ -122,9 +122,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** El bloqueo se hace desde el perfil o el chat con «Bloquear» y un «Deshacer» inmediato.
 - **D-04:** El reporte muestra primero el aviso de llamar al 911 si el motivo implica peligro.
+- **D-05:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 043 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño la ubicación de «Bloquear» y «Reportar» y el texto del aviso del 911.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

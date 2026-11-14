@@ -123,9 +123,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** El asistente se muestra con la etiqueta «generado por IA» y un botón para editar antes de confirmar.
 - **D-04:** Si el servicio responde 503 o 429, la pantalla del asistente se oculta o avisa y el flujo manual sigue disponible.
+- **D-05:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 052 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño dónde vive el asistente (flujo de pedir cotización y chat del técnico) y su texto de aviso de IA.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

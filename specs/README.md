@@ -35,7 +35,7 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 029 | Cuenta y datos personales: cambio de número, recuperación de acceso, exportación, consentimien… (pantallas) | Borrador | [`029-cuenta-y-datos-personales`](029-cuenta-y-datos-personales/spec.md) |
 | 030 | Direcciones del cliente (pantallas) | Borrador | [`030-direcciones-del-cliente`](030-direcciones-del-cliente/spec.md) |
 | 031 | Mi casa y mi auto (pantallas) | Borrador | [`031-mi-casa-y-mi-auto`](031-mi-casa-y-mi-auto/spec.md) |
-| 032 | Contactos de confianza y técnicos de confianza (pantallas) | Borrador | [`032-contactos-y-tecnicos-de-confianza`](032-contactos-y-tecnicos-de-confianza/spec.md) |
+| 032 | Técnicos de confianza (pantallas) | Borrador | [`032-tecnicos-de-confianza`](032-tecnicos-de-confianza/spec.md) |
 | 033 | Bloqueos entre personas y reportes con apelación (pantallas) | Borrador | [`033-bloqueos-y-reportes`](033-bloqueos-y-reportes/spec.md) |
 | 034 | Avisos dentro de la app y preferencias de avisos (pantallas) | Borrador | [`034-avisos-dentro-de-la-app`](034-avisos-dentro-de-la-app/spec.md) |
 | 035 | Pedir un oficio y consultar oficios (app) | Borrador | [`035-pedir-un-oficio-y-consultar-oficios`](035-pedir-un-oficio-y-consultar-oficios/spec.md) |

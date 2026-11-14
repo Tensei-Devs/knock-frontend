@@ -140,10 +140,11 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
 - **D-03:** El permiso de fotos se pregunta al cliente al terminar la visita, con el texto de consentimiento de la spec 012.
 - **D-04:** La agenda del técnico y sus acciones (reprogramar, cancelar, ausente, terminar) viven en la pestaña Trabajo (spec 019).
+- **D-05:** Las correcciones de la revisión del 2026-11-13 están en la §14 de la spec de backend 050 y se reflejan en esta spec.
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar con diseño el flujo de reprogramación (propuesta y respuesta) contra la maqueta.
-- Los estados nuevos de la visita deben reflejarse en la spec 016 al aprobarse.
+- Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
+- Los estados de la visita son los de la spec 021 y se reflejan en la spec 016.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
