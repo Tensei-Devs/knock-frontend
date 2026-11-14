@@ -14,10 +14,10 @@ Definir las pantallas, los estados y el consumo del contrato de backend 043 en l
 
 - **CA-01:** Dada una respuesta correcta de `POST /api/v1/usuarios/{id}/bloqueo`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `POST /api/v1/usuarios/{id}/bloqueo`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 404, 409 de `POST /api/v1/usuarios/{id}/bloqueo`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 404 `user_not_found`, 409 `already_blocked` de `POST /api/v1/usuarios/{id}/bloqueo`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `DELETE /api/v1/usuarios/{id}/bloqueo`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `DELETE /api/v1/usuarios/{id}/bloqueo`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-06:** Dadas las respuestas 404 de `DELETE /api/v1/usuarios/{id}/bloqueo`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-06:** Dadas las respuestas 404 `block_not_found` de `DELETE /api/v1/usuarios/{id}/bloqueo`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-07:** Dada una respuesta correcta de `GET /api/v1/me/bloqueos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-08:** Dada una respuesta 401 de `GET /api/v1/me/bloqueos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-09:** Dado un listado de `/api/v1/me/bloqueos`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
@@ -29,7 +29,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 043 en l
 - **CA-15:** Dado un listado de `/api/v1/reportes/me`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
 - **CA-16:** Dada una respuesta correcta de `POST /api/v1/reportes/{id}/apelacion`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-17:** Dada una respuesta 401 de `POST /api/v1/reportes/{id}/apelacion`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-18:** Dadas las respuestas 403, 409 de `POST /api/v1/reportes/{id}/apelacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-18:** Dadas las respuestas 403, 409 `appeal_not_allowed` de `POST /api/v1/reportes/{id}/apelacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-19:** Dada la pantalla «Chat (menú Bloquear)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-20:** Dada la pantalla «Chat (Desbloquear)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-21:** Dada la pantalla «Chat», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -120,11 +120,11 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El bloqueo se hace desde el perfil o el chat con «Bloquear» y un «Deshacer» inmediato.
+- **D-04:** El reporte muestra primero el aviso de llamar al 911 si el motivo implica peligro.
 
 ## 13. Riesgos y dudas abiertas
-- Los plazos y estados de la apelación los decide la moderación (spec 033 y 031): confirmar el flujo completo con el equipo.
-- Un bloqueo debe cortar chats y cotizaciones abiertos: confirmar el efecto sobre solicitudes en curso.
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño la ubicación de «Bloquear» y «Reportar» y el texto del aviso del 911.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

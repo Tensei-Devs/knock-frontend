@@ -25,10 +25,10 @@ Definir las pantallas, los estados y el consumo del contrato de backend 042 en l
 - **CA-11:** Dado un listado de `/api/v1/me/tecnicos-confianza`, cuando la persona llega al final, entonces pide la página siguiente con el cursor y no repite elementos. · Verificación: prueba de widget con repositorio falso.
 - **CA-12:** Dada una respuesta correcta de `PUT /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-13:** Dada una respuesta 401 de `PUT /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-14:** Dadas las respuestas 404 de `PUT /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-14:** Dadas las respuestas 404 `technician_not_found` de `PUT /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-15:** Dada una respuesta correcta de `DELETE /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-16:** Dada una respuesta 401 de `DELETE /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-17:** Dadas las respuestas 404 de `DELETE /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-17:** Dadas las respuestas 404 `trusted_technician_not_found` de `DELETE /api/v1/me/tecnicos-confianza/{tecnicoId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-18:** Dada la pantalla «Avisar a alguien de confianza», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-19:** Dada la pantalla «Avisar a alguien de confianza (Agregar contacto)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-20:** Dada la pantalla «Mis técnicos de confianza», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -115,11 +115,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** Los técnicos de confianza se ven en Perfil y como atajo al pedir una cotización (solicitud directa, spec 028).
 
 ## 13. Riesgos y dudas abiertas
-- El aviso a un contacto de confianza lo envía la spec 022; aquí solo se administra la lista. Confirmar que no se duplica la regla de consentimiento del contacto.
-- Un técnico de confianza que se elimina o se bloquea debe salir de la lista: confirmar el evento que lo dispara.
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño dónde se muestran los técnicos de confianza contra la maqueta.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
