@@ -454,3 +454,9 @@
 - **Qué pasó:** desde el rediseño de la landing (KNOCK-258) el despliegue en Railway fallaba con `"/img": not found` y el sitio publicado seguía con el diseño anterior. `landing/.dockerignore` ignora todo salvo una lista de permitidos y no tenía `!img/`, aunque el `Dockerfile` copia esa carpeta.
 - **Decisión:** se añade `!img/` y una prueba (`landing/tests/test_contexto_build.py`) que falla si el `Dockerfile` copia una ruta que el `.dockerignore` no permite o que no existe.
 - **A evitar:** añadir carpetas a la landing sin revisar el `.dockerignore`; dar por bueno un cambio de landing solo porque pasa el CI de GitHub, que no construye la imagen.
+
+## 2026-11-14 — Aviso a un contacto: prueba de la miniatura y `share_plus` sin excepción (KNOCK-84, KNOCK-83)
+- **Prueba de la miniatura (spec 016 R-18 / CA-08):** según el reporte de Erick, en emulador Android 15 (API 35) la miniatura de recientes sale en blanco con la visita abierta y vuelve a verse normal al salir. Con las pestañas en `StatefulShellRoute.indexedStack`, si la visita queda abierta en Actividad y se cambia de pestaña, la miniatura sigue en blanco hasta salir de la visita: es más protección, no una fuga; el Tech Lead lo aceptó como riesgo.
+- **`share_plus` 13.3.1:** el SCA del CI de esta PR pasó en verde (commit 277a14c), así que no necesita EXC-002; esto aclara la nota del 2026-11-12, que decía que «puede necesitarla».
+- **Pendiente:** Erick sube las capturas del flujo, con nombre, teléfono, dirección y código tapados, a KNOCK-83 y KNOCK-84; todavía no hay adjuntos en Jira. T-09 de la 016 y T-08 de la 022 siguen pendientes por la integración con API simulada, el recorrido con semillas y esas capturas.
+- **A evitar:** dar por hechas las tareas de recorrido y capturas sin adjuntar la evidencia, o subir capturas con datos personales o con el código de la visita visible.
