@@ -43,6 +43,9 @@ class VisitaLocalRepositorySeguro implements VisitaLocalRepository {
   @override
   Future<void> borrar(String id) async {
     await _almacen.borrar('$prefijoVisitaGuardada$id');
+    // El respaldo del aviso de esa visita (spec 022, R-12) se va con ella:
+    // si quedara, el cierre de sesión ya no lo encontraría (CA-20).
+    await _almacen.borrar('$prefijoRespaldoAviso$id');
     final ids = await leerIndiceDeVisitas(_almacen)
       ..remove(id);
     await escribirIndiceDeVisitas(_almacen, ids);
