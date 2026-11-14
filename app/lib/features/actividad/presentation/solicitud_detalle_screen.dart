@@ -111,6 +111,20 @@ class _Contenido extends StatelessWidget {
           leading: const Icon(Icons.photo_library_outlined),
           title: Text(textos.solicitudTotalFotos(solicitud.totalFotos)),
         ),
+        const SizedBox(height: 16),
+        // «Ver y elegir (N)» solo con cotizaciones; sin ellas, el aviso de §7.
+        if (solicitud.totalCotizaciones > 0)
+          FilledButton(
+            onPressed: () => context.go(Rutas.cotizaciones(solicitud.id)),
+            child: Text(
+              textos.solicitudVerCotizaciones(solicitud.totalCotizaciones),
+            ),
+          )
+        else
+          Text(
+            textos.cotizacionMotivoSinCotizaciones,
+            style: tema.textTheme.bodyMedium,
+          ),
       ],
     );
   }

@@ -653,4 +653,254 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solicitudVolverActividad => 'Back to Activity';
+
+  @override
+  String solicitudVerCotizaciones(int cantidad) {
+    return 'See and choose ($cantidad)';
+  }
+
+  @override
+  String get cotizacionTitulo => 'Quotes';
+
+  @override
+  String get cotizacionOrdenRecomendadas => 'Recommended';
+
+  @override
+  String get cotizacionOrdenPrecio => 'Lowest price';
+
+  @override
+  String get cotizacionOrdenCalificacion => 'Top rated';
+
+  @override
+  String get cotizacionOrdenPronto => 'Soonest';
+
+  @override
+  String cotizacionMostrandoDe(int mostradas, int total) {
+    return 'Showing $mostradas of $total';
+  }
+
+  @override
+  String get cotizacionTiposMixtos =>
+      'These quotes cover different things: check what each one includes';
+
+  @override
+  String cotizacionPrecioFijo(String precio) {
+    return '$precio';
+  }
+
+  @override
+  String cotizacionPrecioRango(String minimo, String maximo) {
+    return '$minimo to $maximo';
+  }
+
+  @override
+  String cotizacionPrecioVisita(String precio) {
+    return 'Visit: $precio';
+  }
+
+  @override
+  String cotizacionTope(String tope) {
+    return 'Up to $tope';
+  }
+
+  @override
+  String get cotizacionRequiereAprobacion =>
+      'If the price goes up, the pro will ask for your approval';
+
+  @override
+  String get cotizacionEtiquetaVerificado => 'Verified';
+
+  @override
+  String get cotizacionEtiquetaMejorPrecio => 'Best price';
+
+  @override
+  String get cotizacionEtiquetaPronto => 'Can come sooner';
+
+  @override
+  String get cotizacionSinCalificaciones => 'No ratings yet';
+
+  @override
+  String cotizacionCalificacion(String calificacion) {
+    return '$calificacion out of 5';
+  }
+
+  @override
+  String cotizacionNivelVerificacion(String nivel) {
+    return '$nivel verification';
+  }
+
+  @override
+  String cotizacionCuando(String dia, String hora) {
+    return '$dia at $hora';
+  }
+
+  @override
+  String get cotizacionMotivoSinCotizaciones =>
+      'No quotes yet. We\'ll let you know when the first one arrives.';
+
+  @override
+  String get cotizacionMotivoVencida =>
+      'This request expired. You can make a new one.';
+
+  @override
+  String get cotizacionMotivoCancelada => 'This request was canceled.';
+
+  @override
+  String get cotizacionYaElegida =>
+      'You already chose a quote for this request.';
+
+  @override
+  String get cotizacionVerMiVisita => 'See my visit';
+
+  @override
+  String get cotizacionElegir => 'Choose';
+
+  @override
+  String cotizacionConfirmarTitulo(String tecnico) {
+    return 'Choose $tecnico?';
+  }
+
+  @override
+  String get cotizacionConfirmarAvisoContacto =>
+      'When you choose, you\'ll see the pro\'s phone and they\'ll see your service address. The other quotes will close.';
+
+  @override
+  String get cotizacionConfirmar => 'Confirm choice';
+
+  @override
+  String get cotizacionCancelar => 'Cancel';
+
+  @override
+  String get cotizacionEligiendo => 'Confirming your choice…';
+
+  @override
+  String get cotizacionCitaConfirmada => 'Appointment confirmed';
+
+  @override
+  String cotizacionTelefono(String telefono) {
+    return 'Phone: $telefono';
+  }
+
+  @override
+  String cotizacionWhatsapp(String whatsapp) {
+    return 'WhatsApp: $whatsapp';
+  }
+
+  @override
+  String get cotizacionSinTelefono =>
+      'This pro didn\'t share a phone number. You\'ll be able to message them in the chat when it\'s available';
+
+  @override
+  String cotizacionLugar(String direccion) {
+    return 'Place: $direccion';
+  }
+
+  @override
+  String get cotizacionListo => 'Done';
+
+  @override
+  String get cotizacionRetirada =>
+      'This quote is no longer available. Choose another one.';
+
+  @override
+  String get cotizacionErrorEleccion =>
+      'We couldn\'t confirm your choice. Try again.';
+
+  @override
+  String get visitaTitulo => 'Your visit';
+
+  @override
+  String get visitaVerificado => 'Verified';
+
+  @override
+  String get visitaSinVerificar => 'Not verified';
+
+  @override
+  String visitaCuando(String dia, String hora) {
+    return '$dia at $hora';
+  }
+
+  @override
+  String get visitaCodigoTitulo => 'Your code';
+
+  @override
+  String visitaCodigoRegla(String tecnico) {
+    return 'Ask $tecnico to tell you this code at the door. If they don\'t know it, don\'t open.';
+  }
+
+  @override
+  String visitaCodigoEtiqueta(String digitos) {
+    return 'Code: $digitos';
+  }
+
+  @override
+  String get visitaOcultarCodigo => 'Hide code';
+
+  @override
+  String get visitaMostrarCodigo => 'Show code';
+
+  @override
+  String get visitaCodigoOculto => 'Code hidden';
+
+  @override
+  String get visitaMotivoUsado =>
+      'The pro already confirmed their arrival with this code.';
+
+  @override
+  String get visitaMotivoVencido => 'This code expired.';
+
+  @override
+  String get visitaMotivoBloqueada =>
+      'This visit was locked for security. The Knock team will review it.';
+
+  @override
+  String get visitaMotivoNoAplica => 'This appointment doesn\'t need a code.';
+
+  @override
+  String get visitaTaller => 'Appointment at the shop';
+
+  @override
+  String visitaDireccionTaller(String direccion) {
+    return 'Address: $direccion';
+  }
+
+  @override
+  String get visitaComoLlegar => 'Get directions';
+
+  @override
+  String get visitaSinMapas =>
+      'We couldn\'t find a maps app. Copy the address to look it up.';
+
+  @override
+  String get visitaLlamar => 'Call';
+
+  @override
+  String get visitaWhatsapp => 'WhatsApp';
+
+  @override
+  String visitaNoSePudoAbrir(String numero) {
+    return 'Couldn\'t open the app. The number is $numero.';
+  }
+
+  @override
+  String get visitaAvisar => 'Tell someone you trust';
+
+  @override
+  String get visitaNoDisponible => 'This visit is no longer available.';
+
+  @override
+  String get visitaSinConexion =>
+      'You\'re offline. We\'re showing your saved visit details.';
+
+  @override
+  String get visitaEstadoConfirmada => 'Confirmed';
+
+  @override
+  String get visitaEstadoEnCurso => 'In progress';
+
+  @override
+  String get visitaEstadoTerminada => 'Done';
+
+  @override
+  String get visitaEstadoCancelada => 'Canceled';
 }

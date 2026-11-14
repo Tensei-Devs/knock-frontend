@@ -38,6 +38,7 @@ final class Solicitud {
     required this.franja,
     required this.creadoEn,
     this.venceEn,
+    this.totalCotizaciones = 0,
   });
 
   final String id;
@@ -49,6 +50,9 @@ final class Solicitud {
   final Franja franja;
   final DateTime creadoEn;
   final DateTime? venceEn;
+
+  /// Cotizaciones recibidas (backend 020, vista del dueño): «Ver y elegir (N)».
+  final int totalCotizaciones;
 }
 
 /// Lo que la persona manda al pedir una cotización (backend 020 R-01).

@@ -30,5 +30,14 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     ModeracionNoDisponibleFailure() => textos.solicitudErrorModeracion,
     OpcionNoDisponibleFailure() => textos.solicitudErrorOpcionNoDisponible,
     FotoNoValidaFailure() => textos.solicitudFotoNoValida,
+    EleccionRechazadaFailure(:final motivo) => switch (motivo) {
+      MotivoEleccionRechazada.yaElegida => textos.cotizacionYaElegida,
+      MotivoEleccionRechazada.cotizacionNoDisponible =>
+        textos.cotizacionRetirada,
+      MotivoEleccionRechazada.vencida => textos.cotizacionMotivoVencida,
+      MotivoEleccionRechazada.cancelada => textos.cotizacionMotivoCancelada,
+      MotivoEleccionRechazada.sinCotizaciones =>
+        textos.cotizacionMotivoSinCotizaciones,
+    },
   };
 }

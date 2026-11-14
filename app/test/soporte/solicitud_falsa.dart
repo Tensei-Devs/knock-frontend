@@ -2,6 +2,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/borrador_solicitud.dart';
+import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
@@ -66,6 +67,48 @@ class SolicitudesFalsas implements SolicitudRepository {
       franja: solicitud.franja,
       creadoEn: hoyDePrueba,
     );
+  }
+
+  /// Órdenes pedidos a `cotizaciones`, en orden (CA-08).
+  final ordenesPedidos = <OrdenCotizaciones>[];
+
+  /// Lo que responde `cotizaciones`; por omisión, sin cotizaciones.
+  ResultadoComparacion comparacion = const ResultadoComparacion(
+    cotizaciones: [],
+    totalCotizaciones: 0,
+    tiposMixtos: false,
+    puedeElegir: false,
+    motivo: MotivoSinEleccion.sinCotizaciones,
+  );
+
+  /// Elecciones pedidas (solicitud, cotización).
+  final elecciones = <(String, String)>[];
+
+  /// Fallas que devuelve `elegir`, una por llamada, en orden.
+  final fallasAlElegir = <Failure>[];
+
+  /// Si `elegir` se queda esperando (para probar la hoja bloqueada, R-18).
+  Future<void>? retrasoAlElegir;
+
+  /// La cita que devuelve `elegir`; por omisión, una con teléfono.
+  CitaConfirmada? citaAlElegir;
+
+  @override
+  Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId) async {
+    elecciones.add((solicitudId, cotizacionId));
+    if (retrasoAlElegir != null) await retrasoAlElegir;
+    if (fallasAlElegir.isNotEmpty) throw fallasAlElegir.removeAt(0);
+    return citaAlElegir ?? citaDePrueba(cotizacionId: cotizacionId);
+  }
+
+  @override
+  Future<ResultadoComparacion> cotizaciones(
+    String solicitudId, {
+    OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
+  }) async {
+    ordenesPedidos.add(orden);
+    if (solicitudId != 'b' * 24) throw const NoEncontradoFailure();
+    return comparacion;
   }
 
   @override
@@ -152,3 +195,59 @@ List<Override> dobles({
     relojSolicitudProvider.overrideWithValue(reloj ?? () => hoyDePrueba),
   ];
 }
+
+/// Una cotización ficticia para las pruebas de la comparación.
+Cotizacion cotizacionDePrueba(
+  String id, {
+  TipoPrecio tipo = TipoPrecio.fijo,
+  int tope = 1100,
+  String nombre = 'Técnico de prueba',
+  Set<EtiquetaCotizacion> etiquetas = const {},
+  double? calificacion = 4.5,
+  bool verificado = true,
+}) => Cotizacion(
+  id: id,
+  tipoPrecio: tipo,
+  precio: tipo == TipoPrecio.rango ? null : 1000,
+  precioMin: tipo == TipoPrecio.rango ? 600 : null,
+  precioMax: tipo == TipoPrecio.rango ? 1000 : null,
+  tope: tope,
+  requiereAprobacion: tipo != TipoPrecio.visita,
+  dia: DateTime(2026, 11, 12),
+  hora: '10:30',
+  nota: 'Nota de prueba',
+  cubre: 'Arreglo completo, mano de obra incluida, refacciones aparte',
+  etiquetas: etiquetas,
+  tecnico: TecnicoResumen(
+    id: 't$id',
+    nombre: nombre,
+    verificado: verificado,
+    nivelVerificacion: verificado ? 'basico' : null,
+    calificacion: calificacion,
+  ),
+);
+
+/// Una cita ficticia, con o sin contacto público del técnico.
+CitaConfirmada citaDePrueba({
+  String cotizacionId = 'c1',
+  String? telefono = '5500000001',
+  String? whatsapp,
+  String modalidad = 'domicilio',
+}) => CitaConfirmada(
+  visitaId: 'vvvvvvvvvvvvvvvvvvvvvvvv',
+  solicitudId: 'bbbbbbbbbbbbbbbbbbbbbbbb',
+  cotizacionId: cotizacionId,
+  modalidad: modalidad,
+  dia: DateTime(2026, 11, 12),
+  hora: '10:30',
+  precio: 1000,
+  tope: 1100,
+  direccion: 'Calle de Prueba 123',
+  tecnico: TecnicoElegido(
+    nombre: 'Técnico de prueba',
+    verificado: true,
+    nivelVerificacion: 'basico',
+    telefono: telefono,
+    whatsapp: whatsapp,
+  ),
+);

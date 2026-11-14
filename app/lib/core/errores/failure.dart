@@ -115,3 +115,30 @@ final class OpcionNoDisponibleFailure extends Failure {
 final class FotoNoValidaFailure extends Failure {
   const FotoNoValidaFailure();
 }
+
+/// Por qué el servidor rechazó una elección de cotización (409, spec 015
+/// CA-12, códigos de backend 021 en inglés).
+enum MotivoEleccionRechazada {
+  /// `request_already_chosen`.
+  yaElegida,
+
+  /// `quote_unavailable`.
+  cotizacionNoDisponible,
+
+  /// `request_expired`.
+  vencida,
+
+  /// `request_cancelled`.
+  cancelada,
+
+  /// `request_without_quotes`.
+  sinCotizaciones,
+}
+
+/// El servidor rechazó la elección por el estado de la solicitud o de la
+/// cotización (409). No se crea cita y la app no reintenta sola (CA-12).
+final class EleccionRechazadaFailure extends Failure {
+  const EleccionRechazadaFailure(this.motivo);
+
+  final MotivoEleccionRechazada motivo;
+}

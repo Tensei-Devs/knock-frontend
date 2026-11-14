@@ -309,6 +309,15 @@
 - **A evitar:** publicar una versión con `SolicitudRepositoryDePrueba` o guardar la dirección en el borrador.
 - **Actualización (2026-11-11):** se alineó con el retiro de `Idempotency-Key` (PR #33, decisión de Julián del 2026-11-10) y con los códigos de error en inglés (PR #39). La app ya no genera ni envía la clave. El doble envío se evita con el botón deshabilitado mientras se envía (CA-06), y el reintento tras un fallo de red es manual y no vuelve a subir las fotos.
 
+## 2026-11-11 — Comparar cotizaciones sin contrato todavía (KNOCK-81, spec 015)
+- **Decisión:** «Ver y elegir» (`/actividad/solicitud/:id/cotizaciones`) muestra hasta 5 tarjetas en el orden que manda el servidor. Cada chip de orden vuelve a pedir la comparación con `orden` (R-08): la app no reordena ni filtra. Mientras no exista el contrato, `SolicitudRepositoryDePrueba` simula a backend 021: diez segundos después de crear la solicitud llegan cuatro cotizaciones ficticias, ordenadas y etiquetadas con sus reglas (R-04 a R-07).
+  - Los `motivo` usan los códigos en inglés (`request_without_quotes`, `request_expired`, `request_cancelled`, `request_already_chosen`).
+  - Montos y calificaciones salen con formato de México (`es_MX`: «$1,100», «4.5») aunque la app esté en inglés (spec 015 §7, pesos mexicanos).
+  - «Ver mi visita» depende de `visitaDisponibleProvider`, falso hasta que KNOCK-83 registre la ruta de la visita, para no dejar un botón sin destino.
+  - «Elegir» no aparece todavía: lo agrega KNOCK-245 con la hoja de confirmación.
+- **Porqué:** Julián pidió seguir con repositorio falso, un PR por tarjeta (244 → 81 → 245). El PR de 81 se apila sobre el de 244 porque necesita su detalle.
+- **A evitar:** ordenar o filtrar las cotizaciones en el teléfono, o agregar teléfono o dirección al modelo `TecnicoResumen` (CA-10).
+
 ## 2026-11-11 — Ícono de Instagram en la landing (KNOCK-258)
 - **Decisión:** el pie de la página principal lleva un ícono de Instagram dibujado en SVG, enlazado a `https://www.instagram.com/knock.mx/` con `rel="noopener noreferrer"` y `aria-label="Instagram de Knock"`; las pruebas y `check_links.py` permiten esa URL además de la de Google Play (spec 004 R-09 y CA-06, sin red al revisar).
 - **Por qué:** el profesor pidió los íconos de las redes del proyecto y la primera cuenta ya existe; las demás se agregan cuando tengan URL oficial, y Google Analytics queda fuera porque la spec y la CSP prohíben scripts de terceros.
@@ -328,6 +337,38 @@
 - **Por qué:** el profesor pidió una landing emocional con varias fotos de gente y los íconos de las redes del proyecto; la CSP ya permite `img-src 'self'` y no hay recursos de terceros. Todo queda en una pantalla sin scroll y el movimiento sigue apagado con `prefers-reduced-motion`.
 - **A evitar:** pasar de 24 KB por foto o de 215 KB en conjunto, poner dos fotos de la misma escena una junto a otra, poner texto dentro de las imágenes, `loading="lazy"`, `style=""`, colores fuera de los tokens `--color-*`, copiar logos oficiales de las redes, volver a agregar parámetros de seguimiento a los enlaces y sacar fotos del panel sin `overflow:hidden` (generaría scroll), usar `<input>`, `<button>` o `role="switch"` en el interruptor (un enlace no responde a la barra espaciadora) y mostrar el panel en pantallas de menos de 36rem de alto.
 
+## 2026-11-12 — Elegir una cotización sin contrato todavía (KNOCK-245, spec 015)
+- **Decisión:** «Elegir» abre una hoja modal (D-08) que solo se cierra con sus botones mientras se confirma (R-18). Al confirmar muestra la cita: técnico, día y hora, precio y máximo, modalidad, contacto público (teléfono o WhatsApp, o «no publicó un teléfono») y lugar.
+  - La cita vive en `EleccionController` y se olvida al cerrar la hoja (D-16): no se guarda en disco.
+  - Un 409 (`EleccionRechazadaFailure`, con los cinco motivos de backend 021) muestra su texto, no ofrece reintentar y vuelve a pedir la comparación.
+  - Un 503 dice «No pudimos confirmar tu elección» y deja reintentar a mano.
+  - El repositorio de prueba permite una sola elección por solicitud, como backend 021 R-10 y R-11. Los teléfonos de prueba son ficticios (`5500000001`).
+- **Pendiente:**
+  - CA-20 completo (tras un 409 `request_already_chosen` por reintento, consultar la visita y mostrar la cita) necesita `GET /visitas/{id}` (spec 016, KNOCK-83) y el contrato.
+  - Llamar o abrir WhatsApp desde la cita espera `url_launcher` (spec 016, D-06). Por ahora el número se puede seleccionar y copiar.
+- **A evitar:** guardar la cita o el contacto en disco, o reintentar una elección sin que la persona lo pida.
+
+## 2026-11-12 — Ver mi visita con el código, sin contrato todavía (KNOCK-83, spec 016)
+- **Decisión:** `/actividad/visita/:id` muestra la visita del cliente. Según la modalidad, aparece una de dos cosas:
+  - **A domicilio:** el técnico, su insignia, el día y la hora, el código en cuatro recuadros con «Ocultar código» y la regla de seguridad.
+  - **En taller:** la dirección y «Cómo llegar».
+- **Cómo funciona:**
+  - La copia mínima de la visita (sin dirección del domicilio ni contacto, R-03) se guarda en el almacén seguro con un índice (`core/sesion/datos_de_visita.dart`). `SesionNotifier.cerrar` la borra con `borrarDatosDeVisita`.
+  - Sin conexión se muestra esa copia (CA-02).
+  - Un `motivoCodigo` borra el código de la copia (R-07). Una visita terminada o cancelada borra la copia completa.
+  - La pantalla se refresca al volver a la app, sin sondeo.
+  - `visitaDisponibleProvider` queda en verdadero, así que «Ver mi visita» ya lleva aquí desde la comparación y la cita.
+- **`url_launcher` 6.3.3, el mismo que ya trajo la spec 028 (KNOCK-260); se reutiliza su `AbridorDeEnlaces` de `core/enlaces/`:**
+  - Se usa para «Cómo llegar» (`https://www.google.com/maps/search/?api=1&query=` con `Uri.encodeComponent`), llamar (`tel:`) y WhatsApp (`https://wa.me/52…`), siempre con enlaces armados en `core/enlaces/enlaces.dart`, nunca con uno que llegue del servidor.
+  - El manifiesto declara en `<queries>` VIEW `https` y DIAL `tel` (Android 11+).
+  - Sus paquetes de plataforma pueden necesitar entrar a EXC-002 para el SCA, como pasó con `image`.
+- **R-18:** `MainActivity` expone el canal `knock/pantalla` con `capturaEnRecientes`. La visita lo apaga al entrar y lo prende al salir (`setRecentsScreenshotEnabled`, Android 13+). Se verifica a mano en el teléfono.
+- **A evitar:**
+  - Guardar el código en `shared_preferences` o en un archivo.
+  - Guardar la dirección del domicilio o el contacto en la copia local.
+  - Abrir un enlace que no salga de `Enlaces`, o crear un segundo abridor en lugar de usar `core/enlaces/abridor_de_enlaces.dart`.
+  - Borrar el índice de visitas cuando no existe: la prueba de un solo cierre de sesión cuenta los borrados.
+
 ## 2026-11-11 — Los agentes implementan las tareas de las specs aprobadas (KNOCK-243)
 - **Decisión:** `AGENTS.md` y `.opencode/agents/implementer.md` dejan de decir «esta primera etapa es solo de especificación: no ejecutes las tareas». Ahora dicen que, si la spec está **Aprobada**, el agente implementa solo las tareas de su `task.md`, de una en una y con sus pruebas escritas primero. Una persona decide qué spec o grupo de tareas se activa; el agente no aprueba, no firma y no fusiona.
 - **Porqué:** las specs 020 a 037 de backend y 015 a 028 de la app quedaron aprobadas el 11 de noviembre y el plazo del proyecto exige implementarlas; la regla anterior hacía que los agentes se negaran a programar aunque la spec estuviera aprobada. La autorización del cambio es del Tech Lead.
@@ -343,3 +384,32 @@
 - **Por qué:** casi todos los conflictos de los PR de las últimas semanas eran de `Memoria.md`, porque cada PR agrega su entrada en el mismo lugar. Se probó en un repositorio de prueba: dos ramas con entradas distintas se fusionaron sin conflicto y quedaron las dos.
 - **Límite (sin verificar en GitHub):** `merge=union` lo aplica Git en la máquina de quien hace `git merge origin/sprint-04`. No se verificó si el botón «Merge» de GitHub también lo aplica; si no, la ficha del PR puede seguir mostrando conflicto hasta que se traiga `sprint-04` a la rama con `git merge`. Se mide con el primer PR que lo necesite.
 - **A evitar:** editar una entrada ya existente de `Memoria.md` en dos ramas a la vez (el driver duplica o mezcla líneas); fusionar sin revisar que la entrada nueva quedó entera y separada de la anterior por una línea en blanco.
+
+## 2026-11-13 — Rutas de las pruebas de la spec 015 distintas a las de la spec (KNOCK-244 y KNOCK-81)
+- **Decisión:** algunas pruebas de la spec 015 viven en archivos que agrupan una pantalla, no en el archivo exacto que dice la columna «Verificación». `sdd_lint --trace 015` las encuentra igual, porque busca por el nombre del caso.
+
+  | Casos | Archivo en la spec | Archivo real |
+  |---|---|---|
+  | CA_015_07 a CA_015_10 | `cotizaciones_screen_test.dart`, `cotizaciones_controller_test.dart`, `tarjeta_cotizacion_test.dart` | `test/features/actividad/presentation/cotizaciones_test.dart` |
+  | CA_015_03, CA_015_05, CA_015_16 y CA_015_17 (pantalla) | `selector_fotos_test.dart`, `paso_cuando_donde_test.dart`, `accesibilidad_solicitud_test.dart` | `test/features/actividad/presentation/pantallas_solicitud_test.dart` |
+
+- **CA_015_10:** ya no es una lista literal. Lee los campos de `TecnicoResumen` y `Cotizacion` en `domain/cotizacion.dart` y falla si alguno se llama `telefono`, `whatsapp`, `direccion` o `celular`.
+- **A evitar:** pruebas de aceptación que no fallen aunque cambie el modelo, como contar los elementos de una lista escrita en la misma prueba.
+
+## 2026-11-13 — Ajustes de la revisión de Julián a KNOCK-245 y KNOCK-83 (specs 015 y 016)
+- **CA-20 cerrado (spec 015):** si al reintentar la elección el servidor responde 409 `request_already_chosen`, `EleccionController` pide la comparación, toma su `visitaId`, consulta la visita (`VisitaRepository`, spec 016) y muestra esa cita como hecha. Si no hay visita que consultar, queda el mensaje de CA-12. Prueba: `CA_015_20` en `cotizaciones_controller_test.dart`. La parte contra el contrato sigue esperando el OpenAPI de backend 021.
+- **Índice de visitas:** `VisitaLocalRepositorySeguro.guardar` escribe **primero el índice** y después los datos; `borrar` hace lo contrario. Si la app se cierra entre las dos escrituras, queda un id sin datos (inofensivo) y nunca un código que el cierre de sesión no encuentre. Prueba: corte en la segunda escritura dentro de `visita_test.dart`.
+- **Fuera de la lista de archivos de la spec 016 (§9):** `android/app/src/main/kotlin/app/knock/mobile/MainActivity.kt` (canal `knock/pantalla`) y `lib/core/plataforma/captura_en_recientes.dart`, que implementan R-18.
+- **Pendiente:**
+  - Comprobar a mano, en un teléfono con Android 13 o superior, que la miniatura de recientes no muestra el código.
+  - Subir las capturas del emulador. Las dos cosas las hace Erick con un dispositivo.
+
+
+## 2026-11-13 — Estado real de las tareas de la spec 007 (KNOCK-221)
+- **Qué cambió:** `specs/007-integracion-continua-y-publicacion/task.md` marca T-01 a T-04 como hechas (`ci-pr.yml`, jobs de app y panel, jobs de secretos y dependencias, `publish-android.yml`) y T-05 como parcial. Antes decía «pendiente» en todas, aunque el cierre ya estaba en la entrada del 2026-11-05.
+- **Pendiente:** la revisión de pares de la PR #11, que se fusionó sin revisión registrada; comprobar en Play Console que la versión aparece en la pista interna; la prueba cerrada con 12 testers (R-06) es manual. `plan.md` dice «Borrador» y la spec «Aprobada»: lo decide una persona.
+
+## 2026-11-13 — El build de la landing en Railway fallaba por el .dockerignore (KNOCK-258)
+- **Qué pasó:** desde el rediseño de la landing (KNOCK-258) el despliegue en Railway fallaba con `"/img": not found` y el sitio publicado seguía con el diseño anterior. `landing/.dockerignore` ignora todo salvo una lista de permitidos y no tenía `!img/`, aunque el `Dockerfile` copia esa carpeta.
+- **Decisión:** se añade `!img/` y una prueba (`landing/tests/test_contexto_build.py`) que falla si el `Dockerfile` copia una ruta que el `.dockerignore` no permite o que no existe.
+- **A evitar:** añadir carpetas a la landing sin revisar el `.dockerignore`; dar por bueno un cambio de landing solo porque pasa el CI de GitHub, que no construye la imagen.

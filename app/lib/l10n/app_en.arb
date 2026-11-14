@@ -550,5 +550,210 @@
       }
     }
   },
-  "solicitudVolverActividad": "Back to Activity"
+  "solicitudVolverActividad": "Back to Activity",
+  "solicitudVerCotizaciones": "See and choose ({cantidad})",
+  "@solicitudVerCotizaciones": {
+    "placeholders": {
+      "cantidad": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTitulo": "Quotes",
+  "cotizacionOrdenRecomendadas": "Recommended",
+  "cotizacionOrdenPrecio": "Lowest price",
+  "cotizacionOrdenCalificacion": "Top rated",
+  "cotizacionOrdenPronto": "Soonest",
+  "cotizacionMostrandoDe": "Showing {mostradas} of {total}",
+  "@cotizacionMostrandoDe": {
+    "placeholders": {
+      "mostradas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizacionTiposMixtos": "These quotes cover different things: check what each one includes",
+  "cotizacionPrecioFijo": "{precio}",
+  "@cotizacionPrecioFijo": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioRango": "{minimo} to {maximo}",
+  "@cotizacionPrecioRango": {
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionPrecioVisita": "Visit: {precio}",
+  "@cotizacionPrecioVisita": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionTope": "Up to {tope}",
+  "@cotizacionTope": {
+    "placeholders": {
+      "tope": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionRequiereAprobacion": "If the price goes up, the pro will ask for your approval",
+  "cotizacionEtiquetaVerificado": "Verified",
+  "cotizacionEtiquetaMejorPrecio": "Best price",
+  "cotizacionEtiquetaPronto": "Can come sooner",
+  "cotizacionSinCalificaciones": "No ratings yet",
+  "cotizacionCalificacion": "{calificacion} out of 5",
+  "@cotizacionCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionNivelVerificacion": "{nivel} verification",
+  "@cotizacionNivelVerificacion": {
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionCuando": "{dia} at {hora}",
+  "@cotizacionCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionMotivoSinCotizaciones": "No quotes yet. We'll let you know when the first one arrives.",
+  "cotizacionMotivoVencida": "This request expired. You can make a new one.",
+  "cotizacionMotivoCancelada": "This request was canceled.",
+  "cotizacionYaElegida": "You already chose a quote for this request.",
+  "cotizacionVerMiVisita": "See my visit",
+  "cotizacionElegir": "Choose",
+  "cotizacionConfirmarTitulo": "Choose {tecnico}?",
+  "@cotizacionConfirmarTitulo": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionConfirmarAvisoContacto": "When you choose, you'll see the pro's phone and they'll see your service address. The other quotes will close.",
+  "cotizacionConfirmar": "Confirm choice",
+  "cotizacionCancelar": "Cancel",
+  "cotizacionEligiendo": "Confirming your choice…",
+  "cotizacionCitaConfirmada": "Appointment confirmed",
+  "cotizacionTelefono": "Phone: {telefono}",
+  "@cotizacionTelefono": {
+    "placeholders": {
+      "telefono": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionWhatsapp": "WhatsApp: {whatsapp}",
+  "@cotizacionWhatsapp": {
+    "placeholders": {
+      "whatsapp": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionSinTelefono": "This pro didn't share a phone number. You'll be able to message them in the chat when it's available",
+  "cotizacionLugar": "Place: {direccion}",
+  "@cotizacionLugar": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionListo": "Done",
+  "cotizacionRetirada": "This quote is no longer available. Choose another one.",
+  "cotizacionErrorEleccion": "We couldn't confirm your choice. Try again.",
+  "visitaTitulo": "Your visit",
+  "visitaVerificado": "Verified",
+  "visitaSinVerificar": "Not verified",
+  "visitaCuando": "{dia} at {hora}",
+  "@visitaCuando": {
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoTitulo": "Your code",
+  "visitaCodigoRegla": "Ask {tecnico} to tell you this code at the door. If they don't know it, don't open.",
+  "@visitaCodigoRegla": {
+    "placeholders": {
+      "tecnico": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaCodigoEtiqueta": "Code: {digitos}",
+  "@visitaCodigoEtiqueta": {
+    "placeholders": {
+      "digitos": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaOcultarCodigo": "Hide code",
+  "visitaMostrarCodigo": "Show code",
+  "visitaCodigoOculto": "Code hidden",
+  "visitaMotivoUsado": "The pro already confirmed their arrival with this code.",
+  "visitaMotivoVencido": "This code expired.",
+  "visitaMotivoBloqueada": "This visit was locked for security. The Knock team will review it.",
+  "visitaMotivoNoAplica": "This appointment doesn't need a code.",
+  "visitaTaller": "Appointment at the shop",
+  "visitaDireccionTaller": "Address: {direccion}",
+  "@visitaDireccionTaller": {
+    "placeholders": {
+      "direccion": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaComoLlegar": "Get directions",
+  "visitaSinMapas": "We couldn't find a maps app. Copy the address to look it up.",
+  "visitaLlamar": "Call",
+  "visitaWhatsapp": "WhatsApp",
+  "visitaNoSePudoAbrir": "Couldn't open the app. The number is {numero}.",
+  "@visitaNoSePudoAbrir": {
+    "placeholders": {
+      "numero": {
+        "type": "String"
+      }
+    }
+  },
+  "visitaAvisar": "Tell someone you trust",
+  "visitaNoDisponible": "This visit is no longer available.",
+  "visitaSinConexion": "You're offline. We're showing your saved visit details.",
+  "visitaEstadoConfirmada": "Confirmed",
+  "visitaEstadoEnCurso": "In progress",
+  "visitaEstadoTerminada": "Done",
+  "visitaEstadoCancelada": "Canceled"
 }

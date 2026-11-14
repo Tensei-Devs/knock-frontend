@@ -1,4 +1,5 @@
 import 'package:app/features/actividad/domain/borrador_solicitud.dart';
+import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 
 /// Fuente de las solicitudes (spec 015). Falla con un `Failure` de
@@ -19,6 +20,18 @@ abstract interface class SolicitudRepository {
   /// La solicitud de la persona; `NoEncontradoFailure` si no existe o es de
   /// otra persona (CA-13).
   Future<Solicitud> obtener(String id);
+
+  /// Las cotizaciones de la solicitud [solicitudId] en el [orden] pedido; el
+  /// servidor ordena y etiqueta (R-08). `NoEncontradoFailure` si es ajena.
+  Future<ResultadoComparacion> cotizaciones(
+    String solicitudId, {
+    OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
+  });
+
+  /// Elige la cotización [cotizacionId] (backend 021 R-09). Devuelve la cita
+  /// con el contacto público y el lugar. Falla con `EleccionRechazadaFailure`
+  /// (409) o con `ServicioNoDisponibleFailure` (503, se puede repetir a mano).
+  Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId);
 }
 
 /// El borrador del formulario y las copias privadas de sus fotos (R-07).
