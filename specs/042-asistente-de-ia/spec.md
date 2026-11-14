@@ -14,13 +14,13 @@ Definir las pantallas, los estados y el consumo del contrato de backend 052 en l
 
 - **CA-01:** Dada una respuesta correcta de `POST /api/v1/asistente/conversaciones`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `POST /api/v1/asistente/conversaciones`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 422, 429 de `POST /api/v1/asistente/conversaciones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 422, 429 `ai_daily_limit_reached` de `POST /api/v1/asistente/conversaciones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `POST /api/v1/asistente/resumen-chat`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `POST /api/v1/asistente/resumen-chat`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-06:** Dadas las respuestas 403, 429 de `POST /api/v1/asistente/resumen-chat`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-06:** Dadas las respuestas 403, 429 `ai_daily_limit_reached` de `POST /api/v1/asistente/resumen-chat`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-07:** Dada una respuesta correcta de `POST /api/v1/asistente/borrador-cotizacion`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-08:** Dada una respuesta 401 de `POST /api/v1/asistente/borrador-cotizacion`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-09:** Dadas las respuestas 403, 429 de `POST /api/v1/asistente/borrador-cotizacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-09:** Dadas las respuestas 403, 429 `ai_daily_limit_reached` de `POST /api/v1/asistente/borrador-cotizacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-10:** Dada una respuesta correcta de `GET /api/v1/asistente/rango-precio`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-11:** Dada una respuesta 401 de `GET /api/v1/asistente/rango-precio`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-12:** Dadas las respuestas 403 de `GET /api/v1/asistente/rango-precio`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
@@ -30,7 +30,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 052 en l
 - **CA-16:** Dadas las respuestas 403 de `PUT /api/v1/asistente/bitacora/{solicitudId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-17:** Dada una respuesta correcta de `GET /api/v1/asistente/bitacora/{solicitudId}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-18:** Dada una respuesta 401 de `GET /api/v1/asistente/bitacora/{solicitudId}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-19:** Dadas las respuestas 403, 404 de `GET /api/v1/asistente/bitacora/{solicitudId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-19:** Dadas las respuestas 403, 404 `log_not_found` de `GET /api/v1/asistente/bitacora/{solicitudId}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-20:** Dada la pantalla «Asistente Knock (No sé cuál)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-21:** Dada la pantalla «Mensajes del técnico (Resumir la conversación)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-22:** Dada la pantalla «Chat del técnico (Armar cotización con IA)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -121,12 +121,11 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** El asistente se muestra con la etiqueta «generado por IA» y un botón para editar antes de confirmar.
+- **D-04:** Si el servicio responde 503 o 429, la pantalla del asistente se oculta o avisa y el flujo manual sigue disponible.
 
 ## 13. Riesgos y dudas abiertas
-- Depende del cliente de Azure OpenAI y sus límites por persona y por día (spec 024) y del filtro de datos personales: no se activa sin el recurso aprobado.
-- Confirmar qué datos del chat pueden enviarse al modelo (sin teléfono ni dirección).
-- La bitácora por solicitud guarda texto generado: definir retención.
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño dónde vive el asistente (flujo de pedir cotización y chat del técnico) y su texto de aviso de IA.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

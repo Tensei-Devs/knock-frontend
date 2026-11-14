@@ -19,7 +19,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 044 en l
 - **CA-05:** Dada una respuesta 401 de `GET /api/v1/avisos/no-leidos/contador`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-06:** Dada una respuesta correcta de `POST /api/v1/avisos/{id}/leido`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-07:** Dada una respuesta 401 de `POST /api/v1/avisos/{id}/leido`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-08:** Dadas las respuestas 403, 404 de `POST /api/v1/avisos/{id}/leido`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-08:** Dadas las respuestas 403, 404 `notice_not_found` de `POST /api/v1/avisos/{id}/leido`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-09:** Dada una respuesta correcta de `POST /api/v1/avisos/leidos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-10:** Dada una respuesta 401 de `POST /api/v1/avisos/leidos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-11:** Dada una respuesta correcta de `GET /api/v1/me/preferencias-avisos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
@@ -109,11 +109,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** La campana muestra el contador y abre la lista; tocar un aviso lo marca como leído y abre su destino.
 
 ## 13. Riesgos y dudas abiertas
-- El despachador de avisos es de la spec 037: confirmar qué eventos crean un aviso dentro de la app y con qué texto.
-- Confirmar la retención de avisos leídos (días) antes de borrarlos.
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño la campana, el contador y la lista contra la maqueta.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
