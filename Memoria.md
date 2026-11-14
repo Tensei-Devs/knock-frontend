@@ -7,6 +7,10 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-14 — Estado real de las tareas de las specs 026 y 016 (KNOCK-248)
+- **Estado:** `task.md` de la spec 026 marca como hechas T-01 a T-12 y T-14 (PR #29 y #32, verificado por la existencia de sus clases y de las pruebas `cliente_autenticado`, `renovador_sesion_api`, `perfil_repository_api`, `sesiones_repository_api`, `composicion_api` y `flujo_api_servidor_falso`); T-13 sigue pendiente. La spec 016 marca T-02 y T-04 como hechas y T-06 y T-08 como parciales (PR #54: vista del cliente).
+- **Porqué:** las tablas seguían en «pendiente» aunque el código ya estaba fusionado, y el avance real se medía mal.
+
 ## 2026-11-11 — El CI de la app fija la versión de Flutter (KNOCK-263)
 - **Decisión:** `ci-pr.yml` (job de la app) y `publish-android.yml` fijan `flutter-version: 3.47.9` junto a `channel: stable` en `subosito/flutter-action`. 3.47.9 es la última 3.47 y la que resolvía `stable` mientras el CI estaba en verde.
 - **Porqué:** el 2026-11-11 a las 19:05 UTC salió Flutter 3.50.0 (Dart 3.14) y, con `channel: stable` sin versión, `flutter pub get --enforce-lockfile` empezó a fallar (código 65) en `sprint-04` y en todo PR que corre el job de la app, sin que cambiara ningún `pubspec`. Con 3.47.7 pasa en local. Causa probable: no se pudo confirmar con el log del job (GitHub devolvió 502).
