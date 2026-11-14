@@ -14,7 +14,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 039 en l
 
 - **CA-01:** Dada una respuesta correcta de `POST /api/v1/me/cambio-numero`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `POST /api/v1/me/cambio-numero`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 409, 429 de `POST /api/v1/me/cambio-numero`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 409 `phone_already_registered`, 429 de `POST /api/v1/me/cambio-numero`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una respuesta correcta de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-05:** Dada una respuesta 401 de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-06:** Dadas las respuestas 429 de `POST /api/v1/me/cambio-numero/confirmar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
@@ -23,7 +23,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 039 en l
 - **CA-09:** Dadas las respuestas 429 de `POST /api/v1/recuperacion-acceso`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-10:** Dada una respuesta correcta de `POST /api/v1/me/exportaciones`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-11:** Dada una respuesta 401 de `POST /api/v1/me/exportaciones`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-12:** Dadas las respuestas 409, 429 de `POST /api/v1/me/exportaciones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-12:** Dadas las respuestas 409 `export_in_progress`, 429 de `POST /api/v1/me/exportaciones`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-13:** Dada una respuesta correcta de `GET /api/v1/me/consentimientos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-14:** Dada una respuesta 401 de `GET /api/v1/me/consentimientos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-15:** Dada una respuesta correcta de `PUT /api/v1/me/consentimientos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
@@ -32,10 +32,10 @@ Definir las pantallas, los estados y el consumo del contrato de backend 039 en l
 - **CA-18:** Dada una respuesta 401 de `GET /api/v1/me/pendientes`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
 - **CA-19:** Dada una respuesta correcta de `POST /api/v1/me/eliminacion`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-20:** Dada una respuesta 401 de `POST /api/v1/me/eliminacion`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-21:** Dadas las respuestas 409, 429 de `POST /api/v1/me/eliminacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-21:** Dadas las respuestas 409 `deletion_already_scheduled`, 429 de `POST /api/v1/me/eliminacion`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-22:** Dada una respuesta correcta de `POST /api/v1/me/eliminacion/cancelar`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-23:** Dada una respuesta 401 de `POST /api/v1/me/eliminacion/cancelar`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-24:** Dadas las respuestas 409 de `POST /api/v1/me/eliminacion/cancelar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-24:** Dadas las respuestas 409 `no_deletion_scheduled` de `POST /api/v1/me/eliminacion/cancelar`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-25:** Dada la pantalla «Mis datos», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-26:** Dada la pantalla «Inicio de sesión (¿Ya no tienes ese número?)», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
 - **CA-27:** Dada la pantalla «Privacidad y datos», cuando carga, está vacía, falla o no hay conexión, entonces muestra cada estado con su texto y un botón de reintentar. · Verificación: prueba de widget por estado.
@@ -134,12 +134,11 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** La eliminación de cuenta pide dos confirmaciones y muestra los pendientes antes.
+- **D-04:** El cambio de número y la eliminación viven en Perfil → Cuenta; los consentimientos, en Perfil → Privacidad.
 
 ## 13. Riesgos y dudas abiertas
-- La recuperación de acceso del técnico verificado repite la selfie y la del cliente pasa a soporte: confirmar con la spec 025 qué parte vive aquí y cuál allí.
-- La exportación y la eliminación de cuenta tocan colecciones de otros servicios: definir si se coordinan con eventos de la bandeja de salida (spec 003) o con llamadas internas.
-- Los plazos de gracia de la eliminación (cancelable) deben confirmarse con el texto legal vigente (landing, KNOCK-218).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño los textos de las dos confirmaciones de eliminación y la pantalla de pendientes.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________

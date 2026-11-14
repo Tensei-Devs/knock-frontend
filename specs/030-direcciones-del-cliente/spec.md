@@ -99,11 +99,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** La dirección se captura con la colonia elegida en la spec 017 y nunca se muestra completa en listas, solo la colonia y la referencia.
 
 ## 13. Riesgos y dudas abiertas
-- La dirección exacta es dato personal sensible: confirmar con la spec 021 que solo se entrega al técnico elegido y nunca antes.
-- Confirmar el máximo de direcciones por persona (el Excel no lo fija en las reglas).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar con diseño la captura de la dirección contra la maqueta (campos y orden).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
