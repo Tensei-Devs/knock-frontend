@@ -34,6 +34,7 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
     'Ese oficio o esa colonia ya no están disponibles. Elige otra opción.',
   FotoNoValidaFailure() =>
     'Esa foto es muy pesada o no es JPG ni PNG. Elige otra.',
+  AvisoNoPermitidoFailure() => 'Esta visita ya no permite avisos.',
   EleccionRechazadaFailure() =>
     'No se pudo confirmar esa cotización. Revisa la lista.',
 };

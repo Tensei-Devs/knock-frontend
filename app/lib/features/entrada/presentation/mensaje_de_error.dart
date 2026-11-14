@@ -25,5 +25,6 @@ String mensajeDeErrorDeEntrada(AppLocalizations textos, Failure error) =>
       ModeracionNoDisponibleFailure() ||
       OpcionNoDisponibleFailure() ||
       FotoNoValidaFailure() ||
+      AvisoNoPermitidoFailure() ||
       EleccionRechazadaFailure() => textos.entradaErrorGenerico,
     };

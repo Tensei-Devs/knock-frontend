@@ -1,5 +1,6 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
+import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,9 +35,15 @@ final visitaProvider = FutureProvider.autoDispose.family<VistaDeVisita, String>(
         await local.borrar(id);
       } else {
         // Con `motivoCodigo` la copia se guarda sin código (R-07).
-        await local.guardar(
-          VisitaGuardada.de(visita, ref.read(relojSolicitudProvider)()),
+        final guardada = VisitaGuardada.de(
+          visita,
+          ref.read(relojSolicitudProvider)(),
         );
+        await local.guardar(guardada);
+        // Respaldo del aviso de confianza: solo 4 campos (spec 022, R-12).
+        await ref
+            .read(respaldoAvisoRepositoryProvider)
+            .guardar(id, DatosAvisoLocal.deVisita(guardada));
       }
       return VisitaEnLinea(visita);
     } on NoEncontradoFailure {

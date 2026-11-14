@@ -30,6 +30,7 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     ModeracionNoDisponibleFailure() => textos.solicitudErrorModeracion,
     OpcionNoDisponibleFailure() => textos.solicitudErrorOpcionNoDisponible,
     FotoNoValidaFailure() => textos.solicitudFotoNoValida,
+    AvisoNoPermitidoFailure() => textos.avisoNoPermitido,
     EleccionRechazadaFailure(:final motivo) => switch (motivo) {
       MotivoEleccionRechazada.yaElegida => textos.cotizacionYaElegida,
       MotivoEleccionRechazada.cotizacionNoDisponible =>

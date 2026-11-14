@@ -908,4 +908,114 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get visitaEstadoCancelada => 'Cancelada';
+
+  @override
+  String get avisoTitulo => 'Avisar a alguien de confianza';
+
+  @override
+  String get avisoVistaPrevia => 'Así llegará tu mensaje';
+
+  @override
+  String get avisoElige => '¿A quién le avisas?';
+
+  @override
+  String get avisoSinContactos =>
+      'Agrega a alguien de confianza para avisarle cuando tengas una visita';
+
+  @override
+  String get avisoPrivacidad =>
+      'Tus contactos se guardan solo en este teléfono';
+
+  @override
+  String get avisoAgregarContacto => 'Agregar contacto';
+
+  @override
+  String get avisoEditarContacto => 'Editar contacto';
+
+  @override
+  String avisoBorrarContacto(String nombre) {
+    return 'Borrar a $nombre';
+  }
+
+  @override
+  String avisoEditarA(String nombre) {
+    return 'Editar a $nombre';
+  }
+
+  @override
+  String get avisoNombre => 'Nombre';
+
+  @override
+  String get avisoCelular => 'Celular (10 dígitos)';
+
+  @override
+  String get avisoGuardar => 'Guardar';
+
+  @override
+  String get avisoCancelar => 'Cancelar';
+
+  @override
+  String get avisoErrorNombre => 'Escribe un nombre de 2 a 40 caracteres';
+
+  @override
+  String get avisoErrorCelular => 'Escribe los 10 números del celular';
+
+  @override
+  String get avisoErrorRepetido => 'Ese celular ya está en tu lista';
+
+  @override
+  String get avisoErrorLleno =>
+      'Ya tienes 10 contactos. Borra uno para agregar otro.';
+
+  @override
+  String get avisoEnviarSms => 'Enviar por SMS';
+
+  @override
+  String get avisoEnviarWhatsapp => 'Enviar por WhatsApp';
+
+  @override
+  String get avisoCompartir => 'Compartir sin guardar';
+
+  @override
+  String get avisoSinApp =>
+      'No encontramos una app para enviar. Usa «Compartir».';
+
+  @override
+  String get avisoNoPermitido => 'Esta visita ya no permite avisos';
+
+  @override
+  String get avisoSinRegistro =>
+      'No pudimos registrar el aviso; puedes enviarlo de todos modos';
+
+  @override
+  String get avisoSinDatos =>
+      'No pudimos preparar el aviso. Intenta de nuevo con conexión.';
+
+  @override
+  String get avisoLocalEncabezado => 'Hoy recibo a un técnico de Knock.';
+
+  @override
+  String avisoLocalVerificado(String nombre) {
+    return 'Se llama $nombre y está verificado por Knock.';
+  }
+
+  @override
+  String avisoLocalSinVerificar(String nombre) {
+    return 'Se llama $nombre; todavía no está verificado.';
+  }
+
+  @override
+  String avisoLocalCuando(String dia, String hora) {
+    return 'Viene el $dia a las $hora.';
+  }
+
+  @override
+  String get avisoLocalRecomendacion =>
+      'Le pediré el código en la puerta antes de abrir.';
+
+  @override
+  String get cuentaContactosConfianza => 'Contactos de confianza';
+
+  @override
+  String get avisoCerrar => 'Cerrar';
 }

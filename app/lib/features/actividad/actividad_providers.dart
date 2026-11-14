@@ -3,10 +3,12 @@ import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
+import 'package:app/features/actividad/data/aviso_local_repository.dart';
 import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
+import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +29,22 @@ final _datosDePruebaProvider = Provider<SolicitudRepositoryDePrueba>(
   (ref) => SolicitudRepositoryDePrueba(),
 );
 
+/// Texto del aviso de confianza (backend 022 R-12), del mismo doble.
+final avisoRepositoryProvider = Provider<AvisoRepository>(
+  (ref) => ref.watch(_datosDePruebaProvider),
+);
+
+/// Contactos de confianza del teléfono (spec 022, R-01).
+final contactosConfianzaRepositoryProvider =
+    Provider<ContactosConfianzaRepository>(
+      (ref) => ContactosConfianzaSeguros(ref.watch(almacenSeguroProvider)),
+    );
+
+/// Copia de los datos del aviso para avisar sin conexión (R-12).
+final respaldoAvisoRepositoryProvider = Provider<RespaldoAvisoRepository>(
+  (ref) => RespaldoAvisoSeguro(ref.watch(almacenSeguroProvider)),
+);
+
 /// Visitas (backend 022). Mientras no haya contrato, las mismas del doble.
 final visitaRepositoryProvider = Provider<VisitaRepository>(
   (ref) => ref.watch(_datosDePruebaProvider),
@@ -38,8 +56,8 @@ final visitaLocalRepositoryProvider = Provider<VisitaLocalRepository>(
 );
 
 /// Si ya existe la hoja «Avisar a alguien de confianza» (spec 022,
-/// KNOCK-84). Mientras sea falso, el botón no se muestra (R-06).
-final avisoDeConfianzaDisponibleProvider = Provider<bool>((ref) => false);
+/// KNOCK-84). Con la hoja ya construida, queda en verdadero (R-06).
+final avisoDeConfianzaDisponibleProvider = Provider<bool>((ref) => true);
 
 /// Borrador del formulario y copias privadas de sus fotos (R-07).
 final borradorSolicitudRepositoryProvider =

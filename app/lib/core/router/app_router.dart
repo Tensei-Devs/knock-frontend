@@ -13,6 +13,7 @@ import 'package:app/features/actividad/presentation/solicitud_nueva_screen.dart'
 import 'package:app/features/actividad/presentation/visita_screen.dart';
 import 'package:app/features/cuenta/presentation/completar_perfil_screen.dart';
 import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
+import 'package:app/features/cuenta/presentation/contactos_confianza_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/cuenta/presentation/cuenta_screen.dart';
 import 'package:app/features/entrada/presentation/celular_screen.dart';
@@ -148,6 +149,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'configuracion',
                 builder: (context, state) => const ConfiguracionScreen(),
+              ),
+              GoRoute(
+                path: 'contactos-de-confianza',
+                builder: (context, state) => const ContactosConfianzaScreen(),
               ),
             ],
           ),
