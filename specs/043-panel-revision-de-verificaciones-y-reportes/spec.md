@@ -1,6 +1,6 @@
 # Spec 043 — Panel web: revisión de verificaciones de identidad y reportes
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Origen:** `Documentacion/00_Profesores/Desarrollo_Movil/Entregables/Knock_Endpoints_CRUD.xlsx` (revisión 2026-11-02): endpoints VER-03, VER-04, VER-05, REP-04, REP-05.
 > **Claves de trabajo:** KNOCK-266 (tarea paraguas de las specs de los endpoints del Excel) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (spec 053) y spec 033 (sesión del panel y permisos). **Skills:** `angular-panel`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -119,6 +119,6 @@ Puertas de CI: lint, tipos, pruebas, build y E2E de humo del panel, `sdd_lint --
 - Dependencias: el panel con doble factor y los permisos `verification:review` y `reports:resolve` (spec 023 y backend 033).
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: _____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

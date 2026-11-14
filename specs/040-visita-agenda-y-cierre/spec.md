@@ -1,6 +1,6 @@
 # Spec 040 — Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas)
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Origen:** `Documentacion/00_Profesores/Desarrollo_Movil/Entregables/Knock_Endpoints_CRUD.xlsx` (revisión 2026-11-02): endpoints VIS-02, VIS-04, VIS-05, VIS-06, VIS-07, VIS-09, VIS-10, VIS-11.
 > **Claves de trabajo:** KNOCK-266 (tarea paraguas de las specs de los endpoints del Excel) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (spec 050). **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -150,6 +150,6 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Los estados de la visita son los de la spec 021 y se reflejan en la spec 016.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: _____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

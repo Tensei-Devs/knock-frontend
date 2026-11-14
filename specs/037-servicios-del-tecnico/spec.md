@@ -1,6 +1,6 @@
 # Spec 037 — Servicios y precios de cada técnico (pantallas)
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Origen:** `Documentacion/00_Profesores/Desarrollo_Movil/Entregables/Knock_Endpoints_CRUD.xlsx` (revisión 2026-11-02): endpoints SRV-01, SRV-02, SRV-03, SRV-04.
 > **Claves de trabajo:** KNOCK-266 (tarea paraguas de las specs de los endpoints del Excel) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (spec 047). **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -112,6 +112,6 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: _____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

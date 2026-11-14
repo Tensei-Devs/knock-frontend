@@ -1,6 +1,6 @@
 # Spec 044 — Panel web: catálogo de oficios, oficios pedidos y lista de espera
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Origen:** `Documentacion/00_Profesores/Desarrollo_Movil/Entregables/Knock_Endpoints_CRUD.xlsx` (revisión 2026-11-02): endpoints OFI-03, OFI-04, OFI-05, OFP-02, LIS-02.
 > **Claves de trabajo:** KNOCK-266 (tarea paraguas de las specs de los endpoints del Excel) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (spec 045) y spec 033 (sesión del panel y permisos). **Skills:** `angular-panel`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -116,6 +116,6 @@ Puertas de CI: lint, tipos, pruebas, build y E2E de humo del panel, `sdd_lint --
 - Dependencia: el panel con doble factor y el permiso `catalog:manage` (spec 023 y backend 033).
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: _____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
