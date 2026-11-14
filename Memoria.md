@@ -7,8 +7,8 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
-## 2026-11-14 — Estado real de las tareas de las specs 026 y 016 (KNOCK-248)
-- **Estado:** `task.md` de la spec 026 marca como hechas T-01 a T-12 y T-14 (PR #29 y #32, verificado por la existencia de sus clases y de las pruebas `cliente_autenticado`, `renovador_sesion_api`, `perfil_repository_api`, `sesiones_repository_api`, `composicion_api` y `flujo_api_servidor_falso`); T-13 sigue pendiente. La spec 016 marca T-02 y T-04 como hechas y T-06 y T-08 como parciales (PR #54: vista del cliente).
+## 2026-11-14 — Estado real de las tareas de la spec 026 (KNOCK-248)
+- **Estado:** `task.md` de la spec 026 marca como hechas T-01 a T-12 y T-14 (PR #29 y #32, verificado por la existencia de sus clases y de las pruebas `cliente_autenticado`, `renovador_sesion_api`, `perfil_repository_api`, `sesiones_repository_api`, `composicion_api` y `flujo_api_servidor_falso`); T-13 sigue pendiente. El `task.md` de la spec 016 ya lo actualizaron #54 y #55 en `sprint-04`, con más detalle; esta PR no lo cambia.
 - **Porqué:** las tablas seguían en «pendiente» aunque el código ya estaba fusionado, y el avance real se medía mal.
 
 ## 2026-11-11 — El CI de la app fija la versión de Flutter (KNOCK-263)
