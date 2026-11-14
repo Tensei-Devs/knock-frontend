@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
@@ -17,7 +18,7 @@ import 'package:app/features/actividad/domain/visita.dart';
 /// Se reemplaza en `solicitudRepositoryProvider` por la implementación con el
 /// cliente generado sin tocar la pantalla.
 class SolicitudRepositoryDePrueba
-    implements SolicitudRepository, VisitaRepository {
+    implements SolicitudRepository, VisitaRepository, AvisoRepository {
   SolicitudRepositoryDePrueba({
     DateTime Function()? reloj,
     Random? azar,
@@ -216,6 +217,24 @@ class SolicitudRepositoryDePrueba
         telefono: cita.tecnico.telefono,
         whatsapp: cita.tecnico.whatsapp,
       ),
+    );
+  }
+
+  /// El texto del aviso como backend 022 R-12: nombre público del técnico,
+  /// verificación, día, hora y la recomendación; sin código ni dirección.
+  @override
+  Future<MensajeAviso> pedirAviso(String visitaId) async {
+    final visita = await obtenerVisita(visitaId);
+    final verificacion = visita.tecnico.verificado
+        ? 'verificado por Knock'
+        : 'sin verificar';
+    return MensajeAviso(
+      texto:
+          'Hoy recibo a un técnico de Knock: ${visita.tecnico.nombre} '
+          '($verificacion), el ${visita.dia.day}/${visita.dia.month} a las '
+          '${visita.hora}. Le pediré el código en la puerta antes de abrir.',
+      incluyeCodigo: false,
+      incluyeDireccion: false,
     );
   }
 

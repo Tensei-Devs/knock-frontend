@@ -27,12 +27,13 @@ graph LR
   widgets["widgets"]
   actividad -->|1| oficios
   app -->|1| inicio
+  cuenta -->|1| actividad
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
   previa -->|5| oficios
   router -->|5| actividad
-  router -->|4| cuenta
+  router -->|5| cuenta
   router -->|2| entrada
   router -->|1| explorar
   router -->|1| inicio
