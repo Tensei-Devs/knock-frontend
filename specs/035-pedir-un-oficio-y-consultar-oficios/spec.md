@@ -14,7 +14,7 @@ Definir las pantallas, los estados y el consumo del contrato de backend 045 en l
 
 - **CA-01:** Dada una respuesta correcta de `GET /api/v1/oficios/{clave}`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-02:** Dada una respuesta 401 de `GET /api/v1/oficios/{clave}`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
-- **CA-03:** Dadas las respuestas 404 de `GET /api/v1/oficios/{clave}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
+- **CA-03:** Dadas las respuestas 404 `trade_not_found` de `GET /api/v1/oficios/{clave}`, cuando la app las recibe, entonces muestra el mensaje del catálogo de errores (en español e inglés) y conserva lo que la persona escribió. · Verificación: prueba de widget por código.
 - **CA-04:** Dada una consulta de `/api/v1/oficios/{clave}` ya hecha, cuando la persona vuelve a abrirla sin conexión, entonces ve la última copia con su fecha y un aviso de que puede estar desactualizada. · Verificación: prueba de widget.
 - **CA-05:** Dada una respuesta correcta de `POST /api/v1/oficios-pedidos`, cuando la app la recibe, entonces la pantalla muestra el resultado y el modelo de la app no incluye campos que el contrato no declara. · Verificación: prueba unitaria del repositorio con el cliente generado.
 - **CA-06:** Dada una respuesta 401 de `POST /api/v1/oficios-pedidos`, cuando la app la recibe, entonces cierra la sesión local y manda a la entrada, sin mostrar datos. · Verificación: prueba unitaria.
@@ -91,11 +91,10 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 12. Decisiones tomadas sin consulta
 - **D-01:** Mientras el backend no publique el contrato se usa un repositorio simulado con las mismas reglas.
 - **D-02:** Una pantalla por cada nombre de «Pantallas que lo usan» del Excel; los nombres exactos se afinan con la maqueta.
+- **D-03:** La app solo consulta un oficio y pide uno nuevo; la administración del catálogo y la lista de espera viven en el panel web (spec 044).
 
 ## 13. Riesgos y dudas abiertas
-- Confirmar si el pedido de oficio exige haber iniciado sesión (el Excel dice Persona) y el límite de pedidos por persona al día.
-- La ruta pública `/oficios/{clave}` debe respetar la caché de 24 h del catálogo (spec 010).
-- Esta spec se generó a partir del Excel; antes de aprobarla hay que revisar textos y diseño contra la maqueta.
+- Confirmar los textos de «Otro oficio» y el mensaje de pedido recibido.
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: _____________________ fecha: __________
