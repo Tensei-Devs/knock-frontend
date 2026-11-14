@@ -445,3 +445,12 @@
 - **Ruta:** los contactos viven en `/cuenta/contactos-de-confianza`, como dice la T-06 de la spec 022.
 - **A evitar:** que un proveedor que muestra datos locales de la cuenta dependa del cambio de sesión en vez del fin del borrado, o borrar una visita sin sus datos asociados.
 
+
+## 2026-11-13 — Estado real de las tareas de la spec 007 (KNOCK-221)
+- **Qué cambió:** `specs/007-integracion-continua-y-publicacion/task.md` marca T-01 a T-04 como hechas (`ci-pr.yml`, jobs de app y panel, jobs de secretos y dependencias, `publish-android.yml`) y T-05 como parcial. Antes decía «pendiente» en todas, aunque el cierre ya estaba en la entrada del 2026-11-05.
+- **Pendiente:** la revisión de pares de la PR #11, que se fusionó sin revisión registrada; comprobar en Play Console que la versión aparece en la pista interna; la prueba cerrada con 12 testers (R-06) es manual. `plan.md` dice «Borrador» y la spec «Aprobada»: lo decide una persona.
+
+## 2026-11-13 — El build de la landing en Railway fallaba por el .dockerignore (KNOCK-258)
+- **Qué pasó:** desde el rediseño de la landing (KNOCK-258) el despliegue en Railway fallaba con `"/img": not found` y el sitio publicado seguía con el diseño anterior. `landing/.dockerignore` ignora todo salvo una lista de permitidos y no tenía `!img/`, aunque el `Dockerfile` copia esa carpeta.
+- **Decisión:** se añade `!img/` y una prueba (`landing/tests/test_contexto_build.py`) que falla si el `Dockerfile` copia una ruta que el `.dockerignore` no permite o que no existe.
+- **A evitar:** añadir carpetas a la landing sin revisar el `.dockerignore`; dar por bueno un cambio de landing solo porque pasa el CI de GitHub, que no construye la imagen.
