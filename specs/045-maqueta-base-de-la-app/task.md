@@ -17,7 +17,7 @@
 | T-06 | Evidencia: recorrido de las 52 pantallas, gitleaks y CI en verde | P-1, P-2, P-3 | CA-01, CA-08, CA-09 | parcial (2026-11-16): 45 rutas montadas por prueba; builds debug con y sin la bandera compilan; gitleaks 8.30.1 sin hallazgos en `sprint-04..HEAD`; CI del PR #66 en `aab92ac`: App (formato, análisis, 830 pruebas, cobertura 67,7 % y build), gobernanza, contrato, SAST, Semgrep, Gitleaks y landing en verde; fallan solo puntos y SCA. **CA-01 sigue pendiente del recorrido físico en teléfono** |
 | T-07 | `Memoria.md`, mapa de arquitectura y tabla pantalla → spec → estado (R-05) | T-06 | R-05 | pendiente |
 | T-08 | Rótulo «Datos de ejemplo» sin tapar cabeceras ni acciones | T-05 | R-02 · CA-03 | hecha (2026-11-16): franja fija superior con su propio alto (`fachada_maqueta.dart`); `rotulo_no_tapa_test.dart` la comprueba en 45 rutas y 5 tamaños, con y sin barra de estado |
-| T-09 | Licencias de las dependencias nuevas en la lista del CI | T-01 | R-06 · CA-09 | pendiente de autorización: el SCA del PR #66 marcó 6 paquetes (cli_util, flutter_svg, lottie, vector_graphics, vector_graphics_codec, vector_graphics_compiler; MIT y BSD-3 verificados). `path_parsing` no se marcó. Parche mínimo preparado, sin aplicar (toca `.github/` y EXC-002) |
+| T-09 | Licencias de las dependencias nuevas en la lista del CI | T-01 | R-06 · CA-09 | aplicada (2026-11-16, autorizada por el Tech Lead): 6 paquetes añadidos a `allow-dependencies-licenses` y al alcance de EXC-002 (57 a 63), sin cambiar `creada` ni `vence`; falta confirmar el SCA en el CI |
 
 ## Definición de terminado
 - Casos CA-01 a CA-09 cubiertos y CI en verde con resultados reales en el PR.
