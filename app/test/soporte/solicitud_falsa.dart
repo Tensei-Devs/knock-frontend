@@ -111,6 +111,12 @@ class SolicitudesFalsas implements SolicitudRepository {
     return comparacion;
   }
 
+  /// Lo que responde `listar`.
+  final listadas = <Solicitud>[];
+
+  @override
+  Future<List<Solicitud>> listar() async => [...listadas];
+
   @override
   Future<Solicitud> obtener(String id) async {
     if (id != 'b' * 24) throw const NoEncontradoFailure();
@@ -193,6 +199,8 @@ List<Override> dobles({
     fuenteDeFotosProvider.overrideWithValue(fotos ?? FotosFalsas()),
     coloniaGuardadaProvider.overrideWithValue(colonia),
     relojSolicitudProvider.overrideWithValue(reloj ?? () => hoyDePrueba),
+    // Sin temporizadores pendientes: las pruebas refrescan a mano.
+    intervaloRefrescoSolicitudProvider.overrideWithValue(null),
   ];
 }
 

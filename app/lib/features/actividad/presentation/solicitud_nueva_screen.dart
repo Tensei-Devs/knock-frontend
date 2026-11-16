@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/core/router/rutas.dart';
+import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/presentation/pasos/paso_cuando_donde.dart';
 import 'package:app/features/actividad/presentation/pasos/paso_descripcion_fotos.dart';
 import 'package:app/features/actividad/presentation/pasos/paso_oficio.dart';
@@ -51,6 +52,8 @@ class _SolicitudNuevaScreenState extends ConsumerState<SolicitudNuevaScreen> {
       creada,
     ) {
       if (creada == null) return;
+      // Actividad vuelve a leer sus solicitudes: la nueva ya está en la lista.
+      ref.invalidate(solicitudesActividadProvider);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(textos.solicitudEnviada)));
       context.go(Rutas.solicitud(creada.id));
