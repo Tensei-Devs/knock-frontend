@@ -98,8 +98,7 @@ class Msg {
 }
 
 class Notif {
-  Notif(this.icon, this.title, this.text, this.go, this.jobId)
-    : h = nowH();
+  Notif(this.icon, this.title, this.text, this.go, this.jobId) : h = nowH();
   final String icon, title, text, h, go;
   final String? jobId;
   bool read = false;
@@ -145,7 +144,12 @@ class Asis {
 }
 
 class UserData {
-  String name = '', first = '', phone = '', col = 'Col. La Malinche', cp = '', addr = '';
+  String name = '',
+      first = '',
+      phone = '',
+      col = 'Col. La Malinche',
+      cp = '',
+      addr = '';
   String? photoPath;
 }
 
@@ -215,10 +219,12 @@ class MaquetaEstado extends ChangeNotifier {
   }
 
   void after(int ms, VoidCallback f) {
-    _timers.add(Timer(Duration(milliseconds: ms), () {
-      f();
-      notifyListeners();
-    }));
+    _timers.add(
+      Timer(Duration(milliseconds: ms), () {
+        f();
+        notifyListeners();
+      }),
+    );
   }
 
   /// Avisos que la interfaz recoge una vez (toast con acción).
@@ -237,7 +243,13 @@ class MaquetaEstado extends ChangeNotifier {
   int get unreadCount => unread.values.fold(0, (a, b) => a + b);
   bool get cUnread => notifs.any((n) => !n.read);
 
-  void notif(String icon, String title, String text, String go, [String? jobId]) {
+  void notif(
+    String icon,
+    String title,
+    String text,
+    String go, [
+    String? jobId,
+  ]) {
     notifs.insert(0, Notif(icon, title, text, go, jobId));
   }
 
@@ -289,7 +301,9 @@ class MaquetaEstado extends ChangeNotifier {
       typing[id] = true;
     });
     after(2200, () {
-      th.add(Msg('p', 'Claro, con gusto. Le confirmo en un momento.', h: nowH()));
+      th.add(
+        Msg('p', 'Claro, con gusto. Le confirmo en un momento.', h: nowH()),
+      );
       typing[id] = false;
       // Un mensaje nuevo cuando no se está en la conversación suma al no leído.
       if (!(chatAbierto == id)) unread[id] = (unread[id] ?? 0) + 1;
@@ -310,8 +324,19 @@ class MaquetaEstado extends ChangeNotifier {
   }
 
   // ----- solicitud -----
-  void startReq({String? cat, String? pid, String desc = '', List<String>? photos, int? step}) {
-    req = Solicitud(cat: cat, pid: pid, step: cat != null ? 2 : 1, first: cat != null ? 2 : 1);
+  void startReq({
+    String? cat,
+    String? pid,
+    String desc = '',
+    List<String>? photos,
+    int? step,
+  }) {
+    req = Solicitud(
+      cat: cat,
+      pid: pid,
+      step: cat != null ? 2 : 1,
+      first: cat != null ? 2 : 1,
+    );
     req!.desc = desc;
     req!.photos = [...?photos];
     if (step != null) req!.step = step;
@@ -322,7 +347,9 @@ class MaquetaEstado extends ChangeNotifier {
     final r = req!;
     final c = cats[r.cat]!;
     final d = days[r.day], s = slots[r.slot];
-    if (!c.taller && user.addr.isEmpty) user.addr = r.addr.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (!c.taller && user.addr.isEmpty) {
+      user.addr = r.addr.trim().replaceAll(RegExp(r'\s+'), ' ');
+    }
     final first = r.desc.split(RegExp(r'[.\n]')).first;
     final title = c.chips.contains(r.desc)
         ? r.desc
@@ -334,10 +361,18 @@ class MaquetaEstado extends ChangeNotifier {
       if (n > _seq) _seq = n;
     }
     final job = Job(
-      id: 'j${++_seq}', title: title, cat: r.cat!, status: 'enviada', sent: 'Hoy, ahora',
-      desc: r.desc, pref: '${r.day == 0 ? 'hoy' : '${d.$3} ${d.$2}'}, ${s.$3}',
-      photos: r.photos.length, imgs: [...r.photos], day: r.day,
-      target: r.pid, only: r.pid != null && !r.also,
+      id: 'j${++_seq}',
+      title: title,
+      cat: r.cat!,
+      status: 'enviada',
+      sent: 'Hoy, ahora',
+      desc: r.desc,
+      pref: '${r.day == 0 ? 'hoy' : '${d.$3} ${d.$2}'}, ${s.$3}',
+      photos: r.photos.length,
+      imgs: [...r.photos],
+      day: r.day,
+      target: r.pid,
+      only: r.pid != null && !r.also,
     );
     jobs.insert(0, job);
     req = null;
@@ -408,7 +443,11 @@ class MaquetaEstado extends ChangeNotifier {
       (r'corto|chispa|quemado|breaker|pastilla', [400, 700], 'corto'),
     ],
   };
-  static const _def = {'plo': [300, 500], 'mec': [350, 600], 'ele': [300, 500]};
+  static const _def = {
+    'plo': [300, 500],
+    'mec': [350, 600],
+    'ele': [300, 500],
+  };
   static const _diag = {
     'boiler': 'puede ser el termopar o el piloto del boiler',
     'fuga': 'reviso la tubería y las conexiones para ubicar la fuga',
@@ -448,22 +487,38 @@ class MaquetaEstado extends ChangeNotifier {
     final dayTxt = day == 0 ? 'Hoy' : '${dd.$1} ${dd.$2}';
     if (i == 2) {
       return Quote(
-        pid: pid, kind: 'visita', lo: 200, when: '$dayTxt, $when', soon: day,
+        pid: pid,
+        kind: 'visita',
+        lo: 200,
+        when: '$dayTxt, $when',
+        soon: day,
         note: 'Necesito verlo en persona para darle un precio justo. La visita cuesta \$200 y se le descuenta si me contrata. Después le envío la cotización final por aquí.',
       );
     }
-    final note = 'Vi su foto y ${_diag[kind] ?? 'lo reviso para darle un diagnóstico'}. '
+    final note =
+        'Vi su foto y ${_diag[kind] ?? 'lo reviso para darle un diagnóstico'}. '
         '${fijo ? 'Precio fijo con revisión incluida; si hace falta una pieza, se la cotizo aparte antes de cambiarla.' : 'El precio final depende de lo que encuentre; se lo confirmo antes de empezar.'}'
-        '${o.taller ? ' Lo espero en el taller.' : reach ? '' : ' Estoy un poco lejos de su colonia, pero puedo ir.'}';
+        '${o.taller
+            ? ' Lo espero en el taller.'
+            : reach
+            ? ''
+            : ' Estoy un poco lejos de su colonia, pero puedo ir.'}';
     return Quote(
-      pid: pid, kind: fijo ? 'fijo' : 'rango', lo: fijo ? _r50((lo + hi) / 2) : lo,
-      hi: fijo ? 0 : hi, when: '$dayTxt, $when', soon: day, note: note,
+      pid: pid,
+      kind: fijo ? 'fijo' : 'rango',
+      lo: fijo ? _r50((lo + hi) / 2) : lo,
+      hi: fijo ? 0 : hi,
+      when: '$dayTxt, $when',
+      soon: day,
+      note: note,
     );
   }
 
   void _cliQuote(String jobId, String pid, int i) {
     final job = this.job(jobId);
-    if (job == null || (job.status != 'enviada' && job.status != 'cotizando')) return;
+    if (job == null || (job.status != 'enviada' && job.status != 'cotizando')) {
+      return;
+    }
     if (job.quotes.any((q) => q.pid == pid)) return;
     final q = _clientQuote(job, pid, i);
     final first = job.quotes.isEmpty;
@@ -474,9 +529,19 @@ class MaquetaEstado extends ChangeNotifier {
     th.add(Msg('sys', 'Enviaste la solicitud «${job.title}»'));
     th.add(Msg('quote', '', job: job.id));
     unread[pid] = (unread[pid] ?? 0) + 1;
-    notif('bell', 'Cotización recibida', '${o.name} cotizó «${job.title}»: ${q.price}.', 'comparar', job.id);
+    notif(
+      'bell',
+      'Cotización recibida',
+      '${o.name} cotizó «${job.title}»: ${q.price}.',
+      'comparar',
+      job.id,
+    );
     if (first) {
-      toast('Llegó tu primera cotización', accion: 'Ver', alAccion: () => irA?.call('comparar', job.id));
+      toast(
+        'Llegó tu primera cotización',
+        accion: 'Ver',
+        alAccion: () => irA?.call('comparar', job.id),
+      );
     }
   }
 
@@ -504,12 +569,24 @@ class MaquetaEstado extends ChangeNotifier {
       Msg('sys', 'Elegiste la cotización de ${pr.first} · ${j.price}'),
       Msg('sys', 'Pueden seguir hablando aquí, en la app, o por WhatsApp'),
     ];
-    notif(pr.taller ? 'cal' : 'house', pr.taller ? 'Cita confirmada' : 'Visita confirmada',
-        '${pr.name} · ${j.when}${j.time.isNotEmpty ? ', ${j.time}' : ''}.', pr.taller ? 'cita' : 'visita', j.id);
+    notif(
+      pr.taller ? 'cal' : 'house',
+      pr.taller ? 'Cita confirmada' : 'Visita confirmada',
+      '${pr.name} · ${j.when}${j.time.isNotEmpty ? ', ${j.time}' : ''}.',
+      pr.taller ? 'cita' : 'visita',
+      j.id,
+    );
     for (final x in j.quotes) {
       if (x.pid != pid) {
         j.closed[x.pid] = true;
-        threads.putIfAbsent(x.pid, () => []).add(Msg('sys', 'Elegiste a otra persona para «${j.title}». Esta conversación se cerró.'));
+        threads
+            .putIfAbsent(x.pid, () => [])
+            .add(
+              Msg(
+                'sys',
+                'Elegiste a otra persona para «${j.title}». Esta conversación se cerró.',
+              ),
+            );
       }
     }
     j.diag = q.kind == 'visita';
@@ -526,20 +603,43 @@ class MaquetaEstado extends ChangeNotifier {
     final diag = q.kind == 'visita';
     final amount = diag ? 650 : _r50(q.hi * 1.4);
     j.adjust = Adjust(
-      diag ? 'final' : 'ajuste', amount, qTope(q, j.cat),
-      diag ? 'Ya revisé: hay que cambiar la pieza dañada y la mano de obra incluye pruebas.' : 'Al abrir encontré otra pieza dañada que no se veía en la foto.',
+      diag ? 'final' : 'ajuste',
+      amount,
+      qTope(q, j.cat),
+      diag
+          ? 'Ya revisé: hay que cambiar la pieza dañada y la mano de obra incluye pruebas.'
+          : 'Al abrir encontré otra pieza dañada que no se veía en la foto.',
     );
-    threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', '${diag ? 'Cotización final: ' : 'Propone un cambio de precio: '}${money(amount)}. Necesita tu aprobación.'));
+    threads
+        .putIfAbsent(j.pid!, () => [])
+        .add(
+          Msg(
+            'sys',
+            '${diag ? 'Cotización final: ' : 'Propone un cambio de precio: '}${money(amount)}. Necesita tu aprobación.',
+          ),
+        );
     final o = provs[j.pid]!;
-    notif('bell', diag ? 'Cotización final' : 'Cambio de precio', '${o.name} propone ${money(amount)} para «${j.title}».', 'visita', j.id);
-    toast('${o.first} propone ${money(amount)}', accion: 'Ver', alAccion: () => irA?.call('visita', j.id));
+    notif(
+      'bell',
+      diag ? 'Cotización final' : 'Cambio de precio',
+      '${o.name} propone ${money(amount)} para «${j.title}».',
+      'visita',
+      j.id,
+    );
+    toast(
+      '${o.first} propone ${money(amount)}',
+      accion: 'Ver',
+      alAccion: () => irA?.call('visita', j.id),
+    );
   }
 
   void adjOk(String id) {
     final j = job(id)!;
     j.adjust!.status = 'ok';
     j.price = money(j.adjust!.amount);
-    threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Aprobaste el nuevo precio: ${j.price}'));
+    threads
+        .putIfAbsent(j.pid!, () => [])
+        .add(Msg('sys', 'Aprobaste el nuevo precio: ${j.price}'));
     notifyListeners();
     toast('Aprobaste ${j.price}');
   }
@@ -549,8 +649,12 @@ class MaquetaEstado extends ChangeNotifier {
     final a = j.adjust!;
     a.status = 'no';
     j.status = 'cancelado';
-    j.cancelNote = a.kind == 'final' ? 'Cancelado. Pagas solo la visita.' : 'Cancelado sin costo.';
-    threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Rechazaste el nuevo precio. Trabajo cancelado.'));
+    j.cancelNote = a.kind == 'final'
+        ? 'Cancelado. Pagas solo la visita.'
+        : 'Cancelado sin costo.';
+    threads
+        .putIfAbsent(j.pid!, () => [])
+        .add(Msg('sys', 'Rechazaste el nuevo precio. Trabajo cancelado.'));
     notifyListeners();
     toast(j.cancelNote);
   }
@@ -569,24 +673,44 @@ class MaquetaEstado extends ChangeNotifier {
     j.rated = 0;
     j.resched = null;
     threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Servicio terminado'));
-    notif('check', 'Trabajo terminado', '${o.name} terminó «${j.title}». Califícalo cuando quieras.', 'calificar', j.id);
-    toast('${o.first} terminó tu trabajo', accion: 'Calificar', alAccion: () => irA?.call('calificar', j.id));
+    notif(
+      'check',
+      'Trabajo terminado',
+      '${o.name} terminó «${j.title}». Califícalo cuando quieras.',
+      'calificar',
+      j.id,
+    );
+    toast(
+      '${o.first} terminó tu trabajo',
+      accion: 'Calificar',
+      alAccion: () => irA?.call('calificar', j.id),
+    );
   }
 
   void reprog(String id, int d, String t) {
     final j = job(id)!;
     final txt = '${d == 0 ? 'hoy' : '${days[d].$3} ${days[d].$2}'} a las $t';
     j.resched = Resched(d, t, txt);
-    threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Pediste mover la cita a $txt'));
+    threads
+        .putIfAbsent(j.pid!, () => [])
+        .add(Msg('sys', 'Pediste mover la cita a $txt'));
     after(5000, () {
       final x = job(id);
       if (x == null || x.resched == null) return;
       final o = provs[x.pid]!;
       final r = x.resched!;
-      x.when = r.d == 0 ? 'Hoy, ${longDate(DateTime.now())}' : '${days[r.d].$1} ${days[r.d].$2}';
+      x.when = r.d == 0
+          ? 'Hoy, ${longDate(DateTime.now())}'
+          : '${days[r.d].$1} ${days[r.d].$2}';
       x.time = r.t;
       x.resched = null;
-      notif('cal', 'Cita reprogramada', '${o.name} aceptó mover la cita a ${r.txt}.', x.status == 'cita' ? 'cita' : 'visita', x.id);
+      notif(
+        'cal',
+        'Cita reprogramada',
+        '${o.name} aceptó mover la cita a ${r.txt}.',
+        x.status == 'cita' ? 'cita' : 'visita',
+        x.id,
+      );
       toast('Cita reprogramada: ${r.txt}');
     });
     notifyListeners();
@@ -600,8 +724,17 @@ class MaquetaEstado extends ChangeNotifier {
     final late = isLate(j);
     j.status = 'cancelado';
     j.resched = null;
-    j.cancelNote = late ? 'Cancelado por ti con menos de 24 h de aviso.' : 'Cancelado por ti sin costo.';
-    threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Esta persona canceló el servicio${late ? ' con menos de 24 h de aviso.' : '.'}'));
+    j.cancelNote = late
+        ? 'Cancelado por ti con menos de 24 h de aviso.'
+        : 'Cancelado por ti sin costo.';
+    threads
+        .putIfAbsent(j.pid!, () => [])
+        .add(
+          Msg(
+            'sys',
+            'Esta persona canceló el servicio${late ? ' con menos de 24 h de aviso.' : '.'}',
+          ),
+        );
     notifyListeners();
     toast('Cancelaste el servicio con ${provs[j.pid]!.first}');
   }
@@ -626,13 +759,21 @@ class MaquetaEstado extends ChangeNotifier {
 
   // ----- eliminar cuenta -----
   List<String> pendingItems() {
-    const s = {'enviada': 'esperando cotizaciones', 'cotizando': 'con cotizaciones', 'visita': 'visita confirmada', 'cita': 'cita confirmada'};
+    const s = {
+      'enviada': 'esperando cotizaciones',
+      'cotizando': 'con cotizaciones',
+      'visita': 'visita confirmada',
+      'cita': 'cita confirmada',
+    };
     return [
       for (final j in jobs)
-        if (j.status != 'terminado' && j.status != 'cancelado') '«${j.title}» · ${s[j.status]}',
+        if (j.status != 'terminado' && j.status != 'cancelado')
+          '«${j.title}» · ${s[j.status]}',
       if (pv.me.registered) ...[
-        if (pv.visits.where((v) => !v.done).isNotEmpty) '${pv.visits.where((v) => !v.done).length} visita(s) pendiente(s) como técnico',
-        if (pv.reqs.where((r) => r.k == 'proceso').isNotEmpty) '${pv.reqs.where((r) => r.k == 'proceso').length} cotización(es) enviada(s) abierta(s)',
+        if (pv.visits.where((v) => !v.done).isNotEmpty)
+          '${pv.visits.where((v) => !v.done).length} visita(s) pendiente(s) como técnico',
+        if (pv.reqs.where((r) => r.k == 'proceso').isNotEmpty)
+          '${pv.reqs.where((r) => r.k == 'proceso').length} cotización(es) enviada(s) abierta(s)',
       ],
     ];
   }
@@ -642,7 +783,11 @@ class MaquetaEstado extends ChangeNotifier {
       if (j.status != 'terminado' && j.status != 'cancelado') {
         j.status = 'cancelado';
         j.resched = null;
-        if (j.pid != null) threads.putIfAbsent(j.pid!, () => []).add(Msg('sys', 'Esta persona canceló la solicitud'));
+        if (j.pid != null) {
+          threads
+              .putIfAbsent(j.pid!, () => [])
+              .add(Msg('sys', 'Esta persona canceló la solicitud'));
+        }
       }
     }
     delAt = DateTime.now().add(const Duration(days: 7));
@@ -658,43 +803,160 @@ class MaquetaEstado extends ChangeNotifier {
   void loadDemo() {
     final nowT = DateTime.now();
     saved = {'tr': true, 'rm': true, 'lg': true};
-    final j1 = Job(id: 'j1', title: 'El boiler no enciende', cat: 'plo', status: 'cotizando', sent: 'Hoy 9:10', desc: 'El boiler no enciende desde ayer en la noche. Es de gas, hace clic pero no prende. No huele a gas.', pref: 'sáb 26 de sep, en la mañana', photos: 1);
+    final j1 = Job(
+      id: 'j1',
+      title: 'El boiler no enciende',
+      cat: 'plo',
+      status: 'cotizando',
+      sent: 'Hoy 9:10',
+      desc: 'El boiler no enciende desde ayer en la noche. Es de gas, hace clic pero no prende. No huele a gas.',
+      pref: 'sáb 26 de sep, en la mañana',
+      photos: 1,
+    );
     j1.quotes = [
-      Quote(pid: 'rm', kind: 'rango', lo: 450, hi: 650, when: 'Hoy, 17:00 a 18:00', soon: 0, note: 'Por lo que describe, puede ser el termopar. Llevo la refacción por si hace falta cambiarla.'),
-      Quote(pid: 'hs', kind: 'fijo', lo: 400, when: 'Sáb 26, 10:00', soon: 1, note: 'Incluye revisión y limpieza del quemador. Si hay que cambiar alguna pieza, se la cotizo aparte antes de hacerlo.'),
-      Quote(pid: 'mo', kind: 'rango', lo: 500, hi: 700, when: 'Lun 28, 9:00', soon: 3, note: 'Reviso piloto, termopar y válvula. El precio final depende de lo que encuentre.'),
+      Quote(
+        pid: 'rm',
+        kind: 'rango',
+        lo: 450,
+        hi: 650,
+        when: 'Hoy, 17:00 a 18:00',
+        soon: 0,
+        note: 'Por lo que describe, puede ser el termopar. Llevo la refacción por si hace falta cambiarla.',
+      ),
+      Quote(
+        pid: 'hs',
+        kind: 'fijo',
+        lo: 400,
+        when: 'Sáb 26, 10:00',
+        soon: 1,
+        note: 'Incluye revisión y limpieza del quemador. Si hay que cambiar alguna pieza, se la cotizo aparte antes de hacerlo.',
+      ),
+      Quote(
+        pid: 'mo',
+        kind: 'rango',
+        lo: 500,
+        hi: 700,
+        when: 'Lun 28, 9:00',
+        soon: 3,
+        note: 'Reviso piloto, termopar y válvula. El precio final depende de lo que encuentre.',
+      ),
     ];
     jobs = [
       j1,
-      Job(id: 'j2', title: 'Ruido al frenar', cat: 'mec', status: 'cita', pid: 'tr', when: 'Lunes 28 de septiembre', time: '9:30', what: 'Diagnóstico de frenos', price: 'Diagnóstico desde \$200'),
-      Job(id: 'j3', title: 'Contacto sin corriente en la cocina', cat: 'ele', status: 'visita', pid: 'lg', when: 'Sábado 26 de septiembre', time: '11:00 a 12:00', price: '\$250 – \$400', code: '5193'),
-      Job(id: 'j4', title: 'Instalación de lámpara', cat: 'ele', status: 'terminado', pid: 'fr', date: '12 de sep', rated: 0, doneAt: nowT.subtract(const Duration(days: 3))),
-      Job(id: 'j5', title: 'Cambio de aceite', cat: 'mec', status: 'terminado', pid: 'tr', date: '15 de mar', rated: 5, doneAt: nowT.subtract(const Duration(days: 60))),
+      Job(
+        id: 'j2',
+        title: 'Ruido al frenar',
+        cat: 'mec',
+        status: 'cita',
+        pid: 'tr',
+        when: 'Lunes 28 de septiembre',
+        time: '9:30',
+        what: 'Diagnóstico de frenos',
+        price: 'Diagnóstico desde \$200',
+      ),
+      Job(
+        id: 'j3',
+        title: 'Contacto sin corriente en la cocina',
+        cat: 'ele',
+        status: 'visita',
+        pid: 'lg',
+        when: 'Sábado 26 de septiembre',
+        time: '11:00 a 12:00',
+        price: '\$250 – \$400',
+        code: '5193',
+      ),
+      Job(
+        id: 'j4',
+        title: 'Instalación de lámpara',
+        cat: 'ele',
+        status: 'terminado',
+        pid: 'fr',
+        date: '12 de sep',
+        rated: 0,
+        doneAt: nowT.subtract(const Duration(days: 3)),
+      ),
+      Job(
+        id: 'j5',
+        title: 'Cambio de aceite',
+        cat: 'mec',
+        status: 'terminado',
+        pid: 'tr',
+        date: '15 de mar',
+        rated: 5,
+        doneAt: nowT.subtract(const Duration(days: 60)),
+      ),
     ];
     threads = {
       'rm': [
         Msg('sys', 'Enviaste la solicitud «El boiler no enciende»'),
-        Msg('p', 'Buenos días, ${user.first.isEmpty ? 'Mariana' : user.first}. ¿Me puede mandar una foto de la etiqueta del boiler?', h: '9:32'),
+        Msg(
+          'p',
+          'Buenos días, ${user.first.isEmpty ? 'Mariana' : user.first}. ¿Me puede mandar una foto de la etiqueta del boiler?',
+          h: '9:32',
+        ),
         Msg('me', '📷 Foto de la etiqueta', h: '9:35'),
-        Msg('p', 'Gracias. Es de paso, de 6 litros. Casi seguro es el termopar; llevo uno por si acaso.', h: '10:38'),
+        Msg(
+          'p',
+          'Gracias. Es de paso, de 6 litros. Casi seguro es el termopar; llevo uno por si acaso.',
+          h: '10:38',
+        ),
         Msg('quote', '', job: 'j1'),
-        Msg('p', 'Le envié la cotización, ¿le parece bien hoy a las 5?', h: '10:42'),
+        Msg(
+          'p',
+          'Le envié la cotización, ¿le parece bien hoy a las 5?',
+          h: '10:42',
+        ),
       ],
-      'hs': [Msg('sys', 'Enviaste la solicitud «El boiler no enciende»'), Msg('quote', '', job: 'j1'), Msg('p', 'Puedo ir mañana a las 10. Llevo todo.', h: '9:15')],
-      'mo': [Msg('sys', 'Enviaste la solicitud «El boiler no enciende»'), Msg('quote', '', job: 'j1'), Msg('me', '¿Incluye materiales?', h: '8:50')],
-      'tr': [Msg('sys', 'Cita confirmada · lunes 28, 9:30'), Msg('p', 'Lo esperamos el lunes a las 9:30.', h: 'Ayer')],
-      'lg': [Msg('sys', 'Visita confirmada · sábado 26, 11:00'), Msg('p', 'Nos vemos el sábado a las 11.', h: 'Ayer')],
-      'fr': [Msg('sys', 'Servicio terminado'), Msg('p', 'Quedó lista. Cualquier cosa me escribe.', h: '12 sep')],
+      'hs': [
+        Msg('sys', 'Enviaste la solicitud «El boiler no enciende»'),
+        Msg('quote', '', job: 'j1'),
+        Msg('p', 'Puedo ir mañana a las 10. Llevo todo.', h: '9:15'),
+      ],
+      'mo': [
+        Msg('sys', 'Enviaste la solicitud «El boiler no enciende»'),
+        Msg('quote', '', job: 'j1'),
+        Msg('me', '¿Incluye materiales?', h: '8:50'),
+      ],
+      'tr': [
+        Msg('sys', 'Cita confirmada · lunes 28, 9:30'),
+        Msg('p', 'Lo esperamos el lunes a las 9:30.', h: 'Ayer'),
+      ],
+      'lg': [
+        Msg('sys', 'Visita confirmada · sábado 26, 11:00'),
+        Msg('p', 'Nos vemos el sábado a las 11.', h: 'Ayer'),
+      ],
+      'fr': [
+        Msg('sys', 'Servicio terminado'),
+        Msg('p', 'Quedó lista. Cualquier cosa me escribe.', h: '12 sep'),
+      ],
     };
     unread = {'rm': 2, 'hs': 1};
     home = [
-      Casa('Tinaco de 1,100 litros', 'Última limpieza: marzo 2026', 'Limpiar pronto', 'amber'),
-      Casa('Boiler de gas', 'No enciende · 3 cotizaciones recibidas', 'En solicitud', 'navy'),
-      Casa('Instalación eléctrica', 'Lámpara de la sala · 12 sep 2026', 'Al día', 'green'),
+      Casa(
+        'Tinaco de 1,100 litros',
+        'Última limpieza: marzo 2026',
+        'Limpiar pronto',
+        'amber',
+      ),
+      Casa(
+        'Boiler de gas',
+        'No enciende · 3 cotizaciones recibidas',
+        'En solicitud',
+        'navy',
+      ),
+      Casa(
+        'Instalación eléctrica',
+        'Lámpara de la sala · 12 sep 2026',
+        'Al día',
+        'green',
+      ),
     ];
     remind = true;
     car = (m: 'Nissan Versa', y: '2018');
-    contacts = [Contacto('Mamá', '771 234 5678', 0), Contacto('Carlos, mi hermano', '771 987 6543', 1)];
+    contacts = [
+      Contacto('Mamá', '771 234 5678', 0),
+      Contacto('Carlos, mi hermano', '771 987 6543', 1),
+    ];
     notifyListeners();
   }
 

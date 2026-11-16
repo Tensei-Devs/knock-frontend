@@ -59,7 +59,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         redireccionPorPerfil(
           // Sin sesión manda `/entrar`, aunque el último perfil fuera nuevo.
           // El registro de técnico crea el perfil al terminar sus pasos.
-          perfilPendiente: perfilPendiente.value &&
+          perfilPendiente:
+              perfilPendiente.value &&
               sesion.value &&
               !state.matchedLocation.startsWith(RT.registro),
           ubicacion: state.matchedLocation,
@@ -98,65 +99,180 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/m',
-        redirect: (context, state) => state.uri.path == '/m' ? Rutas.inicio : null,
+        redirect: (context, state) =>
+            state.uri.path == '/m' ? Rutas.inicio : null,
         routes: [
-          GoRoute(path: 'buscar', builder: (c, s) => BuscarScreen(focus: s.extra == 'focus')),
+          GoRoute(
+            path: 'buscar',
+            builder: (c, s) => BuscarScreen(focus: s.extra == 'focus'),
+          ),
           GoRoute(
             path: 'experto/:id',
             builder: (c, s) => PerfilScreen(id: s.pathParameters['id']!),
-            routes: [GoRoute(path: 'opiniones', builder: (c, s) => OpinionesScreen(id: s.pathParameters['id']!))],
+            routes: [
+              GoRoute(
+                path: 'opiniones',
+                builder: (c, s) => OpinionesScreen(id: s.pathParameters['id']!),
+              ),
+            ],
           ),
           GoRoute(
             path: 'asistente',
             builder: (c, s) {
               final e = s.extra;
-              if (e is Map) return AsistenteScreen(texto: e['texto'] as String?, cat: e['cat'] as String?);
+              if (e is Map) {
+                return AsistenteScreen(
+                  texto: e['texto'] as String?,
+                  cat: e['cat'] as String?,
+                );
+              }
               return AsistenteScreen(texto: e is String ? e : null);
             },
           ),
-          GoRoute(path: 'solicitar', builder: (c, s) => const SolicitarScreen()),
-          GoRoute(path: 'enviada/:id', builder: (c, s) => EnviadaScreen(id: s.pathParameters['id']!)),
-          GoRoute(path: 'comparar/:id', builder: (c, s) => CompararScreen(id: s.pathParameters['id']!)),
-          GoRoute(path: 'visita/:id', builder: (c, s) => VisitaMaqueta(id: s.pathParameters['id']!)),
-          GoRoute(path: 'cita/:id', builder: (c, s) => CitaScreen(id: s.pathParameters['id']!)),
-          GoRoute(path: 'calificar/:id', builder: (c, s) => CalificarScreen(id: s.pathParameters['id']!)),
+          GoRoute(
+            path: 'solicitar',
+            builder: (c, s) => const SolicitarScreen(),
+          ),
+          GoRoute(
+            path: 'enviada/:id',
+            builder: (c, s) => EnviadaScreen(id: s.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'comparar/:id',
+            builder: (c, s) => CompararScreen(id: s.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'visita/:id',
+            builder: (c, s) => VisitaMaqueta(id: s.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'cita/:id',
+            builder: (c, s) => CitaScreen(id: s.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'calificar/:id',
+            builder: (c, s) => CalificarScreen(id: s.pathParameters['id']!),
+          ),
           GoRoute(
             path: 'reportar/:id',
-            builder: (c, s) => ReportarScreen(id: s.pathParameters['id']!, pid: s.uri.queryParameters['pid'], noTermino: s.uri.queryParameters['nodone'] == '1'),
+            builder: (c, s) => ReportarScreen(
+              id: s.pathParameters['id']!,
+              pid: s.uri.queryParameters['pid'],
+              noTermino: s.uri.queryParameters['nodone'] == '1',
+            ),
           ),
-          GoRoute(path: 'compartir/:id', builder: (c, s) => CompartirScreen(id: s.pathParameters['id']!)),
+          GoRoute(
+            path: 'compartir/:id',
+            builder: (c, s) => CompartirScreen(id: s.pathParameters['id']!),
+          ),
           GoRoute(path: 'mensajes', builder: (c, s) => const MensajesScreen()),
-          GoRoute(path: 'chat/:id', builder: (c, s) => ChatScreen(id: s.pathParameters['id']!)),
+          GoRoute(
+            path: 'chat/:id',
+            builder: (c, s) => ChatScreen(id: s.pathParameters['id']!),
+          ),
           GoRoute(path: 'mi-casa', builder: (c, s) => const MiCasaScreen()),
-          GoRoute(path: 'confianza', builder: (c, s) => const ConfianzaScreen()),
+          GoRoute(
+            path: 'confianza',
+            builder: (c, s) => const ConfianzaScreen(),
+          ),
           GoRoute(path: 'avisos', builder: (c, s) => const AvisosScreen()),
-          GoRoute(path: 'avisos-config', builder: (c, s) => const AvisosConfigScreen()),
-          GoRoute(path: 'aviso-privacidad', builder: (c, s) => const AvisoScreen()),
+          GoRoute(
+            path: 'avisos-config',
+            builder: (c, s) => const AvisosConfigScreen(),
+          ),
+          GoRoute(
+            path: 'aviso-privacidad',
+            builder: (c, s) => const AvisoScreen(),
+          ),
           GoRoute(path: 'terminos', builder: (c, s) => const TerminosScreen()),
-          GoRoute(path: 'privacidad', builder: (c, s) => PrivacidadScreen(sesiones: s.uri.queryParameters['s'] == '1')),
-          GoRoute(path: 'eliminar/1', builder: (c, s) => const Eliminar1Screen()),
-          GoRoute(path: 'eliminar/2', builder: (c, s) => const Eliminar2Screen()),
-          GoRoute(path: 'eliminado', builder: (c, s) => const EliminadoScreen()),
-          GoRoute(path: 'ayuda', builder: (c, s) => AyudaScreen(tema: int.tryParse(s.uri.queryParameters['t'] ?? '') ?? 1)),
+          GoRoute(
+            path: 'privacidad',
+            builder: (c, s) =>
+                PrivacidadScreen(sesiones: s.uri.queryParameters['s'] == '1'),
+          ),
+          GoRoute(
+            path: 'eliminar/1',
+            builder: (c, s) => const Eliminar1Screen(),
+          ),
+          GoRoute(
+            path: 'eliminar/2',
+            builder: (c, s) => const Eliminar2Screen(),
+          ),
+          GoRoute(
+            path: 'eliminado',
+            builder: (c, s) => const EliminadoScreen(),
+          ),
+          GoRoute(
+            path: 'ayuda',
+            builder: (c, s) => AyudaScreen(
+              tema: int.tryParse(s.uri.queryParameters['t'] ?? '') ?? 1,
+            ),
+          ),
           // Solo para revisar la entrada en debug: pasos nombre, zona y foto.
-          GoRoute(path: 'entrada-prueba', builder: (c, s) => const EntradaMaqueta(paso: 'name')),
-          GoRoute(path: 'sin-conexion', builder: (c, s) => const SinConexionScreen()),
+          GoRoute(
+            path: 'entrada-prueba',
+            builder: (c, s) => const EntradaMaqueta(paso: 'name'),
+          ),
+          GoRoute(
+            path: 'sin-conexion',
+            builder: (c, s) => const SinConexionScreen(),
+          ),
           GoRoute(
             path: 'tecnico',
-            redirect: (context, state) => state.uri.path == '/m/tecnico' ? Rutas.inicio : null,
+            redirect: (context, state) =>
+                state.uri.path == '/m/tecnico' ? Rutas.inicio : null,
             routes: [
-              GoRoute(path: 'registro', builder: (c, s) => const TecRegistroScreen()),
-              GoRoute(path: 'verificacion', builder: (c, s) => const VerifScreen()),
-              GoRoute(path: 'pendiente', builder: (c, s) => const PendienteScreen()),
-              GoRoute(path: 'verificado', builder: (c, s) => const VerificadoScreen()),
-              GoRoute(path: 'rechazada', builder: (c, s) => const RechazadaScreen()),
-              GoRoute(path: 'mensajes', builder: (c, s) => const TecMensajesScreen()),
-              GoRoute(path: 'chat/:cid/:rid', builder: (c, s) => TecChatScreen(cid: s.pathParameters['cid']!, rid: s.pathParameters['rid']!)),
-              GoRoute(path: 'cotizar/:rid', builder: (c, s) => CotizarScreen(rid: s.pathParameters['rid']!)),
-              GoRoute(path: 'iniciar/:vid', builder: (c, s) => IniciarScreen(vid: s.pathParameters['vid']!)),
-              GoRoute(path: 'cerrar/:vid', builder: (c, s) => CerrarScreen(vid: s.pathParameters['vid']!)),
-              GoRoute(path: 'perfil', builder: (c, s) => const PerfilEditarScreen()),
-              GoRoute(path: 'reputacion', builder: (c, s) => const ReputacionScreen()),
+              GoRoute(
+                path: 'registro',
+                builder: (c, s) => const TecRegistroScreen(),
+              ),
+              GoRoute(
+                path: 'verificacion',
+                builder: (c, s) => const VerifScreen(),
+              ),
+              GoRoute(
+                path: 'pendiente',
+                builder: (c, s) => const PendienteScreen(),
+              ),
+              GoRoute(
+                path: 'verificado',
+                builder: (c, s) => const VerificadoScreen(),
+              ),
+              GoRoute(
+                path: 'rechazada',
+                builder: (c, s) => const RechazadaScreen(),
+              ),
+              GoRoute(
+                path: 'mensajes',
+                builder: (c, s) => const TecMensajesScreen(),
+              ),
+              GoRoute(
+                path: 'chat/:cid/:rid',
+                builder: (c, s) => TecChatScreen(
+                  cid: s.pathParameters['cid']!,
+                  rid: s.pathParameters['rid']!,
+                ),
+              ),
+              GoRoute(
+                path: 'cotizar/:rid',
+                builder: (c, s) => CotizarScreen(rid: s.pathParameters['rid']!),
+              ),
+              GoRoute(
+                path: 'iniciar/:vid',
+                builder: (c, s) => IniciarScreen(vid: s.pathParameters['vid']!),
+              ),
+              GoRoute(
+                path: 'cerrar/:vid',
+                builder: (c, s) => CerrarScreen(vid: s.pathParameters['vid']!),
+              ),
+              GoRoute(
+                path: 'perfil',
+                builder: (c, s) => const PerfilEditarScreen(),
+              ),
+              GoRoute(
+                path: 'reputacion',
+                builder: (c, s) => const ReputacionScreen(),
+              ),
             ],
           ),
         ],

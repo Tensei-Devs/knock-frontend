@@ -62,9 +62,16 @@ class AppShell extends ConsumerWidget {
   /// Insignia de la maqueta: mensajes sin leer en Actividad y solicitudes
   /// nuevas en Trabajo.
   Widget _conInsignia(int rama, Widget icono) {
-    final n = rama == 2 ? maq.unreadCount : rama == ramaTrabajo ? maq.pv.nuevasN : 0;
+    final n = rama == 2
+        ? maq.unreadCount
+        : rama == ramaTrabajo
+        ? maq.pv.nuevasN
+        : 0;
     if (n <= 0) return icono;
-    return PulsoInsignia(valor: n, child: Badge(label: Text('$n'), child: icono));
+    return PulsoInsignia(
+      valor: n,
+      child: Badge(label: Text('$n'), child: icono),
+    );
   }
 
   Widget _construir(

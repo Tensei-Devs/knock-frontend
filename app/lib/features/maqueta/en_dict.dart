@@ -17,7 +17,8 @@ const Map<String, String> diccionarioEn = {
   "Agua y tuberías": "Water & pipes",
   "Luz y contactos": "Power & outlets",
   "No sé qué servicio es": "I don’t know which service",
-  "Cuéntalo con tus palabras y te decimos": "Describe it in your own words and we’ll tell you",
+  "Cuéntalo con tus palabras y te decimos":
+      "Describe it in your own words and we’ll tell you",
   "Todos": "All",
   "No sé cuál": "Not sure",
   "Ver lista": "See list",
@@ -52,7 +53,8 @@ const Map<String, String> diccionarioEn = {
   "Escribe qué necesitas": "Type what you need",
   "Quitar filtros": "Clear filters",
   "Nadie cumple todos los filtros": "No one matches every filter",
-  "Prueba quitando alguno para ver más opciones.": "Try removing one to see more options.",
+  "Prueba quitando alguno para ver más opciones.":
+      "Try removing one to see more options.",
   "A menos de 5 km": "Under 5 km",
   "4.5 estrellas o más": "4.5 stars or more",
   "Que vaya a mi casa": "Comes to my home",
@@ -94,7 +96,8 @@ const Map<String, String> diccionarioEn = {
   "Código de 6 números": "6-digit code",
   "Cambiar número": "Change number",
   "Reenviar código": "Resend code",
-  "En esta demostración funciona cualquier código de 6 números.": "In this demo any 6-digit code works.",
+  "En esta demostración funciona cualquier código de 6 números.":
+      "In this demo any 6-digit code works.",
   "¡Listo, ya entraste!": "You’re in!",
   "Continuar con mi solicitud": "Continue with my request",
   "Continuar": "Continue",
@@ -102,13 +105,16 @@ const Map<String, String> diccionarioEn = {
   "¿Qué necesitas arreglar?": "What needs fixing?",
   "Siguiente": "Next",
   "Cuéntanos qué pasa": "Tell us what’s wrong",
-  "Con tus palabras, como se lo dirías a un vecino.": "In your own words, like you’d tell a neighbor.",
+  "Con tus palabras, como se lo dirías a un vecino.":
+      "In your own words, like you’d tell a neighbor.",
   "Toca una opción o escribe abajo": "Tap an option or type below",
   "¿Qué pasa y desde cuándo?": "What’s happening and since when?",
   "Agregar": "Add",
-  "Una foto ayuda a que te den un precio más exacto.": "A photo helps you get a more accurate price.",
+  "Una foto ayuda a que te den un precio más exacto.":
+      "A photo helps you get a more accurate price.",
   "¿No sabes cómo explicarlo?": "Not sure how to explain it?",
-  "El asistente te hace preguntas y lo escribe por ti": "The assistant asks questions and writes it for you",
+  "El asistente te hace preguntas y lo escribe por ti":
+      "The assistant asks questions and writes it for you",
   "Escribe qué pasa para continuar": "Describe the problem to continue",
   "Elige una opción para continuar": "Choose an option to continue",
   "¿Cuándo te queda bien?": "When works for you?",
@@ -250,10 +256,22 @@ final List<(RegExp, String)> patronesEn = [
   (RegExp("^(\\d+) electricistas cerca de ti\$"), "\$1 electricians near you"),
   (RegExp("^(\\d+) (plomeros|plomero) cerca\$"), "\$1 plumbers nearby"),
   (RegExp("^(\\d+) (talleres|taller) cerca\$"), "\$1 shops nearby"),
-  (RegExp("^(\\d+) (electricistas|electricista) cerca\$"), "\$1 electricians nearby"),
-  (RegExp("^Pedir cotización a plomeros cerca\$"), "Get quotes from nearby plumbers"),
-  (RegExp("^Pedir cotización a talleres cerca\$"), "Get quotes from nearby shops"),
-  (RegExp("^Pedir cotización a electricistas cerca\$"), "Get quotes from nearby electricians"),
+  (
+    RegExp("^(\\d+) (electricistas|electricista) cerca\$"),
+    "\$1 electricians nearby",
+  ),
+  (
+    RegExp("^Pedir cotización a plomeros cerca\$"),
+    "Get quotes from nearby plumbers",
+  ),
+  (
+    RegExp("^Pedir cotización a talleres cerca\$"),
+    "Get quotes from nearby shops",
+  ),
+  (
+    RegExp("^Pedir cotización a electricistas cerca\$"),
+    "Get quotes from nearby electricians",
+  ),
   (RegExp("^Hola, (.+)\$"), "Hi, \$1"),
   (RegExp("^¿Elegir a (.+)\\?\$"), "Choose \$1?"),
   (RegExp("^Sí, elegir a (.+)\$"), "Yes, choose \$1"),

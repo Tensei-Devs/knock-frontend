@@ -33,7 +33,10 @@ class KnockApp extends ConsumerWidget {
       supportedLocales: idiomasSoportados,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routerConfig: router,
-      builder: (context, child) => AvisosHost(messengerKey: mensajeroMaqueta, child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => AvisosHost(
+        messengerKey: mensajeroMaqueta,
+        child: child ?? const SizedBox.shrink(),
+      ),
     );
   }
 }

@@ -34,7 +34,12 @@ const actopanHidalgo = LatLng(20.2742, -98.9450);
 double distanciaKm(double lat1, double lng1, double lat2, double lng2) {
   const r = 6371.0, d2r = math.pi / 180;
   final dLa = (lat2 - lat1) * d2r, dLo = (lng2 - lng1) * d2r;
-  final x = math.sin(dLa / 2) * math.sin(dLa / 2) + math.cos(lat1 * d2r) * math.cos(lat2 * d2r) * math.sin(dLo / 2) * math.sin(dLo / 2);
+  final x =
+      math.sin(dLa / 2) * math.sin(dLa / 2) +
+      math.cos(lat1 * d2r) *
+          math.cos(lat2 * d2r) *
+          math.sin(dLo / 2) *
+          math.sin(dLo / 2);
   return 2 * r * math.asin(math.sqrt(x));
 }
 
@@ -60,7 +65,11 @@ ResultadoCobertura evaluarCobertura(double lat, double lng) {
 }
 
 const _redes = <(String, IconData, String)>[
-  ('Instagram', Icons.camera_alt_outlined, 'https://www.instagram.com/knock.mx/'),
+  (
+    'Instagram',
+    Icons.camera_alt_outlined,
+    'https://www.instagram.com/knock.mx/',
+  ),
   ('TikTok', Icons.music_note, 'https://www.tiktok.com/@knockmx'),
   ('X', Icons.close, 'https://x.com/knock_mx'),
   ('Facebook', Icons.facebook, 'https://www.facebook.com/share/1C3PA8XoUb/'),
@@ -69,7 +78,12 @@ const _redes = <(String, IconData, String)>[
 /// Contenido de la hoja «¡Pronto estaremos cerca de ti!» (misma estética que
 /// las hojas de la maqueta). [alExplorar] se llama solo si la persona lo pide.
 class PantallaFueraDeCobertura extends ConsumerWidget {
-  const PantallaFueraDeCobertura({super.key, required this.alCerrar, required this.alExplorar, this.enHoja = true});
+  const PantallaFueraDeCobertura({
+    super.key,
+    required this.alCerrar,
+    required this.alExplorar,
+    this.enHoja = true,
+  });
   final VoidCallback alCerrar, alExplorar;
 
   /// `false` cuando va dentro de otra hoja (entrada): sin botón de cerrar.
@@ -79,26 +93,64 @@ class PantallaFueraDeCobertura extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final k = kc(context);
     return stack([
-      if (enHoja) sheetH(context, '¡Pronto estaremos cerca de ti!', big: true) else h1('¡Pronto estaremos cerca de ti!'),
-      Center(child: Container(width: 96, height: 96, decoration: BoxDecoration(color: k.navySoft, shape: BoxShape.circle), child: Icon(Icons.place_outlined, size: 46, color: k.navy))),
-      T('Por el momento, Knock todavía no está disponible en tu zona, pero estamos trabajando para llegar pronto. Si quieres estar al tanto de nuestra llegada y conocer las novedades, síguenos en nuestras redes sociales.', color: k.ink2),
-      Wrap(spacing: 10, runSpacing: 10, children: [
-        for (final r in _redes)
-          Semantics(
-            label: r.$1,
-            button: true,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(24),
-              onTap: () => unawaited(ref.read(abridorDeEnlacesProvider).abrir(Uri.parse(r.$3))),
-              child: Container(
-                constraints: const BoxConstraints(minHeight: 48),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(color: k.surface, borderRadius: BorderRadius.circular(24), border: Border.all(color: k.navy, width: 2)),
-                child: Row(mainAxisSize: MainAxisSize.min, spacing: 6, children: [Icon(r.$2, size: 20, color: k.navy), Text(r.$1, style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.w900, fontSize: 15, color: k.navy))]),
+      if (enHoja)
+        sheetH(context, '¡Pronto estaremos cerca de ti!', big: true)
+      else
+        h1('¡Pronto estaremos cerca de ti!'),
+      Center(
+        child: Container(
+          width: 96,
+          height: 96,
+          decoration: BoxDecoration(color: k.navySoft, shape: BoxShape.circle),
+          child: Icon(Icons.place_outlined, size: 46, color: k.navy),
+        ),
+      ),
+      T(
+        'Por el momento, Knock todavía no está disponible en tu zona, pero estamos trabajando para llegar pronto. Si quieres estar al tanto de nuestra llegada y conocer las novedades, síguenos en nuestras redes sociales.',
+        color: k.ink2,
+      ),
+      Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          for (final r in _redes)
+            Semantics(
+              label: r.$1,
+              button: true,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () => unawaited(
+                  ref.read(abridorDeEnlacesProvider).abrir(Uri.parse(r.$3)),
+                ),
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: 48),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: k.surface,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: k.navy, width: 2),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 6,
+                    children: [
+                      Icon(r.$2, size: 20, color: k.navy),
+                      Text(
+                        r.$1,
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 15,
+                          color: k.navy,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-      ]),
+        ],
+      ),
       BtnK('Explorar de todos modos', alExplorar, kind: Bk.sec),
       BtnK('Entendido', alCerrar, kind: Bk.ghost),
     ]);
@@ -107,11 +159,26 @@ class PantallaFueraDeCobertura extends ConsumerWidget {
 
 /// Selector explícito de una zona disponible (solo desde «Explorar de todos
 /// modos»). Devuelve la zona elegida o `null`.
-Future<ZonaKnock?> elegirZonaDisponible(BuildContext context) => hoja<ZonaKnock>(context, (ctx, _) => stack([
-  sheetH(ctx, 'Zonas disponibles'),
-  sMut('Knock está disponible en estas colonias de Tula de Allende. Elige una para explorar expertos de ejemplo.'),
-  stack([for (final z in zonasKnock) ChoiceK(on: false, title: z.colonia, sub: 'Tula de Allende, Hgo. · CP ${z.cp}', minH: 64, onTap: () => Navigator.pop(ctx, z))], gap: 8),
-]));
+Future<ZonaKnock?> elegirZonaDisponible(BuildContext context) =>
+    hoja<ZonaKnock>(
+      context,
+      (ctx, _) => stack([
+        sheetH(ctx, 'Zonas disponibles'),
+        sMut(
+          'Knock está disponible en estas colonias de Tula de Allende. Elige una para explorar expertos de ejemplo.',
+        ),
+        stack([
+          for (final z in zonasKnock)
+            ChoiceK(
+              on: false,
+              title: z.colonia,
+              sub: 'Tula de Allende, Hgo. · CP ${z.cp}',
+              minH: 64,
+              onTap: () => Navigator.pop(ctx, z),
+            ),
+        ], gap: 8),
+      ]),
+    );
 
 bool _hojaAbierta = false;
 
@@ -121,10 +188,16 @@ Future<ZonaKnock?> mostrarFueraDeCobertura(BuildContext context) async {
   if (_hojaAbierta) return null;
   _hojaAbierta = true;
   var explorar = false;
-  await hoja<void>(context, (ctx, _) => PantallaFueraDeCobertura(
-    alCerrar: () => Navigator.pop(ctx),
-    alExplorar: () { explorar = true; Navigator.pop(ctx); },
-  ));
+  await hoja<void>(
+    context,
+    (ctx, _) => PantallaFueraDeCobertura(
+      alCerrar: () => Navigator.pop(ctx),
+      alExplorar: () {
+        explorar = true;
+        Navigator.pop(ctx);
+      },
+    ),
+  );
   _hojaAbierta = false;
   if (!explorar || !context.mounted) return null;
   final z = await elegirZonaDisponible(context);

@@ -11,17 +11,26 @@ import 'package:flutter/services.dart';
 /// Bajo `flutter test` no hay animaciones infinitas (rompen `pumpAndSettle`).
 final bool _enPruebas = Platform.environment['FLUTTER_TEST'] == 'true';
 
-bool sinMovimiento(BuildContext c) => _enPruebas || (MediaQuery.maybeOf(c)?.disableAnimations ?? false);
+bool sinMovimiento(BuildContext c) =>
+    _enPruebas || (MediaQuery.maybeOf(c)?.disableAnimations ?? false);
 
 // ---------------------------------------------------------------- háptica
-void hapticoLigero() => unawaited(HapticFeedback.lightImpact().catchError((Object _) {}));
-void hapticoExito() => unawaited(HapticFeedback.mediumImpact().catchError((Object _) {}));
-void hapticoSeleccion() => unawaited(HapticFeedback.selectionClick().catchError((Object _) {}));
+void hapticoLigero() =>
+    unawaited(HapticFeedback.lightImpact().catchError((Object _) {}));
+void hapticoExito() =>
+    unawaited(HapticFeedback.mediumImpact().catchError((Object _) {}));
+void hapticoSeleccion() =>
+    unawaited(HapticFeedback.selectionClick().catchError((Object _) {}));
 
 // ---------------------------------------------------------------- pulsación
 /// Escala suave al tocar. No intercepta los gestos del hijo.
 class Pulsa extends StatefulWidget {
-  const Pulsa({super.key, required this.child, this.activo = true, this.escala = 0.97});
+  const Pulsa({
+    super.key,
+    required this.child,
+    this.activo = true,
+    this.escala = 0.97,
+  });
   final Widget child;
   final bool activo;
   final double escala;
@@ -63,7 +72,10 @@ class Aparece extends StatefulWidget {
 }
 
 class _ApareceState extends State<Aparece> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 360),
+  );
   Timer? _t;
   bool _inicio = false;
 
@@ -100,7 +112,10 @@ class _ApareceState extends State<Aparece> with SingleTickerProviderStateMixin {
       opacity: a,
       child: AnimatedBuilder(
         animation: a,
-        builder: (c, ch) => Transform.translate(offset: Offset(0, 14 * (1 - a.value)), child: ch),
+        builder: (c, ch) => Transform.translate(
+          offset: Offset(0, 14 * (1 - a.value)),
+          child: ch,
+        ),
         child: widget.child,
       ),
     );
@@ -108,30 +123,50 @@ class _ApareceState extends State<Aparece> with SingleTickerProviderStateMixin {
 }
 
 /// Aplica [Aparece] escalonado a cada elemento de una lista de widgets.
-List<Widget> escalona(List<Widget> l) => [for (var i = 0; i < l.length; i++) Aparece(i: i, child: l[i])];
+List<Widget> escalona(List<Widget> l) => [
+  for (var i = 0; i < l.length; i++) Aparece(i: i, child: l[i]),
+];
 
 // ---------------------------------------------------------------- transición de página
 class TransicionKnock extends PageTransitionsBuilder {
   const TransicionKnock();
   @override
-  Widget buildTransitions<R>(PageRoute<R> route, BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions<R>(
+    PageRoute<R> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
     if (sinMovimiento(context)) return child;
-    final a = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
+    final a = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+      reverseCurve: Curves.easeInCubic,
+    );
     return FadeTransition(
       opacity: a,
-      child: SlideTransition(position: Tween(begin: const Offset(0.06, 0), end: Offset.zero).animate(a), child: child),
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(0.06, 0),
+          end: Offset.zero,
+        ).animate(a),
+        child: child,
+      ),
     );
   }
 }
 
-const pageTransitionsKnock = PageTransitionsTheme(builders: {
-  TargetPlatform.android: TransicionKnock(),
-  TargetPlatform.iOS: TransicionKnock(),
-  TargetPlatform.fuchsia: TransicionKnock(),
-  TargetPlatform.linux: TransicionKnock(),
-  TargetPlatform.macOS: TransicionKnock(),
-  TargetPlatform.windows: TransicionKnock(),
-});
+const pageTransitionsKnock = PageTransitionsTheme(
+  builders: {
+    TargetPlatform.android: TransicionKnock(),
+    TargetPlatform.iOS: TransicionKnock(),
+    TargetPlatform.fuchsia: TransicionKnock(),
+    TargetPlatform.linux: TransicionKnock(),
+    TargetPlatform.macOS: TransicionKnock(),
+    TargetPlatform.windows: TransicionKnock(),
+  },
+);
 
 // ---------------------------------------------------------------- shimmer
 /// Brillo que recorre a sus hijos (esqueletos). Sin movimiento: tono fijo.
@@ -142,8 +177,12 @@ class ShimmerK extends StatefulWidget {
   State<ShimmerK> createState() => _ShimmerKState();
 }
 
-class _ShimmerKState extends State<ShimmerK> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
+class _ShimmerKState extends State<ShimmerK>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
   bool _on = false;
 
   @override
@@ -192,7 +231,13 @@ class _ShimmerKState extends State<ShimmerK> with SingleTickerProviderStateMixin
 
 /// Bloque de un esqueleto (el color lo pinta [ShimmerK]).
 class BoneK extends StatelessWidget {
-  const BoneK({super.key, this.w, this.h = 14, this.r = 8, this.circle = false});
+  const BoneK({
+    super.key,
+    this.w,
+    this.h = 14,
+    this.r = 8,
+    this.circle = false,
+  });
   final double? w;
   final double h, r;
   final bool circle;
@@ -200,7 +245,11 @@ class BoneK extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: circle ? h : w,
     height: h,
-    decoration: BoxDecoration(color: kc(context).line, borderRadius: circle ? null : BorderRadius.circular(r), shape: circle ? BoxShape.circle : BoxShape.rectangle),
+    decoration: BoxDecoration(
+      color: kc(context).line,
+      borderRadius: circle ? null : BorderRadius.circular(r),
+      shape: circle ? BoxShape.circle : BoxShape.rectangle,
+    ),
   );
 }
 
@@ -215,18 +264,33 @@ class EsqueletoLista extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget item() => Container(
       padding: const EdgeInsets.all(16),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, spacing: 14, children: [
-        BoneK(h: fila ? 48 : 56, circle: true),
-        const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 9, children: [
-          BoneK(w: 150, h: 16),
-          BoneK(h: 12),
-          BoneK(w: 90, h: 12),
-        ])),
-      ]),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 14,
+        children: [
+          BoneK(h: fila ? 48 : 56, circle: true),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 9,
+              children: [
+                BoneK(w: 150, h: 16),
+                BoneK(h: 12),
+                BoneK(w: 90, h: 12),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
     return Semantics(
       label: tr('Cargando'),
-      child: ShimmerK(child: Column(spacing: 12, children: [for (var i = 0; i < n; i++) item()])),
+      child: ShimmerK(
+        child: Column(
+          spacing: 12,
+          children: [for (var i = 0; i < n; i++) item()],
+        ),
+      ),
     );
   }
 }
@@ -236,7 +300,13 @@ class EsqueletoLista extends StatelessWidget {
 final _vistas = <String>{};
 
 class CargaInicial extends StatefulWidget {
-  const CargaInicial({super.key, required this.clave, required this.esqueleto, required this.child, this.ms = 520});
+  const CargaInicial({
+    super.key,
+    required this.clave,
+    required this.esqueleto,
+    required this.child,
+    this.ms = 520,
+  });
   final String clave;
   final Widget esqueleto;
   final Widget child;
@@ -274,7 +344,9 @@ class _CargaInicialState extends State<CargaInicial> {
   @override
   Widget build(BuildContext context) => AnimatedSwitcher(
     duration: const Duration(milliseconds: 250),
-    child: _listo ? KeyedSubtree(key: const ValueKey('c'), child: widget.child) : KeyedSubtree(key: const ValueKey('e'), child: widget.esqueleto),
+    child: _listo
+        ? KeyedSubtree(key: const ValueKey('c'), child: widget.child)
+        : KeyedSubtree(key: const ValueKey('e'), child: widget.esqueleto),
   );
 }
 
@@ -288,8 +360,12 @@ class PulsoInsignia extends StatefulWidget {
   State<PulsoInsignia> createState() => _PulsoInsigniaState();
 }
 
-class _PulsoInsigniaState extends State<PulsoInsignia> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 520));
+class _PulsoInsigniaState extends State<PulsoInsignia>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 520),
+  );
   bool _primera = true;
 
   @override
@@ -310,7 +386,9 @@ class _PulsoInsigniaState extends State<PulsoInsignia> with SingleTickerProvider
   @override
   void didUpdateWidget(PulsoInsignia o) {
     super.didUpdateWidget(o);
-    if (o.valor != widget.valor && !sinMovimiento(context)) unawaited(_c.forward(from: 0));
+    if (o.valor != widget.valor && !sinMovimiento(context)) {
+      unawaited(_c.forward(from: 0));
+    }
   }
 
   @override
@@ -325,7 +403,13 @@ class _PulsoInsigniaState extends State<PulsoInsignia> with SingleTickerProvider
     child: widget.child,
     builder: (c, ch) {
       final t = _c.value;
-      final s = t >= 1 ? 1.0 : 1 + 0.5 * (t < .35 ? Curves.easeOut.transform(t / .35) : 1 - Curves.easeInOut.transform((t - .35) / .65));
+      final s = t >= 1
+          ? 1.0
+          : 1 +
+                0.5 *
+                    (t < .35
+                        ? Curves.easeOut.transform(t / .35)
+                        : 1 - Curves.easeInOut.transform((t - .35) / .65));
       return Transform.scale(scale: s, child: ch);
     },
   );
@@ -338,12 +422,28 @@ class EsqueletoReputacion extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     label: tr('Cargando'),
     child: const ShimmerK(
-      child: Column(spacing: 18, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        BoneK(h: 130, r: 22),
-        Row(spacing: 8, children: [Expanded(child: BoneK(h: 62, r: 14)), Expanded(child: BoneK(h: 62, r: 14))]),
-        Row(spacing: 8, children: [Expanded(child: BoneK(h: 62, r: 14)), Expanded(child: BoneK(h: 62, r: 14))]),
-        EsqueletoLista(n: 2, fila: true),
-      ]),
+      child: Column(
+        spacing: 18,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BoneK(h: 130, r: 22),
+          Row(
+            spacing: 8,
+            children: [
+              Expanded(child: BoneK(h: 62, r: 14)),
+              Expanded(child: BoneK(h: 62, r: 14)),
+            ],
+          ),
+          Row(
+            spacing: 8,
+            children: [
+              Expanded(child: BoneK(h: 62, r: 14)),
+              Expanded(child: BoneK(h: 62, r: 14)),
+            ],
+          ),
+          EsqueletoLista(n: 2, fila: true),
+        ],
+      ),
     ),
   );
 }

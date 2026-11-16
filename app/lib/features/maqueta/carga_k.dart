@@ -22,13 +22,20 @@ enum TipoCarga {
   /// Progreso (0..1) que se muestra congelado con «reducir movimiento».
   final double poster;
   final bool repite;
-  bool get esperas => this == buscando || this == puntos || this == escudo || this == foto;
+  bool get esperas =>
+      this == buscando || this == puntos || this == escudo || this == foto;
 }
 
 /// Indicador de carga/estado de Knock: muestra la Lottie del [tipo] y, si el
 /// asset falla, cae al indicador anterior (círculo de progreso o icono).
 class CargaK extends StatelessWidget {
-  const CargaK({super.key, required this.tipo, this.size = 120, this.repetir, this.color});
+  const CargaK({
+    super.key,
+    required this.tipo,
+    this.size = 120,
+    this.repetir,
+    this.color,
+  });
   final TipoCarga tipo;
   final double size;
   final bool? repetir;
@@ -37,7 +44,20 @@ class CargaK extends StatelessWidget {
   Widget _respaldo(BuildContext c) {
     final k = kc(c);
     if (tipo.esperas) {
-      return SizedBox(width: size, height: size, child: Center(child: SizedBox(width: size * .35, height: size * .35, child: CircularProgressIndicator(strokeWidth: 3.5, color: color ?? k.amber))));
+      return SizedBox(
+        width: size,
+        height: size,
+        child: Center(
+          child: SizedBox(
+            width: size * .35,
+            height: size * .35,
+            child: CircularProgressIndicator(
+              strokeWidth: 3.5,
+              color: color ?? k.amber,
+            ),
+          ),
+        ),
+      );
     }
     final ic = switch (tipo) {
       TipoCarga.exito => Icons.check_circle,
@@ -45,7 +65,11 @@ class CargaK extends StatelessWidget {
       TipoCarga.vacioBusqueda => Icons.search,
       _ => Icons.list_alt,
     };
-    return SizedBox(width: size, height: size, child: Icon(ic, size: size * .5, color: color ?? k.amber));
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Icon(ic, size: size * .5, color: color ?? k.amber),
+    );
   }
 
   @override
@@ -63,7 +87,9 @@ class CargaK extends StatelessWidget {
           fit: BoxFit.contain,
           animate: !quieto,
           repeat: repetir ?? tipo.repite,
-          controller: quieto ? AlwaysStoppedAnimation<double>(tipo.poster) : null,
+          controller: quieto
+              ? AlwaysStoppedAnimation<double>(tipo.poster)
+              : null,
           errorBuilder: (c, e, s) => _respaldo(c),
         ),
       ),
@@ -73,7 +99,13 @@ class CargaK extends StatelessWidget {
 
 /// Frases que rotan con fundido mientras dura una espera larga.
 class MensajesRotativos extends StatefulWidget {
-  const MensajesRotativos(this.mensajes, {super.key, this.cada = const Duration(milliseconds: 2800), this.size = 15, this.color});
+  const MensajesRotativos(
+    this.mensajes, {
+    super.key,
+    this.cada = const Duration(milliseconds: 2800),
+    this.size = 15,
+    this.color,
+  });
   final List<String> mensajes;
   final Duration cada;
   final double size;
@@ -113,20 +145,37 @@ class _MensajesRotativosState extends State<MensajesRotativos> {
       switchOutCurve: const Interval(0.5, 1, curve: Curves.easeIn),
       transitionBuilder: (w, a) => FadeTransition(
         opacity: a,
-        child: SlideTransition(position: Tween(begin: const Offset(0, .25), end: Offset.zero).animate(a), child: w),
+        child: SlideTransition(
+          position: Tween(
+            begin: const Offset(0, .25),
+            end: Offset.zero,
+          ).animate(a),
+          child: w,
+        ),
       ),
-      layoutBuilder: (cur, prev) => Stack(alignment: Alignment.center, children: [...prev, ?cur]),
+      layoutBuilder: (cur, prev) =>
+          Stack(alignment: Alignment.center, children: [...prev, ?cur]),
       child: Padding(
         key: ValueKey(texto),
         padding: const EdgeInsets.symmetric(vertical: 2),
-        child: T(texto, size: widget.size, w: FontWeight.w800, color: widget.color ?? k.mut, align: TextAlign.center),
+        child: T(
+          texto,
+          size: widget.size,
+          w: FontWeight.w800,
+          color: widget.color ?? k.mut,
+          align: TextAlign.center,
+        ),
       ),
     );
   }
 }
 
 /// Mensajes de la espera de cotizaciones.
-const mensajesBusqueda = ['Buscando expertos cerca de ti…', 'Revisando disponibilidad…', 'Ya casi…'];
+const mensajesBusqueda = [
+  'Buscando expertos cerca de ti…',
+  'Revisando disponibilidad…',
+  'Ya casi…',
+];
 
 /// Check con confeti sobre la pantalla actual (opinión publicada, trabajo
 /// terminado...). No bloquea toques; se retira solo. Incluye háptica.
@@ -135,12 +184,22 @@ void exitoRapido(BuildContext context) {
   final overlay = Overlay.maybeOf(context, rootOverlay: true);
   if (overlay == null) return;
   late final OverlayEntry e;
-  e = OverlayEntry(builder: (c) => IgnorePointer(
-    child: Center(child: DecoratedBox(
-      decoration: BoxDecoration(color: kc(c).surface.withValues(alpha: .94), shape: BoxShape.circle, boxShadow: const [BoxShadow(color: Color(0x33000000), blurRadius: 24)]),
-      child: const CargaK(tipo: TipoCarga.exito, size: 170),
-    )),
-  ));
+  e = OverlayEntry(
+    builder: (c) => IgnorePointer(
+      child: Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: kc(c).surface.withValues(alpha: .94),
+            shape: BoxShape.circle,
+            boxShadow: const [
+              BoxShadow(color: Color(0x33000000), blurRadius: 24),
+            ],
+          ),
+          child: const CargaK(tipo: TipoCarga.exito, size: 170),
+        ),
+      ),
+    ),
+  );
   overlay.insert(e);
   Timer(const Duration(milliseconds: 1700), () {
     if (e.mounted) e.remove();
@@ -163,5 +222,6 @@ class _ExitoKState extends State<ExitoK> {
   }
 
   @override
-  Widget build(BuildContext context) => CargaK(tipo: TipoCarga.exito, size: widget.size);
+  Widget build(BuildContext context) =>
+      CargaK(tipo: TipoCarga.exito, size: widget.size);
 }

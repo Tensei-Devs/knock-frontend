@@ -50,7 +50,9 @@ bool hayCuenta(BuildContext c) =>
 /// si ya había sesión y se puede continuar.
 bool pedirCuenta(BuildContext c, String destino) {
   if (hayCuenta(c)) return true;
-  c.go('${Rutas.entrar}?${Rutas.parametroVolver}=${Uri.encodeQueryComponent(destino)}');
+  c.go(
+    '${Rutas.entrar}?${Rutas.parametroVolver}=${Uri.encodeQueryComponent(destino)}',
+  );
   return false;
 }
 
@@ -69,10 +71,18 @@ Future<List<String>> elegirFotos({bool varias = true, int max = 5}) async {
   final p = ImagePicker();
   try {
     if (varias) {
-      final l = await p.pickMultiImage(limit: max, maxWidth: 1600, imageQuality: 75);
+      final l = await p.pickMultiImage(
+        limit: max,
+        maxWidth: 1600,
+        imageQuality: 75,
+      );
       return [for (final x in l) x.path];
     }
-    final x = await p.pickImage(source: ImageSource.gallery, maxWidth: 800, imageQuality: 80);
+    final x = await p.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 800,
+      imageQuality: 80,
+    );
     return x == null ? [] : [x.path];
   } on Object {
     return [];
