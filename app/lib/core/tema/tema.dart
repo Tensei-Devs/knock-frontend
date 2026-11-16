@@ -1,7 +1,6 @@
 import 'package:app/core/tema/colores.dart';
 import 'package:app/core/tema/tipografia.dart';
 import 'package:app/core/tema/tokens.dart';
-import 'package:app/features/maqueta/anim_k.dart';
 import 'package:flutter/material.dart';
 
 export 'package:app/core/tema/tipografia.dart' show familiaTipografica;
@@ -45,7 +44,6 @@ ThemeData _construirTema(ColorScheme esquema) {
     fontFamily: familiaTipografica,
     textTheme: escalaDeTextos,
     extensions: [extra],
-    pageTransitionsTheme: pageTransitionsKnock,
     textButtonTheme: TextButtonThemeData(style: sinRelleno(Alturas.botonGhost)),
     // `.btn.sec`: contorno de 2 dp. El texto sigue el color de las reglas de
     // contraste (amber-ink en claro), no el azul de la maqueta.

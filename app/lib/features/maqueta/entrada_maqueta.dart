@@ -204,7 +204,10 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
   }
 
   void _go() {
-    final destino = destinoDeRegreso(ref.read(destinoDeRegresoProvider));
+    final destino = destinoDeRegreso(
+      ref.read(destinoDeRegresoProvider),
+      maqueta: true,
+    );
     ref.read(destinoDeRegresoProvider.notifier).olvidar();
     context.go(destino);
   }

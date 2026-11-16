@@ -1,9 +1,8 @@
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/tema/tema.dart';
-import 'package:app/features/maqueta/nav.dart';
-import 'package:app/features/maqueta/pantallas_tecnico.dart';
-import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/maqueta/fachada_maqueta.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,25 +17,26 @@ class KnockApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencias = ref.watch(preferenciasProvider);
-    idiomaIngles = preferencias.idioma.languageCode == 'en';
+    final maqueta = ref.watch(modoMaquetaProvider);
     final router = ref.watch(appRouterProvider);
-    registrarIrA(router);
-    registrarRutasTecnico(router);
+    if (maqueta) {
+      RaizMaqueta.preparar(
+        router,
+        ingles: preferencias.idioma.languageCode == 'en',
+      );
+    }
     return MaterialApp.router(
-      scaffoldMessengerKey: mensajeroMaqueta,
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      theme: temaClaro,
-      darkTheme: temaOscuro,
+      scaffoldMessengerKey: maqueta ? RaizMaqueta.mensajero : null,
+      theme: maqueta ? RaizMaqueta.conTransiciones(temaClaro) : temaClaro,
+      darkTheme: maqueta ? RaizMaqueta.conTransiciones(temaOscuro) : temaOscuro,
       themeMode: preferencias.modoTema,
       locale: preferencias.idioma,
       supportedLocales: idiomasSoportados,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routerConfig: router,
-      builder: (context, child) => AvisosHost(
-        messengerKey: mensajeroMaqueta,
-        child: child ?? const SizedBox.shrink(),
-      ),
+      builder: maqueta ? RaizMaqueta.envolver : null,
     );
   }
 }

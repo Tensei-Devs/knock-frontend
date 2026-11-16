@@ -1,3 +1,4 @@
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +10,10 @@ class DestinoDeRegreso extends Notifier<String?> {
   String? build() => null;
 
   /// Guarda [valor] solo si es un destino permitido; si no, lo ignora.
-  void recordar(String? valor) => state = destinoValidoODescartar(valor);
+  void recordar(String? valor) => state = destinoValidoODescartar(
+    valor,
+    maqueta: ref.read(modoMaquetaProvider),
+  );
 
   void olvidar() => state = null;
 }
