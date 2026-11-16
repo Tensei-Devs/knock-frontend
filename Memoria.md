@@ -7,6 +7,11 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-13 — Specs de los endpoints que ninguna spec cubría (borradores)
+- **Decisión:** se redactan en un solo cambio 15 specs de backend (039 a 053) y 16 de frontend (029 a 044, con el panel web) para 90 endpoints del Excel `Knock_Endpoints_CRUD.xlsx` que las specs 001 a 038 no cubren; salen en Borrador y sin tareas activas.
+- **Porqué:** las specs numeradas cubren cerca del 30 % de los 130 endpoints del Excel; el resto se especifica de una vez para poder aprobarlas y repartirlas.
+- **Cómo:** una spec por grupo de colecciones, armada con las rutas, roles, reglas de campos, paginación, caché y respuestas de cada hoja; los códigos de negocio en inglés, los plazos y las dudas de cada grupo quedan en su §15 (backend) y §13 (frontend) para confirmarse al aprobar.
+- **Cierre integral (2026-11-13):** se resolvieron las 83 decisiones de la segunda revisión: se corrigieron las contradicciones con las specs 001 a 038 y el Excel (verificación opcional y disponibilidad con `disponibleHasta` en 046, cambio de número con Firebase en 039, contactos de confianza solo en la app en 042, gravedad de los reportes en 053 y otras), se eliminaron los límites sin respaldo y no queda ninguna duda abierta. El registro está en `_herramientas/REGISTRO_DE_CORRECCIONES_039_054.md`.
 ## 2026-11-14 — Estado real de las tareas de la spec 026 (KNOCK-248)
 - **Estado:** `task.md` de la spec 026 marca como hechas T-01 a T-12 y T-14 (PR #29 y #32, verificado por la existencia de sus clases y de las pruebas `cliente_autenticado`, `renovador_sesion_api`, `perfil_repository_api`, `sesiones_repository_api`, `composicion_api` y `flujo_api_servidor_falso`); T-13 sigue pendiente. El `task.md` de la spec 016 ya lo actualizaron #54 y #55 en `sprint-04`, con más detalle; esta PR no lo cambia.
 - **Porqué:** las tablas seguían en «pendiente» aunque el código ya estaba fusionado, y el avance real se medía mal.
