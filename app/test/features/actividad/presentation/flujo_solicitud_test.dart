@@ -100,17 +100,15 @@ void main() {
       ],
     );
     addTearDown(contenedor.dispose);
+    final app = MaterialApp(
+      theme: temaClaro,
+      locale: const Locale('es'),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      home: pantalla,
+    );
     await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: contenedor,
-        child: MaterialApp(
-          theme: temaClaro,
-          locale: const Locale('es'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: pantalla,
-        ),
-      ),
+      UncontrolledProviderScope(container: contenedor, child: app),
     );
     await tester.pumpAndSettle();
     return contenedor;
