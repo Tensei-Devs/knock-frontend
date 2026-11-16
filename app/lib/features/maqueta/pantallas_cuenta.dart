@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/preferencias/preferencias_provider.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/maqueta/cobertura.dart';
@@ -33,6 +34,7 @@ class CuentaMaqueta extends ConsumerWidget {
         BtnK('Cerrar sesión', () async {
           Navigator.pop(ctx);
           await ref.read(perfilControllerProvider.notifier).cerrarSesion();
+          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
           maq.toast('Cerraste sesión');
         }, kind: Bk.dark),
         BtnK('Cancelar', () => Navigator.pop(ctx), kind: Bk.ghost),
@@ -50,7 +52,7 @@ class CuentaMaqueta extends ConsumerWidget {
       if (perfil.codigoPostal != null) maq.user.cp = perfil.codigoPostal!;
     }
     final esTecnico = ref.watch(esTecnicoProvider);
-    unawaited(maq.cargarTelefono());
+    unawaited(maq.cargarTelefono(ref.read(almacenSeguroProvider)));
     return MaqBuilder((context) {
       final u = maq.user;
       final k = kc(context);
@@ -2061,6 +2063,7 @@ class EliminadoScreen extends ConsumerWidget {
           }),
         BtnK('Salir', () async {
           await ref.read(perfilControllerProvider.notifier).cerrarSesion();
+          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
           if (!pending) maq.resetAll();
         }, kind: pending ? Bk.ghost : Bk.sec),
       ]),

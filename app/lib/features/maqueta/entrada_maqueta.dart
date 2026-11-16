@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/router/destino_de_regreso_provider.dart';
 import 'package:app/core/router/rutas.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/entrada/domain/validacion_entrada.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
@@ -92,7 +93,9 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
         _code.clear();
         phoneErr = false;
       });
-      unawaited(maq.guardarTelefono(fmtPhone(d)));
+      unawaited(
+        maq.guardarTelefono(fmtPhone(d), ref.read(almacenSeguroProvider)),
+      );
       _startTimer();
     }
   }

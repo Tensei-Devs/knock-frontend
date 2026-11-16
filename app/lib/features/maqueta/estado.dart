@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
 
 /// Estado simulado de la maqueta (`st` de `knock.js`) con los mismos
 /// comportamientos y tiempos. Vive en memoria: es la parte sin endpoint.
@@ -195,19 +195,27 @@ class MaquetaEstado extends ChangeNotifier {
 
   void refresh() => notifyListeners();
 
+  /// Clave del celular en el almacén seguro (no en `shared_preferences`, que
+  /// no está cifrado: spec 009 y TC-HU-052-06).
+  static const _claveTelefono = 'knock.maqueta.telefono';
+
   /// El celular con el que se entró se recuerda en el dispositivo (solo para
   /// mostrarlo en Mi cuenta, como la maqueta).
-  Future<void> cargarTelefono() async {
+  Future<void> cargarTelefono(AlmacenSeguro almacen) async {
     if (user.phone.isNotEmpty) return;
-    final p = await SharedPreferences.getInstance();
-    user.phone = p.getString('maq_telefono') ?? '';
+    user.phone = await almacen.leer(_claveTelefono) ?? '';
     if (user.phone.isNotEmpty) notifyListeners();
   }
 
-  Future<void> guardarTelefono(String t) async {
+  Future<void> guardarTelefono(String t, AlmacenSeguro almacen) async {
     user.phone = t;
-    final p = await SharedPreferences.getInstance();
-    await p.setString('maq_telefono', t);
+    await almacen.escribir(_claveTelefono, t);
+  }
+
+  /// Al cerrar sesión no queda el celular ni en memoria ni en el dispositivo.
+  Future<void> olvidarTelefono(AlmacenSeguro almacen) async {
+    user.phone = '';
+    await almacen.borrar(_claveTelefono);
   }
 
   @override
