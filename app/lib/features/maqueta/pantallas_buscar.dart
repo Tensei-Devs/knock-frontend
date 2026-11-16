@@ -1292,7 +1292,8 @@ class _AsistenteScreenState extends State<AsistenteScreen> {
                   child: Row(
                     spacing: 8,
                     children: [
-                      for (final t in chips) _quick(context, t, () => _user(t)),
+                      for (final t in chips)
+                        chipRapido(context, t, () => _user(t)),
                     ],
                   ),
                 ),
@@ -1396,33 +1397,6 @@ Widget _burbuja(BuildContext context, AsisMsg m) {
   );
 }
 
-Widget _quick(BuildContext c, String t, VoidCallback onTap) {
-  final k = kc(c);
-  return InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(19),
-    child: Container(
-      constraints: const BoxConstraints(minHeight: 38),
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: k.surface,
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: k.line, width: 1.5),
-      ),
-      child: Text(
-        tr(t),
-        style: TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w800,
-          fontSize: 14,
-          color: k.navy,
-        ),
-      ),
-    ),
-  );
-}
-
 Widget _composer(
   BuildContext c,
   String hint,
@@ -1500,5 +1474,5 @@ Widget composerK(
   VoidCallback onSend,
 ) => _composer(c, hint, ctl, onSend);
 Widget quickK(BuildContext c, String t, VoidCallback onTap) =>
-    _quick(c, t, onTap);
+    chipRapido(c, t, onTap);
 Widget burbujaK(BuildContext c, AsisMsg m) => _burbuja(c, m);

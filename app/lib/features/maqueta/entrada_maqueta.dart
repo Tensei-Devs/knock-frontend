@@ -5,10 +5,10 @@ import 'package:app/core/router/destino_de_regreso_provider.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
-import 'package:app/features/entrada/domain/validacion_entrada.dart';
+import 'package:app/features/entrada/entrada.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
 import 'package:app/features/entrada/presentation/mensaje_de_error.dart';
-import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/datos.dart';
@@ -101,12 +101,13 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
   }
 
   Future<void> _verify() async {
-    if (!esCodigoValido(_code.text)) {
-      setState(() => codeErr = true);
-      return;
+    final code = _code.text;
+    final valido = esCodigoValido(code);
+    setState(() => codeErr = !valido);
+    if (valido) {
+      FocusScope.of(context).unfocus();
+      await ref.read(entradaControllerProvider.notifier).verificar(code);
     }
-    FocusScope.of(context).unfocus();
-    await ref.read(entradaControllerProvider.notifier).verificar(_code.text);
   }
 
   Future<void> _resend() async {

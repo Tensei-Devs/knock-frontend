@@ -135,3 +135,7 @@ Desde `app/`: `python tool/lottie_gen/generar_lotties.py` (solo biblioteca está
 - Teléfono 53G0225830003195 NO estaba conectado por adb (lista vacía, también tras reiniciar el servidor): APK release compilado en `app/build/app/outputs/flutter-apk/app-release.apk` pero sin instalar. Por seguir: conectar el teléfono, `adb -s 53G0225830003195 install -r` esa APK, lanzar `app.knock.mobile`, iniciar sesión (5555550001 / 123456) y revisar con capturas flujo de solicitud, esqueletos, pulso del pin y tema oscuro.
 - Revisar en teléfono el pulso del pin y los esqueletos en tema oscuro; afinar tiempos si se sienten largos.
 - Las pruebas viejas que dependan de `pumpAndSettle` con animaciones infinitas (Lottie, shimmer) podrían necesitar `pump` con duración.
+
+
+## Integración al repositorio (2026-11-16, spec 045)
+La maqueta ya solo se activa compilando con `--dart-define=MODO_MAQUETA=true`; sin la bandera la app conserva sus flujos. Para el APK de demostración: `flutter build apk --release --dart-define=MODO_MAQUETA=true` (más las variables de siempre). Las rutas, la barra inferior y el rótulo «Datos de ejemplo» salen de `features/maqueta/fachada_maqueta.dart`. Cada spec de pantallas quita su pantalla de la capa simulada al conectarla a su API (R-05).

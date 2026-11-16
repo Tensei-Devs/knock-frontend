@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.dart';
 import 'package:app/features/maqueta/anim_k.dart';

@@ -1795,3 +1795,31 @@ class _AvisosHostState extends State<AvisosHost> {
   @override
   Widget build(BuildContext context) => widget.child;
 }
+
+/// Chip de respuesta rápida (el texto se traduce con [tr]).
+Widget chipRapido(BuildContext c, String t, VoidCallback onTap) {
+  final k = kc(c);
+  return InkWell(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(19),
+    child: Container(
+      constraints: const BoxConstraints(minHeight: 38),
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: k.surface,
+        borderRadius: BorderRadius.circular(19),
+        border: Border.all(color: k.line, width: 1.5),
+      ),
+      child: Text(
+        tr(t),
+        style: TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w800,
+          fontSize: 14,
+          color: k.navy,
+        ),
+      ),
+    ),
+  );
+}
