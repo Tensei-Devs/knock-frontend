@@ -22,8 +22,8 @@ Subir a la rama del sprint la reconstrucción visual de las 52 pantallas de `maq
 - El dominio, los repositorios, las pruebas y los ARB de cada pantalla: son de cada spec.
 
 ## 3. Requisitos
-- **R-01** Todo el código simulado vive en `features/maqueta/`; ningún otro módulo importa `maq` ni `maq.pv`.
-- **R-02** La capa simulada se activa con una bandera de compilación (`MODO_MAQUETA`). Sin ella, la app usa solo lo real. Con ella, todo dato de ejemplo se rotula como tal (spec 027).
+- **R-01** Todo el código simulado vive en `features/maqueta/`. Fuera de esa carpeta solo se importa `fachada_maqueta.dart`, y solo desde `core/router/app_router.dart` y `app.dart` (excepción acotada autorizada el 2026-11-16: el router registra las rutas de la maqueta exclusivamente con `MODO_MAQUETA` activo). `app_shell.dart` y `tema.dart` no la conocen.
+- **R-02** La capa simulada se activa con una bandera de compilación (`MODO_MAQUETA`). Sin ella, la app usa solo lo real. Con ella, todo dato de ejemplo se rotula como tal (spec 027). La bandera es `modoMaquetaProvider` (por defecto, `bool.fromEnvironment`), que las pruebas sustituyen para verificar los dos modos por separado. El rótulo reutiliza `RotuloDeEjemplo` (spec 027), fijo en toda pantalla.
 - **R-03** Lo real no se simula: sesión, perfil, oficios, colonias y ubicación siguen usando sus repositorios.
 - **R-04** Sin secretos en el repositorio (la clave del mapa no se versiona) ni datos personales reales en las semillas.
 - **R-05** Cada spec de pantallas que valide una pantalla quita su dependencia de la capa simulada y borra el estado simulado que ya no use; se lleva una tabla pantalla → spec → estado (simulada / conectada).
@@ -69,8 +69,8 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 
 ## 12. Riesgos y dudas abiertas
 1. **Textos:** `tr()` con diccionario (como está) o claves ARB (como piden los specs). Mientras la capa sea simulada se propone `tr()`, y cada spec migra a ARB al conectar su pantalla.
-2. **Cobertura:** si las pruebas de la capa simulada no alcanzan el 50 %, hay que excluir `features/maqueta` en el CI. Eso toca `.github/` (archivo protegido) y necesita autorización expresa; la alternativa es escribir las pruebas.
-3. **Pruebas en rojo:** 90 pruebas del diseño anterior; verificar la cifra actual antes de decidir cuáles se reescriben y cuáles se retiran.
+2. **Cobertura (resuelto 2026-11-16):** no hace falta excluir `features/maqueta` ni tocar el CI. Con las pruebas por ruta del modo maqueta, la suite completa llega a 67,3 % (mínimo 50 %), medido también en un checkout limpio.
+3. **Pruebas en rojo (resuelto 2026-11-16):** eran 95 regresiones nuevas (la línea base de `sprint-04` tiene 742 pruebas en verde). Con la bandera apagada por defecto vuelven a pasar sin tocarlas; 2 solo fallan en equipos con `google-services.json` local (ignorado por git).
 4. **Número de spec y de subtareas:** confirmar contra la rama de KNOCK-266.
 5. **Revisión de pares:** el reglamento pide comentario de otra persona; si no hay disponible, registrarlo en el PR como excepción.
 
