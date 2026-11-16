@@ -827,7 +827,10 @@ class _CerrarState extends State<CerrarScreen> {
                 Row(
                   spacing: 4,
                   children: [
-                    Icon(icn('check'), size: 15, color: k.navy),
+                    if (vis.fin.contains('esperando aprobación'))
+                      const CargaK(tipo: TipoCarga.puntos, size: 34)
+                    else
+                      Icon(icn('check'), size: 15, color: k.navy),
                     Expanded(
                       child: T(
                         vis.fin,

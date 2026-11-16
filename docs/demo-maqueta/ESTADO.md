@@ -131,6 +131,7 @@ Capa aditiva: no cambia textos, diseño ni flujos de la maqueta.
 Desde `app/`: `python tool/lottie_gen/generar_lotties.py` (solo biblioteca estándar). Edita el script (colores arriba, una función por animación) y vuelve a correrlo; se reescriben los JSON de `assets/lottie/`.
 
 ### Pendientes
-- Ajuste de precio del técnico (aprobación del cliente a 20 s): no tiene pantalla de espera propia; sin Lottie.
+- Hecho (2026-11-16, sin verificar en teléfono): en la pantalla del técnico, mientras el ajuste espera aprobación del cliente (5 s), se muestra `CargaK(puntos)` junto al texto en lugar del check. Del lado del cliente la espera sigue siendo una nota estática (no hay pantalla de espera).
+- Teléfono 53G0225830003195 NO estaba conectado por adb (lista vacía, también tras reiniciar el servidor): APK release compilado en `app/build/app/outputs/flutter-apk/app-release.apk` pero sin instalar. Por seguir: conectar el teléfono, `adb -s 53G0225830003195 install -r` esa APK, lanzar `app.knock.mobile`, iniciar sesión (5555550001 / 123456) y revisar con capturas flujo de solicitud, esqueletos, pulso del pin y tema oscuro.
 - Revisar en teléfono el pulso del pin y los esqueletos en tema oscuro; afinar tiempos si se sienten largos.
 - Las pruebas viejas que dependan de `pumpAndSettle` con animaciones infinitas (Lottie, shimmer) podrían necesitar `pump` con duración.
