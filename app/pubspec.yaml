@@ -47,6 +47,9 @@ dependencies:
   image_picker: 1.2.4
   path_provider: 2.1.6
   image: 4.12.0
+  # KNOCK-84 (spec 022): «Compartir sin guardar» con la hoja del sistema. Sin
+  # permisos. Evaluada en Memoria.md.
+  share_plus: 13.3.1
 
 dev_dependencies:
   flutter_test:

@@ -91,6 +91,9 @@ class SesionNotifier extends Notifier<TokensSesion?> {
     await borrarBorradorDeSolicitud(ref);
     // Spec 016, CA-16 y R-17: no quedan códigos de visita de la cuenta.
     await borrarDatosDeVisita(ref.read(almacenSeguroProvider));
+    // Ya con todo borrado: lo que muestra datos locales de la cuenta se vuelve
+    // a leer (spec 022, CA-13).
+    ref.read(cierresDeSesionProvider.notifier).registrar();
   }
 
   /// Renueva el token que la API rechazó ([vencido]). Peticiones simultáneas
@@ -159,4 +162,18 @@ class SesionNotifier extends Notifier<TokensSesion?> {
 
 final sesionProvider = NotifierProvider<SesionNotifier, TokensSesion?>(
   SesionNotifier.new,
+);
+
+/// Cuántas veces se cerró la sesión en esta ejecución. Sube **después** de
+/// borrar los datos locales de la cuenta: quien muestra datos guardados en el
+/// teléfono (contactos de confianza, spec 022) lo observa para volver a leer.
+class CierresDeSesion extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void registrar() => state++;
+}
+
+final cierresDeSesionProvider = NotifierProvider<CierresDeSesion, int>(
+  CierresDeSesion.new,
 );

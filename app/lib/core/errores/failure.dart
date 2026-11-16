@@ -142,3 +142,10 @@ final class EleccionRechazadaFailure extends Failure {
 
   final MotivoEleccionRechazada motivo;
 }
+
+/// La visita ya no permite avisos de confianza (409 `visit_not_notifiable`,
+/// spec 022 CA-16). Es el único 409 que bloquea el aviso; otro conflicto deja
+/// enviar el texto de respaldo.
+final class AvisoNoPermitidoFailure extends Failure {
+  const AvisoNoPermitidoFailure();
+}

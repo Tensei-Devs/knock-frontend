@@ -1215,5 +1215,157 @@
   "visitaEstadoCancelada": "Cancelada",
   "@visitaEstadoCancelada": {
     "description": "Estado cancelada o no presentado."
+  },
+  "avisoTitulo": "Avisar a alguien de confianza",
+  "@avisoTitulo": {
+    "description": "Título de la hoja del aviso (spec 022)."
+  },
+  "avisoVistaPrevia": "Así llegará tu mensaje",
+  "@avisoVistaPrevia": {
+    "description": "Título de la vista previa (R-04)."
+  },
+  "avisoElige": "¿A quién le avisas?",
+  "@avisoElige": {
+    "description": "Título de la lista de contactos."
+  },
+  "avisoSinContactos": "Agrega a alguien de confianza para avisarle cuando tengas una visita",
+  "@avisoSinContactos": {
+    "description": "Sin contactos (§7)."
+  },
+  "avisoPrivacidad": "Tus contactos se guardan solo en este teléfono",
+  "@avisoPrivacidad": {
+    "description": "Texto de privacidad (CA-14)."
+  },
+  "avisoAgregarContacto": "Agregar contacto",
+  "@avisoAgregarContacto": {
+    "description": "Botón para agregar un contacto."
+  },
+  "avisoEditarContacto": "Editar contacto",
+  "@avisoEditarContacto": {
+    "description": "Título al editar un contacto."
+  },
+  "avisoBorrarContacto": "Borrar a {nombre}",
+  "@avisoBorrarContacto": {
+    "description": "Botón para borrar un contacto.",
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoEditarA": "Editar a {nombre}",
+  "@avisoEditarA": {
+    "description": "Botón para editar un contacto.",
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoNombre": "Nombre",
+  "@avisoNombre": {
+    "description": "Campo nombre del contacto."
+  },
+  "avisoCelular": "Celular (10 dígitos)",
+  "@avisoCelular": {
+    "description": "Campo celular del contacto."
+  },
+  "avisoGuardar": "Guardar",
+  "@avisoGuardar": {
+    "description": "Guardar el contacto."
+  },
+  "avisoCancelar": "Cancelar",
+  "@avisoCancelar": {
+    "description": "Cancelar el formulario."
+  },
+  "avisoErrorNombre": "Escribe un nombre de 2 a 40 caracteres",
+  "@avisoErrorNombre": {
+    "description": "Nombre inválido (CA-05)."
+  },
+  "avisoErrorCelular": "Escribe los 10 números del celular",
+  "@avisoErrorCelular": {
+    "description": "Celular inválido (CA-05)."
+  },
+  "avisoErrorRepetido": "Ese celular ya está en tu lista",
+  "@avisoErrorRepetido": {
+    "description": "Celular repetido (CA-07)."
+  },
+  "avisoErrorLleno": "Ya tienes 10 contactos. Borra uno para agregar otro.",
+  "@avisoErrorLleno": {
+    "description": "Máximo de 10 (CA-06)."
+  },
+  "avisoEnviarSms": "Enviar por SMS",
+  "@avisoEnviarSms": {
+    "description": "Canal SMS (CA-09)."
+  },
+  "avisoEnviarWhatsapp": "Enviar por WhatsApp",
+  "@avisoEnviarWhatsapp": {
+    "description": "Canal WhatsApp (CA-10)."
+  },
+  "avisoCompartir": "Compartir sin guardar",
+  "@avisoCompartir": {
+    "description": "Hoja de compartir del sistema (CA-12)."
+  },
+  "avisoSinApp": "No encontramos una app para enviar. Usa «Compartir».",
+  "@avisoSinApp": {
+    "description": "Sin app de mensajes o WhatsApp (§7)."
+  },
+  "avisoNoPermitido": "Esta visita ya no permite avisos",
+  "@avisoNoPermitido": {
+    "description": "409 visit_not_notifiable (CA-16)."
+  },
+  "avisoSinRegistro": "No pudimos registrar el aviso; puedes enviarlo de todos modos",
+  "@avisoSinRegistro": {
+    "description": "Error o sin conexión (CA-16)."
+  },
+  "avisoSinDatos": "No pudimos preparar el aviso. Intenta de nuevo con conexión.",
+  "@avisoSinDatos": {
+    "description": "Sin texto del servidor ni copia local."
+  },
+  "avisoLocalEncabezado": "Hoy recibo a un técnico de Knock.",
+  "@avisoLocalEncabezado": {
+    "description": "Plantilla local, encabezado (R-12)."
+  },
+  "avisoLocalVerificado": "Se llama {nombre} y está verificado por Knock.",
+  "@avisoLocalVerificado": {
+    "description": "Plantilla local, técnico verificado.",
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalSinVerificar": "Se llama {nombre}; todavía no está verificado.",
+  "@avisoLocalSinVerificar": {
+    "description": "Plantilla local, técnico sin verificar.",
+    "placeholders": {
+      "nombre": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalCuando": "Viene el {dia} a las {hora}.",
+  "@avisoLocalCuando": {
+    "description": "Plantilla local, día y hora.",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "avisoLocalRecomendacion": "Le pediré el código en la puerta antes de abrir.",
+  "@avisoLocalRecomendacion": {
+    "description": "Plantilla local, recomendación."
+  },
+  "cuentaContactosConfianza": "Contactos de confianza",
+  "@cuentaContactosConfianza": {
+    "description": "Entrada de Mi cuenta (CA-14)."
+  },
+  "avisoCerrar": "Cerrar",
+  "@avisoCerrar": {
+    "description": "Cerrar la hoja del aviso."
   }
 }

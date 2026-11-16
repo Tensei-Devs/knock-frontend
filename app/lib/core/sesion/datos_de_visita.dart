@@ -7,6 +7,12 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 /// la función Actividad.
 const prefijoVisitaGuardada = 'knock.visita.abierta.';
 
+/// Copia de los datos del aviso de confianza de cada visita (spec 022, R-12).
+const prefijoRespaldoAviso = 'knock.aviso.respaldo.';
+
+/// Contactos de confianza del teléfono (spec 022, R-01).
+const claveContactosConfianza = 'knock.contactos.confianza';
+
 /// Índice con los identificadores guardados: `AlmacenSeguro` no borra por
 /// prefijo, así que sin índice no se podrían enumerar al cerrar sesión.
 const claveIndiceDeVisitas = 'knock.visita.claves';
@@ -28,14 +34,20 @@ Future<void> escribirIndiceDeVisitas(AlmacenSeguro almacen, Set<String> ids) =>
     ? almacen.borrar(claveIndiceDeVisitas)
     : almacen.escribir(claveIndiceDeVisitas, jsonEncode(ids.toList()));
 
-/// Borra todas las visitas guardadas y su índice (CA-16). Lo llama el cierre
-/// de sesión. Nunca lanza.
+/// Borra las visitas guardadas, sus copias de aviso, su índice y los
+/// contactos de confianza (spec 016 CA-16, spec 022 CA-13 y CA-20). Lo llama
+/// el cierre de sesión. Solo borra lo que existe. Nunca lanza.
 Future<void> borrarDatosDeVisita(AlmacenSeguro almacen) async {
   try {
-    // Sin índice no hay visitas guardadas: no se toca el almacén.
+    if (await almacen.leer(claveContactosConfianza) != null) {
+      await almacen.borrar(claveContactosConfianza);
+    }
     if (await almacen.leer(claveIndiceDeVisitas) == null) return;
     for (final id in await leerIndiceDeVisitas(almacen)) {
       await almacen.borrar('$prefijoVisitaGuardada$id');
+      if (await almacen.leer('$prefijoRespaldoAviso$id') != null) {
+        await almacen.borrar('$prefijoRespaldoAviso$id');
+      }
     }
     await almacen.borrar(claveIndiceDeVisitas);
   } on Object {
