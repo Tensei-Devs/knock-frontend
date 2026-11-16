@@ -3,3 +3,6 @@
 .githooks/* text eol=lf
 # Licencia de una fuente de terceros: se conserva tal cual, sin revisar espacios al final de línea.
 landing/fonts/OFL.txt -whitespace
+
+# Memoria.md es un registro al que cada PR agrega su entrada al final: el driver «union» junta las dos versiones en lugar de marcar conflicto.
+Memoria.md merge=union

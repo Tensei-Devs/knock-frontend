@@ -12,6 +12,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html 404.html /usr/share/nginx/html/
 COPY css /usr/share/nginx/html/css
 COPY fonts /usr/share/nginx/html/fonts
+COPY img /usr/share/nginx/html/img
 COPY privacidad /usr/share/nginx/html/privacidad
 COPY eliminar-cuenta /usr/share/nginx/html/eliminar-cuenta
 

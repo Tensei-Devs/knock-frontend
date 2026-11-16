@@ -63,6 +63,11 @@ class CuentaScreen extends ConsumerWidget {
                 titulo: textos.configuracionTitulo,
                 alTocar: () => context.go(Rutas.configuracion),
               ),
+              FilaKnock(
+                icono: Icons.people_outline,
+                titulo: textos.cuentaContactosConfianza,
+                alTocar: () => context.go(Rutas.contactosConfianza),
+              ),
             ],
           ),
           const SizedBox(height: Espaciado.bloque),

@@ -31,7 +31,7 @@ excepciones:
   - id: EXC-002
     herramienta: dependency-review
     regla: licencias-pub-no-reconocidas-como-spdx
-    alcance: app/pubspec.lock (los 19 paquetes de pub que lista allow-dependencies-licenses en .github/workflows/ci-pr.yml; por nombre, en cualquier versión)
+    alcance: app/pubspec.lock (los 57 paquetes de pub que lista allow-dependencies-licenses en .github/workflows/ci-pr.yml, 42 hasta KNOCK-228 y 15 más con KNOCK-262; por nombre, en cualquier versión)
     justificacion: >-
       Falso positivo de formato, no de licencia. dependency-review-action recibe de pub las licencias en minúsculas (mit,
       bsd-3-clause, mpl-2.0) y no las reconoce como SPDX, y a geolocator_windows@0.2.5 no le detecta ninguna. Se leyó el
@@ -39,9 +39,9 @@ excepciones:
       geolocator_platform_interface, geolocator_windows, petitparser, xml), BSD-3-Clause (google_maps_flutter y sus tres
       paquetes de plataforma, stream_transform, win32, jni y shared_preferences con sus paquetes de plataforma android y foundation, añadidos el 2026-11-03 tras comprobar su licencia en pub.dev) y MPL-2.0 (dbus, gsettings); todas están en la lista permitida de
       CONTRIBUTING.md y ninguna en deny-licenses. dbus y gsettings solo las usa geolocator_linux, que Flutter registra
-      únicamente en Linux (no está entre los plugins de Android). Límite conocido: el action ignora la versión al comparar
+      únicamente en Linux (no está entre los plugins de Android). Ampliación KNOCK-262 (2026-11-11): se agregan 15 paquetes que el CI de los PR #45 y #46 marcó sin licencia reconocida, tras leer el LICENSE del paquete publicado en pub.dev (la versión exacta de pubspec.lock): MIT (archive, image, posix), BSD-3-Clause (cross_file, file_selector_linux, file_selector_macos, file_selector_windows, image_picker_platform_interface, mime, url_launcher_android, url_launcher_ios, url_launcher_linux, url_launcher_macos, url_launcher_windows) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios); url_launcher_windows no tiene licencia detectada por el action, como geolocator_windows. Todas están en la lista permitida de CONTRIBUTING.md y ninguna en deny-licenses. Los 42 previos incluyen 23 que KNOCK-228 agregó sin actualizar este texto. Límite conocido: el action ignora la versión al comparar
       (src/purl.ts, purlsMatch), así que una versión nueva de estos paquetes queda exenta; mientras la excepción exista, la
-      licencia de cualquier actualización de estos 19 se revisa a mano. La comprobación sigue activa para el resto.
+      licencia de cualquier actualización de estos 57 se revisa a mano. La comprobación sigue activa para el resto.
     responsable: José Julián Hernández Hernández
     creada: 2026-11-02
     vence: 2027-01-30
