@@ -13,54 +13,7 @@ import 'package:go_router/go_router.dart';
 import '../../soporte/fuente_nunito.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/pantalla_maqueta.dart';
-
-/// Ruta de la maqueta y un texto que identifica su contenido.
-const _pantallas = <(String, String)>[
-  ('/inicio', '7 expertos cerca de ti'),
-  ('/explorar', 'Busca un experto cerca de ti'),
-  ('/actividad', 'El boiler no enciende'),
-  ('/trabajo', 'Estás disponible hoy'),
-  ('/cuenta', 'Mi casa y mi auto'),
-  ('/cuenta/configuracion', 'Preferencias'),
-  ('/m/buscar', 'Plomería'),
-  ('/m/experto/rm', 'Ricardo Mendoza'),
-  ('/m/experto/rm/opiniones', '87 opiniones'),
-  ('/m/asistente', 'Asistente Knock'),
-  ('/m/solicitar', '¿Qué necesitas arreglar?'),
-  ('/m/enviada/j1', 'Tu solicitud va en camino'),
-  ('/m/comparar/j1', 'Cotizaciones'),
-  ('/m/visita/j3', 'Tu código para cuando llegue'),
-  ('/m/cita/j2', 'Cita en taller'),
-  ('/m/calificar/j4', 'Califica el servicio'),
-  ('/m/reportar/j4', 'Reportar un problema'),
-  ('/m/compartir/j3', 'Avisar a alguien'),
-  ('/m/mensajes', 'Mensajes'),
-  ('/m/chat/rm', 'En línea · responde en ~12 min'),
-  ('/m/mi-casa', 'Mi casa y mi auto'),
-  ('/m/confianza', 'Mis técnicos de confianza'),
-  ('/m/avisos', 'Sin avisos por ahora'),
-  ('/m/avisos-config', 'Qué avisos recibir'),
-  ('/m/aviso-privacidad', 'Aviso de privacidad'),
-  ('/m/terminos', 'Términos y condiciones'),
-  ('/m/privacidad', 'Descargar mis datos'),
-  ('/m/eliminar/1', 'Antes de irte, esto es lo que pasa'),
-  ('/m/eliminar/2', '¿Seguro que quieres eliminar tu cuenta?'),
-  ('/m/eliminado', 'Tu cuenta fue eliminada'),
-  ('/m/ayuda?t=1', '¿Sobre qué tienes dudas?'),
-  ('/m/sin-conexion', 'No hay internet'),
-  ('/m/tecnico/registro', 'Crea tu cuenta de técnico'),
-  ('/m/tecnico/verificacion', 'Verifica tu identidad'),
-  ('/m/tecnico/pendiente', 'Estamos revisando tus documentos'),
-  ('/m/tecnico/verificado', 'Ya estás verificado'),
-  ('/m/tecnico/rechazada', 'No pudimos verificarte'),
-  ('/m/tecnico/mensajes', 'Mensajes de clientes'),
-  ('/m/tecnico/chat/ml/r1', 'Mariana L.'),
-  ('/m/tecnico/cotizar/r1', 'Cotización'),
-  ('/m/tecnico/iniciar/vr1', 'Iniciar trabajo'),
-  ('/m/tecnico/cerrar/vr1', 'Terminar servicio'),
-  ('/m/tecnico/perfil', 'Tu perfil público'),
-  ('/m/tecnico/reputacion', 'Mi reputación'),
-];
+import '../../soporte/rutas_maqueta.dart';
 
 const _tamano = Size(412, 892);
 
@@ -91,7 +44,7 @@ void main() {
   final rotulo = leerArb('es')['previaDatosDeEjemplo']!;
 
   group('CA_045_01 modo maqueta encendido', () {
-    for (final (ruta, texto) in _pantallas) {
+    for (final (ruta, texto) in pantallasMaqueta) {
       testWidgets('CA_045_01 $ruta abre con su contenido y el rótulo', (
         tester,
       ) async {
@@ -178,7 +131,7 @@ void main() {
         fijarPantalla(tester, tamano: _tamano);
         final container = await montarApp(tester, esTecnico: true);
         final router = container.read(appRouterProvider);
-        for (final (ruta, texto) in _pantallas.where(
+        for (final (ruta, texto) in pantallasMaqueta.where(
           (p) => p.$1.startsWith('/m/'),
         )) {
           router.go(ruta);
