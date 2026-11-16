@@ -13,9 +13,10 @@
 | P-1 | Pruebas del diseño anterior: con la bandera apagada pasan sin tocarlas (95 regresiones, 0 preexistentes) | T-01 a T-04 | R-06 · CA-09 | hecha: 796 de 796 en checkout limpio |
 | P-2 | Prueba de arquitectura: fuera de `features/maqueta/` solo se importa la fachada, y solo el router y la raíz | T-05 | R-01 · CA-04 | hecha (`maqueta_aislada_test.dart`) |
 | P-3 | Pruebas de CA-06 (oscuro e inglés en 12 rutas, una por función) y CA-07 («reducir movimiento»: espera con fotograma fijo, mensajes sin fundido, app en modo maqueta) | T-04 | R-07 · CA-06, CA-07 | hecha (`maqueta_a11y_test.dart`; se comprobó que 3 de las 4 de CA-07 fallan si el código ignora el ajuste) |
+| P-4 | Prueba de que el rótulo no tapa ningún texto ni elemento tocable (45 rutas × 5 escenarios de pantalla) | T-08 | CA-03 | hecha (`rotulo_no_tapa_test.dart`; falla si el rótulo vuelve a flotar sobre la pantalla) |
 | T-06 | Evidencia: recorrido de las 52 pantallas, gitleaks y CI en verde | P-1, P-2, P-3 | CA-01, CA-08, CA-09 | parcial (2026-11-16): 45 rutas montadas por prueba; builds debug con y sin la bandera compilan; gitleaks 8.30.1 sin hallazgos en `sprint-04..HEAD`; analyze, formato, `sdd_lint` y `codemap --check` en verde; 826 de 826 pruebas y 67,7 % en checkout limpio. Falta: recorrido en teléfono o emulador y el CI real del PR |
 | T-07 | `Memoria.md`, mapa de arquitectura y tabla pantalla → spec → estado (R-05) | T-06 | R-05 | pendiente |
-| T-08 | Rótulo «Datos de ejemplo» sin tapar cabeceras ni acciones | T-05 | R-02 · CA-03 | propuesto, sin aplicar: en 11 de 45 rutas el chip fijo arriba a la derecha cubre un título, un texto o una acción de la esquina (ver spec, §12) |
+| T-08 | Rótulo «Datos de ejemplo» sin tapar cabeceras ni acciones | T-05 | R-02 · CA-03 | hecha (2026-11-16): franja fija superior con su propio alto (`fachada_maqueta.dart`); `rotulo_no_tapa_test.dart` la comprueba en 45 rutas y 5 tamaños, con y sin barra de estado |
 | T-09 | Licencias de las dependencias nuevas en la lista del CI | T-01 | R-06 · CA-09 | pendiente de autorización: 7 paquetes nuevos de `pubspec.lock` (MIT y BSD-3) no figuran en `allow-dependencies-licenses` de `ci-pr.yml` (toca `.github/` y EXC-002) |
 
 ## Definición de terminado

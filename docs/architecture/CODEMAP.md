@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-16T21:58:23Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-16T22:07:52Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -20,7 +20,7 @@
 | `inicio` | -, data, domain, presentation | 20 | 41 | 28 |
 | `l10n` | - | 3 | 4 | 79 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 20 | 163 | 358 |
+| `maqueta` | - | 20 | 164 | 359 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
@@ -351,8 +351,8 @@
   - `qTope()`:33, `refresh()`:196, `cargarTelefono()`:204, `guardarTelefono()`:210, `olvidarTelefono()`:216, `dispose()`:222, `after()`:229, `toast()`:240, `job()`:244, `notif()`:254, `results()`:264, `convIds()`:282, `accepted()`:286, `toggleSave()`:291, `openChat()`:296, `sendMsg()`:301, `block()`:324, `unblock()`:329, `startReq()`:335, `sendReq()`:354, `startClientQuotes()`:392, `reach()`:397, `widen()`:425, `accept()`:559, `adjOk()`:644 …
 - `app/lib/features/maqueta/explorar_maqueta.dart` — class `ExplorarMaqueta`
   - `build()`:30, `sec()`:143, `row()`:155, `pro()`:161, `tile()`:206
-- `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`
-  - `previa()`:31, `entrada()`:32, `inicio()`:33, `explorar()`:34, `actividad()`:35, `trabajo()`:36, `cuenta()`:37, `configuracion()`:38, `rutaMaqueta()`:42, `build()`:212, `preparar()`:225, `conTransiciones()`:232, `envolver()`:237
+- `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_FranjaDeEjemplo`
+  - `previa()`:32, `entrada()`:33, `inicio()`:34, `explorar()`:35, `actividad()`:36, `trabajo()`:37, `cuenta()`:38, `configuracion()`:39, `rutaMaqueta()`:43, `build()`:213, `preparar()`:226, `conTransiciones()`:233, `envolver()`:242, `build()`:270
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`
   - `initState()`:139, `dispose()`:172, `build()`:226, `MaqBuilder()`:235, `Scaffold()`:384
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`

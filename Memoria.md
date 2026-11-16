@@ -497,3 +497,9 @@
 - **No comprobado:** recorrido en teléfono o emulador (CA-01), `osv-scanner` (necesita Docker, apagado), el CI real del PR, ni un APK release. En equipos con `google-services.json` local fallan 2 pruebas de `seguridad_cliente` (pasan en un checkout limpio).
 - **Hallazgo ajeno a este PR:** `gitleaks` sobre toda la historia local marca 2 coincidencias de `knock-android-keystore-password` en el commit `ab7683b` de la rama local `feature/KNOCK-221-ci-and-android-publishing`, que no está en `sprint-04` ni en esta rama.
 - **A evitar:** dar por probado en teléfono lo que solo se montó en pruebas; ampliar la lista de licencias del CI sin revisar cada LICENSE ni sin autorización.
+
+## 2026-11-16 — El rótulo «Datos de ejemplo» pasa a franja fija (KNOCK-273)
+- **Qué cambió:** el chip flotante arriba a la derecha tapaba texto o acciones de la esquina en 11 de 45 rutas. `RaizMaqueta.envolver` (`fachada_maqueta.dart`) ahora dibuja una franja fija con su propio alto, barra de estado incluida, y la app debajo con el margen superior ya quitado (`MediaQuery.removePadding`), así que no hay margen doble ni nada cubierto.
+- **Prueba:** `rotulo_no_tapa_test.dart` recorre las 45 rutas en 5 escenarios (320×640, 360×740, 412×892 con y sin muesca, y 800×1280) y exige que ningún texto ni elemento tocable quede bajo la franja; falla si el rótulo vuelve a flotar. La lista de rutas se comparte en `test/soporte/rutas_maqueta.dart`.
+- **Hallazgo sin corregir:** a 320 y 360 dp siete filas de la maqueta desbordan (con Nunito cargada); a 412 dp o más no. No son del rótulo. La prueba los registra en esos dos tamaños sin ocultar el resto y exige cero en los demás. Spec §12.8.
+- **A evitar:** poner el rótulo encima de la pantalla; dar por bueno el diseño en teléfonos angostos solo porque funciona a 412 dp.
