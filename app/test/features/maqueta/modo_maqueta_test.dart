@@ -4,42 +4,20 @@
 import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/router/rutas.dart';
-import 'package:app/features/maqueta/estado.dart';
-import 'package:app/features/maqueta/mapa_google.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../soporte/fuente_nunito.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/pantalla_maqueta.dart';
+import '../../soporte/preparar_maqueta.dart';
 import '../../soporte/rutas_maqueta.dart';
-
-const _tamano = Size(412, 892);
 
 /// Una ruta raíz del router con ese `path` (p. ej. `/m`).
 bool _tieneRutaRaiz(GoRouter router, String ruta) =>
     router.configuration.routes.whereType<GoRoute>().any((r) => r.path == ruta);
 
-Future<void> _asentar(WidgetTester tester) => tester.pumpAndSettle(
-  const Duration(milliseconds: 100),
-  EnginePhase.sendSemanticsUpdate,
-  const Duration(seconds: 3),
-);
-
 void main() {
-  setUpAll(cargarNunito);
-
-  setUp(() {
-    usarMapaReal = false;
-    maq.resetAll();
-    maq.loadDemo();
-    maq.pv.seedDemo();
-  });
-  tearDown(() {
-    usarMapaReal = true;
-    maq.resetAll();
-  });
+  prepararPruebasDeMaqueta();
 
   final rotulo = leerArb('es')['previaDatosDeEjemplo']!;
 
@@ -48,14 +26,14 @@ void main() {
       testWidgets('CA_045_01 $ruta abre con su contenido y el rótulo', (
         tester,
       ) async {
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: true,
           extra: [modoMaquetaProvider.overrideWithValue(true)],
         );
         container.read(appRouterProvider).go(ruta);
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         expect(find.textContaining(texto), findsWidgets, reason: ruta);
         // CA_045_03: el rótulo fijo de datos de ejemplo no se oculta.
         expect(find.text(rotulo), findsOneWidget, reason: ruta);
@@ -65,14 +43,14 @@ void main() {
     testWidgets('CA_045_01 la barra inferior lleva a Mi cuenta de la maqueta', (
       tester,
     ) async {
-      fijarPantalla(tester, tamano: _tamano);
+      fijarPantalla(tester, tamano: tamanoMovil);
       await montarApp(
         tester,
         esTecnico: false,
         extra: [modoMaquetaProvider.overrideWithValue(true)],
       );
       await tester.tap(find.text(leerArb('es')['tabCuenta']!));
-      await _asentar(tester);
+      await asentarMaqueta(tester);
       expect(find.text('Mi casa y mi auto'), findsOneWidget);
     });
   });
@@ -85,7 +63,7 @@ void main() {
     testWidgets('CA_045_02 no hay rutas de la maqueta ni rótulo de ejemplo', (
       tester,
     ) async {
-      fijarPantalla(tester, tamano: _tamano);
+      fijarPantalla(tester, tamano: tamanoMovil);
       final container = await montarApp(tester, esTecnico: false);
       final router = container.read(appRouterProvider);
       expect(_tieneRutaRaiz(router, '/m'), isFalse);
@@ -99,7 +77,7 @@ void main() {
       'CA_045_02 con datos de ejemplo cargados en memoria, ninguna pantalla '
       'normal los muestra ni lleva el rótulo',
       (tester) async {
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(tester, esTecnico: true);
         final router = container.read(appRouterProvider);
         const ejemplo = [
@@ -128,7 +106,7 @@ void main() {
     testWidgets(
       'CA_045_02 las rutas /m/... no abren ninguna pantalla de la maqueta',
       (tester) async {
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(tester, esTecnico: true);
         final router = container.read(appRouterProvider);
         for (final (ruta, texto) in pantallasMaqueta.where(
@@ -145,7 +123,7 @@ void main() {
     testWidgets('CA_045_02 sin sesión, /m/... lleva a la previa de siempre', (
       tester,
     ) async {
-      fijarPantalla(tester, tamano: _tamano);
+      fijarPantalla(tester, tamano: tamanoMovil);
       final container = await montarApp(
         tester,
         esTecnico: false,
@@ -162,7 +140,7 @@ void main() {
     testWidgets('CA_045_02 Inicio y Mi cuenta son los de siempre', (
       tester,
     ) async {
-      fijarPantalla(tester, tamano: _tamano);
+      fijarPantalla(tester, tamano: tamanoMovil);
       final container = await montarApp(tester, esTecnico: false);
       expect(find.text('7 expertos cerca de ti'), findsNothing);
       container.read(appRouterProvider).go(Rutas.cuenta);
@@ -176,7 +154,7 @@ void main() {
       'CA_045_05 sin sesión, una ruta que pide cuenta lleva a la previa y las '
       'públicas se ven',
       (tester) async {
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: false,
@@ -186,14 +164,14 @@ void main() {
         );
         final router = container.read(appRouterProvider);
         router.go('/m/solicitar');
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         expect(
           router.state.matchedLocation,
           Rutas.previa,
           reason: 'pedir cotización exige cuenta',
         );
         router.go('/m/buscar');
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         expect(router.state.matchedLocation, '/m/buscar');
       },
     );

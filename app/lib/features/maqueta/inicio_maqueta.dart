@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/features/maqueta/campo_buscar.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
@@ -290,48 +291,7 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 10,
           children: [
-            Material(
-              color: k.surface,
-              elevation: 4,
-              shape: StadiumBorder(side: BorderSide(color: k.line)),
-              child: InkWell(
-                customBorder: const StadiumBorder(),
-                onTap: () => context.push(RM.buscar, extra: 'focus'),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 52),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      spacing: 12,
-                      children: [
-                        Icon(Icons.search, color: k.mut),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const T(
-                                'Busca un experto cerca de ti',
-                                size: 15.5,
-                                w: FontWeight.w900,
-                              ),
-                              T(
-                                'Mecánica · Plomería · Electricidad',
-                                size: 13,
-                                w: FontWeight.w700,
-                                color: k.mut,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            CampoBuscarK(fondo: k.surface, elevacion: 4),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               clipBehavior: Clip.none,

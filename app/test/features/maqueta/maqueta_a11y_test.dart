@@ -6,16 +6,14 @@ import 'package:app/core/router/app_router.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/en_dict.dart';
-import 'package:app/features/maqueta/estado.dart';
-import 'package:app/features/maqueta/mapa_google.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../soporte/fuente_nunito.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/pantalla_maqueta.dart';
+import '../../soporte/preparar_maqueta.dart';
 
 /// Una ruta por función (inicio, explorar, actividad, trabajo, cuenta, buscar,
 /// solicitud, mensajes, ayuda y legales, registro y verificación de técnico) y
@@ -35,36 +33,20 @@ const _subconjunto = <(String, String)>[
   ('/m/tecnico/pendiente', 'Revisando tus documentos…'),
 ];
 
-const _tamano = Size(412, 892);
-
-Future<void> _asentar(WidgetTester tester) => tester.pumpAndSettle(
-  const Duration(milliseconds: 100),
-  EnginePhase.sendSemanticsUpdate,
-  const Duration(seconds: 3),
-);
-
 void main() {
-  setUpAll(cargarNunito);
-
-  setUp(() {
-    usarMapaReal = false;
-    maq.resetAll();
-    maq.loadDemo();
-    maq.pv.seedDemo();
-  });
-  tearDown(() {
-    usarMapaReal = true;
-    idiomaIngles = false;
-    ignorarEntornoDePruebas = false;
-    maq.resetAll();
-  });
+  prepararPruebasDeMaqueta(
+    alTerminar: () {
+      idiomaIngles = false;
+      ignorarEntornoDePruebas = false;
+    },
+  );
 
   group('CA_045_06 tema oscuro', () {
     for (final (ruta, texto) in _subconjunto) {
       testWidgets('CA_045_06 $ruta en oscuro: contenido y rótulo', (
         tester,
       ) async {
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: true,
@@ -72,7 +54,7 @@ void main() {
         );
         await usarTema(tester, container, ThemeMode.dark);
         container.read(appRouterProvider).go(ruta);
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         final tema = Theme.of(tester.element(find.byType(Scaffold).first));
         expect(tema.brightness, Brightness.dark, reason: ruta);
         expect(find.textContaining(texto), findsWidgets, reason: ruta);
@@ -96,7 +78,7 @@ void main() {
           isNotNull,
           reason: '«$texto» debe estar en el diccionario de la maqueta',
         );
-        fijarPantalla(tester, tamano: _tamano);
+        fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: true,
@@ -107,7 +89,7 @@ void main() {
             .cambiarIdioma(const Locale('en'));
         await tester.pumpAndSettle();
         container.read(appRouterProvider).go(ruta);
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         expect(find.textContaining(ingles!), findsWidgets, reason: ruta);
         expect(
           find.text(leerArb('en')['previaDatosDeEjemplo']!),
@@ -197,14 +179,14 @@ void main() {
       addTearDown(
         tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
       );
-      fijarPantalla(tester, tamano: _tamano);
+      fijarPantalla(tester, tamano: tamanoMovil);
       final container = await montarApp(
         tester,
         esTecnico: false,
         extra: [modoMaquetaProvider.overrideWithValue(true)],
       );
       container.read(appRouterProvider).go('/m/enviada/j1');
-      await _asentar(tester);
+      await asentarMaqueta(tester);
       final lotties = find.byType(Lottie);
       expect(lotties, findsWidgets, reason: 'la pantalla tiene una espera');
       for (final l in tester.widgetList<Lottie>(lotties)) {

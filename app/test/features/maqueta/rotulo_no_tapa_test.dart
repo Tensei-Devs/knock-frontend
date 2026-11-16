@@ -3,14 +3,12 @@
 // estado puede cubrir un texto o un elemento tocable de la pantalla.
 import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
-import 'package:app/features/maqueta/estado.dart';
-import 'package:app/features/maqueta/mapa_google.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../soporte/fuente_nunito.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/pantalla_maqueta.dart';
+import '../../soporte/preparar_maqueta.dart';
 import '../../soporte/rutas_maqueta.dart';
 
 /// Tamaño de pantalla, alto de la barra de estado (con y sin muesca) y si se
@@ -28,30 +26,13 @@ const _escenarios = <(String, Size, double, bool)>[
   ('800×1280 (tableta) con barra de 24', Size(800, 1280), 24, false),
 ];
 
-Future<void> _asentar(WidgetTester tester) => tester.pumpAndSettle(
-  const Duration(milliseconds: 100),
-  EnginePhase.sendSemanticsUpdate,
-  const Duration(seconds: 3),
-);
-
 Rect _rect(Element e) {
   final rb = e.renderObject! as RenderBox;
   return rb.localToGlobal(Offset.zero) & rb.size;
 }
 
 void main() {
-  setUpAll(cargarNunito);
-
-  setUp(() {
-    usarMapaReal = false;
-    maq.resetAll();
-    maq.loadDemo();
-    maq.pv.seedDemo();
-  });
-  tearDown(() {
-    usarMapaReal = true;
-    maq.resetAll();
-  });
+  prepararPruebasDeMaqueta();
 
   final rotulo = leerArb('es')['previaDatosDeEjemplo']!;
 
@@ -81,7 +62,7 @@ void main() {
       final fallos = <String>[];
       for (final (ruta, _) in pantallasMaqueta) {
         router.go(ruta);
-        await _asentar(tester);
+        await asentarMaqueta(tester);
         final texto = find.text(rotulo);
         expect(texto, findsOneWidget, reason: ruta);
         // La franja es la caja de color que envuelve al rótulo: de arriba de
