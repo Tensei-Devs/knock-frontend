@@ -142,6 +142,70 @@ void main() {
       expect(find.textContaining('Ej.: boiler'), findsNothing);
     });
 
+    testWidgets(
+      'CA_045_02 con datos de ejemplo cargados en memoria, ninguna pantalla '
+      'normal los muestra ni lleva el rótulo',
+      (tester) async {
+        fijarPantalla(tester, tamano: _tamano);
+        final container = await montarApp(tester, esTecnico: true);
+        final router = container.read(appRouterProvider);
+        const ejemplo = [
+          'El boiler no enciende',
+          'Ricardo Mendoza',
+          '7 expertos cerca de ti',
+        ];
+        for (final ruta in [
+          Rutas.inicio,
+          Rutas.explorar,
+          Rutas.actividad,
+          Rutas.trabajo,
+          Rutas.cuenta,
+          Rutas.configuracion,
+        ]) {
+          router.go(ruta);
+          await tester.pumpAndSettle();
+          expect(find.text(rotulo), findsNothing, reason: ruta);
+          for (final t in ejemplo) {
+            expect(find.textContaining(t), findsNothing, reason: '$ruta $t');
+          }
+        }
+      },
+    );
+
+    testWidgets(
+      'CA_045_02 las rutas /m/... no abren ninguna pantalla de la maqueta',
+      (tester) async {
+        fijarPantalla(tester, tamano: _tamano);
+        final container = await montarApp(tester, esTecnico: true);
+        final router = container.read(appRouterProvider);
+        for (final (ruta, texto) in _pantallas.where(
+          (p) => p.$1.startsWith('/m/'),
+        )) {
+          router.go(ruta);
+          await tester.pumpAndSettle();
+          expect(find.textContaining(texto), findsNothing, reason: ruta);
+          expect(find.text(rotulo), findsNothing, reason: ruta);
+        }
+      },
+    );
+
+    testWidgets('CA_045_02 sin sesión, /m/... lleva a la previa de siempre', (
+      tester,
+    ) async {
+      fijarPantalla(tester, tamano: _tamano);
+      final container = await montarApp(
+        tester,
+        esTecnico: false,
+        sesionIniciada: false,
+        abrirEnEntrada: false,
+      );
+      final router = container.read(appRouterProvider);
+      router.go('/m/buscar');
+      await tester.pumpAndSettle();
+      expect(router.state.matchedLocation, Rutas.previa);
+      expect(find.textContaining('Ej.: boiler'), findsNothing);
+    });
+
     testWidgets('CA_045_02 Inicio y Mi cuenta son los de siempre', (
       tester,
     ) async {

@@ -11,8 +11,15 @@ import 'package:flutter/services.dart';
 /// Bajo `flutter test` no hay animaciones infinitas (rompen `pumpAndSettle`).
 final bool _enPruebas = Platform.environment['FLUTTER_TEST'] == 'true';
 
+/// Solo para pruebas (spec 045, CA-07): deja de dar por «sin movimiento» todo
+/// lo que corre bajo `flutter test`, para comprobar que se respeta el ajuste
+/// del sistema.
+@visibleForTesting
+bool ignorarEntornoDePruebas = false;
+
 bool sinMovimiento(BuildContext c) =>
-    _enPruebas || (MediaQuery.maybeOf(c)?.disableAnimations ?? false);
+    (_enPruebas && !ignorarEntornoDePruebas) ||
+    (MediaQuery.maybeOf(c)?.disableAnimations ?? false);
 
 // ---------------------------------------------------------------- háptica
 void hapticoLigero() =>
