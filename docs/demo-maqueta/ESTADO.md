@@ -139,3 +139,7 @@ Desde `app/`: `python tool/lottie_gen/generar_lotties.py` (solo biblioteca está
 
 ## Integración al repositorio (2026-11-16, spec 045)
 La maqueta ya solo se activa compilando con `--dart-define=MODO_MAQUETA=true`; sin la bandera la app conserva sus flujos. Para el APK de demostración: `flutter build apk --release --dart-define=MODO_MAQUETA=true` (más las variables de siempre). Las rutas, la barra inferior y el rótulo «Datos de ejemplo» salen de `features/maqueta/fachada_maqueta.dart`. Cada spec de pantallas quita su pantalla de la capa simulada al conectarla a su API (R-05).
+
+
+### Verificación automática (2026-11-16)
+Las 45 rutas de la tabla se montan en `test/features/maqueta/modo_maqueta_test.dart` (contenido y rótulo); `maqueta_a11y_test.dart` cubre tema oscuro, inglés y «reducir movimiento». **No sustituyen** el recorrido en teléfono: las capturas 01-52 siguen sin compararse una a una contra la maqueta en el dispositivo desde la integración. Builds debug con y sin `MODO_MAQUETA` compilan; no se compiló release.

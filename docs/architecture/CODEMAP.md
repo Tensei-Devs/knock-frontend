@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-16T21:33:38Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-16T21:58:23Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -337,7 +337,7 @@
 **-**
 
 - `app/lib/features/maqueta/anim_k.dart` — class `Pulsa`, class `_PulsaState`, class `Aparece`, class `_ApareceState`, class `TransicionKnock`, class `ShimmerK`, class `_ShimmerKState`, class `BoneK`, class `EsqueletoLista`, class `CargaInicial`, class `_CargaInicialState`, class `PulsoInsignia`, class `_PulsoInsigniaState`, class `EsqueletoReputacion`
-  - `sinMovimiento()`:14, `hapticoLigero()`:18, `hapticoExito()`:20, `hapticoSeleccion()`:22, `build()`:48, `Listener()`:50, `didChangeDependencies()`:83, `dispose()`:102, `build()`:109, `FadeTransition()`:111, `escalona()`:126, `buildTransitions()`:134, `didChangeDependencies()`:189, `dispose()`:202, `build()`:208, `AnimatedBuilder()`:212, `build()`:245, `build()`:264, `item()`:265, `didChangeDependencies()`:324, `dispose()`:339, `build()`:345, `initState()`:372, `didChangeDependencies()`:378, `didUpdateWidget()`:387 …
+  - `sinMovimiento()`:20, `hapticoLigero()`:25, `hapticoExito()`:27, `hapticoSeleccion()`:29, `build()`:55, `Listener()`:57, `didChangeDependencies()`:90, `dispose()`:109, `build()`:116, `FadeTransition()`:118, `escalona()`:133, `buildTransitions()`:141, `didChangeDependencies()`:196, `dispose()`:209, `build()`:215, `AnimatedBuilder()`:219, `build()`:252, `build()`:271, `item()`:272, `didChangeDependencies()`:331, `dispose()`:346, `build()`:352, `initState()`:379, `didChangeDependencies()`:385, `didUpdateWidget()`:394 …
 - `app/lib/features/maqueta/carga_k.dart` — enum `TipoCarga`, class `CargaK`, class `MensajesRotativos`, class `_MensajesRotativosState`, class `ExitoK`, class `_ExitoKState`
   - `build()`:76, `initState()`:122, `dispose()`:132, `build()`:138, `exitoRapido()`:182, `initState()`:219, `build()`:225
 - `app/lib/features/maqueta/cobertura.dart` — class `ZonaKnock`, class `ResultadoCobertura`, class `PantallaFueraDeCobertura`

@@ -73,6 +73,8 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 3. **Pruebas en rojo (resuelto 2026-11-16):** eran 95 regresiones nuevas (la línea base de `sprint-04` tiene 742 pruebas en verde). Con la bandera apagada por defecto vuelven a pasar sin tocarlas; 2 solo fallan en equipos con `google-services.json` local (ignorado por git).
 4. **Número de spec y de subtareas:** confirmar contra la rama de KNOCK-266.
 5. **Revisión de pares:** el reglamento pide comentario de otra persona; si no hay disponible, registrarlo en el PR como excepción.
+6. **Rótulo fijo (abierta, 2026-11-16):** el chip «Datos de ejemplo», arriba a la derecha, cubre texto o acciones de la esquina en 11 de 45 rutas (Inicio, perfil del experto, chat, buscar, reportar, confianza, aviso de privacidad, términos, registro de técnico, mensajes y chat del técnico). Propuesta mínima, sin aplicar: en vez de flotar, una franja fija en la parte superior que ocupa su propio alto y empuja el contenido, de modo que nunca lo tape.
+7. **Licencias (abierta, 2026-11-16):** `flutter_svg` 2.4.0, `lottie` 3.8.2, `path_parsing` 1.1.0, `cli_util` 0.6.0, `vector_graphics` 1.3.1, `vector_graphics_codec` 1.2.0 y `vector_graphics_compiler` 1.3.6 son MIT o BSD-3 (LICENSE de cada paquete), sin licencias de la lista de denegadas, pero no están en `allow-dependencies-licenses` de `ci-pr.yml`. Si el job SCA los marca sin licencia reconocida, hace falta ampliar EXC-002 como en KNOCK-262 (requiere autorización).
 
 ## Aprobación
 - [ ] Revisor 1 — nombre: ____________________ fecha: __________
