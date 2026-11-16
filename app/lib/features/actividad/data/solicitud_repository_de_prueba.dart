@@ -93,14 +93,12 @@ class SolicitudRepositoryDePrueba
   bool _yaHayCotizaciones(Solicitud solicitud) =>
       !_reloj().isBefore(solicitud.creadoEn.add(esperaCotizaciones));
 
-  @override
-  Future<Solicitud> obtener(String id) async {
-    final solicitud = _solicitudes[id];
-    if (solicitud == null) throw const NoEncontradoFailure();
+  /// La solicitud como la ve su dueño: pasada la espera, con cotizaciones.
+  Solicitud _vista(Solicitud solicitud) {
     if (!_yaHayCotizaciones(solicitud)) return solicitud;
     return Solicitud(
       id: solicitud.id,
-      estado: _citas.containsKey(id)
+      estado: _citas.containsKey(solicitud.id)
           ? EstadoSolicitud.citaConfirmada
           : EstadoSolicitud.cotizando,
       oficioNombre: solicitud.oficioNombre,
@@ -112,6 +110,20 @@ class SolicitudRepositoryDePrueba
       venceEn: solicitud.venceEn,
       totalCotizaciones: _semillas(solicitud).length,
     );
+  }
+
+  @override
+  Future<Solicitud> obtener(String id) async {
+    final solicitud = _solicitudes[id];
+    if (solicitud == null) throw const NoEncontradoFailure();
+    return _vista(solicitud);
+  }
+
+  @override
+  Future<List<Solicitud>> listar() async {
+    final todas = _solicitudes.values.toList()
+      ..sort((a, b) => b.creadoEn.compareTo(a.creadoEn));
+    return [for (final solicitud in todas) _vista(solicitud)];
   }
 
   @override

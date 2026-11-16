@@ -9,6 +9,7 @@ import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
+import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,6 +97,19 @@ final coloniaGuardadaProvider = Provider<String?>(
 /// la spec 013 fijen el dominio de los enlaces firmados: sin dominio no se
 /// carga ninguna foto remota.
 final dominiosDeFotosProvider = Provider<Set<String>>((ref) => const {});
+
+/// Cada cuánto se vuelve a pedir una solicitud que aún espera cotizaciones,
+/// para que el detalle se actualice solo (sin caché, R-11). `null` apaga el
+/// refresco (las pruebas lo apagan y refrescan a mano).
+final intervaloRefrescoSolicitudProvider = Provider<Duration?>(
+  (ref) => const Duration(seconds: 3),
+);
+
+/// Las solicitudes de la persona para la pestaña Actividad (D-03).
+final solicitudesActividadProvider =
+    FutureProvider.autoDispose<List<Solicitud>>(
+      (ref) => ref.watch(solicitudRepositoryProvider).listar(),
+    );
 
 /// Reloj de la pantalla (las pruebas lo fijan).
 final relojSolicitudProvider = Provider<DateTime Function()>(

@@ -464,3 +464,9 @@
 - **`share_plus` 13.3.1:** el SCA del CI de esta PR pasó en verde (commit 277a14c), así que no necesita EXC-002; esto aclara la nota del 2026-11-12, que decía que «puede necesitarla».
 - **Pendiente:** Erick sube las capturas del flujo, con nombre, teléfono, dirección y código tapados, a KNOCK-83 y KNOCK-84; todavía no hay adjuntos en Jira. T-09 de la 016 y T-08 de la 022 siguen pendientes por la integración con API simulada, el recorrido con semillas y esas capturas.
 - **A evitar:** dar por hechas las tareas de recorrido y capturas sin adjuntar la evidencia, o subir capturas con datos personales o con el código de la visita visible.
+
+## 2026-11-16 — Arreglos del flujo solicitud → cotizaciones → visita probado en teléfono (KNOCK-83, KNOCK-84)
+- **Hecho:** el detalle de la solicitud se vuelve a pedir solo cada 3 s mientras espera cotizaciones (`intervaloRefrescoSolicitudProvider`; el temporizador se cancela al cerrar la pantalla) y entonces aparece «Ver y elegir (N)»; la pestaña Actividad lista las solicitudes que guarda el doble en memoria (`SolicitudRepository.listar`, spec 015 D-03), la más reciente primero; la pantalla de cotizaciones sin ellas tiene «Reintentar»; la visita muestra el avatar del técnico (inicial, o su `fotoUrl` solo si el dominio está permitido).
+- **Pruebas:** `flujo_solicitud_test.dart` recorre el doble real (refresco del detalle, lista de Actividad, «Reintentar», cita en taller con «Cómo llegar», técnico C sin contacto). CA-02 de la 016 y CA-13 de la 022 ya tenían prueba (`visita_test.dart`, `borrado_visita_test.dart`).
+- **Pendiente:** el doble no trae `fotoUrl` porque `dominiosDeFotosProvider` sigue vacío hasta que backend 020 y la spec 013 fijen el dominio; la lista de Actividad vive solo en memoria (se pierde al cerrar la app) hasta que la spec 020 consuma `GET /solicitudes`.
+- **A evitar:** probar en teléfono con `esperaCotizaciones = Duration.zero` y dejarlo en el código: oculta el fallo de la espera de 10 s.

@@ -21,6 +21,10 @@ abstract interface class SolicitudRepository {
   /// otra persona (CA-13).
   Future<Solicitud> obtener(String id);
 
+  /// Las solicitudes de la persona, la más reciente primero (spec 015, D-03:
+  /// Actividad las muestra; el listado paginado con cursor es de la spec 020).
+  Future<List<Solicitud>> listar();
+
   /// Las cotizaciones de la solicitud [solicitudId] en el [orden] pedido; el
   /// servidor ordena y etiqueta (R-08). `NoEncontradoFailure` si es ajena.
   Future<ResultadoComparacion> cotizaciones(
