@@ -1,6 +1,9 @@
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/tema/tema.dart';
+import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/pantallas_tecnico.dart';
+import 'package:app/features/maqueta/ui.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +18,12 @@ class KnockApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencias = ref.watch(preferenciasProvider);
+    idiomaIngles = preferencias.idioma.languageCode == 'en';
+    final router = ref.watch(appRouterProvider);
+    registrarIrA(router);
+    registrarRutasTecnico(router);
     return MaterialApp.router(
+      scaffoldMessengerKey: mensajeroMaqueta,
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: temaClaro,
@@ -24,7 +32,8 @@ class KnockApp extends ConsumerWidget {
       locale: preferencias.idioma,
       supportedLocales: idiomasSoportados,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      routerConfig: ref.watch(appRouterProvider),
+      routerConfig: router,
+      builder: (context, child) => AvisosHost(messengerKey: mensajeroMaqueta, child: child ?? const SizedBox.shrink()),
     );
   }
 }

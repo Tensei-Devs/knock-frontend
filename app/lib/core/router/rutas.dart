@@ -62,7 +62,21 @@ bool _esRutaDe(String ubicacion, String base) =>
 /// Rutas que se ven sin sesión (spec 027, R-02): la previa, su catálogo y la
 /// entrada con celular (con sus subrutas).
 bool esRutaPublica(String ubicacion) =>
-    _esRutaDe(ubicacion, Rutas.previa) || _esRutaDe(ubicacion, Rutas.entrar);
+    _esRutaDe(ubicacion, Rutas.previa) ||
+    _esRutaDe(ubicacion, Rutas.entrar) ||
+    _rutasPublicasMaqueta.any((r) => _esRutaDe(ubicacion, r));
+
+/// Pantallas de la maqueta que se ven sin cuenta: buscar, perfil del
+/// experto, asistente y las de ayuda y legales.
+const _rutasPublicasMaqueta = [
+  '/m/buscar',
+  '/m/experto',
+  '/m/asistente',
+  '/m/ayuda',
+  '/m/aviso-privacidad',
+  '/m/terminos',
+  '/m/tecnico/registro',
+];
 
 /// Devuelve a dónde redirigir según la sesión, o `null` si se permite.
 ///
@@ -121,7 +135,9 @@ String? destinoValidoODescartar(String? valor) {
     Rutas.trabajo,
     Rutas.cuenta,
   ];
-  if (pestanas.contains(valor) || valor.startsWith('${Rutas.explorar}/')) {
+  if (pestanas.contains(valor) ||
+      valor.startsWith('${Rutas.explorar}/') ||
+      valor.startsWith('/m/')) {
     return valor;
   }
   return null;

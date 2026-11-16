@@ -1,4 +1,6 @@
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/features/maqueta/anim_k.dart';
+import 'package:app/features/maqueta/estado.dart';
 import 'package:app/core/tema/colores.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,8 @@ String _tabCuenta(AppLocalizations t) => t.tabCuenta;
 
 const List<_Destino> _destinos = [
   _Destino(_tabInicio, Icons.home_outlined, Icons.home),
-  _Destino(_tabExplorar, Icons.explore_outlined, Icons.explore),
-  _Destino(_tabActividad, Icons.receipt_long_outlined, Icons.receipt_long),
+  _Destino(_tabExplorar, Icons.auto_awesome_outlined, Icons.auto_awesome),
+  _Destino(_tabActividad, Icons.work_outline, Icons.work),
   _Destino(_tabTrabajo, Icons.handyman_outlined, Icons.handyman),
   _Destino(_tabCuenta, Icons.person_outline, Icons.person),
 ];
@@ -51,6 +53,26 @@ class AppShell extends ConsumerWidget {
     final seleccionado = ramas.indexOf(navigationShell.currentIndex);
     final textos = AppLocalizations.of(context);
 
+    return ListenableBuilder(
+      listenable: maq,
+      builder: (context, _) => _construir(context, ramas, seleccionado, textos),
+    );
+  }
+
+  /// Insignia de la maqueta: mensajes sin leer en Actividad y solicitudes
+  /// nuevas en Trabajo.
+  Widget _conInsignia(int rama, Widget icono) {
+    final n = rama == 2 ? maq.unreadCount : rama == ramaTrabajo ? maq.pv.nuevasN : 0;
+    if (n <= 0) return icono;
+    return PulsoInsignia(valor: n, child: Badge(label: Text('$n'), child: icono));
+  }
+
+  Widget _construir(
+    BuildContext context,
+    List<int> ramas,
+    int seleccionado,
+    AppLocalizations textos,
+  ) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: DecoratedBox(
@@ -69,8 +91,11 @@ class AppShell extends ConsumerWidget {
           destinations: [
             for (final rama in ramas)
               NavigationDestination(
-                icon: Icon(_destinos[rama].icono),
-                selectedIcon: Icon(_destinos[rama].iconoSeleccionado),
+                icon: _conInsignia(rama, Icon(_destinos[rama].icono)),
+                selectedIcon: _conInsignia(
+                  rama,
+                  Icon(_destinos[rama].iconoSeleccionado),
+                ),
                 label: _destinos[rama].etiqueta(textos),
               ),
           ],

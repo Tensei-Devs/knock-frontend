@@ -470,3 +470,10 @@
 - **Pruebas:** `flujo_solicitud_test.dart` recorre el doble real (refresco del detalle, lista de Actividad, «Reintentar», cita en taller con «Cómo llegar», técnico C sin contacto). CA-02 de la 016 y CA-13 de la 022 ya tenían prueba (`visita_test.dart`, `borrado_visita_test.dart`).
 - **Pendiente:** el doble no trae `fotoUrl` porque `dominiosDeFotosProvider` sigue vacío hasta que backend 020 y la spec 013 fijen el dominio; la lista de Actividad vive solo en memoria (se pierde al cerrar la app) hasta que la spec 020 consuma `GET /solicitudes`.
 - **A evitar:** probar en teléfono con `esperaCotizaciones = Duration.zero` y dejarlo en el código: oculta el fallo de la espera de 10 s.
+
+## 2026-11-16 — Maqueta base de la app: capa visual simulada (KNOCK-273)
+- **Qué cambió:** se sube `app/lib/features/maqueta/`, la reconstrucción de las 52 pantallas de `maqueta-knock` con estado simulado (`maq`, `maq.pv`), rutas `/m/...`, mapa de Google, cobertura y animaciones. Lo real se queda real: login por SMS, oficios, colonias, ubicación, perfil y cierre de sesión. Spec 045.
+- **Dependencias nuevas:** `flutter_svg` (logo de Knock) y `lottie` 3.8.2 fijo (animaciones propias generadas con `app/tool/lottie_gen/generar_lotties.py`). Pendiente anotar aquí el resultado de la evaluación de licencia y vulnerabilidades del CI.
+- **Decisión:** los textos de esta capa usan `tr()` con un diccionario es->en, no claves ARB; cada spec de pantallas migra a ARB al conectar su pantalla.
+- **Pendiente:** bandera `MODO_MAQUETA` y rótulo de datos de ejemplo, reescribir las pruebas del diseño anterior y decidir la cobertura de `features/maqueta`.
+- **A evitar:** dejar la capa simulada como definitiva: cada spec de pantallas quita su dependencia de `maq` al conectar su API; mostrar datos de ejemplo como reales en un build de producción.
