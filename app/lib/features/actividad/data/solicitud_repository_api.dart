@@ -1,5 +1,6 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/enviar_json.dart';
+import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/data/solicitud_contrato_mapper.dart';
 import 'package:app/features/actividad/data/solicitud_mapper.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
@@ -56,15 +57,13 @@ class SolicitudRepositoryApi implements SolicitudRepository {
 
   @override
   Future<Solicitud> obtener(String id) async {
-    final r = await enviarJson(
-      transporte,
-      url,
-      'GET',
-      'solicitudes/${Uri.encodeComponent(id)}',
-      aceptar: const {404},
+    return SolicitudContratoMapper.detalle(
+      await obtenerJsonONoEncontrado(
+        transporte,
+        url,
+        'solicitudes/${Uri.encodeComponent(id)}',
+      ),
     );
-    if (r.estado == 404) throw const NoEncontradoFailure();
-    return SolicitudContratoMapper.detalle(r.json);
   }
 
   @override
@@ -92,16 +91,14 @@ class SolicitudRepositoryApi implements SolicitudRepository {
     String solicitudId, {
     OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
   }) async {
-    final r = await enviarJson(
-      transporte,
-      url,
-      'GET',
-      'solicitudes/${Uri.encodeComponent(solicitudId)}/cotizaciones',
-      consulta: {'orden': orden.valor},
-      aceptar: const {404},
+    return SolicitudContratoMapper.comparacion(
+      await obtenerJsonONoEncontrado(
+        transporte,
+        url,
+        'solicitudes/${Uri.encodeComponent(solicitudId)}/cotizaciones',
+        consulta: {'orden': orden.valor},
+      ),
     );
-    if (r.estado == 404) throw const NoEncontradoFailure();
-    return SolicitudContratoMapper.comparacion(r.json);
   }
 
   @override

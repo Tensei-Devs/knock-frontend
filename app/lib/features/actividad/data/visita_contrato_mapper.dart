@@ -1,4 +1,5 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 
@@ -22,7 +23,7 @@ abstract final class VisitaContratoMapper {
       id: _texto(m['id']),
       estado: EstadoVisita.desdeTexto(_texto(m['estado'])),
       esTaller: _texto(m['modalidad']) == 'taller',
-      dia: _dia(m['dia']),
+      dia: diaLocalDelContrato(m['dia']),
       hora: _texto(m['hora']),
       tecnico: TecnicoDeVisita(
         nombre: _texto(tecnico['nombre']),
@@ -83,12 +84,5 @@ abstract final class VisitaContratoMapper {
       if (n != null) return n;
     }
     throw const DatosInvalidosFailure();
-  }
-
-  /// `AAAA-MM-DD` del contrato, como día local sin hora.
-  static DateTime _dia(Object? valor) {
-    final f = valor is String ? DateTime.tryParse(valor) : null;
-    if (f == null) throw const DatosInvalidosFailure();
-    return DateTime(f.year, f.month, f.day);
   }
 }

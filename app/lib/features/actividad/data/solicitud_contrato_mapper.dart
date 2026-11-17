@@ -1,4 +1,5 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
@@ -40,7 +41,7 @@ abstract final class SolicitudContratoMapper {
       coloniaNombre: _texto(colonia['nombre']),
       descripcion: _texto(m['descripcion']),
       totalFotos: fotos.length,
-      dia: _dia(m['dia']),
+      dia: diaLocalDelContrato(m['dia']),
       franja: _franja(m['franja']),
       creadoEn: _fecha(m['creadoEn']),
       venceEn: _fecha(m['venceEn']),
@@ -76,7 +77,7 @@ abstract final class SolicitudContratoMapper {
       solicitudId: _texto(m['solicitudId']),
       cotizacionId: _texto(m['cotizacionId']),
       modalidad: _texto(m['modalidad']),
-      dia: _dia(m['dia']),
+      dia: diaLocalDelContrato(m['dia']),
       hora: _texto(m['hora']),
       precio: _enteroONulo(m['precio'], porOmision: null),
       tope: _entero(m['tope']),
@@ -98,7 +99,7 @@ abstract final class SolicitudContratoMapper {
     coloniaNombre: _texto(m['coloniaNombre']),
     descripcion: '',
     totalFotos: _entero(m['totalFotos']),
-    dia: _dia(m['dia']),
+    dia: diaLocalDelContrato(m['dia']),
     franja: _franja(m['franja']),
     creadoEn: _fecha(m['creadoEn']),
     venceEn: _fecha(m['venceEn']),
@@ -119,7 +120,7 @@ abstract final class SolicitudContratoMapper {
       precioMax: _enteroONulo(m['precioMax'], porOmision: null),
       tope: _entero(m['tope']),
       requiereAprobacion: _booleano(m['requiereAprobacion']),
-      dia: _dia(m['dia']),
+      dia: diaLocalDelContrato(m['dia']),
       hora: _texto(m['hora']),
       nota: _opcional(m['nota']),
       cubre: _texto(m['cubre']),
@@ -197,13 +198,6 @@ abstract final class SolicitudContratoMapper {
     final f = valor is String ? DateTime.tryParse(valor) : null;
     if (f == null) throw const DatosInvalidosFailure();
     return f;
-  }
-
-  /// `AAAA-MM-DD` del contrato, como día local sin hora.
-  static DateTime _dia(Object? valor) {
-    final f = valor is String ? DateTime.tryParse(valor) : null;
-    if (f == null) throw const DatosInvalidosFailure();
-    return DateTime(f.year, f.month, f.day);
   }
 
   static Franja _franja(Object? valor) {

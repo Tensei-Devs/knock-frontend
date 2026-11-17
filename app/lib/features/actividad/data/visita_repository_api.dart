@@ -1,5 +1,6 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/enviar_json.dart';
+import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/data/visita_contrato_mapper.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/visita.dart';
@@ -16,16 +17,13 @@ class VisitaRepositoryApi implements VisitaRepository {
 
   @override
   Future<Visita> obtenerVisita(String id) async {
-    final r = await enviarJson(
-      transporte,
-      url,
-      'GET',
-      'visitas/${Uri.encodeComponent(id)}',
-      aceptar: const {404},
+    return VisitaContratoMapper.visita(
+      await obtenerJsonONoEncontrado(
+        transporte,
+        url,
+        'visitas/${Uri.encodeComponent(id)}',
+      ),
     );
-    // 404 uniforme: ajena, inexistente o mal formada (no revela cuál).
-    if (r.estado == 404) throw const NoEncontradoFailure();
-    return VisitaContratoMapper.visita(r.json);
   }
 }
 
