@@ -176,12 +176,84 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'Appointment':
+          return Appointment.fromJson(value);
+        case 'AppointmentPlace':
+          return AppointmentPlace.fromJson(value);
+        case 'ArrivalBody':
+          return ArrivalBody.fromJson(value);
+        case 'ChooseQuoteBody':
+          return ChooseQuoteBody.fromJson(value);
+        case 'ChosenTechnician':
+          return ChosenTechnician.fromJson(value);
+        case 'CreateRequestBody':
+          return CreateRequestBody.fromJson(value);
         case 'FirebaseExchangeRequest':
           return FirebaseExchangeRequest.fromJson(value);
+        case 'NeighborhoodAtPointColoniaResponse':
+          return NeighborhoodAtPointColoniaResponse.fromJson(value);
+        case 'NeighborhoodAtPointResponse':
+          return NeighborhoodAtPointResponse.fromJson(value);
+        case 'NeighborhoodExistsResponse':
+          return NeighborhoodExistsResponse.fromJson(value);
+        case 'OficioResponse':
+          return OficioResponse.fromJson(value);
         case 'ProblemDetails':
           return ProblemDetails.fromJson(value);
+        case 'ProfileResponse':
+          return ProfileResponse.fromJson(value);
+        case 'QuoteComparison':
+          return QuoteComparison.fromJson(value);
+        case 'QuoteComparisonItem':
+          return QuoteComparisonItem.fromJson(value);
+        case 'QuoteRequest':
+          return QuoteRequest.fromJson(value);
+        case 'QuoteResponse':
+          return QuoteResponse.fromJson(value);
+        case 'QuoteTechnician':
+          return QuoteTechnician.fromJson(value);
+        case 'RefreshRequest':
+          return RefreshRequest.fromJson(value);
+        case 'RefreshResponse':
+          return RefreshResponse.fromJson(value);
+        case 'RequestNeighborhood':
+          return RequestNeighborhood.fromJson(value);
+        case 'RequestPage':
+          return RequestPage.fromJson(value);
+        case 'RequestPhoto':
+          return RequestPhoto.fromJson(value);
+        case 'RequestResponse':
+          return RequestResponse.fromJson(value);
+        case 'RequestSummary':
+          return RequestSummary.fromJson(value);
+        case 'RequestTrade':
+          return RequestTrade.fromJson(value);
+        case 'SessionListItemResponse':
+          return SessionListItemResponse.fromJson(value);
         case 'SessionResponse':
           return SessionResponse.fromJson(value);
+        case 'TrustNotice':
+          return TrustNotice.fromJson(value);
+        case 'UpdateProfileRequest':
+          return UpdateProfileRequest.fromJson(value);
+        case 'ValidationProblemDetails':
+          return ValidationProblemDetails.fromJson(value);
+        case 'VisitCustomer':
+          return VisitCustomer.fromJson(value);
+        case 'VisitPlace':
+          return VisitPlace.fromJson(value);
+        case 'VisitResponse':
+          return VisitResponse.fromJson(value);
+        case 'VisitTechnician':
+          return VisitTechnician.fromJson(value);
+        case 'WaitlistRequest':
+          return WaitlistRequest.fromJson(value);
+        case 'WaitlistResponse':
+          return WaitlistResponse.fromJson(value);
+        case 'ZonaColoniaResponse':
+          return ZonaColoniaResponse.fromJson(value);
+        case 'ZonaResponse':
+          return ZonaResponse.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
