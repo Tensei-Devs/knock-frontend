@@ -36,10 +36,7 @@ void main() {
   });
 
   test('CA_017_05 conserva los datos del registro', () {
-    const registro = RegistroListaEspera(
-      cp: '00001',
-      yaRegistrado: true,
-    );
+    const registro = RegistroListaEspera(cp: '00001', yaRegistrado: true);
     expect(registro.cp, '00001');
     expect(registro.yaRegistrado, isTrue);
   });
