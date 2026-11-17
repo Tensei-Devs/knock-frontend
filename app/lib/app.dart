@@ -1,4 +1,5 @@
 import 'package:app/core/config/modo_maqueta.dart';
+import 'package:app/core/plataforma/modo_noche_de_la_app.dart';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/tema/tema.dart';
@@ -17,6 +18,8 @@ class KnockApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencias = ref.watch(preferenciasProvider);
+    // El mapa nativo sigue el modo de noche de Android: se iguala al ajuste.
+    ref.watch(modoNocheSincronizadoProvider);
     final maqueta = ref.watch(modoMaquetaProvider);
     final router = ref.watch(appRouterProvider);
     if (maqueta) {
