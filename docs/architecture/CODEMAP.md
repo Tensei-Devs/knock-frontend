@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-17T02:26:44Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-17T15:26:32Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -86,7 +86,7 @@
 - `app/lib/features/actividad/domain/validacion_solicitud.dart` — enum `ErrorDeLargo`, enum `ErrorDeFotos`
   - `largoVisible()`:30, `validarDescripcion()`:40, `validarDireccion()`:44, `validarCantidadDeFotos()`:48, `puedeAgregarFoto()`:55, `soloFecha()`:58, `diasPermitidos()`:65, `esDiaPermitido()`:74, `diaDelContrato()`:78, `dos()`:79
 - `app/lib/features/actividad/domain/vencimiento.dart` — class `ZonaMexico`, class `PresentacionVencimiento`, class `VencimientoAbsoluto`, class `VencimientoRelativo`, class `MenosDeUnaHora`, class `VencimientoCerrando`, class `Vencimiento`
-  - `horaCivil()`:8
+  - `horaCivil()`:9
 - `app/lib/features/actividad/domain/visita.dart` — enum `EstadoVisita`, enum `MotivoCodigo`, class `TecnicoDeVisita`, class `Visita`, class `VisitaGuardada`, class `VisitaRepository`, class `VisitaLocalRepository`
   - `desdeTexto()`:19, `desdeTexto()`:42, `aMapa()`:151, `desdeMapa()`:166
 
