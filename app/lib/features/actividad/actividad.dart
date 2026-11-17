@@ -16,3 +16,22 @@ export 'package:app/features/actividad/presentation/solicitudes_reales_controlle
         solicitudRealDetalleProvider,
         solicitudesRealesActivasProvider,
         solicitudesRealesControllerProvider;
+export 'package:app/features/actividad/domain/cotizacion.dart'
+    show
+        CitaConfirmada,
+        Cotizacion,
+        EtiquetaCotizacion,
+        MotivoSinEleccion,
+        OrdenCotizaciones,
+        ResultadoComparacion,
+        TecnicoResumen,
+        TipoPrecio;
+export 'package:app/features/actividad/presentation/cotizaciones_controller.dart'
+    show
+        EleccionEnCurso,
+        EleccionFallida,
+        EleccionHecha,
+        EleccionInactiva,
+        EstadoEleccion;
+export 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart'
+    show ConsultaCotizaciones, cotizacionesRealesProvider, eleccionRealProvider;

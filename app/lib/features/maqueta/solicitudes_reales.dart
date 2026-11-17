@@ -2,6 +2,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:flutter/painting.dart' show Color;
 
 /// Pasa las solicitudes reales (`GET /solicitudes`, spec 015 y backend 020) al
 /// modelo de la maqueta (spec 045, enmienda 1): una [Job] marcada como real.
@@ -77,6 +78,59 @@ Job? jobDeSolicitud(act.Solicitud s, {required Map<String, String> catalogo}) {
   return job;
 }
 
+/// «jue 12, 10:30».
+String cuandoDeCotizacion(DateTime dia, String hora) =>
+    '${diasLargos[dia.weekday % 7].substring(0, 3)} ${dia.day}, $hora';
+
+/// Experto sintético del técnico de una cotización real: solo lo que manda el
+/// servidor (nombre, calificación, verificado); lo demás queda en valores
+/// neutros y no se inventan reseñas. El perfil completo sigue simulado.
+Prov provDeTecnico(act.TecnicoResumen t, String cat) => Prov(
+  id: 'api:${t.id}',
+  name: t.nombre,
+  ini: initials(t.nombre),
+  color: const Color(0xFF2A5568),
+  cat: cat,
+  taller: cats[cat]!.taller,
+  spec: '',
+  rate: t.calificacion ?? 0,
+  n: 0,
+  km: 0,
+  years: 0,
+  jobs: 0,
+  resp: '',
+  today: false,
+  about: '',
+  hours: const [],
+  svcs: const [],
+  photos: const [],
+  dist: const [],
+  crit: const [],
+  revs: const [],
+  ver: t.verificado,
+);
+
+/// La cotización real como [Quote] de la maqueta. El experto sintético se
+/// agrega a [provs] (idempotente) para que las tarjetas lo dibujen.
+Quote quoteDeCotizacion(act.Cotizacion c, String cat) {
+  final prov = provDeTecnico(c.tecnico, cat);
+  provs[prov.id] = prov;
+  final rango = c.tipoPrecio == act.TipoPrecio.rango;
+  return Quote(
+    pid: prov.id,
+    kind: c.tipoPrecio.valor,
+    lo: (rango ? c.precioMin : c.precio) ?? 0,
+    hi: rango ? (c.precioMax ?? 0) : 0,
+    when: cuandoDeCotizacion(c.dia, c.hora),
+    soon: 0,
+    note: c.nota ?? '',
+    cotId: c.id,
+    cubre: c.cubre,
+    tope: c.tope,
+    etiquetas: {for (final e in c.etiquetas) e.valor},
+  );
+}
+
 /// Texto de un error del servidor, sin códigos HTTP ni URL (CA-12).
 String textoDeErrorReal(Object error) => switch (error) {
   NoAutorizadoFailure() => 'Tu sesión venció. Entra de nuevo.',
@@ -84,5 +138,19 @@ String textoDeErrorReal(Object error) => switch (error) {
   ServicioNoDisponibleFailure() =>
     'No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.',
   DatosInvalidosFailure() => 'Recibimos datos que no entendimos.',
+  DatosRechazadosFailure() => 'Revisa los datos e inténtalo de nuevo.',
+  ConflictoFailure() =>
+    'Esta acción choca con el estado actual de tu solicitud. Revisa la lista.',
+  EleccionRechazadaFailure(:final motivo) => switch (motivo) {
+    MotivoEleccionRechazada.yaElegida =>
+      'Ya elegiste una cotización para esta solicitud.',
+    MotivoEleccionRechazada.cotizacionNoDisponible =>
+      'Esta cotización ya no está disponible. Elige otra.',
+    MotivoEleccionRechazada.vencida =>
+      'Esta solicitud venció. Puedes pedir una nueva.',
+    MotivoEleccionRechazada.cancelada => 'Esta solicitud se canceló.',
+    MotivoEleccionRechazada.sinCotizaciones =>
+      'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.',
+  },
   _ => 'Algo salió mal. Inténtalo de nuevo.',
 };

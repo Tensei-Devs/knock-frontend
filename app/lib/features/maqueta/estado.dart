@@ -18,9 +18,22 @@ class Quote {
     required this.when,
     required this.soon,
     required this.note,
+    this.cotId,
+    this.cubre = '',
+    this.tope = 0,
+    this.etiquetas = const {},
   });
   final String pid, kind, when, note; // kind: fijo | rango | visita
   final int lo, hi, soon;
+
+  /// Cotización real del servidor (spec 045, enmienda 1): su id, lo que cubre
+  /// el precio, lo más que se puede cobrar sin aprobación y las etiquetas que
+  /// pone el servidor (`verificado`, `mejor_precio`, `puede_ir_mas_pronto`).
+  final String? cotId;
+  final String cubre;
+  final int tope;
+  final Set<String> etiquetas;
+  bool get real => cotId != null;
 
   String get price => kind == 'fijo'
       ? money(lo)
@@ -321,7 +334,7 @@ class MaquetaEstado extends ChangeNotifier {
 
   List<Prov> results() {
     final l = provs.values.where((o) {
-      if (o.cat != sCat) return false;
+      if (o.esReal || o.cat != sCat) return false;
       if (sF['dist']! && o.km > 5) return false;
       if (sF['cal']! && o.rate < 4.5) return false;
       if (sF['tipo']! && o.taller) return false;
@@ -450,7 +463,12 @@ class MaquetaEstado extends ChangeNotifier {
   void startClientQuotes(Job job, {bool widen = false}) {
     final col = user.col;
     final pool = provs.keys
-        .where((k) => provs[k]!.cat == job.cat && blocked[k] != true)
+        .where(
+          (k) =>
+              !provs[k]!.esReal &&
+              provs[k]!.cat == job.cat &&
+              blocked[k] != true,
+        )
         .toList();
     bool reach(Prov o) => o.zone.isEmpty || o.zone.contains(col);
     pool.sort((a, b) {
