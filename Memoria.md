@@ -548,6 +548,10 @@
 ## 2026-11-16 — Actualización de contratos de zona desde la referencia remota (KNOCK-47)
 - **Hecho:** `origin/sprint-04` de backend avanzó a `b5706244eeef66b1c2731152c99bbd1f49da6f7d`; se actualizó Market desde esa referencia y se regeneró el cliente. Identity coincide con la misma referencia y se conservó sin cambios.
 - **A evitar:** suponer que una copia previa de Market sigue coincidiendo con la referencia remota; conectar T-03 a T-08 sin coordinación con el Tech Lead.
+## 2026-11-16 — Vencimiento en horario de México (KNOCK-71, spec 025 T-01)
+- **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Aprobado por el Tech Lead: redondeo hacia abajo y UTC−6 en una sola constante para la hora de Ciudad de México.
+- **Riesgo:** si cambia el horario de Ciudad de México, se actualiza esa constante; algunos municipios de la frontera norte sí conservan horario de verano, pero la app usa la hora de Ciudad de México. No se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
+- **A evitar:** usar la zona del teléfono o interpretar «cerrando» como estado vencido confirmado por el servidor.
 ## 2026-11-17 — Enmienda 1 de la spec 045: la maqueta es la interfaz de la app
 - **Decisión:** el Tech Lead decidió que la maqueta es la base y la interfaz de la app, y que cada pantalla se conecta poco a poco a los endpoints reales, sin mantener dos aplicaciones. La enmienda queda escrita en la spec 045 (§13) y espera su aprobación.
 - **Porqué:** la versión original de la spec reemplazaba cada pantalla de la maqueta por otra «real»; eso duplica pantallas y trabajo. Reutilizar los repositorios y el cliente generado en la propia pantalla de la maqueta es más corto.
