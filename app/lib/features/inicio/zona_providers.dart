@@ -1,6 +1,9 @@
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/domain/zona.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+export 'domain/zona.dart' show esCodigoPostalValido;
 
 /// Cómo se eligió la zona de búsqueda (spec 012, R-07).
 sealed class EstadoZona {
@@ -26,9 +29,6 @@ final class ZonaPorCodigoPostal extends EstadoZona {
 
   final String codigo;
 }
-
-/// Código postal mexicano: 5 números.
-bool esCodigoPostalValido(String texto) => RegExp(r'^\d{5}$').hasMatch(texto);
 
 /// Elige la zona con la ubicación y, si no se puede, con el código postal.
 ///

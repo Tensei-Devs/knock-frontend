@@ -41,9 +41,13 @@ List<int> ramasVisibles({required bool esTecnico}) => [
 /// Estructura con la barra inferior Inicio · Explorar · Actividad · Trabajo ·
 /// Mi cuenta (Trabajo solo si el usuario es técnico).
 class AppShell extends ConsumerWidget {
-  const AppShell({required this.navigationShell, super.key});
+  const AppShell({required this.navigationShell, this.iconoDe, super.key});
 
   final StatefulNavigationShell navigationShell;
+
+  /// Icono propio de una rama (por ejemplo, con insignia). Si es `null` o
+  /// devuelve `null`, se usa el icono de la barra. Lo usa el modo maqueta.
+  final Widget? Function(int rama, {required bool seleccionado})? iconoDe;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,8 +73,12 @@ class AppShell extends ConsumerWidget {
           destinations: [
             for (final rama in ramas)
               NavigationDestination(
-                icon: Icon(_destinos[rama].icono),
-                selectedIcon: Icon(_destinos[rama].iconoSeleccionado),
+                icon:
+                    iconoDe?.call(rama, seleccionado: false) ??
+                    Icon(_destinos[rama].icono),
+                selectedIcon:
+                    iconoDe?.call(rama, seleccionado: true) ??
+                    Icon(_destinos[rama].iconoSeleccionado),
                 label: _destinos[rama].etiqueta(textos),
               ),
           ],

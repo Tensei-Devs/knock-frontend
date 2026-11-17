@@ -8,6 +8,7 @@ import 'package:app/core/enlaces/enlaces.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/widgets/estado_knock.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
+import 'package:app/features/actividad/domain/fotos_permitidas.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/visita_controller.dart';
 import 'package:app/features/actividad/presentation/widgets/codigo_visita.dart';
@@ -112,6 +113,12 @@ class _VisitaEnLinea extends ConsumerWidget {
     final avisoDisponible = ref.watch(avisoDeConfianzaDisponibleProvider);
     final codigo = visita.codigo;
     final motivo = visita.motivoCodigo;
+    final fotoUrl = tecnico.fotoUrl;
+    final foto =
+        fotoUrl != null &&
+            esFotoPermitida(fotoUrl, ref.watch(dominiosDeFotosProvider))
+        ? fotoUrl
+        : null;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -123,7 +130,25 @@ class _VisitaEnLinea extends ConsumerWidget {
         const SizedBox(height: 8),
         if (visita.esTaller)
           Text(textos.visitaTaller, style: tema.textTheme.titleLarge),
-        Text(tecnico.nombre, style: tema.textTheme.headlineSmall),
+        Row(
+          children: [
+            ExcludeSemantics(
+              child: CircleAvatar(
+                radius: 28,
+                foregroundImage: foto == null ? null : NetworkImage(foto),
+                child: Text(
+                  tecnico.nombre.isEmpty
+                      ? '?'
+                      : tecnico.nombre.characters.first.toUpperCase(),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(tecnico.nombre, style: tema.textTheme.headlineSmall),
+            ),
+          ],
+        ),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [

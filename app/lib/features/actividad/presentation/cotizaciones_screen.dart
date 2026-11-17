@@ -118,6 +118,11 @@ class _Lista extends ConsumerWidget {
       return EstadoKnock(
         icono: Icons.hourglass_empty_outlined,
         titulo: textoMotivo ?? textos.cotizacionMotivoSinCotizaciones,
+        // Salida para volver a mirar sin cerrar la pantalla.
+        accion: OutlinedButton(
+          onPressed: () => ref.invalidate(cotizacionesProvider(solicitudId)),
+          child: Text(textos.inicioReintentar),
+        ),
       );
     }
 

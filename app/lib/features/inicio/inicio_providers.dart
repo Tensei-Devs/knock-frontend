@@ -2,8 +2,11 @@ import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/features/inicio/data/colonias_repository_http.dart';
 import 'package:app/features/inicio/data/colonias_repository_simulado.dart';
 import 'package:app/features/inicio/data/ubicacion_geolocator_repository.dart';
+import 'package:app/features/inicio/data/zonas_repository_http.dart';
+import 'package:app/features/inicio/data/zonas_repository_simulado.dart';
 import 'package:app/features/inicio/domain/colonias_repository.dart';
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/domain/zonas_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Repositorio de ubicación de la app (raíz de composición: es lo único que
@@ -19,6 +22,25 @@ final ubicacionRepositoryProvider = Provider<UbicacionRepository>(
 final coloniasRepositoryProvider = Provider<ColoniasRepository>((ref) {
   if (!usaApiReal(ref)) return const ColoniasRepositorySimulado();
   return ColoniasRepositoryHttp(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
+
+/// Raíz de composición de la zona por código postal (spec 017): API real con
+/// `KNOCK_API_URL` válida; sin ella, respuesta SIMULADA solo fuera de `release`.
+final zonasRepositoryProvider = Provider<ZonasRepository>((ref) {
+  if (!usaApiReal(ref)) return const ZonasRepositorySimulado();
+  return ZonasRepositoryHttp(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
+
+/// Raíz de composición de la lista de espera (spec 017, R-08).
+final listaEsperaRepositoryProvider = Provider<ListaEsperaRepository>((ref) {
+  if (!usaApiReal(ref)) return const ListaEsperaRepositorySimulado();
+  return ListaEsperaRepositoryHttp(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   );

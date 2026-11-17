@@ -1,6 +1,9 @@
+import 'package:app/core/config/modo_maqueta.dart';
+import 'package:app/core/plataforma/modo_noche_de_la_app.dart';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/tema/tema.dart';
+import 'package:app/features/maqueta/fachada_maqueta.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,16 +18,28 @@ class KnockApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencias = ref.watch(preferenciasProvider);
+    // El mapa nativo sigue el modo de noche de Android: se iguala al ajuste.
+    ref.watch(modoNocheSincronizadoProvider);
+    final maqueta = ref.watch(modoMaquetaProvider);
+    final router = ref.watch(appRouterProvider);
+    if (maqueta) {
+      RaizMaqueta.preparar(
+        router,
+        ingles: preferencias.idioma.languageCode == 'en',
+      );
+    }
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      theme: temaClaro,
-      darkTheme: temaOscuro,
+      scaffoldMessengerKey: maqueta ? RaizMaqueta.mensajero : null,
+      theme: maqueta ? RaizMaqueta.conTransiciones(temaClaro) : temaClaro,
+      darkTheme: maqueta ? RaizMaqueta.conTransiciones(temaOscuro) : temaOscuro,
       themeMode: preferencias.modoTema,
       locale: preferencias.idioma,
       supportedLocales: idiomasSoportados,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      routerConfig: ref.watch(appRouterProvider),
+      routerConfig: router,
+      builder: maqueta ? RaizMaqueta.envolver : null,
     );
   }
 }

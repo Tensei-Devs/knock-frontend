@@ -148,6 +148,20 @@ void main() {
       expect(diferenciasConManifiesto(_paquete, _contrato), isEmpty);
     });
 
+    test('T-01 el cliente conserva Identity e incorpora Market', () {
+      final codigo = File('${_paquete.path}/lib/api.dart').readAsStringSync();
+      expect(codigo, contains('api/auth_api.dart'));
+      expect(codigo, contains('api/zonas_api.dart'));
+      final rutas = (_json(_contrato)['paths']! as Map).keys;
+      expect(rutas, contains('/api/v{version}/colonias/en-punto'));
+      expect(rutas, contains('/api/v{version}/zonas/cp/{cp}'));
+      expect(rutas, contains('/api/v{version}/zonas/lista-espera'));
+      expect(
+        (_json(_contrato)['paths']! as Map).keys,
+        contains('/api/v{version}/me'),
+      );
+    });
+
     test('CA-006-02 una edición a mano, un archivo agregado o un contrato '
         'cambiado hacen fallar la comprobación', () {
       final tmp = Directory.systemTemp.createTempSync('knock-api-');

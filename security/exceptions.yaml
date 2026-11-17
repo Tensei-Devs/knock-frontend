@@ -31,7 +31,7 @@ excepciones:
   - id: EXC-002
     herramienta: dependency-review
     regla: licencias-pub-no-reconocidas-como-spdx
-    alcance: app/pubspec.lock (los 57 paquetes de pub que lista allow-dependencies-licenses en .github/workflows/ci-pr.yml, 42 hasta KNOCK-228 y 15 más con KNOCK-262; por nombre, en cualquier versión)
+    alcance: app/pubspec.lock (los 63 paquetes de pub que lista allow-dependencies-licenses en .github/workflows/ci-pr.yml, 42 hasta KNOCK-228, 15 más con KNOCK-262 y 6 más con KNOCK-273; por nombre, en cualquier versión)
     justificacion: >-
       Falso positivo de formato, no de licencia. dependency-review-action recibe de pub las licencias en minúsculas (mit,
       bsd-3-clause, mpl-2.0) y no las reconoce como SPDX, y a geolocator_windows@0.2.5 no le detecta ninguna. Se leyó el
@@ -39,9 +39,9 @@ excepciones:
       geolocator_platform_interface, geolocator_windows, petitparser, xml), BSD-3-Clause (google_maps_flutter y sus tres
       paquetes de plataforma, stream_transform, win32, jni y shared_preferences con sus paquetes de plataforma android y foundation, añadidos el 2026-11-03 tras comprobar su licencia en pub.dev) y MPL-2.0 (dbus, gsettings); todas están en la lista permitida de
       CONTRIBUTING.md y ninguna en deny-licenses. dbus y gsettings solo las usa geolocator_linux, que Flutter registra
-      únicamente en Linux (no está entre los plugins de Android). Ampliación KNOCK-262 (2026-11-11): se agregan 15 paquetes que el CI de los PR #45 y #46 marcó sin licencia reconocida, tras leer el LICENSE del paquete publicado en pub.dev (la versión exacta de pubspec.lock): MIT (archive, image, posix), BSD-3-Clause (cross_file, file_selector_linux, file_selector_macos, file_selector_windows, image_picker_platform_interface, mime, url_launcher_android, url_launcher_ios, url_launcher_linux, url_launcher_macos, url_launcher_windows) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios); url_launcher_windows no tiene licencia detectada por el action, como geolocator_windows. Todas están en la lista permitida de CONTRIBUTING.md y ninguna en deny-licenses. Los 42 previos incluyen 23 que KNOCK-228 agregó sin actualizar este texto. Límite conocido: el action ignora la versión al comparar
+      únicamente en Linux (no está entre los plugins de Android). Ampliación KNOCK-262 (2026-11-11): se agregan 15 paquetes que el CI de los PR #45 y #46 marcó sin licencia reconocida, tras leer el LICENSE del paquete publicado en pub.dev (la versión exacta de pubspec.lock): MIT (archive, image, posix), BSD-3-Clause (cross_file, file_selector_linux, file_selector_macos, file_selector_windows, image_picker_platform_interface, mime, url_launcher_android, url_launcher_ios, url_launcher_linux, url_launcher_macos, url_launcher_windows) y BSD-3-Clause con un aviso de Apache-2.0 de un tercero (image_picker_ios); url_launcher_windows no tiene licencia detectada por el action, como geolocator_windows. Todas están en la lista permitida de CONTRIBUTING.md y ninguna en deny-licenses. Los 42 previos incluyen 23 que KNOCK-228 agregó sin actualizar este texto. Ampliación KNOCK-273 (2026-11-16): se agregan 6 paquetes que el CI del PR #66 marcó sin licencia reconocida (la misma causa de formato), tras leer el LICENSE del paquete publicado en pub.dev (la versión exacta de pubspec.lock) y contrastarlo con la etiqueta de licencia de pub.dev y con el LICENSE del repositorio de origen: MIT (flutter_svg 2.4.0, lottie 3.8.2; el LICENSE de lottie conserva «[year] [fullname]» sin rellenar, pero es el texto MIT y así lo etiquetan pub.dev y GitHub) y BSD-3-Clause (cli_util 0.6.0, vector_graphics 1.3.1, vector_graphics_codec 1.2.0, vector_graphics_compiler 1.3.6); todas están en la lista permitida de CONTRIBUTING.md y ninguna en deny-licenses. Sin vulnerabilidades altas en el mismo job. Las fechas de esta excepción no cambian. Límite conocido: el action ignora la versión al comparar
       (src/purl.ts, purlsMatch), así que una versión nueva de estos paquetes queda exenta; mientras la excepción exista, la
-      licencia de cualquier actualización de estos 57 se revisa a mano. La comprobación sigue activa para el resto.
+      licencia de cualquier actualización de estos 63 se revisa a mano. La comprobación sigue activa para el resto.
     responsable: José Julián Hernández Hernández
     creada: 2026-11-02
     vence: 2027-01-30
@@ -78,3 +78,21 @@ excepciones:
     creada: 2026-11-05
     vence: 2027-02-03
     plan: cuando el commit 8735cb2 deje de estar en el historial que recorre Gitleaks (por ejemplo, tras un cambio de estrategia de fusión aprobado por José), quitar la línea de .gitleaksignore y esta excepción; antes de vencer, volver a evaluar si sigue haciendo falta.
+  - id: EXC-005
+    herramienta: osv-scanner
+    regla: GHSA-fc5q-39xc-vjpf
+    alcance: panel/package-lock.json (solo picomatch 4.0.7, marcado `dev: true`); se ignora con panel/osv-scanner.toml
+    justificacion: >-
+      Aviso sin versión corregida y sin camino de ataque en el producto. GHSA-fc5q-39xc-vjpf (gravedad alta, CVSS 7.5,
+      publicado el 2026-10-19): picomatch hasta la 4.0.7 es vulnerable a ReDoS con extglobs repetidos de una sola rama, es
+      decir, un patrón armado a propósito puede hacer que la evaluación tarde mucho y trabe el proceso. La biblioteca la
+      trae el panel solo como dependencia de desarrollo (herramientas de construcción y pruebas; OSV-Scanner la marca
+      `(dev)` y package-lock.json la declara `dev: true`), no se empaqueta en el panel publicado y la app móvil es Flutter y
+      no usa npm. Los patrones que evalúa los escribe el equipo en la configuración del proyecto, no vienen de personas
+      usuarias. Evidencia: salida de OSV-Scanner en el CI del PR #77 (1 paquete afectado, 1 vulnerabilidad alta, sin
+      versión corregida) y consulta del aviso en GitHub Advisory Database (vulnerable <= 4.0.7, sin parche). El escáner dejó
+      de pasar sin que cambiara ninguna dependencia: el PR #74 pasó el mismo día.
+    responsable: José Julián Hernández Hernández
+    creada: 2026-11-17
+    vence: 2026-12-17
+    plan: cuando exista una versión corregida de picomatch, actualizarla en panel/package-lock.json y quitar esta excepción y panel/osv-scanner.toml; si no hay versión corregida antes de vencer, volver a evaluar con evidencia nueva (no se renueva en automático).
