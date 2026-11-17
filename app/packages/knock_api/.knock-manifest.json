@@ -2,9 +2,7 @@
   "aviso": "Generado por app/tool/generar_cliente_api.py. No editar a mano.",
   "generador": "openapi-generator-cli 7.27.0 (dart)",
   "contrato": "contracts/openapi.v1.json",
-  "contratoSha256": "c28def9d392354c3778556b552bff9cf42a91a0c425359f7a7fa2a5d96eca83e",
-  "contratoMarket": "contracts/openapi.market.v1.json",
-  "contratoMarketSha256": "670b41609c4342c107a27d47999fbb2c3becb395e2b9829d25d325363f71466e",
+  "contratoSha256": "dff63319387d64328782a0a317df00c793e0e16a7d42ee2c6c6ef80156a0ec29",
   "archivos": {
     ".gitignore": "cd2879c66bf6618c92a5fb695843ee6d5e1f754adf2bbc69e9202b559f9d1663",
     ".openapi-generator-ignore": "46c8e9182cd99210ac303fd5b239d068ccc8e37a786542d7086b6f96d54e2763",

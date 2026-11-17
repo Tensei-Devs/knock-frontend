@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/features/maqueta/campo_buscar.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/ui.dart';
@@ -83,7 +84,9 @@ class ExplorarMaqueta extends StatelessWidget {
                     maq.refresh();
                   },
                 ),
-                for (final id in ['mec', 'plo', 'ele'])
+                if (maq.oficiosError && maq.oficios.isEmpty)
+                  const AvisoOficios(),
+                for (final id in maq.oficios)
                   ChipK(
                     cats[id]!.plain,
                     icon: _catIcon(id),
