@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/colores.dart';
 import 'package:app/features/maqueta/anim_k.dart';
+import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_maqueta.dart';
@@ -14,7 +17,10 @@ import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/pantallas_tecnico2.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/oficios/oficios.dart';
+import 'package:app/features/oficios/presentation/oficios_controller.dart';
 import 'package:app/features/previa/presentation/rotulo_ejemplo.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -250,7 +256,7 @@ abstract final class RaizMaqueta {
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: child ?? const SizedBox.shrink(),
+              child: _PuenteDeDatos(child: child ?? const SizedBox.shrink()),
             ),
           ),
         ],
@@ -277,4 +283,53 @@ class _FranjaDeEjemplo extends StatelessWidget {
       ),
     ),
   );
+}
+
+/// Lleva a la maqueta los datos reales que ya tiene la app. Hoy: el catálogo
+/// de oficios (`GET /oficios`, spec 035) y su Reintentar.
+class _PuenteDeDatos extends ConsumerStatefulWidget {
+  const _PuenteDeDatos({required this.child});
+
+  final Widget child;
+
+  @override
+  ConsumerState<_PuenteDeDatos> createState() => _PuenteDeDatosState();
+}
+
+class _PuenteDeDatosState extends ConsumerState<_PuenteDeDatos> {
+  @override
+  void initState() {
+    super.initState();
+    maq.reintentarOficios = () =>
+        ref.read(oficiosControllerProvider.notifier).reintentar();
+    ref.listenManual(
+      oficiosControllerProvider,
+      (_, estado) => _aplicar(estado),
+      fireImmediately: true,
+    );
+  }
+
+  /// Se difiere un instante: avisar a las pantallas durante el montaje o la
+  /// construcción las haría reconstruirse a media construcción.
+  void _aplicar(AsyncValue<List<Oficio>> estado) {
+    final ids = estado.hasValue
+        ? [
+            for (final o in estado.requireValue)
+              if (cats.containsKey(o.clave)) o.clave,
+          ]
+        : null;
+    final error = estado.hasError && !estado.hasValue;
+    scheduleMicrotask(
+      () => maq.fijarOficios(error ? const [] : ids, error: error),
+    );
+  }
+
+  @override
+  void dispose() {
+    maq.reintentarOficios = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

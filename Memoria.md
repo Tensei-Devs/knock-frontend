@@ -533,3 +533,10 @@
 - **Porqué:** la versión original de la spec reemplazaba cada pantalla de la maqueta por otra «real»; eso duplica pantallas y trabajo. Reutilizar los repositorios y el cliente generado en la propia pantalla de la maqueta es más corto.
 - **Cómo:** E-01 a E-06 en §13: conexión por fases, lo sin backend sigue rotulado como ejemplo, el envío de solicitudes sigue simulado mientras el backend no tenga archivos ni moderación, y la bandera `MODO_MAQUETA` no cambia de valor por defecto en esta enmienda.
 - **A evitar:** crear pantallas paralelas para lo que la maqueta ya cubre; importar el estado simulado desde una pantalla conectada; cambiar el valor por defecto de la bandera sin decidirlo.
+
+## 2026-11-17 — Fase 1: los oficios de la maqueta salen del backend
+- **Decisión:** la lista de oficios (`mec`, `plo`, `ele`) deja de estar escrita en cinco pantallas de la maqueta y se lee de `GET /oficios` por el controlador que ya tiene la app (con caché y ETag). Primera conexión de la enmienda 1 de la spec 045.
+- **Porqué:** el backend ya devuelve los mismos tres oficios, con la misma modalidad que usa la maqueta; así el catálogo manda y los datos visuales (icono, color, textos) se quedan locales, por clave.
+- **Cómo:** `RaizMaqueta` escucha el controlador y guarda las claves en `maq.oficios`; un oficio que la maqueta no sabe dibujar se omite. Si falla, no se inventan oficios: sale un aviso con Reintentar. Pruebas `CA_045_10` y `CA_045_12`; `ESTADO.md` lleva la tabla de conexión (CA-11).
+- **A evitar:** volver a escribir la lista a mano en una pantalla; mostrar oficios de ejemplo cuando falla la red.
+

@@ -6,6 +6,7 @@ import 'package:app/features/entrada/presentation/entrada_controller.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
@@ -107,7 +108,8 @@ Widget tradesBlock(
         ),
       ],
     ),
-    for (final k in ['mec', 'plo', 'ele'])
+    if (maq.oficiosError && maq.oficios.isEmpty) const AvisoOficios(),
+    for (final k in maq.oficios)
       ChoiceK(
         on: sel.contains(k),
         check: true,

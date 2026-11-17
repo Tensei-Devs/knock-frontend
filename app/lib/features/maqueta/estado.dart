@@ -191,6 +191,26 @@ class MaquetaEstado extends ChangeNotifier {
   // explorar
   String? exCat;
 
+  // Oficios reales (`GET /oficios`, spec 035): las claves que el backend
+  // devolvió y que la maqueta sabe dibujar, en el orden del backend. `null`
+  // mientras carga; vacío con [oficiosError] si falló.
+  List<String>? oficiosIds;
+  bool oficiosError = false;
+
+  /// Vuelve a pedir los oficios (lo registra la raíz de la maqueta).
+  VoidCallback? reintentarOficios;
+
+  /// Oficios disponibles para mostrar; vacío mientras carga o si falló.
+  List<String> get oficios => oficiosIds ?? const [];
+
+  /// Guarda el resultado de pedir los oficios y avisa a las pantallas.
+  void fijarOficios(List<String>? ids, {required bool error}) {
+    if (listEquals(ids, oficiosIds) && error == oficiosError) return;
+    oficiosIds = ids;
+    oficiosError = error;
+    notifyListeners();
+  }
+
   final _timers = <Timer>[];
 
   void refresh() => notifyListeners();
