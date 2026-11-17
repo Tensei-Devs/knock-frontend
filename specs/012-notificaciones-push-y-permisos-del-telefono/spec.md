@@ -58,6 +58,7 @@ Consume el endpoint de registro de dispositivos del backend y fija el formato de
 - **Sin permiso de contactos:** se usa el selector del sistema, que no lo necesita.
 
 ## 9. Riesgos y dudas abiertas
+- **Nota (2026-11-12, spec 037):** el registro del dispositivo sigue contra `RegistroDispositivosSimulado` hasta que backend publique `POST /api/v1/dispositivos`. Backend 037 liga el registro al `sid` de la sesión, el último registro gana y se borra al cerrar sesión y al terminar la sesión por cualquier vía; esta spec ya desregistra al cerrar sesión (R-01) y no cambia su contrato.
 - Las notificaciones dependen de un servicio de terceros (Firebase Cloud Messaging).
 - Ninguna duda abierta por ahora; se agregan aquí las que surjan al revisar la spec.
 

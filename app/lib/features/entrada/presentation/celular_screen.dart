@@ -1,3 +1,5 @@
+import 'package:app/core/config/aviso_de_privacidad.dart';
+import 'package:app/core/enlaces/abridor_de_enlaces.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/colores.dart';
 import 'package:app/features/entrada/domain/validacion_entrada.dart';
@@ -6,6 +8,7 @@ import 'package:app/features/entrada/presentation/mensaje_de_error.dart';
 import 'package:app/features/entrada/presentation/widgets/marco_de_entrada.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -123,10 +126,12 @@ class _CelularScreenState extends ConsumerState<CelularScreen> {
   }
 }
 
-/// «Acepto el aviso de privacidad», con el aviso con estilo de enlace.
+/// «Acepto el aviso de privacidad», con el aviso como enlace (spec 028).
 ///
-/// El enlace aún no abre nada (TT-MOB-06): toda la fila marca la casilla.
-class _CasillaDelAviso extends StatelessWidget {
+/// Tocar el texto del aviso lo abre en el navegador y **no** cambia la casilla;
+/// tocar el resto de la fila marca o desmarca. Si el teléfono no puede abrir la
+/// página sale un mensaje breve y la pantalla no cambia (R-03).
+class _CasillaDelAviso extends ConsumerStatefulWidget {
   const _CasillaDelAviso({
     required this.aceptado,
     required this.error,
@@ -136,6 +141,32 @@ class _CasillaDelAviso extends StatelessWidget {
   final bool aceptado;
   final bool error;
   final ValueChanged<bool> onChanged;
+
+  @override
+  ConsumerState<_CasillaDelAviso> createState() => _CasillaDelAvisoState();
+}
+
+class _CasillaDelAvisoState extends ConsumerState<_CasillaDelAviso> {
+  late final TapGestureRecognizer _alTocarElAviso = TapGestureRecognizer()
+    ..onTap = _abrirElAviso;
+
+  @override
+  void dispose() {
+    _alTocarElAviso.dispose();
+    super.dispose();
+  }
+
+  Future<void> _abrirElAviso() async {
+    // Se toman antes del `await`: el mensaje sale aunque la pantalla cambie.
+    final mensajero = ScaffoldMessenger.of(context);
+    final mensaje = AppLocalizations.of(context).entradaAvisoNoSeAbrio;
+    final abierto = await ref
+        .read(abridorDeEnlacesProvider)
+        .abrir(urlDelAvisoDePrivacidad);
+    if (!abierto) {
+      mensajero.showSnackBar(SnackBar(content: Text(mensaje)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +187,7 @@ class _CasillaDelAviso extends StatelessWidget {
               TextSpan(text: completo.substring(0, inicio)),
               TextSpan(
                 text: aviso,
+                recognizer: _alTocarElAviso,
                 style: TextStyle(
                   color: colorEnlace,
                   fontWeight: FontWeight.w700,
@@ -168,16 +200,16 @@ class _CasillaDelAviso extends StatelessWidget {
           );
 
     return CheckboxListTile(
-      value: aceptado,
-      onChanged: (valor) => onChanged(valor ?? false),
+      value: widget.aceptado,
+      onChanged: (valor) => widget.onChanged(valor ?? false),
       controlAffinity: ListTileControlAffinity.leading,
       contentPadding: EdgeInsets.zero,
-      isError: error,
+      isError: widget.error,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Radios.medio),
       ),
       title: Text.rich(texto, style: tema.textTheme.bodyLarge),
-      subtitle: error
+      subtitle: widget.error
           ? Text(
               textos.entradaAvisoError,
               style: tema.textTheme.bodyMedium?.copyWith(color: esquema.error),

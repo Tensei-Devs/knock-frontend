@@ -8,20 +8,104 @@
   <meta name="description" content="Knock te conecta con técnicos de confianza en mecánica, plomería y electricidad, colonia por colonia.">
   <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
+<body class="inicio">
+  <span id="tema-claro"></span><span id="tema-oscuro"></span>
+  <div class="fondo" aria-hidden="true">
+    <span class="mancha mancha-1"></span>
+    <span class="mancha mancha-2"></span>
+    <span class="mancha mancha-3"></span>
+  </div>
   <header>
-    <p class="marca">Knock</p>
+    <p class="marca">
+      <svg class="marca-icono" viewBox="409 292 448 404" aria-hidden="true">
+        <path class="f-acento" fill-rule="evenodd" d="M 752 570 L 749 575 L 748 583 L 750 590 L 753 594 L 806 630 L 816 630 L 822 627 L 825 624 L 828 618 L 828 609 L 825 603 L 819 598 L 770 565 L 760 565 Z M 763 525 L 763 534 L 766 541 L 769 544 L 775 547 L 840 547 L 845 545 L 851 539 L 853 534 L 853 527 L 851 521 L 845 515 L 840 513 L 776 513 L 769 516 L 766 519 Z M 824 437 L 819 432 L 811 429 L 804 430 L 797 434 L 751 469 L 748 476 L 748 484 L 750 489 L 755 494 L 762 497 L 767 497 L 777 492 L 823 457 L 826 452 L 826 441 Z M 640 417 L 629 417 L 621 421 L 617 425 L 615 429 L 614 437 L 613 438 L 613 677 L 615 685 L 619 690 L 623 692 L 634 691 L 705 653 L 712 646 L 715 640 L 716 632 L 717 631 L 717 477 L 715 469 L 712 463 L 705 456 L 663 431 L 650 422 Z M 754 369 L 714 342 L 708 339 L 696 330 L 693 329 L 687 324 L 681 321 L 669 312 L 663 309 L 657 304 L 649 300 L 638 297 L 630 297 L 629 296 L 617 297 L 609 299 L 600 303 L 438 414 L 428 427 L 422 445 L 422 630 L 427 648 L 431 656 L 438 666 L 446 674 L 462 684 L 474 688 L 488 689 L 489 690 L 559 690 L 560 689 L 565 689 L 575 684 L 582 677 L 586 669 L 587 654 L 585 648 L 580 640 L 573 634 L 563 630 L 511 630 L 510 629 L 505 629 L 494 623 L 488 617 L 485 612 L 482 603 L 482 470 L 485 460 L 489 454 L 495 448 L 610 372 L 622 367 L 634 367 L 647 372 L 658 380 L 721 419 L 729 420 L 730 421 L 739 420 L 750 415 L 756 409 L 762 397 L 762 384 L 761 380 Z"/>
+      </svg>
+      <svg class="marca-letras" viewBox="241 767 773 148" role="img" aria-label="Knock">
+        <path class="f-acento" fill-rule="evenodd" d="M 628 808 L 635 806 L 650 806 L 659 809 L 664 812 L 673 821 L 677 828 L 679 834 L 679 848 L 676 857 L 667 868 L 655 875 L 646 876 L 645 877 L 638 877 L 630 875 L 619 869 L 612 862 L 608 855 L 606 849 L 606 842 L 605 841 L 606 840 L 607 830 L 614 818 L 621 812 Z M 882 780 L 879 786 L 879 896 L 883 903 L 891 908 L 903 908 L 908 906 L 913 901 L 916 894 L 916 845 L 917 844 L 919 849 L 924 855 L 980 905 L 990 909 L 997 908 L 1003 905 L 1008 897 L 1007 885 L 986 865 L 966 848 L 958 839 L 1005 799 L 1008 793 L 1008 785 L 1005 779 L 1002 776 L 996 773 L 986 773 L 982 775 L 928 821 L 920 829 L 917 836 L 916 835 L 916 788 L 914 782 L 908 776 L 903 774 L 896 773 L 888 775 Z M 409 781 L 406 788 L 406 893 L 409 901 L 413 905 L 419 908 L 430 908 L 438 904 L 443 896 L 443 833 L 444 832 L 517 904 L 525 908 L 537 908 L 542 906 L 547 901 L 550 895 L 550 787 L 548 782 L 542 776 L 538 774 L 533 774 L 532 773 L 525 774 L 518 778 L 514 784 L 513 787 L 513 848 L 512 849 L 436 776 L 431 774 L 423 773 L 416 775 Z M 360 773 L 354 776 L 294 828 L 291 835 L 291 845 L 293 850 L 303 860 L 351 903 L 359 908 L 367 909 L 375 906 L 379 902 L 381 898 L 382 891 L 379 883 L 331 840 L 335 835 L 375 802 L 380 796 L 381 784 L 379 780 L 372 774 Z M 263 773 L 262 774 L 257 774 L 250 778 L 245 787 L 245 895 L 247 900 L 253 906 L 258 908 L 269 908 L 274 906 L 280 900 L 282 895 L 282 787 L 278 779 L 270 774 Z M 789 772 L 771 778 L 758 786 L 745 799 L 741 805 L 735 817 L 731 833 L 731 850 L 732 851 L 732 856 L 734 864 L 740 877 L 748 888 L 762 900 L 769 903 L 771 905 L 791 911 L 815 911 L 816 910 L 825 909 L 842 902 L 851 896 L 858 889 L 860 883 L 860 878 L 858 872 L 852 866 L 848 864 L 836 863 L 831 865 L 824 871 L 812 876 L 803 877 L 790 874 L 783 870 L 774 861 L 769 849 L 769 844 L 768 843 L 769 833 L 771 827 L 776 819 L 781 814 L 789 809 L 799 806 L 809 806 L 821 810 L 831 817 L 834 818 L 844 818 L 850 815 L 855 810 L 858 803 L 858 797 L 855 790 L 843 781 L 830 775 L 819 772 L 812 772 L 811 771 Z M 622 773 L 613 776 L 597 785 L 584 797 L 579 804 L 572 818 L 569 830 L 568 843 L 569 844 L 569 853 L 573 867 L 582 883 L 591 893 L 602 901 L 617 908 L 630 911 L 654 911 L 655 910 L 664 909 L 675 905 L 690 896 L 702 884 L 708 875 L 713 864 L 716 853 L 717 838 L 716 837 L 716 830 L 715 829 L 714 821 L 710 811 L 700 796 L 693 789 L 682 781 L 669 775 L 652 771 L 633 771 L 632 772 Z"/>
+      </svg>
+    </p>
+    <a class="tema-sw tema-a-oscuro" href="#tema-oscuro" aria-label="Cambiar a modo oscuro"><svg class="tema-ic tema-ic-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="tema-ic tema-ic-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg></a>
+    <a class="tema-sw tema-a-claro" href="#tema-claro" aria-label="Cambiar a modo claro"><svg class="tema-ic tema-ic-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="tema-ic tema-ic-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg></a>
   </header>
   <main>
-    <h1>Técnicos de confianza en tu colonia</h1>
-    <p class="descripcion">Knock te conecta con técnicos de confianza en mecánica, plomería y electricidad, colonia por colonia.</p>
-    <p class="play" data-play="proximamente">Próximamente en Google Play</p>
+    <div class="texto">
+      <ul class="etiquetas">
+        <li>Mecánica</li>
+        <li>Plomería</li>
+        <li>Electricidad</li>
+      </ul>
+      <h1>Técnicos de <em class="resalte">confianza</em> en tu colonia</h1>
+      <p class="descripcion">Knock te conecta con técnicos de confianza en mecánica, plomería y electricidad, colonia por colonia.</p>
+      <p class="lema">Tu técnico de confianza, a tu puerta</p>
+      <div class="play" data-play="beta">
+        <a class="play-boton" href="https://play.google.com/store/apps/details?id=app.knock.mobile"><svg class="play-ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#00a0ff" d="M3.6 2.2 13 12 3.6 21.8c-.3-.2-.5-.6-.5-1.1V3.3c0-.5.2-.9.5-1.1Z"/><path fill="#00d26a" d="M13 12l3.2-3.3L5.2 2.4c-.5-.3-1.1-.3-1.6-.2L13 12Z"/><path fill="#ffc400" d="m16.2 8.7 4.2 2.3c.8.5.8 1.5 0 2l-4.2 2.3L13 12l3.2-3.3Z"/><path fill="#ff3d4a" d="m13 12 3.2 3.3L5.2 21.6c-.5.3-1.1.3-1.6.2L13 12Z"/></svg><span class="play-txt"><span class="play-chico">Beta en Android</span><span class="play-grande">Google Play</span></span></a>
+        <a class="play-boton" href="https://play.google.com/apps/testing/app.knock.mobile"><svg class="play-ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#00a0ff" d="M3.6 2.2 13 12 3.6 21.8c-.3-.2-.5-.6-.5-1.1V3.3c0-.5.2-.9.5-1.1Z"/><path fill="#00d26a" d="M13 12l3.2-3.3L5.2 2.4c-.5-.3-1.1-.3-1.6-.2L13 12Z"/><path fill="#ffc400" d="m16.2 8.7 4.2 2.3c.8.5.8 1.5 0 2l-4.2 2.3L13 12l3.2-3.3Z"/><path fill="#ff3d4a" d="m13 12 3.2 3.3L5.2 21.6c-.5.3-1.1.3-1.6.2L13 12Z"/></svg><span class="play-txt"><span class="play-chico">Beta desde la web</span><span class="play-grande">Google Play</span></span></a>
+      </div>
+    </div>
   </main>
   <footer>
-    <p><a href="/privacidad/">Aviso de privacidad</a></p>
-    <p><a href="/eliminar-cuenta/">Eliminar mi cuenta y mis datos</a></p>
-    <p class="nota">Knock nunca te pedirá códigos SMS ni contraseñas en esta página</p>
-    <p class="nota">landing-v1.0.0</p>
+    <ul class="enlaces">
+      <li><a href="/privacidad/">Aviso de privacidad</a></li>
+      <li><a href="/eliminar-cuenta/">Eliminar mi cuenta y mis datos</a></li>
+      <li><a class="red" href="https://www.instagram.com/knock.mx/" rel="noopener noreferrer" target="_blank" aria-label="Instagram de Knock">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect class="ig-marco" x="3" y="3" width="18" height="18" rx="5.5"/>
+          <circle class="ig-marco" cx="12" cy="12" r="4.2"/>
+          <circle class="f-ig" cx="17.2" cy="6.8" r="1.2"/>
+        </svg>
+      </a></li>
+      <li><a class="red" href="https://www.tiktok.com/@knockmx" rel="noopener noreferrer" target="_blank" aria-label="TikTok de Knock">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path class="ig-marco" d="M14 4 V14.5 A3.5 3.5 0 1 1 10.5 11"/>
+          <path class="ig-marco" d="M14 4 C14.4 6.4 16 7.9 18.5 8.1"/>
+        </svg>
+      </a></li>
+      <li><a class="red" href="https://x.com/knock_mx" rel="noopener noreferrer" target="_blank" aria-label="X de Knock">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path class="ig-marco" d="M5 5 L19 19"/>
+          <path class="ig-marco" d="M19 5 L5 19"/>
+        </svg>
+      </a></li>
+      <li><a class="red" href="https://www.facebook.com/share/1C3PA8XoUb/" rel="noopener noreferrer" target="_blank" aria-label="Facebook de Knock">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle class="ig-marco" cx="12" cy="12" r="9"/>
+          <path class="ig-marco" d="M13 18 V12 H15.5 M10.5 12 H13 M13 12 V10 A2.5 2.5 0 0 1 15.5 7.5"/>
+        </svg>
+      </a></li>
+    </ul>
+    <div class="notas">
+      <p class="nota">Knock nunca te pedirá códigos SMS ni contraseñas en esta página</p>
+      <p class="nota">landing-v1.0.0</p>
+    </div>
   </footer>
+  <div class="moodboard" role="group" aria-label="Fotos de personas recibiendo a un técnico de confianza">
+    <div class="recorte r-h7-llegada impresion cinta cinta-izq"><img src="/img/h7-llegada.webp" alt="Una mujer y su hijo reciben a un técnico con su caja de herramientas en la puerta de su casa" width="540" height="383" decoding="async"></div>
+    <div class="recorte r-h7-plomeria impresion"><img src="/img/h7-plomeria.webp" alt="Una plomera repara una tubería junto a un señor mayor" width="380" height="270" decoding="async"></div>
+    <div class="recorte r-h7-electricidad rasgado-a solo-escritorio"><img src="/img/h7-electricidad.webp" alt="" width="380" height="226" decoding="async"></div>
+    <div class="recorte r-h8-manos impresion"><img src="/img/h8-manos.webp" alt="" width="380" height="248" decoding="async"></div>
+    <div class="recorte r-h9-telefono rasgado-b"><img src="/img/h9-telefono.webp" alt="" width="380" height="246" decoding="async"></div>
+    <div class="recorte r-h6-mecanica impresion solo-escritorio"><img src="/img/h6-mecanica.webp" alt="" width="380" height="362" decoding="async"></div>
+    <div class="recorte r-h6-familia impresion cinta cinta-centro"><img src="/img/h6-familia.webp" alt="Una familia sonriente recibe al técnico en su casa" width="380" height="376" decoding="async"></div>
+    <div class="recorte r-h8-telefono rasgado-b solo-escritorio"><img src="/img/h8-telefono.webp" alt="" width="380" height="248" decoding="async"></div>
+    <div class="recorte r-h6-electricidad impresion solo-escritorio"><img src="/img/h6-electricidad.webp" alt="" width="380" height="377" decoding="async"></div>
+    <div class="recorte r-h7-manos rasgado-a solo-escritorio"><img src="/img/h7-manos.webp" alt="" width="380" height="237" decoding="async"></div>
+    <div class="recorte r-h8-plomeria impresion solo-escritorio"><img src="/img/h8-plomeria.webp" alt="" width="380" height="254" decoding="async"></div>
+    <div class="recorte r-h7-telefono rasgado-b solo-escritorio"><img src="/img/h7-telefono.webp" alt="" width="380" height="238" decoding="async"></div>
+    <div class="recorte r-h9-electricidad impresion solo-escritorio"><img src="/img/h9-electricidad.webp" alt="" width="380" height="241" decoding="async"></div>
+    <div class="recorte r-h7-mecanica impresion cinta cinta-izq"><img src="/img/h7-mecanica.webp" alt="" width="380" height="226" decoding="async"></div>
+    <div class="recorte r-h9-manos rasgado-a"><img src="/img/h9-manos.webp" alt="" width="380" height="246" decoding="async"></div>
+    <div class="recorte r-h9-plomeria impresion solo-escritorio"><img src="/img/h9-plomeria.webp" alt="" width="380" height="252" decoding="async"></div>
+    <div class="recorte r-h9-llegada impresion solo-escritorio"><img src="/img/h9-llegada.webp" alt="" width="380" height="252" decoding="async"></div>
+    <div class="recorte r-h6-herramientas rasgado-b"><img src="/img/h6-herramientas.webp" alt="Una caja de herramientas gris y naranja" width="380" height="363" decoding="async"></div>
+    <div class="recorte r-h8-electricidad rasgado-a"><img src="/img/h8-electricidad.webp" alt="" width="380" height="237" decoding="async"></div>
+    <div class="recorte r-h8-mecanica impresion solo-escritorio"><img src="/img/h8-mecanica.webp" alt="" width="380" height="237" decoding="async"></div>
+    <div class="recorte r-h6-manos impresion solo-escritorio"><img src="/img/h6-manos.webp" alt="" width="380" height="359" decoding="async"></div>
+    <div class="recorte r-h8-llegada rasgado-b solo-escritorio"><img src="/img/h8-llegada.webp" alt="" width="380" height="253" decoding="async"></div>
+    <svg class="adorno ad-estrella" viewBox="0 0 24 24" aria-hidden="true"><path class="f-acento" d="M12 1.5 L14.9 8.6 L22.5 9.2 L16.7 14.2 L18.5 21.6 L12 17.6 L5.5 21.6 L7.3 14.2 L1.5 9.2 L9.1 8.6 Z"/></svg>
+    <svg class="adorno ad-flecha solo-escritorio" viewBox="0 0 60 40" aria-hidden="true"><path class="trazo" d="M4 8 C 18 -2 46 4 50 30"/><path class="trazo" d="M41 24 L50 33 L56 21"/></svg>
+    <svg class="adorno ad-subrayado" viewBox="0 0 100 20" aria-hidden="true"><path class="trazo trazo-grueso" d="M3 12 C 14 4 22 18 34 10 S 56 4 66 12 S 86 18 97 7"/></svg>
+    <svg class="adorno ad-circulo solo-escritorio" viewBox="0 0 100 100" aria-hidden="true"><path class="trazo" d="M52 6 C 20 4 4 30 8 55 C 12 80 40 96 66 92 C 90 88 98 60 92 36 C 88 18 66 6 40 12"/></svg>
+    <svg class="adorno ad-confeti-a" viewBox="0 0 40 40" aria-hidden="true"><circle class="f-acento" cx="6" cy="8" r="2.6"/><circle class="f-tinta" cx="22" cy="5" r="2"/><circle class="f-acento" cx="33" cy="16" r="2.8"/><circle class="f-tinta" cx="12" cy="26" r="2"/><circle class="f-acento" cx="28" cy="33" r="2.4"/><path class="trazo trazo-fino" d="M4 36 L9 31"/></svg>
+  </div>
 </body>
 </html>

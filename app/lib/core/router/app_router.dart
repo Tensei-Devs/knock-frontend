@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/notificaciones/navegacion_notificaciones.dart';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/destino_de_regreso_provider.dart';
@@ -7,14 +8,20 @@ import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
 import 'package:app/features/actividad/presentation/actividad_screen.dart';
+import 'package:app/features/actividad/presentation/cotizaciones_screen.dart';
+import 'package:app/features/actividad/presentation/solicitud_detalle_screen.dart';
+import 'package:app/features/actividad/presentation/solicitud_nueva_screen.dart';
+import 'package:app/features/actividad/presentation/visita_screen.dart';
 import 'package:app/features/cuenta/presentation/completar_perfil_screen.dart';
 import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
+import 'package:app/features/cuenta/presentation/contactos_confianza_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/cuenta/presentation/cuenta_screen.dart';
 import 'package:app/features/entrada/presentation/celular_screen.dart';
 import 'package:app/features/entrada/presentation/codigo_screen.dart';
 import 'package:app/features/explorar/presentation/explorar_screen.dart';
 import 'package:app/features/inicio/presentation/inicio_screen.dart';
+import 'package:app/features/maqueta/fachada_maqueta.dart';
 import 'package:app/features/oficios/presentation/oficios_screen.dart';
 import 'package:app/features/previa/presentation/previa_oficios_screen.dart';
 import 'package:app/features/previa/presentation/previa_screen.dart';
@@ -31,6 +38,9 @@ import 'package:go_router/go_router.dart';
 /// fuera del shell (sin barra inferior). El router se refresca cuando cambia
 /// cualquiera de los dos indicadores.
 final appRouterProvider = Provider<GoRouter>((ref) {
+  // Modo maqueta (spec 045): solo con la bandera se registran sus rutas y
+  // pantallas; sin ella el router es el de siempre.
+  final maqueta = ref.read(modoMaquetaProvider);
   final esTecnico = ValueNotifier<bool>(ref.read(esTecnicoProvider));
   ref.listen<bool>(esTecnicoProvider, (_, valor) => esTecnico.value = valor);
   final sesion = ValueNotifier<bool>(ref.read(sesionIniciadaProvider));
@@ -51,10 +61,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: sesion.value ? Rutas.inicio : Rutas.previa,
     refreshListenable: Listenable.merge([esTecnico, sesion, perfilPendiente]),
     redirect: (context, state) =>
-        _redireccionDeSesion(ref, state, sesion.value, perfilPendiente.value) ??
+        _redireccionDeSesion(
+          ref,
+          state,
+          sesion.value,
+          perfilPendiente.value,
+          maqueta: maqueta,
+        ) ??
         redireccionPorPerfil(
           // Sin sesión manda `/entrar`, aunque el último perfil fuera nuevo.
-          perfilPendiente: perfilPendiente.value && sesion.value,
+          perfilPendiente:
+              perfilPendiente.value &&
+              sesion.value &&
+              // El registro de técnico de la maqueta crea el perfil al terminar.
+              !(maqueta &&
+                  state.matchedLocation.startsWith(
+                    PantallasMaqueta.registroTecnico,
+                  )),
           ubicacion: state.matchedLocation,
         ) ??
         redireccionPorRol(
@@ -64,7 +87,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: Rutas.previa,
-        builder: (context, state) => const PreviaScreen(),
+        builder: (context, state) =>
+            maqueta ? PantallasMaqueta.previa() : const PreviaScreen(),
         routes: [
           GoRoute(
             path: 'oficios',
@@ -74,14 +98,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Rutas.entrar,
-        builder: (context, state) => const CelularScreen(),
+        builder: (context, state) =>
+            maqueta ? PantallasMaqueta.entrada() : const CelularScreen(),
         routes: [
           GoRoute(
             path: 'codigo',
             // El celular viaja en memoria como `extra`; sin él (enlace
             // directo) se regresa a escribirlo.
             redirect: (context, state) =>
-                _celularDe(state) == null ? Rutas.entrar : null,
+                maqueta || _celularDe(state) == null ? Rutas.entrar : null,
             builder: (context, state) =>
                 CodigoScreen(celular: _celularDe(state)!),
           ),
@@ -89,16 +114,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Rutas.completarPerfil,
-        builder: (context, state) => const CompletarPerfilScreen(),
+        builder: (context, state) => maqueta
+            ? PantallasMaqueta.entrada(paso: 'name')
+            : const CompletarPerfilScreen(),
       ),
+      if (maqueta) rutaMaqueta(),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            AppShell(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) => maqueta
+            ? ShellMaqueta(navigationShell: navigationShell)
+            : AppShell(navigationShell: navigationShell),
         branches: [
-          _rama(Rutas.inicio, const InicioScreen()),
+          _rama(
+            Rutas.inicio,
+            maqueta ? PantallasMaqueta.inicio() : const InicioScreen(),
+          ),
           _rama(
             Rutas.explorar,
-            const ExplorarScreen(),
+            maqueta ? PantallasMaqueta.explorar() : const ExplorarScreen(),
             subrutas: [
               GoRoute(
                 path: 'oficios',
@@ -106,15 +138,53 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _rama(Rutas.actividad, const ActividadScreen()),
-          _rama(Rutas.trabajo, const TrabajoScreen()),
+          _rama(
+            Rutas.actividad,
+            maqueta ? PantallasMaqueta.actividad() : const ActividadScreen(),
+            subrutas: [
+              GoRoute(
+                path: 'solicitud/nueva',
+                builder: (context, state) => SolicitudNuevaScreen(
+                  oficioClave: state.uri.queryParameters[Rutas.parametroOficio],
+                ),
+              ),
+              GoRoute(
+                path: 'visita/:id',
+                builder: (context, state) =>
+                    VisitaScreen(id: state.pathParameters['id']!),
+              ),
+              GoRoute(
+                path: 'solicitud/:id',
+                builder: (context, state) =>
+                    SolicitudDetalleScreen(id: state.pathParameters['id']!),
+                routes: [
+                  GoRoute(
+                    path: 'cotizaciones',
+                    builder: (context, state) => CotizacionesScreen(
+                      solicitudId: state.pathParameters['id']!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          _rama(
+            Rutas.trabajo,
+            maqueta ? PantallasMaqueta.trabajo() : const TrabajoScreen(),
+          ),
           _rama(
             Rutas.cuenta,
-            const CuentaScreen(),
+            maqueta ? PantallasMaqueta.cuenta() : const CuentaScreen(),
             subrutas: [
               GoRoute(
                 path: 'configuracion',
-                builder: (context, state) => const ConfiguracionScreen(),
+                builder: (context, state) => maqueta
+                    ? PantallasMaqueta.configuracion()
+                    : const ConfiguracionScreen(),
+              ),
+              GoRoute(
+                path: 'contactos-de-confianza',
+                builder: (context, state) => const ContactosConfianzaScreen(),
               ),
             ],
           ),
@@ -143,20 +213,26 @@ String? _redireccionDeSesion(
   Ref ref,
   GoRouterState state,
   bool sesionIniciada,
-  bool perfilPendiente,
-) {
+  bool perfilPendiente, {
+  required bool maqueta,
+}) {
   final destino = ref.read(destinoDeRegresoProvider.notifier);
   final ubicacion = state.matchedLocation;
   if (!sesionIniciada) {
     final volver = state.uri.queryParameters[Rutas.parametroVolver];
     if (volver != null) destino.recordar(volver);
-    return redireccionPorSesion(sesionIniciada: false, ubicacion: ubicacion);
+    return redireccionPorSesion(
+      sesionIniciada: false,
+      ubicacion: ubicacion,
+      maqueta: maqueta,
+    );
   }
   final pendiente = ref.read(destinoDeRegresoProvider);
   final redireccion = redireccionPorSesion(
     sesionIniciada: true,
     ubicacion: ubicacion,
     volver: pendiente,
+    maqueta: maqueta,
   );
   final llego =
       redireccion == null &&

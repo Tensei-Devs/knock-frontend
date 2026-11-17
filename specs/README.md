@@ -18,5 +18,34 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 012 | Notificaciones push y permisos del teléfono | Aprobada | [`012-notificaciones-push-y-permisos-del-telefono`](012-notificaciones-push-y-permisos-del-telefono/spec.md) |
 | 013 | MCP del proyecto | Aprobada | [`013-mcp-del-proyecto`](013-mcp-del-proyecto/spec.md) |
 | 014 | Alinear la UI con la maqueta | Aprobada | [`014-alinear-la-ui-con-la-maqueta`](014-alinear-la-ui-con-la-maqueta/spec.md) |
+| 015 | Pedir y comparar cotizaciones (pantallas) | Borrador | [`015-pedir-y-comparar-cotizaciones`](015-pedir-y-comparar-cotizaciones/spec.md) |
+| 016 | Visita con código y aviso de confianza (pantallas) | Borrador | [`016-visita-con-codigo-y-aviso-de-confianza`](016-visita-con-codigo-y-aviso-de-confianza/spec.md) |
+| 017 | Elegir zona por ubicación o código postal (pantalla) | Borrador | [`017-elegir-zona-por-ubicacion-o-codigo-postal`](017-elegir-zona-por-ubicacion-o-codigo-postal/spec.md) |
+| 018 | Verificar mi identidad y ver su estado (pantallas) | Borrador | [`018-verificar-mi-identidad-y-ver-su-estado`](018-verificar-mi-identidad-y-ver-su-estado/spec.md) |
+| 019 | Pestaña Trabajo (lado del técnico) | Borrador | [`019-pestana-trabajo`](019-pestana-trabajo/spec.md) |
+| 020 | Mi actividad y mis conversaciones | Borrador | [`020-mi-actividad-y-mis-conversaciones`](020-mi-actividad-y-mis-conversaciones/spec.md) |
+| 021 | Buscar un experto por texto (app) | Borrador | [`021-buscar-un-experto-por-texto`](021-buscar-un-experto-por-texto/spec.md) |
+| 022 | Avisar a alguien de confianza | Borrador | [`022-avisar-a-alguien-de-confianza`](022-avisar-a-alguien-de-confianza/spec.md) |
+| 023 | Panel web interno: entrada con permisos y doble factor | Borrador | [`023-panel-web-interno`](023-panel-web-interno/spec.md) |
+| 024 | Notificaciones de la cadena de solicitudes | Borrador | [`024-notificaciones-de-la-cadena-de-solicitudes`](024-notificaciones-de-la-cadena-de-solicitudes/spec.md) |
+| 025 | Cancelar una solicitud y ver su vencimiento (app) | Borrador | [`025-cancelar-una-solicitud-y-ver-su-vencimiento`](025-cancelar-una-solicitud-y-ver-su-vencimiento/spec.md) |
 | 026 | Conectar la app con los endpoints reales (perfil, sesión y colonias) | Aprobada | [`026-conectar-la-app-con-la-api-real`](026-conectar-la-app-con-la-api-real/spec.md) |
 | 027 | Previa sin sesión (pantalla de inicio antes de entrar) según la maqueta | Aprobada | [`027-previa-sin-sesion-como-la-maqueta`](027-previa-sin-sesion-como-la-maqueta/spec.md) |
+| 028 | Abrir el aviso de privacidad desde la entrada con celular | Borrador | [`028-abrir-el-aviso-de-privacidad`](028-abrir-el-aviso-de-privacidad/spec.md) |
+| 029 | Cuenta y datos personales: cambio de número, recuperación de acceso, exportación, consentimien… (pantallas) | Aprobada | [`029-cuenta-y-datos-personales`](029-cuenta-y-datos-personales/spec.md) |
+| 030 | Direcciones del cliente (pantallas) | Aprobada | [`030-direcciones-del-cliente`](030-direcciones-del-cliente/spec.md) |
+| 031 | Mi casa y mi auto (pantallas) | Aprobada | [`031-mi-casa-y-mi-auto`](031-mi-casa-y-mi-auto/spec.md) |
+| 032 | Técnicos de confianza (pantallas) | Aprobada | [`032-tecnicos-de-confianza`](032-tecnicos-de-confianza/spec.md) |
+| 033 | Bloqueos entre personas y reportes con apelación (pantallas) | Aprobada | [`033-bloqueos-y-reportes`](033-bloqueos-y-reportes/spec.md) |
+| 034 | Avisos dentro de la app y preferencias de avisos (pantallas) | Aprobada | [`034-avisos-dentro-de-la-app`](034-avisos-dentro-de-la-app/spec.md) |
+| 035 | Pedir un oficio y consultar oficios (app) | Aprobada | [`035-pedir-un-oficio-y-consultar-oficios`](035-pedir-un-oficio-y-consultar-oficios/spec.md) |
+| 036 | Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas) | Aprobada | [`036-tecnico-perfil-horarios-y-exploracion`](036-tecnico-perfil-horarios-y-exploracion/spec.md) |
+| 037 | Servicios y precios de cada técnico (pantallas) | Aprobada | [`037-servicios-del-tecnico`](037-servicios-del-tecnico/spec.md) |
+| 038 | Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado y cotizaciones del técnico (pantallas) | Aprobada | [`038-solicitudes-y-cotizaciones-complementos`](038-solicitudes-y-cotizaciones-complementos/spec.md) |
+| 039 | Cotización final tras la visita y ajustes de precio (pantallas) | Aprobada | [`039-cotizacion-final-y-ajustes-de-precio`](039-cotizacion-final-y-ajustes-de-precio/spec.md) |
+| 040 | Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas) | Aprobada | [`040-visita-agenda-y-cierre`](040-visita-agenda-y-cierre/spec.md) |
+| 041 | Opiniones y reputación del técnico (pantallas) | Aprobada | [`041-opiniones-y-reputacion`](041-opiniones-y-reputacion/spec.md) |
+| 042 | Asistente de IA: resumen de chat, borrador de cotización, rango de precio y bitácora (pantallas) | Aprobada | [`042-asistente-de-ia`](042-asistente-de-ia/spec.md) |
+| 043 | Panel web: revisión de verificaciones y reportes | Aprobada | [`043-panel-revision-de-verificaciones-y-reportes`](043-panel-revision-de-verificaciones-y-reportes/spec.md) |
+| 044 | Panel web: catálogo de oficios, oficios pedidos y lista de espera | Aprobada | [`044-panel-catalogo-de-oficios`](044-panel-catalogo-de-oficios/spec.md) |
+| 045 | Maqueta base de la app (reconstrucción visual simulada) | Aprobada | [`045-maqueta-base-de-la-app`](045-maqueta-base-de-la-app/spec.md) |

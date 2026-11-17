@@ -10,8 +10,30 @@ abstract final class Rutas {
   /// conserva la barra inferior.
   static const oficios = '/explorar/oficios';
 
+  /// «Pedir cotización» (spec 015): subruta de Actividad. Acepta
+  /// `?oficio=<clave>` para saltar el paso 1 (CA-24).
+  static const solicitudNueva = '/actividad/solicitud/nueva';
+
+  /// Nombre del parámetro con la clave del oficio de [solicitudNueva].
+  static const parametroOficio = 'oficio';
+
+  /// Detalle de una solicitud (spec 015): `/actividad/solicitud/<id>`.
+  static String solicitud(String id) =>
+      '/actividad/solicitud/${Uri.encodeComponent(id)}';
+
+  /// Comparación de cotizaciones de una solicitud (spec 015, KNOCK-81).
+  static String cotizaciones(String solicitudId) =>
+      '${solicitud(solicitudId)}/cotizaciones';
+
+  /// Visita del cliente (spec 016, KNOCK-83). La ruta la registra esa tarjeta.
+  static String visita(String id) =>
+      '/actividad/visita/${Uri.encodeComponent(id)}';
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
+
+  /// Contactos de confianza desde Mi cuenta (spec 022, CA-14).
+  static const contactosConfianza = '/cuenta/contactos-de-confianza';
 
   /// Entrada con celular (HU-001): fuera de la barra inferior.
   static const entrar = '/entrar';
@@ -39,8 +61,22 @@ bool _esRutaDe(String ubicacion, String base) =>
 
 /// Rutas que se ven sin sesión (spec 027, R-02): la previa, su catálogo y la
 /// entrada con celular (con sus subrutas).
-bool esRutaPublica(String ubicacion) =>
-    _esRutaDe(ubicacion, Rutas.previa) || _esRutaDe(ubicacion, Rutas.entrar);
+bool esRutaPublica(String ubicacion, {bool maqueta = false}) =>
+    _esRutaDe(ubicacion, Rutas.previa) ||
+    _esRutaDe(ubicacion, Rutas.entrar) ||
+    (maqueta && _rutasPublicasMaqueta.any((r) => _esRutaDe(ubicacion, r)));
+
+/// Pantallas de la maqueta que se ven sin cuenta (solo en modo maqueta,
+/// spec 045): buscar, perfil del experto, asistente, ayuda y legales.
+const _rutasPublicasMaqueta = [
+  '/m/buscar',
+  '/m/experto',
+  '/m/asistente',
+  '/m/ayuda',
+  '/m/aviso-privacidad',
+  '/m/terminos',
+  '/m/tecnico/registro',
+];
 
 /// Devuelve a dónde redirigir según la sesión, o `null` si se permite.
 ///
@@ -52,19 +88,26 @@ String? redireccionPorSesion({
   required bool sesionIniciada,
   required String ubicacion,
   String? volver,
+  bool maqueta = false,
 }) {
   if (!sesionIniciada) {
-    return esRutaPublica(ubicacion) ? null : Rutas.previa;
+    return esRutaPublica(ubicacion, maqueta: maqueta) ? null : Rutas.previa;
   }
-  if (_esRutaDe(ubicacion, Rutas.entrar)) return destinoDeRegreso(volver);
+  if (_esRutaDe(ubicacion, Rutas.entrar)) {
+    return destinoDeRegreso(volver, maqueta: maqueta);
+  }
   if (_esRutaDe(ubicacion, Rutas.previa)) return Rutas.inicio;
   return null;
 }
 
 /// Ruta de la entrada con el destino al que volver (`/entrar?volver=…`), o
 /// `/entrar` a secas si no hay destino válido (spec 027, R-08).
-String rutaDeEntrada(String? volver, {String base = Rutas.entrar}) {
-  final destino = destinoValidoODescartar(volver);
+String rutaDeEntrada(
+  String? volver, {
+  String base = Rutas.entrar,
+  bool maqueta = false,
+}) {
+  final destino = destinoValidoODescartar(volver, maqueta: maqueta);
   if (destino == null) return base;
   return Uri(
     path: base,
@@ -78,12 +121,12 @@ String rutaDeEntrada(String? volver, {String base = Rutas.entrar}) {
 /// Actividad, Trabajo o Mi cuenta) o una subruta de Explorar. `/previa/oficios`
 /// se traduce al catálogo de Explorar, porque con sesión la previa ya no existe.
 /// Cualquier otra cosa (otro sitio, `//otro`, vacío, mal formado) va a Inicio.
-String destinoDeRegreso(String? valor) =>
-    destinoValidoODescartar(valor) ?? Rutas.inicio;
+String destinoDeRegreso(String? valor, {bool maqueta = false}) =>
+    destinoValidoODescartar(valor, maqueta: maqueta) ?? Rutas.inicio;
 
 /// Como [destinoDeRegreso], pero `null` si el valor no es un destino permitido
 /// (o es el propio Inicio, que no hace falta recordar).
-String? destinoValidoODescartar(String? valor) {
+String? destinoValidoODescartar(String? valor, {bool maqueta = false}) {
   if (valor == null || valor.isEmpty) return null;
   if (valor == Rutas.previaOficios) return Rutas.oficios;
   // Solo caracteres de una ruta interna: nada de esquemas, `//`, barras
@@ -99,7 +142,10 @@ String? destinoValidoODescartar(String? valor) {
     Rutas.trabajo,
     Rutas.cuenta,
   ];
-  if (pestanas.contains(valor) || valor.startsWith('${Rutas.explorar}/')) {
+  if (pestanas.contains(valor) ||
+      valor.startsWith('${Rutas.explorar}/') ||
+      // Subrutas de la maqueta: solo en modo maqueta (spec 045).
+      (maqueta && valor.startsWith('/m/'))) {
     return valor;
   }
   return null;
