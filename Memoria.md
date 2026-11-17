@@ -529,6 +529,6 @@
 - **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub.
 
 ## 2026-11-16 — Vencimiento en horario de México (KNOCK-71, spec 025 T-01)
-- **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Duda para el Tech Lead: la spec 025 no define el redondeo; se truncó hacia abajo.
-- **Riesgo y duda para el Tech Lead:** si México vuelve a cambiar su horario, se actualiza esa constante; no se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
+- **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Aprobado por el Tech Lead: redondeo hacia abajo y UTC−6 en una sola constante para la hora de Ciudad de México.
+- **Riesgo:** si cambia el horario de Ciudad de México, se actualiza esa constante; algunos municipios de la frontera norte sí conservan horario de verano, pero la app usa la hora de Ciudad de México. No se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
 - **A evitar:** usar la zona del teléfono o interpretar «cerrando» como estado vencido confirmado por el servidor.

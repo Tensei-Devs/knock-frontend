@@ -1,5 +1,6 @@
-/// La zona de la ciudad piloto no usa horario de verano desde octubre de 2022.
-/// Si cambia la ley, este desfase debe actualizarse.
+/// La app usa la hora de Ciudad de México (UTC−6, sin horario de verano).
+/// Algunos municipios de la frontera norte sí conservan horario de verano.
+/// Si cambia la ley para Ciudad de México, este desfase debe actualizarse.
 abstract final class ZonaMexico {
   static const _desfase = Duration(hours: -6);
 
