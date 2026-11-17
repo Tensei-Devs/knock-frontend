@@ -553,3 +553,9 @@
 - **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
 - **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
 - **A evitar:** mostrar sesiones de ejemplo cuando falla la red.
+
+## 2026-11-17 — Fase 2: Actividad de la maqueta muestra las solicitudes reales (KNOCK-277)
+- **Decisión:** con sesión iniciada y `KNOCK_API_URL` válida, Actividad lee `GET /solicitudes` y, al abrir una, `GET /solicitudes/{id}`. Cada solicitud se convierte en un `Job` marcado como real y se mezcla con las simuladas de la sesión. El envío (`POST /solicitudes`) sigue simulado (E-05).
+- **Porqué:** segunda conexión de la enmienda 1 (E-06); el repositorio y los mapeadores del contrato ya estaban hechos y probados.
+- **Cómo:** controlador `SolicitudesRealesController` (sin reintento automático, con Reintentar) y puente en `_PuenteDeDatos`; la lista no trae la clave del oficio, así que se reconoce por el nombre con el catálogo de oficios (una solicitud de un oficio que la maqueta no dibuja se omite); la descripción sale del detalle. Carga, error sin datos de ejemplo y vacío (CA-12). Cita, terminada y cancelada se dibujan sin técnico: su visita se conecta en la fase de visita.
+- **A evitar:** mostrar solicitudes de ejemplo cuando falla la red; pedir las solicitudes sin sesión o sin API.

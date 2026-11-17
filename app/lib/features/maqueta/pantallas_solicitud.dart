@@ -8,7 +8,12 @@ import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudRealDetalleProvider;
+import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 String _catIcon(String id) => id == 'mec'
@@ -602,14 +607,14 @@ Widget widenBlock(BuildContext context, Job j) {
 
 // ------------------------------------------------------------ comparar
 
-class CompararScreen extends StatefulWidget {
+class CompararScreen extends ConsumerStatefulWidget {
   const CompararScreen({super.key, required this.id});
   final String id;
   @override
-  State<CompararScreen> createState() => _CompararScreenState();
+  ConsumerState<CompararScreen> createState() => _CompararScreenState();
 }
 
-class _CompararScreenState extends State<CompararScreen> {
+class _CompararScreenState extends ConsumerState<CompararScreen> {
   int _o = 0;
 
   void _accept(Job j, String pid) {
@@ -669,13 +674,43 @@ class _CompararScreenState extends State<CompararScreen> {
     final j = maq.job(widget.id);
     if (j == null) return const Pg(title: 'Cotizaciones', body: SizedBox());
     final c = cats[j.cat]!;
+    // Solicitud real: el detalle (descripción) se pide al abrirla.
+    final detalle = j.real
+        ? ref.watch(solicitudRealDetalleProvider(j.id))
+        : null;
     final head = CardK(
       child: stack([
         h2(j.title),
         sMut(
-          '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'} · ${maq.user.col}',
+          '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'} · ${j.real ? j.colonia : maq.user.col}',
         ),
         sMut('Prefieres: ${j.pref}'),
+        if (detalle != null)
+          detalle.when(
+            loading: () => sMut('Cargando tu solicitud…'),
+            error: (e, _) => Row(
+              spacing: 12,
+              children: [
+                Expanded(
+                  child: T(
+                    textoDeErrorReal(e),
+                    size: 14,
+                    w: FontWeight.w800,
+                    color: kc(context).red,
+                  ),
+                ),
+                if (e is! NoEncontradoFailure)
+                  BtnK(
+                    'Reintentar',
+                    () => ref.invalidate(solicitudRealDetalleProvider(j.id)),
+                    kind: Bk.sec,
+                    sm: true,
+                    auto: true,
+                  ),
+              ],
+            ),
+            data: (s) => tT(s.descripcion),
+          ),
       ], gap: 6),
     );
     if (j.quotes.isEmpty) {

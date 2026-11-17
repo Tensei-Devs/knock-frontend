@@ -159,15 +159,26 @@ class ActividadMaqueta extends StatelessWidget {
       cards.add(jobCard(context, j, firstPri));
       if (j.status == 'cotizando') firstPri = false;
     }
+    // Solicitudes reales (spec 045, enmienda 1): cargando, error con
+    // Reintentar y vacío (CA-12). Sin sesión o sin API no cambia nada.
+    final carga = maq.solicitudesReales;
+    final error = carga == CargaReal.error;
+    final cargando = carga == CargaReal.cargando && jobs.isEmpty;
     return PgTab(
       title: 'Actividad',
       fab: msgFab(context),
-      body: jobs.isNotEmpty
-          ? CargaInicial(
-              clave: 'actividad',
-              esqueleto: const EsqueletoLista(n: 3),
-              child: stack(escalona(cards), gap: 12),
-            )
+      body: cargando
+          ? const EsqueletoLista(n: 3)
+          : jobs.isNotEmpty || error
+          ? stack([
+              if (error) _errorDeSolicitudes(context),
+              if (jobs.isNotEmpty)
+                CargaInicial(
+                  clave: 'actividad',
+                  esqueleto: const EsqueletoLista(n: 3),
+                  child: stack(escalona(cards), gap: 12),
+                ),
+            ], gap: 12)
           : SizedBox(
               height: 420,
               child: emptyK(
@@ -184,6 +195,31 @@ class ActividadMaqueta extends StatelessWidget {
     );
   });
 }
+
+/// Aviso de que no se pudieron cargar las solicitudes, con Reintentar. No
+/// muestra solicitudes de ejemplo.
+Widget _errorDeSolicitudes(BuildContext context) => CardK(
+  child: Row(
+    spacing: 12,
+    children: [
+      Expanded(
+        child: T(
+          'No pudimos cargar tus solicitudes.',
+          size: 14,
+          w: FontWeight.w800,
+          color: kc(context).red,
+        ),
+      ),
+      BtnK(
+        'Reintentar',
+        () => maq.reintentarSolicitudes?.call(),
+        kind: Bk.sec,
+        sm: true,
+        auto: true,
+      ),
+    ],
+  ),
+);
 
 /// Globo flotante de mensajes (abajo a la derecha, con contador).
 Widget msgFab(BuildContext context) {
@@ -276,35 +312,47 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
       ], gap: 10);
     case 'cotizando':
       pill = Pill(
-        '${j.quotes.length} cotizaciones listas',
+        '${j.nQuotes} cotizaciones listas',
         kind: 'amber',
         icon: 'bell',
       );
-      det = Row(
-        children: [
-          for (var i = 0; i < j.quotes.length; i++)
-            Transform.translate(
-              offset: Offset(-10.0 * i, 0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Av.prov(
-                  provs[j.quotes[i].pid]!,
-                  size: 34,
-                  verified: false,
-                ),
-              ),
-            ),
-        ],
-      );
+      det = j.real
+          ? sMut(j.pref)
+          : Row(
+              children: [
+                for (var i = 0; i < j.quotes.length; i++)
+                  Transform.translate(
+                    offset: Offset(-10.0 * i, 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: Av.prov(
+                        provs[j.quotes[i].pid]!,
+                        size: 34,
+                        verified: false,
+                      ),
+                    ),
+                  ),
+              ],
+            );
       action = BtnK(
         'Ver y elegir',
         () => context.push(RM.comparar(j.id)),
         kind: pri ? Bk.pri : Bk.sec,
         sm: true,
       );
+    case 'visita' || 'cita' when j.real:
+      // La visita real se conecta en la fase siguiente: por ahora solo el
+      // estado, sin datos inventados.
+      pill = Pill(
+        j.status == 'cita' ? 'Cita confirmada' : 'Visita confirmada',
+        kind: 'green',
+        icon: 'check',
+      );
+    case 'terminado' when j.real:
+      pill = const Pill('Terminado', kind: 'gray');
     case 'visita':
       pill = Pill(
         j.diag ? 'Visita para cotizar' : 'Visita confirmada',
@@ -424,7 +472,11 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 h3(j.title),
-                sMut('${c.short} · ${c.taller ? 'En taller' : 'A domicilio'}'),
+                sMut(
+                  j.real && j.colonia.isNotEmpty
+                      ? '${j.colonia} · ${c.taller ? 'En taller' : 'A domicilio'}'
+                      : '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'}',
+                ),
               ],
             ),
           ),

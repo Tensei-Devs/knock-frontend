@@ -6,3 +6,13 @@ export 'package:app/features/actividad/presentation/aviso_controller.dart'
     show contactosProvider;
 export 'package:app/features/actividad/presentation/widgets/formulario_contacto.dart'
     show mostrarFormularioContacto;
+export 'package:app/features/actividad/actividad_providers.dart'
+    show solicitudesRealesRepositoryProvider;
+export 'package:app/features/actividad/domain/franja.dart' show Franja;
+export 'package:app/features/actividad/domain/solicitud.dart'
+    show EstadoSolicitud, Solicitud;
+export 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart'
+    show
+        solicitudRealDetalleProvider,
+        solicitudesRealesActivasProvider,
+        solicitudesRealesControllerProvider;
