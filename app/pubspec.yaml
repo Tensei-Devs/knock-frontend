@@ -50,6 +50,9 @@ dependencies:
   # KNOCK-84 (spec 022): «Compartir sin guardar» con la hoja del sistema. Sin
   # permisos. Evaluada en Memoria.md.
   share_plus: 13.3.1
+  # Demo de la maqueta: logo SVG de Knock (icono y letras).
+  flutter_svg: ^2.2.0
+  lottie: 3.8.2
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +69,9 @@ flutter:
   uses-material-design: true
   # gen-l10n (TT-MOB-02): ARB en lib/l10n, configuración en l10n.yaml.
   generate: true
+  assets:
+    - assets/img/
+    - assets/lottie/
   # Nunito empaquetada (SIL OFL 1.1, licencia en assets/fonts/nunito/OFL.txt).
   # Sin descarga en tiempo de ejecución (TT-MOB-02, spec §8 decisión 2).
   fonts:

@@ -12,6 +12,7 @@ graph LR
   inicio["inicio"]
   l10n["l10n"]
   layout["layout"]
+  maqueta["maqueta"]
   notificaciones["notificaciones"]
   oficios["oficios"]
   panel["panel"]
@@ -27,16 +28,22 @@ graph LR
   widgets["widgets"]
   actividad -->|1| oficios
   app -->|1| inicio
+  app -->|1| maqueta
   cuenta -->|1| actividad
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
+  maqueta -->|3| cuenta
+  maqueta -->|4| entrada
+  maqueta -->|5| inicio
+  maqueta -->|2| previa
   previa -->|5| oficios
   router -->|5| actividad
   router -->|5| cuenta
   router -->|2| entrada
   router -->|1| explorar
   router -->|1| inicio
+  router -->|1| maqueta
   router -->|1| oficios
   router -->|2| previa
   router -->|1| trabajo

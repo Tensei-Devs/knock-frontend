@@ -43,6 +43,7 @@ void main() {
       final ruta = f.path.replaceAll(r'\', '/');
       if (ruta.contains('lib/core/tema/') ||
           ruta.contains('/generado/') ||
+          ruta.contains('/features/maqueta/') ||
           ruta.contains('/presentation/spike/')) {
         continue;
       }

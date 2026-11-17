@@ -48,3 +48,4 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 042 | Asistente de IA: resumen de chat, borrador de cotización, rango de precio y bitácora (pantallas) | Aprobada | [`042-asistente-de-ia`](042-asistente-de-ia/spec.md) |
 | 043 | Panel web: revisión de verificaciones y reportes | Aprobada | [`043-panel-revision-de-verificaciones-y-reportes`](043-panel-revision-de-verificaciones-y-reportes/spec.md) |
 | 044 | Panel web: catálogo de oficios, oficios pedidos y lista de espera | Aprobada | [`044-panel-catalogo-de-oficios`](044-panel-catalogo-de-oficios/spec.md) |
+| 045 | Maqueta base de la app (reconstrucción visual simulada) | Aprobada | [`045-maqueta-base-de-la-app`](045-maqueta-base-de-la-app/spec.md) |
