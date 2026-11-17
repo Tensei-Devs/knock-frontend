@@ -503,15 +503,17 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                                                       size: 16,
                                                       color: k.navy,
                                                     ),
-                                                    T(
-                                                      _fuera
-                                                          ? tr(
-                                                              'Ver zonas disponibles ▾',
-                                                            )
-                                                          : '${maq.user.col} ▾',
-                                                      size: 14,
-                                                      w: FontWeight.w800,
-                                                      color: k.navy,
+                                                    Flexible(
+                                                      child: T(
+                                                        _fuera
+                                                            ? tr(
+                                                                'Ver zonas disponibles ▾',
+                                                              )
+                                                            : '${maq.user.col} ▾',
+                                                        size: 14,
+                                                        w: FontWeight.w800,
+                                                        color: k.navy,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
