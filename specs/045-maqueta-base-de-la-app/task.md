@@ -18,6 +18,7 @@
 | T-07 | `Memoria.md`, mapa de arquitectura y tabla pantalla → spec → estado (R-05) | T-06 | R-05 | pendiente |
 | T-08 | Rótulo «Datos de ejemplo» sin tapar cabeceras ni acciones | T-05 | R-02 · CA-03 | hecha (2026-11-16): franja fija superior con su propio alto (`fachada_maqueta.dart`); `rotulo_no_tapa_test.dart` la comprueba en 45 rutas y 5 tamaños, con y sin barra de estado |
 | T-09 | Licencias de las dependencias nuevas en la lista del CI | T-01 | R-06 · CA-09 | aplicada (2026-11-16, autorizada por el Tech Lead): 6 paquetes añadidos a `allow-dependencies-licenses` y al alcance de EXC-002 (57 a 63), sin cambiar `creada` ni `vence`; falta confirmar el SCA en el CI |
+| T-10 | Enmienda 1: conectar las pantallas de la maqueta a los endpoints reales, por fases (oficios y colonias, zona, sesiones; solicitudes; cotizaciones, elegir y visita) y mantener `ESTADO.md` como tabla pantalla → spec → estado | T-05 | R-05 · CA-10 a CA-12 | pendiente de aprobar la enmienda |
 
 ## Definición de terminado
 - Casos CA-01 a CA-09 cubiertos y CI en verde con resultados reales en el PR.
