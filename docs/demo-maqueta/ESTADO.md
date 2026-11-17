@@ -151,8 +151,8 @@ Tabla pantalla → spec → estado (CA-11). «Conectada» = lee el repositorio r
 | Pantallas | Qué se conectó | Endpoint | Spec | Estado | Fecha |
 |---|---|---|---|---|---|
 | 01 Inicio, 03 Búsqueda, 13 Pedir cotización (paso 1), 29 Explorar, 37 Registro de técnico | La lista de oficios (chips y opciones) sale del backend; si falla, aviso con Reintentar | `GET /api/v1/oficios` | 035 | Conectada | 2026-11-17 |
-| 10 Zona, 11 Zona fuera de cobertura | Zona por código postal y por punto; lista de espera | `GET /zonas/cp/{cp}`, `GET /colonias/en-punto`, `POST /zonas/lista-espera` | 017 | Simulada | — |
-| 33 Privacidad y datos | Mis sesiones | `GET` y `DELETE /me/sesiones` | 026 | Simulada | — |
+| 10 Zona, 11 Zona fuera de cobertura | Zona por código postal y por punto (colonias y municipio del servidor, sin decidir cobertura en el teléfono); lista de espera solo con el código postal escrito | `GET /zonas/cp/{cp}`, `GET /colonias/en-punto`, `POST /zonas/lista-espera` | 017 | Conectada (la selección «Explorar de todos modos» y guardar la colonia en el perfil siguen pendientes) | 2026-11-17 |
+| 33 Privacidad y datos | «Dónde está abierta tu cuenta»: las sesiones de la cuenta (dispositivo y última actividad del servidor); cerrar las demás; la de este teléfono no se cierra desde aquí | `GET` y `DELETE /me/sesiones` | 026 | Conectada | 2026-11-17 |
 | 13 a 17 Solicitudes | Listar y ver detalle; el envío sigue simulado (el backend aún no tiene archivos ni moderación) | `GET /solicitudes`, `GET /solicitudes/{id}` | 015, 020 | Simulada | — |
 | 20 a 24 y 45 Cotizaciones, elegir y visita | Comparar, elegir, visita con código, «Ya llegué» y aviso | `GET` y `POST /solicitudes/{id}/...`, `/visitas/{id}/...` | 015, 016, 022 | Simulada | — |
 

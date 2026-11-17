@@ -237,6 +237,31 @@ const Map<String, String> diccionarioEn = {
   "Empezar": "Start",
   // Capa de animaciones y esperas (demo): mensajes que rotan.
   "Buscando expertos cerca de ti…": "Looking for pros near you…",
+  // Sesiones abiertas de la cuenta (spec 026).
+  "Cargando tus sesiones…": "Loading your sessions…",
+  "No pudimos cargar tus sesiones.": "We couldn't load your sessions.",
+  "No encontramos sesiones abiertas.": "No open sessions found.",
+  "Cerramos esa sesión": "We closed that session",
+  "Esa es la sesión de este celular. Para salir usa «Cerrar sesión».":
+      "That's this phone's session. To sign out, use “Log out”.",
+  "No pudimos cerrar la sesión. Inténtalo de nuevo.":
+      "We couldn't close the session. Try again.",
+  "hace un momento": "just now",
+  "hace 1 hora": "1 hour ago",
+  "hace 1 día": "1 day ago",
+  // Zona y lista de espera (spec 017).
+  "Buscando tu zona…": "Looking up your area…",
+  "Avisarme cuando lleguen": "Let me know when you arrive",
+  "Guardando…": "Saving…",
+  "Ya estás en la lista de espera": "You're already on the waiting list",
+  "Ya estabas en la lista de espera": "You were already on the waiting list",
+  "Listo, te avisaremos cuando lleguemos":
+      "Done, we'll let you know when we arrive",
+  "Tu sesión venció. Entra de nuevo.": "Your session expired. Sign in again.",
+  "No pudimos consultar tu zona. Revisa tu conexión e inténtalo de nuevo.":
+      "We couldn't look up your area. Check your connection and try again.",
+  "No pudimos consultar tu zona. Inténtalo de nuevo.":
+      "We couldn't look up your area. Try again.",
   "No pudimos cargar los oficios. Toca para reintentar":
       "We couldn't load the trades. Tap to retry",
   "Revisando disponibilidad…": "Checking availability…",
@@ -252,6 +277,9 @@ const Map<String, String> diccionarioEn = {
 
 /// Pares (patron, reemplazo) para frases con numeros o nombres.
 final List<(RegExp, String)> patronesEn = [
+  (RegExp("^hace (\\d+) minutos\$"), "\$1 minutes ago"),
+  (RegExp("^hace (\\d+) horas\$"), "\$1 hours ago"),
+  (RegExp("^hace (\\d+) días\$"), "\$1 days ago"),
   (RegExp("^(\\d+) expertos cerca de ti\$"), "\$1 pros near you"),
   (RegExp("^(\\d+) plomeros cerca de ti\$"), "\$1 plumbers near you"),
   (RegExp("^(\\d+) talleres cerca de ti\$"), "\$1 shops near you"),
