@@ -175,7 +175,6 @@ class MaquetaEstado extends ChangeNotifier {
   bool tipDone = false;
   List<bool> notifPref = [true, true, false];
   List<bool> cons = [false, true, true];
-  bool sessions = true;
   DateTime? delAt;
   Solicitud? req;
   Asis asis = Asis();

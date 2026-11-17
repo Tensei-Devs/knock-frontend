@@ -547,3 +547,9 @@
 - **Cómo:** repositorios `ZonasRepository` y `ListaEsperaRepository` (HTTP real, simulado sin `KNOCK_API_URL`), mapeador del contrato y proveedores en `inicio_providers.dart`. El teléfono solo valida los 5 dígitos (R-04); la lista de espera lleva solo el código postal escrito y nunca coordenadas (R-08); el botón se deshabilita mientras guarda (R-15); los errores salen sin códigos HTTP (R-11).
 - **Pendiente:** guardar la colonia y el código postal en el perfil con `PUT /me` (R-06), la caché de `catalogo/zonas` (R-09) y la zona local (R-10); «Explorar de todos modos» sigue usando las cuatro zonas de la maqueta.
 - **A evitar:** decidir la cobertura en el teléfono; enviar coordenadas a la lista de espera.
+
+## 2026-11-17 — Fase 1c: las sesiones abiertas de la maqueta son las reales
+- **Decisión:** «Dónde está abierta tu cuenta» (Privacidad y datos) lee `GET /me/sesiones` y cierra con `DELETE /me/sesiones/{id}` por un controlador de la feature cuenta; se borró el estado simulado `maq.sessions`.
+- **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
+- **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
+- **A evitar:** mostrar sesiones de ejemplo cuando falla la red.
