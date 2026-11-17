@@ -570,3 +570,9 @@
 - **Porqué:** la maqueta es la interfaz de la app (enmienda 1); mantener dos modos y un rótulo fijo no tiene sentido cuando lo ya conectado usa la API real. Con la bandera encendida por defecto el flujo de Play no necesita pasarla.
 - **Cómo:** `modoMaquetaDeCompilacion` con `defaultValue: true`; las pruebas de la app normal apagan la bandera en `montarApp` (parámetro `maqueta`, por defecto falso) y las de la maqueta piden `maqueta: true`. El mapa recibe una `ValueKey` por tema para recrearse al cambiarlo.
 - **A evitar:** dos overrides del mismo proveedor en `montarApp` (Riverpod no los admite); volver a poner un rótulo fijo sin decidirlo.
+
+## 2026-11-17 — El mapa sigue el ajuste «Apariencia» de la app
+- **Decisión:** la app le dice a Android su propio modo de noche (0 sistema, 1 claro, 2 oscuro) según «Apariencia», por el canal `knock/pantalla` (`modoNoche`, Android 12 o superior), y el mapa se crea con el `colorScheme` del tema.
+- **Porqué:** el mapa nativo se oscurecía con el modo de noche de Android y no con el tema de Flutter: con el teléfono en oscuro y la app en «Claro» el mapa seguía oscuro. Probado en un Huawei (el motor de mapas de Huawei ignora el estilo JSON y el `colorScheme`).
+- **Cómo:** `ModoNocheDeLaApp` y `modoNocheSincronizadoProvider` (se observa desde `KnockApp`), `MainActivity` usa `UiModeManager.setApplicationNightMode`. No cambia el modo del teléfono. Antes de Android 12 no hace nada.
+- **A evitar:** tocar solo el estilo JSON o el `colorScheme` del mapa; en este teléfono no bastan.
