@@ -237,6 +237,19 @@ const Map<String, String> diccionarioEn = {
   "Empezar": "Start",
   // Capa de animaciones y esperas (demo): mensajes que rotan.
   "Buscando expertos cerca de ti…": "Looking for pros near you…",
+  // Zona y lista de espera (spec 017).
+  "Buscando tu zona…": "Looking up your area…",
+  "Avisarme cuando lleguen": "Let me know when you arrive",
+  "Guardando…": "Saving…",
+  "Ya estás en la lista de espera": "You're already on the waiting list",
+  "Ya estabas en la lista de espera": "You were already on the waiting list",
+  "Listo, te avisaremos cuando lleguemos":
+      "Done, we'll let you know when we arrive",
+  "Tu sesión venció. Entra de nuevo.": "Your session expired. Sign in again.",
+  "No pudimos consultar tu zona. Revisa tu conexión e inténtalo de nuevo.":
+      "We couldn't look up your area. Check your connection and try again.",
+  "No pudimos consultar tu zona. Inténtalo de nuevo.":
+      "We couldn't look up your area. Try again.",
   "No pudimos cargar los oficios. Toca para reintentar":
       "We couldn't load the trades. Tap to retry",
   "Revisando disponibilidad…": "Checking availability…",

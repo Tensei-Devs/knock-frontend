@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/features/inicio/inicio.dart';
+import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/campo_buscar.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
@@ -121,10 +124,23 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
     if (_ultimaEvaluada == clave) return;
     _ultimaEvaluada = clave;
     _zonaElegida = null;
-    final r = evaluarCobertura(p.latitude, p.longitude);
-    if (r.dentro) {
-      maq.user.col = r.zona.colonia;
-      maq.user.cp = r.zona.cp;
+    // La cobertura la decide el servidor (`GET /colonias/en-punto`, spec 017,
+    // R-05); las coordenadas solo salen en esta petición y se descartan (R-03).
+    final ResultadoColonia r;
+    try {
+      r = await ref
+          .read(coloniasRepositoryProvider)
+          .enPunto(latitud: p.latitude, longitud: p.longitude);
+    } on Failure {
+      // Sin respuesta no se asume nada: se conserva la zona y se podrá reintentar.
+      _ultimaEvaluada = null;
+      return;
+    }
+    if (!mounted) return;
+    final c = r.colonia;
+    if (r.enCobertura && c != null) {
+      maq.user.col = c.nombre;
+      maq.user.cp = c.cp;
       setState(() => _fuera = false);
       maq.refresh();
       return;

@@ -540,3 +540,10 @@
 - **Cómo:** `RaizMaqueta` escucha el controlador y guarda las claves en `maq.oficios`; un oficio que la maqueta no sabe dibujar se omite. Si falla, no se inventan oficios: sale un aviso con Reintentar. Pruebas `CA_045_10` y `CA_045_12`; `ESTADO.md` lleva la tabla de conexión (CA-11).
 - **A evitar:** volver a escribir la lista a mano en una pantalla; mostrar oficios de ejemplo cuando falla la red.
 
+
+## 2026-11-17 — Fase 1b: zona por código postal, por punto y lista de espera
+- **Decisión:** el paso de zona de la entrada de la maqueta pide la zona al servidor (`GET /zonas/cp/{cp}`, `GET /colonias/en-punto`) en lugar de decidirla en el teléfono, y la hoja de fuera de cobertura puede registrar la lista de espera (`POST /zonas/lista-espera`). El mapa de Inicio también usa la colonia del servidor.
+- **Porqué:** la spec 017 (R-05) prohíbe deducir la cobertura del prefijo del código postal; antes la maqueta aceptaba cualquier código que empezara con 428 y tenía cuatro colonias fijas.
+- **Cómo:** repositorios `ZonasRepository` y `ListaEsperaRepository` (HTTP real, simulado sin `KNOCK_API_URL`), mapeador del contrato y proveedores en `inicio_providers.dart`. El teléfono solo valida los 5 dígitos (R-04); la lista de espera lleva solo el código postal escrito y nunca coordenadas (R-08); el botón se deshabilita mientras guarda (R-15); los errores salen sin códigos HTTP (R-11).
+- **Pendiente:** guardar la colonia y el código postal en el perfil con `PUT /me` (R-06), la caché de `catalogo/zonas` (R-09) y la zona local (R-10); «Explorar de todos modos» sigue usando las cuatro zonas de la maqueta.
+- **A evitar:** decidir la cobertura en el teléfono; enviar coordenadas a la lista de espera.

@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-17T06:48:45Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-17T07:06:18Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -17,7 +17,7 @@
 | `errores` | core | 3 | 23 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
-| `inicio` | -, data, domain, presentation | 20 | 41 | 28 |
+| `inicio` | -, data, domain, presentation | 25 | 50 | 34 |
 | `l10n` | - | 3 | 4 | 79 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 22 | 168 | 365 |
@@ -284,6 +284,12 @@
   - `enPunto()`:11
 - `app/lib/features/inicio/data/ubicacion_geolocator_repository.dart` — class `UbicacionGeolocatorRepository`
   - `obtenerUnaVez()`:19, `abrirAjustes()`:64
+- `app/lib/features/inicio/data/zona_mapper.dart` — class `ZonaMapper`
+  - `zonaDesdeContrato()`:8, `registroDesdeContrato()`:24
+- `app/lib/features/inicio/data/zonas_repository_http.dart` — class `ZonasRepositoryHttp`, class `ListaEsperaRepositoryHttp`
+  - `porCodigoPostal()`:18, `registrar()`:37
+- `app/lib/features/inicio/data/zonas_repository_simulado.dart` — class `ZonasRepositorySimulado`, class `ListaEsperaRepositorySimulado`
+  - `porCodigoPostal()`:15, `registrar()`:43
 
 **domain**
 
@@ -293,6 +299,8 @@
   - `toString()`:28
 - `app/lib/features/inicio/domain/ubicacion_repository.dart` — class `ResultadoUbicacion`, class `Concedida`, class `Denegada`, class `DenegadaParaSiempre`, class `ServicioDesactivado`, class `UbicacionRepository`
   - `toString()`:16
+- `app/lib/features/inicio/domain/zona.dart` — class `ResultadoZona`, class `RegistroListaEspera`
+- `app/lib/features/inicio/domain/zonas_repository.dart` — class `ZonasRepository`, class `ListaEsperaRepository`
 
 **presentation**
 
@@ -343,12 +351,12 @@
 - `app/lib/features/maqueta/carga_k.dart` — enum `TipoCarga`, class `CargaK`, class `MensajesRotativos`, class `_MensajesRotativosState`, class `ExitoK`, class `_ExitoKState`
   - `build()`:76, `initState()`:122, `dispose()`:132, `build()`:138, `exitoRapido()`:182, `initState()`:219, `build()`:225
 - `app/lib/features/maqueta/cobertura.dart` — class `ZonaKnock`, class `ResultadoCobertura`, class `PantallaFueraDeCobertura`
-  - `distanciaKm()`:34, `evaluarCobertura()`:54, `build()`:93, `elegirZonaDisponible()`:162, `mostrarFueraDeCobertura()`:187, `hoja()`:191
+  - `distanciaKm()`:34, `evaluarCobertura()`:54, `build()`:104, `elegirZonaDisponible()`:182, `mostrarFueraDeCobertura()`:207, `hoja()`:211
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
   - `guessCat()`:145, `longDate()`:644, `money()`:647, `nowH()`:657, `initials()`:662
 - `app/lib/features/maqueta/en_dict.dart` — —
 - `app/lib/features/maqueta/entrada_maqueta.dart` — class `EntradaMaqueta`, class `_EntradaState`
-  - `initState()`:55, `dispose()`:61, `build()`:217, `head()`:226
+  - `initState()`:64, `dispose()`:70, `build()`:306, `head()`:315
 - `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
   - `qTope()`:33, `fijarOficios()`:207, `refresh()`:216, `cargarTelefono()`:224, `guardarTelefono()`:230, `olvidarTelefono()`:236, `dispose()`:242, `after()`:249, `toast()`:260, `job()`:264, `notif()`:274, `results()`:284, `convIds()`:302, `accepted()`:306, `toggleSave()`:311, `openChat()`:316, `sendMsg()`:321, `block()`:344, `unblock()`:349, `startReq()`:355, `sendReq()`:374, `startClientQuotes()`:412, `reach()`:417, `widen()`:445, `accept()`:579 …
 - `app/lib/features/maqueta/explorar_maqueta.dart` — class `ExplorarMaqueta`
@@ -356,7 +364,7 @@
 - `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_FranjaDeEjemplo`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
   - `previa()`:38, `entrada()`:39, `inicio()`:40, `explorar()`:41, `actividad()`:42, `trabajo()`:43, `cuenta()`:44, `configuracion()`:45, `rutaMaqueta()`:49, `build()`:219, `preparar()`:232, `conTransiciones()`:239, `envolver()`:248, `build()`:276, `initState()`:301, `dispose()`:328, `build()`:334
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`
-  - `initState()`:141, `dispose()`:174, `build()`:228, `MaqBuilder()`:237, `Scaffold()`:347
+  - `initState()`:157, `dispose()`:190, `build()`:244, `MaqBuilder()`:253, `Scaffold()`:363
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`
   - `posicionDeMundo()`:33, `posicionDeExperto()`:43, `acercar()`:77, `alejar()`:78, `moverA()`:81, `ir()`:88, `ajustar()`:91, `dibujarPin()`:149, `initState()`:280, `dispose()`:293, `didUpdateWidget()`:338, `build()`:424, `build()`:466, `b()`:486, `ListenableBuilder()`:503
 - `app/lib/features/maqueta/nav.dart` — class `RM`
