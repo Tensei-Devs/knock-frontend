@@ -34,7 +34,7 @@ class ExplorarMaqueta extends StatelessWidget {
     final cat = maq.exCat;
     final svcs = exServices.where((s) => cat == null || s.$1 == cat).toList();
     final pros = provs.values
-        .where((o) => cat == null || o.cat == cat)
+        .where((o) => !o.esReal && (cat == null || o.cat == cat))
         .toList();
     // fotos de trabajos mezcladas para que no queden por técnico
     final demo = <(Prov, String, Color)>[];

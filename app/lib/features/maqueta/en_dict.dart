@@ -241,6 +241,20 @@ const Map<String, String> diccionarioEn = {
   "Cargando tus sesiones…": "Loading your sessions…",
   "No pudimos cargar tus sesiones.": "We couldn't load your sessions.",
   "No encontramos sesiones abiertas.": "No open sessions found.",
+  // Solicitudes reales de Actividad (spec 045, enmienda 1).
+  "Reintentar": "Try again",
+  "Cargando tu solicitud…": "Loading your request…",
+  "No pudimos cargar tus solicitudes.": "We couldn't load your requests.",
+  "Esta solicitud venció sin que eligieras una cotización.":
+      "This request expired before you chose a quote.",
+  "Esta solicitud se canceló.": "This request was cancelled.",
+  "Esta solicitud ya no está disponible.":
+      "This request is no longer available.",
+  "No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.":
+      "We couldn't connect. Check your connection and try again.",
+  "Recibimos datos que no entendimos.":
+      "We received data we didn't understand.",
+  "Algo salió mal. Inténtalo de nuevo.": "Something went wrong. Try again.",
   "Cerramos esa sesión": "We closed that session",
   "Esa es la sesión de este celular. Para salir usa «Cerrar sesión».":
       "That's this phone's session. To sign out, use “Log out”.",

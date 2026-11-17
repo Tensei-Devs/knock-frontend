@@ -39,11 +39,23 @@ final class Solicitud {
     required this.creadoEn,
     this.venceEn,
     this.totalCotizaciones = 0,
+    this.oficioClave,
+    this.coloniaNombre,
+    this.visitaId,
   });
 
   final String id;
   final EstadoSolicitud estado;
   final String oficioNombre;
+
+  /// Clave del oficio (`ele`, `mec`, `plo`); solo la trae el detalle.
+  final String? oficioClave;
+
+  /// Colonia de la solicitud (solo en la API real).
+  final String? coloniaNombre;
+
+  /// Visita de la cita elegida, si ya se eligió una cotización.
+  final String? visitaId;
   final String descripcion;
   final int totalFotos;
   final DateTime dia;

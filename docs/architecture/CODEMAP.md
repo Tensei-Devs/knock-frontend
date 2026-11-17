@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-17T15:28:00Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-17T19:21:55Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 37 | 106 | 134 |
+| `actividad` | -, data, domain, presentation | 45 | 114 | 158 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 2 | 0 | 1 |
@@ -20,12 +20,12 @@
 | `inicio` | -, data, domain, presentation | 25 | 50 | 34 |
 | `l10n` | - | 3 | 4 | 79 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 23 | 169 | 369 |
+| `maqueta` | - | 25 | 170 | 384 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
 | `panel` | - | 3 | 1 | 0 |
 | `permisos` | core | 2 | 4 | 4 |
-| `plataforma` | core | 2 | 4 | 2 |
+| `plataforma` | core | 3 | 6 | 4 |
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
 | `red` | core | 7 | 5 | 13 |
@@ -39,7 +39,7 @@
 
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
 - `SesionNotifier`: `app/lib/core/sesion/sesion.dart:60`, `app/lib/core/sesion/sesion_provider.dart:26`
-- `Solicitud`: `app/lib/features/actividad/domain/solicitud.dart:30`, `app/lib/features/maqueta/estado.dart:119`
+- `Solicitud`: `app/lib/features/actividad/domain/solicitud.dart:30`, `app/lib/features/maqueta/estado.dart:161`
 - `Visita`: `app/lib/features/actividad/domain/visita.dart:73`, `app/lib/features/maqueta/tecnico_estado.dart:153`
 
 ## Índice por módulo
@@ -57,16 +57,26 @@
   - `listar()`:15, `guardar()`:28, `borrar()`:50, `leer()`:69, `guardar()`:93
 - `app/lib/features/actividad/data/borrador_repository.dart` — class `BorradorRepository`
   - `leer()`:27, `guardar()`:53, `borrarTodo()`:60, `agregarFoto()`:73, `quitarFoto()`:94
+- `app/lib/features/actividad/data/contrato_json.dart` — —
+  - `obtenerJsonONoEncontrado()`:11, `diaLocalDelContrato()`:31, `mapaDelContrato()`:38, `textoDelContrato()`:44, `textoOpcionalDelContrato()`:52, `booleanoDelContrato()`:56
 - `app/lib/features/actividad/data/foto_preparada.dart` — enum `MotivoFotoRechazada`, class `ResultadoFoto`, class `FotoLista`, class `FotoRechazada`, enum `_Formato`
   - `prepararFoto()`:88, `prepararFotoEnSegundoPlano()`:147
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
+- `app/lib/features/actividad/data/solicitud_contrato_mapper.dart` — class `SolicitudContratoMapper`
+  - `detalle()`:30, `comparacion()`:53, `cita()`:72
 - `app/lib/features/actividad/data/solicitud_mapper.dart` — —
   - `cuerpoDeSolicitud()`:11
+- `app/lib/features/actividad/data/solicitud_repository_api.dart` — class `SolicitudRepositoryApi`
+  - `subirFoto()`:28, `crear()`:32, `obtener()`:59, `listar()`:70, `cotizaciones()`:90, `elegir()`:105
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:72, `crear()`:75, `obtener()`:116, `listar()`:123, `cotizaciones()`:130, `elegir()`:160, `obtenerVisita()`:209, `pedirAviso()`:238, `cotizacion()`:256, `etiquetarComoElServidor()`:350, `ordenarComoElServidor()`:387, `porCalificacion()`:391, `porTope()`:393
+- `app/lib/features/actividad/data/visita_contrato_mapper.dart` — class `VisitaContratoMapper`
+  - `visita()`:14, `aviso()`:50
 - `app/lib/features/actividad/data/visita_local_repository.dart` — class `VisitaLocalRepositorySeguro`
   - `leer()`:15, `guardar()`:32, `borrar()`:44
+- `app/lib/features/actividad/data/visita_repository_api.dart` — class `VisitaRepositoryApi`, class `AvisoRepositoryApi`
+  - `obtenerVisita()`:19, `pedirAviso()`:40
 
 **domain**
 
@@ -98,6 +108,8 @@
   - `build()`:84, `guardar()`:90, `borrar()`:127
 - `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionFallida`, class `EleccionController`
   - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:146
+- `app/lib/features/actividad/presentation/cotizaciones_reales_controller.dart` — typedef `ConsultaCotizaciones`, class `EleccionRealController`
+  - `build()`:33, `elegir()`:35, `reiniciar()`:59
 - `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
   - `build()`:24, `nombreOrden()`:29, `build()`:97, `EstadoKnock()`:118, `build()`:192
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
@@ -112,9 +124,12 @@
   - `esperaCotizaciones()`:34, `textoEstadoSolicitud()`:40, `build()`:61, `build()`:96
 - `app/lib/features/actividad/presentation/solicitud_nueva_screen.dart` — class `SolicitudNuevaScreen`, class `_SolicitudNuevaScreenState`, class `_Avisos`, class `_Botones`
   - `initState()`:33, `build()`:45, `build()`:115, `build()`:157
+- `app/lib/features/actividad/presentation/solicitudes_reales_controller.dart` — class `SolicitudesRealesController`
+  - `build()`:21, `reintentar()`:25
 - `app/lib/features/actividad/presentation/visita_controller.dart` — class `VistaDeVisita`, class `VisitaEnLinea`, class `VisitaSinConexion`
 - `app/lib/features/actividad/presentation/visita_screen.dart` — class `VisitaScreen`, class `_VisitaScreenState`, class `_VisitaEnLinea`, class `_VisitaGuardada`, class `_Contacto`, class `_BotonEnlace`
   - `initState()`:39, `dispose()`:48, `didChangeAppLifecycleState()`:55, `build()`:62, `build()`:109, `build()`:208, `build()`:252, `build()`:299
+- `app/lib/features/actividad/presentation/visitas_reales_controller.dart` — —
 - `app/lib/features/actividad/presentation/widgets/codigo_visita.dart` — class `CodigoVisita`, class `_CodigoVisitaState`
   - `build()`:37
 - `app/lib/features/actividad/presentation/widgets/formulario_contacto.dart` — class `_FormularioContacto`, class `_FormularioContactoState`
@@ -133,7 +148,7 @@
 **-**
 
 - `app/lib/app.dart` — class `KnockApp`
-  - `build()`:18
+  - `build()`:19
 - `app/lib/main.dart` — —
   - `main()`:17, `arrancar()`:27
 - `app/lib/main_spike_mapa.dart` — class `SpikeMapaApp`
@@ -357,42 +372,46 @@
 - `app/lib/features/maqueta/cobertura.dart` — class `ZonaKnock`, class `ResultadoCobertura`, class `PantallaFueraDeCobertura`
   - `distanciaKm()`:34, `evaluarCobertura()`:54, `build()`:104, `elegirZonaDisponible()`:182, `mostrarFueraDeCobertura()`:207, `hoja()`:211
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
-  - `guessCat()`:145, `longDate()`:644, `money()`:647, `nowH()`:657, `initials()`:662
+  - `guessCat()`:145, `longDate()`:648, `money()`:651, `nowH()`:661, `initials()`:666
 - `app/lib/features/maqueta/en_dict.dart` — —
 - `app/lib/features/maqueta/entrada_maqueta.dart` — class `EntradaMaqueta`, class `_EntradaState`
   - `initState()`:64, `dispose()`:70, `build()`:306, `head()`:315
-- `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
-  - `qTope()`:33, `fijarOficios()`:206, `refresh()`:215, `cargarTelefono()`:223, `guardarTelefono()`:229, `olvidarTelefono()`:235, `dispose()`:241, `after()`:248, `toast()`:259, `job()`:263, `notif()`:273, `results()`:283, `convIds()`:301, `accepted()`:305, `toggleSave()`:310, `openChat()`:315, `sendMsg()`:320, `block()`:343, `unblock()`:348, `startReq()`:354, `sendReq()`:373, `startClientQuotes()`:411, `reach()`:416, `widen()`:444, `accept()`:578 …
+- `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, enum `CargaReal`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
+  - `qTope()`:46, `fijarOficios()`:248, `fijarSolicitudesReales()`:264, `refresh()`:272, `cargarTelefono()`:280, `guardarTelefono()`:286, `olvidarTelefono()`:292, `dispose()`:298, `after()`:305, `toast()`:316, `job()`:320, `notif()`:330, `results()`:340, `convIds()`:358, `accepted()`:362, `toggleSave()`:367, `openChat()`:372, `sendMsg()`:377, `block()`:400, `unblock()`:405, `startReq()`:411, `sendReq()`:430, `startClientQuotes()`:468, `reach()`:478, `widen()`:506 …
 - `app/lib/features/maqueta/explorar_maqueta.dart` — class `ExplorarMaqueta`
   - `build()`:32, `sec()`:107, `row()`:119, `pro()`:125, `tile()`:170
-- `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_FranjaDeEjemplo`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
-  - `previa()`:38, `entrada()`:39, `inicio()`:40, `explorar()`:41, `actividad()`:42, `trabajo()`:43, `cuenta()`:44, `configuracion()`:45, `rutaMaqueta()`:49, `build()`:219, `preparar()`:232, `conTransiciones()`:239, `envolver()`:248, `build()`:276, `initState()`:301, `dispose()`:328, `build()`:334
+- `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
+  - `previa()`:38, `entrada()`:39, `inicio()`:40, `explorar()`:41, `actividad()`:42, `trabajo()`:43, `cuenta()`:44, `configuracion()`:45, `rutaMaqueta()`:49, `build()`:219, `preparar()`:232, `conTransiciones()`:239, `envolver()`:247, `initState()`:270, `dispose()`:348, `build()`:356
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`
-  - `initState()`:157, `dispose()`:190, `build()`:244, `MaqBuilder()`:253, `Scaffold()`:363
+  - `initState()`:157, `dispose()`:190, `build()`:244, `MaqBuilder()`:253, `Scaffold()`:365
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`
-  - `posicionDeMundo()`:33, `posicionDeExperto()`:43, `acercar()`:77, `alejar()`:78, `moverA()`:81, `ir()`:88, `ajustar()`:91, `dibujarPin()`:149, `initState()`:280, `dispose()`:293, `didUpdateWidget()`:338, `build()`:424, `build()`:466, `b()`:486, `ListenableBuilder()`:503
+  - `posicionDeMundo()`:33, `posicionDeExperto()`:43, `acercar()`:77, `alejar()`:78, `moverA()`:81, `ir()`:88, `ajustar()`:91, `dibujarPin()`:149, `initState()`:280, `dispose()`:293, `didUpdateWidget()`:338, `build()`:424, `build()`:474, `b()`:494, `ListenableBuilder()`:511
 - `app/lib/features/maqueta/nav.dart` — class `RM`
   - `experto()`:17, `opiniones()`:18, `enviada()`:21, `comparar()`:22, `visita()`:23, `cita()`:24, `calificar()`:25, `reportar()`:26, `compartir()`:28, `chat()`:30, `ayuda()`:42, `hayCuenta()`:46, `pedirCuenta()`:51, `registrarIrA()`:60, `elegirFotos()`:70
 - `app/lib/features/maqueta/oficios_reales.dart` — class `AvisoOficios`
   - `build()`:11
 - `app/lib/features/maqueta/pantallas_actividad.dart` — class `Marca`, class `BarraMarcaK`, class `PgTab`, class `ActividadMaqueta`, class `MensajesScreen`, class `ChatScreen`, class `_ChatScreenState`, class `VisitaMaqueta`, class `CitaScreen`, class `CalificarScreen`, class `_CalificarScreenState`, class `ReportarScreen`, class `_ReportarScreenState`, class `CompartirScreen`, class `_CompartirScreenState`
-  - `build()`:25, `build()`:49, `build()`:110, `build()`:147, `msgFab()`:189, `jobCard()`:256, `jobChat()`:441, `adjustCard()`:493, `build()`:553, `InkWell()`:588, `initState()`:674, `dispose()`:689, `build()`:746, `reprogBlock()`:1182, `BtnK()`:1190, `reprogSheet()`:1199, `cancelBlock()`:1271, `cancelSheet()`:1279, `build()`:1329, `build()`:1594, `initState()`:1782, `dispose()`:1789, `build()`:1819, `dispose()`:1973, `build()`:1992 …
+  - `build()`:31, `build()`:55, `build()`:116, `build()`:153, `msgFab()`:231, `jobCard()`:298, `jobChat()`:507, `adjustCard()`:559, `build()`:619, `InkWell()`:654, `initState()`:740, `dispose()`:755, `build()`:812, `reprogBlock()`:1248, `BtnK()`:1256, `reprogSheet()`:1265, `cancelBlock()`:1337, `cancelSheet()`:1345, `build()`:1395, `VisitaRealGate()`:1399, `build()`:1684, `VisitaRealGate()`:1688, `initState()`:1891, `dispose()`:1898, `build()`:1928 …
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
   - `provCard()`:16, `CardK()`:18, `initState()`:80, `dispose()`:86, `build()`:148, `reviewW()`:379, `build()`:486, `build()`:946, `initState()`:1117, `dispose()`:1136, `build()`:1235, `composerK()`:1472, `quickK()`:1478, `burbujaK()`:1480
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
   - `hoja()`:28, `build()`:47, `MaqBuilder()`:57, `build()`:357, `editarDatos()`:363, `cambiarNumero()`:470, `e()`:481, `phone()`:482, `build()`:897, `build()`:1084, `Pg()`:1100, `CardK()`:1120, `build()`:1165, `build()`:1296, `build()`:1354, `build()`:1528, `build()`:1599, `build()`:1657, `build()`:1780, `dispose()`:1893, `build()`:1899, `build()`:1955, `build()`:2022, `build()`:2099
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
-  - `initState()`:33, `dispose()`:41, `build()`:67, `FieldK()`:332, `build()`:415, `step()`:421, `stateK0()`:538, `widenBlock()`:564, `build()`:772, `CardK()`:797
+  - `initState()`:47, `dispose()`:55, `build()`:81, `FieldK()`:346, `build()`:429, `step()`:435, `stateK0()`:552, `widenBlock()`:578, `initState()`:630, `build()`:1126, `CardK()`:1160
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
   - `chat()`:37, `cotizar()`:38, `iniciar()`:39, `cerrar()`:40, `registrarRutasTecnico()`:45, `dispose()`:158, `clean()`:237, `advErrors()`:239, `initState()`:288, `dispose()`:295, `build()`:468, `openVerif()`:830, `privacyCard()`:843, `BtnK()`:1024, `build()`:1049, `initState()`:1181, `dispose()`:1187, `build()`:1193, `build()`:1336, `build()`:1425, `visitCard()`:1519, `BtnK()`:1587, `reqCard()`:1744, `workFab()`:1795, `Positioned()`:1799 …
 - `app/lib/features/maqueta/pantallas_tecnico2.dart` — class `CotizarScreen`, class `_CotizarState`, class `IniciarScreen`, class `_IniciarState`, class `CerrarScreen`, class `_CerrarState`, class `PerfilEditarScreen`, class `_PerfilEditarState`, class `ReputacionScreen`, class `_ReputacionState`
   - `dispose()`:38, `doSend()`:53, `build()`:64, `upd()`:102, `seg()`:107, `BtnK()`:277, `FieldK()`:362, `dispose()`:469, `build()`:475, `Pg()`:479, `check()`:565, `dispose()`:660, `build()`:721, `BtnK()`:845, `initState()`:895, `dispose()`:915, `build()`:978, `dispose()`:1185, `build()`:1191
 - `app/lib/features/maqueta/sesiones_reales.dart` — class `SesionesAbiertas`
   - `build()`:16, `GroupK()`:20, `BtnK()`:82, `haceTiempo()`:117
+- `app/lib/features/maqueta/solicitudes_reales.dart` — —
+  - `claveDeOficio()`:16, `estadoDeJob()`:30, `preferenciaDeSolicitud()`:44, `jobDeSolicitud()`:54, `cuandoDeCotizacion()`:82, `provDeTecnico()`:88, `quoteDeCotizacion()`:115, `textoDeErrorReal()`:135, `provDeVisita()`:160, `aplicarVisitaAlJob()`:188
 - `app/lib/features/maqueta/tecnico_estado.dart` — class `Cliente`, class `Cot`, class `Borrador`, class `Bitacora`, class `Req`, class `Visita`, class `Opinion`, class `Trabajo`, class `AvisoT`, class `Yo`, class `TecEstado`
   - `cliente()`:18, `copy()`:89, `seed()`:261, `dl()`:262, `seedDemo()`:340, `req()`:419, `reqOfClient()`:420, `visita()`:421, `dayLabel()`:432, `verifLabel()`:441, `register()`:453, `defaultSvcs()`:493, `syncMe()`:509, `verifSkip()`:587, `verifSend()`:596, `startTicker()`:619, `dispose()`:661, `ensureThread()`:664, `workerMsgs()`:668, `t()`:680, `workerSay()`:707, `reject()`:732, `dayIndexFor()`:807, `norm()`:808, `summary0()`:823 …
 - `app/lib/features/maqueta/ui.dart` — class `KC`, class `T`, enum `Bk`, class `BtnK`, class `LinkK`, class `CardK`, class `Pill`, class `NoteK`, class `Av`, class `Stars`, class `ChipK`, class `ChoiceK`, class `GroupK`, class `LiK`, class `FoldK`, class `_FoldKState`, class `Sw`, class `Prog`, class `FieldK`, class `PhoneCc`, class `PhotoTile`, class `AddPhoto`, class `Pg`, class `MaqBuilder`, class `AvisosHost`, class `_AvisosHostState`
   - `tr()`:29, `hit()`:32, `kc()`:99, `build()`:136, `h1()`:150, `h2()`:153, `h3()`:155, `bT()`:157, `tT()`:159, `sMut()`:162, `mutT()`:172, `labT()`:175, `stack()`:188, `rowW()`:199, `icn()`:214, `build()`:298, `build()`:394, `build()`:427, `build()`:485, `build()`:534, `rich()`:564, `build()`:615, `build()`:674, `rateW()`:695, `whereTxt()`:722 …
+- `app/lib/features/maqueta/visita_real.dart` — class `VisitaRealGate`
+  - `build()`:29, `textoDeMotivoDeCodigo()`:75
 
 ### notificaciones
 
@@ -470,6 +489,8 @@
   - `permitir()`:17
 - `app/lib/core/plataforma/compartir.dart` — class `CompartidorDeTexto`, class `CompartidorDelSistema`
   - `compartir()`:14
+- `app/lib/core/plataforma/modo_noche_de_la_app.dart` — class `ModoNocheDeLaApp`, class `ModoNocheDeLaAppAndroid`
+  - `codigo()`:26, `fijar()`:33
 
 ### preferencias
 

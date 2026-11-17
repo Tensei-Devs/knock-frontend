@@ -8,7 +8,21 @@ import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show
+        EleccionEnCurso,
+        EleccionFallida,
+        EleccionHecha,
+        MotivoSinEleccion,
+        OrdenCotizaciones,
+        ResultadoComparacion,
+        cotizacionesRealesProvider,
+        eleccionRealProvider,
+        solicitudRealDetalleProvider;
+import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 String _catIcon(String id) => id == 'mec'
@@ -602,15 +616,25 @@ Widget widenBlock(BuildContext context, Job j) {
 
 // ------------------------------------------------------------ comparar
 
-class CompararScreen extends StatefulWidget {
+class CompararScreen extends ConsumerStatefulWidget {
   const CompararScreen({super.key, required this.id});
   final String id;
   @override
-  State<CompararScreen> createState() => _CompararScreenState();
+  ConsumerState<CompararScreen> createState() => _CompararScreenState();
 }
 
-class _CompararScreenState extends State<CompararScreen> {
+class _CompararScreenState extends ConsumerState<CompararScreen> {
   int _o = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mantiene viva la elección mientras se ve la pantalla: el resultado de
+    // elegir no se pierde si se cierra la hoja a media petición.
+    if (maq.job(widget.id)?.real ?? false) {
+      ref.listenManual(eleccionRealProvider(widget.id), (_, _) {});
+    }
+  }
 
   void _accept(Job j, String pid) {
     final pr = provs[pid]!;
@@ -665,46 +689,216 @@ class _CompararScreenState extends State<CompararScreen> {
     );
   }
 
-  Widget _cuerpo(BuildContext context) {
+  /// Elegir una cotización real (`POST /solicitudes/{id}/elegir`): la hoja
+  /// confirma, no deja tocar dos veces mientras se elige y, al terminar,
+  /// muestra la cita con el contacto del técnico. Los rechazos salen por
+  /// motivo, sin códigos HTTP; un 503 se reintenta a mano.
+  void _aceptarReal(Job j, Quote q, Prov pr) {
+    unawaited(
+      hoja<void>(
+        context,
+        (ctx, _) => Consumer(
+          builder: (ctx, ref, _) {
+            final e = ref.watch(eleccionRealProvider(j.id));
+            final control = ref.read(eleccionRealProvider(j.id).notifier);
+            if (e is EleccionHecha) return _citaReal(ctx, e);
+            final enCurso = e is EleccionEnCurso;
+            final falla = e is EleccionFallida ? e.falla : null;
+            final rechazo = falla is EleccionRechazadaFailure;
+            final items = pr.taller
+                ? const [
+                    ('cal', 'Te apartamos la cita que te propuso'),
+                    ('pin', 'Verás la dirección exacta del taller'),
+                  ]
+                : const [
+                    (
+                      'lock',
+                      'Le compartimos tu dirección y tu número solo a él',
+                    ),
+                    (
+                      'shield',
+                      'Te damos un código para cuando toque tu puerta',
+                    ),
+                  ];
+            return stack([
+              sheetH(ctx, '¿Elegir a ${pr.first}?', big: true),
+              Row(
+                spacing: 12,
+                children: [
+                  Av.prov(pr),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [bT(pr.name), sMut(q.price)],
+                    ),
+                  ),
+                ],
+              ),
+              stack([
+                for (final x in [
+                  ...items,
+                  ('help', 'El pago lo acuerdas directo con él'),
+                ])
+                  Row(
+                    spacing: 12,
+                    children: [
+                      Icon(icn(x.$1)),
+                      Expanded(child: T(x.$2, size: 15.5, w: FontWeight.w700)),
+                    ],
+                  ),
+              ], gap: 8),
+              if (falla != null)
+                T(
+                  textoDeErrorReal(falla),
+                  size: 14.5,
+                  w: FontWeight.w800,
+                  color: kc(ctx).red,
+                ),
+              if (!rechazo)
+                BtnK(
+                  falla != null ? 'Reintentar' : 'Sí, elegir a ${pr.first}',
+                  enCurso ? null : () => unawaited(control.elegir(q.cotId!)),
+                  busy: enCurso,
+                ),
+              BtnK(
+                rechazo ? 'Cerrar' : 'Seguir comparando',
+                enCurso ? null : () => Navigator.pop(ctx),
+                kind: Bk.ghost,
+              ),
+            ]);
+          },
+        ),
+      ).then((_) {
+        if (mounted) ref.read(eleccionRealProvider(j.id).notifier).reiniciar();
+      }),
+    );
+  }
+
+  /// La cita confirmada con el contacto público del técnico. Vive solo en
+  /// memoria: se pierde al cerrar la hoja (spec 015, D-16).
+  Widget _citaReal(BuildContext ctx, EleccionHecha e) {
+    final c = e.cita;
+    final t = c.tecnico;
+    return stack([
+      const Center(child: ExitoK(size: 110)),
+      h1('Cita confirmada', a: TextAlign.center),
+      CardK(
+        child: stack([
+          bT(t.nombre),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              Icon(icn('cal')),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [bT(longDate(c.dia)), sMut('A las ${c.hora}')],
+                ),
+              ),
+            ],
+          ),
+          if (c.direccion.isNotEmpty)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 12,
+              children: [
+                Icon(icn(c.modalidad == 'taller' ? 'pin' : 'house')),
+                Expanded(child: bT(c.direccion)),
+              ],
+            ),
+          if (c.precio != null)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 12,
+              children: [
+                Icon(icn('doc')),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      bT('Cotización: ${money(c.precio!)}'),
+                      sMut('El pago lo acuerdas directo con él'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          if (t.publicoContacto) ...[
+            if (t.telefono != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  Icon(icn('phone')),
+                  Expanded(child: bT('Teléfono: ${t.telefono}')),
+                ],
+              ),
+            if (t.whatsapp != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  Icon(icn('chat')),
+                  Expanded(child: bT('WhatsApp: ${t.whatsapp}')),
+                ],
+              ),
+          ] else
+            sMut('Este técnico no publicó un teléfono ni WhatsApp.'),
+        ], gap: 12),
+      ),
+      BtnK('Listo', () {
+        Navigator.pop(ctx);
+        context.go('/actividad');
+      }),
+    ]);
+  }
+
+  Widget _cuerpo(BuildContext context, WidgetRef ref) {
     final j = maq.job(widget.id);
     if (j == null) return const Pg(title: 'Cotizaciones', body: SizedBox());
     final c = cats[j.cat]!;
+    // Solicitud real: el detalle (descripción) se pide al abrirla.
+    final detalle = j.real
+        ? ref.watch(solicitudRealDetalleProvider(j.id))
+        : null;
     final head = CardK(
       child: stack([
         h2(j.title),
         sMut(
-          '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'} · ${maq.user.col}',
+          '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'} · ${j.real ? j.colonia : maq.user.col}',
         ),
         sMut('Prefieres: ${j.pref}'),
-      ], gap: 6),
-    );
-    if (j.quotes.isEmpty) {
-      return Pg(
-        title: 'Cotizaciones',
-        body: stack([
-          head,
-          Center(
-            child: Column(
-              spacing: 14,
+        if (detalle != null)
+          detalle.when(
+            loading: () => sMut('Cargando tu solicitud…'),
+            error: (e, _) => Row(
+              spacing: 12,
               children: [
-                const CargaK(tipo: TipoCarga.buscando, size: 150),
-                h2('Esperando cotizaciones'),
-                const MensajesRotativos(mensajesBusqueda),
-                mutT(
-                  'Casi siempre llegan las primeras en menos de 30 minutos. Te avisamos; puedes salir de esta pantalla.',
-                  a: TextAlign.center,
+                Expanded(
+                  child: T(
+                    textoDeErrorReal(e),
+                    size: 14,
+                    w: FontWeight.w800,
+                    color: kc(context).red,
+                  ),
                 ),
+                if (e is! NoEncontradoFailure)
+                  BtnK(
+                    'Reintentar',
+                    () => ref.invalidate(solicitudRealDetalleProvider(j.id)),
+                    kind: Bk.sec,
+                    sm: true,
+                    auto: true,
+                  ),
               ],
             ),
+            data: (s) => tT(s.descripcion),
           ),
-        ]),
-        cta: BtnK(
-          'Volver al inicio',
-          () => context.go('/inicio'),
-          kind: Bk.ghost,
-        ),
-      );
-    }
+      ], gap: 6),
+    );
+    if (j.real) return _cuerpoReal(context, ref, j, head);
+    if (j.quotes.isEmpty) return _esperando(context, head);
     final qs = [...j.quotes];
     final comp = qs.where((q) => q.kind != 'visita').toList();
     final minP = comp.isEmpty
@@ -768,6 +962,166 @@ class _CompararScreenState extends State<CompararScreen> {
     );
   }
 
+  /// «Esperando cotizaciones»: aún no llega ninguna.
+  Widget _esperando(BuildContext context, Widget head, {String? texto}) => Pg(
+    title: 'Cotizaciones',
+    body: stack([
+      head,
+      Center(
+        child: Column(
+          spacing: 14,
+          children: [
+            const CargaK(tipo: TipoCarga.buscando, size: 150),
+            h2('Esperando cotizaciones'),
+            const MensajesRotativos(mensajesBusqueda),
+            mutT(
+              texto ?? 'Casi siempre llegan las primeras en menos de 30 minutos. Te avisamos; puedes salir de esta pantalla.',
+              a: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    ]),
+    cta: BtnK('Volver al inicio', () => context.go('/inicio'), kind: Bk.ghost),
+  );
+
+  static const _ordenes = [
+    OrdenCotizaciones.recomendadas,
+    OrdenCotizaciones.precio,
+    OrdenCotizaciones.calificacion,
+    OrdenCotizaciones.pronto,
+  ];
+
+  Widget _chipsDeOrden() => stack([
+    labT('Ordenar por'),
+    chipsScroll([
+      for (var i = 0; i < 4; i++)
+        ChipK(
+          const [
+            'Recomendadas',
+            'Menor precio',
+            'Mejor calificadas',
+            'Más pronto',
+          ][i],
+          on: _o == i,
+          onTap: () => setState(() => _o = i),
+        ),
+    ], pad: 0),
+  ], gap: 8);
+
+  /// Comparar las cotizaciones reales (`GET /solicitudes/{id}/cotizaciones`):
+  /// el servidor ordena y etiqueta; la app no reordena (spec 015, R-08).
+  Widget _cuerpoReal(BuildContext context, WidgetRef ref, Job j, Widget head) {
+    final consulta = (solicitudId: j.id, orden: _ordenes[_o]);
+    final comparacion = ref.watch(cotizacionesRealesProvider(consulta));
+    return comparacion.when(
+      loading: () => Pg(
+        title: 'Cotizaciones',
+        body: stack([
+          head,
+          const Center(child: CargaK(tipo: TipoCarga.buscando, size: 150)),
+        ]),
+      ),
+      error: (e, _) => Pg(
+        title: 'Cotizaciones',
+        body: stack([
+          head,
+          // Si el encabezado ya dice que la solicitud no existe, no se repite.
+          if (!(e is NoEncontradoFailure &&
+              ref.watch(solicitudRealDetalleProvider(j.id)).error
+                  is NoEncontradoFailure))
+            CardK(
+              child: Row(
+                spacing: 12,
+                children: [
+                  Expanded(
+                    child: T(
+                      textoDeErrorReal(e),
+                      size: 14,
+                      w: FontWeight.w800,
+                      color: kc(context).red,
+                    ),
+                  ),
+                  if (e is! NoEncontradoFailure)
+                    BtnK(
+                      'Reintentar',
+                      () =>
+                          ref.invalidate(cotizacionesRealesProvider(consulta)),
+                      kind: Bk.sec,
+                      sm: true,
+                      auto: true,
+                    ),
+                ],
+              ),
+            ),
+        ]),
+      ),
+      data: (r) => _listaReal(context, j, head, r),
+    );
+  }
+
+  String? _textoDeMotivo(MotivoSinEleccion m) => switch (m) {
+    MotivoSinEleccion.yaElegida =>
+      'Ya elegiste una cotización para esta solicitud.',
+    MotivoSinEleccion.vencida =>
+      'Esta solicitud venció. Puedes pedir una nueva.',
+    MotivoSinEleccion.cancelada => 'Esta solicitud se canceló.',
+    MotivoSinEleccion.sinCotizaciones =>
+      'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.',
+  };
+
+  Widget _listaReal(
+    BuildContext context,
+    Job j,
+    Widget head,
+    ResultadoComparacion r,
+  ) {
+    final motivo = r.puedeElegir || r.motivo == null
+        ? null
+        : _textoDeMotivo(r.motivo!);
+    if (r.cotizaciones.isEmpty) {
+      return _esperando(
+        context,
+        head,
+        texto: r.motivo == MotivoSinEleccion.sinCotizaciones ? null : motivo,
+      );
+    }
+    final qs = [for (final c in r.cotizaciones) quoteDeCotizacion(c, j.cat)];
+    return Pg(
+      title: 'Cotizaciones',
+      sub: '${r.totalCotizaciones} recibidas',
+      body: stack([
+        head,
+        if (r.tiposMixtos)
+          const NoteK(
+            'blue',
+            'help',
+            '**Ojo:** no todas cuestan lo mismo por lo mismo. Una **visita** solo cubre ir a ver el trabajo; un **precio fijo** o **aproximado** es por el arreglo. Mira «Qué cubre» en cada tarjeta.',
+          ),
+        if (motivo != null) NoteK('blue', 'help', motivo),
+        _chipsDeOrden(),
+        for (final q in qs)
+          _quote(
+            context,
+            j,
+            q,
+            q.etiquetas.contains('mejor_precio'),
+            q.etiquetas.contains('puede_ir_mas_pronto'),
+            puedeElegir: r.puedeElegir,
+          ),
+        if (r.hayMasDeLasMostradas)
+          sMut(
+            'Te mostramos ${r.cotizaciones.length} de ${r.totalCotizaciones}.',
+          ),
+        const NoteK(
+          'blue',
+          'help',
+          'Knock no cobra ni recibe pagos. El precio y la forma de pago los acuerdas directo con el técnico.',
+        ),
+      ], gap: 14),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => MaqBuilder(
     (context) => AnimatedSwitcher(
@@ -776,28 +1130,37 @@ class _CompararScreenState extends State<CompararScreen> {
           : const Duration(milliseconds: 420),
       child: KeyedSubtree(
         key: ValueKey(maq.job(widget.id)?.quotes.isEmpty),
-        child: _cuerpo(context),
+        child: Consumer(builder: (context, ref, _) => _cuerpo(context, ref)),
       ),
     ),
   );
 
-  Widget _quote(BuildContext context, Job j, Quote q, bool best, bool soon) {
+  Widget _quote(
+    BuildContext context,
+    Job j,
+    Quote q,
+    bool best,
+    bool soon, {
+    bool puedeElegir = true,
+  }) {
     final k = kc(context);
     final pr = provs[q.pid]!;
     final c = cats[j.cat]!;
     final open = maq.fold['qn${j.id}${q.pid}'] ?? false;
-    final covers = q.kind == 'visita'
+    final covers = q.real && q.cubre.isNotEmpty
+        ? '**Qué cubre:** ${q.cubre}'
+        : q.kind == 'visita'
         ? '**Qué cubre:** solo ir a ver el trabajo. Después te manda el precio del arreglo.'
         : q.kind == 'fijo'
         ? '**Qué cubre:** el arreglo completo con mano de obra. Si hace falta una refacción, te la cotiza aparte.'
         : '**Qué cubre:** el arreglo completo (estimado). El precio final queda dentro del rango.';
     final rule = q.kind == 'visita'
         ? 'Primero ve el trabajo y te cotiza. Se descuenta si lo contratas; si no, pagas solo la visita.'
-        : 'No pasará de ${money(qTope(q, j.cat))} sin tu aprobación.';
+        : 'No pasará de ${money(q.real ? q.tope : qTope(q, j.cat))} sin tu aprobación.';
     return CardK(
       child: stack([
         InkWell(
-          onTap: () => context.push(RM.experto(pr.id)),
+          onTap: q.real ? null : () => context.push(RM.experto(pr.id)),
           child: Row(
             spacing: 12,
             children: [
@@ -808,21 +1171,29 @@ class _CompararScreenState extends State<CompararScreen> {
                   spacing: 2,
                   children: [
                     T(pr.name, size: 16.5, w: FontWeight.w900),
-                    Wrap(
-                      spacing: 6,
-                      children: [rateW(pr), sMut('(${pr.n}) · ${pr.km} km')],
-                    ),
+                    if (q.real)
+                      sMut(
+                        pr.rate > 0
+                            ? '★ ${pr.rate.toStringAsFixed(1)}'
+                            : 'Sin calificaciones aún',
+                      )
+                    else
+                      Wrap(
+                        spacing: 6,
+                        children: [rateW(pr), sMut('(${pr.n}) · ${pr.km} km')],
+                      ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: k.mut),
+              if (!q.real) Icon(Icons.chevron_right, color: k.mut),
             ],
           ),
         ),
-        if (best || soon)
+        if (best || soon || (q.real && pr.ver))
           Wrap(
             spacing: 6,
             children: [
+              if (q.real && pr.ver) const Pill('Verificado', kind: 'green'),
               if (best) const Pill('Mejor precio', kind: 'green'),
               if (soon) const Pill('Puede ir más pronto', kind: 'amber'),
             ],
@@ -864,7 +1235,7 @@ class _CompararScreenState extends State<CompararScreen> {
           ),
           child: rich(covers, size: 14, color: k.navy),
         ),
-        if (open)
+        if (open && q.note.isNotEmpty)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
@@ -873,42 +1244,50 @@ class _CompararScreenState extends State<CompararScreen> {
             ),
             child: T('“${q.note}”'),
           ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: InkWell(
-            onTap: () {
-              maq.fold['qn${j.id}${q.pid}'] = !open;
-              maq.refresh();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: T(
-                open ? 'Ocultar su mensaje' : 'Leer su mensaje',
-                size: 14.5,
-                w: FontWeight.w800,
-                color: k.navy,
+        if (q.note.isNotEmpty)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              onTap: () {
+                maq.fold['qn${j.id}${q.pid}'] = !open;
+                maq.refresh();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: T(
+                  open ? 'Ocultar su mensaje' : 'Leer su mensaje',
+                  size: 14.5,
+                  w: FontWeight.w800,
+                  color: k.navy,
+                ),
               ),
             ),
           ),
-        ),
         Row(
           spacing: 10,
           children: [
-            BtnK(
-              'Preguntar',
-              () {
-                maq.openChat(pr.id);
-                unawaited(context.push(RM.chat(pr.id)));
-              },
-              kind: Bk.ghost,
-              sm: true,
-              icon: 'chat',
-              auto: true,
-            ),
+            // La conversación real aún no existe: solo se pregunta a los
+            // expertos de ejemplo.
+            if (!q.real)
+              BtnK(
+                'Preguntar',
+                () {
+                  maq.openChat(pr.id);
+                  unawaited(context.push(RM.chat(pr.id)));
+                },
+                kind: Bk.ghost,
+                sm: true,
+                icon: 'chat',
+                auto: true,
+              ),
             Expanded(
               child: BtnK(
                 'Elegir a ${pr.first}',
-                () => _accept(j, pr.id),
+                !puedeElegir
+                    ? null
+                    : q.real
+                    ? () => _aceptarReal(j, q, pr)
+                    : () => _accept(j, pr.id),
                 kind: Bk.dark,
                 sm: true,
               ),

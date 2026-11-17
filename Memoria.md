@@ -557,3 +557,26 @@
 - **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
 - **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
 - **A evitar:** mostrar sesiones de ejemplo cuando falla la red.
+
+## 2026-11-17 — Fase 2: Actividad de la maqueta muestra las solicitudes reales (KNOCK-277)
+- **Decisión:** con sesión iniciada y `KNOCK_API_URL` válida, Actividad lee `GET /solicitudes` y, al abrir una, `GET /solicitudes/{id}`. Cada solicitud se convierte en un `Job` marcado como real y se mezcla con las simuladas de la sesión. El envío (`POST /solicitudes`) sigue simulado (E-05).
+- **Porqué:** segunda conexión de la enmienda 1 (E-06); el repositorio y los mapeadores del contrato ya estaban hechos y probados.
+- **Cómo:** controlador `SolicitudesRealesController` (sin reintento automático, con Reintentar) y puente en `_PuenteDeDatos`; la lista no trae la clave del oficio, así que se reconoce por el nombre con el catálogo de oficios (una solicitud de un oficio que la maqueta no dibuja se omite); la descripción sale del detalle. Carga, error sin datos de ejemplo y vacío (CA-12). Cita, terminada y cancelada se dibujan sin técnico: su visita se conecta en la fase de visita.
+- **A evitar:** mostrar solicitudes de ejemplo cuando falla la red; pedir las solicitudes sin sesión o sin API.
+
+## 2026-11-17 — Fase 3: cotizaciones, elección, visita y aviso de la maqueta son los reales
+- **Decisión:** comparar y elegir cotizaciones (`GET .../cotizaciones`, `POST .../elegir`), la visita o cita del cliente (`GET /visitas/{id}`) y el aviso de confianza (`POST /visitas/{id}/aviso`) usan la API en las solicitudes reales. «Ya llegué» (`POST /visitas/{id}/llegada`) no se conecta.
+- **Porqué:** el técnico no tiene cómo encontrar sus visitas (no existe `GET /tecnicos/me/trabajo`, backend 036), así que esa pantalla no puede llegar con datos reales; hacerlo antes obligaría a inventar un ejemplo.
+- **Cómo:** `VisitaRealGate` pide la visita, la pasa a la `Job` (técnico como `Prov` sintético con prefijo `api:`) y la pantalla de la maqueta dibuja lo del servidor. Sin código real no se muestra «0000» sino el motivo (usado, vencido, bloqueada, no aplica). El aviso usa el texto del servidor, que nunca lleva el código ni la dirección; antes la maqueta lo incluía en el mensaje. En una visita real se ocultan reprogramar y cancelar (sin endpoint). Las cajas del código ya no desbordan a 320 dp.
+- **A evitar:** mostrar un código inventado; poner el código o la dirección en el aviso; ofrecer acciones sin endpoint en una visita real.
+## 2026-11-17 — Enmienda 2 de la spec 045: maqueta encendida por defecto y sin franja de ejemplo
+- **Decisión:** `MODO_MAQUETA` va encendida por defecto (se apaga con `--dart-define=MODO_MAQUETA=false`) y se retira la franja fija «Datos de ejemplo» de la maqueta. También se arregla el mapa, que se quedaba oscuro en modo claro. La enmienda queda escrita en la spec 045 (§14) y espera su aprobación.
+- **Porqué:** la maqueta es la interfaz de la app (enmienda 1); mantener dos modos y un rótulo fijo no tiene sentido cuando lo ya conectado usa la API real. Con la bandera encendida por defecto el flujo de Play no necesita pasarla.
+- **Cómo:** `modoMaquetaDeCompilacion` con `defaultValue: true`; las pruebas de la app normal apagan la bandera en `montarApp` (parámetro `maqueta`, por defecto falso) y las de la maqueta piden `maqueta: true`. El mapa recibe una `ValueKey` por tema para recrearse al cambiarlo.
+- **A evitar:** dos overrides del mismo proveedor en `montarApp` (Riverpod no los admite); volver a poner un rótulo fijo sin decidirlo.
+
+## 2026-11-17 — El mapa sigue el ajuste «Apariencia» de la app
+- **Decisión:** la app le dice a Android su propio modo de noche (0 sistema, 1 claro, 2 oscuro) según «Apariencia», por el canal `knock/pantalla` (`modoNoche`, Android 12 o superior), y el mapa se crea con el `colorScheme` del tema.
+- **Porqué:** el mapa nativo se oscurecía con el modo de noche de Android y no con el tema de Flutter: con el teléfono en oscuro y la app en «Claro» el mapa seguía oscuro. Probado en un Huawei (el motor de mapas de Huawei ignora el estilo JSON y el `colorScheme`).
+- **Cómo:** `ModoNocheDeLaApp` y `modoNocheSincronizadoProvider` (se observa desde `KnockApp`), `MainActivity` usa `UiModeManager.setApplicationNightMode`. No cambia el modo del teléfono. Antes de Android 12 no hace nada.
+- **A evitar:** tocar solo el estilo JSON o el `colorScheme` del mapa; en este teléfono no bastan.
