@@ -45,9 +45,18 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
   String celular = '';
   bool phoneErr = false, codeErr = false, nameErr = false, saving = false;
   // zona
-  ({String col, String cp, bool out, bool approx})? zone;
+  // La colonia, el código postal y el municipio salen del servidor (spec 017,
+  // R-05): la app no decide la cobertura. `opciones` son las colonias de ese
+  // código postal, para cambiarla.
+  ({String col, String cp, String muni, bool out, bool approx})? zone;
+  List<String> opciones = const [];
   bool zbusy = false, cpOpen = false;
   String zerr = '';
+
+  // Lista de espera de la zona sin cobertura (R-08): solo con el código postal
+  // que escribió la persona; nunca con coordenadas.
+  String? cpFuera;
+  bool avisando = false, avisado = false;
   String? photo;
   String? generalErr;
 
@@ -121,24 +130,79 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
   void _close() => context.go(Rutas.previa);
 
   // zona ---------------------------------------------------------------
-  void _cpGo() {
+  /// Texto del error de la zona, sin códigos HTTP ni URL (spec 017, R-11).
+  String _errZona(Failure e) => switch (e) {
+    NoAutorizadoFailure() => 'Tu sesión venció. Entra de nuevo.',
+    ServicioNoDisponibleFailure() =>
+      'No pudimos consultar tu zona. Revisa tu conexión e inténtalo de nuevo.',
+    _ => 'No pudimos consultar tu zona. Inténtalo de nuevo.',
+  };
+
+  /// Zona por código postal (`GET /zonas/cp/{cp}`). El teléfono solo valida
+  /// los 5 dígitos (R-04); la cobertura la decide el servidor (R-05).
+  Future<void> _cpGo() async {
     final cp = digits(_cp.text);
-    if (cp.length != 5) return;
-    if (!cp.startsWith('428')) {
-      setState(
-        () => zerr = 'Por ahora Knock solo atiende Tula de Allende y alrededores (códigos postales que empiezan con 428).',
-      );
-      return;
-    }
+    if (cp.length != 5 || zbusy) return;
     setState(() {
       zerr = '';
-      zone = (
-        col: cpCol[cp] ?? 'Col. Centro',
-        cp: cp,
-        out: false,
-        approx: !cpCol.containsKey(cp),
-      );
+      zbusy = true;
     });
+    try {
+      final r = await ref.read(zonasRepositoryProvider).porCodigoPostal(cp);
+      if (!mounted) return;
+      setState(() {
+        zbusy = false;
+        if (!r.enCobertura || r.colonias.isEmpty) {
+          cpFuera = cp;
+          avisado = false;
+          step = 'fuera';
+          return;
+        }
+        final c = r.colonias.first;
+        opciones = [for (final x in r.colonias) x.nombre];
+        zone = (
+          col: c.nombre,
+          cp: c.cp,
+          muni: c.municipio,
+          out: false,
+          approx: false,
+        );
+      });
+    } on Failure catch (e) {
+      if (!mounted) return;
+      setState(() {
+        zbusy = false;
+        zerr = _errZona(e);
+      });
+    }
+  }
+
+  /// Lista de espera (`POST /zonas/lista-espera`, R-08): lleva solo el código
+  /// postal escrito. El botón se deshabilita mientras hay una petición (R-15).
+  Future<void> _avisar() async {
+    final cp = cpFuera;
+    if (cp == null || avisando) return;
+    setState(() {
+      avisando = true;
+      zerr = '';
+    });
+    try {
+      final r = await ref.read(listaEsperaRepositoryProvider).registrar(cp: cp);
+      if (!mounted) return;
+      setState(() {
+        avisando = false;
+        avisado = true;
+      });
+      maq.toast(
+        r.yaRegistrado
+            ? 'Ya estabas en la lista de espera'
+            : 'Listo, te avisaremos cuando lleguemos',
+      );
+    } on Failure catch (e) {
+      if (!mounted) return;
+      setState(() => avisando = false);
+      maq.toast(_errZona(e));
+    }
   }
 
   Future<void> _geo() async {
@@ -159,20 +223,45 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
       }
     }
     if (!mounted) return;
-    setState(() {
-      zbusy = false;
-      if (lat == null || lng == null) {
+    if (lat == null || lng == null) {
+      setState(() {
+        zbusy = false;
         zerr = 'No pudimos obtener tu ubicación. Escribe tu código postal.';
-        return;
-      }
-      // Solo se usa la colonia; las coordenadas se descartan.
-      final c = evaluarCobertura(lat, lng);
-      if (c.dentro) {
-        zone = (col: c.zona.colonia, cp: c.zona.cp, out: false, approx: false);
-      } else {
-        step = 'fuera';
-      }
-    });
+      });
+      return;
+    }
+    try {
+      // Solo se usa la colonia; las coordenadas se descartan (R-03).
+      final r = await ref
+          .read(coloniasRepositoryProvider)
+          .enPunto(latitud: lat, longitud: lng);
+      if (!mounted) return;
+      setState(() {
+        zbusy = false;
+        final c = r.colonia;
+        if (r.enCobertura && c != null) {
+          opciones = [c.nombre];
+          zone = (
+            col: c.nombre,
+            cp: c.cp,
+            muni: c.municipio,
+            out: false,
+            approx: false,
+          );
+        } else {
+          // Por ubicación no hay código postal escrito: no se registra la
+          // lista de espera (R-08); solo se ofrece escribirlo.
+          cpFuera = null;
+          step = 'fuera';
+        }
+      });
+    } on Failure catch (e) {
+      if (!mounted) return;
+      setState(() {
+        zbusy = false;
+        zerr = _errZona(e);
+      });
+    }
   }
 
   Future<void> _finish() async {
@@ -447,7 +536,7 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
                   Icon(icn('pin'), size: 18),
                   Expanded(
                     child: h3(
-                      '${z.col}, Tula de Allende${z.cp.isNotEmpty ? ' · CP ${z.cp}' : ''}',
+                      '${z.col}, ${z.muni}${z.cp.isNotEmpty ? ' · CP ${z.cp}' : ''}',
                     ),
                   ),
                 ],
@@ -466,13 +555,18 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
           stack([
             labT('¿No es tu colonia? Cámbiala'),
             chipsWrap([
-              for (final c in colores)
+              for (final c in opciones)
                 ChipK(
                   c,
                   on: z.col == c,
                   onTap: () => setState(
-                    () =>
-                        zone = (col: c, cp: z.cp, out: z.out, approx: z.approx),
+                    () => zone = (
+                      col: c,
+                      cp: z.cp,
+                      muni: z.muni,
+                      out: z.out,
+                      approx: z.approx,
+                    ),
                   ),
                 ),
             ]),
@@ -518,8 +612,8 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
               onSubmit: (_) => _cpGo(),
             ),
             BtnK(
-              'Continuar con mi código postal',
-              cpOk ? _cpGo : null,
+              zbusy ? 'Buscando tu zona…' : 'Continuar con mi código postal',
+              cpOk && !zbusy ? _cpGo : null,
               kind: Bk.sec,
             ),
           ] else
@@ -550,11 +644,22 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
         PantallaFueraDeCobertura(
           enHoja: false,
           alCerrar: () => setState(() => step = 'zone'),
+          // La lista de espera solo se ofrece con el código postal escrito.
+          alAvisar: cpFuera == null || avisado ? null : _avisar,
+          avisando: avisando,
+          avisado: avisado,
           alExplorar: () async {
             final z = await elegirZonaDisponible(context);
             if (z != null && mounted) {
               setState(() {
-                zone = (col: z.colonia, cp: z.cp, out: false, approx: false);
+                opciones = [z.colonia];
+                zone = (
+                  col: z.colonia,
+                  cp: z.cp,
+                  muni: 'Tula de Allende',
+                  out: false,
+                  approx: false,
+                );
                 step = 'zone';
               });
             }

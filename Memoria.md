@@ -532,3 +532,28 @@
 - **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Aprobado por el Tech Lead: redondeo hacia abajo y UTC−6 en una sola constante para la hora de Ciudad de México.
 - **Riesgo:** si cambia el horario de Ciudad de México, se actualiza esa constante; algunos municipios de la frontera norte sí conservan horario de verano, pero la app usa la hora de Ciudad de México. No se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
 - **A evitar:** usar la zona del teléfono o interpretar «cerrando» como estado vencido confirmado por el servidor.
+## 2026-11-17 — Enmienda 1 de la spec 045: la maqueta es la interfaz de la app
+- **Decisión:** el Tech Lead decidió que la maqueta es la base y la interfaz de la app, y que cada pantalla se conecta poco a poco a los endpoints reales, sin mantener dos aplicaciones. La enmienda queda escrita en la spec 045 (§13) y espera su aprobación.
+- **Porqué:** la versión original de la spec reemplazaba cada pantalla de la maqueta por otra «real»; eso duplica pantallas y trabajo. Reutilizar los repositorios y el cliente generado en la propia pantalla de la maqueta es más corto.
+- **Cómo:** E-01 a E-06 en §13: conexión por fases, lo sin backend sigue rotulado como ejemplo, el envío de solicitudes sigue simulado mientras el backend no tenga archivos ni moderación, y la bandera `MODO_MAQUETA` no cambia de valor por defecto en esta enmienda.
+- **A evitar:** crear pantallas paralelas para lo que la maqueta ya cubre; importar el estado simulado desde una pantalla conectada; cambiar el valor por defecto de la bandera sin decidirlo.
+
+## 2026-11-17 — Fase 1: los oficios de la maqueta salen del backend
+- **Decisión:** la lista de oficios (`mec`, `plo`, `ele`) deja de estar escrita en cinco pantallas de la maqueta y se lee de `GET /oficios` por el controlador que ya tiene la app (con caché y ETag). Primera conexión de la enmienda 1 de la spec 045.
+- **Porqué:** el backend ya devuelve los mismos tres oficios, con la misma modalidad que usa la maqueta; así el catálogo manda y los datos visuales (icono, color, textos) se quedan locales, por clave.
+- **Cómo:** `RaizMaqueta` escucha el controlador y guarda las claves en `maq.oficios`; un oficio que la maqueta no sabe dibujar se omite. Si falla, no se inventan oficios: sale un aviso con Reintentar. Pruebas `CA_045_10` y `CA_045_12`; `ESTADO.md` lleva la tabla de conexión (CA-11).
+- **A evitar:** volver a escribir la lista a mano en una pantalla; mostrar oficios de ejemplo cuando falla la red.
+
+
+## 2026-11-17 — Fase 1b: zona por código postal, por punto y lista de espera
+- **Decisión:** el paso de zona de la entrada de la maqueta pide la zona al servidor (`GET /zonas/cp/{cp}`, `GET /colonias/en-punto`) en lugar de decidirla en el teléfono, y la hoja de fuera de cobertura puede registrar la lista de espera (`POST /zonas/lista-espera`). El mapa de Inicio también usa la colonia del servidor.
+- **Porqué:** la spec 017 (R-05) prohíbe deducir la cobertura del prefijo del código postal; antes la maqueta aceptaba cualquier código que empezara con 428 y tenía cuatro colonias fijas.
+- **Cómo:** repositorios `ZonasRepository` y `ListaEsperaRepository` (HTTP real, simulado sin `KNOCK_API_URL`), mapeador del contrato y proveedores en `inicio_providers.dart`. El teléfono solo valida los 5 dígitos (R-04); la lista de espera lleva solo el código postal escrito y nunca coordenadas (R-08); el botón se deshabilita mientras guarda (R-15); los errores salen sin códigos HTTP (R-11).
+- **Pendiente:** guardar la colonia y el código postal en el perfil con `PUT /me` (R-06), la caché de `catalogo/zonas` (R-09) y la zona local (R-10); «Explorar de todos modos» sigue usando las cuatro zonas de la maqueta.
+- **A evitar:** decidir la cobertura en el teléfono; enviar coordenadas a la lista de espera.
+
+## 2026-11-17 — Fase 1c: las sesiones abiertas de la maqueta son las reales
+- **Decisión:** «Dónde está abierta tu cuenta» (Privacidad y datos) lee `GET /me/sesiones` y cierra con `DELETE /me/sesiones/{id}` por un controlador de la feature cuenta; se borró el estado simulado `maq.sessions`.
+- **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
+- **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
+- **A evitar:** mostrar sesiones de ejemplo cuando falla la red.

@@ -10,6 +10,7 @@ import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
+import 'package:app/features/maqueta/sesiones_reales.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:flutter/material.dart';
@@ -1759,73 +1760,7 @@ class PrivacidadScreen extends StatelessWidget {
           ],
         ),
         const _Gl('Dónde está abierta tu cuenta'),
-        GroupK([
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              spacing: 14,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: k.navySoft,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(icn('phone'), color: k.navy),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const T('Samsung Galaxy A54', w: FontWeight.w800),
-                      sMut('Este celular · Tula de Allende', size: 13.5),
-                    ],
-                  ),
-                ),
-                const Pill('Aquí', kind: 'green'),
-              ],
-            ),
-          ),
-          if (maq.sessions)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                spacing: 14,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: k.navySoft,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(icn('doc'), color: k.navy),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const T('Navegador en computadora', w: FontWeight.w800),
-                        sMut('Tula de Allende · hace 3 días', size: 13.5),
-                      ],
-                    ),
-                  ),
-                  BtnK(
-                    'Cerrar',
-                    () {
-                      maq.sessions = false;
-                      maq.refresh();
-                      maq.toast('Cerramos la sesión de la computadora');
-                    },
-                    kind: Bk.sec,
-                    sm: true,
-                    auto: true,
-                  ),
-                ],
-              ),
-            ),
-        ]),
+        const SesionesAbiertas(),
       ]),
     );
   });

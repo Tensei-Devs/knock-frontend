@@ -83,8 +83,19 @@ class PantallaFueraDeCobertura extends ConsumerWidget {
     required this.alCerrar,
     required this.alExplorar,
     this.enHoja = true,
+    this.alAvisar,
+    this.avisando = false,
+    this.avisado = false,
   });
   final VoidCallback alCerrar, alExplorar;
+
+  /// Registra la zona en la lista de espera (spec 017, R-08). Si es `null`, no
+  /// se ofrece el botón (por ejemplo, cuando la zona salió de la ubicación y no
+  /// hay código postal escrito: nunca se envían coordenadas).
+  final VoidCallback? alAvisar;
+
+  /// Hay un registro en curso (el botón se deshabilita, R-15) o ya se hizo.
+  final bool avisando, avisado;
 
   /// `false` cuando va dentro de otra hoja (entrada): sin botón de cerrar.
   final bool enHoja;
@@ -151,6 +162,15 @@ class PantallaFueraDeCobertura extends ConsumerWidget {
             ),
         ],
       ),
+      if (alAvisar != null || avisado)
+        BtnK(
+          avisado
+              ? 'Ya estás en la lista de espera'
+              : avisando
+              ? 'Guardando…'
+              : 'Avisarme cuando lleguen',
+          avisado || avisando ? null : alAvisar,
+        ),
       BtnK('Explorar de todos modos', alExplorar, kind: Bk.sec),
       BtnK('Entendido', alCerrar, kind: Bk.ghost),
     ]);
