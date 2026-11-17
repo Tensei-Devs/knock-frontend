@@ -539,3 +539,7 @@
 - **Procedimiento:** la skill `api-client-contract` está desactualizada: cita `scripts/sync_contract.py` y `scripts/gen_clients.sh`, que no existen. Para Dart se usa `python3 app/tool/generar_cliente_api.py` y se verifica con `python3 app/tool/generar_cliente_api.py --check`; no se modificó la skill protegida.
 - **Pendiente:** T-03 a T-08 y la conexión de zonas por CP y lista de espera con endpoints reales se coordinan con el Tech Lead.
 - **A evitar:** sobrescribir Identity con Market, editar a mano los contratos o el cliente generado, asumir que `municipio` es obligatorio para la persona o conectar endpoints sin coordinar las tareas pendientes.
+
+## 2026-11-16 — Actualización de contratos de zona desde la referencia remota (KNOCK-47)
+- **Hecho:** `origin/sprint-04` de backend avanzó a `b5706244eeef66b1c2731152c99bbd1f49da6f7d`; se actualizó Market desde esa referencia y se regeneró el cliente. Identity coincide con la misma referencia y se conservó sin cambios.
+- **A evitar:** suponer que una copia previa de Market sigue coincidiendo con la referencia remota; conectar T-03 a T-08 sin coordinación con el Tech Lead.
