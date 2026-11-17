@@ -18,9 +18,22 @@ class Quote {
     required this.when,
     required this.soon,
     required this.note,
+    this.cotId,
+    this.cubre = '',
+    this.tope = 0,
+    this.etiquetas = const {},
   });
   final String pid, kind, when, note; // kind: fijo | rango | visita
   final int lo, hi, soon;
+
+  /// Cotización real del servidor (spec 045, enmienda 1): su id, lo que cubre
+  /// el precio, lo más que se puede cobrar sin aprobación y las etiquetas que
+  /// pone el servidor (`verificado`, `mejor_precio`, `puede_ir_mas_pronto`).
+  final String? cotId;
+  final String cubre;
+  final int tope;
+  final Set<String> etiquetas;
+  bool get real => cotId != null;
 
   String get price => kind == 'fijo'
       ? money(lo)
@@ -73,8 +86,30 @@ class Job {
     this.day = 0,
     this.target,
     this.only = false,
+    this.real = false,
+    this.quoteCount = 0,
+    this.colonia = '',
+    this.visitaId,
   });
   final String id;
+
+  /// Solicitud real del servidor (`GET /solicitudes`, spec 045 enmienda 1):
+  /// su [id] es el de la solicitud y sus cotizaciones se piden al abrirla.
+  final bool real;
+
+  /// Cotizaciones recibidas que cuenta el servidor (solo en las reales).
+  int quoteCount;
+
+  /// Colonia de la solicitud (solo en las reales).
+  String colonia;
+
+  /// Visita de la cita elegida (solo en las reales).
+  String? visitaId;
+
+  /// De la visita real (`GET /visitas/{id}`): por qué no hay código
+  /// (`usado`, `vencido`, `bloqueada` o `no_aplica`) y el lugar de la cita.
+  String? motivoCodigo;
+  String direccion = '';
   String title, cat;
   String status; // enviada|cotizando|visita|cita|terminado|cancelado
   String? pid, target;
@@ -87,7 +122,14 @@ class Job {
   Adjust? adjust;
   Resched? resched;
   Map<String, bool> closed = {};
+
+  /// Cotizaciones que se cuentan en la tarjeta: las del servidor en una
+  /// solicitud real y las simuladas en las demás.
+  int get nQuotes => real ? quoteCount : quotes.length;
 }
+
+/// Estado de la carga de las solicitudes reales en Actividad.
+enum CargaReal { inactiva, cargando, error, lista }
 
 class Msg {
   Msg(this.s, this.t, {this.h = '', this.job, this.img});
@@ -210,6 +252,21 @@ class MaquetaEstado extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Solicitudes reales (`GET /solicitudes`, spec 045 enmienda 1): viven en
+  // [jobs] junto a las simuladas de la sesión, marcadas con `Job.real`.
+  CargaReal solicitudesReales = CargaReal.inactiva;
+
+  /// Vuelve a pedir las solicitudes (lo registra la raíz de la maqueta).
+  VoidCallback? reintentarSolicitudes;
+
+  /// Reemplaza las solicitudes reales por [reales] (`null` las quita) y avisa
+  /// a las pantallas. Las simuladas no se tocan.
+  void fijarSolicitudesReales(List<Job>? reales, {required CargaReal estado}) {
+    jobs = [...jobs.where((j) => !j.real), ...?reales];
+    solicitudesReales = estado;
+    notifyListeners();
+  }
+
   final _timers = <Timer>[];
 
   void refresh() => notifyListeners();
@@ -282,7 +339,7 @@ class MaquetaEstado extends ChangeNotifier {
 
   List<Prov> results() {
     final l = provs.values.where((o) {
-      if (o.cat != sCat) return false;
+      if (o.esReal || o.cat != sCat) return false;
       if (sF['dist']! && o.km > 5) return false;
       if (sF['cal']! && o.rate < 4.5) return false;
       if (sF['tipo']! && o.taller) return false;
@@ -411,7 +468,12 @@ class MaquetaEstado extends ChangeNotifier {
   void startClientQuotes(Job job, {bool widen = false}) {
     final col = user.col;
     final pool = provs.keys
-        .where((k) => provs[k]!.cat == job.cat && blocked[k] != true)
+        .where(
+          (k) =>
+              !provs[k]!.esReal &&
+              provs[k]!.cat == job.cat &&
+              blocked[k] != true,
+        )
         .toList();
     bool reach(Prov o) => o.zone.isEmpty || o.zone.contains(col);
     pool.sort((a, b) {
@@ -807,7 +869,7 @@ class MaquetaEstado extends ChangeNotifier {
 
   void scheduleDelete() {
     for (final j in jobs) {
-      if (j.status != 'terminado' && j.status != 'cancelado') {
+      if (!j.real && j.status != 'terminado' && j.status != 'cancelado') {
         j.status = 'cancelado';
         j.resched = null;
         if (j.pid != null) {
@@ -990,7 +1052,12 @@ class MaquetaEstado extends ChangeNotifier {
   /// Reinicia lo del cliente (cuenta eliminada o «Borrar todo»).
   void resetAll() {
     saved = {};
-    jobs = [];
+    // Las solicitudes reales son del servidor: el puente las quita al cerrar
+    // la sesión.
+    jobs = [
+      for (final j in jobs)
+        if (j.real) j,
+    ];
     threads = {};
     unread = {};
     notifs = [];

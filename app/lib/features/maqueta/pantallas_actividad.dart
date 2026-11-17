@@ -1,14 +1,20 @@
 import 'dart:async';
 
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/core/enlaces/abridor_de_enlaces.dart';
+import 'package:app/core/errores/failure.dart';
+import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
+import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/maqueta/visita_real.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -159,15 +165,26 @@ class ActividadMaqueta extends StatelessWidget {
       cards.add(jobCard(context, j, firstPri));
       if (j.status == 'cotizando') firstPri = false;
     }
+    // Solicitudes reales (spec 045, enmienda 1): cargando, error con
+    // Reintentar y vacío (CA-12). Sin sesión o sin API no cambia nada.
+    final carga = maq.solicitudesReales;
+    final error = carga == CargaReal.error;
+    final cargando = carga == CargaReal.cargando && jobs.isEmpty;
     return PgTab(
       title: 'Actividad',
       fab: msgFab(context),
-      body: jobs.isNotEmpty
-          ? CargaInicial(
-              clave: 'actividad',
-              esqueleto: const EsqueletoLista(n: 3),
-              child: stack(escalona(cards), gap: 12),
-            )
+      body: cargando
+          ? const EsqueletoLista(n: 3)
+          : jobs.isNotEmpty || error
+          ? stack([
+              if (error) _errorDeSolicitudes(context),
+              if (jobs.isNotEmpty)
+                CargaInicial(
+                  clave: 'actividad',
+                  esqueleto: const EsqueletoLista(n: 3),
+                  child: stack(escalona(cards), gap: 12),
+                ),
+            ], gap: 12)
           : SizedBox(
               height: 420,
               child: emptyK(
@@ -184,6 +201,31 @@ class ActividadMaqueta extends StatelessWidget {
     );
   });
 }
+
+/// Aviso de que no se pudieron cargar las solicitudes, con Reintentar. No
+/// muestra solicitudes de ejemplo.
+Widget _errorDeSolicitudes(BuildContext context) => CardK(
+  child: Row(
+    spacing: 12,
+    children: [
+      Expanded(
+        child: T(
+          'No pudimos cargar tus solicitudes.',
+          size: 14,
+          w: FontWeight.w800,
+          color: kc(context).red,
+        ),
+      ),
+      BtnK(
+        'Reintentar',
+        () => maq.reintentarSolicitudes?.call(),
+        kind: Bk.sec,
+        sm: true,
+        auto: true,
+      ),
+    ],
+  ),
+);
 
 /// Globo flotante de mensajes (abajo a la derecha, con contador).
 Widget msgFab(BuildContext context) {
@@ -276,35 +318,55 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
       ], gap: 10);
     case 'cotizando':
       pill = Pill(
-        '${j.quotes.length} cotizaciones listas',
+        '${j.nQuotes} cotizaciones listas',
         kind: 'amber',
         icon: 'bell',
       );
-      det = Row(
-        children: [
-          for (var i = 0; i < j.quotes.length; i++)
-            Transform.translate(
-              offset: Offset(-10.0 * i, 0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Av.prov(
-                  provs[j.quotes[i].pid]!,
-                  size: 34,
-                  verified: false,
-                ),
-              ),
-            ),
-        ],
-      );
+      det = j.real
+          ? sMut(j.pref)
+          : Row(
+              children: [
+                for (var i = 0; i < j.quotes.length; i++)
+                  Transform.translate(
+                    offset: Offset(-10.0 * i, 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: Av.prov(
+                        provs[j.quotes[i].pid]!,
+                        size: 34,
+                        verified: false,
+                      ),
+                    ),
+                  ),
+              ],
+            );
       action = BtnK(
         'Ver y elegir',
         () => context.push(RM.comparar(j.id)),
         kind: pri ? Bk.pri : Bk.sec,
         sm: true,
       );
+    case 'visita' || 'cita' when j.real:
+      // Una visita real no trae al técnico hasta abrirla: la tarjeta no
+      // inventa nada y manda a ver la visita o la cita.
+      pill = Pill(
+        j.status == 'cita' ? 'Cita confirmada' : 'Visita confirmada',
+        kind: 'green',
+        icon: 'check',
+      );
+      det = sMut('Toca para ver los detalles.');
+      action = BtnK(
+        j.status == 'cita' ? 'Ver cita y cómo llegar' : 'Ver visita y código',
+        () =>
+            context.push(j.status == 'cita' ? RM.cita(j.id) : RM.visita(j.id)),
+        kind: Bk.sec,
+        sm: true,
+      );
+    case 'terminado' when j.real:
+      pill = const Pill('Terminado', kind: 'gray');
     case 'visita':
       pill = Pill(
         j.diag ? 'Visita para cotizar' : 'Visita confirmada',
@@ -424,7 +486,11 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 h3(j.title),
-                sMut('${c.short} · ${c.taller ? 'En taller' : 'A domicilio'}'),
+                sMut(
+                  j.real && j.colonia.isNotEmpty
+                      ? '${j.colonia} · ${c.taller ? 'En taller' : 'A domicilio'}'
+                      : '${c.short} · ${c.taller ? 'En taller' : 'A domicilio'}',
+                ),
               ],
             ),
           ),
@@ -1328,6 +1394,18 @@ class VisitaMaqueta extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaqBuilder((context) {
     final j = maq.job(id);
+    // Visita real: se pide al servidor y se pasa a la Job antes de dibujar.
+    if (j != null && j.real && j.visitaId != null) {
+      return VisitaRealGate(
+        job: j,
+        titulo: 'Tu visita',
+        cuerpo: (context) => _vista(context, j),
+      );
+    }
+    return _vista(context, j);
+  });
+
+  Widget _vista(BuildContext context, Job? j) {
     if (j == null || j.pid == null) {
       return const Pg(title: 'Tu visita', body: SizedBox());
     }
@@ -1346,54 +1424,61 @@ class VisitaMaqueta extends StatelessWidget {
           size: 14,
         ),
       ),
-      Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: k.navyBg,
-          borderRadius: BorderRadius.circular(22),
-        ),
-        child: Column(
-          spacing: 14,
-          children: [
-            const T(
-              'Tu código para cuando llegue',
-              size: 16,
-              w: FontWeight.w800,
-              color: Color(0xFFD5E3E8),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 10,
-              children: [
-                for (final d in code)
-                  Container(
-                    width: 58,
-                    height: 70,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(
-                      d,
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 36,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF1C3A4C),
+      if (j.real && j.code.isEmpty)
+        NoteK('blue', 'clock', textoDeMotivoDeCodigo(j.motivoCodigo))
+      else
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: k.navyBg,
+            borderRadius: BorderRadius.circular(22),
+          ),
+          child: Column(
+            spacing: 14,
+            children: [
+              const T(
+                'Tu código para cuando llegue',
+                size: 16,
+                w: FontWeight.w800,
+                color: Color(0xFFD5E3E8),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  // Flexible: a 320 dp las cuatro cajas se encogen en lugar de
+                  // desbordar (spec 045, §12.8).
+                  for (final d in code)
+                    Flexible(
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 58),
+                        height: 70,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          d,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 36,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1C3A4C),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-            rich(
-              'Pídele a $first que te diga este código en la puerta. **Si no lo sabe, no abras.**',
-              color: Colors.white,
-              align: TextAlign.center,
-            ),
-          ],
+                ],
+              ),
+              rich(
+                'Pídele a $first que te diga este código en la puerta. **Si no lo sabe, no abras.**',
+                color: Colors.white,
+                align: TextAlign.center,
+              ),
+            ],
+          ),
         ),
-      ),
       if (!maq.tipDone)
         Container(
           padding: const EdgeInsets.all(16),
@@ -1492,7 +1577,9 @@ class VisitaMaqueta extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     bT(
-                      '${maq.user.addr.isNotEmpty ? '${maq.user.addr}, ' : ''}${maq.user.col}',
+                      j.real && j.direccion.isNotEmpty
+                          ? j.direccion
+                          : '${maq.user.addr.isNotEmpty ? '${maq.user.addr}, ' : ''}${maq.user.col}',
                     ),
                     sMut('Compartida solo con $first'),
                   ],
@@ -1509,7 +1596,11 @@ class VisitaMaqueta extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    bT('Cotización: ${j.price}'),
+                    bT(
+                      j.price.isEmpty
+                          ? 'Cotización por confirmar'
+                          : 'Cotización: ${j.price}',
+                    ),
                     sMut('El pago lo acuerdas directo con él'),
                   ],
                 ),
@@ -1559,8 +1650,7 @@ class VisitaMaqueta extends StatelessWidget {
           'house',
           '**Esta visita es para ver el trabajo.** Después, $first te enviará la cotización final aquí para que la apruebes. Si la contratas, la visita se descuenta; si no, pagas solo la visita.',
         ),
-      reprogBlock(context, j, first),
-      cancelBlock(context, j),
+      if (!j.real) ...[reprogBlock(context, j, first), cancelBlock(context, j)],
       const NoteK(
         'blue',
         'clock',
@@ -1582,7 +1672,7 @@ class VisitaMaqueta extends StatelessWidget {
         ),
       ]),
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ cita en taller
@@ -1593,6 +1683,18 @@ class CitaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaqBuilder((context) {
     final j = maq.job(id);
+    // Cita real: se pide al servidor y se pasa a la Job antes de dibujar.
+    if (j != null && j.real && j.visitaId != null) {
+      return VisitaRealGate(
+        job: j,
+        titulo: 'Cita en taller',
+        cuerpo: (context) => _cita(context, j),
+      );
+    }
+    return _cita(context, j);
+  });
+
+  Widget _cita(BuildContext context, Job? j) {
     if (j == null || j.pid == null) {
       return const Pg(title: 'Cita en taller', body: SizedBox());
     }
@@ -1647,7 +1749,9 @@ class CitaScreen extends StatelessWidget {
                     children: [
                       bT(j.when),
                       sMut(
-                        '${j.time} · ${j.what.isEmpty ? 'Diagnóstico' : j.what}',
+                        j.real && j.what.isEmpty
+                            ? j.time
+                            : '${j.time} · ${j.what.isEmpty ? 'Diagnóstico' : j.what}',
                       ),
                     ],
                   ),
@@ -1664,7 +1768,10 @@ class CitaScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       bT(pr.addr),
-                      sMut('${pr.addr2} · a ${pr.km} km'),
+                      if (pr.km > 0 || pr.addr2.isNotEmpty)
+                        sMut(
+                          pr.km > 0 ? '${pr.addr2} · a ${pr.km} km' : pr.addr2,
+                        ),
                     ],
                   ),
                 ),
@@ -1744,8 +1851,10 @@ class CitaScreen extends StatelessWidget {
             () => context.push(RM.reportar(j.id)),
           ),
         ]),
-        reprogBlock(context, j, pr.first),
-        cancelBlock(context, j),
+        if (!j.real) ...[
+          reprogBlock(context, j, pr.first),
+          cancelBlock(context, j),
+        ],
         const NoteK(
           'blue',
           'clock',
@@ -1758,7 +1867,7 @@ class CitaScreen extends StatelessWidget {
         icon: 'route',
       ),
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ calificar
@@ -2070,14 +2179,14 @@ class _ReportarScreenState extends State<ReportarScreen> {
 
 // ------------------------------------------------------------ avisar a alguien
 
-class CompartirScreen extends StatefulWidget {
+class CompartirScreen extends ConsumerStatefulWidget {
   const CompartirScreen({super.key, required this.id});
   final String id;
   @override
-  State<CompartirScreen> createState() => _CompartirScreenState();
+  ConsumerState<CompartirScreen> createState() => _CompartirScreenState();
 }
 
-class _CompartirScreenState extends State<CompartirScreen> {
+class _CompartirScreenState extends ConsumerState<CompartirScreen> {
   int c = 0;
 
   void _add() {
@@ -2121,11 +2230,27 @@ class _CompartirScreenState extends State<CompartirScreen> {
     );
   }
 
+  /// Abre WhatsApp o el SMS con el texto del servidor (nunca con el código).
+  void _enviar(String celular, String texto, {required bool whatsapp}) {
+    final numero = digits(celular);
+    final uri = whatsapp
+        ? Uri.https('wa.me', '/52$numero', {'text': texto})
+        : Uri(scheme: 'sms', path: numero, queryParameters: {'body': texto});
+    unawaited(ref.read(abridorDeEnlacesProvider).abrir(uri));
+  }
+
   @override
   Widget build(BuildContext context) => MaqBuilder((context) {
     final j = maq.job(widget.id)!;
-    final pr = provs[j.pid]!;
+    final real = j.real && j.visitaId != null;
+    final pr = provs[j.pid];
+    if (pr == null) {
+      return const Pg(title: 'Avisar a alguien', body: SizedBox());
+    }
     final first = pr.first;
+    // Visita real: el texto lo escribe el servidor (spec 022) y nunca lleva el
+    // código ni la dirección; se pide una vez al abrir la hoja.
+    final aviso = real ? ref.watch(act.avisoRealProvider(j.visitaId!)) : null;
     final cs = maq.contacts;
     final ci = cs.isEmpty ? 0 : c.clamp(0, cs.length - 1);
     final ct = cs.isEmpty ? null : cs[ci];
@@ -2154,7 +2279,42 @@ class _CompartirScreenState extends State<CompartirScreen> {
             icon: 'plus',
           ),
         ], gap: 8),
-        if (ct != null)
+        if (ct != null && aviso != null)
+          stack([
+            labT('Así le llegará'),
+            aviso.when(
+              loading: () => sMut('Preparando el texto…'),
+              error: (e, _) => CardK(
+                child: Row(
+                  spacing: 12,
+                  children: [
+                    Expanded(
+                      child: T(
+                        e is AvisoNoPermitidoFailure
+                            ? 'Ya no se puede avisar de esta visita.'
+                            : textoDeErrorReal(e),
+                        size: 14,
+                        w: FontWeight.w800,
+                        color: kc(context).red,
+                      ),
+                    ),
+                    if (e is! NoEncontradoFailure &&
+                        e is! AvisoNoPermitidoFailure)
+                      BtnK(
+                        'Reintentar',
+                        () =>
+                            ref.invalidate(act.avisoRealProvider(j.visitaId!)),
+                        kind: Bk.sec,
+                        sm: true,
+                        auto: true,
+                      ),
+                  ],
+                ),
+              ),
+              data: (a) => CardK(child: T(a.texto, size: 15.5)),
+            ),
+          ], gap: 8)
+        else if (ct != null)
           stack([
             labT('Así le llegará'),
             CardK(
@@ -2168,14 +2328,32 @@ class _CompartirScreenState extends State<CompartirScreen> {
       cta: ct == null
           ? null
           : ctaCol([
-              BtnK('Enviar por WhatsApp', () {
-                context.pop();
-                maq.toast('Le avisamos a ${ct.n.split(',').first}');
-              }, icon: 'phone'),
-              BtnK('Enviar por SMS', () {
-                context.pop();
-                maq.toast('Le avisamos a ${ct.n.split(',').first}');
-              }, kind: Bk.ghost),
+              BtnK(
+                'Enviar por WhatsApp',
+                aviso != null && aviso.value == null
+                    ? null
+                    : () {
+                        if (aviso != null) {
+                          _enviar(ct.ph, aviso.value!.texto, whatsapp: true);
+                        }
+                        context.pop();
+                        maq.toast('Le avisamos a ${ct.n.split(',').first}');
+                      },
+                icon: 'phone',
+              ),
+              BtnK(
+                'Enviar por SMS',
+                aviso != null && aviso.value == null
+                    ? null
+                    : () {
+                        if (aviso != null) {
+                          _enviar(ct.ph, aviso.value!.texto, whatsapp: false);
+                        }
+                        context.pop();
+                        maq.toast('Le avisamos a ${ct.n.split(',').first}');
+                      },
+                kind: Bk.ghost,
+              ),
             ]),
     );
   });

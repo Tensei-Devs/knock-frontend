@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
+import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
@@ -15,6 +16,7 @@ import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/pantallas_tecnico2.dart';
+import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
@@ -248,8 +250,9 @@ abstract final class RaizMaqueta {
   );
 }
 
-/// Lleva a la maqueta los datos reales que ya tiene la app. Hoy: el catálogo
-/// de oficios (`GET /oficios`, spec 035) y su Reintentar.
+/// Lleva a la maqueta los datos reales que ya tiene la app: el catálogo de
+/// oficios (`GET /oficios`, spec 035) y, con sesión iniciada, las solicitudes
+/// de la persona (`GET /solicitudes`, spec 015), cada una con su Reintentar.
 class _PuenteDeDatos extends ConsumerStatefulWidget {
   const _PuenteDeDatos({required this.child});
 
@@ -260,16 +263,70 @@ class _PuenteDeDatos extends ConsumerStatefulWidget {
 }
 
 class _PuenteDeDatosState extends ConsumerState<_PuenteDeDatos> {
+  /// Escucha de las solicitudes reales; solo existe con sesión y API.
+  ProviderSubscription<AsyncValue<List<act.Solicitud>>>? _solicitudes;
+
   @override
   void initState() {
     super.initState();
     maq.reintentarOficios = () =>
         ref.read(oficiosControllerProvider.notifier).reintentar();
+    maq.reintentarSolicitudes = () {
+      if (_solicitudes == null) return;
+      ref.read(act.solicitudesRealesControllerProvider.notifier).reintentar();
+    };
+    ref.listenManual(oficiosControllerProvider, (_, estado) {
+      _aplicar(estado);
+      // El catálogo ayuda a reconocer el oficio de cada solicitud.
+      final s = _solicitudes;
+      if (s != null) _aplicarSolicitudes(s.read());
+    }, fireImmediately: true);
     ref.listenManual(
-      oficiosControllerProvider,
-      (_, estado) => _aplicar(estado),
+      act.solicitudesRealesActivasProvider,
+      (_, activo) => _alternarSolicitudes(activo),
       fireImmediately: true,
     );
+  }
+
+  /// Empieza o deja de pedir las solicitudes según haya sesión y API. Sin
+  /// ellas no se pide nada y la maqueta queda como estaba.
+  void _alternarSolicitudes(bool activo) {
+    if (!activo) {
+      _solicitudes?.close();
+      _solicitudes = null;
+      scheduleMicrotask(
+        () => maq.fijarSolicitudesReales(null, estado: CargaReal.inactiva),
+      );
+      return;
+    }
+    _solicitudes ??= ref.listenManual(
+      act.solicitudesRealesControllerProvider,
+      (_, estado) => _aplicarSolicitudes(estado),
+      fireImmediately: true,
+    );
+  }
+
+  /// Convierte las solicitudes en [Job] reales; las de un oficio que la
+  /// maqueta no sabe dibujar se omiten.
+  void _aplicarSolicitudes(AsyncValue<List<act.Solicitud>> estado) {
+    final catalogo = {
+      for (final o
+          in ref.read(oficiosControllerProvider).value ?? const <Oficio>[])
+        o.nombre.trim().toLowerCase(): o.clave,
+    };
+    final List<Job>? reales = estado.hasValue
+        ? [
+            for (final s in estado.requireValue)
+              ?jobDeSolicitud(s, catalogo: catalogo),
+          ]
+        : null;
+    final error = estado.hasError && !estado.hasValue;
+    final carga = reales != null
+        ? CargaReal.lista
+        : error
+        ? CargaReal.error
+        : CargaReal.cargando;
+    scheduleMicrotask(() => maq.fijarSolicitudesReales(reales, estado: carga));
   }
 
   /// Se difiere un instante: avisar a las pantallas durante el montaje o la
@@ -289,7 +346,9 @@ class _PuenteDeDatosState extends ConsumerState<_PuenteDeDatos> {
 
   @override
   void dispose() {
+    _solicitudes?.close();
     maq.reintentarOficios = null;
+    maq.reintentarSolicitudes = null;
     super.dispose();
   }
 
