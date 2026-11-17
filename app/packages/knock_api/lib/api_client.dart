@@ -176,6 +176,16 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'Appointment':
+          return Appointment.fromJson(value);
+        case 'AppointmentPlace':
+          return AppointmentPlace.fromJson(value);
+        case 'ArrivalBody':
+          return ArrivalBody.fromJson(value);
+        case 'ChooseQuoteBody':
+          return ChooseQuoteBody.fromJson(value);
+        case 'ChosenTechnician':
+          return ChosenTechnician.fromJson(value);
         case 'CreateRequestBody':
           return CreateRequestBody.fromJson(value);
         case 'FirebaseExchangeRequest':
@@ -192,10 +202,16 @@ class ApiClient {
           return ProblemDetails.fromJson(value);
         case 'ProfileResponse':
           return ProfileResponse.fromJson(value);
+        case 'QuoteComparison':
+          return QuoteComparison.fromJson(value);
+        case 'QuoteComparisonItem':
+          return QuoteComparisonItem.fromJson(value);
         case 'QuoteRequest':
           return QuoteRequest.fromJson(value);
         case 'QuoteResponse':
           return QuoteResponse.fromJson(value);
+        case 'QuoteTechnician':
+          return QuoteTechnician.fromJson(value);
         case 'RefreshRequest':
           return RefreshRequest.fromJson(value);
         case 'RefreshResponse':
@@ -216,10 +232,20 @@ class ApiClient {
           return SessionListItemResponse.fromJson(value);
         case 'SessionResponse':
           return SessionResponse.fromJson(value);
+        case 'TrustNotice':
+          return TrustNotice.fromJson(value);
         case 'UpdateProfileRequest':
           return UpdateProfileRequest.fromJson(value);
         case 'ValidationProblemDetails':
           return ValidationProblemDetails.fromJson(value);
+        case 'VisitCustomer':
+          return VisitCustomer.fromJson(value);
+        case 'VisitPlace':
+          return VisitPlace.fromJson(value);
+        case 'VisitResponse':
+          return VisitResponse.fromJson(value);
+        case 'VisitTechnician':
+          return VisitTechnician.fromJson(value);
         case 'WaitlistRequest':
           return WaitlistRequest.fromJson(value);
         case 'WaitlistResponse':

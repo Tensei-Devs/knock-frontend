@@ -19,6 +19,7 @@ class RequestSummary {
     required this.totalCotizaciones,
     required this.venceEn,
     required this.creadoEn,
+    this.visitaId,
   });
 
   String id;
@@ -41,6 +42,8 @@ class RequestSummary {
 
   DateTime creadoEn;
 
+  String? visitaId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is RequestSummary &&
     other.id == id &&
@@ -52,7 +55,8 @@ class RequestSummary {
     other.totalFotos == totalFotos &&
     other.totalCotizaciones == totalCotizaciones &&
     other.venceEn == venceEn &&
-    other.creadoEn == creadoEn;
+    other.creadoEn == creadoEn &&
+    other.visitaId == visitaId;
 
   @override
   int get hashCode =>
@@ -65,10 +69,11 @@ class RequestSummary {
     (totalFotos.hashCode) +
     (totalCotizaciones.hashCode) +
     (venceEn.hashCode) +
-    (creadoEn.hashCode);
+    (creadoEn.hashCode) +
+    (visitaId == null ? 0 : visitaId!.hashCode);
 
   @override
-  String toString() => 'RequestSummary[id=$id, estado=$estado, oficioNombre=$oficioNombre, coloniaNombre=$coloniaNombre, dia=$dia, franja=$franja, totalFotos=$totalFotos, totalCotizaciones=$totalCotizaciones, venceEn=$venceEn, creadoEn=$creadoEn]';
+  String toString() => 'RequestSummary[id=$id, estado=$estado, oficioNombre=$oficioNombre, coloniaNombre=$coloniaNombre, dia=$dia, franja=$franja, totalFotos=$totalFotos, totalCotizaciones=$totalCotizaciones, venceEn=$venceEn, creadoEn=$creadoEn, visitaId=$visitaId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -82,6 +87,11 @@ class RequestSummary {
       json[r'totalCotizaciones'] = this.totalCotizaciones;
       json[r'venceEn'] = this.venceEn.toUtc().toIso8601String();
       json[r'creadoEn'] = this.creadoEn.toUtc().toIso8601String();
+    if (this.visitaId != null) {
+      json[r'visitaId'] = this.visitaId;
+    } else {
+      json[r'visitaId'] = null;
+    }
     return json;
   }
 
@@ -129,6 +139,7 @@ class RequestSummary {
         totalCotizaciones: mapValueOfType<int>(json, r'totalCotizaciones')!,
         venceEn: mapDateTime(json, r'venceEn', r'')!,
         creadoEn: mapDateTime(json, r'creadoEn', r'')!,
+        visitaId: mapValueOfType<String>(json, r'visitaId'),
       );
     }
     return null;

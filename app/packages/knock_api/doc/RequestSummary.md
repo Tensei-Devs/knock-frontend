@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **totalCotizaciones** | **int** |  | 
 **venceEn** | [**DateTime**](DateTime.md) |  | 
 **creadoEn** | [**DateTime**](DateTime.md) |  | 
+**visitaId** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

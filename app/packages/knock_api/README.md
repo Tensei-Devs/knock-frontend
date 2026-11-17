@@ -41,15 +41,16 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:knock_api/api.dart';
 
 
-final api_instance = AuthApi();
+final api_instance = ArrivalApi();
+final id = id_example; // String | 
 final version = version_example; // String | 
-final firebaseExchangeRequest = FirebaseExchangeRequest(); // FirebaseExchangeRequest | 
+final arrivalBody = ArrivalBody(); // ArrivalBody | 
 
 try {
-    final result = api_instance.apiVversionAuthFirebasePost(version, firebaseExchangeRequest);
+    final result = api_instance.apiVversionVisitasIdLlegadaPost(id, version, arrivalBody);
     print(result);
 } catch (e) {
-    print('Exception when calling AuthApi->apiVversionAuthFirebasePost: $e\n');
+    print('Exception when calling ArrivalApi->apiVversionVisitasIdLlegadaPost: $e\n');
 }
 
 ```
@@ -60,7 +61,9 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*ArrivalApi* | [**apiVversionVisitasIdLlegadaPost**](doc//ArrivalApi.md#apivversionvisitasidllegadapost) | **POST** /api/v{version}/visitas/{id}/llegada | El técnico elegido confirma que llegó. Código incorrecto: 422 `wrong_code` con `intentosRestantes`; al tercero la visita queda bloqueada. Estados no válidos responden 409 con `outside_window`, `code_used`, `code_expired`, `visit_locked`, `visit_cancelled`, `visit_not_active` o `visit_without_code`.
 *AuthApi* | [**apiVversionAuthFirebasePost**](doc//AuthApi.md#apivversionauthfirebasepost) | **POST** /api/v{version}/auth/firebase | Registro e inicio de sesión en un solo endpoint (spec 015): 201 con cuenta nueva, 200 con cuenta existente.
+*ChooseQuoteApi* | [**apiVversionSolicitudesIdElegirPost**](doc//ChooseQuoteApi.md#apivversionsolicitudesidelegirpost) | **POST** /api/v{version}/solicitudes/{id}/elegir | Elige la cotización de una solicitud propia; la elección y sus efectos ocurren en una sola transacción.
 *ColoniaExistsApi* | [**apiVversionColoniasExisteGet**](doc//ColoniaExistsApi.md#apivversioncoloniasexisteget) | **GET** /api/v{version}/colonias/existe | 200 en ambos casos; el nombre se compara sin mayúsculas ni acentos y no se registra. El 422 lo da `ValidationFilter` antes de esta acción.
 *ColoniasApi* | [**apiVversionColoniasEnPuntoGet**](doc//ColoniasApi.md#apivversioncoloniasenpuntoget) | **GET** /api/v{version}/colonias/en-punto | Colonia del punto o «fuera de cobertura» (200 en ambos casos). Las coordenadas se convierten en colonia y se descartan: no se guardan, no se registran, no se cachean y no vuelven en la respuesta. El 422 lo da `ValidationFilter` antes de esta acción.
 *CotizacionesApi* | [**apiVversionSolicitudesIdCotizacionesPost**](doc//CotizacionesApi.md#apivversionsolicitudesidcotizacionespost) | **POST** /api/v{version}/solicitudes/{id}/cotizaciones | 
@@ -72,15 +75,23 @@ Class | Method | HTTP request | Description
 *MeSesionesApi* | [**apiVversionMeSesionesGet**](doc//MeSesionesApi.md#apivversionmesesionesget) | **GET** /api/v{version}/me/sesiones | Lista las sesiones no revocadas ni vencidas de la cuenta autenticada, sin exponer tokens ni huellas.
 *MeSesionesApi* | [**apiVversionMeSesionesIdDelete**](doc//MeSesionesApi.md#apivversionmesesionesiddelete) | **DELETE** /api/v{version}/me/sesiones/{id} | Revoca una sesión propia distinta de la actual y bloquea su `sid` en Redis hasta que venza el JWT.
 *OficiosApi* | [**apiVversionOficiosGet**](doc//OficiosApi.md#apivversionoficiosget) | **GET** /api/v{version}/oficios | Oficios activos como arreglo sin paginar: excepción documentada a la constitución §11 (catálogo acotado, D9). `[AllowAnonymous]` explícito para que siga público aunque se agregue una política de autorización global (D3). Responde con `ETag` débil, `Cache-Control: public, max-age=0, must-revalidate` y `Vary: Accept-Encoding` (la respuesta comprimida es otra variante); con `If-None-Match` vigente responde 304 sin cuerpo.
+*QuoteComparisonApi* | [**apiVversionSolicitudesIdCotizacionesGet**](doc//QuoteComparisonApi.md#apivversionsolicitudesidcotizacionesget) | **GET** /api/v{version}/solicitudes/{id}/cotizaciones | Cotizaciones de una solicitud propia, con el orden pedido. El `sub` del token debe ser el del dueño; cualquier otro recibe 404.
 *RefreshApi* | [**apiVversionAuthRefreshPost**](doc//RefreshApi.md#apivversionauthrefreshpost) | **POST** /api/v{version}/auth/refresh | Cambia un token de renovación por un par nuevo (spec 016). Cualquier rechazo responde el mismo 401 sin motivo.
 *SolicitudesApi* | [**apiVversionSolicitudesGet**](doc//SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
 *SolicitudesApi* | [**apiVversionSolicitudesIdGet**](doc//SolicitudesApi.md#apivversionsolicitudesidget) | **GET** /api/v{version}/solicitudes/{id} | Detalle: vista del cliente dueño, o vista acotada del técnico elegible o que ya cotizó. Cualquier otra persona recibe 404.
 *SolicitudesApi* | [**apiVversionSolicitudesPost**](doc//SolicitudesApi.md#apivversionsolicitudespost) | **POST** /api/v{version}/solicitudes | Crea la solicitud en estado `enviada` y con `venceEn` a 48 h.
+*TrustNoticeApi* | [**apiVversionVisitasIdAvisoPost**](doc//TrustNoticeApi.md#apivversionvisitasidavisopost) | **POST** /api/v{version}/visitas/{id}/aviso | El cliente dueño obtiene el texto para compartir con alguien de confianza. Solo con la visita `confirmada` o `en_curso`.
+*VisitasApi* | [**apiVversionVisitasIdGet**](doc//VisitasApi.md#apivversionvisitasidget) | **GET** /api/v{version}/visitas/{id} | Vista del cliente (con el código cuando corresponde) o del técnico (con la dirección y sin código). Cualquier otra persona recibe 404.
 *ZonasApi* | [**apiVversionZonasCpCpGet**](doc//ZonasApi.md#apivversionzonascpcpget) | **GET** /api/v{version}/zonas/cp/{cp} | 
 
 
 ## Documentation For Models
 
+ - [Appointment](doc//Appointment.md)
+ - [AppointmentPlace](doc//AppointmentPlace.md)
+ - [ArrivalBody](doc//ArrivalBody.md)
+ - [ChooseQuoteBody](doc//ChooseQuoteBody.md)
+ - [ChosenTechnician](doc//ChosenTechnician.md)
  - [CreateRequestBody](doc//CreateRequestBody.md)
  - [FirebaseExchangeRequest](doc//FirebaseExchangeRequest.md)
  - [NeighborhoodAtPointColoniaResponse](doc//NeighborhoodAtPointColoniaResponse.md)
@@ -89,8 +100,11 @@ Class | Method | HTTP request | Description
  - [OficioResponse](doc//OficioResponse.md)
  - [ProblemDetails](doc//ProblemDetails.md)
  - [ProfileResponse](doc//ProfileResponse.md)
+ - [QuoteComparison](doc//QuoteComparison.md)
+ - [QuoteComparisonItem](doc//QuoteComparisonItem.md)
  - [QuoteRequest](doc//QuoteRequest.md)
  - [QuoteResponse](doc//QuoteResponse.md)
+ - [QuoteTechnician](doc//QuoteTechnician.md)
  - [RefreshRequest](doc//RefreshRequest.md)
  - [RefreshResponse](doc//RefreshResponse.md)
  - [RequestNeighborhood](doc//RequestNeighborhood.md)
@@ -101,8 +115,13 @@ Class | Method | HTTP request | Description
  - [RequestTrade](doc//RequestTrade.md)
  - [SessionListItemResponse](doc//SessionListItemResponse.md)
  - [SessionResponse](doc//SessionResponse.md)
+ - [TrustNotice](doc//TrustNotice.md)
  - [UpdateProfileRequest](doc//UpdateProfileRequest.md)
  - [ValidationProblemDetails](doc//ValidationProblemDetails.md)
+ - [VisitCustomer](doc//VisitCustomer.md)
+ - [VisitPlace](doc//VisitPlace.md)
+ - [VisitResponse](doc//VisitResponse.md)
+ - [VisitTechnician](doc//VisitTechnician.md)
  - [WaitlistRequest](doc//WaitlistRequest.md)
  - [WaitlistResponse](doc//WaitlistResponse.md)
  - [ZonaColoniaResponse](doc//ZonaColoniaResponse.md)
