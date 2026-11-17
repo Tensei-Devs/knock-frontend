@@ -78,6 +78,6 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 8. **Desbordamientos a 320 y 360 dp (abierta, 2026-11-16):** con la tipografía de la app cargada, siete filas de la maqueta desbordan a 320 y 360 dp de ancho (inicio, explorar, código de la visita, cotización y verificación del técnico, y campos con etiqueta). Con 412 dp o más no hay desbordamientos. No los causa el rótulo ni se corrigieron: decide si se arreglan en este PR o en otro.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ____________________ fecha: __________
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-16
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
