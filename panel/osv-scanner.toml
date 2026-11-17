@@ -1,0 +1,6 @@
+# EXC-005 (security/exceptions.yaml, vence 2026-12-17): picomatch 4.0.7 es una dependencia solo de desarrollo del panel
+# y el aviso no tiene versión corregida. OSV-Scanner deja de ignorarlo solo en la fecha de `ignoreUntil`.
+[[IgnoredVulns]]
+id = "GHSA-fc5q-39xc-vjpf"
+ignoreUntil = 2026-12-17
+reason = "EXC-005: dependencia de desarrollo del panel, sin versión corregida; ver security/exceptions.yaml"

@@ -78,3 +78,21 @@ excepciones:
     creada: 2026-11-05
     vence: 2027-02-03
     plan: cuando el commit 8735cb2 deje de estar en el historial que recorre Gitleaks (por ejemplo, tras un cambio de estrategia de fusión aprobado por José), quitar la línea de .gitleaksignore y esta excepción; antes de vencer, volver a evaluar si sigue haciendo falta.
+  - id: EXC-005
+    herramienta: osv-scanner
+    regla: GHSA-fc5q-39xc-vjpf
+    alcance: panel/package-lock.json (solo picomatch 4.0.7, marcado `dev: true`); se ignora con panel/osv-scanner.toml
+    justificacion: >-
+      Aviso sin versión corregida y sin camino de ataque en el producto. GHSA-fc5q-39xc-vjpf (gravedad alta, CVSS 7.5,
+      publicado el 2026-10-19): picomatch hasta la 4.0.7 es vulnerable a ReDoS con extglobs repetidos de una sola rama, es
+      decir, un patrón armado a propósito puede hacer que la evaluación tarde mucho y trabe el proceso. La biblioteca la
+      trae el panel solo como dependencia de desarrollo (herramientas de construcción y pruebas; OSV-Scanner la marca
+      `(dev)` y package-lock.json la declara `dev: true`), no se empaqueta en el panel publicado y la app móvil es Flutter y
+      no usa npm. Los patrones que evalúa los escribe el equipo en la configuración del proyecto, no vienen de personas
+      usuarias. Evidencia: salida de OSV-Scanner en el CI del PR #77 (1 paquete afectado, 1 vulnerabilidad alta, sin
+      versión corregida) y consulta del aviso en GitHub Advisory Database (vulnerable <= 4.0.7, sin parche). El escáner dejó
+      de pasar sin que cambiara ninguna dependencia: el PR #74 pasó el mismo día.
+    responsable: José Julián Hernández Hernández
+    creada: 2026-11-17
+    vence: 2026-12-17
+    plan: cuando exista una versión corregida de picomatch, actualizarla en panel/package-lock.json y quitar esta excepción y panel/osv-scanner.toml; si no hay versión corregida antes de vencer, volver a evaluar con evidencia nueva (no se renueva en automático).
