@@ -77,7 +77,7 @@ La app **consume**. `GET /api/v1/colonias/en-punto` ya está desplegado (KNOCK-1
 
 | Método y ruta | Uso en la app | Cuerpo / parámetros | Respuesta | Errores que la app distingue |
 |---|---|---|---|---|
-| `GET /api/v1/colonias/en-punto` | Colonia de un punto (ya desplegado) | `lat`, `lon` (solo en la consulta) | `200` con la colonia que contiene el punto o sin colonia (forma del contrato desplegado, por validar al vendorizar) | `400` coordenadas inválidas, `401`, `429` |
+| `GET /api/v1/colonias/en-punto` | Colonia de un punto (ya desplegado) | `lat`, `lon` (solo en la consulta) | `200` con la colonia que contiene el punto o sin colonia (forma del contrato desplegado, por validar al vendorizar) | `422` coordenadas inválidas, `401`, `429` |
 | `GET /api/v1/zonas/cp/{cp}` | Colonias de un código postal | `cp` de exactamente 5 dígitos ASCII | `200` con `{ enCobertura, ciudadPiloto, colonias[{ id, nombre, cp, municipio }] }` (lista sin paginar, ordenada por nombre) | `401`, `422` con `errors.cp`, `429` |
 | `PUT /api/v1/me` | Guardar colonia y código postal en el perfil | `{ nombre, fotoUrl?, colonia, codigoPostal }` (se reenvían `nombre` y `fotoUrl` vigentes) | `200` con el perfil | `400`, `401`, `409` (cuenta en eliminación programada), `422` colonia inválida, `503` |
 | `POST /api/v1/zonas/lista-espera` | Registro fuera de cobertura | `{ cp, municipio? }` | `201` registro nuevo o `200` con `yaRegistrado: true`; cuerpo `{ id, cp, municipio?, creadoEn, yaRegistrado }` | `401`, `422` con `errors.cp` o `errors.municipio`, `429` |
