@@ -553,3 +553,9 @@
 - **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
 - **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
 - **A evitar:** mostrar sesiones de ejemplo cuando falla la red.
+
+## 2026-11-17 — Enmienda 2 de la spec 045: maqueta encendida por defecto y sin franja de ejemplo
+- **Decisión:** `MODO_MAQUETA` va encendida por defecto (se apaga con `--dart-define=MODO_MAQUETA=false`) y se retira la franja fija «Datos de ejemplo» de la maqueta. También se arregla el mapa, que se quedaba oscuro en modo claro. La enmienda queda escrita en la spec 045 (§14) y espera su aprobación.
+- **Porqué:** la maqueta es la interfaz de la app (enmienda 1); mantener dos modos y un rótulo fijo no tiene sentido cuando lo ya conectado usa la API real. Con la bandera encendida por defecto el flujo de Play no necesita pasarla.
+- **Cómo:** `modoMaquetaDeCompilacion` con `defaultValue: true`; las pruebas de la app normal apagan la bandera en `montarApp` (parámetro `maqueta`, por defecto falso) y las de la maqueta piden `maqueta: true`. El mapa recibe una `ValueKey` por tema para recrearse al cambiarlo.
+- **A evitar:** dos overrides del mismo proveedor en `montarApp` (Riverpod no los admite); volver a poner un rótulo fijo sin decidirlo.

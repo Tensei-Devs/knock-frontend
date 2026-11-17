@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
 import 'package:app/features/cuenta/cuenta_providers.dart';
@@ -22,6 +23,7 @@ Future<ProviderContainer> _montar(
   final container = ProviderContainer(
     overrides: [
       conSesion(),
+      modoMaquetaProvider.overrideWithValue(false),
       perfilRepositoryProvider.overrideWithValue(perfil),
       ubicacionRepositoryProvider.overrideWithValue(
         UbicacionFalsa(const Concedida(latitud: 20.27, longitud: -98.94)),

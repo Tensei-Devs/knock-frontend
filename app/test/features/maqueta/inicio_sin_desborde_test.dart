@@ -1,7 +1,6 @@
 // Spec 045, §12.8: la pantalla de inicio de la maqueta no desborda en
 // teléfonos angostos ni con letra grande. 364 dp es un teléfono real donde se
 // vio «OVERFLOWED BY 3.7 PIXELS» en la fila de la zona del panel.
-import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,7 +28,7 @@ void main() {
       final container = await montarApp(
         tester,
         esTecnico: false,
-        extra: [modoMaquetaProvider.overrideWithValue(true)],
+        maqueta: true,
       );
       container.read(appRouterProvider).go('/inicio');
       await asentarMaqueta(tester);
