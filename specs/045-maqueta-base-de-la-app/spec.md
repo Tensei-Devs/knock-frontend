@@ -123,8 +123,8 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 | CA-03 | Retirado: ya no hay franja de ejemplo en la maqueta | prueba de widget (`CA_045_01` comprueba su ausencia) |
 
 **Aprobación de la enmienda 2**
-- [ ] Revisor 1 — nombre: fecha:
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-17
+- [x] Sin conflicto con la constitución
 
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-16
