@@ -1,6 +1,5 @@
 // Spec 045, CA-06 y CA-07 (modo maqueta encendido): tema oscuro, inglés y
-// «reducir movimiento». Cada ruta comprueba su contenido y el rótulo.
-import 'package:app/core/config/modo_maqueta.dart';
+// «reducir movimiento». Cada ruta comprueba su contenido (sin la franja de ejemplo, retirada en la enmienda 2).
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/features/maqueta/anim_k.dart';
@@ -43,14 +42,12 @@ void main() {
 
   group('CA_045_06 tema oscuro', () {
     for (final (ruta, texto) in _subconjunto) {
-      testWidgets('CA_045_06 $ruta en oscuro: contenido y rótulo', (
-        tester,
-      ) async {
+      testWidgets('CA_045_06 $ruta en oscuro: contenido', (tester) async {
         fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: true,
-          extra: [modoMaquetaProvider.overrideWithValue(true)],
+          maqueta: true,
         );
         await usarTema(tester, container, ThemeMode.dark);
         container.read(appRouterProvider).go(ruta);
@@ -58,9 +55,10 @@ void main() {
         final tema = Theme.of(tester.element(find.byType(Scaffold).first));
         expect(tema.brightness, Brightness.dark, reason: ruta);
         expect(find.textContaining(texto), findsWidgets, reason: ruta);
+        // La franja «Datos de ejemplo» se retiró (spec 045, enmienda 2).
         expect(
           find.text(leerArb('es')['previaDatosDeEjemplo']!),
-          findsOneWidget,
+          findsNothing,
           reason: ruta,
         );
       });
@@ -69,9 +67,7 @@ void main() {
 
   group('CA_045_06 inglés', () {
     for (final (ruta, texto) in _subconjunto) {
-      testWidgets('CA_045_06 $ruta en inglés: contenido y rótulo', (
-        tester,
-      ) async {
+      testWidgets('CA_045_06 $ruta en inglés: contenido', (tester) async {
         final ingles = diccionarioEn[texto];
         expect(
           ingles,
@@ -82,7 +78,7 @@ void main() {
         final container = await montarApp(
           tester,
           esTecnico: true,
-          extra: [modoMaquetaProvider.overrideWithValue(true)],
+          maqueta: true,
         );
         container
             .read(preferenciasProvider.notifier)
@@ -91,9 +87,10 @@ void main() {
         container.read(appRouterProvider).go(ruta);
         await asentarMaqueta(tester);
         expect(find.textContaining(ingles!), findsWidgets, reason: ruta);
+        // La franja «Datos de ejemplo» se retiró (spec 045, enmienda 2).
         expect(
           find.text(leerArb('en')['previaDatosDeEjemplo']!),
-          findsOneWidget,
+          findsNothing,
           reason: ruta,
         );
       });
@@ -183,7 +180,7 @@ void main() {
       final container = await montarApp(
         tester,
         esTecnico: false,
-        extra: [modoMaquetaProvider.overrideWithValue(true)],
+        maqueta: true,
       );
       container.read(appRouterProvider).go('/m/enviada/j1');
       await asentarMaqueta(tester);

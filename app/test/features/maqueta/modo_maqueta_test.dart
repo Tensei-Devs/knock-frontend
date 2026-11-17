@@ -1,6 +1,6 @@
 // Spec 045 (KNOCK-273): la maqueta solo existe con `MODO_MAQUETA`. Los dos
 // modos se verifican por separado: encendido muestra las pantallas de
-// demostración con el rótulo de datos de ejemplo; apagado, nada de eso.
+// demostración sin franja de ejemplo; apagado, sin pantallas de la maqueta.
 import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/router/rutas.dart';
@@ -23,20 +23,19 @@ void main() {
 
   group('CA_045_01 modo maqueta encendido', () {
     for (final (ruta, texto) in pantallasMaqueta) {
-      testWidgets('CA_045_01 $ruta abre con su contenido y el rótulo', (
-        tester,
-      ) async {
+      testWidgets('CA_045_01 $ruta abre con su contenido', (tester) async {
         fijarPantalla(tester, tamano: tamanoMovil);
         final container = await montarApp(
           tester,
           esTecnico: true,
-          extra: [modoMaquetaProvider.overrideWithValue(true)],
+          maqueta: true,
         );
         container.read(appRouterProvider).go(ruta);
         await asentarMaqueta(tester);
         expect(find.textContaining(texto), findsWidgets, reason: ruta);
-        // CA_045_03: el rótulo fijo de datos de ejemplo no se oculta.
-        expect(find.text(rotulo), findsOneWidget, reason: ruta);
+        // La franja de datos de ejemplo se retiró (enmienda 2).
+        // Sin franja de ejemplo (spec 045, enmienda 2).
+        expect(find.text(rotulo), findsNothing, reason: ruta);
       });
     }
 
@@ -44,21 +43,20 @@ void main() {
       tester,
     ) async {
       fijarPantalla(tester, tamano: tamanoMovil);
-      await montarApp(
-        tester,
-        esTecnico: false,
-        extra: [modoMaquetaProvider.overrideWithValue(true)],
-      );
+      await montarApp(tester, esTecnico: false, maqueta: true);
       await tester.tap(find.text(leerArb('es')['tabCuenta']!));
       await asentarMaqueta(tester);
       expect(find.text('Mi casa y mi auto'), findsOneWidget);
     });
   });
 
-  group('CA_045_02 modo maqueta apagado (por defecto)', () {
-    test('CA_045_02 la bandera viene apagada de compilación', () {
-      expect(modoMaquetaDeCompilacion, isFalse);
-    });
+  group('CA_045_02 modo maqueta apagado', () {
+    test(
+      'CA_045_02 la bandera viene encendida de compilación (enmienda 2)',
+      () {
+        expect(modoMaquetaDeCompilacion, isTrue);
+      },
+    );
 
     testWidgets('CA_045_02 no hay rutas de la maqueta ni rótulo de ejemplo', (
       tester,
@@ -160,7 +158,7 @@ void main() {
           esTecnico: false,
           sesionIniciada: false,
           abrirEnEntrada: false,
-          extra: [modoMaquetaProvider.overrideWithValue(true)],
+          maqueta: true,
         );
         final router = container.read(appRouterProvider);
         router.go('/m/solicitar');

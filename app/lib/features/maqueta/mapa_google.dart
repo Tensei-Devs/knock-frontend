@@ -434,7 +434,15 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
       _iconos.clear();
       _pendientes.clear();
     }
+    // Con otra clave por tema el mapa se vuelve a crear: el plugin no siempre
+    // aplica un cambio de `style` en un mapa ya creado y se quedaba oscuro en
+    // modo claro (y claro en modo oscuro).
     return GoogleMap(
+      key: ValueKey('mapa-${oscuro ? 'oscuro' : 'claro'}'),
+      // El mapa seguía el modo oscuro del SISTEMA aunque la app estuviera en
+      // claro: se fija el esquema según el tema de la app (solo se puede al
+      // crearlo, por eso la clave de arriba lo recrea al cambiar de tema).
+      colorScheme: oscuro ? MapColorScheme.dark : MapColorScheme.light,
       initialCameraPosition: CameraPosition(target: _centro, zoom: 13.5),
       style: oscuro ? _estiloOscuro : _estiloClaro,
       buildingsEnabled: false,

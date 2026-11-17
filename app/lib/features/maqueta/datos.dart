@@ -220,6 +220,10 @@ class Prov {
   final List<double> crit;
   final List<Review> revs;
 
+  /// Experto sintético de una cotización real (id con prefijo `api:`): solo
+  /// trae lo que el servidor manda; no sale en búsquedas ni tiene perfil.
+  bool get esReal => id.startsWith('api:');
+
   String get first => name.split(' ').first;
   bool get online {
     final m = int.tryParse(resp.replaceAll(RegExp(r'\D'), '')) ?? 99;

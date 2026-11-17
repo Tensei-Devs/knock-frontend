@@ -254,7 +254,9 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
       final k = kc(context);
       final c = _cat != null ? cats[_cat]! : null;
       final list =
-          provs.values.where((o) => c == null || o.cat == c.id).toList()
+          provs.values
+              .where((o) => !o.esReal && (c == null || o.cat == c.id))
+              .toList()
             ..sort((a, b) => a.km.compareTo(b.km));
       if (_sel != null && list.any((o) => o.id == _sel)) {
         final s0 = list.firstWhere((o) => o.id == _sel);
