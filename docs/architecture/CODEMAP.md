@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-16T22:23:55Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-17T02:20:54Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -17,7 +17,7 @@
 | `errores` | core | 3 | 23 | 3 |
 | `explorar` | presentation | 1 | 1 | 1 |
 | `home` | -, components, pages | 3 | 2 | 0 |
-| `inicio` | -, data, domain, presentation | 20 | 41 | 28 |
+| `inicio` | -, data, domain, presentation | 21 | 44 | 29 |
 | `l10n` | - | 3 | 4 | 79 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 21 | 165 | 360 |
@@ -272,7 +272,7 @@
 - `app/lib/features/inicio/inicio.dart` — —
 - `app/lib/features/inicio/inicio_providers.dart` — —
 - `app/lib/features/inicio/zona_providers.dart` — class `EstadoZona`, class `ZonaSinElegir`, class `ZonaPideCodigoPostal`, class `ZonaPorUbicacion`, class `ZonaPorCodigoPostal`, class `ZonaController`
-  - `esCodigoPostalValido()`:31, `build()`:40, `usarCodigoPostal()`:60
+  - `build()`:40, `usarCodigoPostal()`:60
 
 **data**
 
@@ -293,6 +293,8 @@
   - `toString()`:28
 - `app/lib/features/inicio/domain/ubicacion_repository.dart` — class `ResultadoUbicacion`, class `Concedida`, class `Denegada`, class `DenegadaParaSiempre`, class `ServicioDesactivado`, class `UbicacionRepository`
   - `toString()`:16
+- `app/lib/features/inicio/domain/zona.dart` — class `Zona`, class `ResultadoZona`, class `RegistroListaEspera`
+  - `esCodigoPostalValido()`:47, `esMunicipioValido()`:51
 
 **presentation**
 
