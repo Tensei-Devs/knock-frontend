@@ -9,6 +9,17 @@ import generar_cliente_api as g  # noqa: E402
 
 
 class Normalizar(unittest.TestCase):
+    def test_combina_ambos_contratos_y_rechaza_colisiones_distintas(self):
+        identity = {"paths": {"/auth": {}}, "components": {"schemas": {"Shared": {"type": "string"}}}}
+        market = {"paths": {"/zonas": {}}, "components": {"schemas": {"Shared": {"type": "string"}, "Zona": {"type": "object"}}}}
+        combinado = g.combinar_contratos(identity, market)
+        self.assertEqual(set(combinado["paths"]), {"/auth", "/zonas"})
+        self.assertEqual(set(combinado["components"]["schemas"]), {"Shared", "Zona"})
+        self.assertNotIn("/zonas", identity["paths"])
+        market["components"]["schemas"]["Shared"] = {"type": "integer"}
+        with self.assertRaises(g.ErrorNormalizacion):
+            g.combinar_contratos(identity, market)
+
     def test_ca_006_01_baja_3_2_a_3_1_sin_tocar_el_original(self):
         original = {"openapi": "3.2.0", "paths": {}}
         self.assertEqual(g.normalizar(original)["openapi"], "3.1.0")

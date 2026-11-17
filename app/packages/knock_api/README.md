@@ -61,14 +61,52 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**apiVversionAuthFirebasePost**](doc//AuthApi.md#apivversionauthfirebasepost) | **POST** /api/v{version}/auth/firebase | Registro e inicio de sesión en un solo endpoint (spec 015): 201 con cuenta nueva, 200 con cuenta existente.
+*ColoniaExistsApi* | [**apiVversionColoniasExisteGet**](doc//ColoniaExistsApi.md#apivversioncoloniasexisteget) | **GET** /api/v{version}/colonias/existe | 200 en ambos casos; el nombre se compara sin mayúsculas ni acentos y no se registra. El 422 lo da `ValidationFilter` antes de esta acción.
+*ColoniasApi* | [**apiVversionColoniasEnPuntoGet**](doc//ColoniasApi.md#apivversioncoloniasenpuntoget) | **GET** /api/v{version}/colonias/en-punto | Colonia del punto o «fuera de cobertura» (200 en ambos casos). Las coordenadas se convierten en colonia y se descartan: no se guardan, no se registran, no se cachean y no vuelven en la respuesta. El 422 lo da `ValidationFilter` antes de esta acción.
+*CotizacionesApi* | [**apiVversionSolicitudesIdCotizacionesPost**](doc//CotizacionesApi.md#apivversionsolicitudesidcotizacionespost) | **POST** /api/v{version}/solicitudes/{id}/cotizaciones | 
 *KnockIdentityApiApi* | [**healthGet**](doc//KnockIdentityApiApi.md#healthget) | **GET** /health | 
+*ListaEsperaApi* | [**apiVversionZonasListaEsperaPost**](doc//ListaEsperaApi.md#apivversionzonaslistaesperapost) | **POST** /api/v{version}/zonas/lista-espera | 
+*LogoutApi* | [**apiVversionAuthLogoutPost**](doc//LogoutApi.md#apivversionauthlogoutpost) | **POST** /api/v{version}/auth/logout | Cierra la sesión del dispositivo: la revoca y cancela su `sid` en Redis (spec 016). Sin cuerpo.
+*MeApi* | [**apiVversionMeGet**](doc//MeApi.md#apivversionmeget) | **GET** /api/v{version}/me | 
+*MeApi* | [**apiVversionMePut**](doc//MeApi.md#apivversionmeput) | **PUT** /api/v{version}/me | Actualiza el perfil. Los campos inválidos responden 422 con errores por campo; una colonia inexistente responde 422 con su código.
+*MeSesionesApi* | [**apiVversionMeSesionesGet**](doc//MeSesionesApi.md#apivversionmesesionesget) | **GET** /api/v{version}/me/sesiones | Lista las sesiones no revocadas ni vencidas de la cuenta autenticada, sin exponer tokens ni huellas.
+*MeSesionesApi* | [**apiVversionMeSesionesIdDelete**](doc//MeSesionesApi.md#apivversionmesesionesiddelete) | **DELETE** /api/v{version}/me/sesiones/{id} | Revoca una sesión propia distinta de la actual y bloquea su `sid` en Redis hasta que venza el JWT.
+*OficiosApi* | [**apiVversionOficiosGet**](doc//OficiosApi.md#apivversionoficiosget) | **GET** /api/v{version}/oficios | Oficios activos como arreglo sin paginar: excepción documentada a la constitución §11 (catálogo acotado, D9). `[AllowAnonymous]` explícito para que siga público aunque se agregue una política de autorización global (D3). Responde con `ETag` débil, `Cache-Control: public, max-age=0, must-revalidate` y `Vary: Accept-Encoding` (la respuesta comprimida es otra variante); con `If-None-Match` vigente responde 304 sin cuerpo.
+*RefreshApi* | [**apiVversionAuthRefreshPost**](doc//RefreshApi.md#apivversionauthrefreshpost) | **POST** /api/v{version}/auth/refresh | Cambia un token de renovación por un par nuevo (spec 016). Cualquier rechazo responde el mismo 401 sin motivo.
+*SolicitudesApi* | [**apiVversionSolicitudesGet**](doc//SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+*SolicitudesApi* | [**apiVversionSolicitudesIdGet**](doc//SolicitudesApi.md#apivversionsolicitudesidget) | **GET** /api/v{version}/solicitudes/{id} | Detalle: vista del cliente dueño, o vista acotada del técnico elegible o que ya cotizó. Cualquier otra persona recibe 404.
+*SolicitudesApi* | [**apiVversionSolicitudesPost**](doc//SolicitudesApi.md#apivversionsolicitudespost) | **POST** /api/v{version}/solicitudes | Crea la solicitud en estado `enviada` y con `venceEn` a 48 h.
+*ZonasApi* | [**apiVversionZonasCpCpGet**](doc//ZonasApi.md#apivversionzonascpcpget) | **GET** /api/v{version}/zonas/cp/{cp} | 
 
 
 ## Documentation For Models
 
+ - [CreateRequestBody](doc//CreateRequestBody.md)
  - [FirebaseExchangeRequest](doc//FirebaseExchangeRequest.md)
+ - [NeighborhoodAtPointColoniaResponse](doc//NeighborhoodAtPointColoniaResponse.md)
+ - [NeighborhoodAtPointResponse](doc//NeighborhoodAtPointResponse.md)
+ - [NeighborhoodExistsResponse](doc//NeighborhoodExistsResponse.md)
+ - [OficioResponse](doc//OficioResponse.md)
  - [ProblemDetails](doc//ProblemDetails.md)
+ - [ProfileResponse](doc//ProfileResponse.md)
+ - [QuoteRequest](doc//QuoteRequest.md)
+ - [QuoteResponse](doc//QuoteResponse.md)
+ - [RefreshRequest](doc//RefreshRequest.md)
+ - [RefreshResponse](doc//RefreshResponse.md)
+ - [RequestNeighborhood](doc//RequestNeighborhood.md)
+ - [RequestPage](doc//RequestPage.md)
+ - [RequestPhoto](doc//RequestPhoto.md)
+ - [RequestResponse](doc//RequestResponse.md)
+ - [RequestSummary](doc//RequestSummary.md)
+ - [RequestTrade](doc//RequestTrade.md)
+ - [SessionListItemResponse](doc//SessionListItemResponse.md)
  - [SessionResponse](doc//SessionResponse.md)
+ - [UpdateProfileRequest](doc//UpdateProfileRequest.md)
+ - [ValidationProblemDetails](doc//ValidationProblemDetails.md)
+ - [WaitlistRequest](doc//WaitlistRequest.md)
+ - [WaitlistResponse](doc//WaitlistResponse.md)
+ - [ZonaColoniaResponse](doc//ZonaColoniaResponse.md)
+ - [ZonaResponse](doc//ZonaResponse.md)
 
 
 ## Documentation For Authorization

@@ -25,11 +25,45 @@ part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
 part 'api/auth_api.dart';
+part 'api/colonia_exists_api.dart';
+part 'api/colonias_api.dart';
+part 'api/cotizaciones_api.dart';
 part 'api/knock_identity_api_api.dart';
+part 'api/lista_espera_api.dart';
+part 'api/logout_api.dart';
+part 'api/me_api.dart';
+part 'api/me_sesiones_api.dart';
+part 'api/oficios_api.dart';
+part 'api/refresh_api.dart';
+part 'api/solicitudes_api.dart';
+part 'api/zonas_api.dart';
 
+part 'model/create_request_body.dart';
 part 'model/firebase_exchange_request.dart';
+part 'model/neighborhood_at_point_colonia_response.dart';
+part 'model/neighborhood_at_point_response.dart';
+part 'model/neighborhood_exists_response.dart';
+part 'model/oficio_response.dart';
 part 'model/problem_details.dart';
+part 'model/profile_response.dart';
+part 'model/quote_request.dart';
+part 'model/quote_response.dart';
+part 'model/refresh_request.dart';
+part 'model/refresh_response.dart';
+part 'model/request_neighborhood.dart';
+part 'model/request_page.dart';
+part 'model/request_photo.dart';
+part 'model/request_response.dart';
+part 'model/request_summary.dart';
+part 'model/request_trade.dart';
+part 'model/session_list_item_response.dart';
 part 'model/session_response.dart';
+part 'model/update_profile_request.dart';
+part 'model/validation_problem_details.dart';
+part 'model/waitlist_request.dart';
+part 'model/waitlist_response.dart';
+part 'model/zona_colonia_response.dart';
+part 'model/zona_response.dart';
 
 
 /// An [ApiClient] instance that uses the default values obtained from

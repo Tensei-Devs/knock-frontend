@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Genera el cliente Dart de la API (spec 006, KNOCK-220) desde contracts/openapi.v1.json.
+"""Genera el cliente Dart desde los contratos vendorizados Identity y Market.
 
 Uso (desde la raíz del repositorio, Python 3.11+ y Java 11+):
     python app/tool/generar_cliente_api.py            # regenera app/packages/knock_api/
     python app/tool/generar_cliente_api.py --check    # falla (exit 1) si el cliente no corresponde al contrato
 
 Qué hace, siempre igual:
-1. Lee el contrato vendorizado (OpenAPI 3.2.0, el que publica knock-backend).
+1. Lee ambos contratos vendorizados y une rutas y componentes compatibles.
 2. Lo normaliza a OpenAPI 3.1.0 en memoria, porque openapi-generator 7.27.0 no
    acepta 3.2 (falla con «attribute openapi is unexpected»). La normalización es
    mecánica y no inventa nada (ver `normalizar`). El contrato en contracts/ no se toca.
@@ -15,8 +15,8 @@ Qué hace, siempre igual:
 4. Genera con el generador `dart` (serialización nativa y `package:http`, sin
    build_runner) en una carpeta temporal y la copia a app/packages/knock_api/.
 5. Quita los comentarios `// ignore` que agrega el generador (ver `quitar_ignores`).
-6. Escribe app/packages/knock_api/.knock-manifest.json con el SHA-256 del
-   contrato y de cada archivo generado; app/test/api/cliente_generado_test.dart
+6. Escribe app/packages/knock_api/.knock-manifest.json con el SHA-256
+   de ambos contratos y de cada archivo generado; app/test/api/cliente_generado_test.dart
    lo comprueba en cada `flutter test`.
 
 Con --check regenera en una carpeta temporal y compara archivo por archivo con lo
@@ -40,6 +40,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
 CONTRATO = RAIZ / "contracts" / "openapi.v1.json"
+CONTRATO_MARKET = RAIZ / "contracts" / "openapi.market.v1.json"
 DESTINO = RAIZ / "app" / "packages" / "knock_api"
 MANIFIESTO = ".knock-manifest.json"
 
@@ -82,6 +83,27 @@ def quitar_ignores(codigo: str) -> str:
 
 class ErrorNormalizacion(Exception):
     """El contrato usa algo que la normalización no sabe convertir sin inventar."""
+
+
+def combinar_contratos(identity: dict, market: dict) -> dict:
+    """Une rutas y componentes sin ocultar definiciones incompatibles."""
+    combinado = copy.deepcopy(identity)
+    if identity.get("openapi") != market.get("openapi"):
+        raise ErrorNormalizacion("versiones OpenAPI distintas")
+    for seccion in ("paths", "components"):
+        destino = combinado.setdefault(seccion, {})
+        for clave, valor in market.get(seccion, {}).items():
+            if seccion == "components":
+                grupo = destino.setdefault(clave, {})
+                for nombre, definicion in valor.items():
+                    if nombre in grupo and grupo[nombre] != definicion:
+                        raise ErrorNormalizacion(f"componente incompatible: {clave}/{nombre}")
+                    grupo[nombre] = copy.deepcopy(definicion)
+            elif clave in destino:
+                raise ErrorNormalizacion(f"ruta duplicada: {clave}")
+            else:
+                destino[clave] = copy.deepcopy(valor)
+    return combinado
 
 
 def _normalizar_tipo(esquema: dict, ruta: str) -> None:
@@ -158,7 +180,7 @@ def obtener_generador() -> Path:
     return jar
 
 
-def manifiesto(carpeta: Path, sha_contrato: str) -> dict:
+def manifiesto(carpeta: Path, sha_contrato: str, sha_market: str = "") -> dict:
     archivos = {}
     # Orden por la ruta como texto: sorted(Path) no distingue mayúsculas en Windows y sí en Linux, y el manifiesto
     # cambiaba de orden según el sistema que lo generaba (el CI corre en Linux).
@@ -170,13 +192,16 @@ def manifiesto(carpeta: Path, sha_contrato: str) -> dict:
         "generador": f"openapi-generator-cli {GENERADOR_VERSION} (dart)",
         "contrato": "contracts/openapi.v1.json",
         "contratoSha256": sha_contrato,
+        "contratoMarket": "contracts/openapi.market.v1.json",
+        "contratoMarketSha256": sha_market,
         "archivos": archivos,
     }
 
 
 def generar_en(salida: Path) -> None:
     datos_contrato = _contenido_lf(CONTRATO)
-    normalizado = normalizar(json.loads(datos_contrato.decode("utf-8")))
+    datos_market = _contenido_lf(CONTRATO_MARKET)
+    normalizado = normalizar(combinar_contratos(json.loads(datos_contrato), json.loads(datos_market)))
     jar = obtener_generador()
     with tempfile.TemporaryDirectory(prefix="knock-api-") as tmp:
         tmp_path = Path(tmp)
@@ -203,7 +228,7 @@ def generar_en(salida: Path) -> None:
                 if ruta.suffix == ".dart":
                     contenido = quitar_ignores(contenido.decode("utf-8")).encode("utf-8")
                 ruta.write_bytes(contenido)
-        datos_manifiesto = manifiesto(generado, _sha256(datos_contrato))
+        datos_manifiesto = manifiesto(generado, _sha256(datos_contrato), _sha256(datos_market))
         (generado / MANIFIESTO).write_text(
             json.dumps(datos_manifiesto, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
@@ -247,12 +272,12 @@ def main(argv: list[str] | None = None) -> int:
         generar_en(esperado)
         diferencias = comparar(esperado, DESTINO)
     if diferencias:
-        print("El cliente generado no corresponde a contracts/openapi.v1.json:")
+        print("El cliente generado no corresponde a los contratos vendorizados:")
         for linea in diferencias:
             print(f"  {linea}")
         print("Regenera con: python app/tool/generar_cliente_api.py")
         return 1
-    print("OK: app/packages/knock_api corresponde a contracts/openapi.v1.json")
+    print("OK: app/packages/knock_api corresponde a los contratos Identity y Market")
     return 0
 
 
