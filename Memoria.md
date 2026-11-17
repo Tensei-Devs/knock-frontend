@@ -527,3 +527,8 @@
 - **Matiz de lottie:** su archivo LICENSE conserva la plantilla `Copyright (c) [year] [fullname]` sin rellenar. El texto es el de la licencia MIT y así lo etiquetan pub.dev y GitHub, pero no nombra a un titular. Se acepta con esta constancia; si se prefiere evitar el matiz, la alternativa es reemplazar lottie y rehacer las animaciones de la maqueta.
 - **Fuera del alcance:** `path_parsing` 1.1.0 también es nueva y el SCA no la marcó, así que no se agrega. Ningún otro paquete entra en la excepción.
 - **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub.
+
+## 2026-11-16 — Vencimiento en horario de México (KNOCK-71, spec 025 T-01)
+- **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Duda para el Tech Lead: la spec 025 no define el redondeo; se truncó hacia abajo.
+- **Riesgo y duda para el Tech Lead:** si México vuelve a cambiar su horario, se actualiza esa constante; no se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
+- **A evitar:** usar la zona del teléfono o interpretar «cerrando» como estado vencido confirmado por el servidor.
