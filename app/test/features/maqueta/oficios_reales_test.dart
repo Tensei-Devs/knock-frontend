@@ -1,6 +1,5 @@
 // Spec 045, enmienda 1 (E-01) y spec 035: los oficios de la maqueta salen del
 // backend (`GET /oficios`), no de una lista fija. Sin inventar oficios si falla.
-import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -44,10 +43,8 @@ Future<void> _abrirInicio(WidgetTester tester, OficiosRepository repo) async {
   final container = await montarApp(
     tester,
     esTecnico: false,
-    extra: [
-      modoMaquetaProvider.overrideWithValue(true),
-      oficiosRepositoryProvider.overrideWithValue(repo),
-    ],
+    maqueta: true,
+    extra: [oficiosRepositoryProvider.overrideWithValue(repo)],
   );
   container.read(appRouterProvider).go('/inicio');
   await asentarMaqueta(tester);

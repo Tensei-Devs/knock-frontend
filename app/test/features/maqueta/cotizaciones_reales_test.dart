@@ -3,7 +3,6 @@
 // sin reseñas inventadas; los errores salen por motivo y sin códigos HTTP.
 import 'dart:async';
 
-import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
@@ -81,8 +80,8 @@ Future<void> _abrirComparar(
   final container = await montarApp(
     tester,
     esTecnico: false,
+    maqueta: true,
     extra: [
-      modoMaquetaProvider.overrideWithValue(true),
       solicitudesRealesRepositoryProvider.overrideWithValue(repo),
       solicitudesRealesActivasProvider.overrideWithValue(true),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
@@ -185,8 +184,8 @@ void main() {
       final container = await montarApp(
         tester,
         esTecnico: false,
+        maqueta: true,
         extra: [
-          modoMaquetaProvider.overrideWithValue(true),
           solicitudesRealesRepositoryProvider.overrideWithValue(
             _CotizacionesQueFallan(repo),
           ),

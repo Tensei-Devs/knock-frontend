@@ -97,11 +97,32 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 | CA-12 | Una pantalla conectada muestra los estados de error del backend (401, 404, 409, 422, 503) sin datos de ejemplo | prueba de widget |
 
 **Dudas abiertas**
-1. **La bandera `MODO_MAQUETA`:** hoy, apagada, deja la app sin la maqueta. Mientras la maqueta sea la interfaz, hay que decidir si pasa a estar encendida por defecto y cuándo se retira. No se cambia el valor por defecto en esta enmienda.
+1. **La bandera `MODO_MAQUETA`:** *(resuelta en la enmienda 2, §14: va encendida por defecto)*.
 2. **Qué compilación va a Play:** depende de lo anterior y del parche del flujo de publicación (toca `.github/` y necesita autorización expresa).
 3. **Pantallas duplicadas (E-03):** hay que listar cuáles de `features/*` se retiran y en qué PR, para no dejar código muerto.
 
 **Aprobación de la enmienda**
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-17
+- [x] Sin conflicto con la constitución
+
+## 14. Enmienda 2 (2026-11-17): maqueta encendida por defecto y sin franja de ejemplo
+
+**Por qué.** El Tech Lead decidió que la maqueta es siempre la interfaz de la app (enmienda 1) y que ya no lleva la franja «Datos de ejemplo».
+
+**Cambios**
+- **E-07** (sustituye el valor por defecto de R-02) `MODO_MAQUETA` va **encendida por defecto**: una compilación sin la bandera sale con la maqueta. Se apaga con `--dart-define=MODO_MAQUETA=false`, que deja la app con sus flujos anteriores y sin datos simulados. Con esto el flujo de publicación en Play no necesita pasar la bandera (no hace falta tocar `.github/`).
+- **E-08** Se retira la franja fija superior «Datos de ejemplo» de la maqueta (R-02, en su parte del rótulo, y CA-03). Lo que aún no tiene endpoint se queda simulado **sin rótulo**. El rótulo de la previa sin sesión (spec 027, R-12 y R-17) no cambia: solo se quita el de la maqueta. Se retira la prueba `rotulo_no_tapa_test.dart` (CA-03), que ya no tiene franja que comprobar.
+- **E-09** Corrección sin cambio de requisito: el mapa se vuelve a crear al cambiar el tema, para que el estilo claro u oscuro siempre coincida con el de la app.
+
+**Riesgo aceptado.** Sin el rótulo, una persona puede tomar un dato simulado (expertos, cotizaciones de ejemplo, mensajes) por uno real. La mitigación es conectar a la API real cuanto antes lo que ya tiene endpoint y que `ESTADO.md` sea la fuente de qué está simulado.
+
+**Casos que cambian**
+| Caso | Criterio | Verificación |
+|---|---|---|
+| CA-02 | Con `MODO_MAQUETA=false` no aparece ningún experto, cotización ni visita de ejemplo | prueba de widget (la bandera se apaga en las pruebas de la app normal) |
+| CA-03 | Retirado: ya no hay franja de ejemplo en la maqueta | prueba de widget (`CA_045_01` comprueba su ausencia) |
+
+**Aprobación de la enmienda 2**
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-17
 - [x] Sin conflicto con la constitución
 

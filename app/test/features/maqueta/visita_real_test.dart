@@ -2,7 +2,6 @@
 // de confianza de la maqueta usan los endpoints reales. El código solo sale
 // cuando el servidor lo manda (nunca un «0000» inventado), el aviso lo escribe
 // el servidor sin código ni dirección y los errores salen sin códigos HTTP.
-import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/enlaces/abridor_de_enlaces.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/router/app_router.dart';
@@ -126,8 +125,8 @@ Future<void> _abrir(
   final container = await montarApp(
     tester,
     esTecnico: false,
+    maqueta: true,
     extra: [
-      modoMaquetaProvider.overrideWithValue(true),
       solicitudesRealesRepositoryProvider.overrideWithValue(repo),
       solicitudesRealesActivasProvider.overrideWithValue(true),
       visitasRealesRepositoryProvider.overrideWithValue(visitas),

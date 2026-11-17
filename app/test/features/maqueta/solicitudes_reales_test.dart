@@ -1,7 +1,6 @@
 // Spec 045 (enmienda 1, E-06) y spec 015: Actividad de la maqueta muestra las
 // solicitudes reales (`GET /solicitudes`) y su detalle al abrirlas; sin sesión
 // o sin API no cambia nada; sin datos de ejemplo cuando falla (CA-12).
-import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/router/app_router.dart';
@@ -90,8 +89,8 @@ Future<ProviderContainer> _abrir(
   final container = await montarApp(
     tester,
     esTecnico: false,
+    maqueta: true,
     extra: [
-      modoMaquetaProvider.overrideWithValue(true),
       solicitudesRealesRepositoryProvider.overrideWithValue(repo),
       solicitudesRealesActivasProvider.overrideWithValue(activas),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
