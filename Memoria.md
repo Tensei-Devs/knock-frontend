@@ -527,3 +527,9 @@
 - **Matiz de lottie:** su archivo LICENSE conserva la plantilla `Copyright (c) [year] [fullname]` sin rellenar. El texto es el de la licencia MIT y así lo etiquetan pub.dev y GitHub, pero no nombra a un titular. Se acepta con esta constancia; si se prefiere evitar el matiz, la alternativa es reemplazar lottie y rehacer las animaciones de la maqueta.
 - **Fuera del alcance:** `path_parsing` 1.1.0 también es nueva y el SCA no la marcó, así que no se agrega. Ningún otro paquete entra en la excepción.
 - **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub.
+
+## 2026-11-17 — Enmienda 1 de la spec 045: la maqueta es la interfaz de la app
+- **Decisión:** el Tech Lead decidió que la maqueta es la base y la interfaz de la app, y que cada pantalla se conecta poco a poco a los endpoints reales, sin mantener dos aplicaciones. La enmienda queda escrita en la spec 045 (§13) y espera su aprobación.
+- **Porqué:** la versión original de la spec reemplazaba cada pantalla de la maqueta por otra «real»; eso duplica pantallas y trabajo. Reutilizar los repositorios y el cliente generado en la propia pantalla de la maqueta es más corto.
+- **Cómo:** E-01 a E-06 en §13: conexión por fases, lo sin backend sigue rotulado como ejemplo, el envío de solicitudes sigue simulado mientras el backend no tenga archivos ni moderación, y la bandera `MODO_MAQUETA` no cambia de valor por defecto en esta enmienda.
+- **A evitar:** crear pantallas paralelas para lo que la maqueta ya cubre; importar el estado simulado desde una pantalla conectada; cambiar el valor por defecto de la bandera sin decidirlo.
