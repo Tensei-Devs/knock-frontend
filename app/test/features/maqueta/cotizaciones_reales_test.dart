@@ -114,7 +114,10 @@ void main() {
       expect(find.text('Rosa Pérez'), findsOneWidget);
       expect(find.text('Luis Gómez'), findsOneWidget);
       expect(find.text('2 recibidas'), findsOneWidget);
-      expect(find.textContaining('Arreglo completo, mano de obra'), findsWidgets);
+      expect(
+        find.textContaining('Arreglo completo, mano de obra'),
+        findsWidgets,
+      );
       expect(find.text('Mejor precio'), findsOneWidget);
       expect(find.text('Verificado'), findsOneWidget);
       expect(find.text('Sin calificaciones aún'), findsOneWidget);
@@ -197,7 +200,9 @@ void main() {
       await asentarMaqueta(tester);
       expect(find.text('Rosa Pérez'), findsNothing);
       expect(
-        find.text('No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.'),
+        find.text(
+          'No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.',
+        ),
         findsOneWidget,
       );
       expect(find.textContaining('503'), findsNothing);
@@ -273,7 +278,8 @@ void main() {
     ]) {
       testWidgets('CA_045_12 un 409 por $motivo sale con su texto, sin '
           'reintento ni códigos', (tester) async {
-        final repo = _repo()..fallasAlElegir.add(EleccionRechazadaFailure(motivo));
+        final repo = _repo()
+          ..fallasAlElegir.add(EleccionRechazadaFailure(motivo));
         await _abrirComparar(tester, repo);
         await _elegirAPrimero(tester);
         await tester.tap(find.text('Sí, elegir a Rosa'));
@@ -293,7 +299,9 @@ void main() {
       await tester.tap(find.text('Sí, elegir a Rosa'));
       await asentarMaqueta(tester);
       expect(
-        find.text('No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.'),
+        find.text(
+          'No pudimos conectar. Revisa tu conexión e inténtalo de nuevo.',
+        ),
         findsOneWidget,
       );
       await tester.tap(find.text('Reintentar'));

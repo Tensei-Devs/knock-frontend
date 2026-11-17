@@ -8,6 +8,7 @@ import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
+import 'package:app/features/actividad/data/visita_repository_api.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
@@ -43,6 +44,26 @@ final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
 final _datosDePruebaProvider = Provider<SolicitudRepositoryDePrueba>(
   (ref) => SolicitudRepositoryDePrueba(),
 );
+
+/// Visita y aviso de confianza para la maqueta (spec 045, enmienda 1): la API
+/// real con `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Son
+/// aparte de [visitaRepositoryProvider] y [avisoRepositoryProvider] para no
+/// cambiar las pantallas anteriores.
+final visitasRealesRepositoryProvider = Provider<VisitaRepository>((ref) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return VisitaRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
+
+final avisosRealesRepositoryProvider = Provider<AvisoRepository>((ref) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return AvisoRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
 
 /// Texto del aviso de confianza (backend 022 R-12), del mismo doble.
 final avisoRepositoryProvider = Provider<AvisoRepository>(

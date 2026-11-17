@@ -559,3 +559,9 @@
 - **Porqué:** segunda conexión de la enmienda 1 (E-06); el repositorio y los mapeadores del contrato ya estaban hechos y probados.
 - **Cómo:** controlador `SolicitudesRealesController` (sin reintento automático, con Reintentar) y puente en `_PuenteDeDatos`; la lista no trae la clave del oficio, así que se reconoce por el nombre con el catálogo de oficios (una solicitud de un oficio que la maqueta no dibuja se omite); la descripción sale del detalle. Carga, error sin datos de ejemplo y vacío (CA-12). Cita, terminada y cancelada se dibujan sin técnico: su visita se conecta en la fase de visita.
 - **A evitar:** mostrar solicitudes de ejemplo cuando falla la red; pedir las solicitudes sin sesión o sin API.
+
+## 2026-11-17 — Fase 3: cotizaciones, elección, visita y aviso de la maqueta son los reales
+- **Decisión:** comparar y elegir cotizaciones (`GET .../cotizaciones`, `POST .../elegir`), la visita o cita del cliente (`GET /visitas/{id}`) y el aviso de confianza (`POST /visitas/{id}/aviso`) usan la API en las solicitudes reales. «Ya llegué» (`POST /visitas/{id}/llegada`) no se conecta.
+- **Porqué:** el técnico no tiene cómo encontrar sus visitas (no existe `GET /tecnicos/me/trabajo`, backend 036), así que esa pantalla no puede llegar con datos reales; hacerlo antes obligaría a inventar un ejemplo.
+- **Cómo:** `VisitaRealGate` pide la visita, la pasa a la `Job` (técnico como `Prov` sintético con prefijo `api:`) y la pantalla de la maqueta dibuja lo del servidor. Sin código real no se muestra «0000» sino el motivo (usado, vencido, bloqueada, no aplica). El aviso usa el texto del servidor, que nunca lleva el código ni la dirección; antes la maqueta lo incluía en el mensaje. En una visita real se ocultan reprogramar y cancelar (sin endpoint). Las cajas del código ya no desbordan a 320 dp.
+- **A evitar:** mostrar un código inventado; poner el código o la dirección en el aviso; ofrecer acciones sin endpoint en una visita real.

@@ -105,6 +105,11 @@ class Job {
 
   /// Visita de la cita elegida (solo en las reales).
   String? visitaId;
+
+  /// De la visita real (`GET /visitas/{id}`): por qué no hay código
+  /// (`usado`, `vencido`, `bloqueada` o `no_aplica`) y el lugar de la cita.
+  String? motivoCodigo;
+  String direccion = '';
   String title, cat;
   String status; // enviada|cotizando|visita|cita|terminado|cancelado
   String? pid, target;

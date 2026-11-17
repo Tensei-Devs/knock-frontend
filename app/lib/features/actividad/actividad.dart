@@ -35,3 +35,8 @@ export 'package:app/features/actividad/presentation/cotizaciones_controller.dart
         EstadoEleccion;
 export 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart'
     show ConsultaCotizaciones, cotizacionesRealesProvider, eleccionRealProvider;
+export 'package:app/features/actividad/domain/aviso.dart' show MensajeAviso;
+export 'package:app/features/actividad/domain/visita.dart'
+    show EstadoVisita, MotivoCodigo, TecnicoDeVisita, Visita;
+export 'package:app/features/actividad/presentation/visitas_reales_controller.dart'
+    show avisoRealProvider, visitaRealProvider;

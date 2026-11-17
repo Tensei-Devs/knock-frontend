@@ -154,3 +154,46 @@ String textoDeErrorReal(Object error) => switch (error) {
   },
   _ => 'Algo salió mal. Inténtalo de nuevo.',
 };
+
+/// Experto sintético del técnico de una visita real: lo que manda el servidor
+/// (nombre, verificado) y, en una cita en taller, su dirección.
+Prov provDeVisita(act.Visita v, String cat) => Prov(
+  id: 'api:visita:${v.id}',
+  name: v.tecnico.nombre,
+  ini: initials(v.tecnico.nombre),
+  color: const Color(0xFF2A5568),
+  cat: cat,
+  taller: v.esTaller,
+  spec: '',
+  rate: 0,
+  n: 0,
+  km: 0,
+  years: 0,
+  jobs: 0,
+  resp: '',
+  today: false,
+  about: '',
+  hours: const [],
+  svcs: const [],
+  photos: const [],
+  dist: const [],
+  crit: const [],
+  revs: const [],
+  addr: v.esTaller ? v.direccion : '',
+  ver: v.tecnico.verificado,
+);
+
+/// Pasa la visita real a la [Job] de la maqueta (idempotente). El código solo
+/// vive en memoria mientras la pantalla está abierta: no se guarda.
+void aplicarVisitaAlJob(Job j, act.Visita v) {
+  final prov = provDeVisita(v, j.cat);
+  provs[prov.id] = prov;
+  j
+    ..pid = prov.id
+    ..when = longDate(v.dia)
+    ..time = v.hora
+    ..code = v.codigo ?? ''
+    ..motivoCodigo = v.motivoCodigo?.valor
+    ..direccion = v.direccion
+    ..price = v.precio == null ? '' : money(v.precio!);
+}
