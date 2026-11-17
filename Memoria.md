@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
+- La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
+- Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
+- La T-02 de la 017 se alineó con los modelos de KNOCK-277 (Tech Lead); el contrato de sprint-04 no coincide literalmente con `docs/openapi.v1.json` del backend: SHA-256 frontend `dff63319387d64328782a0a317df00c793e0e16a7d42ee2c6c6ef80156a0ec29`; SHA-256 backend `670b41609c4342c107a27d47999fbb2c3becb395e2b9829d25d325363f71466e`.
+
 > Registro del proyecto: estado, decisiones con su fecha y su porqué, y errores a evitar. Los agentes la leen al empezar y agregan una entrada al terminar cada cambio. Sin datos sensibles.
 
 ## Estado actual
@@ -528,6 +533,21 @@
 - **Fuera del alcance:** `path_parsing` 1.1.0 también es nueva y el SCA no la marcó, así que no se agrega. Ningún otro paquete entra en la excepción.
 - **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub.
 
+## 2026-11-16 — Dominio de zona (KNOCK-47, spec 017 T-02)
+- **Hecho:** `Zona`, `ResultadoZona` y `RegistroListaEspera` son dominio Dart puro sin coordenadas; la lista de colonias se copia como inmutable y la cobertura se toma del servidor. Se movió el validador de CP existente al dominio y se reexporta para conservar sus consumidores; el municipio opcional sigue la spec, sin duplicar validadores. Las cuatro pruebas de dominio y la suite completa (835 pruebas) pasan, igual que `flutter analyze`.
+- **T-01 pendiente:** el workflow `contract-publish` del backend espera un secreto que creará el Tech Lead. Dudas para él antes de integrar: `colonias/en-punto` documenta 422 para coordenadas inválidas frente al 400 de la spec; `municipio` figura obligatorio pero anulable en OpenAPI frente a opcional en la spec; `PUT /me` está en `openapi.identity.v1.json`, separado del contrato de Market. T-02 sigue la spec para el municipio sin decidir el contrato.
+- **A evitar:** inferir cobertura por el prefijo del CP, registrar coordenadas o dar por integrado el contrato antes de la publicación y decisión del Tech Lead.
+
+## 2026-11-16 — Contratos de zona e Identity (KNOCK-47, spec 017 T-01)
+- **Decisión:** se vendorizan los contratos de Market e Identity desde `origin/sprint-04` de `knock-backend`, commit `34f2fb52be98ecc85f85124cca89fb31a0095eab`. `contracts/openapi.v1.json` conserva Identity y `contracts/openapi.market.v1.json` contiene Market; el generador combina ambos y rechaza colisiones incompatibles. `colonias/en-punto` responde 422 para coordenadas inválidas, según la resolución del Tech Lead.
+- **Diferencia del generador:** `docs/endpoints.md` del backend define `municipio` como opcional en la lista de espera, pero OpenAPI `WaitlistRequest` lo marca obligatorio y anulable. No se cambia el dominio; la integración deberá contemplar esta diferencia con el Tech Lead.
+- **Procedimiento:** la skill `api-client-contract` está desactualizada: cita `scripts/sync_contract.py` y `scripts/gen_clients.sh`, que no existen. Para Dart se usa `python3 app/tool/generar_cliente_api.py` y se verifica con `python3 app/tool/generar_cliente_api.py --check`; no se modificó la skill protegida.
+- **Pendiente:** T-03 a T-08 y la conexión de zonas por CP y lista de espera con endpoints reales se coordinan con el Tech Lead.
+- **A evitar:** sobrescribir Identity con Market, editar a mano los contratos o el cliente generado, asumir que `municipio` es obligatorio para la persona o conectar endpoints sin coordinar las tareas pendientes.
+
+## 2026-11-16 — Actualización de contratos de zona desde la referencia remota (KNOCK-47)
+- **Hecho:** `origin/sprint-04` de backend avanzó a `b5706244eeef66b1c2731152c99bbd1f49da6f7d`; se actualizó Market desde esa referencia y se regeneró el cliente. Identity coincide con la misma referencia y se conservó sin cambios.
+- **A evitar:** suponer que una copia previa de Market sigue coincidiendo con la referencia remota; conectar T-03 a T-08 sin coordinación con el Tech Lead.
 ## 2026-11-16 — Vencimiento en horario de México (KNOCK-71, spec 025 T-01)
 - **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Aprobado por el Tech Lead: redondeo hacia abajo y UTC−6 en una sola constante para la hora de Ciudad de México.
 - **Riesgo:** si cambia el horario de Ciudad de México, se actualiza esa constante; algunos municipios de la frontera norte sí conservan horario de verano, pero la app usa la hora de Ciudad de México. No se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.

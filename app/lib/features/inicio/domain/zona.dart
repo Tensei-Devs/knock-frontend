@@ -29,3 +29,7 @@ final class RegistroListaEspera {
   final String cp;
   final bool yaRegistrado;
 }
+
+/// Código postal de cinco dígitos ASCII exactos.
+bool esCodigoPostalValido(String texto) =>
+    texto.length == 5 && RegExp(r'^[0-9]{5}$').hasMatch(texto);
