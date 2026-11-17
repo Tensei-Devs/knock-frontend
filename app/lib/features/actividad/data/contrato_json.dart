@@ -33,3 +33,27 @@ DateTime diaLocalDelContrato(Object? valor) {
   if (f == null) throw const DatosInvalidosFailure();
   return DateTime(f.year, f.month, f.day);
 }
+
+/// Un objeto JSON del contrato; lanza [DatosInvalidosFailure] si no lo es.
+Map<Object?, Object?> mapaDelContrato(Object? valor) {
+  if (valor is! Map<Object?, Object?>) throw const DatosInvalidosFailure();
+  return valor;
+}
+
+/// Un texto obligatorio y no vacío del contrato.
+String textoDelContrato(Object? valor) {
+  if (valor is! String || valor.trim().isEmpty) {
+    throw const DatosInvalidosFailure();
+  }
+  return valor;
+}
+
+/// Un texto opcional: `null` si falta o está vacío.
+String? textoOpcionalDelContrato(Object? valor) =>
+    valor is String && valor.trim().isNotEmpty ? valor : null;
+
+/// Un booleano obligatorio del contrato.
+bool booleanoDelContrato(Object? valor) {
+  if (valor is! bool) throw const DatosInvalidosFailure();
+  return valor;
+}

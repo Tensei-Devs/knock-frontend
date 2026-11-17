@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-17T17:43:01Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-17T17:50:58Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 44 | 107 | 153 |
+| `actividad` | -, data, domain, presentation | 44 | 107 | 157 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 2 | 0 | 1 |
@@ -58,13 +58,13 @@
 - `app/lib/features/actividad/data/borrador_repository.dart` — class `BorradorRepository`
   - `leer()`:27, `guardar()`:53, `borrarTodo()`:60, `agregarFoto()`:73, `quitarFoto()`:94
 - `app/lib/features/actividad/data/contrato_json.dart` — —
-  - `obtenerJsonONoEncontrado()`:11, `diaLocalDelContrato()`:31
+  - `obtenerJsonONoEncontrado()`:11, `diaLocalDelContrato()`:31, `mapaDelContrato()`:38, `textoDelContrato()`:44, `textoOpcionalDelContrato()`:52, `booleanoDelContrato()`:56
 - `app/lib/features/actividad/data/foto_preparada.dart` — enum `MotivoFotoRechazada`, class `ResultadoFoto`, class `FotoLista`, class `FotoRechazada`, enum `_Formato`
   - `prepararFoto()`:88, `prepararFotoEnSegundoPlano()`:147
 - `app/lib/features/actividad/data/fuente_de_fotos_sistema.dart` — class `FuenteDeFotosSistema`
   - `tomarConCamara()`:16, `elegirDeGaleria()`:22
 - `app/lib/features/actividad/data/solicitud_contrato_mapper.dart` — class `SolicitudContratoMapper`
-  - `detalle()`:30, `comparacion()`:53, `cita()`:70
+  - `detalle()`:30, `comparacion()`:53, `cita()`:72
 - `app/lib/features/actividad/data/solicitud_mapper.dart` — —
   - `cuerpoDeSolicitud()`:11
 - `app/lib/features/actividad/data/solicitud_repository_api.dart` — class `SolicitudRepositoryApi`
@@ -72,7 +72,7 @@
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:72, `crear()`:75, `obtener()`:116, `listar()`:123, `cotizaciones()`:130, `elegir()`:160, `obtenerVisita()`:209, `pedirAviso()`:238, `cotizacion()`:256, `etiquetarComoElServidor()`:350, `ordenarComoElServidor()`:387, `porCalificacion()`:391, `porTope()`:393
 - `app/lib/features/actividad/data/visita_contrato_mapper.dart` — class `VisitaContratoMapper`
-  - `visita()`:14, `aviso()`:48
+  - `visita()`:14, `aviso()`:50
 - `app/lib/features/actividad/data/visita_local_repository.dart` — class `VisitaLocalRepositorySeguro`
   - `leer()`:15, `guardar()`:32, `borrar()`:44
 - `app/lib/features/actividad/data/visita_repository_api.dart` — class `VisitaRepositoryApi`, class `AvisoRepositoryApi`

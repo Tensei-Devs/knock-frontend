@@ -12,26 +12,28 @@ abstract final class VisitaContratoMapper {
   /// La vista del técnico (`rol: tecnico`) no trae al técnico y no se usa en la
   /// app del cliente: se rechaza como dato inválido.
   static Visita visita(Object? json) {
-    final m = _mapa(json);
+    final m = mapaDelContrato(json);
     if (m['rol'] != 'cliente') throw const DatosInvalidosFailure();
-    final tecnico = _mapa(m['tecnico']);
-    final lugar = _mapa(m['lugar']);
+    final tecnico = mapaDelContrato(m['tecnico']);
+    final lugar = mapaDelContrato(m['lugar']);
     final direccion = lugar['direccion'];
     final codigo = m['codigo'];
     final motivo = m['motivoCodigo'];
     return Visita(
-      id: _texto(m['id']),
-      estado: EstadoVisita.desdeTexto(_texto(m['estado'])),
-      esTaller: _texto(m['modalidad']) == 'taller',
+      id: textoDelContrato(m['id']),
+      estado: EstadoVisita.desdeTexto(textoDelContrato(m['estado'])),
+      esTaller: textoDelContrato(m['modalidad']) == 'taller',
       dia: diaLocalDelContrato(m['dia']),
-      hora: _texto(m['hora']),
+      hora: textoDelContrato(m['hora']),
       tecnico: TecnicoDeVisita(
-        nombre: _texto(tecnico['nombre']),
-        verificado: _booleano(tecnico['verificado']),
-        nivelVerificacion: _opcional(tecnico['nivelVerificacion']),
-        telefono: _opcional(tecnico['telefono']),
-        whatsapp: _opcional(tecnico['whatsapp']),
-        fotoUrl: _opcional(tecnico['fotoUrl']),
+        nombre: textoDelContrato(tecnico['nombre']),
+        verificado: booleanoDelContrato(tecnico['verificado']),
+        nivelVerificacion: textoOpcionalDelContrato(
+          tecnico['nivelVerificacion'],
+        ),
+        telefono: textoOpcionalDelContrato(tecnico['telefono']),
+        whatsapp: textoOpcionalDelContrato(tecnico['whatsapp']),
+        fotoUrl: textoOpcionalDelContrato(tecnico['fotoUrl']),
       ),
       direccion: direccion is String ? direccion : '',
       codigo: codigo is String && RegExp(r'^\d{4}$').hasMatch(codigo)
@@ -46,32 +48,12 @@ abstract final class VisitaContratoMapper {
 
   /// `POST /visitas/{id}/aviso`.
   static MensajeAviso aviso(Object? json) {
-    final m = _mapa(json);
+    final m = mapaDelContrato(json);
     return MensajeAviso(
-      texto: _texto(m['texto']),
-      incluyeCodigo: _booleano(m['incluyeCodigo']),
-      incluyeDireccion: _booleano(m['incluyeDireccion']),
+      texto: textoDelContrato(m['texto']),
+      incluyeCodigo: booleanoDelContrato(m['incluyeCodigo']),
+      incluyeDireccion: booleanoDelContrato(m['incluyeDireccion']),
     );
-  }
-
-  static Map<Object?, Object?> _mapa(Object? valor) {
-    if (valor is! Map<Object?, Object?>) throw const DatosInvalidosFailure();
-    return valor;
-  }
-
-  static String _texto(Object? valor) {
-    if (valor is! String || valor.trim().isEmpty) {
-      throw const DatosInvalidosFailure();
-    }
-    return valor;
-  }
-
-  static String? _opcional(Object? valor) =>
-      valor is String && valor.trim().isNotEmpty ? valor : null;
-
-  static bool _booleano(Object? valor) {
-    if (valor is! bool) throw const DatosInvalidosFailure();
-    return valor;
   }
 
   /// Enteros del contrato: llegan como número o como texto numérico; `null`

@@ -13,7 +13,7 @@ abstract final class SolicitudContratoMapper {
   /// Las filas no traen la descripción ni la clave del oficio (solo el
   /// detalle): la descripción queda vacía.
   static ({List<Solicitud> items, String? siguiente}) pagina(Object? json) {
-    final mapa = _mapa(json);
+    final mapa = mapaDelContrato(json);
     final items = mapa['items'];
     if (items is! List<Object?>) throw const DatosInvalidosFailure();
     final cursor = mapa['nextCursor'];
@@ -21,25 +21,25 @@ abstract final class SolicitudContratoMapper {
       throw const DatosInvalidosFailure();
     }
     return (
-      items: [for (final i in items) _resumen(_mapa(i))],
+      items: [for (final i in items) _resumen(mapaDelContrato(i))],
       siguiente: cursor as String?,
     );
   }
 
   /// `GET /solicitudes/{id}` y `POST /solicitudes`: la solicitud completa.
   static Solicitud detalle(Object? json) {
-    final m = _mapa(json);
-    final oficio = _mapa(m['oficio']);
-    final colonia = _mapa(m['colonia']);
+    final m = mapaDelContrato(json);
+    final oficio = mapaDelContrato(m['oficio']);
+    final colonia = mapaDelContrato(m['colonia']);
     final fotos = m['fotos'];
     if (fotos is! List<Object?>) throw const DatosInvalidosFailure();
     return Solicitud(
-      id: _texto(m['id']),
-      estado: EstadoSolicitud.desdeTexto(_texto(m['estado'])),
-      oficioNombre: _texto(oficio['nombre']),
-      oficioClave: _texto(oficio['clave']),
-      coloniaNombre: _texto(colonia['nombre']),
-      descripcion: _texto(m['descripcion']),
+      id: textoDelContrato(m['id']),
+      estado: EstadoSolicitud.desdeTexto(textoDelContrato(m['estado'])),
+      oficioNombre: textoDelContrato(oficio['nombre']),
+      oficioClave: textoDelContrato(oficio['clave']),
+      coloniaNombre: textoDelContrato(colonia['nombre']),
+      descripcion: textoDelContrato(m['descripcion']),
       totalFotos: fotos.length,
       dia: diaLocalDelContrato(m['dia']),
       franja: _franja(m['franja']),
@@ -51,16 +51,18 @@ abstract final class SolicitudContratoMapper {
 
   /// `GET /solicitudes/{id}/cotizaciones`.
   static ResultadoComparacion comparacion(Object? json) {
-    final m = _mapa(json);
+    final m = mapaDelContrato(json);
     final cotizaciones = m['cotizaciones'];
     if (cotizaciones is! List<Object?>) throw const DatosInvalidosFailure();
     final motivo = m['motivo'];
     final visitaId = m['visitaId'];
     return ResultadoComparacion(
-      cotizaciones: [for (final c in cotizaciones) _cotizacion(_mapa(c))],
+      cotizaciones: [
+        for (final c in cotizaciones) _cotizacion(mapaDelContrato(c)),
+      ],
       totalCotizaciones: _entero(m['totalCotizaciones']),
-      tiposMixtos: _booleano(m['tiposMixtos']),
-      puedeElegir: _booleano(m['puedeElegir']),
+      tiposMixtos: booleanoDelContrato(m['tiposMixtos']),
+      puedeElegir: booleanoDelContrato(m['puedeElegir']),
       motivo: motivo is String ? MotivoSinEleccion.desdeTexto(motivo) : null,
       visitaId: visitaId is String && visitaId.isNotEmpty ? visitaId : null,
     );
@@ -68,35 +70,37 @@ abstract final class SolicitudContratoMapper {
 
   /// `POST /solicitudes/{id}/elegir`: la cita con el contacto del técnico.
   static CitaConfirmada cita(Object? json) {
-    final m = _mapa(json);
-    final tecnico = _mapa(m['tecnico']);
-    final lugar = _mapa(m['lugar']);
+    final m = mapaDelContrato(json);
+    final tecnico = mapaDelContrato(m['tecnico']);
+    final lugar = mapaDelContrato(m['lugar']);
     final direccion = lugar['direccion'];
     return CitaConfirmada(
-      visitaId: _texto(m['visitaId']),
-      solicitudId: _texto(m['solicitudId']),
-      cotizacionId: _texto(m['cotizacionId']),
-      modalidad: _texto(m['modalidad']),
+      visitaId: textoDelContrato(m['visitaId']),
+      solicitudId: textoDelContrato(m['solicitudId']),
+      cotizacionId: textoDelContrato(m['cotizacionId']),
+      modalidad: textoDelContrato(m['modalidad']),
       dia: diaLocalDelContrato(m['dia']),
-      hora: _texto(m['hora']),
+      hora: textoDelContrato(m['hora']),
       precio: _enteroONulo(m['precio'], porOmision: null),
       tope: _entero(m['tope']),
       tecnico: TecnicoElegido(
-        nombre: _texto(tecnico['nombre']),
-        verificado: _booleano(tecnico['verificado']),
-        nivelVerificacion: _opcional(tecnico['nivelVerificacion']),
-        telefono: _opcional(tecnico['telefono']),
-        whatsapp: _opcional(tecnico['whatsapp']),
+        nombre: textoDelContrato(tecnico['nombre']),
+        verificado: booleanoDelContrato(tecnico['verificado']),
+        nivelVerificacion: textoOpcionalDelContrato(
+          tecnico['nivelVerificacion'],
+        ),
+        telefono: textoOpcionalDelContrato(tecnico['telefono']),
+        whatsapp: textoOpcionalDelContrato(tecnico['whatsapp']),
       ),
       direccion: direccion is String ? direccion : '',
     );
   }
 
   static Solicitud _resumen(Map<Object?, Object?> m) => Solicitud(
-    id: _texto(m['id']),
-    estado: EstadoSolicitud.desdeTexto(_texto(m['estado'])),
-    oficioNombre: _texto(m['oficioNombre']),
-    coloniaNombre: _texto(m['coloniaNombre']),
+    id: textoDelContrato(m['id']),
+    estado: EstadoSolicitud.desdeTexto(textoDelContrato(m['estado'])),
+    oficioNombre: textoDelContrato(m['oficioNombre']),
+    coloniaNombre: textoDelContrato(m['coloniaNombre']),
     descripcion: '',
     totalFotos: _entero(m['totalFotos']),
     dia: diaLocalDelContrato(m['dia']),
@@ -104,63 +108,43 @@ abstract final class SolicitudContratoMapper {
     creadoEn: _fecha(m['creadoEn']),
     venceEn: _fecha(m['venceEn']),
     totalCotizaciones: _entero(m['totalCotizaciones']),
-    visitaId: _opcional(m['visitaId']),
+    visitaId: textoOpcionalDelContrato(m['visitaId']),
   );
 
   static Cotizacion _cotizacion(Map<Object?, Object?> m) {
-    final tipo = TipoPrecio.desdeTexto(_texto(m['tipoPrecio']));
+    final tipo = TipoPrecio.desdeTexto(textoDelContrato(m['tipoPrecio']));
     if (tipo == null) throw const DatosInvalidosFailure();
     final etiquetas = m['etiquetas'];
     if (etiquetas is! List<Object?>) throw const DatosInvalidosFailure();
     return Cotizacion(
-      id: _texto(m['id']),
+      id: textoDelContrato(m['id']),
       tipoPrecio: tipo,
       precio: _enteroONulo(m['precio'], porOmision: null),
       precioMin: _enteroONulo(m['precioMin'], porOmision: null),
       precioMax: _enteroONulo(m['precioMax'], porOmision: null),
       tope: _entero(m['tope']),
-      requiereAprobacion: _booleano(m['requiereAprobacion']),
+      requiereAprobacion: booleanoDelContrato(m['requiereAprobacion']),
       dia: diaLocalDelContrato(m['dia']),
-      hora: _texto(m['hora']),
-      nota: _opcional(m['nota']),
-      cubre: _texto(m['cubre']),
+      hora: textoDelContrato(m['hora']),
+      nota: textoOpcionalDelContrato(m['nota']),
+      cubre: textoDelContrato(m['cubre']),
       etiquetas: {
         for (final e in etiquetas)
           if (e is String && EtiquetaCotizacion.desdeTexto(e) != null)
             EtiquetaCotizacion.desdeTexto(e)!,
       },
-      tecnico: _tecnico(_mapa(m['tecnico'])),
+      tecnico: _tecnico(mapaDelContrato(m['tecnico'])),
     );
   }
 
   static TecnicoResumen _tecnico(Map<Object?, Object?> m) => TecnicoResumen(
-    id: _texto(m['id']),
-    nombre: _texto(m['nombre']),
-    verificado: _booleano(m['verificado']),
-    fotoUrl: _opcional(m['fotoUrl']),
+    id: textoDelContrato(m['id']),
+    nombre: textoDelContrato(m['nombre']),
+    verificado: booleanoDelContrato(m['verificado']),
+    fotoUrl: textoOpcionalDelContrato(m['fotoUrl']),
     calificacion: _numero(m['calificacion']),
-    nivelVerificacion: _opcional(m['nivelVerificacion']),
+    nivelVerificacion: textoOpcionalDelContrato(m['nivelVerificacion']),
   );
-
-  static Map<Object?, Object?> _mapa(Object? valor) {
-    if (valor is! Map<Object?, Object?>) throw const DatosInvalidosFailure();
-    return valor;
-  }
-
-  static String _texto(Object? valor) {
-    if (valor is! String || valor.trim().isEmpty) {
-      throw const DatosInvalidosFailure();
-    }
-    return valor;
-  }
-
-  static String? _opcional(Object? valor) =>
-      valor is String && valor.trim().isNotEmpty ? valor : null;
-
-  static bool _booleano(Object? valor) {
-    if (valor is! bool) throw const DatosInvalidosFailure();
-    return valor;
-  }
 
   /// Enteros del contrato: llegan como número o como texto numérico.
   static int _entero(Object? valor, {Object? porOmision = _sinValor}) {
