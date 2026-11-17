@@ -12,7 +12,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:knock_api/api.dart';
 
 final _contrato = File('../contracts/openapi.v1.json');
-final _market = File('../contracts/openapi.market.v1.json');
 final _paquete = Directory('packages/knock_api');
 const _nombreManifiesto = '.knock-manifest.json';
 
@@ -147,15 +146,13 @@ void main() {
     test('CA-006-02 el cliente del repositorio coincide con su manifiesto '
         'y con el contrato vendorizado', () {
       expect(diferenciasConManifiesto(_paquete, _contrato), isEmpty);
-      final manifiesto = _json(File('${_paquete.path}/$_nombreManifiesto'));
-      expect(manifiesto['contratoMarketSha256'], _sha(_market));
     });
 
     test('T-01 el cliente conserva Identity e incorpora Market', () {
       final codigo = File('${_paquete.path}/lib/api.dart').readAsStringSync();
       expect(codigo, contains('api/auth_api.dart'));
       expect(codigo, contains('api/zonas_api.dart'));
-      final rutas = (_json(_market)['paths']! as Map).keys;
+      final rutas = (_json(_contrato)['paths']! as Map).keys;
       expect(rutas, contains('/api/v{version}/colonias/en-punto'));
       expect(rutas, contains('/api/v{version}/zonas/cp/{cp}'));
       expect(rutas, contains('/api/v{version}/zonas/lista-espera'));

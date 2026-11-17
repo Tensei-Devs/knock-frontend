@@ -5,7 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Bloquea | Paralelo con | Responsable sugerido | Estado |
 |---|---|---|---|---|---|---|---|
-| T-01 | Vendorizar backend 023 y confirmar las formas de `colonias/en-punto` y `PUT /me` | §4 | Backend 023 publicado en OpenAPI | T-03, T-04, T-05 | T-02 | Ángel Alexis Blas Castillo (contrato) y Erick | hecha |
+| T-01 | Vendorizar backend 023 y confirmar las formas de `colonias/en-punto` y `PUT /me` | §4 | Backend 023 publicado en OpenAPI | T-03, T-04, T-05 | T-02 | Ángel Alexis Blas Castillo (contrato) y Erick | hecha: cubierta por el contrato que publica el Tech Lead (KNOCK-277), alineado con sprint-04 |
 | T-02 | Dominio: `Zona`, `ResultadoZona`, `RegistroListaEspera`, validación del CP y del municipio | R-04, R-05, R-08 · CA-08, CA-12 | — | T-03, T-04, T-05, T-06 | T-01 | Erick Trejo Reséndiz (contrato con Ángel Alexis Blas Castillo) | hecha |
 | T-03 | Datos: ubicación sin caché ni registros y código postal con caché en `catalogo/zonas/` | R-02, R-03, R-09 · CA-01, CA-09 | T-01, T-02 | T-07 | T-04, T-05 | Erick Trejo Reséndiz (contrato con Ángel Alexis Blas Castillo) | pendiente |
 | T-04 | Datos: guardado en el perfil con `PUT /api/v1/me` reenviando `nombre` y `fotoUrl`; `almacen_zona.dart` y `borrarZonaLocal()` | R-06, R-10, R-16 · CA-07, CA-13 | T-01, T-02 | T-07 | T-03, T-05 | Erick Trejo Reséndiz (contrato con Ángel Alexis Blas Castillo) | pendiente |

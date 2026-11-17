@@ -1,7 +1,8 @@
 # Memoria — knock-frontend
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
-- Pendiente para el Tech Lead: `generar_cliente_api.py --check` falla por la ruta duplicada `/api/v{version}/visitas/{id}/llegada` entre contratos; la prueba del manifiesto falla porque falta el hash esperado del contrato Market. No se regeneró el cliente.
+- La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
+- Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
 - La T-02 de la 017 se alineó con los modelos de KNOCK-277 (Tech Lead); el contrato de sprint-04 no coincide literalmente con `docs/openapi.v1.json` del backend: SHA-256 frontend `dff63319387d64328782a0a317df00c793e0e16a7d42ee2c6c6ef80156a0ec29`; SHA-256 backend `670b41609c4342c107a27d47999fbb2c3becb395e2b9829d25d325363f71466e`.
 
 > Registro del proyecto: estado, decisiones con su fecha y su porqué, y errores a evitar. Los agentes la leen al empezar y agregan una entrada al terminar cada cambio. Sin datos sensibles.
