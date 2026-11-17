@@ -5,7 +5,7 @@
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo | Dependencia de backend | Responsable sugerido | Estado |
 |---|---|---|---|---|---|---|---|
-| T-01 | `Vencimiento` y `PresentacionVencimiento` en zona `America/Mexico_City` (límites de 1 h y 24 h, «cerrando») | R-05, R-06 · CA-09, CA-10 | — | P | Ninguna (`venceEn` ya está en backend 020) | Alexis | pendiente |
+| T-01 | `Vencimiento` y `PresentacionVencimiento` en zona `America/Mexico_City` (límites de 1 h y 24 h, «cerrando») | R-05, R-06 · CA-09, CA-10 | — | P | Ninguna (`venceEn` ya está en backend 020) | Alexis | hecha (dominio; refresco de CA-10 pendiente en T-04) |
 | T-02 | `ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion`, `PrellenadoSolicitud`; `Solicitud` con `canceladaEn`, `vencidaEn` y `puedeVolverAPedir` | R-01, R-07, R-08 | — | B (bloquea T-03, T-04, T-06) | Nombres de backend 029 (ya fijados) | Erick | pendiente |
 | T-03 | Repositorio: `cancelar(id, motivo?)` y mapeo de 200, 200 repetido, 400, 404, 409 (`request_with_appointment`, `request_expired`), 429 y 5xx | R-02, R-03, R-04 · CA-04, CA-07 | T-02; contrato de 029 vendorizado | B (bloquea T-04) | **Sí:** 029 en el contrato de Mercado | Erick | pendiente |
 | T-04 | Detalle: línea de vencimiento, «Cancelar solicitud», hoja con motivo opcional y controlador (errores, refresco del detalle) | R-01 a R-04, R-11, R-12 · CA-01, CA-02, CA-03, CA-05, CA-06, CA-08 | T-01, T-03; detalle de la spec 015 | B (bloquea T-08) | 029 | Erick | pendiente |
