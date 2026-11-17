@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
+- La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
+- Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
+- La T-02 de la 017 se alineó con los modelos de KNOCK-277 (Tech Lead); el contrato de sprint-04 no coincide literalmente con `docs/openapi.v1.json` del backend: SHA-256 frontend `dff63319387d64328782a0a317df00c793e0e16a7d42ee2c6c6ef80156a0ec29`; SHA-256 backend `670b41609c4342c107a27d47999fbb2c3becb395e2b9829d25d325363f71466e`.
+
 > Registro del proyecto: estado, decisiones con su fecha y su porqué, y errores a evitar. Los agentes la leen al empezar y agregan una entrada al terminar cada cambio. Sin datos sensibles.
 
 ## Estado actual
@@ -7,6 +12,11 @@
 - 12 specs de la base (arquitectura, estructura del repositorio, infraestructura, rendimiento, observabilidad, versionamiento y seguridad) redactadas en **Borrador**; sus tareas **no se han ejecutado**.
 - Sin código de producto todavía.
 
+## 2026-11-13 — Specs de los endpoints que ninguna spec cubría (borradores)
+- **Decisión:** se redactan en un solo cambio 15 specs de backend (039 a 053) y 16 de frontend (029 a 044, con el panel web) para 90 endpoints del Excel `Knock_Endpoints_CRUD.xlsx` que las specs 001 a 038 no cubren; salen en Borrador y sin tareas activas.
+- **Porqué:** las specs numeradas cubren cerca del 30 % de los 130 endpoints del Excel; el resto se especifica de una vez para poder aprobarlas y repartirlas.
+- **Cómo:** una spec por grupo de colecciones, armada con las rutas, roles, reglas de campos, paginación, caché y respuestas de cada hoja; los códigos de negocio en inglés, los plazos y las dudas de cada grupo quedan en su §15 (backend) y §13 (frontend) para confirmarse al aprobar.
+- **Cierre integral (2026-11-13):** se resolvieron las 83 decisiones de la segunda revisión: se corrigieron las contradicciones con las specs 001 a 038 y el Excel (verificación opcional y disponibilidad con `disponibleHasta` en 046, cambio de número con Firebase en 039, contactos de confianza solo en la app en 042, gravedad de los reportes en 053 y otras), se eliminaron los límites sin respaldo y no queda ninguna duda abierta. El registro está en `_herramientas/REGISTRO_DE_CORRECCIONES_039_054.md`.
 ## 2026-11-14 — Estado real de las tareas de la spec 026 (KNOCK-248)
 - **Estado:** `task.md` de la spec 026 marca como hechas T-01 a T-12 y T-14 (PR #29 y #32, verificado por la existencia de sus clases y de las pruebas `cliente_autenticado`, `renovador_sesion_api`, `perfil_repository_api`, `sesiones_repository_api`, `composicion_api` y `flujo_api_servidor_falso`); T-13 sigue pendiente. El `task.md` de la spec 016 ya lo actualizaron #54 y #55 en `sprint-04`, con más detalle; esta PR no lo cambia.
 - **Porqué:** las tablas seguían en «pendiente» aunque el código ya estaba fusionado, y el avance real se medía mal.
@@ -464,3 +474,129 @@
 - **`share_plus` 13.3.1:** el SCA del CI de esta PR pasó en verde (commit 277a14c), así que no necesita EXC-002; esto aclara la nota del 2026-11-12, que decía que «puede necesitarla».
 - **Pendiente:** Erick sube las capturas del flujo, con nombre, teléfono, dirección y código tapados, a KNOCK-83 y KNOCK-84; todavía no hay adjuntos en Jira. T-09 de la 016 y T-08 de la 022 siguen pendientes por la integración con API simulada, el recorrido con semillas y esas capturas.
 - **A evitar:** dar por hechas las tareas de recorrido y capturas sin adjuntar la evidencia, o subir capturas con datos personales o con el código de la visita visible.
+
+## 2026-11-16 — Arreglos del flujo solicitud → cotizaciones → visita probado en teléfono (KNOCK-83, KNOCK-84)
+- **Hecho:** el detalle de la solicitud se vuelve a pedir solo cada 3 s mientras espera cotizaciones (`intervaloRefrescoSolicitudProvider`; el temporizador se cancela al cerrar la pantalla) y entonces aparece «Ver y elegir (N)»; la pestaña Actividad lista las solicitudes que guarda el doble en memoria (`SolicitudRepository.listar`, spec 015 D-03), la más reciente primero; la pantalla de cotizaciones sin ellas tiene «Reintentar»; la visita muestra el avatar del técnico (inicial, o su `fotoUrl` solo si el dominio está permitido).
+- **Pruebas:** `flujo_solicitud_test.dart` recorre el doble real (refresco del detalle, lista de Actividad, «Reintentar», cita en taller con «Cómo llegar», técnico C sin contacto). CA-02 de la 016 y CA-13 de la 022 ya tenían prueba (`visita_test.dart`, `borrado_visita_test.dart`).
+- **Pendiente:** el doble no trae `fotoUrl` porque `dominiosDeFotosProvider` sigue vacío hasta que backend 020 y la spec 013 fijen el dominio; la lista de Actividad vive solo en memoria (se pierde al cerrar la app) hasta que la spec 020 consuma `GET /solicitudes`.
+- **A evitar:** probar en teléfono con `esperaCotizaciones = Duration.zero` y dejarlo en el código: oculta el fallo de la espera de 10 s.
+
+## 2026-11-16 — Maqueta base de la app: capa visual simulada (KNOCK-273)
+- **Qué cambió:** se sube `app/lib/features/maqueta/`, la reconstrucción de las 52 pantallas de `maqueta-knock` con estado simulado (`maq`, `maq.pv`), rutas `/m/...`, mapa de Google, cobertura y animaciones. Lo real se queda real: login por SMS, oficios, colonias, ubicación, perfil y cierre de sesión. Spec 045.
+- **Dependencias nuevas:** `flutter_svg` (logo de Knock) y `lottie` 3.8.2 fijo (animaciones propias generadas con `app/tool/lottie_gen/generar_lotties.py`). Pendiente anotar aquí el resultado de la evaluación de licencia y vulnerabilidades del CI.
+- **Decisión:** los textos de esta capa usan `tr()` con un diccionario es->en, no claves ARB; cada spec de pantallas migra a ARB al conectar su pantalla.
+- **Pendiente:** bandera `MODO_MAQUETA` y rótulo de datos de ejemplo, reescribir las pruebas del diseño anterior y decidir la cobertura de `features/maqueta`.
+- **A evitar:** dejar la capa simulada como definitiva: cada spec de pantallas quita su dependencia de `maq` al conectar su API; mostrar datos de ejemplo como reales en un build de producción.
+
+## 2026-11-16 — MODO_MAQUETA: bandera, aislamiento y cobertura sin tocar el CI (KNOCK-273)
+- **Qué cambió:** `core/config/modo_maqueta.dart` (`MODO_MAQUETA`, apagada por defecto; `modoMaquetaProvider`). Con ella apagada el router, la barra y la raíz son los de `sprint-04`; con ella encendida el router registra `/m/...` y las pantallas de la maqueta, y un rótulo fijo «Datos de ejemplo» (`RotuloDeEjemplo`, spec 027) se ve en toda pantalla. `features/maqueta/fachada_maqueta.dart` es lo único que el router y `app.dart` importan; `app_shell.dart` solo recibe un gancho genérico `iconoDe`. `rutas.dart` acepta `/m/...` solo con `maqueta: true`.
+- **Línea base:** `sprint-04` (0aab7a5) tiene 742 pruebas en verde y 88,2 % de cobertura. Las 95 pruebas en rojo tras subir la maqueta eran regresiones nuevas, no fallos previos.
+- **Defecto corregido:** `maqueta/estado.dart` guardaba el celular en `shared_preferences` (sin cifrar; TC-HU-052-06). Ahora usa el almacén seguro y se borra al cerrar sesión.
+- **Cobertura:** la maqueta pesa el 61 % de las líneas medidas. Una prueba por ruta con contenido y rótulo (`modo_maqueta_test.dart`) cubre el 52,9 % de ella y deja la suite en 67,3 %, sin excluir carpetas, sin bajar el umbral y sin tocar `.github/`.
+- **Desbordamientos:** eran un artefacto de las pruebas: `flutter test` no carga Nunito del `pubspec.yaml` y usa una fuente de cuadrados. `test/soporte/fuente_nunito.dart` la carga; con ella no hay desbordamiento en ninguna de las 45 rutas a 412×892 dp.
+- **Gobernanza (`codemap --check`, `jscpd`):** la maqueta importaba internos de `entrada` e `inicio` y repetía dos funciones. Ahora usa las fachadas públicas `features/entrada/entrada.dart` y `features/inicio/inicio.dart` (misma convención que `actividad.dart`) y un solo `chipRapido` en `ui.dart`; el mapa de `docs/architecture` está regenerado. Sin tocar umbrales ni `.github/`.
+- **Pendiente:** el recorrido en emulador (CA-01) y las verificaciones de CA-06 (oscuro e inglés) y CA-07 («reducir movimiento»); gitleaks; la evaluación de licencias de `flutter_svg` y `lottie` según el CI. Las 2 pruebas de `seguridad_cliente` fallan en equipos con `google-services.json` local (ignorado por git) y pasan en un checkout limpio.
+- **A evitar:** probar la maqueta con la fuente de pruebas por defecto y concluir que hay desbordamientos; importar `features/maqueta/` desde otro módulo que no sea la fachada; mostrar datos de ejemplo sin el rótulo.
+
+## 2026-11-16 — Verificación de la maqueta base: qué se comprobó y qué no (KNOCK-273)
+- **Comprobado:** `flutter analyze --fatal-infos --fatal-warnings` y `dart format --set-exit-if-changed` sin cambios; `sdd_lint`, `sdd_lint --trace 045`, `codemap --check`, `check_exceptions`, `sync_agents --check` y `pin_actions --check` en verde; `jscpd` 0,17 % (umbral 3 %); `gitleaks` 8.30.1 (binario oficial con suma verificada, configuración del repo) sin hallazgos en `sprint-04..HEAD`; `flutter build apk --debug` compila con y sin `--dart-define=MODO_MAQUETA=true`; 826 de 826 pruebas y 67,7 % de cobertura en un checkout limpio.
+- **CA-06 y CA-07:** `maqueta_a11y_test.dart` prueba el tema oscuro y el inglés en 12 rutas (una por función, con contenido y rótulo) y «reducir movimiento» (espera en fotograma fijo, mensajes sin fundido). `sinMovimiento` daba siempre «sin movimiento» bajo `flutter test`; se añadió `ignorarEntornoDePruebas` (`@visibleForTesting`) para poder probar el ajuste del sistema, y se comprobó que 3 de las 4 pruebas de CA-07 fallan si el código lo ignora.
+- **Bandera apagada:** con datos de ejemplo cargados en memoria, ninguna pantalla normal los muestra ni lleva el rótulo, y las rutas `/m/...` no abren pantallas de la maqueta. `Persona Demo` no es de la maqueta: viene del perfil simulado de `sprint-04`.
+- **Rótulo fijo:** cubre texto o acciones en 11 de 45 rutas; propuesta en la spec (§12.6), sin aplicar.
+- **Licencias:** los 7 paquetes nuevos (flutter_svg 2.4.0, lottie 3.8.2, path_parsing 1.1.0, cli_util 0.6.0, vector_graphics 1.3.1, vector_graphics_codec 1.2.0, vector_graphics_compiler 1.3.6) son MIT o BSD-3 según su LICENSE en la caché de pub. No están en la lista del CI: ver spec §12.7.
+- **No comprobado:** recorrido en teléfono o emulador (CA-01), `osv-scanner` (necesita Docker, apagado), el CI real del PR, ni un APK release. En equipos con `google-services.json` local fallan 2 pruebas de `seguridad_cliente` (pasan en un checkout limpio).
+- **Hallazgo ajeno a este PR:** `gitleaks` sobre toda la historia local marca 2 coincidencias de `knock-android-keystore-password` en el commit `ab7683b` de la rama local `feature/KNOCK-221-ci-and-android-publishing`, que no está en `sprint-04` ni en esta rama.
+- **A evitar:** dar por probado en teléfono lo que solo se montó en pruebas; ampliar la lista de licencias del CI sin revisar cada LICENSE ni sin autorización.
+
+## 2026-11-16 — El rótulo «Datos de ejemplo» pasa a franja fija (KNOCK-273)
+- **Qué cambió:** el chip flotante arriba a la derecha tapaba texto o acciones de la esquina en 11 de 45 rutas. `RaizMaqueta.envolver` (`fachada_maqueta.dart`) ahora dibuja una franja fija con su propio alto, barra de estado incluida, y la app debajo con el margen superior ya quitado (`MediaQuery.removePadding`), así que no hay margen doble ni nada cubierto.
+- **Prueba:** `rotulo_no_tapa_test.dart` recorre las 45 rutas en 5 escenarios (320×640, 360×740, 412×892 con y sin muesca, y 800×1280) y exige que ningún texto ni elemento tocable quede bajo la franja; falla si el rótulo vuelve a flotar. La lista de rutas se comparte en `test/soporte/rutas_maqueta.dart`.
+- **Hallazgo sin corregir:** a 320 y 360 dp siete filas de la maqueta desbordan (con Nunito cargada); a 412 dp o más no. No son del rótulo. La prueba los registra en esos dos tamaños sin ocultar el resto y exige cero en los demás. Spec §12.8.
+- **A evitar:** poner el rótulo encima de la pantalla; dar por bueno el diseño en teléfonos angostos solo porque funciona a 412 dp.
+
+## 2026-11-16 — Primer CI del PR #66: jscpd y SCA (KNOCK-273)
+- **`jscpd` (gobernanza) falló con solo 0,18 %:** con `.jscpd.json` cualquier clon da código de salida 1, no solo pasar del umbral del 3 %. Había 3 clones míos: el campo de búsqueda repetido en Inicio y Explorar (ahora `CampoBuscarK`, `features/maqueta/campo_buscar.dart`) y los ayudantes repetidos entre las tres pruebas del modo maqueta (ahora `test/soporte/preparar_maqueta.dart`). En Windows `jscpd` marca además un clon con `docs/templates/` porque el patrón `docs/**` no lo excluye; en el CI (Linux) no ocurre.
+- **SCA (licencias) falló como se esperaba:** «could not detect the validity of all licenses» para cli_util 0.6.0, flutter_svg 2.4.0, lottie 3.8.2, vector_graphics 1.3.1, vector_graphics_codec 1.2.0 y vector_graphics_compiler 1.3.6 (pub las informa en minúsculas: mit, bsd-3-clause). `path_parsing` no se marcó. Sin vulnerabilidades altas. Pendiente de autorización: ampliar `allow-dependencies-licenses` y EXC-002 como en KNOCK-262.
+- **A evitar:** dar por bueno `jscpd` mirando solo el porcentaje sin comprobar su código de salida.
+
+## 2026-11-16 — Revisión integral del PR #66 para pasar a «Ready for review» (KNOCK-273)
+- **CI en `aab92ac`:** pasan App (830 pruebas, cobertura 67,7 %, build), gobernanza (el `jscpd` ya sin clones), contrato, SAST, Semgrep, Gitleaks y landing. Fallan solo `pr-points` (falta la etiqueta `puntos-app-N`) y `sca` (licencias); `gate` falla por esos dos. `branch-name` está desactivado (`ENFORCE_BRANCH_RULES` sin definir): en local marcaría 5 encabezados de commit de 103 a 104 caracteres (máximo 100) y el tipo `style`; corregirlos exige reescribir el historial, así que no se tocan.
+- **Licencias:** de los 7 paquetes nuevos el SCA marcó 6 (los 4 BSD-3 y flutter_svg y lottie, MIT); `path_parsing` no. Evidencia: `sha256` y origen `hosted https://pub.dev` de cada uno en `pubspec.lock` (el CI valida `pub get --enforce-lockfile`), LICENSE del paquete publicado, etiqueta `license:` de pub.dev y LICENSE del repositorio (xvrh/lottie-flutter MIT; flutter/packages y dart-lang/tools BSD-3-Clause). Todas están en la lista permitida de CONTRIBUTING.md. Parche mínimo preparado (ci-pr.yml y EXC-002, fechas sin cambio), sin aplicar.
+- **Etiqueta de puntos:** cuenta el tipo de cambio (CONTRIBUTING §9), no los puntos de Jira; la recomendación y las alternativas están en el PR. La etiqueta `puntos-app-5` ya existe en el repositorio.
+- **A evitar:** aplicar la ampliación de licencias sin que el Tech Lead revise el diff de `.github/` y de EXC-002; confundir los puntos de Jira con los de versionamiento.
+
+## 2026-11-16 — El SCA de licencias deja pasar 6 paquetes de pub más (EXC-002, KNOCK-273)
+- **Decisión** (Tech Lead, 2026-11-16): se agregan a `allow-dependencies-licenses` de `ci-pr.yml` y al alcance de EXC-002 (sin cambiar `creada` 2026-11-02 ni `vence` 2027-01-30) cli_util@0.6.0, flutter_svg@2.4.0, lottie@3.8.2, vector_graphics@1.3.1, vector_graphics_codec@1.2.0 y vector_graphics_compiler@1.3.6. La lista pasa de 57 a 63; `deny-licenses` no cambia y no se agrega ningún permiso general.
+- **Porqué:** el job SCA del PR #66 solo falla porque `dependency-review-action` recibe de pub las licencias en minúsculas (`mit`, `bsd-3-clause`) y no las reconoce como SPDX; no hay vulnerabilidades altas. Es la misma causa que KNOCK-262.
+- **Evidencia (leída el 2026-11-16):** `pubspec.lock` fija cada versión con `source: hosted` y su `sha256` (cli_util 89b8801b…, flutter_svg 455a2203…, lottie 3ce005da…, vector_graphics 06081e4f…, vector_graphics_codec 023f3afd…, vector_graphics_compiler 7d3d604c…) y el CI valida `pub get --enforce-lockfile`. El LICENSE de cada paquete publicado coincide con la etiqueta `license:` de pub.dev y con el LICENSE de su repositorio de origen: MIT (flutter_svg y lottie; `xvrh/lottie-flutter` es MIT en GitHub) y BSD-3-Clause (cli_util, vector_graphics, vector_graphics_codec y vector_graphics_compiler; `dart-lang/tools` y `flutter/packages`). Todas están en la lista permitida de CONTRIBUTING.md.
+- **Matiz de lottie:** su archivo LICENSE conserva la plantilla `Copyright (c) [year] [fullname]` sin rellenar. El texto es el de la licencia MIT y así lo etiquetan pub.dev y GitHub, pero no nombra a un titular. Se acepta con esta constancia; si se prefiere evitar el matiz, la alternativa es reemplazar lottie y rehacer las animaciones de la maqueta.
+- **Fuera del alcance:** `path_parsing` 1.1.0 también es nueva y el SCA no la marcó, así que no se agrega. Ningún otro paquete entra en la excepción.
+- **A evitar:** agregar paquetes a la lista sin leer su LICENSE; olvidar que el action ignora la versión (una versión nueva sigue exenta y su licencia se revisa a mano); bajar `deny-licenses`; renovar EXC-002 sin volver a evaluar si el action ya normaliza las licencias de pub.
+
+## 2026-11-16 — Dominio de zona (KNOCK-47, spec 017 T-02)
+- **Hecho:** `Zona`, `ResultadoZona` y `RegistroListaEspera` son dominio Dart puro sin coordenadas; la lista de colonias se copia como inmutable y la cobertura se toma del servidor. Se movió el validador de CP existente al dominio y se reexporta para conservar sus consumidores; el municipio opcional sigue la spec, sin duplicar validadores. Las cuatro pruebas de dominio y la suite completa (835 pruebas) pasan, igual que `flutter analyze`.
+- **T-01 pendiente:** el workflow `contract-publish` del backend espera un secreto que creará el Tech Lead. Dudas para él antes de integrar: `colonias/en-punto` documenta 422 para coordenadas inválidas frente al 400 de la spec; `municipio` figura obligatorio pero anulable en OpenAPI frente a opcional en la spec; `PUT /me` está en `openapi.identity.v1.json`, separado del contrato de Market. T-02 sigue la spec para el municipio sin decidir el contrato.
+- **A evitar:** inferir cobertura por el prefijo del CP, registrar coordenadas o dar por integrado el contrato antes de la publicación y decisión del Tech Lead.
+
+## 2026-11-16 — Contratos de zona e Identity (KNOCK-47, spec 017 T-01)
+- **Decisión:** se vendorizan los contratos de Market e Identity desde `origin/sprint-04` de `knock-backend`, commit `34f2fb52be98ecc85f85124cca89fb31a0095eab`. `contracts/openapi.v1.json` conserva Identity y `contracts/openapi.market.v1.json` contiene Market; el generador combina ambos y rechaza colisiones incompatibles. `colonias/en-punto` responde 422 para coordenadas inválidas, según la resolución del Tech Lead.
+- **Diferencia del generador:** `docs/endpoints.md` del backend define `municipio` como opcional en la lista de espera, pero OpenAPI `WaitlistRequest` lo marca obligatorio y anulable. No se cambia el dominio; la integración deberá contemplar esta diferencia con el Tech Lead.
+- **Procedimiento:** la skill `api-client-contract` está desactualizada: cita `scripts/sync_contract.py` y `scripts/gen_clients.sh`, que no existen. Para Dart se usa `python3 app/tool/generar_cliente_api.py` y se verifica con `python3 app/tool/generar_cliente_api.py --check`; no se modificó la skill protegida.
+- **Pendiente:** T-03 a T-08 y la conexión de zonas por CP y lista de espera con endpoints reales se coordinan con el Tech Lead.
+- **A evitar:** sobrescribir Identity con Market, editar a mano los contratos o el cliente generado, asumir que `municipio` es obligatorio para la persona o conectar endpoints sin coordinar las tareas pendientes.
+
+## 2026-11-16 — Actualización de contratos de zona desde la referencia remota (KNOCK-47)
+- **Hecho:** `origin/sprint-04` de backend avanzó a `b5706244eeef66b1c2731152c99bbd1f49da6f7d`; se actualizó Market desde esa referencia y se regeneró el cliente. Identity coincide con la misma referencia y se conservó sin cambios.
+- **A evitar:** suponer que una copia previa de Market sigue coincidiendo con la referencia remota; conectar T-03 a T-08 sin coordinación con el Tech Lead.
+## 2026-11-16 — Vencimiento en horario de México (KNOCK-71, spec 025 T-01)
+- **Decisión:** dominio nuevo `Vencimiento` y `PresentacionVencimiento`; no existía una regla equivalente. Recibe el instante actual para pruebas deterministas y no decide el estado del servidor. Aprobado por el Tech Lead: redondeo hacia abajo y UTC−6 en una sola constante para la hora de Ciudad de México.
+- **Riesgo:** si cambia el horario de Ciudad de México, se actualiza esa constante; algunos municipios de la frontera norte sí conservan horario de verano, pero la app usa la hora de Ciudad de México. No se agregó biblioteca de zonas por la regla de sin dependencias nuevas. El refresco de CA-10 queda para T-04.
+- **A evitar:** usar la zona del teléfono o interpretar «cerrando» como estado vencido confirmado por el servidor.
+## 2026-11-17 — Enmienda 1 de la spec 045: la maqueta es la interfaz de la app
+- **Decisión:** el Tech Lead decidió que la maqueta es la base y la interfaz de la app, y que cada pantalla se conecta poco a poco a los endpoints reales, sin mantener dos aplicaciones. La enmienda queda escrita en la spec 045 (§13) y espera su aprobación.
+- **Porqué:** la versión original de la spec reemplazaba cada pantalla de la maqueta por otra «real»; eso duplica pantallas y trabajo. Reutilizar los repositorios y el cliente generado en la propia pantalla de la maqueta es más corto.
+- **Cómo:** E-01 a E-06 en §13: conexión por fases, lo sin backend sigue rotulado como ejemplo, el envío de solicitudes sigue simulado mientras el backend no tenga archivos ni moderación, y la bandera `MODO_MAQUETA` no cambia de valor por defecto en esta enmienda.
+- **A evitar:** crear pantallas paralelas para lo que la maqueta ya cubre; importar el estado simulado desde una pantalla conectada; cambiar el valor por defecto de la bandera sin decidirlo.
+
+## 2026-11-17 — Fase 1: los oficios de la maqueta salen del backend
+- **Decisión:** la lista de oficios (`mec`, `plo`, `ele`) deja de estar escrita en cinco pantallas de la maqueta y se lee de `GET /oficios` por el controlador que ya tiene la app (con caché y ETag). Primera conexión de la enmienda 1 de la spec 045.
+- **Porqué:** el backend ya devuelve los mismos tres oficios, con la misma modalidad que usa la maqueta; así el catálogo manda y los datos visuales (icono, color, textos) se quedan locales, por clave.
+- **Cómo:** `RaizMaqueta` escucha el controlador y guarda las claves en `maq.oficios`; un oficio que la maqueta no sabe dibujar se omite. Si falla, no se inventan oficios: sale un aviso con Reintentar. Pruebas `CA_045_10` y `CA_045_12`; `ESTADO.md` lleva la tabla de conexión (CA-11).
+- **A evitar:** volver a escribir la lista a mano en una pantalla; mostrar oficios de ejemplo cuando falla la red.
+
+
+## 2026-11-17 — Fase 1b: zona por código postal, por punto y lista de espera
+- **Decisión:** el paso de zona de la entrada de la maqueta pide la zona al servidor (`GET /zonas/cp/{cp}`, `GET /colonias/en-punto`) en lugar de decidirla en el teléfono, y la hoja de fuera de cobertura puede registrar la lista de espera (`POST /zonas/lista-espera`). El mapa de Inicio también usa la colonia del servidor.
+- **Porqué:** la spec 017 (R-05) prohíbe deducir la cobertura del prefijo del código postal; antes la maqueta aceptaba cualquier código que empezara con 428 y tenía cuatro colonias fijas.
+- **Cómo:** repositorios `ZonasRepository` y `ListaEsperaRepository` (HTTP real, simulado sin `KNOCK_API_URL`), mapeador del contrato y proveedores en `inicio_providers.dart`. El teléfono solo valida los 5 dígitos (R-04); la lista de espera lleva solo el código postal escrito y nunca coordenadas (R-08); el botón se deshabilita mientras guarda (R-15); los errores salen sin códigos HTTP (R-11).
+- **Pendiente:** guardar la colonia y el código postal en el perfil con `PUT /me` (R-06), la caché de `catalogo/zonas` (R-09) y la zona local (R-10); «Explorar de todos modos» sigue usando las cuatro zonas de la maqueta.
+- **A evitar:** decidir la cobertura en el teléfono; enviar coordenadas a la lista de espera.
+
+## 2026-11-17 — Fase 1c: las sesiones abiertas de la maqueta son las reales
+- **Decisión:** «Dónde está abierta tu cuenta» (Privacidad y datos) lee `GET /me/sesiones` y cierra con `DELETE /me/sesiones/{id}` por un controlador de la feature cuenta; se borró el estado simulado `maq.sessions`.
+- **Porqué:** la maqueta mostraba un «Samsung Galaxy A54» y un «Navegador en computadora» fijos; el repositorio real ya existía desde la spec 026 sin pantalla.
+- **Cómo:** `SesionesController` (sin reintento automático, con Reintentar), widget `SesionesAbiertas` con carga, error y vacío; la sesión de este teléfono no se cierra desde aquí (el servidor responde 409); los errores salen sin códigos HTTP. Pruebas `CA_045_10` y `CA_045_12`.
+- **A evitar:** mostrar sesiones de ejemplo cuando falla la red.
+
+## 2026-11-17 — Fase 2: Actividad de la maqueta muestra las solicitudes reales (KNOCK-277)
+- **Decisión:** con sesión iniciada y `KNOCK_API_URL` válida, Actividad lee `GET /solicitudes` y, al abrir una, `GET /solicitudes/{id}`. Cada solicitud se convierte en un `Job` marcado como real y se mezcla con las simuladas de la sesión. El envío (`POST /solicitudes`) sigue simulado (E-05).
+- **Porqué:** segunda conexión de la enmienda 1 (E-06); el repositorio y los mapeadores del contrato ya estaban hechos y probados.
+- **Cómo:** controlador `SolicitudesRealesController` (sin reintento automático, con Reintentar) y puente en `_PuenteDeDatos`; la lista no trae la clave del oficio, así que se reconoce por el nombre con el catálogo de oficios (una solicitud de un oficio que la maqueta no dibuja se omite); la descripción sale del detalle. Carga, error sin datos de ejemplo y vacío (CA-12). Cita, terminada y cancelada se dibujan sin técnico: su visita se conecta en la fase de visita.
+- **A evitar:** mostrar solicitudes de ejemplo cuando falla la red; pedir las solicitudes sin sesión o sin API.
+
+## 2026-11-17 — Fase 3: cotizaciones, elección, visita y aviso de la maqueta son los reales
+- **Decisión:** comparar y elegir cotizaciones (`GET .../cotizaciones`, `POST .../elegir`), la visita o cita del cliente (`GET /visitas/{id}`) y el aviso de confianza (`POST /visitas/{id}/aviso`) usan la API en las solicitudes reales. «Ya llegué» (`POST /visitas/{id}/llegada`) no se conecta.
+- **Porqué:** el técnico no tiene cómo encontrar sus visitas (no existe `GET /tecnicos/me/trabajo`, backend 036), así que esa pantalla no puede llegar con datos reales; hacerlo antes obligaría a inventar un ejemplo.
+- **Cómo:** `VisitaRealGate` pide la visita, la pasa a la `Job` (técnico como `Prov` sintético con prefijo `api:`) y la pantalla de la maqueta dibuja lo del servidor. Sin código real no se muestra «0000» sino el motivo (usado, vencido, bloqueada, no aplica). El aviso usa el texto del servidor, que nunca lleva el código ni la dirección; antes la maqueta lo incluía en el mensaje. En una visita real se ocultan reprogramar y cancelar (sin endpoint). Las cajas del código ya no desbordan a 320 dp.
+- **A evitar:** mostrar un código inventado; poner el código o la dirección en el aviso; ofrecer acciones sin endpoint en una visita real.
+## 2026-11-17 — Enmienda 2 de la spec 045: maqueta encendida por defecto y sin franja de ejemplo
+- **Decisión:** `MODO_MAQUETA` va encendida por defecto (se apaga con `--dart-define=MODO_MAQUETA=false`) y se retira la franja fija «Datos de ejemplo» de la maqueta. También se arregla el mapa, que se quedaba oscuro en modo claro. La enmienda queda escrita en la spec 045 (§14) y espera su aprobación.
+- **Porqué:** la maqueta es la interfaz de la app (enmienda 1); mantener dos modos y un rótulo fijo no tiene sentido cuando lo ya conectado usa la API real. Con la bandera encendida por defecto el flujo de Play no necesita pasarla.
+- **Cómo:** `modoMaquetaDeCompilacion` con `defaultValue: true`; las pruebas de la app normal apagan la bandera en `montarApp` (parámetro `maqueta`, por defecto falso) y las de la maqueta piden `maqueta: true`. El mapa recibe una `ValueKey` por tema para recrearse al cambiarlo.
+- **A evitar:** dos overrides del mismo proveedor en `montarApp` (Riverpod no los admite); volver a poner un rótulo fijo sin decidirlo.
+
+## 2026-11-17 — El mapa sigue el ajuste «Apariencia» de la app
+- **Decisión:** la app le dice a Android su propio modo de noche (0 sistema, 1 claro, 2 oscuro) según «Apariencia», por el canal `knock/pantalla` (`modoNoche`, Android 12 o superior), y el mapa se crea con el `colorScheme` del tema.
+- **Porqué:** el mapa nativo se oscurecía con el modo de noche de Android y no con el tema de Flutter: con el teléfono en oscuro y la app en «Claro» el mapa seguía oscuro. Probado en un Huawei (el motor de mapas de Huawei ignora el estilo JSON y el `colorScheme`).
+- **Cómo:** `ModoNocheDeLaApp` y `modoNocheSincronizadoProvider` (se observa desde `KnockApp`), `MainActivity` usa `UiModeManager.setApplicationNightMode`. No cambia el modo del teléfono. Antes de Android 12 no hace nada.
+- **A evitar:** tocar solo el estilo JSON o el `colorScheme` del mapa; en este teléfono no bastan.

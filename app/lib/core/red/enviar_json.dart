@@ -60,7 +60,17 @@ Future<RespuestaJson> enviarJson(
     throw const ServicioNoDisponibleFailure();
   }
   final estado = respuesta.statusCode;
-  if (aceptar.contains(estado)) return RespuestaJson(estado: estado);
+  if (aceptar.contains(estado)) {
+    // Un estado aceptado puede traer el motivo en el cuerpo (p. ej. el `code`
+    // de un 409). Si no es JSON, queda sin cuerpo: aquí no es un error.
+    Object? cuerpoAceptado;
+    try {
+      cuerpoAceptado = _decodificar(respuesta);
+    } on Failure {
+      cuerpoAceptado = null;
+    }
+    return RespuestaJson(estado: estado, json: cuerpoAceptado);
+  }
   if (estado == 304) throw const DatosInvalidosFailure();
   if (estado < 200 || estado > 299) {
     throw mapearErrorApi(ApiException(estado, respuesta.body));

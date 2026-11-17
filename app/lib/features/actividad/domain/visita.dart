@@ -55,6 +55,7 @@ final class TecnicoDeVisita {
     this.nivelVerificacion,
     this.telefono,
     this.whatsapp,
+    this.fotoUrl,
   });
 
   final String nombre;
@@ -62,6 +63,10 @@ final class TecnicoDeVisita {
   final String? nivelVerificacion;
   final String? telefono;
   final String? whatsapp;
+
+  /// `tecnico.fotoUrl` del contrato (spec 016 §4); solo se pinta si su
+  /// dominio está permitido (spec 015, CA-21).
+  final String? fotoUrl;
 }
 
 /// La visita del cliente. Solo el cliente recibe [codigo] (CA-03, R-02).

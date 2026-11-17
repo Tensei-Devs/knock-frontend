@@ -21,8 +21,17 @@ class MapaPrevia extends StatefulWidget {
     required this.controlador,
     required this.expertos,
     required this.alTocarExperto,
+    this.extras = const [],
+    this.alTocarFondo,
     super.key,
   });
+
+  /// Marcadores extra (p. ej. la agenda del técnico): (x, y, widget) en
+  /// unidades del mundo; el widget queda con su punta en ese punto.
+  final List<(double, double, Widget)> extras;
+
+  /// Se llama al tocar el mapa (no un pin).
+  final VoidCallback? alTocarFondo;
 
   final ControladorMapa controlador;
   final List<ExpertoDeEjemplo> expertos;
@@ -46,6 +55,7 @@ class _MapaPreviaState extends State<MapaPrevia> {
       builder: (context, restricciones) {
         controlador.ajustarCaja(restricciones.biggest);
         return GestureDetector(
+          onTap: widget.alTocarFondo,
           onScaleStart: (_) => _escalaAnterior = 1,
           onScaleUpdate: (d) {
             final pinza = d.pointerCount >= 2;
@@ -85,6 +95,7 @@ class _MapaPreviaState extends State<MapaPrevia> {
                             caja: restricciones.biggest,
                             expertos: widget.expertos,
                             alTocarExperto: widget.alTocarExperto,
+                            extras: widget.extras,
                           ),
                   ),
                 ),
@@ -103,8 +114,10 @@ class _Capas extends StatelessWidget {
     required this.caja,
     required this.expertos,
     required this.alTocarExperto,
+    required this.extras,
   });
 
+  final List<(double, double, Widget)> extras;
   final VistaMapa vista;
   final Size caja;
   final List<ExpertoDeEjemplo> expertos;
@@ -134,6 +147,13 @@ class _Capas extends StatelessWidget {
               child: const ExcludeSemantics(child: _PuntoYo()),
             ),
           ),
+        for (final e in extras)
+          if (_visible(vista.pantallaDe(e.$1, e.$2)))
+            Positioned(
+              left: vista.pantallaDe(e.$1, e.$2).x - 40,
+              top: vista.pantallaDe(e.$1, e.$2).y - 44,
+              child: SizedBox(width: 80, child: Center(child: e.$3)),
+            ),
         for (final experto in expertos)
           if (_visible(vista.pantallaDe(experto.x, experto.y)))
             Positioned(

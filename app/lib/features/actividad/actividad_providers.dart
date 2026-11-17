@@ -6,9 +6,12 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/actividad/data/aviso_local_repository.dart';
 import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
+import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
+import 'package:app/features/actividad/data/visita_repository_api.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
+import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,11 +26,44 @@ final solicitudRepositoryProvider = Provider<SolicitudRepository>(
   (ref) => ref.watch(_datosDePruebaProvider),
 );
 
+/// Solicitudes para la maqueta (spec 045, enmienda 1): la API real con
+/// `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Es aparte de
+/// [solicitudRepositoryProvider] para no cambiar las pantallas anteriores.
+final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
+  ref,
+) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return SolicitudRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
+
 /// Una sola instancia en memoria para solicitudes y visitas, para que la
 /// visita salga de la cita que se eligió (backend 021 y 022).
 final _datosDePruebaProvider = Provider<SolicitudRepositoryDePrueba>(
   (ref) => SolicitudRepositoryDePrueba(),
 );
+
+/// Visita y aviso de confianza para la maqueta (spec 045, enmienda 1): la API
+/// real con `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Son
+/// aparte de [visitaRepositoryProvider] y [avisoRepositoryProvider] para no
+/// cambiar las pantallas anteriores.
+final visitasRealesRepositoryProvider = Provider<VisitaRepository>((ref) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return VisitaRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
+
+final avisosRealesRepositoryProvider = Provider<AvisoRepository>((ref) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return AvisoRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
 
 /// Texto del aviso de confianza (backend 022 R-12), del mismo doble.
 final avisoRepositoryProvider = Provider<AvisoRepository>(
@@ -96,6 +132,19 @@ final coloniaGuardadaProvider = Provider<String?>(
 /// la spec 013 fijen el dominio de los enlaces firmados: sin dominio no se
 /// carga ninguna foto remota.
 final dominiosDeFotosProvider = Provider<Set<String>>((ref) => const {});
+
+/// Cada cuánto se vuelve a pedir una solicitud que aún espera cotizaciones,
+/// para que el detalle se actualice solo (sin caché, R-11). `null` apaga el
+/// refresco (las pruebas lo apagan y refrescan a mano).
+final intervaloRefrescoSolicitudProvider = Provider<Duration?>(
+  (ref) => const Duration(seconds: 3),
+);
+
+/// Las solicitudes de la persona para la pestaña Actividad (D-03).
+final solicitudesActividadProvider =
+    FutureProvider.autoDispose<List<Solicitud>>(
+      (ref) => ref.watch(solicitudRepositoryProvider).listar(),
+    );
 
 /// Reloj de la pantalla (las pruebas lo fijan).
 final relojSolicitudProvider = Provider<DateTime Function()>(

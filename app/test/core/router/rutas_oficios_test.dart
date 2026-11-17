@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ import '../../soporte/montar_app.dart';
 
 Future<ProviderContainer> _montarApp(WidgetTester tester) async {
   // HU-001: arranca con sesión para abrir en las pestañas.
-  final container = ProviderContainer(overrides: [conSesion()]);
+  final container = ProviderContainer(
+    overrides: [conSesion(), modoMaquetaProvider.overrideWithValue(false)],
+  );
   addTearDown(container.dispose);
   await tester.pumpWidget(
     UncontrolledProviderScope(container: container, child: const KnockApp()),

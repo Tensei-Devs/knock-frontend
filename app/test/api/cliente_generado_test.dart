@@ -95,7 +95,20 @@ void main() {
             reason: '$nombre.$propiedad no está en el modelo generado',
           );
           if (requeridos.contains(propiedad)) {
-            expect(codigo, contains('required this.$propiedad,'));
+            // El generador escribe las listas requeridas con valor por
+            // defecto (`this.x = const []`) en vez de `required this.x`.
+            final definiciones = esquema['properties']! as Map;
+            final tipo = (definiciones[propiedad]! as Map)['type'];
+            final esLista =
+                tipo == 'array' || (tipo is List && tipo.contains('array'));
+            expect(
+              codigo,
+              contains(
+                esLista
+                    ? 'this.$propiedad = const [],'
+                    : 'required this.$propiedad,',
+              ),
+            );
           }
         }
       }
@@ -133,6 +146,20 @@ void main() {
     test('CA-006-02 el cliente del repositorio coincide con su manifiesto '
         'y con el contrato vendorizado', () {
       expect(diferenciasConManifiesto(_paquete, _contrato), isEmpty);
+    });
+
+    test('T-01 el cliente conserva Identity e incorpora Market', () {
+      final codigo = File('${_paquete.path}/lib/api.dart').readAsStringSync();
+      expect(codigo, contains('api/auth_api.dart'));
+      expect(codigo, contains('api/zonas_api.dart'));
+      final rutas = (_json(_contrato)['paths']! as Map).keys;
+      expect(rutas, contains('/api/v{version}/colonias/en-punto'));
+      expect(rutas, contains('/api/v{version}/zonas/cp/{cp}'));
+      expect(rutas, contains('/api/v{version}/zonas/lista-espera'));
+      expect(
+        (_json(_contrato)['paths']! as Map).keys,
+        contains('/api/v{version}/me'),
+      );
     });
 
     test('CA-006-02 una edición a mano, un archivo agregado o un contrato '

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/core/router/rutas.dart';
@@ -11,11 +13,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-/// La solicitud [id] de la persona. Sin caché (spec 015, R-11).
+/// La solicitud [id] de la persona. Sin caché (spec 015, R-11). Mientras
+/// espera cotizaciones se vuelve a pedir sola cada
+/// [intervaloRefrescoSolicitudProvider], para que «Ver y elegir (N)» aparezca
+/// sin salir de la pantalla; el temporizador se cancela al cerrarla.
 final solicitudDetalleProvider = FutureProvider.autoDispose
-    .family<Solicitud, String>(
-      (ref, id) => ref.watch(solicitudRepositoryProvider).obtener(id),
-    );
+    .family<Solicitud, String>((ref, id) async {
+      final solicitud = await ref
+          .watch(solicitudRepositoryProvider)
+          .obtener(id);
+      final intervalo = ref.watch(intervaloRefrescoSolicitudProvider);
+      if (intervalo != null && esperaCotizaciones(solicitud)) {
+        final temporizador = Timer(intervalo, ref.invalidateSelf);
+        ref.onDispose(temporizador.cancel);
+      }
+      return solicitud;
+    });
+
+/// Si la solicitud aún no tiene cotizaciones que mostrar.
+bool esperaCotizaciones(Solicitud solicitud) =>
+    solicitud.totalCotizaciones == 0 &&
+    (solicitud.estado == EstadoSolicitud.enviada ||
+        solicitud.estado == EstadoSolicitud.cotizando);
+
+/// Texto del estado de una solicitud (spec 015, §7).
+String textoEstadoSolicitud(AppLocalizations textos, EstadoSolicitud estado) =>
+    switch (estado) {
+      EstadoSolicitud.enviada => textos.solicitudEstadoEnviada,
+      EstadoSolicitud.cotizando => textos.solicitudEstadoCotizando,
+      EstadoSolicitud.citaConfirmada => textos.solicitudEstadoCita,
+      EstadoSolicitud.terminada ||
+      EstadoSolicitud.calificada => textos.solicitudEstadoTerminada,
+      EstadoSolicitud.cancelada => textos.solicitudEstadoCancelada,
+      EstadoSolicitud.vencida => textos.solicitudEstadoVencida,
+      EstadoSolicitud.desconocido => textos.solicitudEstadoEnProceso,
+    };
 
 /// Detalle de una solicitud: estado, oficio, descripción, día, franja y
 /// número de fotos (spec 015, §7). Un 404 se muestra como «ya no está
@@ -65,16 +97,7 @@ class _Contenido extends StatelessWidget {
     final textos = AppLocalizations.of(context);
     final tema = Theme.of(context);
     final idioma = Localizations.localeOf(context).toLanguageTag();
-    final estado = switch (solicitud.estado) {
-      EstadoSolicitud.enviada => textos.solicitudEstadoEnviada,
-      EstadoSolicitud.cotizando => textos.solicitudEstadoCotizando,
-      EstadoSolicitud.citaConfirmada => textos.solicitudEstadoCita,
-      EstadoSolicitud.terminada ||
-      EstadoSolicitud.calificada => textos.solicitudEstadoTerminada,
-      EstadoSolicitud.cancelada => textos.solicitudEstadoCancelada,
-      EstadoSolicitud.vencida => textos.solicitudEstadoVencida,
-      EstadoSolicitud.desconocido => textos.solicitudEstadoEnProceso,
-    };
+    final estado = textoEstadoSolicitud(textos, solicitud.estado);
     final franja = switch (solicitud.franja) {
       Franja.manana => textos.solicitudFranjaManana,
       Franja.tarde => textos.solicitudFranjaTarde,

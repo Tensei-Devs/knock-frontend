@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/app.dart';
+import 'package:app/core/config/modo_maqueta.dart';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/core/router/rutas.dart';
@@ -52,6 +53,7 @@ Future<ProviderContainer> montarApp(
   bool sesionIniciada = true,
   bool abrirEnEntrada = true,
   ServicioEntrada? servicioEntrada,
+  bool maqueta = false,
   List<Override> extra = const [],
 }) async {
   final container = ProviderContainer(
@@ -65,6 +67,10 @@ Future<ProviderContainer> montarApp(
       ),
       esTecnicoProvider.overrideWith(() => _EsTecnicoInicial(esTecnico)),
       interruptorDePruebaProvider.overrideWithValue(interruptorDePrueba),
+      // La maqueta va encendida por defecto en la compilación (spec 045,
+      // enmienda 2): las pruebas de la app normal la apagan aquí y las de la
+      // maqueta piden `maqueta: true`.
+      modoMaquetaProvider.overrideWithValue(maqueta),
       ...extra,
     ],
   );
