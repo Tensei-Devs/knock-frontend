@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
-import 'package:app/core/tema/colores.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
@@ -19,7 +18,6 @@ import 'package:app/features/maqueta/pantallas_tecnico2.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
-import 'package:app/features/previa/presentation/rotulo_ejemplo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -239,49 +237,14 @@ abstract final class RaizMaqueta {
   static ThemeData conTransiciones(ThemeData tema) =>
       tema.copyWith(pageTransitionsTheme: pageTransitionsKnock);
 
-  /// Envuelve la app: avisos de la maqueta y el rótulo fijo «Datos de
-  /// ejemplo» (spec 027, R-12 y R-17; spec 045, R-02), que no se puede ocultar.
+  /// Envuelve la app: avisos de la maqueta y el puente con los datos reales.
   ///
-  /// El rótulo es una franja superior con su propio alto (más la barra de
-  /// estado): la app se dibuja debajo, con el margen superior ya consumido,
-  /// así que no cubre títulos ni acciones de ninguna pantalla.
-  static Widget envolver(BuildContext context, Widget? child) {
-    final datos = MediaQuery.of(context);
-    return AvisosHost(
-      messengerKey: mensajeroMaqueta,
-      child: Column(
-        children: [
-          _FranjaDeEjemplo(arriba: datos.padding.top),
-          Expanded(
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: _PuenteDeDatos(child: child ?? const SizedBox.shrink()),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Franja fija con el rótulo «Datos de ejemplo» que ocupa su propio espacio.
-class _FranjaDeEjemplo extends StatelessWidget {
-  const _FranjaDeEjemplo({required this.arriba});
-
-  /// Alto de la barra de estado, que la franja también cubre.
-  final double arriba;
-
-  @override
-  Widget build(BuildContext context) => ColoredBox(
-    color: context.colores.amberSoft,
-    child: Padding(
-      padding: EdgeInsets.only(top: arriba),
-      child: const SizedBox(
-        width: double.infinity,
-        child: Center(child: RotuloDeEjemplo()),
-      ),
-    ),
+  /// Ya no lleva la franja fija «Datos de ejemplo» (spec 045, enmienda 2): la
+  /// maqueta es la interfaz de la app y lo que aún no tiene endpoint se queda
+  /// simulado sin rótulo.
+  static Widget envolver(BuildContext context, Widget? child) => AvisosHost(
+    messengerKey: mensajeroMaqueta,
+    child: _PuenteDeDatos(child: child ?? const SizedBox.shrink()),
   );
 }
 
