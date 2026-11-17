@@ -102,8 +102,8 @@ Ninguna. Las de §12 las toma la persona que aprueba.
 3. **Pantallas duplicadas (E-03):** hay que listar cuáles de `features/*` se retiran y en qué PR, para no dejar código muerto.
 
 **Aprobación de la enmienda**
-- [ ] Revisor 1 — nombre: fecha:
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-17
+- [x] Sin conflicto con la constitución
 
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-16
