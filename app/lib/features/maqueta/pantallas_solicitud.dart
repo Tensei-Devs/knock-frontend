@@ -4,6 +4,7 @@ import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
@@ -76,7 +77,8 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
       b.addAll([
         h1('¿Qué necesitas arreglar?'),
         stack([
-          for (final id in ['mec', 'plo', 'ele'])
+          if (maq.oficiosError && maq.oficios.isEmpty) const AvisoOficios(),
+          for (final id in maq.oficios)
             ChoiceK(
               on: r.cat == id,
               onTap: () {

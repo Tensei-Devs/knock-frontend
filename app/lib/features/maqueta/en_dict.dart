@@ -237,6 +237,8 @@ const Map<String, String> diccionarioEn = {
   "Empezar": "Start",
   // Capa de animaciones y esperas (demo): mensajes que rotan.
   "Buscando expertos cerca de ti…": "Looking for pros near you…",
+  "No pudimos cargar los oficios. Toca para reintentar":
+      "We couldn't load the trades. Tap to retry",
   "Revisando disponibilidad…": "Checking availability…",
   "Ya casi…": "Almost there…",
   "Revisando tus documentos…": "Reviewing your documents…",
