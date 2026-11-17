@@ -6,6 +6,7 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/actividad/data/aviso_local_repository.dart';
 import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
+import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
@@ -23,6 +24,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final solicitudRepositoryProvider = Provider<SolicitudRepository>(
   (ref) => ref.watch(_datosDePruebaProvider),
 );
+
+/// Solicitudes para la maqueta (spec 045, enmienda 1): la API real con
+/// `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Es aparte de
+/// [solicitudRepositoryProvider] para no cambiar las pantallas anteriores.
+final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
+  ref,
+) {
+  if (!usaApiReal(ref)) return ref.watch(_datosDePruebaProvider);
+  return SolicitudRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  );
+});
 
 /// Una sola instancia en memoria para solicitudes y visitas, para que la
 /// visita salga de la cita que se eligió (backend 021 y 022).
