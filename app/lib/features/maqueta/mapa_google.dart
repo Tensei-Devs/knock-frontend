@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:app/core/permisos/explicacion_permiso.dart';
+import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.dart';
@@ -312,8 +314,8 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
     };
   }
 
-  /// Centra en la ubicación real si el permiso ya se concedió o se concede
-  /// con el flujo existente; si no, queda el centro por defecto.
+  /// Centra en la ubicación real si el permiso ya se concedió; no lo pide;
+  /// si no, queda el centro por defecto.
   Future<void> _ubicar() async {
     try {
       LatLng? p;
@@ -321,7 +323,11 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
       if (sim != null) {
         p = LatLng(sim.lat, sim.lng);
       } else {
-        final r = await ref.read(ubicacionRepositoryProvider).obtenerUnaVez();
+        // Sin que la persona toque nada: solo si el permiso ya se concedió;
+        // el aviso previo sale en «Mi ubicación» (spec 012, R-06).
+        final r = await ubicarSiHayPermiso(
+          ref.read(ubicacionRepositoryProvider),
+        );
         if (r is Concedida) p = LatLng(r.latitud, r.longitud);
       }
       if (!mounted || p == null) return;
@@ -521,7 +527,10 @@ class ControlesMapaGoogle extends ConsumerWidget {
               unawaited(
                 ref
                     .read(miUbicacionControllerProvider.notifier)
-                    .centrar(control),
+                    .centrar(
+                      control,
+                      explicar: avisoPrevioDe(context, PermisoApp.ubicacion),
+                    ),
               );
             }
           }),

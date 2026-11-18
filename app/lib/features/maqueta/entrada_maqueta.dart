@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/permisos/explicacion_permiso.dart';
+import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/core/router/destino_de_regreso_provider.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
@@ -216,7 +218,11 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
       lat = sim.lat;
       lng = sim.lng;
     } else {
-      final r = await ref.read(ubicacionRepositoryProvider).obtenerUnaVez();
+      // Aviso previo y, con «Ahora no», se queda el código postal (R-06, R-07).
+      final r = await ubicarConAviso(
+        ref.read(ubicacionRepositoryProvider),
+        avisoPrevioDe(context, PermisoApp.ubicacion),
+      );
       if (r is Concedida) {
         lat = r.latitud;
         lng = r.longitud;
