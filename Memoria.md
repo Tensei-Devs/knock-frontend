@@ -610,3 +610,9 @@
 - **Decisión:** `docs/EVALUACION.md` reúne las respuestas a las preguntas de evaluación de la app, el panel y la landing con el archivo donde se comprueba cada una: herramientas de CI y CD, rutas que consume la app, logout contra la API, permisos, eliminar cuenta, validaciones y pruebas.
 - **Porqué:** las respuestas salían contradictorias según el archivo que se leyera primero (por ejemplo, el logout parecía simulado porque la maqueta usa un repositorio de ejemplo).
 - **A evitar:** afirmar que algo se valida en la app cuando lo valida el backend; dar cifras de pruebas sin decir que son declaraciones y no una corrida.
+
+## 2026-11-17 — El aviso de privacidad de la maqueta nombra al responsable real (KNOCK-289)
+- **Decisión:** el aviso completo de la maqueta ya no muestra `[RAZÓN SOCIAL]`, `[DOMICILIO]` ni `[CORREO DE PRIVACIDAD]`; el responsable y su domicilio son los mismos que publica la landing en `landing/privacidad/index.html` (sección «Responsable»). Una prueba falla si aparece cualquier marcador entre corchetes con mayúsculas.
+- **Porqué:** el texto legal se veía con marcadores sin llenar mientras la landing ya publicaba los datos reales.
+- **Cómo:** prueba `app/test/features/maqueta/aviso_privacidad_test.dart`; el texto del responsable se copió tal cual de la landing. La sección 7 ya no lleva un correo inventado: remite al responsable indicado al inicio, hasta que José decida si se publica el correo de la landing.
+- **A evitar:** inventar o cambiar datos del responsable; dejar marcadores entre corchetes en textos legales; corregir aquí diferencias de fondo con la landing sin decisión de José.
