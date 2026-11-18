@@ -329,227 +329,273 @@ void main() {
       expect(almacen.contenido[AlmacenSesion.claveAcceso], 'acc-A');
     });
 
-    group(
-      'CA_026_13 si el almacén seguro falla al guardar los tokens nuevos',
-      () {
-        late _AlmacenQueFalla fallon;
+    group('CA_026_13 si el almacén seguro falla al guardar los tokens nuevos', () {
+      late _AlmacenQueFalla fallon;
 
-        Future<void> montarConAlmacenQueFalla({
-          Set<int> escrituras = const {},
-          bool todas = false,
-          bool borrado = false,
-        }) async {
+      Future<void> montarConAlmacenQueFalla({
+        Set<int> escrituras = const {},
+        bool todas = false,
+        bool borrado = false,
+      }) async {
+        fallon = _AlmacenQueFalla();
+        almacen = fallon;
+        await montar();
+        fallon.armar(escrituras: escrituras, todas: todas, borrado: borrado);
+      }
+
+      test(
+        'si el primer guardado falla y el segundo funciona, repite una vez',
+        () async {
+          await montarConAlmacenQueFalla(escrituras: {1});
+          final r = await pedir('me');
+
+          expect(r.statusCode, 200);
+          expect(refrescos, 1);
+          expect(api.llamadas, ['GET me', 'POST auth/refresh', 'GET me']);
+          expect(api.peticiones[2].autorizacion, 'Bearer acc-B');
+          expect(almacenAlReintentar.single, {
+            AlmacenSesion.claveAcceso: 'acc-B',
+            AlmacenSesion.claveRefresco: 'ref-B',
+          });
+          expect(c.read(sesionProvider)!.accessToken, 'acc-B');
+          expect(c.read(sesionIniciadaProvider), isTrue);
+        },
+      );
+
+      test('si falla a medias (refresco nuevo guardado, acceso no), el segundo '
+          'intento deja el par completo', () async {
+        await montarConAlmacenQueFalla(escrituras: {2});
+        final r = await pedir('me');
+
+        expect(r.statusCode, 200);
+        expect(almacen.contenido, {
+          AlmacenSesion.claveAcceso: 'acc-B',
+          AlmacenSesion.claveRefresco: 'ref-B',
+        });
+        expect(c.read(sesionProvider)!.refreshToken, 'ref-B');
+      });
+
+      test(
+        'si la app muere tras la primera escritura, al reiniciar renueva con '
+        'el refresco nuevo y la sesión sigue',
+        () async {
           fallon = _AlmacenQueFalla();
           almacen = fallon;
-          await montar();
-          fallon.armar(escrituras: escrituras, todas: todas, borrado: borrado);
-        }
+          final sesion = AlmacenSesion(fallon);
+          await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
+          // La segunda escritura (el acceso) no ocurre y no hay reintento.
+          fallon.armar(escrituras: {2});
+          await expectLater(
+            sesion.guardar(acceso: 'acc-B', refresco: 'ref-B'),
+            throwsException,
+          );
 
-        test(
-          'si el primer guardado falla y el segundo funciona, repite una vez',
-          () async {
-            await montarConAlmacenQueFalla(escrituras: {1});
-            final r = await pedir('me');
+          // Reinicio: se arranca con lo que quedó en el almacén seguro.
+          final tokens = TokensSesion(
+            accessToken: (await sesion.leerAcceso())!,
+            refreshToken: (await sesion.leerRefresco())!,
+          );
+          expect(
+            tokens,
+            const TokensSesion(accessToken: 'acc-A', refreshToken: 'ref-B'),
+          );
 
-            expect(r.statusCode, 200);
-            expect(refrescos, 1);
-            expect(api.llamadas, ['GET me', 'POST auth/refresh', 'GET me']);
-            expect(api.peticiones[2].autorizacion, 'Bearer acc-B');
-            expect(almacenAlReintentar.single, {
-              AlmacenSesion.claveAcceso: 'acc-B',
-              AlmacenSesion.claveRefresco: 'ref-B',
-            });
-            expect(c.read(sesionProvider)!.accessToken, 'acc-B');
-            expect(c.read(sesionIniciadaProvider), isTrue);
-          },
-        );
-
-        test(
-          'si falla a medias (refresco nuevo guardado, acceso no), el segundo '
-          'intento deja el par completo',
-          () async {
-            await montarConAlmacenQueFalla(escrituras: {2});
-            final r = await pedir('me');
-
-            expect(r.statusCode, 200);
-            expect(almacen.contenido, {
-              AlmacenSesion.claveAcceso: 'acc-B',
-              AlmacenSesion.claveRefresco: 'ref-B',
-            });
-            expect(c.read(sesionProvider)!.refreshToken, 'ref-B');
-          },
-        );
-
-        test(
-          'si la app muere tras la primera escritura, al reiniciar renueva con '
-          'el refresco nuevo y la sesión sigue',
-          () async {
-            fallon = _AlmacenQueFalla();
-            almacen = fallon;
-            final sesion = AlmacenSesion(fallon);
-            await sesion.guardar(acceso: 'acc-A', refresco: 'ref-A');
-            // La segunda escritura (el acceso) no ocurre y no hay reintento.
-            fallon.armar(escrituras: {2});
-            await expectLater(
-              sesion.guardar(acceso: 'acc-B', refresco: 'ref-B'),
-              throwsException,
-            );
-
-            // Reinicio: se arranca con lo que quedó en el almacén seguro.
-            final tokens = TokensSesion(
-              accessToken: (await sesion.leerAcceso())!,
-              refreshToken: (await sesion.leerRefresco())!,
-            );
-            expect(
-              tokens,
-              const TokensSesion(accessToken: 'acc-A', refreshToken: 'ref-B'),
-            );
-
-            // La API ya rotó ref-A: solo acepta ref-B y solo sirve acc-C.
-            api.responder = (p) async {
-              if (p.ruta == 'auth/refresh') {
-                refrescos++;
-                return p.json['refreshToken'] == 'ref-B'
-                    ? jsonOk(tokensJson('acc-C', 'ref-C'))
-                    : http.Response('', 401);
-              }
-              return token(p) == 'acc-C'
-                  ? jsonOk({'ok': true})
+          // La API ya rotó ref-A: solo acepta ref-B y solo sirve acc-C.
+          api.responder = (p) async {
+            if (p.ruta == 'auth/refresh') {
+              refrescos++;
+              return p.json['refreshToken'] == 'ref-B'
+                  ? jsonOk(tokensJson('acc-C', 'ref-C'))
                   : http.Response('', 401);
-            };
-            c = contenedorConApi(api, tokens: tokens, almacen: fallon);
-            addTearDown(c.dispose);
-            c.listen(sesionIniciadaProvider, (_, _) {});
+            }
+            return token(p) == 'acc-C'
+                ? jsonOk({'ok': true})
+                : http.Response('', 401);
+          };
+          c = contenedorConApi(api, tokens: tokens, almacen: fallon);
+          addTearDown(c.dispose);
+          c.listen(sesionIniciadaProvider, (_, _) {});
 
-            final r = await pedir('me');
+          final r = await pedir('me');
 
-            expect(r.statusCode, 200);
-            expect(refrescos, 1);
-            expect(api.peticiones[1].json, {'refreshToken': 'ref-B'});
-            expect(c.read(sesionProvider)!.refreshToken, 'ref-C');
-            expect(c.read(sesionIniciadaProvider), isTrue);
-          },
-        );
+          expect(r.statusCode, 200);
+          expect(refrescos, 1);
+          expect(api.peticiones[1].json, {'refreshToken': 'ref-B'});
+          expect(c.read(sesionProvider)!.refreshToken, 'ref-C');
+          expect(c.read(sesionIniciadaProvider), isTrue);
+        },
+      );
 
-        test(
-          'un Error de programación al guardar no se traga: sale a quien llama',
-          () async {
-            final raro = _AlmacenConError();
-            almacen = raro;
-            await montar();
-            raro.falla = true;
-
-            await expectLater(pedir('me'), throwsA(isA<StateError>()));
-          },
-        );
-
-        test('cerrar() no lanza ni con un Error del almacén y deja la sesión cerrada', () async {
+      test(
+        'un Error de programación al guardar no se traga: sale a quien llama',
+        () async {
           final raro = _AlmacenConError();
           almacen = raro;
           await montar();
           raro.falla = true;
 
-          await c.read(sesionProvider.notifier).cerrar();
+          await expectLater(pedir('me'), throwsA(isA<StateError>()));
+        },
+      );
 
-          expect(c.read(sesionProvider), isNull);
-          expect(c.read(sesionIniciadaProvider), isFalse);
-        });
+      test('cerrar() no lanza ni con un Error del almacén y deja la sesión cerrada', () async {
+        final raro = _AlmacenConError();
+        almacen = raro;
+        await montar();
+        raro.falla = true;
 
-        test(
-          'si los dos intentos fallan, cierra la sesión local y no repite la '
-          'petición',
+        await c.read(sesionProvider.notifier).cerrar();
+
+        expect(c.read(sesionProvider), isNull);
+        expect(c.read(sesionIniciadaProvider), isFalse);
+      });
+
+      test('si los dos intentos fallan, cierra la sesión local y no repite la '
+          'petición', () async {
+        await montarConAlmacenQueFalla(todas: true);
+        c
+            .read(cacheRespuestasProvider)
+            .guardar(
+              'k',
+              etag: 'e',
+              cuerpo: Uint8List(0),
+              encabezados: const {},
+            );
+
+        final r = await pedir('me');
+
+        expect(r.statusCode, 401);
+        // Una petición, una renovación y nada más: no se repite con acc-B.
+        // Más el logout del refresco nuevo, que no se repite con acc-B a /me.
+        expect(api.llamadas, [
+          'GET me',
+          'POST auth/refresh',
+          'POST auth/logout',
+        ]);
+        expect(
+          api.peticiones.where(
+            (p) => p.ruta != 'auth/logout' && token(p) == 'acc-B',
+          ),
+          isEmpty,
+        );
+        expect(c.read(sesionProvider), isNull);
+        expect(c.read(sesionIniciadaProvider), isFalse);
+        expect(c.read(cacheRespuestasProvider).estaVacia, isTrue);
+        // El borrado sí funcionó: no queda el token de renovación viejo.
+        expect(almacen.contenido, isEmpty);
+
+        // El token vencido no se vuelve a enviar.
+        api.peticiones.clear();
+        await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
+        expect(api.peticiones, isEmpty);
+      });
+
+      test('KNOCK-252 si fallan los dos guardados, pide UN logout con el acceso '
+          'nuevo y la sesión queda cerrada aunque el logout falle', () async {
+        await montarConAlmacenQueFalla(todas: true);
+        // El logout no responde: el cierre local no puede esperarlo.
+        final sinRespuesta = Completer<http.Response>();
+        final responderAntes = api.responder;
+        api.responder = (p) =>
+            p.ruta == 'auth/logout' ? sinRespuesta.future : responderAntes(p);
+
+        final r = await pedir('me');
+        await Future<void>.delayed(Duration.zero);
+
+        expect(r.statusCode, 401);
+        expect(c.read(sesionProvider), isNull);
+        expect(c.read(sesionIniciadaProvider), isFalse);
+        final logouts = api.peticiones.where((p) => p.ruta == 'auth/logout');
+        expect(logouts, hasLength(1));
+        expect(logouts.single.metodo, 'POST');
+        expect(logouts.single.autorizacion, 'Bearer acc-B');
+
+        // Cuando el logout termina con error, no hay otro intento ni excepción.
+        sinRespuesta.complete(http.Response('', 500));
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        expect(
+          api.peticiones.where((p) => p.ruta == 'auth/logout'),
+          hasLength(1),
+        );
+        expect(c.read(sesionProvider), isNull);
+      });
+
+      test('KNOCK-252 sin guardado fallido no se pide logout', () async {
+        await montarConAlmacenQueFalla(escrituras: {1});
+        await pedir('me');
+        await Future<void>.delayed(Duration.zero);
+
+        expect(api.peticiones.where((p) => p.ruta == 'auth/logout'), isEmpty);
+      });
+
+      test('si fallan el guardado y el borrado, no lanza y la sesión queda '
+          'cerrada en memoria', () async {
+        await montarConAlmacenQueFalla(todas: true, borrado: true);
+
+        final r = await pedir('me');
+
+        expect(r.statusCode, 401);
+        expect(api.llamadas, [
+          'GET me',
+          'POST auth/refresh',
+          'POST auth/logout',
+        ]);
+        expect(c.read(sesionProvider), isNull);
+        expect(c.read(sesionIniciadaProvider), isFalse);
+        // Riesgo residual conocido: sin poder borrar, el almacén conserva el
+        // token de renovación anterior. Esta prueba lo documenta.
+        expect(almacen.contenido[AlmacenSesion.claveRefresco], 'ref-A');
+      });
+
+      test('cinco llamadas simultáneas reciben sesión vencida con una sola '
+          'renovación y un solo cierre', () async {
+        await montarConAlmacenQueFalla(todas: true);
+
+        final rs = await Future.wait([for (var i = 0; i < 5; i++) pedir('me')]);
+
+        expect(rs.map((r) => r.statusCode), everyElement(401));
+        expect(refrescos, 1);
+        // Solo el logout lleva acc-B, y es uno solo.
+        expect(api.peticiones.where((p) => token(p) == 'acc-B'), hasLength(1));
+        expect(
+          api.llamadas.where((l) => l == 'POST auth/logout'),
+          hasLength(1),
+        );
+        expect(api.llamadas.where((l) => l == 'GET me'), hasLength(5));
+        // Un solo cierre: dos claves borradas una vez cada una.
+        expect(fallon.borrados, 2);
+        expect(c.read(sesionProvider), isNull);
+        expect(c.read(sesionIniciadaProvider), isFalse);
+      });
+
+      test('R-11 los errores y los registros no exponen tokens', () async {
+        await montarConAlmacenQueFalla(todas: true, borrado: true);
+
+        final impresiones = <String>[];
+        final debugPrintOriginal = debugPrint;
+        debugPrint = (String? m, {int? wrapWidth}) => impresiones.add('$m');
+        addTearDown(() => debugPrint = debugPrintOriginal);
+
+        Object? resultado;
+        await runZoned(
           () async {
-            await montarConAlmacenQueFalla(todas: true);
-            c
-                .read(cacheRespuestasProvider)
-                .guardar(
-                  'k',
-                  etag: 'e',
-                  cuerpo: Uint8List(0),
-                  encabezados: const {},
-                );
-
-            final r = await pedir('me');
-
-            expect(r.statusCode, 401);
-            // Una petición, una renovación y nada más: no se repite con acc-B.
-            expect(api.llamadas, ['GET me', 'POST auth/refresh']);
-            expect(api.peticiones.where((p) => token(p) == 'acc-B'), isEmpty);
-            expect(c.read(sesionProvider), isNull);
-            expect(c.read(sesionIniciadaProvider), isFalse);
-            expect(c.read(cacheRespuestasProvider).estaVacia, isTrue);
-            // El borrado sí funcionó: no queda el token de renovación viejo.
-            expect(almacen.contenido, isEmpty);
-
-            // El token vencido no se vuelve a enviar.
-            api.peticiones.clear();
-            await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
-            expect(api.peticiones, isEmpty);
+            resultado = await pedir('me');
           },
+          zoneSpecification: ZoneSpecification(
+            print: (self, parent, zone, linea) => impresiones.add(linea),
+          ),
         );
 
-        test('si fallan el guardado y el borrado, no lanza y la sesión queda '
-            'cerrada en memoria', () async {
-          await montarConAlmacenQueFalla(todas: true, borrado: true);
-
-          final r = await pedir('me');
-
-          expect(r.statusCode, 401);
-          expect(api.llamadas, ['GET me', 'POST auth/refresh']);
-          expect(c.read(sesionProvider), isNull);
-          expect(c.read(sesionIniciadaProvider), isFalse);
-          // Riesgo residual conocido: sin poder borrar, el almacén conserva el
-          // token de renovación anterior. Esta prueba lo documenta.
-          expect(almacen.contenido[AlmacenSesion.claveRefresco], 'ref-A');
-        });
-
-        test('cinco llamadas simultáneas reciben sesión vencida con una sola '
-            'renovación y un solo cierre', () async {
-          await montarConAlmacenQueFalla(todas: true);
-
-          final rs = await Future.wait([
-            for (var i = 0; i < 5; i++) pedir('me'),
-          ]);
-
-          expect(rs.map((r) => r.statusCode), everyElement(401));
-          expect(refrescos, 1);
-          expect(api.peticiones.where((p) => token(p) == 'acc-B'), isEmpty);
-          expect(api.llamadas.where((l) => l == 'GET me'), hasLength(5));
-          // Un solo cierre: dos claves borradas una vez cada una.
-          expect(fallon.borrados, 2);
-          expect(c.read(sesionProvider), isNull);
-          expect(c.read(sesionIniciadaProvider), isFalse);
-        });
-
-        test('R-11 los errores y los registros no exponen tokens', () async {
-          await montarConAlmacenQueFalla(todas: true, borrado: true);
-
-          final impresiones = <String>[];
-          final debugPrintOriginal = debugPrint;
-          debugPrint = (String? m, {int? wrapWidth}) => impresiones.add('$m');
-          addTearDown(() => debugPrint = debugPrintOriginal);
-
-          Object? resultado;
-          await runZoned(
-            () async {
-              resultado = await pedir('me');
-            },
-            zoneSpecification: ZoneSpecification(
-              print: (self, parent, zone, linea) => impresiones.add(linea),
-            ),
-          );
-
-          final visible = [
-            ...impresiones,
-            '$resultado',
-            '${c.read(sesionProvider)}',
-          ].join('\n');
-          for (final secreto in ['acc-A', 'ref-A', 'acc-B', 'ref-B']) {
-            expect(visible, isNot(contains(secreto)), reason: secreto);
-          }
-        });
-      },
-    );
+        final visible = [
+          ...impresiones,
+          '$resultado',
+          '${c.read(sesionProvider)}',
+        ].join('\n');
+        for (final secreto in ['acc-A', 'ref-A', 'acc-B', 'ref-B']) {
+          expect(visible, isNot(contains(secreto)), reason: secreto);
+        }
+      });
+    });
 
     test('cerrar la sesión durante la renovación no la reabre', () async {
       await montar();

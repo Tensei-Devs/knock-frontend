@@ -610,3 +610,9 @@
 - **Decisión:** `docs/EVALUACION.md` reúne las respuestas a las preguntas de evaluación de la app, el panel y la landing con el archivo donde se comprueba cada una: herramientas de CI y CD, rutas que consume la app, logout contra la API, permisos, eliminar cuenta, validaciones y pruebas.
 - **Porqué:** las respuestas salían contradictorias según el archivo que se leyera primero (por ejemplo, el logout parecía simulado porque la maqueta usa un repositorio de ejemplo).
 - **A evitar:** afirmar que algo se valida en la app cuando lo valida el backend; dar cifras de pruebas sin decir que son declaraciones y no una corrida.
+
+## 2026-11-17 — Revocar el token de renovación nuevo si no se puede guardar (KNOCK-252)
+- **Decisión:** si `SesionNotifier._renovar` no guarda los tokens nuevos tras dos intentos, además de cerrar la sesión local intenta `POST /auth/logout` con el acceso nuevo: una sola vez, sin esperar la respuesta, sin reintento y sin registrar nada.
+- **Porqué:** el token de renovación nuevo (el que la API acababa de emitir) quedaba vivo hasta vencer sin que la app lo tuviera guardado.
+- **Cómo:** `_revocarSinEsperar` usa el transporte público (la sesión vigente aún es la vieja, así que el cliente autenticado pondría el acceso viejo) y `enviarJson` ganó el parámetro opcional `cabeceras`. Pruebas en `cliente_autenticado_test.dart`. La spec 026 §13 lleva la redacción propuesta; su estado no cambió.
+- **A evitar:** esperar el logout o reintentarlo; mandarlo por `transporteApiProvider` (llevaría el acceso viejo); poner tokens en errores o registros (R-11).

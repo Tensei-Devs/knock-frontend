@@ -211,6 +211,7 @@ Quien aprueba la spec las acepta o las cambia aquí antes de aprobar.
 - **Reuso del token de renovación:** una renovación perdida por la señal cierra todas las sesiones de la cuenta; el backend lo aceptó. Se mide en la demo.
 - **Caché de `colonias/en-punto`:** pasa por `ClienteConCache`; si el servidor manda `ETag` guarda la respuesta (con coordenadas en la URL) en memoria hasta cerrar sesión. Confirmar si debe excluirse.
 - **Duda:** la lista de sesiones queda sin pantalla; ¿entra en la demo?
+- **Token de renovación nuevo sin guardar (KNOCK-252, propuesta de redacción):** cuando la renovación sale bien pero los dos guardados fallan, la sesión local se cierra y el token de renovación nuevo seguía vivo en la API hasta vencer. Redacción propuesta para R-05: «si los tokens nuevos no se pueden guardar tras dos intentos, se cierra la sesión local y se intenta un `POST /auth/logout` con el acceso nuevo, una sola vez, sin esperar la respuesta, sin reintento y sin registrar tokens; si falla, no cambia nada». El código ya lo hace (PR de KNOCK-252); falta que quien aprueba la spec decida si entra como R/CA nuevo.
 - **Dependencia:** el registro de dispositivos (spec 037 del backend) y las notificaciones siguen simulados.
 - No se verificó la clave de Jira ni el contrato OpenAPI desplegado del gateway en esta etapa; se tomó de las specs del backend.
 
