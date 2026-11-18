@@ -605,3 +605,8 @@
 - **Decisión:** `specs/README.md` y los `plan.md` y `task.md` de las specs aprobadas dejan de decir «Borrador». El índice sigue los encabezados de cada `spec.md`: las specs 015 a 025 y la 028 pasan a Aprobada. Las tablas de dependencias de algunos planes todavía nombran «Borrador» en otras specs y se corrigen aparte.
 - **Porqué:** el índice y las notas de los planes contradecían a las specs aprobadas; quien lea primero el índice entiende que la app tiene specs sin aprobar.
 - **A evitar:** actualizar el encabezado de una spec sin actualizar el índice, su `plan.md` y su `task.md` en el mismo cambio.
+
+## 2026-11-17 — Respuestas verificadas para la evaluación de la app (KNOCK-181)
+- **Decisión:** `docs/EVALUACION.md` reúne las respuestas a las preguntas de evaluación de la app, el panel y la landing con el archivo donde se comprueba cada una: herramientas de CI y CD, rutas que consume la app, logout contra la API, permisos, eliminar cuenta, validaciones y pruebas.
+- **Porqué:** las respuestas salían contradictorias según el archivo que se leyera primero (por ejemplo, el logout parecía simulado porque la maqueta usa un repositorio de ejemplo).
+- **A evitar:** afirmar que algo se valida en la app cuando lo valida el backend; dar cifras de pruebas sin decir que son declaraciones y no una corrida.
