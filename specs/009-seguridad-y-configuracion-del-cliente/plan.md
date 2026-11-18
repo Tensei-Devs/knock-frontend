@@ -1,6 +1,6 @@
 # Plan 009 — Seguridad y configuración del cliente
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec.
 
 ## Enfoque
 1. Definir la configuración por entorno y la lectura de claves locales.

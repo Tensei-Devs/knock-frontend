@@ -1,6 +1,6 @@
 # Plan 043 — Panel web: revisión de verificaciones de identidad y reportes
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 053 y generar el cliente TypeScript.

@@ -1,6 +1,6 @@
 # Plan 030 — Direcciones del cliente (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 040 y regenerar el cliente Dart.

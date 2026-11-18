@@ -1,6 +1,6 @@
 # Plan 032 — Técnicos de confianza (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 042 y regenerar el cliente Dart.

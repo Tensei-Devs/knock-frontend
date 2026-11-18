@@ -1,6 +1,6 @@
 # Plan 042 — Asistente de IA: resumen de chat, borrador de cotización, rango de precio y bitácora (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 052 y regenerar el cliente Dart.
