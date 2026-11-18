@@ -1,6 +1,6 @@
 # Plan 004 — Landing page: estructura y publicación
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec.
 
 ## Enfoque
 1. Crear la carpeta `landing/` con una página vacía.

@@ -1,6 +1,6 @@
 # Plan 019 — Pestaña Trabajo (lado del técnico)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** Guillermo (contrato de backend 028) y José Julián Hernández Hernández · **Ola y sprint:** Sprint 5 (KNOCK-67, etiqueta `sprint-5`); la spec se deja lista en el Sprint 4
 
 ## 1. Enfoque

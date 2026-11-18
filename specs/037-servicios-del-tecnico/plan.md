@@ -1,6 +1,6 @@
 # Plan 037 — Servicios y precios de cada técnico (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 047 y regenerar el cliente Dart.

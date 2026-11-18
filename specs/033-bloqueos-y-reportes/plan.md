@@ -1,6 +1,6 @@
 # Plan 033 — Bloqueos entre personas y reportes con apelación (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 043 y regenerar el cliente Dart.

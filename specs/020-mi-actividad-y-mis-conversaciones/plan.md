@@ -1,6 +1,6 @@
 # Plan 020 — Mi actividad y mis conversaciones
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** Guillermo (contratos de backend 026 y 030) y José Julián Hernández Hernández · **Ola y sprint:** Sprint 5 (KNOCK-69 y KNOCK-73, etiqueta `sprint-5`); la spec se deja lista en el Sprint 4
 
 ## 1. Enfoque

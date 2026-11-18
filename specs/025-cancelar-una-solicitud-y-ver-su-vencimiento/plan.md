@@ -1,6 +1,6 @@
 # Plan 025 — Cancelar una solicitud y ver su vencimiento (app)
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada. **Jira:** KNOCK-70 (HU-027) y KNOCK-71 (HU-028), capa Mobile.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec. **Jira:** KNOCK-70 (HU-027) y KNOCK-71 (HU-028), capa Mobile.
 
 ## Enfoque
 1. **Dominio puro primero:** `Vencimiento` (presentación absoluta, relativa, menos de una hora y «cerrando»), `ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion` y `PrellenadoSolicitud`, con pruebas y mutación. No depende de backend.
@@ -30,7 +30,7 @@
 
 ## Riesgos del plan
 - Si la spec 015 no está implementada, esta spec no tiene detalle ni formulario donde montarse: se toma después de las tareas de la 015.
-- `GET /tecnicos/me/trabajo` lo fija la spec 036 (Borrador); la etiqueta del técnico se prueba con dobles.
+- `GET /tecnicos/me/trabajo` lo fija la spec 036 (Aprobada); la etiqueta del técnico se prueba con dobles.
 
 ## Verificación
 - Cada criterio de aceptación de `spec.md` se comprueba con la prueba indicada (`python3 scripts/sdd_lint.py --trace 025`).

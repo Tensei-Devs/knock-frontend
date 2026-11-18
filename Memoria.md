@@ -600,3 +600,8 @@
 - **Porqué:** el mapa nativo se oscurecía con el modo de noche de Android y no con el tema de Flutter: con el teléfono en oscuro y la app en «Claro» el mapa seguía oscuro. Probado en un Huawei (el motor de mapas de Huawei ignora el estilo JSON y el `colorScheme`).
 - **Cómo:** `ModoNocheDeLaApp` y `modoNocheSincronizadoProvider` (se observa desde `KnockApp`), `MainActivity` usa `UiModeManager.setApplicationNightMode`. No cambia el modo del teléfono. Antes de Android 12 no hace nada.
 - **A evitar:** tocar solo el estilo JSON o el `colorScheme` del mapa; en este teléfono no bastan.
+
+## 2026-11-17 — Índice de specs y planes alineados con el estado real (KNOCK-181)
+- **Decisión:** `specs/README.md` y los `plan.md` y `task.md` de las specs aprobadas dejan de decir «Borrador». El índice sigue los encabezados de cada `spec.md`: las specs 015 a 025 y la 028 pasan a Aprobada. Las tablas de dependencias de algunos planes todavía nombran «Borrador» en otras specs y se corrigen aparte.
+- **Porqué:** el índice y las notas de los planes contradecían a las specs aprobadas; quien lea primero el índice entiende que la app tiene specs sin aprobar.
+- **A evitar:** actualizar el encabezado de una spec sin actualizar el índice, su `plan.md` y su `task.md` en el mismo cambio.
