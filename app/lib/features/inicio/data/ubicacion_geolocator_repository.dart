@@ -16,6 +16,17 @@ class UbicacionGeolocatorRepository implements UbicacionRepository {
   static const limite = Duration(seconds: 15);
 
   @override
+  Future<bool> permisoConcedido() async {
+    try {
+      final permiso = await _plataforma.checkPermission();
+      return permiso == LocationPermission.whileInUse ||
+          permiso == LocationPermission.always;
+    } on Object {
+      return false;
+    }
+  }
+
+  @override
   Future<ResultadoUbicacion> obtenerUnaVez() async {
     try {
       if (!await _plataforma.isLocationServiceEnabled()) {

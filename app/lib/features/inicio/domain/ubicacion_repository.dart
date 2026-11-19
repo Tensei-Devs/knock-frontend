@@ -33,6 +33,9 @@ final class ServicioDesactivado extends ResultadoUbicacion {
 
 /// Acceso a la ubicación del dispositivo.
 abstract interface class UbicacionRepository {
+  /// Si el permiso ya está concedido. No lo pide ni muestra nada.
+  Future<bool> permisoConcedido();
+
   /// Pide el permiso (solo si falta) y lee la posición **una vez**.
   ///
   /// Nunca lanza: todo caso termina en un [ResultadoUbicacion].

@@ -2,6 +2,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/inicio/domain/colonia.dart';
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/domain/ubicar_con_aviso.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,11 +49,13 @@ class ColoniaController extends Notifier<EstadoColonia> {
     return const ColoniaSinPedir();
   }
 
-  Future<void> consultar() async {
+  /// [explicar] muestra el aviso previo del permiso (spec 012, R-06).
+  Future<void> consultar({Future<bool> Function()? explicar}) async {
     state = const ColoniaConsultando();
-    final ubicacion = await ref
-        .read(ubicacionRepositoryProvider)
-        .obtenerUnaVez();
+    final repositorio = ref.read(ubicacionRepositoryProvider);
+    final ubicacion = explicar == null
+        ? await repositorio.obtenerUnaVez()
+        : await ubicarConAviso(repositorio, explicar);
     if (ubicacion is! Concedida) {
       state = const ColoniaSinUbicacion();
       return;
