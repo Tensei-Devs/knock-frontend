@@ -30,7 +30,8 @@ final class RespuestaJson {
 /// Los estados de [aceptar] (por ejemplo 404 o 400 en `refresh`) se entregan
 /// como respuesta para que quien llama decida; el resto de los no 2xx lanza un
 /// [Failure]. Un 304 que llegue sin que se haya pedido es un dato inválido.
-/// Una escritura jamás se reintenta aquí (spec 026, R-13).
+/// Una escritura jamás se reintenta aquí (spec 026, R-13). [cabeceras] suma
+/// encabezados propios (por ejemplo un `Authorization` explícito).
 Future<RespuestaJson> enviarJson(
   http.Client transporte,
   String urlBase,
@@ -38,6 +39,7 @@ Future<RespuestaJson> enviarJson(
   String ruta, {
   Map<String, String>? consulta,
   Object? cuerpo,
+  Map<String, String>? cabeceras,
   Set<int> aceptar = const {},
 }) async {
   final base = normalizarUrlApi(urlBase);
@@ -46,6 +48,7 @@ Future<RespuestaJson> enviarJson(
       .replace(queryParameters: consulta);
   final peticion = http.Request(metodo, uri)
     ..headers['Accept'] = 'application/json';
+  if (cabeceras != null) peticion.headers.addAll(cabeceras);
   if (cuerpo != null) {
     peticion
       ..headers['Content-Type'] = 'application/json'

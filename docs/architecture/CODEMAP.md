@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-18T05:03:04Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-19T06:54:04Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -38,7 +38,7 @@
 ## Tipos con el mismo nombre en varios lugares
 
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
-- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:60`, `app/lib/core/sesion/sesion_provider.dart:26`
+- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:62`, `app/lib/core/sesion/sesion_provider.dart:26`
 - `Solicitud`: `app/lib/features/actividad/domain/solicitud.dart:30`, `app/lib/features/maqueta/estado.dart:161`
 - `Visita`: `app/lib/features/actividad/domain/visita.dart:73`, `app/lib/features/maqueta/tecnico_estado.dart:153`
 
@@ -563,7 +563,7 @@
 - `app/lib/core/red/configuracion_api.dart` — —
   - `validarConfiguracionApi()`:11, `normalizarUrlApi()`:24
 - `app/lib/core/red/enviar_json.dart` — class `RespuestaJson`
-  - `enviarJson()`:34
+  - `enviarJson()`:35
 - `app/lib/core/red/errores_api.dart` — —
   - `mapearErrorApi()`:11
 - `app/lib/core/red/espera_por_limite.dart` — class `ClienteConEspera`
@@ -610,7 +610,7 @@
 - `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
   - `enviarCodigo()`:48, `verificarCodigo()`:54
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`, class `CierresDeSesion`
-  - `toString()`:32, `renovar()`:49, `build()`:64, `iniciar()`:67, `cerrar()`:81, `renovar()`:104, `build()`:172, `registrar()`:174
+  - `toString()`:34, `renovar()`:51, `build()`:66, `iniciar()`:69, `cerrar()`:83, `renovar()`:106, `build()`:195, `registrar()`:197
 - `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
   - `build()`:28, `iniciar()`:31, `cerrar()`:34, `nombreDeDispositivo()`:53
 - `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`
