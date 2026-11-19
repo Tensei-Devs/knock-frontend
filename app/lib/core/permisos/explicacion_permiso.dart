@@ -38,3 +38,11 @@ Future<bool> explicarPermiso(BuildContext context, PermisoApp permiso) async {
   );
   return continuar ?? false;
 }
+
+/// Aviso previo de [permiso] listo para pasarlo a quien lo pide después de una
+/// espera: revisa que la pantalla siga montada antes de mostrarlo.
+Future<bool> Function() avisoPrevioDe(
+  BuildContext context,
+  PermisoApp permiso,
+) =>
+    () async => context.mounted && await explicarPermiso(context, permiso);

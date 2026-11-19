@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:app/core/errores/mensajes_failure.dart';
+import 'package:app/core/permisos/explicacion_permiso.dart';
+import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/core/tema/tokens.dart';
 import 'package:app/core/widgets/fila_knock.dart';
@@ -57,7 +61,11 @@ class _TarjetaColonia extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textos = AppLocalizations.of(context);
     final estado = ref.watch(coloniaControllerProvider);
-    final consultar = ref.read(coloniaControllerProvider.notifier).consultar;
+    void consultar() => unawaited(
+      ref
+          .read(coloniaControllerProvider.notifier)
+          .consultar(explicar: avisoPrevioDe(context, PermisoApp.ubicacion)),
+    );
     final (String texto, String? boton) = switch (estado) {
       ColoniaSinPedir() => (textos.inicioZonaSinPedir, textos.inicioVerColonia),
       ColoniaConsultando() => (textos.inicioZonaBuscando, null),
