@@ -633,3 +633,10 @@
 - **Decisiones (con porqué):** (1) Limpiar la sesión guardada en lugar de sobrescribir el proveedor: así no se cambia `arrancar` de producción. (2) Se corren con `--dart-define=MODO_MAQUETA=false`, porque se escribieron para el shell real y no para la maqueta.
 - **Pendiente:** recorridos sobre la maqueta y un workflow `nightly` en emulador (no existe ninguno).
 - **A evitar:** que el soporte de las pruebas repita overrides que `arrancar` ya fija; borrar la sesión del dispositivo sin avisar a quien use el teléfono para demostraciones.
+
+## 2026-11-19 · KNOCK-293 · Recorrido E2E de la maqueta en teléfono
+- **Qué cambió:** `app/integration_test/maqueta_recorrido_test.dart` recorre la maqueta (bandera por defecto) en teléfono físico: previa sin sesión, entrada con celular y código, las cuatro pestañas del cliente (sin Trabajo), Mi cuenta, Configuración y el aviso de privacidad.
+- **Por qué:** las pruebas de tabs y configuración se escribieron para el shell real (`MODO_MAQUETA=false`) y no cubren lo que se muestra hoy con la maqueta.
+- **Verificación:** dos corridas seguidas en un LMU-LX9 (Android 12) con «All tests passed» (~9 s cada una, sin contar la compilación). Los textos del recorrido se comprobaron contra el código de la maqueta.
+- **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
+- **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).
