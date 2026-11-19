@@ -626,3 +626,10 @@
 - **Porqué:** el token de renovación nuevo (el que la API acababa de emitir) quedaba vivo hasta vencer sin que la app lo tuviera guardado.
 - **Cómo:** `_revocarSinEsperar` usa el transporte público (la sesión vigente aún es la vieja, así que el cliente autenticado pondría el acceso viejo) y `enviarJson` ganó el parámetro opcional `cabeceras`. Pruebas en `cliente_autenticado_test.dart`. La spec 026 §13 lleva la redacción propuesta; su estado no cambió.
 - **A evitar:** esperar el logout o reintentarlo; mandarlo por `transporteApiProvider` (llevaría el acceso viejo); poner tokens en errores o registros (R-11).
+
+## 2026-11-19 · KNOCK-293 · Pruebas interactivas en teléfono con el arranque actual
+- **Qué cambió:** `app/integration_test/soporte/entrada_ficticia.dart` deja de sobrescribir `sesionInicialProvider` y agrega `sinSesionGuardada()` (borra el almacén seguro); las pruebas de tabs y configuración la llaman antes de `arrancar`. `entrar.dart` toca «Entrar» desde la previa antes de escribir el celular.
+- **Por qué:** en teléfono las dos pruebas fallaban: `arrancar()` ya fija `sesionInicialProvider` y Riverpod no admite sobrescribirlo dos veces; y sin sesión la app abre en la previa (spec 027), no en la pantalla del celular.
+- **Decisiones (con porqué):** (1) Limpiar la sesión guardada en lugar de sobrescribir el proveedor: así no se cambia `arrancar` de producción. (2) Se corren con `--dart-define=MODO_MAQUETA=false`, porque se escribieron para el shell real y no para la maqueta.
+- **Pendiente:** recorridos sobre la maqueta y un workflow `nightly` en emulador (no existe ninguno).
+- **A evitar:** que el soporte de las pruebas repita overrides que `arrancar` ya fija; borrar la sesión del dispositivo sin avisar a quien use el teléfono para demostraciones.
