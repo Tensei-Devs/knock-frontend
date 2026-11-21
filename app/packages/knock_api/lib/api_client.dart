@@ -176,20 +176,86 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'AccessRecoveryRequest':
+          return AccessRecoveryRequest.fromJson(value);
+        case 'AddressResponse':
+          return AddressResponse.fromJson(value);
+        case 'AppealBody':
+          return AppealBody.fromJson(value);
+        case 'AppealResult':
+          return AppealResult.fromJson(value);
         case 'Appointment':
           return Appointment.fromJson(value);
         case 'AppointmentPlace':
           return AppointmentPlace.fromJson(value);
         case 'ArrivalBody':
           return ArrivalBody.fromJson(value);
+        case 'AutocompleteResponse':
+          return AutocompleteResponse.fromJson(value);
+        case 'AvailabilityBody':
+          return AvailabilityBody.fromJson(value);
+        case 'AvailabilityResponse':
+          return AvailabilityResponse.fromJson(value);
+        case 'BlockedPage':
+          return BlockedPage.fromJson(value);
+        case 'BlockedPerson':
+          return BlockedPerson.fromJson(value);
+        case 'BusquedaInterpretacion':
+          return BusquedaInterpretacion.fromJson(value);
+        case 'BusquedaItem':
+          return BusquedaItem.fromJson(value);
+        case 'BusquedaOficio':
+          return BusquedaOficio.fromJson(value);
+        case 'BusquedaResponse':
+          return BusquedaResponse.fromJson(value);
         case 'ChooseQuoteBody':
           return ChooseQuoteBody.fromJson(value);
         case 'ChosenTechnician':
           return ChosenTechnician.fromJson(value);
+        case 'ConfirmPhoneChangeRequest':
+          return ConfirmPhoneChangeRequest.fromJson(value);
+        case 'ConsentResponse':
+          return ConsentResponse.fromJson(value);
+        case 'CoverageResponse':
+          return CoverageResponse.fromJson(value);
+        case 'CreateAddressRequest':
+          return CreateAddressRequest.fromJson(value);
+        case 'CreateItemRequest':
+          return CreateItemRequest.fromJson(value);
+        case 'CreateReportBody':
+          return CreateReportBody.fromJson(value);
         case 'CreateRequestBody':
           return CreateRequestBody.fromJson(value);
+        case 'CreateVerificationRequest':
+          return CreateVerificationRequest.fromJson(value);
+        case 'CursorPageOfHistoryEntryResponse':
+          return CursorPageOfHistoryEntryResponse.fromJson(value);
+        case 'CursorPageOfHistoryItemResponse':
+          return CursorPageOfHistoryItemResponse.fromJson(value);
+        case 'DayScheduleDto':
+          return DayScheduleDto.fromJson(value);
+        case 'DeleteAccountRequest':
+          return DeleteAccountRequest.fromJson(value);
+        case 'DeletionScheduledResponse':
+          return DeletionScheduledResponse.fromJson(value);
         case 'FirebaseExchangeRequest':
           return FirebaseExchangeRequest.fromJson(value);
+        case 'HistoryEntryResponse':
+          return HistoryEntryResponse.fromJson(value);
+        case 'HistoryItemResponse':
+          return HistoryItemResponse.fromJson(value);
+        case 'InboxItem':
+          return InboxItem.fromJson(value);
+        case 'InboxNeighborhood':
+          return InboxNeighborhood.fromJson(value);
+        case 'InboxResponse':
+          return InboxResponse.fromJson(value);
+        case 'ItemResponse':
+          return ItemResponse.fromJson(value);
+        case 'MyQuote':
+          return MyQuote.fromJson(value);
+        case 'MyQuotePage':
+          return MyQuotePage.fromJson(value);
         case 'NeighborhoodAtPointColoniaResponse':
           return NeighborhoodAtPointColoniaResponse.fromJson(value);
         case 'NeighborhoodAtPointResponse':
@@ -198,6 +264,26 @@ class ApiClient {
           return NeighborhoodExistsResponse.fromJson(value);
         case 'OficioResponse':
           return OficioResponse.fromJson(value);
+        case 'PanelAccesoResponse':
+          return PanelAccesoResponse.fromJson(value);
+        case 'PanelActivacionRequest':
+          return PanelActivacionRequest.fromJson(value);
+        case 'PanelActivacionResponse':
+          return PanelActivacionResponse.fromJson(value);
+        case 'PanelCelularRequest':
+          return PanelCelularRequest.fromJson(value);
+        case 'PanelCelularResponse':
+          return PanelCelularResponse.fromJson(value);
+        case 'PanelTotpRequest':
+          return PanelTotpRequest.fromJson(value);
+        case 'PendingGroupResponse':
+          return PendingGroupResponse.fromJson(value);
+        case 'PendingResponse':
+          return PendingResponse.fromJson(value);
+        case 'PermisoConversacion':
+          return PermisoConversacion.fromJson(value);
+        case 'PhoneAvailabilityRequest':
+          return PhoneAvailabilityRequest.fromJson(value);
         case 'ProblemDetails':
           return ProblemDetails.fromJson(value);
         case 'ProfileResponse':
@@ -216,6 +302,16 @@ class ApiClient {
           return RefreshRequest.fromJson(value);
         case 'RefreshResponse':
           return RefreshResponse.fromJson(value);
+        case 'RegisterTechnicianBody':
+          return RegisterTechnicianBody.fromJson(value);
+        case 'ReportCreated':
+          return ReportCreated.fromJson(value);
+        case 'ReportPage':
+          return ReportPage.fromJson(value);
+        case 'ReportReferenceBody':
+          return ReportReferenceBody.fromJson(value);
+        case 'ReportSummary':
+          return ReportSummary.fromJson(value);
         case 'RequestNeighborhood':
           return RequestNeighborhood.fromJson(value);
         case 'RequestPage':
@@ -228,16 +324,70 @@ class ApiClient {
           return RequestSummary.fromJson(value);
         case 'RequestTrade':
           return RequestTrade.fromJson(value);
+        case 'ScheduleBody':
+          return ScheduleBody.fromJson(value);
         case 'SessionListItemResponse':
           return SessionListItemResponse.fromJson(value);
         case 'SessionResponse':
           return SessionResponse.fromJson(value);
+        case 'Suggestion':
+          return Suggestion.fromJson(value);
+        case 'TechnicianProfileBody':
+          return TechnicianProfileBody.fromJson(value);
+        case 'TechnicianProfileDetail':
+          return TechnicianProfileDetail.fromJson(value);
+        case 'TechnicianProfileResponse':
+          return TechnicianProfileResponse.fromJson(value);
+        case 'TechnicianResponse':
+          return TechnicianResponse.fromJson(value);
+        case 'TecnicoPublicoConversacion':
+          return TecnicoPublicoConversacion.fromJson(value);
+        case 'TimeRangeDto':
+          return TimeRangeDto.fromJson(value);
+        case 'TrabajoClient':
+          return TrabajoClient.fromJson(value);
+        case 'TrabajoFinishedItem':
+          return TrabajoFinishedItem.fromJson(value);
+        case 'TrabajoFinishedPage':
+          return TrabajoFinishedPage.fromJson(value);
+        case 'TrabajoPlace':
+          return TrabajoPlace.fromJson(value);
+        case 'TrabajoQuoteResponse':
+          return TrabajoQuoteResponse.fromJson(value);
+        case 'TrabajoResponse':
+          return TrabajoResponse.fromJson(value);
+        case 'TrabajoSummary':
+          return TrabajoSummary.fromJson(value);
+        case 'TrabajoVerificationResponse':
+          return TrabajoVerificationResponse.fromJson(value);
+        case 'TrabajoVisitResponse':
+          return TrabajoVisitResponse.fromJson(value);
         case 'TrustNotice':
           return TrustNotice.fromJson(value);
+        case 'TrustedTechnician':
+          return TrustedTechnician.fromJson(value);
+        case 'TrustedTechnicianPage':
+          return TrustedTechnicianPage.fromJson(value);
+        case 'UpdateAddressRequest':
+          return UpdateAddressRequest.fromJson(value);
+        case 'UpdateConsentRequest':
+          return UpdateConsentRequest.fromJson(value);
+        case 'UpdateItemRequest':
+          return UpdateItemRequest.fromJson(value);
         case 'UpdateProfileRequest':
           return UpdateProfileRequest.fromJson(value);
+        case 'UpdateTechnicianBody':
+          return UpdateTechnicianBody.fromJson(value);
         case 'ValidationProblemDetails':
           return ValidationProblemDetails.fromJson(value);
+        case 'VerificationCreatedResponse':
+          return VerificationCreatedResponse.fromJson(value);
+        case 'VerificationPhotoResponse':
+          return VerificationPhotoResponse.fromJson(value);
+        case 'VerificationPhotoStateResponse':
+          return VerificationPhotoStateResponse.fromJson(value);
+        case 'VerificationStatusResponse':
+          return VerificationStatusResponse.fromJson(value);
         case 'VisitCustomer':
           return VisitCustomer.fromJson(value);
         case 'VisitPlace':
