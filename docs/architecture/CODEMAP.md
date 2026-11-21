@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-19T06:54:04Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-21T22:31:42Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -28,7 +28,7 @@
 | `plataforma` | core | 3 | 6 | 4 |
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
-| `red` | core | 7 | 5 | 13 |
+| `red` | core | 8 | 5 | 21 |
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
 | `tema` | core | 6 | 11 | 5 |
@@ -562,6 +562,8 @@
   - `usaApiReal()`:29
 - `app/lib/core/red/configuracion_api.dart` — —
   - `validarConfiguracionApi()`:11, `normalizarUrlApi()`:24
+- `app/lib/core/red/contrato_json.dart` — —
+  - `objetoDelContrato()`:10, `listaDelContrato()`:16, `textoObligatorio()`:22, `textoOpcional()`:30, `booleanoObligatorio()`:37, `enteroObligatorio()`:43, `fechaHoraObligatoria()`:49, `enviarJsonONoEncontrado()`:58
 - `app/lib/core/red/enviar_json.dart` — class `RespuestaJson`
   - `enviarJson()`:35
 - `app/lib/core/red/errores_api.dart` — —
