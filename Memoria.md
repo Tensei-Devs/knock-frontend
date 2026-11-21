@@ -640,3 +640,8 @@
 - **Verificación:** dos corridas seguidas en un LMU-LX9 (Android 12) con «All tests passed» (~9 s cada una, sin contar la compilación). Los textos del recorrido se comprobaron contra el código de la maqueta.
 - **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
 - **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).
+
+## 2026-11-21 — Conectar la maqueta a la API real: base común (KNOCK-288)
+- **Qué cambió:** ayudantes para leer el JSON del contrato (`core/red/contrato_json.dart`) y el contrato de la API en `contracts/openapi.v1.json` con el cliente generado (71 operaciones, KNOCK-277). Es la base de las ramas de repositorios de KNOCK-288 (direcciones, casa y auto, técnicos de confianza, mis datos, zona, búsqueda y trabajo), que van en PR aparte y dependen de esta.
+- **Por qué:** cada repositorio lee las respuestas con los mismos ayudantes, sin copiarlos (jscpd).
+- **A evitar:** no editar el cliente generado a mano; no abrir los PR de repositorios antes de que esta base esté en `sprint-05`.
