@@ -1,6 +1,6 @@
 # Plan 034 — Avisos dentro de la app y preferencias de avisos (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 044 y regenerar el cliente Dart.

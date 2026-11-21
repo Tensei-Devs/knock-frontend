@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:app/core/permisos/explicacion_permiso.dart';
+import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.dart';
 
 /// Botón flotante «Mi ubicación» (propio, no el nativo de Maps).
@@ -46,7 +48,10 @@ class BotonMiUbicacion extends ConsumerWidget {
           ? null
           : () => ref
                 .read(miUbicacionControllerProvider.notifier)
-                .centrar(camaraLista),
+                .centrar(
+                  camaraLista,
+                  explicar: avisoPrevioDe(context, PermisoApp.ubicacion),
+                ),
       child: const Icon(Icons.my_location, semanticLabel: etiqueta),
     );
   }

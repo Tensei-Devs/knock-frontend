@@ -1,6 +1,6 @@
 # Plan 018 — Verificar mi identidad y ver su estado (pantallas)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz (responsable de la historia: José Julián Hernández Hernández) · **Revisión de par:** José Julián Hernández Hernández (Guillermo revisa el contrato de backend 025) · **Ola y sprint:** ola C · Sprint 4, prioridad P3 (`candidata-recorte`)
 
 ## 1. Enfoque

@@ -1,6 +1,6 @@
 # Plan 041 — Opiniones y reputación del técnico (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 051 y regenerar el cliente Dart.

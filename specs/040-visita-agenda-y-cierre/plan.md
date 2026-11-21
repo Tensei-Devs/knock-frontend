@@ -1,6 +1,6 @@
 # Plan 040 — Visita: agenda, reprogramación, cancelación, cliente ausente, cierre y permiso de fotos (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 050 y regenerar el cliente Dart.

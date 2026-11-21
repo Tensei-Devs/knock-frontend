@@ -1,6 +1,6 @@
 # Plan 044 — Panel web: catálogo de oficios, oficios pedidos y lista de espera
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 045 y generar el cliente TypeScript.

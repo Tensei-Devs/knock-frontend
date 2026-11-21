@@ -600,3 +600,43 @@
 - **Porqué:** el mapa nativo se oscurecía con el modo de noche de Android y no con el tema de Flutter: con el teléfono en oscuro y la app en «Claro» el mapa seguía oscuro. Probado en un Huawei (el motor de mapas de Huawei ignora el estilo JSON y el `colorScheme`).
 - **Cómo:** `ModoNocheDeLaApp` y `modoNocheSincronizadoProvider` (se observa desde `KnockApp`), `MainActivity` usa `UiModeManager.setApplicationNightMode`. No cambia el modo del teléfono. Antes de Android 12 no hace nada.
 - **A evitar:** tocar solo el estilo JSON o el `colorScheme` del mapa; en este teléfono no bastan.
+
+## 2026-11-17 — Índice de specs y planes alineados con el estado real (KNOCK-181)
+- **Decisión:** `specs/README.md` y los `plan.md` y `task.md` de las specs aprobadas dejan de decir «Borrador». El índice sigue los encabezados de cada `spec.md`: las specs 015 a 025 y la 028 pasan a Aprobada. Las tablas de dependencias de algunos planes todavía nombran «Borrador» en otras specs y se corrigen aparte.
+- **Porqué:** el índice y las notas de los planes contradecían a las specs aprobadas; quien lea primero el índice entiende que la app tiene specs sin aprobar.
+- **A evitar:** actualizar el encabezado de una spec sin actualizar el índice, su `plan.md` y su `task.md` en el mismo cambio.
+
+## 2026-11-17 — Respuestas verificadas para la evaluación de la app (KNOCK-181)
+- **Decisión:** `docs/EVALUACION.md` reúne las respuestas a las preguntas de evaluación de la app, el panel y la landing con el archivo donde se comprueba cada una: herramientas de CI y CD, rutas que consume la app, logout contra la API, permisos, eliminar cuenta, validaciones y pruebas.
+- **Porqué:** las respuestas salían contradictorias según el archivo que se leyera primero (por ejemplo, el logout parecía simulado porque la maqueta usa un repositorio de ejemplo).
+- **A evitar:** afirmar que algo se valida en la app cuando lo valida el backend; dar cifras de pruebas sin decir que son declaraciones y no una corrida.
+
+## 2026-11-17 — El aviso de privacidad de la maqueta nombra al responsable real (KNOCK-289)
+- **Decisión:** el aviso completo de la maqueta ya no muestra `[RAZÓN SOCIAL]`, `[DOMICILIO]` ni `[CORREO DE PRIVACIDAD]`; el responsable y su domicilio son los mismos que publica la landing en `landing/privacidad/index.html` (sección «Responsable»). Una prueba falla si aparece cualquier marcador entre corchetes con mayúsculas.
+- **Porqué:** el texto legal se veía con marcadores sin llenar mientras la landing ya publicaba los datos reales.
+- **Cómo:** prueba `app/test/features/maqueta/aviso_privacidad_test.dart`; el texto del responsable se copió tal cual de la landing. La sección 7 ya no lleva un correo inventado: remite al responsable indicado al inicio, hasta que José decida si se publica el correo de la landing.
+- **A evitar:** inventar o cambiar datos del responsable; dejar marcadores entre corchetes en textos legales; corregir aquí diferencias de fondo con la landing sin decisión de José.
+## 2026-11-17 — Permisos con aviso previo en los flujos reales (spec 012, T-05, KNOCK-169)
+- **Decisión:** la ubicación ya no se pide sin explicar para qué. `ubicarConAviso` (en `features/inicio/domain`, exportada por el barrel de inicio) pregunta primero si el permiso ya está concedido (`UbicacionRepository.permisoConcedido`, solo consulta) y, si falta, muestra `explicarPermiso`; con «Ahora no» no llega la petición del sistema y se devuelve `Denegada`. La usan el botón «Mi ubicación» del mapa, la tarjeta de colonia de Inicio y el paso de zona de la entrada de la maqueta (donde «Ahora no» deja el campo del código postal). `avisoPrevioDe` (core/permisos) arma el aviso con la comprobación de que la pantalla sigue montada. El mapa de la maqueta, al crearse, centra solo si el permiso ya estaba concedido (`ubicarSiHayPermiso`); antes lanzaba la petición del sistema sin aviso.
+- **Porqué:** R-06, R-07 y CA-04; los avisos y `SelectorDeZona` existían, pero los flujos reales llamaban a `obtenerUnaVez` directo. No se agregó ningún paquete ni permiso de manifiesto: se reutiliza `geolocator`.
+- **Pendiente:** notificaciones: el aviso previo ya existe en Configuración, pero `GestorPermisosNoDisponible` sigue por defecto (el adaptador real exige FCM, `POST_NOTIFICATIONS` y `google-services.json`, T-01). Cámara: `image_picker` abre la cámara del sistema sin permiso `CAMERA` (spec 015, D-12), así que no hay petición que explicar. La tarjeta de Inicio no ofrece código postal tras negar (el Inicio real no se usa con la maqueta encendida).
+- **A evitar:** llamar a `obtenerUnaVez` sin pasar por `ubicarConAviso`; pedir un permiso en `initState` o al crear un mapa; agregar `permission_handler` solo para esto.
+## 2026-11-17 — Revocar el token de renovación nuevo si no se puede guardar (KNOCK-252)
+- **Decisión:** si `SesionNotifier._renovar` no guarda los tokens nuevos tras dos intentos, además de cerrar la sesión local intenta `POST /auth/logout` con el acceso nuevo: una sola vez, sin esperar la respuesta, sin reintento y sin registrar nada.
+- **Porqué:** el token de renovación nuevo (el que la API acababa de emitir) quedaba vivo hasta vencer sin que la app lo tuviera guardado.
+- **Cómo:** `_revocarSinEsperar` usa el transporte público (la sesión vigente aún es la vieja, así que el cliente autenticado pondría el acceso viejo) y `enviarJson` ganó el parámetro opcional `cabeceras`. Pruebas en `cliente_autenticado_test.dart`. La spec 026 §13 lleva la redacción propuesta; su estado no cambió.
+- **A evitar:** esperar el logout o reintentarlo; mandarlo por `transporteApiProvider` (llevaría el acceso viejo); poner tokens en errores o registros (R-11).
+
+## 2026-11-19 · KNOCK-293 · Pruebas interactivas en teléfono con el arranque actual
+- **Qué cambió:** `app/integration_test/soporte/entrada_ficticia.dart` deja de sobrescribir `sesionInicialProvider` y agrega `sinSesionGuardada()` (borra el almacén seguro); las pruebas de tabs y configuración la llaman antes de `arrancar`. `entrar.dart` toca «Entrar» desde la previa antes de escribir el celular.
+- **Por qué:** en teléfono las dos pruebas fallaban: `arrancar()` ya fija `sesionInicialProvider` y Riverpod no admite sobrescribirlo dos veces; y sin sesión la app abre en la previa (spec 027), no en la pantalla del celular.
+- **Decisiones (con porqué):** (1) Limpiar la sesión guardada en lugar de sobrescribir el proveedor: así no se cambia `arrancar` de producción. (2) Se corren con `--dart-define=MODO_MAQUETA=false`, porque se escribieron para el shell real y no para la maqueta.
+- **Pendiente:** recorridos sobre la maqueta y un workflow `nightly` en emulador (no existe ninguno).
+- **A evitar:** que el soporte de las pruebas repita overrides que `arrancar` ya fija; borrar la sesión del dispositivo sin avisar a quien use el teléfono para demostraciones.
+
+## 2026-11-19 · KNOCK-293 · Recorrido E2E de la maqueta en teléfono
+- **Qué cambió:** `app/integration_test/maqueta_recorrido_test.dart` recorre la maqueta (bandera por defecto) en teléfono físico: previa sin sesión, entrada con celular y código, las cuatro pestañas del cliente (sin Trabajo), Mi cuenta, Configuración y el aviso de privacidad.
+- **Por qué:** las pruebas de tabs y configuración se escribieron para el shell real (`MODO_MAQUETA=false`) y no cubren lo que se muestra hoy con la maqueta.
+- **Verificación:** dos corridas seguidas en un LMU-LX9 (Android 12) con «All tests passed» (~9 s cada una, sin contar la compilación). Los textos del recorrido se comprobaron contra el código de la maqueta.
+- **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
+- **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).

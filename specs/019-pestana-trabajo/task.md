@@ -15,7 +15,7 @@
 
 ## Dependencias con backend y con otras specs
 - **Backend 028** fija la bandeja y el descarte (T-01 y T-03).
-- **Spec de backend:** `GET /tecnicos/me/trabajo` es la spec 036 (Borrador). Hasta que se apruebe, T-04 sigue bloqueada y la pantalla sale solo con la bandeja.
+- **Spec de backend:** `GET /tecnicos/me/trabajo` es la spec 036 (Aprobada). Hasta que el endpoint esté implementado, T-04 sigue bloqueada y la pantalla sale solo con la bandeja.
 - **Frontend 016** debe existir antes (crea `trabajo_providers.dart` y la ruta de la llegada).
 
 ## Ruta crítica y trabajo en paralelo

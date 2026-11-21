@@ -21,6 +21,7 @@ void main() {
     await guardado.clear();
     addTearDown(guardado.clear);
 
+    await sinSesionGuardada();
     await knock.arrancar(overrides: entradaFicticia);
     await tester.pumpAndSettle();
     // HU-001: la app abre en la entrada; se entra con datos ficticios.

@@ -1,6 +1,6 @@
 # Plan 029 — Cuenta y datos personales: cambio de número, recuperación de acceso, exportación, consentimientos y eliminación (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 039 y regenerar el cliente Dart.

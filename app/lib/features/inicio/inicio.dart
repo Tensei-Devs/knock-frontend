@@ -10,5 +10,8 @@ export 'package:app/features/inicio/domain/ubicacion_repository.dart'
         ServicioDesactivado,
         UbicacionRepository;
 
+export 'package:app/features/inicio/domain/ubicar_con_aviso.dart'
+    show ubicarConAviso, ubicarSiHayPermiso;
+
 export 'package:app/features/inicio/domain/colonia.dart'
     show Colonia, ResultadoColonia;

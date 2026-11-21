@@ -1,6 +1,6 @@
 # Plan 021 — Buscar un experto por texto (app)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** Ángel Alexis Blas Castillo (contrato de backend 027) · **Ola y sprint:** Sprint 5 (KNOCK-66, etiqueta `sprint-5`); la spec se deja lista en el Sprint 4
 
 ## 1. Enfoque

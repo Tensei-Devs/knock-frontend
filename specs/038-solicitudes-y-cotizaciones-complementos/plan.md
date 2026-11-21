@@ -1,6 +1,6 @@
 # Plan 038 — Solicitudes y cotizaciones: ampliar, archivos, referencia de mercado y cotizaciones del técnico (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 048 y regenerar el cliente Dart.
