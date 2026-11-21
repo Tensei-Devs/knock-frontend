@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:app/features/inicio/domain/ubicacion_repository.dart';
+import 'package:app/features/inicio/domain/ubicar_con_aviso.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 
 /// Puerto de la cámara del mapa: lo implementa el widget del mapa y las
@@ -43,11 +44,18 @@ class MiUbicacionController extends Notifier<AvisoUbicacion?> {
   AvisoUbicacion? build() => null;
 
   /// Pide la ubicación una vez y, si se concede, centra [camara] en ella.
-  Future<void> centrar(CamaraMapa camara) async {
+  ///
+  /// [explicar] muestra el aviso previo del permiso (spec 012, R-06); con
+  /// «Ahora no» no se pide y el mapa sigue sin ubicación (R-07).
+  Future<void> centrar(
+    CamaraMapa camara, {
+    Future<bool> Function()? explicar,
+  }) async {
     state = null;
-    final resultado = await ref
-        .read(ubicacionRepositoryProvider)
-        .obtenerUnaVez();
+    final repositorio = ref.read(ubicacionRepositoryProvider);
+    final resultado = explicar == null
+        ? await repositorio.obtenerUnaVez()
+        : await ubicarConAviso(repositorio, explicar);
     if (!ref.mounted) return;
     switch (resultado) {
       case Concedida(:final latitud, :final longitud):

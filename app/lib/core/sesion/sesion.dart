@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
+import 'package:app/core/red/cliente_api_provider.dart';
+import 'package:app/core/red/enviar_json.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/datos_de_visita.dart';
 import 'package:app/core/red/cache_respuestas.dart';
@@ -132,11 +134,32 @@ class SesionNotifier extends Notifier<TokensSesion?> {
     // reiniciar, su reuso cerraría todas las sesiones de la cuenta (spec 016,
     // backend): se cierra la sesión local y la petición no se repite (R-05, R-07).
     if (!await _guardarConReintento(nuevos)) {
+      _revocarSinEsperar(nuevos);
       await cerrar();
       return null;
     }
     state = nuevos;
     return nuevos;
+  }
+
+  /// Intenta revocar en la API el par [nuevos], que no se pudo guardar y por
+  /// eso quedaría vivo hasta vencer (KNOCK-252): `POST /auth/logout` con su
+  /// acceso. Sin esperar la respuesta, sin reintento y sin registro (R-11);
+  /// el transporte es el público porque la sesión vigente aún es la vieja.
+  void _revocarSinEsperar(TokensSesion nuevos) {
+    try {
+      unawaited(
+        enviarJson(
+          ref.read(transporteHttpProvider),
+          ref.read(urlApiProvider),
+          'POST',
+          'auth/logout',
+          cabeceras: {'Authorization': 'Bearer ${nuevos.accessToken}'},
+        ).then<void>((_) {}, onError: (Object _) {}),
+      );
+    } on Object {
+      // Sin registro: el error podría llevar datos.
+    }
   }
 
   /// Guarda [tokens] y, si falla, lo intenta una sola vez más. `true` si quedó

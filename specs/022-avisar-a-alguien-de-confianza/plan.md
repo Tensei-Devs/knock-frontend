@@ -1,6 +1,6 @@
 # Plan 022 — Avisar a alguien de confianza
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** José Julián Hernández Hernández · **Ola y sprint:** ola B · Sprint 4 (KNOCK-84, etiquetas `sprint-4` y `candidata-recorte`); si se recorta, pasa completa al Sprint 5
 
 ## 1. Enfoque

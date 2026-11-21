@@ -1,6 +1,6 @@
 # Plan 035 — Pedir un oficio que no está y consultar un oficio (app) (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 045 y regenerar el cliente Dart.

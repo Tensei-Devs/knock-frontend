@@ -1,6 +1,6 @@
 # Plan 026 — Conectar la app con los endpoints reales (perfil, sesión y colonias)
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec.
 
 ## Enfoque
 Se va de abajo hacia arriba, para que cada capa se pruebe con la de abajo ya firme.

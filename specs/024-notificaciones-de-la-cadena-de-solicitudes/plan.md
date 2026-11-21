@@ -1,6 +1,6 @@
 # Plan 024 — Notificaciones de la cadena de solicitudes
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada. **Jira:** KNOCK-60 (HU-050, capa Mobile).
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec. **Jira:** KNOCK-60 (HU-050, capa Mobile).
 
 ## Enfoque
 1. **Dominio puro primero** (sin Firebase): `EventoAviso`, `CargaAviso`, `IdRecurso`, `DestinoAviso` y `ResultadoAviso`, con sus pruebas y mutación. Se puede hacer hoy, porque no depende de backend.

@@ -1549,7 +1549,7 @@ class AvisoScreen extends StatelessWidget {
           child: _legal(context, const [
             (
               '',
-              '[RAZÓN SOCIAL], que opera Knock, con domicilio en [DOMICILIO], es responsable de tus datos personales. Aquí te explicamos en palabras simples qué hacemos con ellos.',
+              'El responsable de tus datos personales es José Julián Hernández Hernández, con domicilio en Alonso de Borja 92, colonia Aviación, C.P. 42506, Actopan, Hidalgo. Aquí te explicamos en palabras simples qué hacemos con ellos.',
             ),
             (
               '1. Qué datos recopilamos',
@@ -1577,7 +1577,7 @@ class AvisoScreen extends StatelessWidget {
             ),
             (
               '7. Contacto',
-              'Responsable de privacidad: [CORREO DE PRIVACIDAD]',
+              'Responsable de privacidad: el responsable indicado al inicio de este aviso.',
             ),
           ], 'Última actualización: 15 de septiembre de 2026'),
         ),

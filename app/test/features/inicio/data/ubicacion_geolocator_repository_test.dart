@@ -106,6 +106,24 @@ void main() {
     },
   );
 
+  test('R_012_06 permisoConcedido solo consulta, nunca pide', () async {
+    for (final (permiso, esperado) in [
+      (LocationPermission.whileInUse, true),
+      (LocationPermission.always, true),
+      (LocationPermission.denied, false),
+      (LocationPermission.deniedForever, false),
+    ]) {
+      final plataforma = _GeolocatorFalso(permisoActual: permiso);
+      final repositorio = UbicacionGeolocatorRepository(plataforma: plataforma);
+      expect(
+        await repositorio.permisoConcedido(),
+        esperado,
+        reason: '$permiso',
+      );
+      expect(plataforma.pedidos, 0);
+    }
+  });
+
   group('TC-TT-MOB-04-05 casos sin ubicación', () {
     Future<(ResultadoUbicacion, _GeolocatorFalso)> obtener(
       _GeolocatorFalso plataforma,

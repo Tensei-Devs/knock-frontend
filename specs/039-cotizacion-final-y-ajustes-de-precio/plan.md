@@ -1,6 +1,6 @@
 # Plan 039 — Cotización final tras la visita y ajustes de precio (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 049 y regenerar el cliente Dart.

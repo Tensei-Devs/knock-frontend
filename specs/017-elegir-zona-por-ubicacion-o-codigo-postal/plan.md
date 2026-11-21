@@ -1,6 +1,6 @@
 # Plan 017 — Elegir zona por ubicación o código postal (pantalla)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz (contrato con Ángel Alexis Blas Castillo) · **Revisión de par:** Ángel Alexis Blas Castillo · **Ola y sprint:** ola B · Sprint 4 (KNOCK-47)
 
 ## 1. Enfoque
