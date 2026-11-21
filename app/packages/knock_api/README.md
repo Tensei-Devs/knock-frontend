@@ -62,6 +62,7 @@ Class | Method | HTTP request | Description
 *AccessRecoveryApi* | [**apiVversionRecuperacionAccesoPost**](doc//AccessRecoveryApi.md#apivversionrecuperacionaccesopost) | **POST** /api/v{version}/recuperacion-acceso | USR-05. Inicia la recuperación con el número nuevo verificado por Firebase; si existe la cuenta, crea un caso para la cola del panel. Siempre responde 202 sin revelar si la cuenta existe.
 *ArrivalApi* | [**apiVversionVisitasIdLlegadaPost**](doc//ArrivalApi.md#apivversionvisitasidllegadapost) | **POST** /api/v{version}/visitas/{id}/llegada | El técnico elegido confirma que llegó. Código incorrecto: 422 `wrong_code` con `intentosRestantes`; al tercero la visita queda bloqueada. Estados no válidos responden 409 con `outside_window`, `code_used`, `code_expired`, `visit_locked`, `visit_cancelled`, `visit_not_active` o `visit_without_code`.
 *AuthApi* | [**apiVversionAuthFirebasePost**](doc//AuthApi.md#apivversionauthfirebasepost) | **POST** /api/v{version}/auth/firebase | Registro e inicio de sesión en un solo endpoint (spec 015): 201 con cuenta nueva, 200 con cuenta existente.
+*BandejaApi* | [**apiVversionTecnicosMeSolicitudesGet**](doc//BandejaApi.md#apivversiontecnicosmesolicitudesget) | **GET** /api/v{version}/tecnicos/me/solicitudes | 
 *BloqueosApi* | [**apiVversionMeBloqueosGet**](doc//BloqueosApi.md#apivversionmebloqueosget) | **GET** /api/v{version}/me/bloqueos | A quién tiene bloqueado quien llama, de lo más reciente a lo más antiguo, con paginación por cursor y solo con identificador, nombre público y fecha.
 *BloqueosApi* | [**apiVversionUsuariosIdBloqueoDelete**](doc//BloqueosApi.md#apivversionusuariosidbloqueodelete) | **DELETE** /api/v{version}/usuarios/{id}/bloqueo | Quita el bloqueo («Deshacer»). 204; 404 `block_not_found` si no había.
 *BloqueosApi* | [**apiVversionUsuariosIdBloqueoPost**](doc//BloqueosApi.md#apivversionusuariosidbloqueopost) | **POST** /api/v{version}/usuarios/{id}/bloqueo | Bloquea a la persona de la ruta. 201; 404 `user_not_found`; 409 `already_blocked`; 422 si es uno mismo o el identificador no es válido.
@@ -76,6 +77,7 @@ Class | Method | HTTP request | Description
 *ColoniasApi* | [**apiVversionColoniasEnPuntoGet**](doc//ColoniasApi.md#apivversioncoloniasenpuntoget) | **GET** /api/v{version}/colonias/en-punto | Colonia del punto o «fuera de cobertura» (200 en ambos casos). Las coordenadas se convierten en colonia y se descartan: no se guardan, no se registran, no se cachean y no vuelven en la respuesta. El 422 lo da `ValidationFilter` antes de esta acción.
 *ConversationPermissionApi* | [**apiVversionSolicitudesIdConversacionGet**](doc//ConversationPermissionApi.md#apivversionsolicitudesidconversacionget) | **GET** /api/v{version}/solicitudes/{id}/conversacion | El permiso del par (solicitud, técnico) para quien pide: el cliente dueño debe mandar `tecnicoId`; el técnico no (se ignora si lo manda). Cualquier otro caso es 404 uniforme.
 *CotizacionesApi* | [**apiVversionSolicitudesIdCotizacionesPost**](doc//CotizacionesApi.md#apivversionsolicitudesidcotizacionespost) | **POST** /api/v{version}/solicitudes/{id}/cotizaciones | 
+*DescarteApi* | [**apiVversionSolicitudesIdDescartarPost**](doc//DescarteApi.md#apivversionsolicitudesiddescartarpost) | **POST** /api/v{version}/solicitudes/{id}/descartar | 
 *InternalHistoryApi* | [**apiVversionInternoHistorialGet**](doc//InternalHistoryApi.md#apivversioninternohistorialget) | **GET** /api/v{version}/interno/historial | Visitas terminadas del cliente ligadas al elemento, de la más reciente a la más antigua, por cursor. Sin precios ni direcciones.
 *KnockIdentityApiApi* | [**healthGet**](doc//KnockIdentityApiApi.md#healthget) | **GET** /health | 
 *ListaEsperaApi* | [**apiVversionZonasListaEsperaPost**](doc//ListaEsperaApi.md#apivversionzonaslistaesperapost) | **POST** /api/v{version}/zonas/lista-espera | 
@@ -96,7 +98,15 @@ Class | Method | HTTP request | Description
 *MePendientesApi* | [**apiVversionMePendientesGet**](doc//MePendientesApi.md#apivversionmependientesget) | **GET** /api/v{version}/me/pendientes | USR-09. Lista lo que hay pendiente antes de eliminar la cuenta: citas y cotizaciones abiertas (solo conteos e identificadores propios, máximo 50).
 *MeSesionesApi* | [**apiVversionMeSesionesGet**](doc//MeSesionesApi.md#apivversionmesesionesget) | **GET** /api/v{version}/me/sesiones | Lista las sesiones no revocadas ni vencidas de la cuenta autenticada, sin exponer tokens ni huellas.
 *MeSesionesApi* | [**apiVversionMeSesionesIdDelete**](doc//MeSesionesApi.md#apivversionmesesionesiddelete) | **DELETE** /api/v{version}/me/sesiones/{id} | Revoca una sesión propia distinta de la actual y bloquea su `sid` en Redis hasta que venza el JWT.
+*MeVerificacionApi* | [**apiVversionMeVerificacionGet**](doc//MeVerificacionApi.md#apivversionmeverificacionget) | **GET** /api/v{version}/me/verificacion | Estado de la verificación más reciente; sin ninguna, `sin_verificar` (nunca 404).
+*MeVerificacionApi* | [**apiVversionMeVerificacionPost**](doc//MeVerificacionApi.md#apivversionmeverificacionpost) | **POST** /api/v{version}/me/verificacion | Crea la verificación en `en_captura` con su consentimiento. Las fotos llegan con la tarea T-04 (enlaces de subida).
+*MyQuotesApi* | [**apiVversionTecnicosMeCotizacionesGet**](doc//MyQuotesApi.md#apivversiontecnicosmecotizacionesget) | **GET** /api/v{version}/tecnicos/me/cotizaciones | 
 *OficiosApi* | [**apiVversionOficiosGet**](doc//OficiosApi.md#apivversionoficiosget) | **GET** /api/v{version}/oficios | Oficios activos como arreglo sin paginar: excepción documentada a la constitución §11 (catálogo acotado, D9). `[AllowAnonymous]` explícito para que siga público aunque se agregue una política de autorización global (D3). Responde con `ETag` débil, `Cache-Control: public, max-age=0, must-revalidate` y `Vary: Accept-Encoding` (la respuesta comprimida es otra variante); con `If-None-Match` vigente responde 304 sin cuerpo.
+*PanelActivacionApi* | [**apiVversionPanelActivacionPost**](doc//PanelActivacionApi.md#apivversionpanelactivacionpost) | **POST** /api/v{version}/panel/activacion | Consume el enlace y entrega el secreto una sola vez. 410 `activation_invalid` con el mismo cuerpo para cualquier enlace inservible.
+*PanelCicloApi* | [**apiVversionPanelSesionCerrarPost**](doc//PanelCicloApi.md#apivversionpanelsesioncerrarpost) | **POST** /api/v{version}/panel/sesion/cerrar | Cierre (R-19): exige el token del panel y `X-Knock-Panel: 1`; revoca la sesión y borra la cookie.
+*PanelCicloApi* | [**apiVversionPanelSesionRenovarPost**](doc//PanelCicloApi.md#apivversionpanelsesionrenovarpost) | **POST** /api/v{version}/panel/sesion/renovar | Renovación (R-17 y R-18): sin cuerpo; exige la cookie, `X-Knock-Panel: 1` y el `Origin` del panel.
+*PanelSesionApi* | [**apiVversionPanelSesionCelularPost**](doc//PanelSesionApi.md#apivversionpanelsesioncelularpost) | **POST** /api/v{version}/panel/sesion/celular | Primer paso (R-04 a R-07): valida el `idToken` de Firebase y abre un desafío de un solo uso.
+*PanelSesionApi* | [**apiVversionPanelSesionTotpPost**](doc//PanelSesionApi.md#apivversionpanelsesiontotppost) | **POST** /api/v{version}/panel/sesion/totp | Segundo paso (R-08 a R-12): valida el TOTP y abre la sesión del panel; la cookie de renovación va en `Set-Cookie`.
 *QuoteComparisonApi* | [**apiVversionSolicitudesIdCotizacionesGet**](doc//QuoteComparisonApi.md#apivversionsolicitudesidcotizacionesget) | **GET** /api/v{version}/solicitudes/{id}/cotizaciones | Cotizaciones de una solicitud propia, con el orden pedido. El `sub` del token debe ser el del dueño; cualquier otro recibe 404.
 *RefreshApi* | [**apiVversionAuthRefreshPost**](doc//RefreshApi.md#apivversionauthrefreshpost) | **POST** /api/v{version}/auth/refresh | Cambia un token de renovación por un par nuevo (spec 016). Cualquier rechazo responde el mismo 401 sin motivo.
 *ReportesApi* | [**apiVversionReportesIdApelacionPost**](doc//ReportesApi.md#apivversionreportesidapelacionpost) | **POST** /api/v{version}/reportes/{id}/apelacion | Apela la decisión de un reporte, una sola vez. 200; 403 si no es una de las dos partes; 409 `appeal_not_allowed` sin decisión o con una apelación previa.
@@ -113,6 +123,7 @@ Class | Method | HTTP request | Description
 *TecnicosMeApi* | [**apiVversionTecnicosMeHorariosGet**](doc//TecnicosMeApi.md#apivversiontecnicosmehorariosget) | **GET** /api/v{version}/tecnicos/me/horarios | Horarios de los siete días (TEC-10); sin horario guardado, todos cerrados.
 *TecnicosMeApi* | [**apiVversionTecnicosMeHorariosPut**](doc//TecnicosMeApi.md#apivversiontecnicosmehorariosput) | **PUT** /api/v{version}/tecnicos/me/horarios | Reemplaza los horarios de los siete días (TEC-11).
 *TecnicosMeApi* | [**apiVversionTecnicosMePut**](doc//TecnicosMeApi.md#apivversiontecnicosmeput) | **PUT** /api/v{version}/tecnicos/me | Edita el perfil público (TEC-08): cambian solo los campos enviados.
+*TrabajoApi* | [**apiVversionTecnicosMeTrabajoGet**](doc//TrabajoApi.md#apivversiontecnicosmetrabajoget) | **GET** /api/v{version}/tecnicos/me/trabajo | 
 *TrustNoticeApi* | [**apiVversionVisitasIdAvisoPost**](doc//TrustNoticeApi.md#apivversionvisitasidavisopost) | **POST** /api/v{version}/visitas/{id}/aviso | El cliente dueño obtiene el texto para compartir con alguien de confianza. Solo con la visita `confirmada` o `en_curso`.
 *TrustedTechniciansApi* | [**apiVversionMeTecnicosConfianzaGet**](doc//TrustedTechniciansApi.md#apivversionmetecnicosconfianzaget) | **GET** /api/v{version}/me/tecnicos-confianza | Los técnicos guardados, del más reciente al más antiguo, con paginación por cursor. Un técnico oculto no aparece.
 *TrustedTechniciansApi* | [**apiVversionMeTecnicosConfianzaTecnicoIdDelete**](doc//TrustedTechniciansApi.md#apivversionmetecnicosconfianzatecnicoiddelete) | **DELETE** /api/v{version}/me/tecnicos-confianza/{tecnicoId} | Quita al técnico de la lista: 204; si no estaba, 404 `trusted_technician_not_found`.
@@ -148,6 +159,7 @@ Class | Method | HTTP request | Description
  - [CreateItemRequest](doc//CreateItemRequest.md)
  - [CreateReportBody](doc//CreateReportBody.md)
  - [CreateRequestBody](doc//CreateRequestBody.md)
+ - [CreateVerificationRequest](doc//CreateVerificationRequest.md)
  - [CursorPageOfHistoryEntryResponse](doc//CursorPageOfHistoryEntryResponse.md)
  - [CursorPageOfHistoryItemResponse](doc//CursorPageOfHistoryItemResponse.md)
  - [DayScheduleDto](doc//DayScheduleDto.md)
@@ -156,11 +168,22 @@ Class | Method | HTTP request | Description
  - [FirebaseExchangeRequest](doc//FirebaseExchangeRequest.md)
  - [HistoryEntryResponse](doc//HistoryEntryResponse.md)
  - [HistoryItemResponse](doc//HistoryItemResponse.md)
+ - [InboxItem](doc//InboxItem.md)
+ - [InboxNeighborhood](doc//InboxNeighborhood.md)
+ - [InboxResponse](doc//InboxResponse.md)
  - [ItemResponse](doc//ItemResponse.md)
+ - [MyQuote](doc//MyQuote.md)
+ - [MyQuotePage](doc//MyQuotePage.md)
  - [NeighborhoodAtPointColoniaResponse](doc//NeighborhoodAtPointColoniaResponse.md)
  - [NeighborhoodAtPointResponse](doc//NeighborhoodAtPointResponse.md)
  - [NeighborhoodExistsResponse](doc//NeighborhoodExistsResponse.md)
  - [OficioResponse](doc//OficioResponse.md)
+ - [PanelAccesoResponse](doc//PanelAccesoResponse.md)
+ - [PanelActivacionRequest](doc//PanelActivacionRequest.md)
+ - [PanelActivacionResponse](doc//PanelActivacionResponse.md)
+ - [PanelCelularRequest](doc//PanelCelularRequest.md)
+ - [PanelCelularResponse](doc//PanelCelularResponse.md)
+ - [PanelTotpRequest](doc//PanelTotpRequest.md)
  - [PendingGroupResponse](doc//PendingGroupResponse.md)
  - [PendingResponse](doc//PendingResponse.md)
  - [PermisoConversacion](doc//PermisoConversacion.md)
@@ -195,6 +218,15 @@ Class | Method | HTTP request | Description
  - [TechnicianResponse](doc//TechnicianResponse.md)
  - [TecnicoPublicoConversacion](doc//TecnicoPublicoConversacion.md)
  - [TimeRangeDto](doc//TimeRangeDto.md)
+ - [TrabajoClient](doc//TrabajoClient.md)
+ - [TrabajoFinishedItem](doc//TrabajoFinishedItem.md)
+ - [TrabajoFinishedPage](doc//TrabajoFinishedPage.md)
+ - [TrabajoPlace](doc//TrabajoPlace.md)
+ - [TrabajoQuoteResponse](doc//TrabajoQuoteResponse.md)
+ - [TrabajoResponse](doc//TrabajoResponse.md)
+ - [TrabajoSummary](doc//TrabajoSummary.md)
+ - [TrabajoVerificationResponse](doc//TrabajoVerificationResponse.md)
+ - [TrabajoVisitResponse](doc//TrabajoVisitResponse.md)
  - [TrustNotice](doc//TrustNotice.md)
  - [TrustedTechnician](doc//TrustedTechnician.md)
  - [TrustedTechnicianPage](doc//TrustedTechnicianPage.md)
@@ -204,6 +236,10 @@ Class | Method | HTTP request | Description
  - [UpdateProfileRequest](doc//UpdateProfileRequest.md)
  - [UpdateTechnicianBody](doc//UpdateTechnicianBody.md)
  - [ValidationProblemDetails](doc//ValidationProblemDetails.md)
+ - [VerificationCreatedResponse](doc//VerificationCreatedResponse.md)
+ - [VerificationPhotoResponse](doc//VerificationPhotoResponse.md)
+ - [VerificationPhotoStateResponse](doc//VerificationPhotoStateResponse.md)
+ - [VerificationStatusResponse](doc//VerificationStatusResponse.md)
  - [VisitCustomer](doc//VisitCustomer.md)
  - [VisitPlace](doc//VisitPlace.md)
  - [VisitResponse](doc//VisitResponse.md)
