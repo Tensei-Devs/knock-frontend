@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **franja** | **String** | Una de `manana`, `tarde` o `noche`. | 
 **coloniaId** | **String** | Identificador (24 hexadecimales) de una colonia del catálogo. | 
 **direccion** | **String** | De 8 a 200 caracteres; obligatoria en modalidad domicilio y no admitida en taller. Se guarda cifrada. | 
+**elementoId** | **String** | Opcional (spec 041, R-19, ampliación aditiva de la spec 020): identificador (24 hexadecimales) de un elemento de «Mi casa y mi auto» al que se liga el trabajo. Solo se valida su formato; nunca se devuelve. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
