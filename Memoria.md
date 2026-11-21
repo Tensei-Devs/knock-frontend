@@ -640,3 +640,9 @@
 - **Verificación:** dos corridas seguidas en un LMU-LX9 (Android 12) con «All tests passed» (~9 s cada una, sin contar la compilación). Los textos del recorrido se comprobaron contra el código de la maqueta.
 - **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
 - **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).
+
+## 2026-11-21 — Crear solicitud conectada al servidor (KNOCK-288)
+- **Qué cambió:** «Enviar solicitud» de la app llama a `POST /solicitudes` cuando hay sesión y `KNOCK_API_URL` (`crearSolicitudReal` en `solicitudes_reales.dart`, botón en `SolicitarScreen`). Tras crear se agrega la solicitud real y se vuelve a pedir la lista. Sin API sigue el flujo de datos de ejemplo.
+- **Por qué:** la pantalla solo agregaba una solicitud local y nunca llamaba al repositorio real que ya existía.
+- **Decisiones (con porqué):** (1) Sin `Idempotency-Key`: el contrato (`contracts/openapi.v1.json`) no la define; el botón se deshabilita mientras envía y un error nunca se reintenta solo. (2) La app solo guarda el nombre y el código postal de la colonia, así que el `coloniaId` se busca en `GET /zonas/cp/{cp}` por nombre. (3) Las fotos no se suben (no hay endpoints de archivos desplegados): `fotos` va vacío.
+- **A evitar:** el contrato pide de 1 a 5 `fotos` en `POST /solicitudes`; mientras no haya subida de archivos, el servidor puede rechazar la solicitud y la persona verá el mensaje de error. No darlo por funcionando de punta a punta hasta probarlo contra el servidor. Tras un corte de red a media petición, reintentar a mano puede duplicar la solicitud (no hay clave de idempotencia).

@@ -9,6 +9,8 @@ import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/actividad/actividad.dart'
     show
         EleccionEnCurso,
@@ -19,7 +21,9 @@ import 'package:app/features/actividad/actividad.dart'
         ResultadoComparacion,
         cotizacionesRealesProvider,
         eleccionRealProvider,
-        solicitudRealDetalleProvider;
+        solicitudRealDetalleProvider,
+        solicitudesRealesActivasProvider,
+        solicitudesRealesControllerProvider;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,13 +37,18 @@ String _catIcon(String id) => id == 'mec'
 
 // ------------------------------------------------------------ pedir cotización
 
-class SolicitarScreen extends StatefulWidget {
+class SolicitarScreen extends ConsumerStatefulWidget {
   const SolicitarScreen({super.key});
   @override
-  State<SolicitarScreen> createState() => _SolicitarScreenState();
+  ConsumerState<SolicitarScreen> createState() => _SolicitarScreenState();
 }
 
-class _SolicitarScreenState extends State<SolicitarScreen> {
+class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
+  /// Mientras la solicitud viaja al servidor el botón no responde: un segundo
+  /// toque no crea otra solicitud (el contrato no tiene `Idempotency-Key`).
+  bool _enviando = false;
+  String? _errorEnvio;
+
   late final TextEditingController _desc;
   late final TextEditingController _addr;
 
@@ -65,6 +74,35 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
       maq.refresh();
     } else {
       context.pop();
+    }
+  }
+
+  /// Con sesión y servidor la solicitud se crea de verdad (`POST /solicitudes`);
+  /// sin ellos sigue el flujo de ejemplo de siempre.
+  Future<void> _enviar() async {
+    if (_enviando) return;
+    if (!ref.read(solicitudesRealesActivasProvider)) {
+      final job = maq.sendReq();
+      context.go(RM.enviada(job.id));
+      return;
+    }
+    final textos = AppLocalizations.of(context);
+    setState(() {
+      _enviando = true;
+      _errorEnvio = null;
+    });
+    try {
+      final job = await crearSolicitudReal(ref, maq.req!);
+      if (!mounted) return;
+      maq.agregarSolicitudReal(job);
+      ref.invalidate(solicitudesRealesControllerProvider);
+      context.go(RM.enviada(job.id));
+    } on Failure catch (falla) {
+      if (!mounted) return;
+      setState(() {
+        _enviando = false;
+        _errorEnvio = mensajeDeError(textos, falla);
+      });
     }
   }
 
@@ -393,15 +431,12 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
         ),
       ]);
       cta = ctaCol([
+        if (_errorEnvio != null) NoteK('red', 'help', _errorEnvio!),
         BtnK(
-          'Enviar solicitud',
-          needAddr
-              ? null
-              : () {
-                  final job = maq.sendReq();
-                  context.go(RM.enviada(job.id));
-                },
+          _enviando ? 'Enviando…' : 'Enviar solicitud',
+          needAddr ? null : _enviar,
           icon: 'send',
+          busy: _enviando,
         ),
         if (needAddr)
           helpT(

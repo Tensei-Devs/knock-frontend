@@ -465,6 +465,15 @@ class MaquetaEstado extends ChangeNotifier {
     return job;
   }
 
+  /// Agrega al inicio la solicitud que el servidor acaba de crear y cierra el
+  /// formulario. No arranca las cotizaciones de ejemplo: las reales las manda
+  /// el servidor.
+  void agregarSolicitudReal(Job job) {
+    jobs.insert(0, job);
+    req = null;
+    notifyListeners();
+  }
+
   void startClientQuotes(Job job, {bool widen = false}) {
     final col = user.col;
     final pool = provs.keys

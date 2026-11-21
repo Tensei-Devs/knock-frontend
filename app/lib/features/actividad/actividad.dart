@@ -10,7 +10,7 @@ export 'package:app/features/actividad/actividad_providers.dart'
     show solicitudesRealesRepositoryProvider;
 export 'package:app/features/actividad/domain/franja.dart' show Franja;
 export 'package:app/features/actividad/domain/solicitud.dart'
-    show EstadoSolicitud, Solicitud;
+    show EstadoSolicitud, NuevaSolicitud, Solicitud;
 export 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart'
     show
         solicitudRealDetalleProvider,
