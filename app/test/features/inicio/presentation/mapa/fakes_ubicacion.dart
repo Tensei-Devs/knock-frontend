@@ -3,11 +3,17 @@ import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.da
 
 /// Repositorio de ubicación falso: devuelve [resultado] y cuenta llamadas.
 class UbicacionFalsa implements UbicacionRepository {
-  UbicacionFalsa(this.resultado);
+  UbicacionFalsa(this.resultado, {this.permiso = true});
 
   ResultadoUbicacion resultado;
+
+  /// Si el permiso ya estaba concedido antes de preguntar.
+  bool permiso;
   int llamadas = 0;
   int ajustesAbiertos = 0;
+
+  @override
+  Future<bool> permisoConcedido() async => permiso;
 
   @override
   Future<ResultadoUbicacion> obtenerUnaVez() async {

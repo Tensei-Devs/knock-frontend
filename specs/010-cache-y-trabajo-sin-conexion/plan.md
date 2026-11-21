@@ -1,6 +1,6 @@
 # Plan 010 — Caché y trabajo sin conexión
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec.
 
 ## Enfoque
 1. Definir la interfaz de caché y su implementación local.

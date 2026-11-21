@@ -1,6 +1,6 @@
 # Plan 036 — Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 046 y regenerar el cliente Dart.

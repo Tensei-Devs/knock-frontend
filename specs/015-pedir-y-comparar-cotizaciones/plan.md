@@ -1,6 +1,6 @@
 # Plan 015 — Pedir y comparar cotizaciones (pantallas)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** José Julián Hernández Hernández · **Ola y sprint:** ola A · Sprint 4 (KNOCK-244 y KNOCK-245)
 
 ## 1. Enfoque

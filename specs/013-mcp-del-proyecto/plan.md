@@ -1,6 +1,6 @@
 # Plan 013 — MCP del proyecto (móvil y panel)
 
-> Parte de `spec.md` (estado Borrador). Este plan se confirma cuando la spec esté Aprobada.
+> Parte de `spec.md` (estado Aprobada). Este plan se confirmó con la aprobación de la spec.
 
 ## Enfoque
 1. Listar los servidores aprobados en `docs/mcp.md` con propósito, permisos y quién los aprobó.

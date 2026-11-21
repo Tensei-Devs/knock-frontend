@@ -1,6 +1,6 @@
 # Plan 016 — Visita con código y aviso de confianza (pantallas)
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Erick Trejo Reséndiz · **Revisión de par:** José Julián Hernández Hernández (Guillermo revisa el contrato de backend 022) · **Ola y sprint:** ola B · Sprint 4 (KNOCK-83 y capa Mobile de KNOCK-85)
 
 ## 1. Enfoque

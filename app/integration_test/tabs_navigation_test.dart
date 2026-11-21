@@ -21,6 +21,7 @@ void main() {
   testWidgets('TC-TT-MOB-01-01 abre la app y navega entre las 5 pestañas', (
     tester,
   ) async {
+    await sinSesionGuardada();
     await knock.arrancar(overrides: entradaFicticia);
     await tester.pumpAndSettle();
     // HU-001: la app abre en la entrada; se entra con datos ficticios.

@@ -1,6 +1,6 @@
 # Plan 031 — Mi casa y mi auto (pantallas)
 
-> Parte de `spec.md` (Borrador).
+> Parte de `spec.md` (estado Aprobada).
 
 ## Enfoque
 1. Vendorizar el contrato de backend 041 y regenerar el cliente Dart.

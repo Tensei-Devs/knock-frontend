@@ -1,6 +1,6 @@
 # Plan 023 — Panel web interno: entrada con permisos y doble factor
 
-> Parte de `spec.md` (Estado: Borrador). Este plan se confirma cuando la spec esté **Aprobada**; mientras tanto **no se ejecuta**.
+> Parte de `spec.md` (Estado: Aprobada). Este plan se confirmó con la aprobación de la spec.
 > **Responsable sugerido:** Ángel Alexis Blas Castillo (la capa Panel web puede repartirse) · **Revisión de par:** José Julián Hernández Hernández · **Ola y sprint:** Sprint 5 (KNOCK-75, etiquetas `sprint-5` y `candidata-recorte`); la spec se deja lista en el Sprint 4
 
 ## 1. Enfoque
