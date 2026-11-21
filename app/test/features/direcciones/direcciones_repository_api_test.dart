@@ -49,7 +49,7 @@ void main() {
         {'id': 'd-1'},
       ]);
       await expectLater(repo().listar(), throwsA(isA<DatosInvalidosFailure>()));
-      api.responder = (_) => jsonOk({'items': []});
+      api.responder = (_) => jsonOk({'items': <Object?>[]});
       await expectLater(repo().listar(), throwsA(isA<DatosInvalidosFailure>()));
     },
   );
