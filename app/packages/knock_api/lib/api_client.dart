@@ -226,6 +226,8 @@ class ApiClient {
           return CreateReportBody.fromJson(value);
         case 'CreateRequestBody':
           return CreateRequestBody.fromJson(value);
+        case 'CreateVerificationRequest':
+          return CreateVerificationRequest.fromJson(value);
         case 'CursorPageOfHistoryEntryResponse':
           return CursorPageOfHistoryEntryResponse.fromJson(value);
         case 'CursorPageOfHistoryItemResponse':
@@ -242,8 +244,18 @@ class ApiClient {
           return HistoryEntryResponse.fromJson(value);
         case 'HistoryItemResponse':
           return HistoryItemResponse.fromJson(value);
+        case 'InboxItem':
+          return InboxItem.fromJson(value);
+        case 'InboxNeighborhood':
+          return InboxNeighborhood.fromJson(value);
+        case 'InboxResponse':
+          return InboxResponse.fromJson(value);
         case 'ItemResponse':
           return ItemResponse.fromJson(value);
+        case 'MyQuote':
+          return MyQuote.fromJson(value);
+        case 'MyQuotePage':
+          return MyQuotePage.fromJson(value);
         case 'NeighborhoodAtPointColoniaResponse':
           return NeighborhoodAtPointColoniaResponse.fromJson(value);
         case 'NeighborhoodAtPointResponse':
@@ -252,6 +264,18 @@ class ApiClient {
           return NeighborhoodExistsResponse.fromJson(value);
         case 'OficioResponse':
           return OficioResponse.fromJson(value);
+        case 'PanelAccesoResponse':
+          return PanelAccesoResponse.fromJson(value);
+        case 'PanelActivacionRequest':
+          return PanelActivacionRequest.fromJson(value);
+        case 'PanelActivacionResponse':
+          return PanelActivacionResponse.fromJson(value);
+        case 'PanelCelularRequest':
+          return PanelCelularRequest.fromJson(value);
+        case 'PanelCelularResponse':
+          return PanelCelularResponse.fromJson(value);
+        case 'PanelTotpRequest':
+          return PanelTotpRequest.fromJson(value);
         case 'PendingGroupResponse':
           return PendingGroupResponse.fromJson(value);
         case 'PendingResponse':
@@ -320,6 +344,24 @@ class ApiClient {
           return TecnicoPublicoConversacion.fromJson(value);
         case 'TimeRangeDto':
           return TimeRangeDto.fromJson(value);
+        case 'TrabajoClient':
+          return TrabajoClient.fromJson(value);
+        case 'TrabajoFinishedItem':
+          return TrabajoFinishedItem.fromJson(value);
+        case 'TrabajoFinishedPage':
+          return TrabajoFinishedPage.fromJson(value);
+        case 'TrabajoPlace':
+          return TrabajoPlace.fromJson(value);
+        case 'TrabajoQuoteResponse':
+          return TrabajoQuoteResponse.fromJson(value);
+        case 'TrabajoResponse':
+          return TrabajoResponse.fromJson(value);
+        case 'TrabajoSummary':
+          return TrabajoSummary.fromJson(value);
+        case 'TrabajoVerificationResponse':
+          return TrabajoVerificationResponse.fromJson(value);
+        case 'TrabajoVisitResponse':
+          return TrabajoVisitResponse.fromJson(value);
         case 'TrustNotice':
           return TrustNotice.fromJson(value);
         case 'TrustedTechnician':
@@ -338,6 +380,14 @@ class ApiClient {
           return UpdateTechnicianBody.fromJson(value);
         case 'ValidationProblemDetails':
           return ValidationProblemDetails.fromJson(value);
+        case 'VerificationCreatedResponse':
+          return VerificationCreatedResponse.fromJson(value);
+        case 'VerificationPhotoResponse':
+          return VerificationPhotoResponse.fromJson(value);
+        case 'VerificationPhotoStateResponse':
+          return VerificationPhotoStateResponse.fromJson(value);
+        case 'VerificationStatusResponse':
+          return VerificationStatusResponse.fromJson(value);
         case 'VisitCustomer':
           return VisitCustomer.fromJson(value);
         case 'VisitPlace':
