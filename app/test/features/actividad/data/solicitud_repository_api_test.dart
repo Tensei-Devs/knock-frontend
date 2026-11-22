@@ -218,6 +218,24 @@ void main() {
   });
 
   group('GET /solicitudes/{id}/cotizaciones', () {
+    test('CA_015_13 rechaza una comparación de otra solicitud', () async {
+      final repo = _repo(
+        MockClient(
+          (_) async => _json({
+            'solicitudId': 'otra',
+            'cotizaciones': <Object?>[],
+            'totalCotizaciones': 0,
+            'tiposMixtos': false,
+            'puedeElegir': false,
+          }),
+        ),
+      );
+      await expectLater(
+        repo.cotizaciones(_id),
+        throwsA(isA<DatosInvalidosFailure>()),
+      );
+    });
+
     test('Comparacion_ConEtiquetasConocidasYCalificacionDeTexto', () async {
       Uri? recibida;
       final repo = _repo(
@@ -237,7 +255,7 @@ void main() {
 
       final r = await repo.cotizaciones(_id, orden: OrdenCotizaciones.precio);
 
-      expect(recibida!.queryParameters['orden'], 'precio');
+      expect(recibida!.queryParameters['Orden'], 'precio');
       expect(r.puedeElegir, isTrue);
       final c = r.cotizaciones.single;
       expect(c.tipoPrecio, TipoPrecio.fijo);

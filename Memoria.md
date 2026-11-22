@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
+- **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
+- **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
+- **Pendiente:** confirmar la compatibilidad del parámetro `Orden` con el gateway y comprobar el recorrido real cuando exista entorno.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.

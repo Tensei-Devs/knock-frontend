@@ -79,6 +79,7 @@ class ClienteAutenticado extends http.BaseClient {
 bool _esProtegida(String ruta) =>
     ruta == 'me' ||
     ruta.startsWith('me/') ||
+    RegExp(r'^solicitudes/[^/]+/cotizaciones$').hasMatch(ruta) ||
     ruta == 'auth/logout' ||
     ruta.startsWith('colonias/');
 

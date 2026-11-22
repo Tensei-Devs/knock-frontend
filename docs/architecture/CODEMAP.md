@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-19T06:54:04Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-22T23:19:34Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -68,7 +68,7 @@
 - `app/lib/features/actividad/data/solicitud_mapper.dart` — —
   - `cuerpoDeSolicitud()`:11
 - `app/lib/features/actividad/data/solicitud_repository_api.dart` — class `SolicitudRepositoryApi`
-  - `subirFoto()`:28, `crear()`:32, `obtener()`:59, `listar()`:70, `cotizaciones()`:90, `elegir()`:105
+  - `subirFoto()`:32, `crear()`:36, `obtener()`:63, `listar()`:74, `cotizaciones()`:94, `elegir()`:131
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
   - `subirFoto()`:72, `crear()`:75, `obtener()`:116, `listar()`:123, `cotizaciones()`:130, `elegir()`:160, `obtenerVisita()`:209, `pedirAviso()`:238, `cotizacion()`:256, `etiquetarComoElServidor()`:350, `ordenarComoElServidor()`:387, `porCalificacion()`:391, `porTope()`:393
 - `app/lib/features/actividad/data/visita_contrato_mapper.dart` — class `VisitaContratoMapper`
