@@ -1,0 +1,19 @@
+# knock_api.model.CreateReportBody
+
+## Load the model package
+```dart
+import 'package:knock_api/api.dart';
+```
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**reportadoId** | **String** |  | [optional] 
+**referencia** | [**ReportReferenceBody**](ReportReferenceBody.md) |  | [optional] 
+**motivo** | **String** |  | [optional] 
+**descripcion** | **String** |  | [optional] 
+**evidencia** | **List<String>** |  | [optional] [default to const []]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
