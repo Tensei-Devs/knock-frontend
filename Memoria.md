@@ -811,3 +811,8 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+## 2026-11-22 — Registro real del dispositivo para notificaciones (spec 012, T-01, KNOCK-60)
+- **Qué cambió:** `RegistroDispositivosApi` (`POST /dispositivos` 201/200 y `DELETE /dispositivos/{id}`) reemplaza al simulado cuando hay `KNOCK_API_URL` (el simulado queda solo fuera de `release` sin URL). `registrar` devuelve el id del servidor y `desregistrar` lo usa; el id se guarda en el almacén seguro para dar de baja el dispositivo aunque la app se reinicie. Se registra al terminar la entrada (si ya hay permiso) y al aceptar el permiso; se da de baja al cerrar sesión, antes de revocar, sin romper el cierre si falla. Con 503 la sección Avisos dice que no están disponibles por ahora y no se reintenta.
+- **Por qué:** el contrato borra por id, no por token; con 503 (push apagado en el servidor) un reintento solo repetiría el error. El 503 es una excepción propia porque `Failure` es sellada y el texto vive en el ARB.
+- **Pendiente:** el obtener-token sigue detrás de `ServicioNotificaciones` (hoy `NoDisponible`): faltan el paquete `firebase_messaging` y el proyecto Firebase con `google-services.json`/`GoogleService-Info.plist`. Sin eso en un teléfono real no se registra nada.
+- **A evitar:** no imprimir ni guardar en errores el identificador (es una credencial); no reintentar escrituras de registro en bucle.

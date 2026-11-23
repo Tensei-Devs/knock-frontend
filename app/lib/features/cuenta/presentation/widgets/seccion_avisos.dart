@@ -55,6 +55,9 @@ class _SeccionAvisosState extends ConsumerState<SeccionAvisos> {
   Widget build(BuildContext context) {
     final textos = AppLocalizations.of(context);
     final avisos = ref.watch(avisosProvider);
+    final noDisponibles = ref.watch(
+      registroDispositivoControllerProvider,
+    ) is NotificacionesNoDisponibles;
     final etiquetas = {
       TipoAviso.cotizaciones: textos.avisosCotizaciones,
       TipoAviso.mensajes: textos.avisosMensajes,
@@ -80,7 +83,12 @@ class _SeccionAvisosState extends ConsumerState<SeccionAvisos> {
             onChanged: (recibir) =>
                 ref.read(avisosProvider.notifier).elegir(key, recibir: recibir),
           ),
-        if (_permiso.concedida)
+        if (_permiso.concedida && noDisponibles)
+          ListTile(
+            leading: const Icon(Icons.notifications_off_outlined),
+            title: Text(textos.avisosNoDisponibles),
+          )
+        else if (_permiso.concedida)
           ListTile(
             leading: const Icon(Icons.notifications_active_outlined),
             title: Text(textos.avisosActivadas),
