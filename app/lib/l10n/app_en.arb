@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "citaExistente": "Existing appointment",
+  "visitaRecuperacionFallida": "We couldn't retrieve the visit. Check your activity.",
+  "citaMonto": "Quote: {monto}",
+  "citaTope": "Maximum: {monto}",
   "appTitle": "Knock",
   "tabInicio": "Home",
   "tabExplorar": "Explore",

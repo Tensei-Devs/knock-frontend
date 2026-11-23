@@ -80,6 +80,10 @@ bool _esProtegida(String ruta) =>
     ruta == 'me' ||
     ruta.startsWith('me/') ||
     RegExp(r'^solicitudes/[^/]+/cotizaciones$').hasMatch(ruta) ||
+    ruta == 'solicitudes' ||
+    RegExp(r'^solicitudes/[^/]+$').hasMatch(ruta) ||
+    RegExp(r'^solicitudes/[^/]+/elegir$').hasMatch(ruta) ||
+    RegExp(r'^visitas/[^/]+$').hasMatch(ruta) ||
     ruta == 'auth/logout' ||
     ruta.startsWith('colonias/');
 

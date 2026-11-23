@@ -4,6 +4,12 @@
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
 - **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
 - **Pendiente:** confirmar la compatibilidad del parámetro `Orden` con el gateway y comprobar el recorrido real cuando exista entorno.
+## 2026-11-22 — Elección de cotización parcial (KNOCK-245)
+- **Hecho:** la elección usa `ChooseQuoteApi` generado, exige sesión en el transporte, rechaza confirmaciones de otra solicitud o cotización e invalida listado, detalle y comparación. Las pruebas usan dobles.
+- **Pendiente:** KNOCK-81 (PR #98) protege la comparación; el listado y el detalle también necesitan autenticación y CA-20 sigue sin recuperar la visita en el controlador real. No se probó el gateway ni se declara completa la integración. El contrato y cliente de la base no se modificaron.
+- **Avance posterior:** el transporte exige sesión para listado, detalle y visita; seis pruebas comprueban Bearer y ausencia de llamadas sin sesión. CA-20 sigue pendiente: `RequestResponse` no incluye `visitaId` y `VisitResponse` no incluye `cotizacionId`; la comparación sí proporciona `visitaId`, pero no se debe atribuir la visita a la cotización reintentada sin evidencia. PR #98 modifica los mismos archivos y sigue abierto.
+- **Integración apilada:** la rama avanza a KNOCK-81 sin modificarla; el controlador real usa la comparación validada por solicitud para recuperar la visita y compara su identificador, sin inventar `cotizacionId`. Las pruebas con dobles cubren recuperación, interfaz, identificador distinto y recarga de los tres proveedores; falta verificar la recarga mediante el transporte real con sesión. Tras fusionar #98, cambiar la base del PR a `sprint-05` y revisar de nuevo el diff y el CI.
+- **Transporte verificado con API falsa:** elección, recarga de lista, detalle y comparación y recuperación tras 409 pasan por el transporte autenticado; sin sesión no sale ninguna petición. El cliente generado envuelve los errores del transporte: elección los traduce con `mapearErrorApi` para conservar `NoAutorizadoFailure` y la espera por 429. Sin verificación contra gateway desplegado.
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
