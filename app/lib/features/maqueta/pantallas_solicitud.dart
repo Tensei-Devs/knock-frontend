@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/datos.dart';
@@ -14,6 +15,7 @@ import 'package:app/features/actividad/actividad.dart'
         EleccionEnCurso,
         EleccionFallida,
         EleccionHecha,
+        EleccionVisitaExistente,
         MotivoSinEleccion,
         OrdenCotizaciones,
         ResultadoComparacion,
@@ -702,6 +704,30 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
             final e = ref.watch(eleccionRealProvider(j.id));
             final control = ref.read(eleccionRealProvider(j.id).notifier);
             if (e is EleccionHecha) return _citaReal(ctx, e);
+            if (e is EleccionVisitaExistente) {
+              final v = e.visita;
+              final l = AppLocalizations.of(ctx);
+              return stack([
+                h1(l.citaExistente, a: TextAlign.center),
+                CardK(
+                  child: stack([
+                    bT(v.tecnico.nombre),
+                    bT(l.visitaCuando(longDate(v.dia), v.hora)),
+                    if (v.direccion.isNotEmpty) bT(v.direccion),
+                    if (v.precio != null) bT(l.citaMonto(money(v.precio!))),
+                    if (v.tope != null) bT(l.citaTope(money(v.tope!))),
+                    if (v.tecnico.telefono != null)
+                      bT(l.cotizacionTelefono(v.tecnico.telefono!)),
+                    if (v.tecnico.whatsapp != null)
+                      bT(l.cotizacionWhatsapp(v.tecnico.whatsapp!)),
+                  ], gap: 12),
+                ),
+                BtnK(l.cotizacionListo, () {
+                  Navigator.pop(ctx);
+                  context.go('/actividad');
+                }),
+              ]);
+            }
             final enCurso = e is EleccionEnCurso;
             final falla = e is EleccionFallida ? e.falla : null;
             final rechazo = falla is EleccionRechazadaFailure;
@@ -754,6 +780,9 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                   w: FontWeight.w800,
                   color: kc(ctx).red,
                 ),
+              if (falla is EleccionRechazadaFailure &&
+                  falla.motivo == MotivoEleccionRechazada.yaElegida)
+                sMut(AppLocalizations.of(ctx).visitaRecuperacionFallida),
               if (!rechazo)
                 BtnK(
                   falla != null ? 'Reintentar' : 'Sí, elegir a ${pr.first}',

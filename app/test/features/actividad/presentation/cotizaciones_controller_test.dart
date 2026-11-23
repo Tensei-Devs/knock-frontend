@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
+import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/cotizaciones_controller.dart';
+import 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart';
+import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -157,6 +160,111 @@ void main() {
     );
 
     test(
+      'CA_015_20 real muestra la visita existente sin inventar cotización',
+      () async {
+        solicitudes
+          ..fallasAlElegir.add(
+            const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+          )
+          ..comparacion = const ResultadoComparacion(
+            cotizaciones: [],
+            totalCotizaciones: 1,
+            tiposMixtos: false,
+            puedeElegir: false,
+            motivo: MotivoSinEleccion.yaElegida,
+            visitaId: 'vvvvvvvvvvvvvvvvvvvvvvvv',
+          );
+        final con = ProviderContainer(
+          overrides: [
+            solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
+            visitasRealesRepositoryProvider.overrideWithValue(
+              _VisitaFija(visita()),
+            ),
+          ],
+        );
+        addTearDown(con.dispose);
+        con.listen(eleccionRealProvider(_id), (_, _) {});
+        await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+        final recuperada =
+            con.read(eleccionRealProvider(_id)) as EleccionVisitaExistente;
+        expect(recuperada.visita.id, 'vvvvvvvvvvvvvvvvvvvvvvvv');
+        expect(recuperada.visita.tecnico.nombre, 'Técnico ya elegido');
+        expect(solicitudes.elecciones, hasLength(1));
+      },
+    );
+
+    test('CA_015_20 real rechaza una visita de identidad distinta', () async {
+      solicitudes
+        ..fallasAlElegir.add(
+          const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+        )
+        ..comparacion = const ResultadoComparacion(
+          cotizaciones: [],
+          totalCotizaciones: 1,
+          tiposMixtos: false,
+          puedeElegir: false,
+          motivo: MotivoSinEleccion.yaElegida,
+          visitaId: 'otra',
+        );
+      final con = ProviderContainer(
+        overrides: [
+          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
+          visitasRealesRepositoryProvider.overrideWithValue(
+            _VisitaFija(visita()),
+          ),
+        ],
+      );
+      addTearDown(con.dispose);
+      con.listen(eleccionRealProvider(_id), (_, _) {});
+      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
+    });
+
+    test('CA_015_20 real no confirma sin referencia de visita', () async {
+      solicitudes.fallasAlElegir.add(
+        const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+      );
+      final con = ProviderContainer(
+        overrides: [
+          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
+          visitasRealesRepositoryProvider.overrideWithValue(
+            _VisitaFija(visita()),
+          ),
+        ],
+      );
+      addTearDown(con.dispose);
+      con.listen(eleccionRealProvider(_id), (_, _) {});
+      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
+    });
+
+    test('CA_015_20 real no confirma si falla la consulta de visita', () async {
+      solicitudes
+        ..fallasAlElegir.add(
+          const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+        )
+        ..comparacion = const ResultadoComparacion(
+          cotizaciones: [],
+          totalCotizaciones: 1,
+          tiposMixtos: false,
+          puedeElegir: false,
+          motivo: MotivoSinEleccion.yaElegida,
+          visitaId: 'v1',
+        );
+      final con = ProviderContainer(
+        overrides: [
+          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
+          visitasRealesRepositoryProvider.overrideWithValue(_VisitaQueFalla()),
+        ],
+      );
+      addTearDown(con.dispose);
+      con.listen(eleccionRealProvider(_id), (_, _) {});
+      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
+      expect(solicitudes.elecciones, hasLength(1));
+    });
+
+    test(
       'CA_015_20 sin visita que consultar queda el mensaje de CA-12',
       () async {
         solicitudes.fallasAlElegir.add(
@@ -187,6 +295,46 @@ void main() {
       expect(estado(), isA<EleccionHecha>());
     });
   });
+
+  test('CA_015_11 la elección recarga lista, detalle y comparación', () async {
+    final repo = _SolicitudesContadas();
+    final con = ProviderContainer(
+      overrides: [solicitudesRealesRepositoryProvider.overrideWithValue(repo)],
+    );
+    addTearDown(con.dispose);
+    const consulta = (solicitudId: _id, orden: OrdenCotizaciones.recomendadas);
+    con.listen(solicitudesRealesControllerProvider, (_, _) {});
+    con.listen(solicitudRealDetalleProvider(_id), (_, _) {});
+    con.listen(cotizacionesRealesProvider(consulta), (_, _) {});
+    con.listen(eleccionRealProvider(_id), (_, _) {});
+    await con.read(solicitudesRealesControllerProvider.future);
+    await con.read(solicitudRealDetalleProvider(_id).future);
+    await con.read(cotizacionesRealesProvider(consulta).future);
+    await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+    await con.read(solicitudesRealesControllerProvider.future);
+    await con.read(solicitudRealDetalleProvider(_id).future);
+    await con.read(cotizacionesRealesProvider(consulta).future);
+    expect(repo.listados, 2);
+    expect(repo.detalles, 2);
+    expect(repo.ordenesPedidos, hasLength(2));
+  });
+}
+
+class _SolicitudesContadas extends SolicitudesFalsas {
+  int listados = 0;
+  int detalles = 0;
+
+  @override
+  Future<List<Solicitud>> listar() {
+    listados++;
+    return super.listar();
+  }
+
+  @override
+  Future<Solicitud> obtener(String id) {
+    detalles++;
+    return super.obtener(id);
+  }
 }
 
 class _VisitaFija implements VisitaRepository {
@@ -196,4 +344,10 @@ class _VisitaFija implements VisitaRepository {
 
   @override
   Future<Visita> obtenerVisita(String id) async => visita;
+}
+
+class _VisitaQueFalla implements VisitaRepository {
+  @override
+  Future<Visita> obtenerVisita(String id) async =>
+      throw const ServicioNoDisponibleFailure();
 }
