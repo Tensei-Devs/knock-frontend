@@ -22,6 +22,7 @@ import 'package:app/features/actividad/actividad.dart'
         EleccionFallida,
         EleccionHecha,
         EleccionVisitaExistente,
+        EstadoSolicitud,
         MotivoSinEleccion,
         OrdenCotizaciones,
         ResultadoComparacion,
@@ -821,6 +822,7 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                                 ref.invalidate(
                                   solicitudesRealesControllerProvider,
                                 );
+                                ref.invalidate(cotizacionesRealesProvider);
                                 Navigator.pop(ctx);
                                 return;
                               }
@@ -1170,6 +1172,25 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   tT(s.descripcion),
+                  if (s.estado == EstadoSolicitud.cancelada ||
+                      s.estado == EstadoSolicitud.vencida) ...[
+                    Row(
+                      children: [
+                        const Icon(Icons.info_outline),
+                        const SizedBox(width: 8),
+                        Text(
+                          s.estado == EstadoSolicitud.cancelada
+                              ? textos.solicitudEstadoCancelada
+                              : textos.solicitudEstadoVencida,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      s.estado == EstadoSolicitud.cancelada
+                          ? textos.solicitudCanceladaDetalle
+                          : textos.solicitudVencidaDetalle,
+                    ),
+                  ],
                   if (puedeCancelar && vence != null)
                     Text(switch (Vencimiento(
                       venceEn: vence,
@@ -1361,12 +1382,18 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     );
   }
 
-  String? _textoDeMotivo(MotivoSinEleccion m) => switch (m) {
+  String? _textoDeMotivo(
+    BuildContext context,
+    MotivoSinEleccion m,
+  ) => switch (m) {
     MotivoSinEleccion.yaElegida =>
       'Ya elegiste una cotización para esta solicitud.',
-    MotivoSinEleccion.vencida =>
-      'Esta solicitud venció. Puedes pedir una nueva.',
-    MotivoSinEleccion.cancelada => 'Esta solicitud se canceló.',
+    MotivoSinEleccion.vencida => AppLocalizations.of(
+      context,
+    ).cotizacionMotivoVencida,
+    MotivoSinEleccion.cancelada => AppLocalizations.of(
+      context,
+    ).cotizacionMotivoCancelada,
     MotivoSinEleccion.sinCotizaciones =>
       'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.',
   };
@@ -1379,8 +1406,15 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
   ) {
     final motivo = r.puedeElegir || r.motivo == null
         ? null
-        : _textoDeMotivo(r.motivo!);
+        : _textoDeMotivo(context, r.motivo!);
     if (r.cotizaciones.isEmpty) {
+      if (r.motivo == MotivoSinEleccion.vencida ||
+          r.motivo == MotivoSinEleccion.cancelada) {
+        return Pg(
+          title: 'Cotizaciones',
+          body: stack([head, NoteK('blue', 'help', motivo ?? '')]),
+        );
+      }
       return _esperando(
         context,
         head,
