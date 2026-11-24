@@ -5,6 +5,11 @@
 - **Verificación:** tres pruebas unitarias del dominio y `flutter analyze` pasan; se aplicó `dart format`.
 - **Pendiente:** T-03 a T-06. El contrato vendorizado y el cliente generado incluyen las rutas; la tarea T-01 sigue pendiente en la tabla. La petición de implementar llamadas HTTP manuales contradice la constitución y la spec 019, que exigen el cliente generado.
 
+## 2026-11-24 — Repositorios de Trabajo (KNOCK-67)
+- **Hecho:** T-01 confirmada por el Tech Lead como completada en PR #100; T-03 y T-04 implementan bandeja, descarte y resumen paginados mediante el cliente generado. Tres pruebas con dobles del cliente y `flutter analyze` pasan.
+- **Bloqueo para conectar:** `ClienteAutenticado` no reconoce `tecnicos/me/solicitudes` ni `tecnicos/me/trabajo` como rutas protegidas, y `ClienteConCache` no las excluye expresamente. Conectar la pantalla sin corregirlo enviaría estas lecturas sin Bearer y podría cachearlas si el servidor emitiera ETag sin `no-store`.
+- **Pendiente:** adaptar y probar transporte y exclusión de caché antes de T-05; cierre de sesión y T-06; probar el contrato contra backend real. El cliente permite precio y dirección nulos, y `nivel` es un objeto sin esquema: el mapper exige clave y nombre como indica la spec 019.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
