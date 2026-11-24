@@ -25,15 +25,31 @@ import 'package:app/features/actividad/actividad.dart'
         MotivoSinEleccion,
         OrdenCotizaciones,
         ResultadoComparacion,
+        ReglaCancelacion,
+        MotivoCancelacion,
+        Cancelada,
+        CancelacionConCita,
+        CancelacionYaVencida,
+        CancelacionNoDisponible,
+        CancelacionInvalida,
+        CancelacionLimite,
+        CancelacionSinConexion,
+        Vencimiento,
+        VencimientoAbsoluto,
+        VencimientoRelativo,
+        MenosDeUnaHora,
+        VencimientoCerrando,
+        solicitudesRealesRepositoryProvider,
+        solicitudesRealesControllerProvider,
         cotizacionesRealesProvider,
         eleccionRealProvider,
         solicitudRealDetalleProvider,
-        solicitudesRealesActivasProvider,
-        solicitudesRealesControllerProvider;
+        solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 String _catIcon(String id) => id == 'mec'
     ? 'car'
@@ -691,6 +707,8 @@ class CompararScreen extends ConsumerStatefulWidget {
 
 class _CompararScreenState extends ConsumerState<CompararScreen> {
   int _o = 0;
+  Timer? _reloj;
+  bool _refrescoDeCierre = false;
 
   @override
   void initState() {
@@ -699,7 +717,165 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     // elegir no se pierde si se cierra la hoja a media petición.
     if (maq.job(widget.id)?.real ?? false) {
       ref.listenManual(eleccionRealProvider(widget.id), (_, _) {});
+      _reloj = Timer.periodic(const Duration(minutes: 1), (_) {
+        if (!mounted) return;
+        final solicitud = ref
+            .read(solicitudRealDetalleProvider(widget.id))
+            .value;
+        if (solicitud != null &&
+            ReglaCancelacion(solicitud.estado).puedeCancelar &&
+            solicitud.venceEn != null &&
+            !solicitud.venceEn!.isAfter(DateTime.now()) &&
+            !_refrescoDeCierre) {
+          _refrescoDeCierre = true;
+          ref.invalidate(solicitudRealDetalleProvider(widget.id));
+        }
+        setState(() {});
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    _reloj?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _cancelarSolicitud(String id) async {
+    final textos = AppLocalizations.of(context);
+    MotivoCancelacion? motivo;
+    var enviando = false;
+    String? error;
+    await showModalBottomSheet<void>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, actualizar) => PopScope(
+          canPop: !enviando,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    textos.solicitudCancelarTitulo,
+                    style: Theme.of(ctx).textTheme.titleLarge,
+                  ),
+                  Text(textos.solicitudCancelarDetalle),
+                  Text(textos.solicitudCancelarMotivo),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (final (valor, nombre) in [
+                        (
+                          MotivoCancelacion.yaNoLoNecesito,
+                          textos.solicitudMotivoYaNo,
+                        ),
+                        (
+                          MotivoCancelacion.loResolviPorOtroMedio,
+                          textos.solicitudMotivoResolvi,
+                        ),
+                        (
+                          MotivoCancelacion.tardaMucho,
+                          textos.solicitudMotivoTarda,
+                        ),
+                        (MotivoCancelacion.otro, textos.solicitudMotivoOtro),
+                      ])
+                        ChoiceChip(
+                          label: Text(nombre),
+                          selected: motivo == valor,
+                          onSelected: enviando
+                              ? null
+                              : (_) => actualizar(
+                                  () => motivo = motivo == valor ? null : valor,
+                                ),
+                        ),
+                    ],
+                  ),
+                  if (error != null) Text(error!),
+                  TextButton(
+                    onPressed: enviando ? null : () => Navigator.pop(ctx),
+                    child: Text(textos.solicitudCancelarMantener),
+                  ),
+                  FilledButton(
+                    onPressed: enviando
+                        ? null
+                        : () async {
+                            actualizar(() {
+                              enviando = true;
+                              error = null;
+                            });
+                            try {
+                              final resultado = await ref
+                                  .read(solicitudesRealesRepositoryProvider)
+                                  .cancelar(id, motivo: motivo);
+                              if (!ctx.mounted) return;
+                              if (resultado is Cancelada) {
+                                ref.invalidate(
+                                  solicitudRealDetalleProvider(id),
+                                );
+                                ref.invalidate(
+                                  solicitudesRealesControllerProvider,
+                                );
+                                Navigator.pop(ctx);
+                                return;
+                              }
+                              if (resultado is CancelacionConCita ||
+                                  resultado is CancelacionYaVencida ||
+                                  resultado is CancelacionNoDisponible) {
+                                ref.invalidate(
+                                  solicitudRealDetalleProvider(id),
+                                );
+                              }
+                              actualizar(() {
+                                enviando = false;
+                                error = switch (resultado) {
+                                  CancelacionConCita() =>
+                                    textos.solicitudErrorConCita,
+                                  CancelacionYaVencida() =>
+                                    textos.solicitudErrorYaVencida,
+                                  CancelacionNoDisponible() => textoDeErrorReal(
+                                    const NoEncontradoFailure(),
+                                  ),
+                                  CancelacionInvalida() => textoDeErrorReal(
+                                    const DatosRechazadosFailure(),
+                                  ),
+                                  CancelacionLimite(:final espera) =>
+                                    mensajeDeError(
+                                      textos,
+                                      DemasiadosIntentosFailure(espera: espera),
+                                    ),
+                                  CancelacionSinConexion() => textoDeErrorReal(
+                                    const ServicioNoDisponibleFailure(),
+                                  ),
+                                  _ => textoDeErrorReal(
+                                    const ServicioNoDisponibleFailure(),
+                                  ),
+                                };
+                              });
+                            } on Object catch (e) {
+                              if (!ctx.mounted) return;
+                              actualizar(() {
+                                enviando = false;
+                                error = textoDeErrorReal(e);
+                              });
+                            }
+                          },
+                    child: enviando
+                        ? const CircularProgressIndicator()
+                        : Text(textos.solicitudCancelarConfirmar),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _accept(Job j, String pid) {
@@ -986,7 +1162,39 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                   ),
               ],
             ),
-            data: (s) => tT(s.descripcion),
+            data: (s) {
+              final textos = AppLocalizations.of(context);
+              final puedeCancelar = ReglaCancelacion(s.estado).puedeCancelar;
+              final vence = s.venceEn;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  tT(s.descripcion),
+                  if (puedeCancelar && vence != null)
+                    Text(switch (Vencimiento(
+                      venceEn: vence,
+                      ahora: DateTime.now(),
+                    ).presentacion) {
+                      VencimientoAbsoluto(:final dia, :final hora) =>
+                        textos.solicitudVenceEl(
+                          DateFormat.yMMMMd(
+                            Localizations.localeOf(context).toLanguageTag(),
+                          ).format(dia),
+                          hora,
+                        ),
+                      VencimientoRelativo(:final horas) =>
+                        textos.solicitudVenceEnHoras(horas),
+                      MenosDeUnaHora() => textos.solicitudVenceMenosHora,
+                      VencimientoCerrando() => textos.solicitudCerrando,
+                    }),
+                  if (puedeCancelar)
+                    TextButton(
+                      onPressed: () => _cancelarSolicitud(j.id),
+                      child: Text(textos.solicitudCancelar),
+                    ),
+                ],
+              );
+            },
           ),
       ], gap: 6),
     );

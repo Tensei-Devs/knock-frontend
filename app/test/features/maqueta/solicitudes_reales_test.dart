@@ -1,3 +1,5 @@
+import 'dart:async';
+
 // Spec 045 (enmienda 1, E-06) y spec 015: Actividad de la maqueta muestra las
 // solicitudes reales (`GET /solicitudes`) y su detalle al abrirlas; sin sesión
 // o sin API no cambia nada; sin datos de ejemplo cuando falla (CA-12).
@@ -7,6 +9,7 @@ import 'package:app/core/router/app_router.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:app/features/maqueta/estado.dart' show CargaReal, Job, maq;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
@@ -28,6 +31,22 @@ class _Solicitudes extends SolicitudesFalsas {
   int listados = 0;
   final detallesPedidos = <String>[];
   Failure? falloAlObtener;
+  bool cancelada = false;
+  final cancelaciones = <String>[];
+  MotivoCancelacion? motivoEnviado;
+  Completer<ResultadoCancelacion>? respuestaCancelacion;
+
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async {
+    cancelaciones.add(id);
+    motivoEnviado = motivo;
+    if (respuestaCancelacion != null) return respuestaCancelacion!.future;
+    cancelada = true;
+    return Cancelada(DateTime(2026));
+  }
 
   @override
   Future<List<Solicitud>> listar() async {
@@ -43,6 +62,7 @@ class _Solicitudes extends SolicitudesFalsas {
     if (falloAlObtener != null) throw falloAlObtener!;
     return _solicitud(
       id: id,
+      estado: cancelada ? EstadoSolicitud.cancelada : EstadoSolicitud.enviada,
       descripcion: 'Gotea la llave del baño desde ayer',
       oficioClave: 'plo',
     );
@@ -334,6 +354,39 @@ void main() {
   });
 
   group('detalle al abrir', () {
+    testWidgets('CA_025_03 cancela desde el detalle real', (tester) async {
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ]);
+      await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Sí, cancelar'));
+      await tester.pumpAndSettle();
+      expect(repo.cancelaciones, [_idUno]);
+      expect(repo.detallesPedidos.length, greaterThan(1));
+    });
+
+    testWidgets('CA_025_08 espera y muestra error sin cambiar la solicitud', (
+      tester,
+    ) async {
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ])..respuestaCancelacion = Completer<ResultadoCancelacion>();
+      await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Tarda mucho'));
+      await tester.tap(find.text('Sí, cancelar'));
+      await tester.pump();
+      expect(repo.motivoEnviado, MotivoCancelacion.tardaMucho);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      repo.respuestaCancelacion!.complete(const CancelacionSinConexion());
+      await tester.pumpAndSettle();
+      expect(find.textContaining('No pudimos conectar'), findsOneWidget);
+      expect(repo.cancelada, isFalse);
+      expect(repo.cancelaciones, hasLength(1));
+    });
     testWidgets('CA_045_10 abrir una solicitud real pide su detalle', (
       tester,
     ) async {

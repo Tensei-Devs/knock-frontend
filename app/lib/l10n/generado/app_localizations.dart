@@ -254,6 +254,114 @@ abstract class AppLocalizations {
   /// **'Máximo: {monto}'**
   String citaTope(String monto);
 
+  /// No description provided for @solicitudCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar solicitud'**
+  String get solicitudCancelar;
+
+  /// No description provided for @solicitudCancelarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cancelar tu solicitud?'**
+  String get solicitudCancelarTitulo;
+
+  /// No description provided for @solicitudCancelarDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Los técnicos que cotizaron recibirán un aviso y ya no podrás elegir una cotización.'**
+  String get solicitudCancelarDetalle;
+
+  /// No description provided for @solicitudCancelarMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cancelas? (opcional)'**
+  String get solicitudCancelarMotivo;
+
+  /// No description provided for @solicitudMotivoYaNo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no lo necesito'**
+  String get solicitudMotivoYaNo;
+
+  /// No description provided for @solicitudMotivoResolvi.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo resolví por otro medio'**
+  String get solicitudMotivoResolvi;
+
+  /// No description provided for @solicitudMotivoTarda.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarda mucho'**
+  String get solicitudMotivoTarda;
+
+  /// No description provided for @solicitudMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro motivo'**
+  String get solicitudMotivoOtro;
+
+  /// No description provided for @solicitudCancelarConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, cancelar'**
+  String get solicitudCancelarConfirmar;
+
+  /// No description provided for @solicitudCancelarMantener.
+  ///
+  /// In es, this message translates to:
+  /// **'No, mantener'**
+  String get solicitudCancelarMantener;
+
+  /// No description provided for @solicitudCanceladaDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste esta solicitud.'**
+  String get solicitudCanceladaDetalle;
+
+  /// No description provided for @solicitudVencidaDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Pasaron 48 horas sin que eligieras una cotización.'**
+  String get solicitudVencidaDetalle;
+
+  /// No description provided for @solicitudErrorConCita.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya elegiste una cotización: esta solicitud ya no se puede cancelar. Revisa tu visita.'**
+  String get solicitudErrorConCita;
+
+  /// No description provided for @solicitudErrorYaVencida.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu solicitud ya había vencido.'**
+  String get solicitudErrorYaVencida;
+
+  /// No description provided for @solicitudVenceMenosHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence en menos de una hora'**
+  String get solicitudVenceMenosHora;
+
+  /// No description provided for @solicitudCerrando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrando tu solicitud…'**
+  String get solicitudCerrando;
+
+  /// No description provided for @solicitudVenceEnHoras.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence en {horas, plural, =1{1 hora} other{{horas} horas}}'**
+  String solicitudVenceEnHoras(int horas);
+
+  /// No description provided for @solicitudVenceEl.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence el {dia} a las {hora}'**
+  String solicitudVenceEl(String dia, String hora);
+
   /// Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce.
   ///
   /// In es, this message translates to:

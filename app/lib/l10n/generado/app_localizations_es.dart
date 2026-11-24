@@ -112,6 +112,73 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get solicitudCancelar => 'Cancelar solicitud';
+
+  @override
+  String get solicitudCancelarTitulo => '¿Cancelar tu solicitud?';
+
+  @override
+  String get solicitudCancelarDetalle =>
+      'Los técnicos que cotizaron recibirán un aviso y ya no podrás elegir una cotización.';
+
+  @override
+  String get solicitudCancelarMotivo => '¿Por qué cancelas? (opcional)';
+
+  @override
+  String get solicitudMotivoYaNo => 'Ya no lo necesito';
+
+  @override
+  String get solicitudMotivoResolvi => 'Lo resolví por otro medio';
+
+  @override
+  String get solicitudMotivoTarda => 'Tarda mucho';
+
+  @override
+  String get solicitudMotivoOtro => 'Otro motivo';
+
+  @override
+  String get solicitudCancelarConfirmar => 'Sí, cancelar';
+
+  @override
+  String get solicitudCancelarMantener => 'No, mantener';
+
+  @override
+  String get solicitudCanceladaDetalle => 'Cancelaste esta solicitud.';
+
+  @override
+  String get solicitudVencidaDetalle =>
+      'Pasaron 48 horas sin que eligieras una cotización.';
+
+  @override
+  String get solicitudErrorConCita =>
+      'Ya elegiste una cotización: esta solicitud ya no se puede cancelar. Revisa tu visita.';
+
+  @override
+  String get solicitudErrorYaVencida => 'Tu solicitud ya había vencido.';
+
+  @override
+  String get solicitudVenceMenosHora => 'Vence en menos de una hora';
+
+  @override
+  String get solicitudCerrando => 'Cerrando tu solicitud…';
+
+  @override
+  String solicitudVenceEnHoras(int horas) {
+    String _temp0 = intl.Intl.pluralLogic(
+      horas,
+      locale: localeName,
+      other: '$horas horas',
+      one: '1 hora',
+    );
+    return 'Vence en $_temp0';
+  }
+
+  @override
+  String solicitudVenceEl(String dia, String hora) {
+    return 'Vence el $dia a las $hora';
+  }
+
+  @override
   String get appTitle => 'Knock';
 
   @override
