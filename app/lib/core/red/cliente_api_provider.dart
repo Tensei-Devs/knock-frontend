@@ -46,7 +46,11 @@ final transporteApiProvider = Provider<http.Client>((ref) {
       cerrar: sesion.cerrar,
     ),
     ref.watch(cacheRespuestasProvider),
-    sinCache: (url) => url.path.endsWith('/colonias/en-punto'),
+    sinCache: (url) =>
+        url.path.endsWith('/colonias/en-punto') ||
+        url.path.contains('/tecnicos/me/solicitudes') ||
+        url.path.contains('/tecnicos/me/trabajo') ||
+        url.path.contains('/solicitudes/'),
   );
 });
 
