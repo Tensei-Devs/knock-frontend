@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-24 — Dominio de Trabajo (KNOCK-67)
+- **Hecho:** T-02 de la spec 019: entidades inmutables de Trabajo, listas copiadas y sin datos de contacto en solicitudes o visitas; se reutilizan `Modalidad`, `Franja` y `TipoPrecio`. Las entidades propias son necesarias porque el resumen del técnico expone datos distintos a los de Actividad.
+- **Verificación:** tres pruebas unitarias del dominio y `flutter analyze` pasan; se aplicó `dart format`.
+- **Pendiente:** T-03 a T-06. El contrato vendorizado y el cliente generado incluyen las rutas; la tarea T-01 sigue pendiente en la tabla. La petición de implementar llamadas HTTP manuales contradice la constitución y la spec 019, que exigen el cliente generado.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
