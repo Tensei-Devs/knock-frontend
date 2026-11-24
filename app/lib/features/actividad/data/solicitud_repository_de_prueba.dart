@@ -5,6 +5,7 @@ import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 
 /// Solicitudes en memoria mientras el contrato no publique `/solicitudes` ni
@@ -19,6 +20,11 @@ import 'package:app/features/actividad/domain/visita.dart';
 /// cliente generado sin tocar la pantalla.
 class SolicitudRepositoryDePrueba
     implements SolicitudRepository, VisitaRepository, AvisoRepository {
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async => const CancelacionError();
   SolicitudRepositoryDePrueba({
     DateTime Function()? reloj,
     Random? azar,

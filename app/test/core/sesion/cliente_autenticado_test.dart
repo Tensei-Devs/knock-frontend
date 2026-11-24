@@ -289,6 +289,15 @@ void main() {
           );
       expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
     });
+
+    test('CA_025_04 cancelar exige sesión y envía Bearer', () async {
+      await montar();
+      await pedir(
+        'solicitudes/64b7f0c2a1b2c3d4e5f60718/cancelar',
+        metodo: 'POST',
+      );
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
   });
 
   group('401 con renovación', () {
