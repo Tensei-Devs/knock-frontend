@@ -1,7 +1,56 @@
 import 'package:app/features/actividad/domain/vencimiento.dart';
+import 'package:app/features/actividad/domain/franja.dart';
+import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('regla de cancelación CA_025_01 solo permite estados abiertos', () {
+    for (final estado in EstadoSolicitud.values) {
+      expect(
+        ReglaCancelacion(estado).puedeCancelar,
+        estado == EstadoSolicitud.enviada ||
+            estado == EstadoSolicitud.cotizando,
+      );
+    }
+  });
+
+  test('motivos CA_025_02 usan los valores del contrato', () {
+    expect(MotivoCancelacion.values.map((m) => m.valor), [
+      'no_longer_needed',
+      'solved_elsewhere',
+      'takes_too_long',
+      'other',
+    ]);
+  });
+
+  test('solicitud cerrada CA_025_11 no permite volver a pedir por defecto', () {
+    final solicitud = Solicitud(
+      id: 's',
+      estado: EstadoSolicitud.vencida,
+      oficioNombre: 'Mecánica',
+      descripcion: 'Revisión',
+      totalFotos: 0,
+      dia: DateTime.utc(2026),
+      franja: Franja.manana,
+      creadoEn: DateTime.utc(2026),
+    );
+    expect(solicitud.puedeVolverAPedir, isFalse);
+  });
+
+  test('prellenado CA_025_12 conserva solo datos reutilizables', () {
+    const prellenado = PrellenadoSolicitud(
+      oficioId: 'mec',
+      descripcion: 'Revisión',
+      franja: Franja.manana,
+      fotos: ['foto'],
+    );
+    expect(prellenado.oficioId, 'mec');
+    expect(prellenado.descripcion, 'Revisión');
+    expect(prellenado.franja, Franja.manana);
+    expect(prellenado.fotos, ['foto']);
+  });
+
   final ahora = DateTime.utc(2026, 11, 16, 12);
 
   PresentacionVencimiento presentar(Duration restante) =>
