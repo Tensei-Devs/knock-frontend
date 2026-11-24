@@ -44,8 +44,8 @@ final class VisitaProxima {
   final String hora;
   final Modalidad modalidad;
   final String coloniaCliente;
-  final String direccion;
-  final double precio;
+  final String? direccion;
+  final double? precio;
   final double tope;
   final EstadoVisitaProxima estado;
   final bool puedeLlegar;
@@ -98,7 +98,7 @@ final class CotizacionEnviada {
   final String solicitudId;
   final String oficio;
   final TipoPrecio tipoPrecio;
-  final double precio;
+  final double? precio;
   final double? precioMin;
   final double? precioMax;
   final double tope;
@@ -118,7 +118,7 @@ final class TrabajoTerminado {
   final String solicitudId;
   final String oficio;
   final DateTime terminadaEn;
-  final double precio;
+  final double? precio;
   final double? calificacion;
 }
 
