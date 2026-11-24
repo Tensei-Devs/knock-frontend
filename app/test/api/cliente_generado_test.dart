@@ -95,17 +95,24 @@ void main() {
             reason: '$nombre.$propiedad no está en el modelo generado',
           );
           if (requeridos.contains(propiedad)) {
-            // El generador escribe las listas requeridas con valor por
-            // defecto (`this.x = const []`) en vez de `required this.x`.
+            // El generador inicializa colecciones requeridas con un valor
+            // vacío no anulable en vez de marcarlas como `required`.
             final definiciones = esquema['properties']! as Map;
-            final tipo = (definiciones[propiedad]! as Map)['type'];
+            final definicion = definiciones[propiedad]! as Map;
+            final tipo = definicion['type'];
             final esLista =
                 tipo == 'array' || (tipo is List && tipo.contains('array'));
+            final esMapa =
+                (tipo == 'object' ||
+                    (tipo is List && tipo.contains('object'))) &&
+                definicion.containsKey('additionalProperties');
             expect(
               codigo,
               contains(
                 esLista
                     ? 'this.$propiedad = const [],'
+                    : esMapa
+                    ? 'this.$propiedad = const {},'
                     : 'required this.$propiedad,',
               ),
             );

@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **descripcionCorta** | **String** |  | 
 **oficios** | **List<String>** |  | [default to const []]
 **detalle** | [**TechnicianProfileDetail**](TechnicianProfileDetail.md) |  | 
+**tecnicoUsuarioId** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
