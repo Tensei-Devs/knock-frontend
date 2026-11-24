@@ -10,6 +10,10 @@
 - **Bloqueo para conectar:** `ClienteAutenticado` no reconoce `tecnicos/me/solicitudes` ni `tecnicos/me/trabajo` como rutas protegidas, y `ClienteConCache` no las excluye expresamente. Conectar la pantalla sin corregirlo enviaría estas lecturas sin Bearer y podría cachearlas si el servidor emitiera ETag sin `no-store`.
 - **Pendiente:** adaptar y probar transporte y exclusión de caché antes de T-05; cierre de sesión y T-06; probar el contrato contra backend real. El cliente permite precio y dirección nulos, y `nivel` es un objeto sin esquema: el mapper exige clave y nombre como indica la spec 019.
 
+## 2026-11-24 — Transporte de Trabajo autenticado (KNOCK-67)
+- **Hecho:** el transporte existente agrega Bearer a `tecnicos/me/` y excluye de la caché la bandeja, el resumen y las rutas `solicitudes/`; el descarte ya estaba autenticado. Dos pruebas nuevas comprueban Bearer, denegación sin sesión y ausencia de caché, incluso con ETag; `flutter analyze` pasa.
+- **Pendiente:** T-05 y T-06, su conexión y pruebas de interfaz y cierre de sesión; la pantalla de maqueta sigue con datos simulados.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
