@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-24 — Cancelación en la maqueta activa (KNOCK-70)
+- El detalle real de la maqueta muestra el vencimiento y permite cancelar con motivo opcional; usa el repositorio real y refresca detalle, lista y comparación tras el éxito. Los estados cancelada y vencida aparecen en el detalle y la comparación.
+- «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
+- La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
+
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.

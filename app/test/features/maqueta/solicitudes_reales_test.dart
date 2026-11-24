@@ -8,6 +8,7 @@ import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/franja.dart';
+import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
@@ -35,6 +36,15 @@ class _Solicitudes extends SolicitudesFalsas {
   final cancelaciones = <String>[];
   MotivoCancelacion? motivoEnviado;
   Completer<ResultadoCancelacion>? respuestaCancelacion;
+  EstadoSolicitud estadoDetalle = EstadoSolicitud.enviada;
+  bool permiteRepetir = false;
+  ResultadoComparacion? comparacionReal;
+
+  @override
+  Future<ResultadoComparacion> cotizaciones(
+    String id, {
+    OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
+  }) async => comparacionReal ?? super.cotizaciones(id, orden: orden);
 
   @override
   Future<ResultadoCancelacion> cancelar(
@@ -62,7 +72,8 @@ class _Solicitudes extends SolicitudesFalsas {
     if (falloAlObtener != null) throw falloAlObtener!;
     return _solicitud(
       id: id,
-      estado: cancelada ? EstadoSolicitud.cancelada : EstadoSolicitud.enviada,
+      estado: cancelada ? EstadoSolicitud.cancelada : estadoDetalle,
+      permiteRepetir: permiteRepetir,
       descripcion: 'Gotea la llave del baño desde ayer',
       oficioClave: 'plo',
     );
@@ -80,6 +91,7 @@ Solicitud _solicitud({
   String descripcion = '',
   int cotizaciones = 0,
   String? visitaId,
+  bool permiteRepetir = false,
 }) => Solicitud(
   id: id ?? _idUno,
   estado: estado,
@@ -93,6 +105,7 @@ Solicitud _solicitud({
   creadoEn: DateTime(2026, 11, 10),
   totalCotizaciones: cotizaciones,
   visitaId: visitaId,
+  puedeVolverAPedir: permiteRepetir,
 );
 
 Future<ProviderContainer> _abrir(
@@ -354,6 +367,44 @@ void main() {
   });
 
   group('detalle al abrir', () {
+    for (final (estado, motivo, etiqueta, descripcion) in [
+      (
+        EstadoSolicitud.cancelada,
+        MotivoSinEleccion.cancelada,
+        'Cancelada',
+        'Cancelaste esta solicitud.',
+      ),
+      (
+        EstadoSolicitud.vencida,
+        MotivoSinEleccion.vencida,
+        'Vencida',
+        'Pasaron 48 horas sin que eligieras una cotización.',
+      ),
+    ]) {
+      testWidgets('CA_025_11 CA_025_14 $etiqueta en detalle y comparación', (
+        tester,
+      ) async {
+        final repo =
+            _Solicitudes([
+                [_solicitud(estado: estado)],
+              ])
+              ..estadoDetalle = estado
+              ..permiteRepetir = true
+              ..comparacionReal = ResultadoComparacion(
+                cotizaciones: const [],
+                totalCotizaciones: 0,
+                tiposMixtos: false,
+                puedeElegir: false,
+                motivo: motivo,
+              );
+        await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+        expect(find.text(etiqueta), findsOneWidget);
+        expect(find.text(descripcion), findsOneWidget);
+        expect(find.text('Volver a pedir'), findsNothing);
+        expect(find.text('Cancelar solicitud'), findsNothing);
+        expect(find.text('Esperando cotizaciones'), findsNothing);
+      });
+    }
     testWidgets('CA_025_03 cancela desde el detalle real', (tester) async {
       final repo = _Solicitudes([
         [_solicitud()],
