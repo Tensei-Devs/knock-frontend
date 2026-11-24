@@ -5,6 +5,10 @@
 - «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
 - La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
 
+## 2026-11-24 — Contrato combinado y cancelación (KNOCK-70)
+- Se combinan los contratos de Mercado, Identidad y Mensajería de `origin/sprint-05` con el script de backend; se conserva la autenticación y se genera el cliente Dart.
+- El dominio y el repositorio de cancelación se implementaron; el contrato y la validación del backend usan `other`, aunque la spec 025 dice `otro`. La interfaz y sus pruebas siguen pendientes; el detalle anterior usa un repositorio simulado y la interfaz activa es la maqueta.
+- T-06 depende del PR #97 y T-07 de conectar Trabajo (spec 019). No considerar terminada la cancelación hasta conectar y verificar la pantalla real.
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.

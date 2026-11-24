@@ -7,6 +7,8 @@ import 'package:app/core/widgets/estado_knock.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
+import 'package:app/features/actividad/domain/vencimiento.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,17 +89,19 @@ class SolicitudDetalleScreen extends ConsumerWidget {
   }
 }
 
-class _Contenido extends StatelessWidget {
+class _Contenido extends ConsumerWidget {
   const _Contenido({required this.solicitud});
 
   final Solicitud solicitud;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textos = AppLocalizations.of(context);
     final tema = Theme.of(context);
     final idioma = Localizations.localeOf(context).toLanguageTag();
     final estado = textoEstadoSolicitud(textos, solicitud.estado);
+    final puedeCancelar = ReglaCancelacion(solicitud.estado).puedeCancelar;
+    final vencimiento = solicitud.venceEn;
     final franja = switch (solicitud.franja) {
       Franja.manana => textos.solicitudFranjaManana,
       Franja.tarde => textos.solicitudFranjaTarde,
@@ -115,6 +119,22 @@ class _Contenido extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
+        if (puedeCancelar && vencimiento != null)
+          Text(switch (Vencimiento(
+            venceEn: vencimiento,
+            ahora: ref.watch(relojSolicitudProvider)(),
+          ).presentacion) {
+            VencimientoAbsoluto(:final dia, :final hora) =>
+              textos.solicitudVenceEl(
+                DateFormat.yMMMMd(idioma).format(dia),
+                hora,
+              ),
+            VencimientoRelativo(:final horas) => textos.solicitudVenceEnHoras(
+              horas,
+            ),
+            MenosDeUnaHora() => textos.solicitudVenceMenosHora,
+            VencimientoCerrando() => textos.solicitudCerrando,
+          }),
         Text(solicitud.oficioNombre, style: tema.textTheme.headlineSmall),
         const SizedBox(height: 8),
         Text(solicitud.descripcion, style: tema.textTheme.bodyLarge),
@@ -148,7 +168,118 @@ class _Contenido extends StatelessWidget {
             textos.cotizacionMotivoSinCotizaciones,
             style: tema.textTheme.bodyMedium,
           ),
+        if (puedeCancelar)
+          TextButton.icon(
+            onPressed: () => _mostrarCancelacion(context, ref, solicitud.id),
+            icon: const Icon(Icons.cancel_outlined),
+            label: Text(textos.solicitudCancelar),
+          ),
       ],
     );
   }
+}
+
+Future<void> _mostrarCancelacion(
+  BuildContext context,
+  WidgetRef ref,
+  String id,
+) async {
+  final textos = AppLocalizations.of(context);
+  MotivoCancelacion? motivo;
+  var enviando = false;
+  String? error;
+  await showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    isDismissible: false,
+    enableDrag: false,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, actualizar) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                textos.solicitudCancelarTitulo,
+                style: Theme.of(ctx).textTheme.titleLarge,
+              ),
+              Text(textos.solicitudCancelarDetalle),
+              Text(textos.solicitudCancelarMotivo),
+              Wrap(
+                children: [
+                  for (final (valor, nombre) in [
+                    (
+                      MotivoCancelacion.yaNoLoNecesito,
+                      textos.solicitudMotivoYaNo,
+                    ),
+                    (
+                      MotivoCancelacion.loResolviPorOtroMedio,
+                      textos.solicitudMotivoResolvi,
+                    ),
+                    (MotivoCancelacion.tardaMucho, textos.solicitudMotivoTarda),
+                    (MotivoCancelacion.otro, textos.solicitudMotivoOtro),
+                  ])
+                    ChoiceChip(
+                      label: Text(nombre),
+                      selected: motivo == valor,
+                      onSelected: enviando
+                          ? null
+                          : (_) => actualizar(
+                              () => motivo = motivo == valor ? null : valor,
+                            ),
+                    ),
+                ],
+              ),
+              if (error != null) Text(error!),
+              TextButton(
+                onPressed: enviando ? null : () => Navigator.pop(ctx),
+                child: Text(textos.solicitudCancelarMantener),
+              ),
+              FilledButton(
+                onPressed: enviando
+                    ? null
+                    : () async {
+                        actualizar(() {
+                          enviando = true;
+                          error = null;
+                        });
+                        final resultado = await ref
+                            .read(solicitudRepositoryProvider)
+                            .cancelar(id, motivo: motivo);
+                        if (!ctx.mounted) return;
+                        if (resultado is Cancelada) {
+                          ref.invalidate(solicitudDetalleProvider(id));
+                          ref.invalidate(solicitudesActividadProvider);
+                          Navigator.pop(ctx);
+                          return;
+                        }
+                        if (resultado is CancelacionConCita ||
+                            resultado is CancelacionYaVencida) {
+                          ref.invalidate(solicitudDetalleProvider(id));
+                        }
+                        actualizar(() {
+                          enviando = false;
+                          error = switch (resultado) {
+                            CancelacionConCita() =>
+                              textos.solicitudErrorConCita,
+                            CancelacionYaVencida() =>
+                              textos.solicitudErrorYaVencida,
+                            CancelacionNoDisponible() =>
+                            mensajeDeError(textos, const NoEncontradoFailure()),
+                          _ => mensajeDeError(textos, const ServicioNoDisponibleFailure()),
+                          };
+                        });
+                      },
+                child: enviando
+                    ? const CircularProgressIndicator()
+                    : Text(textos.solicitudCancelarConfirmar),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
