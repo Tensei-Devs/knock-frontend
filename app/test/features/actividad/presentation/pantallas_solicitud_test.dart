@@ -154,6 +154,22 @@ void main() {
   });
 
   group('CA_015_13 solicitud ajena o inexistente', () {
+    testWidgets('CA_025_02 cancelar abre confirmación con motivo opcional', (
+      tester,
+    ) async {
+      await _montar(
+        tester,
+        const SolicitudDetalleScreen(id: 'bbbbbbbbbbbbbbbbbbbbbbbb'),
+      );
+      await tester.ensureVisible(find.text('Cancelar solicitud'));
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      expect(find.text('¿Cancelar tu solicitud?'), findsOneWidget);
+      expect(find.text('Otro motivo'), findsOneWidget);
+      expect(find.text('No, mantener'), findsOneWidget);
+      expect(find.text('Sí, cancelar'), findsOneWidget);
+    });
+
     testWidgets('CA_015_13 el detalle dice que ya no está disponible', (
       tester,
     ) async {
