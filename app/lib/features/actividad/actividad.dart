@@ -11,6 +11,8 @@ export 'package:app/features/actividad/actividad_providers.dart'
 export 'package:app/features/actividad/domain/franja.dart' show Franja;
 export 'package:app/features/actividad/domain/solicitud.dart'
     show EstadoSolicitud, Solicitud;
+export 'package:app/features/actividad/domain/regla_cancelacion.dart';
+export 'package:app/features/actividad/domain/vencimiento.dart';
 export 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart'
     show
         solicitudRealDetalleProvider,
