@@ -203,6 +203,18 @@ void main() {
       await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
       expect(api.peticiones, isEmpty);
     });
+
+    test('CA_036_43 explorar lleva el Bearer cuando hay sesión', () async {
+      await montar();
+      expect((await pedir('explorar?filtro=todo')).statusCode, 200);
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_036_44 sin sesión, explorar sale sin Authorization', () async {
+      await montar(tokens: null);
+      await pedir('explorar?filtro=todo');
+      expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
+    });
   });
 
   group('401 con renovación', () {

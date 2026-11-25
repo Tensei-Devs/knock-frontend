@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-25 — Spec 036, parte 1: Explorar conectado al backend 046 (KNOCK-90)
+- **Decisión:** `features/explorar/` tiene el dominio, `ExplorarRepositoryApi` con `enviarJson` y un simulado. La pestaña Explorar de la maqueta dibuja los bloques reales con `ExplorarReal`; los chips eligen el filtro (`mec`, `plo` y `ele` son `auto`, `agua` y `luz`).
+- **Sesión opcional:** `ClienteAutenticado` manda el token a `explorar` solo si hay sesión (`_admiteSesion`). Sin sesión sale sin token y solo llegan los bloques públicos. Con sesión llegan también «Trabajos reales» y «Cerca de ti».
+- **Sin conexión:** se guarda en memoria la última respuesta buena de cada filtro y se muestra con su fecha (CA-45); se borra al abrir o cerrar sesión.
+- **Pendiente:** la maqueta no tiene el id real de la colonia, así que «Cerca de ti» llega vacío; los textos son de la maqueta, sin ARB.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
