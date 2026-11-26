@@ -797,3 +797,9 @@
 - **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
 - **Pendiente:** sin probar contra el backend desplegado.
 - **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.
+
+## 2026-11-26 — CI: E2E en emulador, ofuscación al publicar y DAST (KNOCK-221, KNOCK-293)
+- **Qué cambió:** job `e2e-android` (`integration_test` en emulador API 34); la publicación ofusca el Dart y guarda los símbolos cifrados con el certificado de la llave de subida; job `dast` (ZAP baseline) contra la landing y el panel en el runner. Los dos jobs nuevos entran en `gate`. Cambio en `.github/` autorizado. Dependencias de CI nuevas: `reactivecircus/android-emulator-runner` v2.38.0 (fijada por SHA) e imagen `ghcr.io/zaproxy/zaproxy` 2.17.0 (fijada por digest).
+- **Por qué:** esos controles no existían en el CI.
+- **SonarCloud:** hoy corre como análisis automático (check en los PR); el proyecto no tiene archivos Dart analizados ni cobertura. El análisis por CI de KNOCK-297 exige antes desactivar el análisis automático en SonarCloud; no se cambió nada.
+- **A evitar:** subir los símbolos sin cifrar (los artefactos de un repositorio público los descarga cualquier cuenta); dar por probado el emulador o la publicación sin una corrida real.

@@ -193,6 +193,40 @@ jobs:
           path: app/coverage/
           if-no-files-found: ignore
 
+  # E2E de la app en un emulador (KNOCK-293). Sin secretos ni google-services.json: entrada ficticia y sin API real.
+  e2e-android:
+    name: App — integration_test en emulador Android
+    needs: detect
+    if: needs.detect.outputs.app == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: 3.47.9
+          cache: true
+      - name: Dependencias
+        working-directory: app
+        run: flutter pub get --enforce-lockfile
+      - name: Activar KVM (aceleración del emulador)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: integration_test en el emulador
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          working-directory: app
+          script: flutter test integration_test -d emulator-5554
+
   panel:
     name: Panel — lint, tipos, pruebas, build y E2E de humo
     needs: detect
@@ -322,7 +356,7 @@ jobs:
   gate:
     name: gate
     if: always()
-    needs: [detect, pr-meta, pr-points, governance, contract, app, panel, sast, sca, secrets, landing]
+    needs: [detect, pr-meta, pr-points, governance, contract, app, e2e-android, panel, sast, sca, secrets, landing, dast]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -359,3 +393,62 @@ jobs:
           echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tgz" | sha256sum -c -
           tar -xzf gitleaks.tgz gitleaks
           ./gitleaks detect --no-git --source landing --config .gitleaks.toml --redact --verbose --exit-code 1
+
+  # DAST pasivo (OWASP ZAP baseline) contra la imagen de la landing y la del panel levantadas en el propio runner:
+  # no toca ningún entorno desplegado. Bloquea con riesgo alto (SECURITY.md), con un FAIL de ZAP o si el escaneo no corre.
+  # Los avisos de menor riesgo quedan en el registro y en el reporte. La app móvil no aplica.
+  dast:
+    name: DAST (ZAP baseline — ${{ matrix.sitio }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        sitio: [landing, panel]
+    env:
+      SITIO: ${{ matrix.sitio }}
+      ZAP_IMAGE: ghcr.io/zaproxy/zaproxy:2.17.0@sha256:9624669db72f54d86c4b46a7064518bd9bf79d8c61a4c31befa9923489f328af
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Construir y levantar el sitio
+        run: |
+          docker build -t knock-dast-target "$SITIO"
+          docker network create dast
+          docker run -d --name target --network dast -p 127.0.0.1:8080:8080 knock-dast-target
+          curl -sSf --retry 15 --retry-delay 2 --retry-all-errors -o /dev/null http://127.0.0.1:8080/
+      - name: ZAP baseline
+        run: |
+          mkdir -p zap && chmod 777 zap
+          # El panel es una SPA: además del rastreador clásico usa el de AJAX (-j).
+          extra=()
+          if [ "$SITIO" = "panel" ]; then extra=(-j); fi
+          code=0
+          docker run --rm --network dast -v "$PWD/zap":/zap/wrk:rw "$ZAP_IMAGE" \
+            zap-baseline.py -t http://target:8080/ -m 2 "${extra[@]}" -J report.json -r report.html || code=$?
+          # 0 = sin avisos; 2 = solo avisos (el riesgo se evalúa abajo); 1 = FAIL; 3 u otro = el escaneo no corrió bien.
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            echo "::error::ZAP terminó con código $code."
+            exit 1
+          fi
+      - name: Sin hallazgos de riesgo alto
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          sites = json.load(open("zap/report.json", encoding="utf-8"))["site"]
+          if not sites:
+              sys.exit("::error::El reporte de ZAP no incluye ningún sitio: no se escaneó nada.")
+          alerts = [a for s in sites for a in s["alerts"]]
+          for a in alerts:
+              print(a["riskdesc"], "-", a["alert"])
+          high = [a["alert"] for a in alerts if int(a["riskcode"]) >= 3]
+          if high:
+              sys.exit(f"::error::Hallazgos de riesgo alto: {high}")
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: zap-${{ matrix.sitio }}
+          path: zap/report.*
+          if-no-files-found: ignore
