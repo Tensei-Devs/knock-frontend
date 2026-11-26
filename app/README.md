@@ -40,8 +40,40 @@ cd app
 dart format --set-exit-if-changed lib test integration_test   # formato
 flutter analyze --fatal-infos                   # análisis estático (debe decir «No issues found!»)
 flutter test --coverage                         # unitarias y widget; cobertura en coverage/lcov.info (mínimo 50 %)
-flutter test integration_test                   # E2E de humo; requiere un emulador o dispositivo Android encendido
+flutter test integration_test                   # E2E de humo; ver «Suite en un teléfono físico»
 ```
+
+## Suite en un teléfono físico (KNOCK-293)
+
+Corre los recorridos de `integration_test/` en un Android conectado por USB. No necesita cuenta, SMS ni backend.
+
+**Requisitos**
+- Windows con PowerShell, Flutter 3.47.7 y el SDK de Android (JDK incluido con Android Studio). `flutter doctor` sin errores en «Android toolchain».
+- Teléfono con «Opciones de desarrollador» y «Depuración por USB» activadas, la computadora autorizada en el aviso del teléfono, pantalla encendida y desbloqueada durante toda la corrida. Si el teléfono pide confirmar la instalación por USB, hay que aceptarla.
+- Cable USB de datos. `flutter devices` debe mostrar el teléfono.
+- No hacen falta `google-services.json` ni `MAPS_API_KEY`: sin ellos compila y la suite usa una entrada ficticia (el mapa queda en blanco).
+
+**Comandos** (desde la raíz del repositorio)
+```powershell
+cd app
+flutter pub get
+flutter devices                            # copia el id del teléfono
+flutter test integration_test -d <id>
+```
+Debe terminar con `All tests passed!`: 7 pruebas aprobadas y 1 omitida (`~1`), la medición de fluidez del mapa, que solo corre con `flutter drive --profile` (ver «Spike de Google Maps»). No agregues `--dart-define`: cada recorrido fija lo que necesita. Cada archivo se compila e instala por separado, así que la corrida tarda varios minutos.
+
+**Aviso:** la suite borra la sesión y las preferencias de Knock en ese dispositivo, y al terminar `flutter test` puede desinstalar la app (`app.knock.mobile`). No toca otras apps ni ajustes.
+
+| Archivo | Qué recorre |
+|---|---|
+| `maqueta_recorrido_test.dart` | Previa, entrada con celular y código, pestañas, Configuración y aviso de privacidad |
+| `flujos_ejemplo_test.dart` | Cliente con datos de ejemplo: comparar cotizaciones y confirmar la visita |
+| `flujos_api_falsa_test.dart` | Con sesión en el almacenamiento seguro y API falsa: ver y elegir cotización, servidor caído y Reintentar, cerrar sesión |
+| `tabs_navigation_test.dart` | App normal (sin maqueta): las pestañas, también la de técnico |
+| `configuracion_test.dart` | App normal: idioma y tema guardados en el dispositivo |
+| `mapa_rendimiento_test.dart` | Omitida con `flutter test` |
+
+La API falsa (`test/soporte/api_falsa.dart`) y la entrada ficticia sustituyen a la red de la app y a Firebase Phone Auth: la suite no escribe en dev. No prueba el SMS real, el backend desplegado, la cámara, la ubicación ni las notificaciones.
 
 ## API y cliente generado (spec 006)
 - El contrato vive en `../contracts/openapi.v1.json` (copiado de knock-backend, hoy el de Identity) y el cliente Dart en `packages/knock_api/`. **Ninguno se edita a mano.**

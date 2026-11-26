@@ -2183,4 +2183,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cuentaRecuperarRecibida =>
       'We received your request. Someone on the team will review it.';
+
+  @override
+  String get verificacionCargando => 'Loading your verification…';
+
+  @override
+  String get verificacionReintentar => 'Try again';
+
+  @override
+  String get verificacionSinVerificar => 'Not verified';
+
+  @override
+  String get verificacionSinVerificarDetalle =>
+      'Verification is optional and helps clients trust you.';
+
+  @override
+  String get verificacionFotosBorradas =>
+      'Your photos were deleted because they were not reviewed in time. You can send them again.';
+
+  @override
+  String get verificacionEnRevision => 'Under review';
+
+  @override
+  String get verificacionEnRevisionDetalle => 'We review in less than 24 h';
+
+  @override
+  String get verificacionVerificadoBasico => 'Verified: basic';
+
+  @override
+  String get verificacionVerificadoCompleto => 'Verified: complete';
+
+  @override
+  String get verificacionVerificadoDetalle =>
+      'Your profile shows the verified badge.';
+
+  @override
+  String get verificacionNoVerificado => 'We could not verify you';
+
+  @override
+  String get verificacionSinMotivo => 'No reason was given.';
+
+  @override
+  String verificacionEnviadaEl(String fecha) {
+    return 'Sent on $fecha';
+  }
+
+  @override
+  String get verificacionEnvioNoDisponible =>
+      'Sending your photos from the app is not available yet.';
 }

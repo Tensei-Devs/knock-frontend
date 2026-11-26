@@ -19,6 +19,15 @@
 - **SignalR:** la evaluación preliminar de `signalr_netcore` 1.4.4 indica licencia MIT y sin avisos OSV en la consulta del 2026-11-26; faltan revisión transitiva e interoperabilidad. No se agregó ninguna dependencia.
 - **Pendiente:** repositorio, interfaz, integración de sesión, protocolo real y pruebas completas de CA-13 y CA-14. No presentar el controlador aislado como integración terminada.
 
+## 2026-11-26 — Suite de humo en teléfono con API falsa (KNOCK-293)
+- **Qué cambió:** `integration_test/` arranca con `soporte/arranque_e2e.dart` (API siempre falsa, entrada ficticia, sesión y preferencias limpias); suma recorridos de cotizaciones y visita con datos de ejemplo y, con sesión y API falsa, elegir cotización, Reintentar y cerrar sesión. Las pruebas de pestañas y configuración apagan la maqueta desde el código y la medición del mapa se omite fuera de *profile*. El comando está en `app/README.md`.
+- **Por qué:** `flutter test integration_test` fallaba: la maqueta viene encendida y dos pruebas esperaban la app normal sin `--dart-define`; la del mapa solo corre con `flutter drive --profile`.
+- **Pendiente:** no prueba SMS, backend desplegado, cámara, ubicación ni notificaciones.
+- **A evitar:** correr la suite en un teléfono con una sesión de Knock que se quiera conservar; en la prueba de cierre de sesión, leer el Keystore sin esperar el borrado nativo.
+
+## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
+- **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
+- **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
