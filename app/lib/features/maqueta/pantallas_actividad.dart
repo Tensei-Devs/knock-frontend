@@ -1,16 +1,19 @@
 import 'dart:async';
 
+import 'package:app/features/maqueta/reportes_reales.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/core/enlaces/abridor_de_enlaces.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/anim_k.dart';
+import 'package:app/features/maqueta/bloqueos_reales.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/opiniones_reales.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
+import 'package:app/features/maqueta/precio_de_visita_real.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/visita_acciones_reales.dart';
@@ -804,6 +807,20 @@ class _ChatScreenState extends State<ChatScreen> {
             }, sub: 'Si te pidió dinero por adelantado o algo te preocupa'),
             liDanger(ctx, 'x', 'Bloquear', () {
               Navigator.pop(ctx);
+              // Con una visita real el bloqueo va al servidor (spec 033,
+              // BLO-01); si no, queda el de ejemplo de la maqueta.
+              final real = maq.jobs
+                  .where(
+                    (x) =>
+                        x.real &&
+                        x.visitaId != null &&
+                        (x.pid == pr.id || x.quotes.any((q) => q.pid == pr.id)),
+                  )
+                  .firstOrNull;
+              if (real != null) {
+                unawaited(context.push(RM.bloquear(real.id)));
+                return;
+              }
               maq.block(pr.id);
               maq.toast(
                 'Bloqueaste a ${pr.first}',
@@ -1427,9 +1444,12 @@ class VisitaMaqueta extends StatelessWidget {
     final k = kc(context);
     final pr = provs[j.pid]!;
     final first = pr.first;
+    final textos = AppLocalizations.of(context);
     final code = (j.code.isEmpty ? '0000' : j.code).split('');
     final b = <Widget>[
       adjustCard(context, j),
+      if (j.real && j.visitaId != null)
+        PrecioDeVisitaReal(visitaId: j.visitaId!),
       Align(
         alignment: Alignment.centerLeft,
         child: Pill(
@@ -1655,6 +1675,16 @@ class VisitaMaqueta extends StatelessWidget {
                 () => context.push(RM.reportar(j.id)),
                 sub: 'Si algo no está bien',
               ),
+              // Solo con una visita real: el identificador lo resuelve el
+              // servidor (spec 033, BLO-01).
+              if (j.real && j.visitaId != null)
+                liDanger(
+                  context,
+                  'x',
+                  textos.bloqueosBloquear,
+                  () => context.push(RM.bloquear(j.id)),
+                  sub: textos.bloqueosBloquearAviso,
+                ),
             ]),
           ),
         ),
@@ -1728,6 +1758,8 @@ class CitaScreen extends StatelessWidget {
     return Pg(
       title: 'Cita en taller',
       body: stack([
+        if (j.real && j.visitaId != null)
+          PrecioDeVisitaReal(visitaId: j.visitaId!),
         const Align(
           alignment: Alignment.centerLeft,
           child: Pill(
@@ -2082,6 +2114,30 @@ class _CalificarScreenState extends State<CalificarScreen> {
   }
 }
 
+// ------------------------------------------------------------ bloquear
+
+/// «Bloquear a una persona» de una visita real (spec 033, BLO-01). Sin visita
+/// real no se ofrece: la app no inventa a quién bloquear.
+class BloquearScreen extends StatelessWidget {
+  const BloquearScreen({super.key, required this.id});
+  final String id;
+  @override
+  Widget build(BuildContext context) {
+    final textos = AppLocalizations.of(context);
+    final j = maq.job(id);
+    if (j == null || !j.real || j.visitaId == null) {
+      return Pg(
+        title: textos.bloqueosPantallaBloquear,
+        body: NoteK('amber', 'help', textos.bloqueosNoEncontrada),
+      );
+    }
+    return Pg(
+      title: textos.bloqueosPantallaBloquear,
+      body: BloquearReal(visitaId: j.visitaId!, trabajo: j.title),
+    );
+  }
+}
+
 // ------------------------------------------------------------ reportar
 
 class ReportarScreen extends StatefulWidget {
@@ -2126,6 +2182,10 @@ class _ReportarScreenState extends State<ReportarScreen> {
   @override
   Widget build(BuildContext context) {
     final j = maq.job(widget.id)!;
+    // Una visita real se reporta en el servidor (spec 033, REP-01).
+    if (j.real && j.visitaId != null) {
+      return ReportarReal(visitaId: j.visitaId!, trabajo: j.title);
+    }
     final pr = provs[(widget.pid ?? '').isNotEmpty ? widget.pid : j.pid]!;
     final k = kc(context);
     if (sent) {
