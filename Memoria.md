@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Lista y mapa de técnicos, avance parcial (KNOCK-55, spec 036)
+- **Avance:** repositorio inicial para `GET /tecnicos` y `GET /mapa/tecnicos`, con pruebas HTTP simuladas. Los grupos son celdas agregadas, nunca se interpretan como ubicación personal.
+- **Pendiente:** conectar a Inicio y al mapa, completar filtros, límites, paginación y estados; evaluar su compatibilidad con `BusquedaReal`. El repositorio aún no está cableado a producción y no se declara la integración terminada.
+
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
