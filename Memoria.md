@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
+- **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
+- **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.
+- **Pendiente:** el interruptor «Disponible hoy» no se conectó: su valor actual solo llega en `GET /tecnicos/me/trabajo` (spec 019, en otro PR). Textos de la maqueta, sin ARB (spec 045). Sin probar contra el backend desplegado.
+
 ## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
 - **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
