@@ -1,6 +1,6 @@
 # ADR-007 — Excepción temporal al cliente generado de la API
 
-- **Estado:** Propuesta, con 1 de 2 firmas
+- **Estado:** Aprobada
 - **Fecha de redacción:** 2026-11-26
 - **Vence:** 2026-12-15
 - **Afecta a:** constitución §3 y §4 (el cliente se genera desde OpenAPI) y spec 006 (nadie escribe llamadas HTTP a mano)
