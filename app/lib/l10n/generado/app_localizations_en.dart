@@ -1627,4 +1627,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Sending…';
+
+  @override
+  String get cuentaNumeroTitulo => 'Change my number';
+
+  @override
+  String get cuentaRecuperarTitulo => 'Recover my account';
+
+  @override
+  String get cuentaNumeroExplicacion =>
+      'We will text a code to your new number. Your account, jobs and messages stay the same.';
+
+  @override
+  String get cuentaRecuperarExplicacion =>
+      'Enter your old number, the account type and your new number. We will text a code to the new one.';
+
+  @override
+  String get cuentaNumeroAnterior => 'Your old number (10 digits)';
+
+  @override
+  String get cuentaNumeroNuevo => 'New number (10 digits)';
+
+  @override
+  String get cuentaTipoCliente => 'I am a client';
+
+  @override
+  String get cuentaTipoTecnico => 'I am a technician';
+
+  @override
+  String get cuentaNumeroCodigo => '6-digit code';
+
+  @override
+  String get cuentaNumeroEnviarCodigo => 'Text me the code';
+
+  @override
+  String get cuentaNumeroConfirmar => 'Confirm';
+
+  @override
+  String get cuentaNumeroEntendido => 'Got it';
+
+  @override
+  String get cuentaNumeroOtro => 'Use another number';
+
+  @override
+  String get cuentaNumeroEnUso =>
+      'That number already belongs to another account.';
+
+  @override
+  String get cuentaNumeroCambiado => 'Your number was changed.';
+
+  @override
+  String get cuentaRecuperarRecibida =>
+      'We received your request. Someone on the team will review it.';
 }

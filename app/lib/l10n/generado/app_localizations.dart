@@ -2869,6 +2869,102 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: cuentaNumeroTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar mi número'**
+  String get cuentaNumeroTitulo;
+
+  /// Texto de la app: cuentaRecuperarTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Recuperar mi cuenta'**
+  String get cuentaRecuperarTitulo;
+
+  /// Texto de la app: cuentaNumeroExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Te mandaremos un código por SMS al número nuevo. Tu cuenta, tus trabajos y tus mensajes se quedan igual.'**
+  String get cuentaNumeroExplicacion;
+
+  /// Texto de la app: cuentaRecuperarExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe tu número anterior, qué cuenta es y tu número nuevo. Te mandaremos un código al número nuevo.'**
+  String get cuentaRecuperarExplicacion;
+
+  /// Texto de la app: cuentaNumeroAnterior
+  ///
+  /// In es, this message translates to:
+  /// **'Tu número anterior (10 dígitos)'**
+  String get cuentaNumeroAnterior;
+
+  /// Texto de la app: cuentaNumeroNuevo
+  ///
+  /// In es, this message translates to:
+  /// **'Número nuevo (10 dígitos)'**
+  String get cuentaNumeroNuevo;
+
+  /// Texto de la app: cuentaTipoCliente
+  ///
+  /// In es, this message translates to:
+  /// **'Soy cliente'**
+  String get cuentaTipoCliente;
+
+  /// Texto de la app: cuentaTipoTecnico
+  ///
+  /// In es, this message translates to:
+  /// **'Soy técnico'**
+  String get cuentaTipoTecnico;
+
+  /// Texto de la app: cuentaNumeroCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Código de 6 números'**
+  String get cuentaNumeroCodigo;
+
+  /// Texto de la app: cuentaNumeroEnviarCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get cuentaNumeroEnviarCodigo;
+
+  /// Texto de la app: cuentaNumeroConfirmar
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar'**
+  String get cuentaNumeroConfirmar;
+
+  /// Texto de la app: cuentaNumeroEntendido
+  ///
+  /// In es, this message translates to:
+  /// **'Entendido'**
+  String get cuentaNumeroEntendido;
+
+  /// Texto de la app: cuentaNumeroOtro
+  ///
+  /// In es, this message translates to:
+  /// **'Usar otro número'**
+  String get cuentaNumeroOtro;
+
+  /// Texto de la app: cuentaNumeroEnUso
+  ///
+  /// In es, this message translates to:
+  /// **'Ese número ya pertenece a otra cuenta.'**
+  String get cuentaNumeroEnUso;
+
+  /// Texto de la app: cuentaNumeroCambiado
+  ///
+  /// In es, this message translates to:
+  /// **'Tu número cambió.'**
+  String get cuentaNumeroCambiado;
+
+  /// Texto de la app: cuentaRecuperarRecibida
+  ///
+  /// In es, this message translates to:
+  /// **'Recibimos tu solicitud. Una persona del equipo la revisará.'**
+  String get cuentaRecuperarRecibida;
 }
 
 class _AppLocalizationsDelegate
