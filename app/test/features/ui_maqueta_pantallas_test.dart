@@ -74,6 +74,9 @@ void main() {
           final saludo = tester.widget<Text>(find.text(_es['inicioSaludo']!));
           expect(saludo.style!.fontWeight, FontWeight.w900);
           expect(saludo.style!.fontSize, 26);
+          // Con la barra de búsqueda (spec 021) al 200 %, la tarjeta de zona
+          // queda más abajo: el ListView la construye al desplazarse a ella.
+          await tester.scrollUntilVisible(find.byType(TarjetaKnock), 200);
           expect(find.byType(TarjetaKnock), findsOneWidget);
           expect(find.byType(Card), findsNothing);
           // A 200 % la lista construye la fila al desplazarse hasta ella.

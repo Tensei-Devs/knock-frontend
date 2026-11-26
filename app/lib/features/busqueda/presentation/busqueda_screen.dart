@@ -1,5 +1,5 @@
 import 'package:app/core/errores/failure.dart';
-import 'package:app/core/errores/mensajes_failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart'
     show coloniaGuardadaProvider;
@@ -46,9 +46,7 @@ class _BusquedaScreenState extends ConsumerState<BusquedaScreen> {
   void _pedirCotizacion(BuildContext context, String? oficioClave) {
     final uri = Uri(
       path: Rutas.solicitudNueva,
-      queryParameters: {
-        if (oficioClave != null) Rutas.parametroOficio: oficioClave,
-      },
+      queryParameters: {Rutas.parametroOficio: ?oficioClave},
     );
     context.go(uri.toString());
   }
@@ -245,7 +243,8 @@ class _ResultadosView extends ConsumerWidget {
       espera.inSeconds,
     ),
     OpcionNoDisponibleFailure() => l.busquedaSinZona,
-    final Failure f => mensajeDeFailure(f),
+    // El resto del catálogo también sale del ARB (R-10), no en español fijo.
+    final Failure f => mensajeDeError(l, f),
     _ => l.busquedaNoDisponible,
   };
 }
@@ -460,8 +459,9 @@ class _BotonVerMasState extends State<_BotonVerMas> {
     try {
       final falla = await widget.control.verMas();
       if (falla != null && mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(mensajeDeFailure(falla))));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(mensajeDeError(widget.l, falla))),
+        );
       }
     } finally {
       if (mounted) setState(() => _cargando = false);

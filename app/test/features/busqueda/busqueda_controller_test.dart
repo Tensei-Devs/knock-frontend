@@ -1,8 +1,8 @@
 // Spec 021 (KNOCK-66): pruebas unitarias de `ConsultaBusquedaNotifier` y
-// `BusquedaController`.
+// `BusquedaController`. La del temporizador es de widget para mover el reloj
+// falso con `tester.pump` (sin depender de `fake_async`).
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/busqueda/busqueda.dart';
-import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,28 +35,27 @@ Map<String, Object?> _pagina({List<Object?>? items, String? siguiente}) => {
 };
 
 void main() {
-  test('CA_021_07 escribir espera 400 ms y cancela la pausa anterior', () {
-    fakeAsync((async) {
-      final api = ApiFalsa((_) => jsonOk(_pagina()));
-      final c = contenedorConApi(api);
-      addTearDown(c.dispose);
+  testWidgets('CA_021_07 escribir espera 400 ms y cancela la pausa anterior', (
+    tester,
+  ) async {
+    final api = ApiFalsa((_) => jsonOk(_pagina()));
+    final c = contenedorConApi(api);
+    addTearDown(c.dispose);
 
-      c.listen(busquedaControllerProvider('col-1'), (_, _) {});
-      final notifier = c.read(consultaBusquedaProvider.notifier);
+    c.listen(busquedaControllerProvider('col-1'), (_, _) {});
+    final notifier = c.read(consultaBusquedaProvider.notifier);
 
-      notifier.escribir('bo');
-      async.elapse(const Duration(milliseconds: 200));
-      expect(api.peticiones, isEmpty);
+    notifier.escribir('bo');
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(api.peticiones, isEmpty);
 
-      notifier.escribir('boiler');
-      async.elapse(const Duration(milliseconds: 399));
-      expect(api.peticiones, isEmpty);
+    notifier.escribir('boiler');
+    await tester.pump(const Duration(milliseconds: 399));
+    expect(api.peticiones, isEmpty);
 
-      async.elapse(const Duration(milliseconds: 1));
-      async.flushMicrotasks();
-      expect(api.peticiones, hasLength(1));
-      expect(api.peticiones.single.url.queryParameters['q'], 'boiler');
-    });
+    await tester.pump(const Duration(milliseconds: 1));
+    expect(api.peticiones, hasLength(1));
+    expect(api.peticiones.single.url.queryParameters['q'], 'boiler');
   });
 
   test(

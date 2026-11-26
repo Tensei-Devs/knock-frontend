@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T17:57:34Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T18:09:00Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -211,7 +211,7 @@
 - `app/lib/features/busqueda/presentation/busqueda_controller.dart` — class `ConsultaBusqueda`, class `ConsultaBusquedaNotifier`, class `BusquedaController`
   - `build()`:34, `escribir()`:42, `buscarYa()`:48, `filtrarOficio()`:59, `soloVerificados()`:65, `build()`:87, `reintentar()`:104, `cursorDe()`:107, `pedirPagina()`:110, `unirPaginas()`:119, `verMas()`:130
 - `app/lib/features/busqueda/presentation/busqueda_screen.dart` — class `BusquedaScreen`, class `_BusquedaScreenState`, class `_SinZona`, class `_ResultadosView`, class `_ErrorView`, class `_PaginaView`, class `_BotonVerMas`, class `_BotonVerMasState`
-  - `initState()`:30, `dispose()`:39, `build()`:57, `build()`:180, `build()`:212, `build()`:258, `build()`:297, `build()`:441
+  - `initState()`:30, `dispose()`:39, `build()`:55, `build()`:177, `build()`:209, `build()`:260, `build()`:299, `build()`:441
 - `app/lib/features/busqueda/presentation/tarjeta_experto.dart` — class `TarjetaExperto`
   - `build()`:20
 
@@ -487,7 +487,7 @@
 - `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`
   - `build()`:77, `build()`:125, `build()`:156
 - `app/lib/features/maqueta/busqueda_real.dart` — class `BusquedaReal`, class `_BusquedaRealState`, class `_SinZona`, class `_Error`, class `_Sugerencias`, class `_Resultados`, class `_Experto`
-  - `initState()`:55, `dispose()`:61, `build()`:87, `Pg()`:93, `stack()`:148, `build()`:167, `build()`:183, `build()`:199, `build()`:219, `stack()`:245, `build()`:314
+  - `initState()`:55, `dispose()`:61, `build()`:87, `Pg()`:93, `stack()`:148, `build()`:167, `build()`:183, `build()`:199, `build()`:219, `stack()`:245, `build()`:311
 - `app/lib/features/maqueta/campo_buscar.dart` — class `CampoBuscarK`
   - `build()`:18
 - `app/lib/features/maqueta/carga_k.dart` — enum `TipoCarga`, class `CargaK`, class `MensajesRotativos`, class `_MensajesRotativosState`, class `ExitoK`, class `_ExitoKState`
