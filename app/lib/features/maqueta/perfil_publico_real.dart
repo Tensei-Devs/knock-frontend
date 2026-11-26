@@ -19,11 +19,11 @@ String _textoDeFalla(AppLocalizations l, Object falla) =>
 
 /// Carga, error o sin conexión con Reintentar, y datos con aviso si son una
 /// copia (CA-52 y CA-14 de la spec 037).
-Widget _estados<T>(
+Widget _estados<V>(
   AppLocalizations l,
-  AsyncValue<ConFecha<T>> estado, {
+  AsyncValue<ConFecha<V>> estado, {
   required VoidCallback reintentar,
-  required Widget Function(T) datos,
+  required Widget Function(V) datos,
 }) => estado.when(
   loading: () => sMut(l.tecnicoCargando),
   error: (error, _) => stack([
@@ -60,7 +60,7 @@ class PerfilPublicoReal extends ConsumerWidget {
         l,
         ref.watch(perfilPublicoProvider(tecnicoId)),
         reintentar: () => ref.invalidate(perfilPublicoProvider(tecnicoId)),
-        datos: (perfil) => _Resumen(perfil),
+        datos: _Resumen.new,
       ),
       if (conSesion) ...[
         _Colonia(tecnicoId),

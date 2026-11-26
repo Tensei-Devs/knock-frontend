@@ -769,3 +769,8 @@
 - **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
 - **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
 - **A evitar:** aceptar una propuesta sin ver la fecha.
+
+## 2026-11-26 — Perfil público del técnico contra la API (KNOCK-90)
+- **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.
