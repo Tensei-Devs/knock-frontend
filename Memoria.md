@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 034: contador de avisos sin leer (KNOCK-266)
+- **Decisión:** con sesión y API, la campana de Inicio y la fila «Avisos» de Mi cuenta usan `GET /avisos/no-leidos/contador`. Mientras carga o si falla no se marca nada: es un adorno, no una pantalla. Marcar leídos vuelve a pedir el contador.
+- **Pendiente:** sin probar contra el backend desplegado.
 ## 2026-11-26 — Spec 037: servicios del técnico contra el backend 047 (KNOCK-266)
 - **Decisión:** `features/tecnico/` suma los repositorios y controladores de servicios. El perfil de un técnico real los muestra y «Tu perfil público» los agrega, edita y quita. Ante `not_a_technician` ofrece crear el perfil.
 - **Límite:** el contrato no deja leer el id de técnico propio; solo se conoce al crear el perfil. Sin él no se listan los servicios ya guardados.

@@ -136,6 +136,9 @@ class CuentaMaqueta extends ConsumerWidget {
               'bell',
               'Avisos',
               sub: 'Lo último que pasó',
+              extra: ContadorDeAvisos(
+                marca: (sinLeer) => Pill(sinLeer.texto, kind: 'amber'),
+              ),
               onTap: () => context.push(RM.avisos),
             ),
           ]),

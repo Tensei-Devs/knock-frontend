@@ -1,9 +1,12 @@
 // Spec 034 y 045: «Avisos» y «Qué avisos recibir» con datos reales. Solo datos
 // ficticios.
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
 import 'package:app/features/bandeja_avisos/bandeja_avisos.dart';
 import 'package:app/features/bandeja_avisos/data/bandeja_avisos_repository_api.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
@@ -139,4 +142,51 @@ void main() {
       ],
     });
   });
+
+  Future<void> montarContador(
+    WidgetTester tester,
+    ApiFalsa api,
+    Widget hijo,
+  ) async {
+    final contenedor = contenedorConApi(
+      api,
+      extra: [solicitudesRealesActivasProvider.overrideWithValue(true)],
+    );
+    addTearDown(contenedor.dispose);
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: contenedor,
+        child: MaterialApp(home: Scaffold(body: hijo)),
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('CA_034_04 la campana muestra el contador del servidor', (
+    tester,
+  ) async {
+    final api = ApiFalsa((_) => jsonOk({'cantidad': 99, 'masDe99': true}));
+    await montarContador(
+      tester,
+      api,
+      ContadorDeAvisos(marca: (sinLeer) => Text(sinLeer.texto)),
+    );
+    expect(find.text('99+'), findsOneWidget);
+    expect(api.llamadas, ['GET avisos/no-leidos/contador']);
+    expect(api.peticiones.single.autorizacion, isNotNull);
+  });
+
+  for (final (nombre, respuesta) in [
+    ('sin avisos', () => jsonOk({'cantidad': 0, 'masDe99': false})),
+    ('con error', () => http.Response('', 503)),
+  ]) {
+    testWidgets('CA_034_04 $nombre no se marca la campana', (tester) async {
+      await montarContador(
+        tester,
+        ApiFalsa((_) => respuesta()),
+        ContadorDeAvisos(marca: (_) => const Text('marca')),
+      );
+      expect(find.text('marca'), findsNothing);
+    });
+  }
 }

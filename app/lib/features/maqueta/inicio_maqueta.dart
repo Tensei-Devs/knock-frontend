@@ -4,6 +4,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
+import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:app/features/maqueta/campo_buscar.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
@@ -279,20 +280,19 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                     icon: Icon(icn('bell'), color: k.ink),
                     tooltip: tr('Avisos'),
                   ),
-                  if (maq.cUnread || maq.pv.notifUnread > 0)
-                    Positioned(
-                      top: 9,
-                      right: 10,
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          color: k.amber,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: k.surface, width: 2),
-                        ),
+                  Positioned(
+                    top: 9,
+                    right: 10,
+                    child: ContadorDeAvisos(
+                      marca: (sinLeer) => Semantics(
+                        label: '${sinLeer.texto} ${tr('sin leer')}',
+                        child: const _PuntoDeAvisos(),
                       ),
+                      ejemplo: maq.cUnread || maq.pv.notifUnread > 0
+                          ? const _PuntoDeAvisos()
+                          : const SizedBox.shrink(),
                     ),
+                  ),
                 ],
               )
             : BtnK(
@@ -809,4 +809,19 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
       );
     });
   }
+}
+
+class _PuntoDeAvisos extends StatelessWidget {
+  const _PuntoDeAvisos();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: 10,
+    height: 10,
+    decoration: BoxDecoration(
+      color: kc(context).amber,
+      shape: BoxShape.circle,
+      border: Border.all(color: kc(context).surface, width: 2),
+    ),
+  );
 }
