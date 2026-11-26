@@ -645,3 +645,9 @@
 - **Qué cambió:** ayudantes para leer el JSON del contrato (`core/red/contrato_json.dart`) y el contrato de la API en `contracts/openapi.v1.json` con el cliente generado (71 operaciones, KNOCK-277). Es la base de las ramas de repositorios de KNOCK-288 (la app usa datos de ejemplo donde todavía no hay endpoint conectado) (direcciones, casa y auto, técnicos de confianza, mis datos, zona, búsqueda y trabajo), que van en PR aparte y dependen de esta.
 - **Por qué:** cada repositorio lee las respuestas con los mismos ayudantes, sin copiarlos (jscpd).
 - **A evitar:** no editar el cliente generado a mano; no abrir los PR de repositorios antes de que esta base esté en `sprint-05`.
+
+## 2026-11-25 — Las rutas protegidas envían el token de la sesión (KNOCK-288)
+- **Qué cambió:** el cliente envía el `Authorization: Bearer` en las rutas de la API salvo las públicas: `auth/firebase`, `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar` y `tecnicos/{id}` (un solo segmento de 24 hexadecimales). La lista sale de los `[AllowAnonymous]` del backend y de las rutas `anonymous` del gateway. `/busqueda` tampoco se guarda en la caché de respuestas.
+- **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.
+- **Pruebas:** `rutas_protegidas_test.dart` (lista pública y protegida) y `sesion_en_flujos_reales_test.dart` (las llamadas de los repositorios reales de solicitudes, visitas y zonas, contra una API falsa que exige la sesión).
+- **A evitar:** volver a una lista de rutas protegidas; agregar una ruta pública sin comprobar su `[AllowAnonymous]` y su política en el gateway; hacer que `tecnicos/{id}` coincida por prefijo.
