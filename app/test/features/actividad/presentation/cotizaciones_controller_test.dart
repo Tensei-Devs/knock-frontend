@@ -159,32 +159,38 @@ void main() {
       },
     );
 
+    ResultadoComparacion conVisita(String visitaId) => ResultadoComparacion(
+      cotizaciones: const [],
+      totalCotizaciones: 1,
+      tiposMixtos: false,
+      puedeElegir: false,
+      motivo: MotivoSinEleccion.yaElegida,
+      visitaId: visitaId,
+    );
+
+    /// Elige en el controlador real cuando el servidor responde que la
+    /// solicitud ya tenía una cotización elegida.
+    Future<ProviderContainer> elegirYaElegida(VisitaRepository visitas) async {
+      solicitudes.fallasAlElegir.add(
+        const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+      );
+      final con = ProviderContainer(
+        overrides: [
+          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
+          visitasRealesRepositoryProvider.overrideWithValue(visitas),
+        ],
+      );
+      addTearDown(con.dispose);
+      con.listen(eleccionRealProvider(_id), (_, _) {});
+      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      return con;
+    }
+
     test(
       'CA_015_20 real muestra la visita existente sin inventar cotización',
       () async {
-        solicitudes
-          ..fallasAlElegir.add(
-            const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
-          )
-          ..comparacion = const ResultadoComparacion(
-            cotizaciones: [],
-            totalCotizaciones: 1,
-            tiposMixtos: false,
-            puedeElegir: false,
-            motivo: MotivoSinEleccion.yaElegida,
-            visitaId: 'vvvvvvvvvvvvvvvvvvvvvvvv',
-          );
-        final con = ProviderContainer(
-          overrides: [
-            solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
-            visitasRealesRepositoryProvider.overrideWithValue(
-              _VisitaFija(visita()),
-            ),
-          ],
-        );
-        addTearDown(con.dispose);
-        con.listen(eleccionRealProvider(_id), (_, _) {});
-        await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+        solicitudes.comparacion = conVisita('vvvvvvvvvvvvvvvvvvvvvvvv');
+        final con = await elegirYaElegida(_VisitaFija(visita()));
         final recuperada =
             con.read(eleccionRealProvider(_id)) as EleccionVisitaExistente;
         expect(recuperada.visita.id, 'vvvvvvvvvvvvvvvvvvvvvvvv');
@@ -194,72 +200,19 @@ void main() {
     );
 
     test('CA_015_20 real rechaza una visita de identidad distinta', () async {
-      solicitudes
-        ..fallasAlElegir.add(
-          const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
-        )
-        ..comparacion = const ResultadoComparacion(
-          cotizaciones: [],
-          totalCotizaciones: 1,
-          tiposMixtos: false,
-          puedeElegir: false,
-          motivo: MotivoSinEleccion.yaElegida,
-          visitaId: 'otra',
-        );
-      final con = ProviderContainer(
-        overrides: [
-          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
-          visitasRealesRepositoryProvider.overrideWithValue(
-            _VisitaFija(visita()),
-          ),
-        ],
-      );
-      addTearDown(con.dispose);
-      con.listen(eleccionRealProvider(_id), (_, _) {});
-      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      solicitudes.comparacion = conVisita('otra');
+      final con = await elegirYaElegida(_VisitaFija(visita()));
       expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
     });
 
     test('CA_015_20 real no confirma sin referencia de visita', () async {
-      solicitudes.fallasAlElegir.add(
-        const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
-      );
-      final con = ProviderContainer(
-        overrides: [
-          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
-          visitasRealesRepositoryProvider.overrideWithValue(
-            _VisitaFija(visita()),
-          ),
-        ],
-      );
-      addTearDown(con.dispose);
-      con.listen(eleccionRealProvider(_id), (_, _) {});
-      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      final con = await elegirYaElegida(_VisitaFija(visita()));
       expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
     });
 
     test('CA_015_20 real no confirma si falla la consulta de visita', () async {
-      solicitudes
-        ..fallasAlElegir.add(
-          const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
-        )
-        ..comparacion = const ResultadoComparacion(
-          cotizaciones: [],
-          totalCotizaciones: 1,
-          tiposMixtos: false,
-          puedeElegir: false,
-          motivo: MotivoSinEleccion.yaElegida,
-          visitaId: 'v1',
-        );
-      final con = ProviderContainer(
-        overrides: [
-          solicitudesRealesRepositoryProvider.overrideWithValue(solicitudes),
-          visitasRealesRepositoryProvider.overrideWithValue(_VisitaQueFalla()),
-        ],
-      );
-      addTearDown(con.dispose);
-      con.listen(eleccionRealProvider(_id), (_, _) {});
-      await con.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      solicitudes.comparacion = conVisita('v1');
+      final con = await elegirYaElegida(_VisitaQueFalla());
       expect(con.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
       expect(solicitudes.elecciones, hasLength(1));
     });

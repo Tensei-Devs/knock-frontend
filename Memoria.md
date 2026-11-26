@@ -677,3 +677,8 @@
 - **Por qué:** la persona ya tiene una cita y debe verla; el contrato no dice con qué cotización se creó.
 - **Pendiente:** sin probar contra el backend desplegado.
 - **A evitar:** inventar el `cotizacionId` de la visita recuperada; reintentar la elección de forma automática.
+
+## 2026-11-25 — Montaje común en las pruebas de la cita recuperada (KNOCK-245)
+- **Qué cambió:** las pruebas del controlador que simulan `request_already_chosen` comparten una función de montaje y otra para la comparación con visita.
+- **Por qué:** `jscpd` marcaba el montaje repetido.
+- **A evitar:** copiar el montaje en un caso nuevo; excluir las pruebas del control de duplicados.
