@@ -1,11 +1,10 @@
 import 'package:app/core/preferencias/almacen_preferencias.dart';
-import 'package:app/main.dart' as knock;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'soporte/entrada_ficticia.dart';
+import 'soporte/arranque_e2e.dart';
 import 'soporte/entrar.dart';
 
 /// E2E mínimo de HU-052 en emulador Android, con el plugin real:
@@ -17,13 +16,9 @@ void main() {
   testWidgets('TC-HU-052-05 guarda idioma y tema en el dispositivo', (
     tester,
   ) async {
+    // App normal: estos criterios son de las pantallas sin la maqueta.
+    await arrancarE2e(tester, maqueta: false);
     final guardado = await SharedPreferences.getInstance();
-    await guardado.clear();
-    addTearDown(guardado.clear);
-
-    await sinSesionGuardada();
-    await knock.arrancar(overrides: entradaFicticia);
-    await tester.pumpAndSettle();
     // HU-001: la app abre en la entrada; se entra con datos ficticios.
     await entrarConCelularFicticio(tester);
 
