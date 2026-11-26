@@ -86,6 +86,24 @@ class _AccionesFalsas implements AccionesVisitaRepository {
       _anotar('no-terminado $texto');
 }
 
+/// Sin cotización final ni ajustes (spec 039).
+class _SinPrecio implements PrecioDeVisitaRepository {
+  @override
+  Future<CotizacionFinal?> cotizacionFinal(String visitaId) async => null;
+
+  @override
+  Future<List<AjusteDePrecio>> ajustesPendientes(String visitaId) async => [];
+
+  @override
+  Future<void> decidirCotizacionFinal(
+    String visitaId, {
+    required bool aprueba,
+  }) async {}
+
+  @override
+  Future<void> decidirAjuste(String ajusteId, {required bool aprueba}) async {}
+}
+
 class _EnlacesFalsos implements AbridorDeEnlaces {
   final abiertos = <Uri>[];
 
@@ -169,6 +187,7 @@ Future<void> _abrir(
       accionesVisitaRepositoryProvider.overrideWithValue(
         acciones ?? _AccionesFalsas(),
       ),
+      precioDeVisitaRepositoryProvider.overrideWithValue(_SinPrecio()),
       abridorDeEnlacesProvider.overrideWithValue(enlaces ?? _EnlacesFalsos()),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
       intervaloRefrescoSolicitudProvider.overrideWithValue(null),
