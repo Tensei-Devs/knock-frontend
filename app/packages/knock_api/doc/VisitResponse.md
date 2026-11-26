@@ -26,6 +26,11 @@ Name | Type | Description | Notes
 **puedeAvisar** | **bool** |  | 
 **puedeLlegar** | **bool** |  | 
 **llegadaEn** | [**DateTime**](DateTime.md) |  | 
+**tecnicoUsuarioId** | **String** |  | [optional] 
+**reprogramacionPendiente** | **bool** |  | [optional] [default to false]
+**estadoCotizacionFinal** | **String** |  | [optional] 
+**permisoFotos** | **bool** |  | [optional] 
+**terminadaEn** | [**DateTime**](DateTime.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

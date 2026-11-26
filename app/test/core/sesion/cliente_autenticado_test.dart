@@ -219,6 +219,15 @@ void main() {
       expect(api.peticiones, isEmpty);
     });
 
+    test('CA_025_04 cancelar exige sesión y envía Bearer', () async {
+      await montar();
+      await pedir(
+        'solicitudes/64b7f0c2a1b2c3d4e5f60718/cancelar',
+        metodo: 'POST',
+      );
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
     test('CA_036_43 explorar lleva el Bearer cuando hay sesión', () async {
       await montar();
       expect((await pedir('explorar?filtro=todo')).statusCode, 200);

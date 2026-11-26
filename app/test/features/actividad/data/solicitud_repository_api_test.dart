@@ -7,6 +7,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -94,6 +95,66 @@ Map<String, Object?> _cita() => {
 };
 
 void main() {
+  test('cancelación CA_025_04 envía motivo y acepta 200 repetido', () async {
+    var llamadas = 0;
+    final repo = _repo(
+      MockClient((p) async {
+        llamadas++;
+        expect(p.method, 'POST');
+        expect(p.url.path, '/api/v1/solicitudes/$_id/cancelar');
+        expect(jsonDecode(p.body), {'motivo': 'other'});
+        return _json({
+          'id': _id,
+          'estado': 'cancelada',
+          'canceladaEn': '2026-11-20T12:00:00Z',
+          'motivo': 'other',
+        });
+      }),
+    );
+    for (var i = 0; i < 2; i++) {
+      expect(
+        await repo.cancelar(_id, motivo: MotivoCancelacion.otro),
+        isA<Cancelada>(),
+      );
+    }
+    expect(llamadas, 2);
+  });
+
+  test(
+    'cancelación CA_025_07 mapea 404 y conflictos sin filtrar datos',
+    () async {
+      for (final (codigo, respuesta, tipo) in [
+        (404, '', CancelacionNoDisponible),
+        (409, 'request_with_appointment', CancelacionConCita),
+        (409, 'request_expired', CancelacionYaVencida),
+        (400, '', CancelacionInvalida),
+      ]) {
+        final repo = _repo(
+          MockClient((_) async => _json({'code': respuesta}, codigo)),
+        );
+        expect((await repo.cancelar(_id)).runtimeType, tipo);
+      }
+    },
+  );
+
+  test('cancelación CA_025_08 respeta límite y no reintenta 5xx', () async {
+    var llamadas = 0;
+    final repo = _repo(
+      MockClient((_) async {
+        llamadas++;
+        return http.Response('', 429, headers: {'retry-after': '30'});
+      }),
+    );
+    final resultado = await repo.cancelar(_id);
+    expect(
+      (resultado as CancelacionLimite).espera,
+      const Duration(seconds: 30),
+    );
+    expect(llamadas, 1);
+    final fallida = _repo(MockClient((_) async => http.Response('', 503)));
+    expect(await fallida.cancelar(_id), isA<CancelacionError>());
+  });
+
   group('GET /solicitudes', () {
     test('Lista_LeeLasFilasYSigueElCursor', () async {
       final llamadas = <Uri>[];

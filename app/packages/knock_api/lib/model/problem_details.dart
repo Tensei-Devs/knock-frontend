@@ -14,6 +14,9 @@ class ProblemDetails {
     this.status,
     this.detail,
     this.instance,
+    this.code,
+    this.correlationId,
+    this.traceId,
   });
 
   String? type;
@@ -26,13 +29,25 @@ class ProblemDetails {
 
   String? instance;
 
+  /// Código estable del error para que el cliente decida qué mostrar.
+  String? code;
+
+  /// Mismo valor que X-Correlation-Id.
+  String? correlationId;
+
+  /// Identificador de traza para soporte.
+  String? traceId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProblemDetails &&
     other.type == type &&
     other.title == title &&
     other.status == status &&
     other.detail == detail &&
-    other.instance == instance;
+    other.instance == instance &&
+    other.code == code &&
+    other.correlationId == correlationId &&
+    other.traceId == traceId;
 
   @override
   int get hashCode =>
@@ -40,10 +55,13 @@ class ProblemDetails {
     (title == null ? 0 : title!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
     (detail == null ? 0 : detail!.hashCode) +
-    (instance == null ? 0 : instance!.hashCode);
+    (instance == null ? 0 : instance!.hashCode) +
+    (code == null ? 0 : code!.hashCode) +
+    (correlationId == null ? 0 : correlationId!.hashCode) +
+    (traceId == null ? 0 : traceId!.hashCode);
 
   @override
-  String toString() => 'ProblemDetails[type=$type, title=$title, status=$status, detail=$detail, instance=$instance]';
+  String toString() => 'ProblemDetails[type=$type, title=$title, status=$status, detail=$detail, instance=$instance, code=$code, correlationId=$correlationId, traceId=$traceId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -72,6 +90,21 @@ class ProblemDetails {
     } else {
       json[r'instance'] = null;
     }
+    if (this.code != null) {
+      json[r'code'] = this.code;
+    } else {
+      json[r'code'] = null;
+    }
+    if (this.correlationId != null) {
+      json[r'correlationId'] = this.correlationId;
+    } else {
+      json[r'correlationId'] = null;
+    }
+    if (this.traceId != null) {
+      json[r'traceId'] = this.traceId;
+    } else {
+      json[r'traceId'] = null;
+    }
     return json;
   }
 
@@ -94,6 +127,9 @@ class ProblemDetails {
         status: mapValueOfType<int>(json, r'status'),
         detail: mapValueOfType<String>(json, r'detail'),
         instance: mapValueOfType<String>(json, r'instance'),
+        code: mapValueOfType<String>(json, r'code'),
+        correlationId: mapValueOfType<String>(json, r'correlationId'),
+        traceId: mapValueOfType<String>(json, r'traceId'),
       );
     }
     return null;

@@ -10,6 +10,73 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get solicitudCancelar => 'Cancel request';
+
+  @override
+  String get solicitudCancelarTitulo => 'Cancel your request?';
+
+  @override
+  String get solicitudCancelarDetalle =>
+      'Technicians who quoted will be notified and you will no longer be able to choose a quote.';
+
+  @override
+  String get solicitudCancelarMotivo => 'Why are you cancelling? (optional)';
+
+  @override
+  String get solicitudMotivoYaNo => 'I no longer need it';
+
+  @override
+  String get solicitudMotivoResolvi => 'I solved it another way';
+
+  @override
+  String get solicitudMotivoTarda => 'It takes too long';
+
+  @override
+  String get solicitudMotivoOtro => 'Another reason';
+
+  @override
+  String get solicitudCancelarConfirmar => 'Yes, cancel';
+
+  @override
+  String get solicitudCancelarMantener => 'No, keep it';
+
+  @override
+  String get solicitudCanceladaDetalle => 'You cancelled this request.';
+
+  @override
+  String get solicitudVencidaDetalle =>
+      '48 hours passed without you choosing a quote.';
+
+  @override
+  String get solicitudErrorConCita =>
+      'You already chose a quote: this request can no longer be cancelled. Check your visit.';
+
+  @override
+  String get solicitudErrorYaVencida => 'Your request had already expired.';
+
+  @override
+  String get solicitudVenceMenosHora => 'Expires in less than an hour';
+
+  @override
+  String get solicitudCerrando => 'Closing your request…';
+
+  @override
+  String solicitudVenceEnHoras(int horas) {
+    String _temp0 = intl.Intl.pluralLogic(
+      horas,
+      locale: localeName,
+      other: '$horas hours',
+      one: '1 hour',
+    );
+    return 'Expires in $_temp0';
+  }
+
+  @override
+  String solicitudVenceEl(String dia, String hora) {
+    return 'Expires on $dia at $hora';
+  }
+
+  @override
   String get appTitle => 'Knock';
 
   @override

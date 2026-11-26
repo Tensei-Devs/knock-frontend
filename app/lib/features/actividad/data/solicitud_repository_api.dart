@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/red/configuracion_api.dart';
 import 'package:app/core/red/enviar_json.dart';
 import 'package:app/core/red/errores_api.dart';
 import 'package:app/features/actividad/data/contrato_json.dart';
@@ -9,6 +10,7 @@ import 'package:app/features/actividad/data/solicitud_mapper.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:http/http.dart' as http;
 import 'package:knock_api/api.dart' as api;
 
@@ -27,6 +29,64 @@ class SolicitudRepositoryApi implements SolicitudRepository {
 
   /// Páginas que se piden como máximo al listar (50 solicitudes por página).
   static const _maxPaginas = 4;
+
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async {
+    if (!RegExp(r'^[a-fA-F0-9]{24}$').hasMatch(id)) {
+      return const CancelacionInvalida();
+    }
+    final base = normalizarUrlApi(url);
+    if (base == null) return const CancelacionError();
+    final cliente = api.ApiClient(basePath: base)..client = transporte;
+    try {
+      final respuesta = await api.CancelacionApi(cliente)
+          .apiVversionSolicitudesIdCancelarPostWithHttpInfo(
+            id,
+            versionApi,
+            cancelRequestBody: motivo == null
+                ? null
+                : api.CancelRequestBody(motivo: motivo.valor),
+          );
+      Object? cuerpo;
+      try {
+        cuerpo = jsonDecode(utf8.decode(respuesta.bodyBytes));
+      } on FormatException {
+        cuerpo = null;
+      }
+      final mapa = cuerpo is Map ? cuerpo : const <Object?, Object?>{};
+      if (respuesta.statusCode == 200) {
+        final fecha = mapa['canceladaEn'];
+        final instante = fecha is String ? DateTime.tryParse(fecha) : null;
+        if (mapa['estado'] != 'cancelada' || instante == null) {
+          return const CancelacionError();
+        }
+        return Cancelada(instante);
+      }
+      return switch (respuesta.statusCode) {
+        400 => const CancelacionInvalida(),
+        404 => const CancelacionNoDisponible(),
+        409 when mapa['code'] == 'request_with_appointment' =>
+          const CancelacionConCita(),
+        409 when mapa['code'] == 'request_expired' =>
+          const CancelacionYaVencida(),
+        429 => CancelacionLimite(
+          Duration(
+            seconds: int.tryParse(respuesta.headers['retry-after'] ?? '') ?? 0,
+          ),
+        ),
+        _ => const CancelacionError(),
+      };
+    } on DemasiadosIntentosFailure catch (error) {
+      return CancelacionLimite(error.espera ?? Duration.zero);
+    } on NoAutorizadoFailure {
+      rethrow;
+    } on Exception {
+      return const CancelacionSinConexion();
+    }
+  }
 
   @override
   Future<String> subirFoto(String rutaLocal) async =>

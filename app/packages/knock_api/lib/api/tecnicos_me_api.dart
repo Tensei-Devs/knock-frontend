@@ -231,4 +231,56 @@ class TecnicosMeApi {
     }
     return null;
   }
+
+  /// Reputación propia (TEC-13): promedio, distribución por estrellas y nivel; una cuenta sin perfil de técnico recibe 404.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] version (required):
+  Future<Response> apiVversionTecnicosMeReputacionGetWithHttpInfo(String version, { Future<void>? abortTrigger, }) async {
+    final path = r'/api/v{version}/tecnicos/me/reputacion'
+      .replaceAll('{version}', version);
+
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
+    );
+  }
+
+  /// Reputación propia (TEC-13): promedio, distribución por estrellas y nivel; una cuenta sin perfil de técnico recibe 404.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] version (required):
+  Future<ReputationResponse?> apiVversionTecnicosMeReputacionGet(String version, { Future<void>? abortTrigger, }) async {
+    final response = await apiVversionTecnicosMeReputacionGetWithHttpInfo(version, abortTrigger: abortTrigger,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ReputationResponse',) as ReputationResponse;
+    
+    }
+    return null;
+  }
 }
