@@ -9,6 +9,7 @@ import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart' show maq;
@@ -74,6 +75,7 @@ Future<void> _abrirComparar(
   SolicitudesFalsas repo, {
   Size? tamano,
   double escala = 1,
+  VisitaRepository? visitas,
 }) async {
   fijarPantalla(tester, tamano: tamano ?? tamanoMovil, escalaDeTexto: escala);
   maq.resetAll();
@@ -83,6 +85,8 @@ Future<void> _abrirComparar(
     maqueta: true,
     extra: [
       solicitudesRealesRepositoryProvider.overrideWithValue(repo),
+      if (visitas != null)
+        visitasRealesRepositoryProvider.overrideWithValue(visitas),
       solicitudesRealesActivasProvider.overrideWithValue(true),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
       intervaloRefrescoSolicitudProvider.overrideWithValue(null),
@@ -212,6 +216,33 @@ void main() {
   });
 
   group('elegir', () {
+    testWidgets(
+      'CA_015_20 muestra la visita recuperada sin atribuir cotización',
+      (tester) async {
+        final repo = _repo();
+        await _abrirComparar(tester, repo, visitas: _VisitaExistente());
+        await _elegirAPrimero(tester);
+        repo
+          ..fallasAlElegir.add(
+            const EleccionRechazadaFailure(MotivoEleccionRechazada.yaElegida),
+          )
+          ..comparacion = const ResultadoComparacion(
+            cotizaciones: [],
+            totalCotizaciones: 1,
+            tiposMixtos: false,
+            puedeElegir: false,
+            motivo: MotivoSinEleccion.yaElegida,
+            visitaId: 'v1',
+          );
+        await tester.tap(find.text('Sí, elegir a Rosa'));
+        await asentarMaqueta(tester);
+        expect(find.text('Cita existente'), findsOneWidget);
+        expect(find.text('Técnico existente'), findsOneWidget);
+        expect(find.text('Cita confirmada'), findsNothing);
+        expect(repo.elecciones, hasLength(1));
+      },
+    );
+
     testWidgets('CA_045_10 elegir confirma y muestra la cita con el contacto', (
       tester,
     ) async {
@@ -335,6 +366,24 @@ void main() {
 }
 
 /// Las cotizaciones fallan la primera vez; la lista y el detalle funcionan.
+class _VisitaExistente implements VisitaRepository {
+  @override
+  Future<Visita> obtenerVisita(String id) async => Visita(
+    id: 'v1',
+    estado: EstadoVisita.confirmada,
+    esTaller: false,
+    dia: DateTime(2026, 11, 20),
+    hora: '10:00',
+    tecnico: const TecnicoDeVisita(
+      nombre: 'Técnico existente',
+      verificado: true,
+    ),
+    direccion: 'Dirección ficticia',
+    puedeAvisar: true,
+    tope: 100,
+  );
+}
+
 class _CotizacionesQueFallan extends SolicitudesFalsas {
   _CotizacionesQueFallan(this.base) {
     listadas.addAll(base.listadas);

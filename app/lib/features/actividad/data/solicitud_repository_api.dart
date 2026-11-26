@@ -137,21 +137,38 @@ class SolicitudRepositoryApi implements SolicitudRepository {
 
   @override
   Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId) async {
-    final r = await enviarJson(
-      transporte,
-      url,
-      'POST',
-      'solicitudes/${Uri.encodeComponent(solicitudId)}/elegir',
-      cuerpo: {'cotizacionId': cotizacionId},
-      aceptar: const {404, 409, 422},
-    );
-    switch (r.estado) {
+    final cliente = api.ApiClient(basePath: url)..client = transporte;
+    final http.Response respuesta;
+    try {
+      respuesta = await api.ChooseQuoteApi(cliente)
+          .apiVversionSolicitudesIdElegirPostWithHttpInfo(
+            Uri.encodeComponent(solicitudId),
+            '1',
+            api.ChooseQuoteBody(cotizacionId: cotizacionId),
+          );
+    } on Failure {
+      rethrow;
+    } on api.ApiException catch (error) {
+      throw mapearErrorApi(error);
+    } on Exception {
+      throw const ServicioNoDisponibleFailure();
+    }
+    Object? json;
+    try {
+      json = jsonDecode(utf8.decode(respuesta.bodyBytes));
+    } on FormatException {
+      if (respuesta.statusCode >= 200 && respuesta.statusCode < 300) {
+        throw const DatosInvalidosFailure();
+      }
+    }
+    switch (respuesta.statusCode) {
       case 404:
         throw const NoEncontradoFailure();
       case 422:
         throw const DatosRechazadosFailure();
       case 409:
-        final motivo = switch (_codigo(r)) {
+        final codigo = json is Map ? json['code'] : null;
+        final motivo = switch (codigo) {
           'request_already_chosen' => MotivoEleccionRechazada.yaElegida,
           'quote_unavailable' => MotivoEleccionRechazada.cotizacionNoDisponible,
           'request_expired' => MotivoEleccionRechazada.vencida,
@@ -163,7 +180,14 @@ class SolicitudRepositoryApi implements SolicitudRepository {
             ? const ConflictoFailure()
             : EleccionRechazadaFailure(motivo);
     }
-    return SolicitudContratoMapper.cita(r.json);
+    if (respuesta.statusCode != 200) {
+      throw mapearErrorApi(api.ApiException(respuesta.statusCode, ''));
+    }
+    final cita = SolicitudContratoMapper.cita(json);
+    if (cita.solicitudId != solicitudId || cita.cotizacionId != cotizacionId) {
+      throw const DatosInvalidosFailure();
+    }
+    return cita;
   }
 
   /// El `code` de un error del servidor (ProblemDetails), si lo trae.

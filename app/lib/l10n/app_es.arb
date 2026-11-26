@@ -1,5 +1,11 @@
 {
   "@@locale": "es",
+  "citaExistente": "Cita existente",
+  "visitaRecuperacionFallida": "No pudimos recuperar la visita. Consulta tu actividad.",
+  "citaMonto": "Cotización: {monto}",
+  "@citaMonto": {"placeholders": {"monto": {"type": "String"}}},
+  "citaTope": "Máximo: {monto}",
+  "@citaTope": {"placeholders": {"monto": {"type": "String"}}},
   "appTitle": "Knock",
   "@appTitle": {
     "description": "Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce."

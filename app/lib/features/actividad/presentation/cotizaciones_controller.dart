@@ -1,6 +1,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
+import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Orden elegido en la comparación de cada solicitud (CA-08).
@@ -53,6 +54,13 @@ final class EleccionHecha extends EstadoEleccion {
   const EleccionHecha(this.cita);
 
   final CitaConfirmada cita;
+}
+
+/// Una visita ya existente, sin atribuirla a la cotización reintentada.
+final class EleccionVisitaExistente extends EstadoEleccion {
+  const EleccionVisitaExistente(this.visita);
+
+  final Visita visita;
 }
 
 final class EleccionFallida extends EstadoEleccion {

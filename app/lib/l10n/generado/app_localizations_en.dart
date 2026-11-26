@@ -10,6 +10,23 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get citaExistente => 'Existing appointment';
+
+  @override
+  String get visitaRecuperacionFallida =>
+      'We couldn\'t retrieve the visit. Check your activity.';
+
+  @override
+  String citaMonto(String monto) {
+    return 'Quote: $monto';
+  }
+
+  @override
+  String citaTope(String monto) {
+    return 'Maximum: $monto';
+  }
+
+  @override
   String get appTitle => 'Knock';
 
   @override

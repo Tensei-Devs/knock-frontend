@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T04:44:35Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T05:14:51Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 46 | 116 | 159 |
+| `actividad` | -, data, domain, presentation | 46 | 117 | 159 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 3 | 0 | 1 |
@@ -18,7 +18,7 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 50 | 35 |
-| `l10n` | - | 3 | 4 | 79 |
+| `l10n` | - | 3 | 4 | 83 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 27 | 181 | 407 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
@@ -109,10 +109,10 @@
   - `build()`:20, `PantallaTitulada()`:57
 - `app/lib/features/actividad/presentation/aviso_controller.dart` — class `TextoDeAviso`, class `AvisoDelServidor`, class `AvisoDeRespaldo`, class `AvisoNoPermitido`, class `AvisoSinDatos`, class `ContactosController`
   - `build()`:84, `guardar()`:90, `borrar()`:127
-- `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionFallida`, class `EleccionController`
-  - `build()`:18, `elegir()`:20, `build()`:76, `elegir()`:80, `reiniciar()`:146
+- `app/lib/features/actividad/presentation/cotizaciones_controller.dart` — class `OrdenCotizacionesNotifier`, class `EstadoEleccion`, class `EleccionInactiva`, class `EleccionEnCurso`, class `EleccionHecha`, class `EleccionVisitaExistente`, class `EleccionFallida`, class `EleccionController`
+  - `build()`:19, `elegir()`:21, `build()`:84, `elegir()`:88, `reiniciar()`:154
 - `app/lib/features/actividad/presentation/cotizaciones_reales_controller.dart` — typedef `ConsultaCotizaciones`, class `EleccionRealController`
-  - `build()`:33, `elegir()`:35, `reiniciar()`:59
+  - `build()`:33, `elegir()`:35, `reiniciar()`:88
 - `app/lib/features/actividad/presentation/cotizaciones_screen.dart` — class `CotizacionesScreen`, class `_Lista`, class `_Aviso`
   - `build()`:24, `nombreOrden()`:29, `build()`:97, `EstadoKnock()`:118, `build()`:192
 - `app/lib/features/actividad/presentation/pasos/paso_cuando_donde.dart` — class `PasoCuandoDonde`, class `_PasoCuandoDondeState`
@@ -372,11 +372,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:1829, `isSupported()`:1834, `shouldReload()`:1838, `lookupAppLocalizations()`:1841
+  - `of()`:70, `load()`:1853, `isSupported()`:1858, `shouldReload()`:1862, `lookupAppLocalizations()`:1865
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `entradaAceptoAviso()`:263, `entradaCodigoEnviadoA()`:326, `entradaReenviarEn()`:340, `previaExpertosCerca()`:422, `previaPinSemantica()`:433, `previaTarjetaSemantica()`:438, `previaDistanciaKm()`:461, `solicitudPasoDeTotal()`:472, `solicitudFotos()`:505, `solicitudFotoEtiqueta()`:523, `solicitudFotoQuitar()`:528, `solicitudEspera()`:595, `solicitudCuando()`:639, `solicitudTotalFotos()`:644, `solicitudVerCotizaciones()`:658, `cotizacionMostrandoDe()`:678, `cotizacionPrecioFijo()`:687, `cotizacionPrecioRango()`:692, `cotizacionPrecioVisita()`:697, `cotizacionTope()`:702, `cotizacionCalificacion()`:723, `cotizacionNivelVerificacion()`:728, `cotizacionCuando()`:733, `cotizacionConfirmarTitulo()`:759, `cotizacionTelefono()`:780 …
+  - `citaMonto()`:20, `citaTope()`:25, `entradaAceptoAviso()`:280, `entradaCodigoEnviadoA()`:343, `entradaReenviarEn()`:357, `previaExpertosCerca()`:439, `previaPinSemantica()`:450, `previaTarjetaSemantica()`:455, `previaDistanciaKm()`:478, `solicitudPasoDeTotal()`:489, `solicitudFotos()`:522, `solicitudFotoEtiqueta()`:540, `solicitudFotoQuitar()`:545, `solicitudEspera()`:612, `solicitudCuando()`:656, `solicitudTotalFotos()`:661, `solicitudVerCotizaciones()`:675, `cotizacionMostrandoDe()`:695, `cotizacionPrecioFijo()`:704, `cotizacionPrecioRango()`:709, `cotizacionPrecioVisita()`:714, `cotizacionTope()`:719, `cotizacionCalificacion()`:740, `cotizacionNivelVerificacion()`:745, `cotizacionCuando()`:750 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `entradaAceptoAviso()`:264, `entradaCodigoEnviadoA()`:329, `entradaReenviarEn()`:343, `previaExpertosCerca()`:427, `previaPinSemantica()`:438, `previaTarjetaSemantica()`:443, `previaDistanciaKm()`:466, `solicitudPasoDeTotal()`:477, `solicitudFotos()`:510, `solicitudFotoEtiqueta()`:528, `solicitudFotoQuitar()`:533, `solicitudEspera()`:600, `solicitudCuando()`:644, `solicitudTotalFotos()`:649, `solicitudVerCotizaciones()`:663, `cotizacionMostrandoDe()`:683, `cotizacionPrecioFijo()`:692, `cotizacionPrecioRango()`:697, `cotizacionPrecioVisita()`:702, `cotizacionTope()`:707, `cotizacionCalificacion()`:728, `cotizacionNivelVerificacion()`:733, `cotizacionCuando()`:738, `cotizacionConfirmarTitulo()`:764, `cotizacionTelefono()`:785 …
+  - `citaMonto()`:20, `citaTope()`:25, `entradaAceptoAviso()`:281, `entradaCodigoEnviadoA()`:346, `entradaReenviarEn()`:360, `previaExpertosCerca()`:444, `previaPinSemantica()`:455, `previaTarjetaSemantica()`:460, `previaDistanciaKm()`:483, `solicitudPasoDeTotal()`:494, `solicitudFotos()`:527, `solicitudFotoEtiqueta()`:545, `solicitudFotoQuitar()`:550, `solicitudEspera()`:617, `solicitudCuando()`:661, `solicitudTotalFotos()`:666, `solicitudVerCotizaciones()`:680, `cotizacionMostrandoDe()`:700, `cotizacionPrecioFijo()`:709, `cotizacionPrecioRango()`:714, `cotizacionPrecioVisita()`:719, `cotizacionTope()`:724, `cotizacionCalificacion()`:745, `cotizacionNivelVerificacion()`:750, `cotizacionCuando()`:755 …
 
 ### layout
 
@@ -426,7 +426,7 @@
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
   - `hoja()`:29, `build()`:48, `MaqBuilder()`:58, `build()`:358, `editarDatos()`:364, `cambiarNumero()`:471, `e()`:482, `phone()`:483, `build()`:824, `build()`:886, `Pg()`:902, `CardK()`:922, `build()`:967, `build()`:1098, `build()`:1156, `build()`:1330, `build()`:1401, `build()`:1459, `build()`:1582, `dispose()`:1695, `build()`:1701, `build()`:1757, `build()`:1824, `build()`:1901
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
-  - `initState()`:60, `dispose()`:68, `build()`:125, `FieldK()`:390, `build()`:470, `step()`:476, `stateK0()`:593, `widenBlock()`:619, `initState()`:671, `build()`:1167, `CardK()`:1201
+  - `initState()`:61, `dispose()`:69, `build()`:126, `FieldK()`:391, `build()`:471, `step()`:477, `stateK0()`:594, `widenBlock()`:620, `initState()`:672, `build()`:1195, `CardK()`:1229
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
   - `chat()`:37, `cotizar()`:38, `iniciar()`:39, `cerrar()`:40, `registrarRutasTecnico()`:45, `dispose()`:158, `clean()`:237, `advErrors()`:239, `initState()`:288, `dispose()`:295, `build()`:468, `openVerif()`:830, `privacyCard()`:843, `BtnK()`:1024, `build()`:1049, `initState()`:1181, `dispose()`:1187, `build()`:1193, `build()`:1336, `build()`:1425, `visitCard()`:1519, `BtnK()`:1587, `reqCard()`:1744, `workFab()`:1795, `Positioned()`:1799 …
 - `app/lib/features/maqueta/pantallas_tecnico2.dart` — class `CotizarScreen`, class `_CotizarState`, class `IniciarScreen`, class `_IniciarState`, class `CerrarScreen`, class `_CerrarState`, class `PerfilEditarScreen`, class `_PerfilEditarState`, class `ReputacionScreen`, class `_ReputacionState`

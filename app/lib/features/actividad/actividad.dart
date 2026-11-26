@@ -31,6 +31,7 @@ export 'package:app/features/actividad/presentation/cotizaciones_controller.dart
         EleccionEnCurso,
         EleccionFallida,
         EleccionHecha,
+        EleccionVisitaExistente,
         EleccionInactiva,
         EstadoEleccion;
 export 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart'
