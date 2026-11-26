@@ -1,3 +1,12 @@
+import 'package:app/core/errores/failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/solicitudes_reales.dart'
+    show coloniaIdDeLaPersona;
+import 'package:app/features/tecnico/tecnico.dart';
+
 import 'dart:async';
 
 import 'package:app/core/sesion/es_tecnico_provider.dart';
@@ -311,6 +320,11 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     super.dispose();
   }
 
+  /// Con sesión y API, el perfil de técnico se crea en el servidor: la cuenta
+  /// ya está verificada por SMS, así que no hay un segundo código, y no se
+  /// piden el celular ni los servicios (esta ruta no los recibe).
+  bool get _real => ref.read(solicitudesRealesActivasProvider);
+
   Map<String, String> _errors() {
     final e = <String, String>{};
     final n = clean(name.text);
@@ -321,12 +335,15 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     } else if (n.split(' ').length < 2) {
       e['name'] = 'Escribe también tu apellido';
     }
-    if (digits(phone.text).length != 10) {
+    if (!_real && digits(phone.text).length != 10) {
       e['phone'] = 'Escribe los 10 números de tu celular';
     }
     final ot = otherOn && other.text.trim().length >= 3;
     if (otherOn && !ot) e['other'] = 'Escribe cuál es tu oficio';
-    if (sel.isEmpty && !ot) e['cats'] = 'Elige al menos un servicio';
+    if (sel.isEmpty && (_real || !ot)) {
+      // El servidor exige al menos un oficio del catálogo.
+      e['cats'] = 'Elige al menos un servicio';
+    }
     advErrors(e, years.text.trim(), about.text, svcs);
     if (how == 'taller' && address.text.trim().length < 8) {
       e['address'] = 'Escribe calle, número y colonia';
@@ -344,6 +361,10 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
       serverErr = '';
     });
     if (_errors().isNotEmpty || sending) return;
+    if (_real) {
+      await _createReal();
+      return;
+    }
     final d = digits(phone.text);
     setState(() => sending = true);
     // Errores de demostración de la maqueta (siempre, con o sin sesión).
@@ -455,6 +476,46 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     });
   }
 
+  Future<void> _createReal() async {
+    final textos = AppLocalizations.of(context);
+    setState(() => sending = true);
+    try {
+      final coloniaId = await coloniaIdDeLaPersona(ref, maq.user);
+      final taller = how == 'taller';
+      await ref
+          .read(tecnicoRepositoryProvider)
+          .registrar(
+            AltaTecnico(
+              nombre: clean(name.text),
+              oficios: [...sel],
+              otroOficio: otherOn ? other.text : null,
+              atencion: taller ? Atencion.taller : Atencion.domicilio,
+              direccionTaller: taller ? address.text : null,
+              radioKm: taller ? null : int.parse(km.split(' ').first),
+              coloniaId: coloniaId,
+              nombreNegocio: business.text,
+              descripcion: about.text,
+              anios: int.tryParse(years.text.trim()),
+              aceptaTerminos: terms,
+            ),
+          );
+    } on Failure catch (falla) {
+      if (!mounted) return;
+      setState(() {
+        sending = false;
+        serverErr = falla is ConflictoFailure
+            ? 'Esta cuenta ya tiene perfil de técnico.'
+            : mensajeDeError(textos, falla);
+      });
+      return;
+    }
+    if (!mounted) return;
+    setState(() => sending = false);
+    await _create();
+    // El perfil de la cuenta ya dice que es técnica.
+    ref.invalidate(perfilControllerProvider);
+  }
+
   void _enter(String? to) {
     if (to != null) {
       context.go('/trabajo');
@@ -467,7 +528,9 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
   @override
   Widget build(BuildContext context) {
     final k = kc(context);
-    if (pv.me.registered && step != 'ok') {
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final yaEsTecnico = real && ref.watch(esTecnicoProvider);
+    if ((pv.me.registered || yaEsTecnico) && step != 'ok') {
       return Pg(
         title: 'Ofrece tus servicios',
         scroll: false,
@@ -476,7 +539,12 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
           k.greenSoft,
           k.green,
           'Ya tienes cuenta de técnico',
-          [rich('Entraste como **${pv.me.name}**.', w: FontWeight.w400)],
+          [
+            rich(
+              'Entraste como **${pv.me.registered ? pv.me.name : maq.user.name}**.',
+              w: FontWeight.w400,
+            ),
+          ],
         ),
         cta: BtnK('Ir a mi inicio de técnico', () => context.go('/trabajo')),
       );
@@ -606,18 +674,19 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
           err: E['name'],
           onChanged: (_) => setState(() {}),
         ),
-        FieldK(
-          label: 'Tu celular',
-          c: phone,
-          hint: '771 555 0142',
-          keyboard: TextInputType.number,
-          maxLen: 12,
-          prefix: const PhoneCc(),
-          err: E['phone'],
-          help: 'Te mandaremos un código por SMS para confirmar que es tuyo.',
-          onChanged: (_) => setState(() {}),
-          onSubmit: (_) => _submit(),
-        ),
+        if (!real)
+          FieldK(
+            label: 'Tu celular',
+            c: phone,
+            hint: '771 555 0142',
+            keyboard: TextInputType.number,
+            maxLen: 12,
+            prefix: const PhoneCc(),
+            err: E['phone'],
+            help: 'Te mandaremos un código por SMS para confirmar que es tuyo.',
+            onChanged: (_) => setState(() {}),
+            onSubmit: (_) => _submit(),
+          ),
         tradesBlock(
           context,
           sel: sel,
@@ -669,21 +738,23 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
               help: '${about.text.length}/300',
               onChanged: (_) => setState(() {}),
             ),
-            Row(
-              spacing: 6,
-              children: [
-                labT('Tus servicios y precio de referencia'),
-                T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),
-              ],
-            ),
-            serviciosEditor(
-              context,
-              svcs,
-              E,
-              () => setState(() {}),
-              () => setState(() => svcs.add(Servicio('', ''))),
-              (i) => setState(() => svcs.removeAt(i).dispose()),
-            ),
+            if (!real) ...[
+              Row(
+                spacing: 6,
+                children: [
+                  labT('Tus servicios y precio de referencia'),
+                  T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),
+                ],
+              ),
+              serviciosEditor(
+                context,
+                svcs,
+                E,
+                () => setState(() {}),
+                () => setState(() => svcs.add(Servicio('', ''))),
+                (i) => setState(() => svcs.removeAt(i).dispose()),
+              ),
+            ],
             sMut(
               'Fotos, horarios y más detalles los ajustas después en Perfil > Mi perfil público.',
             ),
@@ -777,7 +848,9 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
       ], gap: 20),
       cta: ctaCol([
         BtnK(
-          sending ? 'Enviando código…' : 'Continuar',
+          sending
+              ? (real ? 'Creando cuenta…' : 'Enviando código…')
+              : 'Continuar',
           sending ? null : _submit,
         ),
         if (tried && E.isNotEmpty) helpT('Revisa los campos marcados en rojo'),
