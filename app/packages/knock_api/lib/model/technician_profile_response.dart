@@ -19,6 +19,7 @@ class TechnicianProfileResponse {
     required this.descripcionCorta,
     this.oficios = const [],
     required this.detalle,
+    this.tecnicoUsuarioId,
   });
 
   String id;
@@ -41,6 +42,8 @@ class TechnicianProfileResponse {
 
   TechnicianProfileDetail? detalle;
 
+  String? tecnicoUsuarioId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is TechnicianProfileResponse &&
     other.id == id &&
@@ -52,7 +55,8 @@ class TechnicianProfileResponse {
     other.anios == anios &&
     other.descripcionCorta == descripcionCorta &&
     _deepEquality.equals(other.oficios, oficios) &&
-    other.detalle == detalle;
+    other.detalle == detalle &&
+    other.tecnicoUsuarioId == tecnicoUsuarioId;
 
   @override
   int get hashCode =>
@@ -65,10 +69,11 @@ class TechnicianProfileResponse {
     (anios == null ? 0 : anios!.hashCode) +
     (descripcionCorta == null ? 0 : descripcionCorta!.hashCode) +
     (oficios.hashCode) +
-    (detalle == null ? 0 : detalle!.hashCode);
+    (detalle == null ? 0 : detalle!.hashCode) +
+    (tecnicoUsuarioId == null ? 0 : tecnicoUsuarioId!.hashCode);
 
   @override
-  String toString() => 'TechnicianProfileResponse[id=$id, nombre=$nombre, nombreNegocio=$nombreNegocio, fotoUrl=$fotoUrl, verificacion=$verificacion, calificacion=$calificacion, anios=$anios, descripcionCorta=$descripcionCorta, oficios=$oficios, detalle=$detalle]';
+  String toString() => 'TechnicianProfileResponse[id=$id, nombre=$nombre, nombreNegocio=$nombreNegocio, fotoUrl=$fotoUrl, verificacion=$verificacion, calificacion=$calificacion, anios=$anios, descripcionCorta=$descripcionCorta, oficios=$oficios, detalle=$detalle, tecnicoUsuarioId=$tecnicoUsuarioId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -105,6 +110,11 @@ class TechnicianProfileResponse {
       json[r'detalle'] = this.detalle;
     } else {
       json[r'detalle'] = null;
+    }
+    if (this.tecnicoUsuarioId != null) {
+      json[r'tecnicoUsuarioId'] = this.tecnicoUsuarioId;
+    } else {
+      json[r'tecnicoUsuarioId'] = null;
     }
     return json;
   }
@@ -149,6 +159,7 @@ class TechnicianProfileResponse {
             ? (json[r'oficios'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         detalle: TechnicianProfileDetail.fromJson(json[r'detalle']),
+        tecnicoUsuarioId: mapValueOfType<String>(json, r'tecnicoUsuarioId'),
       );
     }
     return null;

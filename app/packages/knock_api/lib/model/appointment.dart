@@ -20,6 +20,7 @@ class Appointment {
     required this.tope,
     required this.tecnico,
     required this.lugar,
+    this.tecnicoUsuarioId,
   });
 
   String visitaId;
@@ -44,6 +45,8 @@ class Appointment {
 
   AppointmentPlace lugar;
 
+  String? tecnicoUsuarioId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Appointment &&
     other.visitaId == visitaId &&
@@ -56,7 +59,8 @@ class Appointment {
     other.precio == precio &&
     other.tope == tope &&
     other.tecnico == tecnico &&
-    other.lugar == lugar;
+    other.lugar == lugar &&
+    other.tecnicoUsuarioId == tecnicoUsuarioId;
 
   @override
   int get hashCode =>
@@ -70,10 +74,11 @@ class Appointment {
     (precio == null ? 0 : precio!.hashCode) +
     (tope.hashCode) +
     (tecnico.hashCode) +
-    (lugar.hashCode);
+    (lugar.hashCode) +
+    (tecnicoUsuarioId == null ? 0 : tecnicoUsuarioId!.hashCode);
 
   @override
-  String toString() => 'Appointment[visitaId=$visitaId, solicitudId=$solicitudId, cotizacionId=$cotizacionId, estado=$estado, modalidad=$modalidad, dia=$dia, hora=$hora, precio=$precio, tope=$tope, tecnico=$tecnico, lugar=$lugar]';
+  String toString() => 'Appointment[visitaId=$visitaId, solicitudId=$solicitudId, cotizacionId=$cotizacionId, estado=$estado, modalidad=$modalidad, dia=$dia, hora=$hora, precio=$precio, tope=$tope, tecnico=$tecnico, lugar=$lugar, tecnicoUsuarioId=$tecnicoUsuarioId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -92,6 +97,11 @@ class Appointment {
       json[r'tope'] = this.tope;
       json[r'tecnico'] = this.tecnico;
       json[r'lugar'] = this.lugar;
+    if (this.tecnicoUsuarioId != null) {
+      json[r'tecnicoUsuarioId'] = this.tecnicoUsuarioId;
+    } else {
+      json[r'tecnicoUsuarioId'] = null;
+    }
     return json;
   }
 
@@ -141,6 +151,7 @@ class Appointment {
         tope: mapValueOfType<int>(json, r'tope')!,
         tecnico: ChosenTechnician.fromJson(json[r'tecnico'])!,
         lugar: AppointmentPlace.fromJson(json[r'lugar'])!,
+        tecnicoUsuarioId: mapValueOfType<String>(json, r'tecnicoUsuarioId'),
       );
     }
     return null;

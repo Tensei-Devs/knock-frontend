@@ -60,13 +60,38 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccessRecoveryApi* | [**apiVversionRecuperacionAccesoPost**](doc//AccessRecoveryApi.md#apivversionrecuperacionaccesopost) | **POST** /api/v{version}/recuperacion-acceso | USR-05. Inicia la recuperación con el número nuevo verificado por Firebase; si existe la cuenta, crea un caso para la cola del panel. Siempre responde 202 sin revelar si la cuenta existe.
+*AdminApelacionesApi* | [**apiVversionAdminApelacionesIdResolucionPost**](doc//AdminApelacionesApi.md#apivversionadminapelacionesidresolucionpost) | **POST** /api/v{version}/admin/apelaciones/{id}/resolucion | Acepta (reactiva la cuenta) o rechaza la apelación. 404 `appeal_not_found`; 409 `appeal_already_resolved`; 403 `self_review_not_allowed`.
+*AdminCatalogApi* | [**apiVversionAdminListaEsperaGet**](doc//AdminCatalogApi.md#apivversionadminlistaesperaget) | **GET** /api/v{version}/admin/lista-espera | Cuántas personas esperan por código postal, ordenado por código postal, con paginación por cursor. Nunca incluye celulares.
+*AdminCatalogApi* | [**apiVversionAdminOficiosPedidosGet**](doc//AdminCatalogApi.md#apivversionadminoficiospedidosget) | **GET** /api/v{version}/admin/oficios-pedidos | Oficios pedidos en «Otro oficio», agrupados por texto normalizado y contados, de más a menos pedidos, con paginación por cursor (20 por omisión, 50 como máximo).
+*AdminReportesApi* | [**apiVversionAdminReportesGet**](doc//AdminReportesApi.md#apivversionadminreportesget) | **GET** /api/v{version}/admin/reportes | REP-04: la cola por gravedad (crítica primero) y antigüedad, con cursor. Muestra motivo y texto, nunca teléfono ni dirección.
+*AdminReportesApi* | [**apiVversionAdminReportesIdDecisionPost**](doc//AdminReportesApi.md#apivversionadminreportesiddecisionpost) | **POST** /api/v{version}/admin/reportes/{id}/decision | REP-05: asigna la gravedad con motivo; la respuesta se deriva de ella. 404 `report_not_found`; 409 `report_already_decided`; 503 `audit_unavailable`.
+*AdminReviewsApi* | [**apiVversionAdminOpinionesIdMostrarPost**](doc//AdminReviewsApi.md#apivversionadminopinionesidmostrarpost) | **POST** /api/v{version}/admin/opiniones/{id}/mostrar | Vuelve a mostrar la opinión. Sobre una visible responde 200 sin cambios.
+*AdminReviewsApi* | [**apiVversionAdminOpinionesIdOcultarPost**](doc//AdminReviewsApi.md#apivversionadminopinionesidocultarpost) | **POST** /api/v{version}/admin/opiniones/{id}/ocultar | Oculta la opinión con un motivo de 8 a 300 caracteres. Repetirlo responde 200 sin cambios.
+*AdminTradesApi* | [**apiVversionAdminOficiosClavePut**](doc//AdminTradesApi.md#apivversionadminoficiosclaveput) | **PUT** /api/v{version}/admin/oficios/{clave} | Edición parcial de un oficio y sus parámetros de precio (OFI-05): 200 con el oficio como quedó. La clave no se puede cambiar: una `clave` distinta de la de la ruta responde 422 `errors.clave`. Un oficio que no existe responde 404 `trade_not_found`; la caché de oficios activos se invalida al escribir.
+*AdminTradesApi* | [**apiVversionAdminOficiosGet**](doc//AdminTradesApi.md#apivversionadminoficiosget) | **GET** /api/v{version}/admin/oficios | Todos los oficios, activos e inactivos, con sus parámetros de precio (OFI-03).
+*AdminTradesApi* | [**apiVversionAdminOficiosPost**](doc//AdminTradesApi.md#apivversionadminoficiospost) | **POST** /api/v{version}/admin/oficios | Alta de un oficio (OFI-04): 201 con el oficio creado. La clave repetida responde 409 `trade_key_taken`; un cuerpo ilegible, 400; un valor inválido, 422. La auditoría del panel se escribe en la misma transacción que el oficio (bandeja de salida) y llega a Identidad después, con reintentos.
+*AdminVerificacionesApi* | [**apiVversionAdminVerificacionesGet**](doc//AdminVerificacionesApi.md#apivversionadminverificacionesget) | **GET** /api/v{version}/admin/verificaciones | VER-03: la cola, de la más antigua a la más reciente, con cursor. Sin fotos ni datos personales.
+*AdminVerificacionesApi* | [**apiVversionAdminVerificacionesIdDecisionPost**](doc//AdminVerificacionesApi.md#apivversionadminverificacionesiddecisionpost) | **POST** /api/v{version}/admin/verificaciones/{id}/decision | VER-05: aprueba o rechaza con motivo; destruye la llave de las fotos (identidad) o cambia el número (recuperación). 404, 409 `verification_already_decided`, 503 `audit_unavailable`.
+*AdminVerificacionesApi* | [**apiVversionAdminVerificacionesIdGet**](doc//AdminVerificacionesApi.md#apivversionadminverificacionesidget) | **GET** /api/v{version}/admin/verificaciones/{id} | VER-04: abre una verificación; entrega enlaces de 5 minutos a las fotos y registra quién los abrió. 404 `verification_not_found`; 410 `photos_destroyed`.
+*AmpliarApi* | [**apiVversionSolicitudesIdAmpliarPost**](doc//AmpliarApi.md#apivversionsolicitudesidampliarpost) | **POST** /api/v{version}/solicitudes/{id}/ampliar | 
 *ArrivalApi* | [**apiVversionVisitasIdLlegadaPost**](doc//ArrivalApi.md#apivversionvisitasidllegadapost) | **POST** /api/v{version}/visitas/{id}/llegada | El técnico elegido confirma que llegó. Código incorrecto: 422 `wrong_code` con `intentosRestantes`; al tercero la visita queda bloqueada. Estados no válidos responden 409 con `outside_window`, `code_used`, `code_expired`, `visit_locked`, `visit_cancelled`, `visit_not_active` o `visit_without_code`.
+*AsistenteApi* | [**apiVversionAsistenteBitacoraSolicitudIdGet**](doc//AsistenteApi.md#apivversionasistentebitacorasolicitudidget) | **GET** /api/v{version}/asistente/bitacora/{solicitudId} | ASI-06: lee la bitácora propia; la de otro técnico responde 404 `log_not_found`.
+*AsistenteApi* | [**apiVversionAsistenteBitacoraSolicitudIdPut**](doc//AsistenteApi.md#apivversionasistentebitacorasolicitudidput) | **PUT** /api/v{version}/asistente/bitacora/{solicitudId} | ASI-05: guarda o reemplaza la bitácora del técnico (201 al crear, 200 al reemplazar).
+*AsistenteApi* | [**apiVversionAsistenteBorradorCotizacionPost**](doc//AsistenteApi.md#apivversionasistenteborradorcotizacionpost) | **POST** /api/v{version}/asistente/borrador-cotizacion | ASI-03: borrador editable de cotización; nunca se envía ni se guarda como cotización.
+*AsistenteApi* | [**apiVversionAsistenteConversacionesPost**](doc//AsistenteApi.md#apivversionasistenteconversacionespost) | **POST** /api/v{version}/asistente/conversaciones | ASI-01: un turno con el asistente Knock (cliente o técnico).
+*AsistenteApi* | [**apiVversionAsistenteRangoPrecioGet**](doc//AsistenteApi.md#apivversionasistenterangoprecioget) | **GET** /api/v{version}/asistente/rango-precio | ASI-04: rango de precio de la referencia de mercado (spec 048), en caché de 1 hora.
+*AsistenteApi* | [**apiVversionAsistenteResumenChatPost**](doc//AsistenteApi.md#apivversionasistenteresumenchatpost) | **POST** /api/v{version}/asistente/resumen-chat | ASI-02: resumen de una conversación en la que el técnico participa.
 *AuthApi* | [**apiVversionAuthFirebasePost**](doc//AuthApi.md#apivversionauthfirebasepost) | **POST** /api/v{version}/auth/firebase | Registro e inicio de sesión en un solo endpoint (spec 015): 201 con cuenta nueva, 200 con cuenta existente.
+*AvisosApi* | [**apiVversionAvisosGet**](doc//AvisosApi.md#apivversionavisosget) | **GET** /api/v{version}/avisos | Lista los avisos de quien llama, del más reciente al más antiguo, por cursor (20 por omisión, 50 como máximo).
+*AvisosApi* | [**apiVversionAvisosIdLeidoPost**](doc//AvisosApi.md#apivversionavisosidleidopost) | **POST** /api/v{version}/avisos/{id}/leido | Marca un aviso como leído; repetirlo responde 204 igual. Uno ajeno o inexistente responde 404 `notice_not_found`.
+*AvisosApi* | [**apiVversionAvisosLeidosPost**](doc//AvisosApi.md#apivversionavisosleidospost) | **POST** /api/v{version}/avisos/leidos | Marca como leídos todos los avisos de quien llama y solo los suyos.
+*AvisosApi* | [**apiVversionAvisosNoLeidosContadorGet**](doc//AvisosApi.md#apivversionavisosnoleidoscontadorget) | **GET** /api/v{version}/avisos/no-leidos/contador | Cantidad de avisos sin leer, hasta 99; no se cachea.
 *BandejaApi* | [**apiVversionTecnicosMeSolicitudesGet**](doc//BandejaApi.md#apivversiontecnicosmesolicitudesget) | **GET** /api/v{version}/tecnicos/me/solicitudes | 
 *BloqueosApi* | [**apiVversionMeBloqueosGet**](doc//BloqueosApi.md#apivversionmebloqueosget) | **GET** /api/v{version}/me/bloqueos | A quién tiene bloqueado quien llama, de lo más reciente a lo más antiguo, con paginación por cursor y solo con identificador, nombre público y fecha.
 *BloqueosApi* | [**apiVversionUsuariosIdBloqueoDelete**](doc//BloqueosApi.md#apivversionusuariosidbloqueodelete) | **DELETE** /api/v{version}/usuarios/{id}/bloqueo | Quita el bloqueo («Deshacer»). 204; 404 `block_not_found` si no había.
 *BloqueosApi* | [**apiVversionUsuariosIdBloqueoPost**](doc//BloqueosApi.md#apivversionusuariosidbloqueopost) | **POST** /api/v{version}/usuarios/{id}/bloqueo | Bloquea a la persona de la ruta. 201; 404 `user_not_found`; 409 `already_blocked`; 422 si es uno mismo o el identificador no es válido.
 *BusquedaApi* | [**apiVversionBusquedaGet**](doc//BusquedaApi.md#apivversionbusquedaget) | **GET** /api/v{version}/busqueda | 
+*CancelacionApi* | [**apiVversionSolicitudesIdCancelarPost**](doc//CancelacionApi.md#apivversionsolicitudesidcancelarpost) | **POST** /api/v{version}/solicitudes/{id}/cancelar | Cancela la solicitud del cliente mientras no tenga cita. Es idempotente: repetirla devuelve el mismo cuerpo sin otro evento.
 *CasaYAutoApi* | [**apiVversionMeCasaYAutoGet**](doc//CasaYAutoApi.md#apivversionmecasayautoget) | **GET** /api/v{version}/me/casa-y-auto | Lista los autos y las cosas de la casa de la persona (CAS-01).
 *CasaYAutoApi* | [**apiVversionMeCasaYAutoIdDelete**](doc//CasaYAutoApi.md#apivversionmecasayautoiddelete) | **DELETE** /api/v{version}/me/casa-y-auto/{id} | Quita un elemento propio (CAS-04). Uno ajeno o inexistente responde 404. Los trabajos terminados de Mercado no se tocan.
 *CasaYAutoApi* | [**apiVversionMeCasaYAutoIdHistorialGet**](doc//CasaYAutoApi.md#apivversionmecasayautoidhistorialget) | **GET** /api/v{version}/me/casa-y-auto/{id}/historial | Trabajos terminados ligados a un elemento propio (CAS-05), del más reciente al más antiguo y por cursor. Uno ajeno o inexistente responde 404; si Mercado no responde, 503 `market_unavailable`.
@@ -75,13 +100,47 @@ Class | Method | HTTP request | Description
 *ChooseQuoteApi* | [**apiVversionSolicitudesIdElegirPost**](doc//ChooseQuoteApi.md#apivversionsolicitudesidelegirpost) | **POST** /api/v{version}/solicitudes/{id}/elegir | Elige la cotización de una solicitud propia; la elección y sus efectos ocurren en una sola transacción.
 *ColoniaExistsApi* | [**apiVversionColoniasExisteGet**](doc//ColoniaExistsApi.md#apivversioncoloniasexisteget) | **GET** /api/v{version}/colonias/existe | 200 en ambos casos; el nombre se compara sin mayúsculas ni acentos y no se registra. El 422 lo da `ValidationFilter` antes de esta acción.
 *ColoniasApi* | [**apiVversionColoniasEnPuntoGet**](doc//ColoniasApi.md#apivversioncoloniasenpuntoget) | **GET** /api/v{version}/colonias/en-punto | Colonia del punto o «fuera de cobertura» (200 en ambos casos). Las coordenadas se convierten en colonia y se descartan: no se guardan, no se registran, no se cachean y no vuelven en la respuesta. El 422 lo da `ValidationFilter` antes de esta acción.
+*ConversacionesApi* | [**apiVversionConversacionesGet**](doc//ConversacionesApi.md#apivversionconversacionesget) | **GET** /api/v{version}/conversaciones | Las conversaciones de la persona, de la más reciente a la más antigua, con paginación por cursor (1 a 20) y el total de no leídos.
+*ConversacionesApi* | [**apiVversionConversacionesIdGet**](doc//ConversacionesApi.md#apivversionconversacionesidget) | **GET** /api/v{version}/conversaciones/{id} | Una conversación, solo para sus dos participantes; para cualquier otra persona, 404.
+*ConversacionesApi* | [**apiVversionConversacionesNoLeidasGet**](doc//ConversacionesApi.md#apivversionconversacionesnoleidasget) | **GET** /api/v{version}/conversaciones/no-leidas | La suma de los no leídos de la persona en todas sus conversaciones.
+*ConversacionesApi* | [**apiVversionConversacionesPost**](doc//ConversacionesApi.md#apivversionconversacionespost) | **POST** /api/v{version}/conversaciones | Crea la conversación del par (solicitud, técnico) o devuelve la que ya existe: 201 la primera vez y 200 después. 409 `conversation_closed` si está cerrada; 20 por hora por persona.
 *ConversationPermissionApi* | [**apiVversionSolicitudesIdConversacionGet**](doc//ConversationPermissionApi.md#apivversionsolicitudesidconversacionget) | **GET** /api/v{version}/solicitudes/{id}/conversacion | El permiso del par (solicitud, técnico) para quien pide: el cliente dueño debe mandar `tecnicoId`; el técnico no (se ignora si lo manda). Cualquier otro caso es 404 uniforme.
 *CotizacionesApi* | [**apiVversionSolicitudesIdCotizacionesPost**](doc//CotizacionesApi.md#apivversionsolicitudesidcotizacionespost) | **POST** /api/v{version}/solicitudes/{id}/cotizaciones | 
 *DescarteApi* | [**apiVversionSolicitudesIdDescartarPost**](doc//DescarteApi.md#apivversionsolicitudesiddescartarpost) | **POST** /api/v{version}/solicitudes/{id}/descartar | 
+*DispositivosApi* | [**apiVversionDispositivosIdDelete**](doc//DispositivosApi.md#apivversiondispositivosiddelete) | **DELETE** /api/v{version}/dispositivos/{id} | Borra el dispositivo de la persona (spec 037, R-02): 204 también si ya no existe o es de otra persona.
+*DispositivosApi* | [**apiVversionDispositivosPost**](doc//DispositivosApi.md#apivversiondispositivospost) | **POST** /api/v{version}/dispositivos | Registra el token de notificaciones del dispositivo (spec 037, R-01): 201 la primera vez, 200 si ya estaba. 409 `device_conflict` si otra persona lo registró a la vez; 503 `devices_unavailable` con el registro de dispositivos apagado (sin llaves de cifrado); 20 por hora por persona.
+*EnvioVerificacionApi* | [**apiVversionMeVerificacionIdEnviarPost**](doc//EnvioVerificacionApi.md#apivversionmeverificacionidenviarpost) | **POST** /api/v{version}/me/verificacion/{id}/enviar | 
+*ExplorarApi* | [**apiVversionExplorarGet**](doc//ExplorarApi.md#apivversionexplorarget) | **GET** /api/v{version}/explorar | Bloques de Explorar (máximo 10 elementos cada uno). Sin sesión, solo los públicos; con sesión suma trabajos reales y cerca de ti.
+*FinalQuoteApi* | [**apiVversionAjustesIdDecisionPost**](doc//FinalQuoteApi.md#apivversionajustesiddecisionpost) | **POST** /api/v{version}/ajustes/{id}/decision | AJU-02: el cliente dueño aprueba o rechaza el ajuste; el precio cambia solo si aprueba.
+*FinalQuoteApi* | [**apiVversionCotizacionesIdAjustePrecioPost**](doc//FinalQuoteApi.md#apivversioncotizacionesidajustepreciopost) | **POST** /api/v{version}/cotizaciones/{id}/ajuste-precio | AJU-01: el técnico de una cotización aceptada propone un monto mayor al tope, con motivo (un solo ajuste pendiente por cotización).
+*FinalQuoteApi* | [**apiVversionVisitasIdAjustesPendientesGet**](doc//FinalQuoteApi.md#apivversionvisitasidajustespendientesget) | **GET** /api/v{version}/visitas/{id}/ajustes-pendientes | Lectura de los ajustes pendientes y vigentes de la visita (spec 063); sin ajustes responde 200 con la lista vacía.
+*FinalQuoteApi* | [**apiVversionVisitasIdCotizacionFinalDecisionPost**](doc//FinalQuoteApi.md#apivversionvisitasidcotizacionfinaldecisionpost) | **POST** /api/v{version}/visitas/{id}/cotizacion-final/decision | COT-07: el cliente dueño aprueba o rechaza la cotización final. La decisión es definitiva.
+*FinalQuoteApi* | [**apiVversionVisitasIdCotizacionFinalGet**](doc//FinalQuoteApi.md#apivversionvisitasidcotizacionfinalget) | **GET** /api/v{version}/visitas/{id}/cotizacion-final | Lectura de la cotización final (spec 063): el cliente dueño y el técnico de la visita; cualquier otra persona recibe el mismo 404.
+*FinalQuoteApi* | [**apiVversionVisitasIdCotizacionFinalPost**](doc//FinalQuoteApi.md#apivversionvisitasidcotizacionfinalpost) | **POST** /api/v{version}/visitas/{id}/cotizacion-final | COT-06: el técnico de la visita envía la cotización final (una sola por visita, con la visita en curso).
+*FotosVerificacionApi* | [**apiVversionMeVerificacionIdFotosTipoConfirmarPost**](doc//FotosVerificacionApi.md#apivversionmeverificacionidfotostipoconfirmarpost) | **POST** /api/v{version}/me/verificacion/{id}/fotos/{tipo}/confirmar | 
+*ImagenesApi* | [**apiVversionImagenesSubidasIdConfirmarPost**](doc//ImagenesApi.md#apivversionimagenessubidasidconfirmarpost) | **POST** /api/v{version}/imagenes/subidas/{id}/confirmar | 
+*ImagenesApi* | [**apiVversionImagenesSubidasPost**](doc//ImagenesApi.md#apivversionimagenessubidaspost) | **POST** /api/v{version}/imagenes/subidas | 
+*InternalAccountApi* | [**apiVversionInternoCuentasUsuarioIdCancelacionesPost**](doc//InternalAccountApi.md#apivversioninternocuentasusuarioidcancelacionespost) | **POST** /api/v{version}/interno/cuentas/{usuarioId}/cancelaciones | Cancela las solicitudes abiertas y retira las cotizaciones pendientes de la persona, avisando a la otra parte.
+*InternalAccountApi* | [**apiVversionInternoCuentasUsuarioIdEliminadaPost**](doc//InternalAccountApi.md#apivversioninternocuentasusuarioideliminadapost) | **POST** /api/v{version}/interno/cuentas/{usuarioId}/eliminada | Consume `CuentaEliminada`: responde 202 cuando Mercado ya cerró y anonimizó lo de la persona (repetirlo no cambia nada).
+*InternalAccountApi* | [**apiVversionInternoCuentasUsuarioIdExportacionGet**](doc//InternalAccountApi.md#apivversioninternocuentasusuarioidexportacionget) | **GET** /api/v{version}/interno/cuentas/{usuarioId}/exportacion | Datos de la persona en Mercado para su exportación (un JSON).
+*InternalAccountApi* | [**apiVversionInternoCuentasUsuarioIdPendientesGet**](doc//InternalAccountApi.md#apivversioninternocuentasusuarioidpendientesget) | **GET** /api/v{version}/interno/cuentas/{usuarioId}/pendientes | Citas y cotizaciones abiertas de la persona, con conteos e identificadores propios (máximo 50 por grupo).
+*InternalBlocksApi* | [**apiVversionInternoBloqueosPost**](doc//InternalBlocksApi.md#apivversioninternobloqueospost) | **POST** /api/v{version}/interno/bloqueos | 
+*InternalEventsApi* | [**apiVversionInternoEventosPost**](doc//InternalEventsApi.md#apivversioninternoeventospost) | **POST** /api/v{version}/interno/eventos | 
 *InternalHistoryApi* | [**apiVversionInternoHistorialGet**](doc//InternalHistoryApi.md#apivversioninternohistorialget) | **GET** /api/v{version}/interno/historial | Visitas terminadas del cliente ligadas al elemento, de la más reciente a la más antigua, por cursor. Sin precios ni direcciones.
+*InternalNotFinishedReportApi* | [**apiVversionInternoVisitasVisitaIdReporteNoTerminadoGet**](doc//InternalNotFinishedReportApi.md#apivversioninternovisitasvisitaidreportenoterminadoget) | **GET** /api/v{version}/interno/visitas/{visitaId}/reporte-no-terminado | 
+*InternalNotFinishedReportsApi* | [**apiVversionInternoReportesNoTerminadosPost**](doc//InternalNotFinishedReportsApi.md#apivversioninternoreportesnoterminadospost) | **POST** /api/v{version}/interno/reportes-no-terminados | 
+*InternalOpinionModeratedApi* | [**apiVversionInternoOpinionesModeradasPost**](doc//InternalOpinionModeratedApi.md#apivversioninternoopinionesmoderadaspost) | **POST** /api/v{version}/interno/opiniones-moderadas | 
+*InternalPanelPermissionApi* | [**apiVversionInternoPermisosDelPanelPost**](doc//InternalPanelPermissionApi.md#apivversioninternopermisosdelpanelpost) | **POST** /api/v{version}/interno/permisos-del-panel | 
+*InternalTechnicianHiddenApi* | [**apiVversionInternoTecnicosOcultadosPost**](doc//InternalTechnicianHiddenApi.md#apivversioninternotecnicosocultadospost) | **POST** /api/v{version}/interno/tecnicos-ocultados | 
+*InternalTradeChangedApi* | [**apiVversionInternoCambiosDeOficioPost**](doc//InternalTradeChangedApi.md#apivversioninternocambiosdeoficiopost) | **POST** /api/v{version}/interno/cambios-de-oficio | 
+*InternoAvisosApi* | [**apiVversionInternoAvisosPost**](doc//InternoAvisosApi.md#apivversioninternoavisospost) | **POST** /api/v{version}/interno/avisos | Recibe el evento de un servicio emisor y responde 202, también si ya lo recibió. 401 con token inválido o vencido; 403 `service_not_allowed` si el emisor no tiene el tipo en `permisos`; 422 con un tipo o cuerpo fuera del catálogo.
 *KnockIdentityApiApi* | [**healthGet**](doc//KnockIdentityApiApi.md#healthget) | **GET** /health | 
+*LecturaApi* | [**apiVversionConversacionesIdLeidoPost**](doc//LecturaApi.md#apivversionconversacionesidleidopost) | **POST** /api/v{version}/conversaciones/{id}/leido | Marca como leído hasta `hasta` (acotado al último mensaje). Repetirlo o mandar una fecha anterior responde 204 sin cambios.
+*LecturaApi* | [**apiVversionConversacionesIdMensajesGet**](doc//LecturaApi.md#apivversionconversacionesidmensajesget) | **GET** /api/v{version}/conversaciones/{id}/mensajes | Los mensajes de la conversación del más reciente al más antiguo, con paginación por cursor (`limit` de 1 a 50, 30 por omisión).
 *ListaEsperaApi* | [**apiVversionZonasListaEsperaPost**](doc//ListaEsperaApi.md#apivversionzonaslistaesperapost) | **POST** /api/v{version}/zonas/lista-espera | 
 *LogoutApi* | [**apiVversionAuthLogoutPost**](doc//LogoutApi.md#apivversionauthlogoutpost) | **POST** /api/v{version}/auth/logout | Cierra la sesión del dispositivo: la revoca y cancela su `sid` en Redis (spec 016). Sin cuerpo.
+*MapaApi* | [**apiVversionMapaTecnicosGet**](doc//MapaApi.md#apivversionmapatecnicosget) | **GET** /api/v{version}/mapa/tecnicos | Técnicos de la zona visible, agrupados por celda según el zoom (hasta 200 grupos). Ninguna coordenada de la petición se guarda ni se registra.
+*MarketReferenceApi* | [**apiVversionCotizacionesReferenciaMercadoGet**](doc//MarketReferenceApi.md#apivversioncotizacionesreferenciamercadoget) | **GET** /api/v{version}/cotizaciones/referencia-mercado | 
 *MeApi* | [**apiVversionMeGet**](doc//MeApi.md#apivversionmeget) | **GET** /api/v{version}/me | 
 *MeApi* | [**apiVversionMePut**](doc//MeApi.md#apivversionmeput) | **PUT** /api/v{version}/me | Actualiza el perfil. Los campos inválidos responden 422 con errores por campo; una colonia inexistente responde 422 con su código.
 *MeCambioNumeroApi* | [**apiVversionMeCambioNumeroConfirmarPost**](doc//MeCambioNumeroApi.md#apivversionmecambionumeroconfirmarpost) | **POST** /api/v{version}/me/cambio-numero/confirmar | USR-04. Confirma el cambio con el token de Firebase del número nuevo, cambia el celular y cierra las demás sesiones.
@@ -95,13 +154,21 @@ Class | Method | HTTP request | Description
 *MeEliminacionApi* | [**apiVversionMeEliminacionCancelarPost**](doc//MeEliminacionApi.md#apivversionmeeliminacioncancelarpost) | **POST** /api/v{version}/me/eliminacion/cancelar | USR-11. Cancela la eliminación durante los 7 días de gracia.
 *MeEliminacionApi* | [**apiVversionMeEliminacionPost**](doc//MeEliminacionApi.md#apivversionmeeliminacionpost) | **POST** /api/v{version}/me/eliminacion | USR-10. Programa la eliminación con 7 días de gracia y cancela de inmediato las solicitudes abiertas y las cotizaciones pendientes. Se confirma con el texto `ELIMINAR`; con una sesión de más de 24 horas pide además el token de Firebase.
 *MeExportacionesApi* | [**apiVversionMeExportacionesPost**](doc//MeExportacionesApi.md#apivversionmeexportacionespost) | **POST** /api/v{version}/me/exportaciones | USR-06. Pide la descarga de todos los datos propios; se entrega en 48 horas. Una sola en curso por persona.
+*MeExportacionesApi* | [**apiVversionMeExportacionesUltimaGet**](doc//MeExportacionesApi.md#apivversionmeexportacionesultimaget) | **GET** /api/v{version}/me/exportaciones/ultima | USR-06b. La app lo llama al abrir el aviso `exportacion_lista`: `en_preparacion`, `vencida` o `lista` con un enlace firmado de 24 horas que se genera en este momento. 404 `export_not_found` si nunca pidió una; 503 `export_unavailable` si el contenedor no responde. Solo la persona del token; sin caché y el enlace no se registra.
 *MePendientesApi* | [**apiVversionMePendientesGet**](doc//MePendientesApi.md#apivversionmependientesget) | **GET** /api/v{version}/me/pendientes | USR-09. Lista lo que hay pendiente antes de eliminar la cuenta: citas y cotizaciones abiertas (solo conteos e identificadores propios, máximo 50).
+*MePreferenciasAvisosApi* | [**apiVversionMePreferenciasAvisosGet**](doc//MePreferenciasAvisosApi.md#apivversionmepreferenciasavisosget) | **GET** /api/v{version}/me/preferencias-avisos | Un interruptor por tipo; sin cambios guardados, todos activos salvo promociones; seguridad siempre activa y no apagable.
+*MePreferenciasAvisosApi* | [**apiVversionMePreferenciasAvisosPut**](doc//MePreferenciasAvisosApi.md#apivversionmepreferenciasavisosput) | **PUT** /api/v{version}/me/preferencias-avisos | Cambia los interruptores indicados y devuelve las preferencias vigentes. Los avisos de seguridad no se pueden apagar (422).
 *MeSesionesApi* | [**apiVversionMeSesionesGet**](doc//MeSesionesApi.md#apivversionmesesionesget) | **GET** /api/v{version}/me/sesiones | Lista las sesiones no revocadas ni vencidas de la cuenta autenticada, sin exponer tokens ni huellas.
 *MeSesionesApi* | [**apiVversionMeSesionesIdDelete**](doc//MeSesionesApi.md#apivversionmesesionesiddelete) | **DELETE** /api/v{version}/me/sesiones/{id} | Revoca una sesión propia distinta de la actual y bloquea su `sid` en Redis hasta que venza el JWT.
 *MeVerificacionApi* | [**apiVversionMeVerificacionGet**](doc//MeVerificacionApi.md#apivversionmeverificacionget) | **GET** /api/v{version}/me/verificacion | Estado de la verificación más reciente; sin ninguna, `sin_verificar` (nunca 404).
 *MeVerificacionApi* | [**apiVversionMeVerificacionPost**](doc//MeVerificacionApi.md#apivversionmeverificacionpost) | **POST** /api/v{version}/me/verificacion | Crea la verificación en `en_captura` con su consentimiento. Las fotos llegan con la tarea T-04 (enlaces de subida).
+*MensajesApi* | [**apiVversionConversacionesIdMensajesPost**](doc//MensajesApi.md#apivversionconversacionesidmensajespost) | **POST** /api/v{version}/conversaciones/{id}/mensajes | Envía un mensaje: oculta datos de contacto antes de elegir, lo modera y lo guarda; luego lo entrega en vivo.
 *MyQuotesApi* | [**apiVversionTecnicosMeCotizacionesGet**](doc//MyQuotesApi.md#apivversiontecnicosmecotizacionesget) | **GET** /api/v{version}/tecnicos/me/cotizaciones | 
+*OficiosApi* | [**apiVversionOficiosClaveGet**](doc//OficiosApi.md#apivversionoficiosclaveget) | **GET** /api/v{version}/oficios/{clave} | Detalle de un oficio activo (OFI-02, spec 045). Público, con la misma caché de 24 horas del catálogo (la edición del panel la invalida) y con `ETag` débil para revalidar; un oficio que no existe o está inactivo responde 404 `trade_not_found`, y una clave con formato inválido, 422 `errors.clave`.
 *OficiosApi* | [**apiVversionOficiosGet**](doc//OficiosApi.md#apivversionoficiosget) | **GET** /api/v{version}/oficios | Oficios activos como arreglo sin paginar: excepción documentada a la constitución §11 (catálogo acotado, D9). `[AllowAnonymous]` explícito para que siga público aunque se agregue una política de autorización global (D3). Responde con `ETag` débil, `Cache-Control: public, max-age=0, must-revalidate` y `Vary: Accept-Encoding` (la respuesta comprimida es otra variante); con `If-None-Match` vigente responde 304 sin cuerpo.
+*OpinionesApi* | [**apiVversionOpinionesIdRespuestaPost**](doc//OpinionesApi.md#apivversionopinionesidrespuestapost) | **POST** /api/v{version}/opiniones/{id}/respuesta | OPI-03: el técnico calificado responde una sola vez a una opinión suya.
+*OpinionesApi* | [**apiVversionTecnicosIdOpinionesGet**](doc//OpinionesApi.md#apivversiontecnicosidopinionesget) | **GET** /api/v{version}/tecnicos/{id}/opiniones | OPI-01: opiniones publicadas de un técnico visible con su distribución por estrellas, de la más nueva a la más vieja, por cursor.
+*OpinionesApi* | [**apiVversionVisitasIdOpinionPost**](doc//OpinionesApi.md#apivversionvisitasidopinionpost) | **POST** /api/v{version}/visitas/{id}/opinion | OPI-02: el cliente de una visita terminada la califica una sola vez, hasta 30 días después.
 *PanelActivacionApi* | [**apiVversionPanelActivacionPost**](doc//PanelActivacionApi.md#apivversionpanelactivacionpost) | **POST** /api/v{version}/panel/activacion | Consume el enlace y entrega el secreto una sola vez. 410 `activation_invalid` con el mismo cuerpo para cualquier enlace inservible.
 *PanelCicloApi* | [**apiVversionPanelSesionCerrarPost**](doc//PanelCicloApi.md#apivversionpanelsesioncerrarpost) | **POST** /api/v{version}/panel/sesion/cerrar | Cierre (R-19): exige el token del panel y `X-Knock-Panel: 1`; revoca la sesión y borra la cookie.
 *PanelCicloApi* | [**apiVversionPanelSesionRenovarPost**](doc//PanelCicloApi.md#apivversionpanelsesionrenovarpost) | **POST** /api/v{version}/panel/sesion/renovar | Renovación (R-17 y R-18): sin cuerpo; exige la cookie, `X-Knock-Panel: 1` y el `Origin` del panel.
@@ -112,10 +179,18 @@ Class | Method | HTTP request | Description
 *ReportesApi* | [**apiVversionReportesIdApelacionPost**](doc//ReportesApi.md#apivversionreportesidapelacionpost) | **POST** /api/v{version}/reportes/{id}/apelacion | Apela la decisión de un reporte, una sola vez. 200; 403 si no es una de las dos partes; 409 `appeal_not_allowed` sin decisión o con una apelación previa.
 *ReportesApi* | [**apiVversionReportesMeGet**](doc//ReportesApi.md#apivversionreportesmeget) | **GET** /api/v{version}/reportes/me | Los reportes que hizo quien llama, del más reciente al más antiguo, con paginación por cursor. Nunca lleva datos de la otra parte.
 *ReportesApi* | [**apiVversionReportesPost**](doc//ReportesApi.md#apivversionreportespost) | **POST** /api/v{version}/reportes | Crea un reporte (`abierto`). 201 la primera vez y 200 si ya había uno abierto igual; 422 con `errors.&lt;campo&gt;` si un valor no es válido, si es contra uno mismo o contra alguien que no existe, o `report_content_rejected`; 503 `report_moderation_unavailable` si la moderación no responde. Con motivo de peligro la respuesta lleva el aviso de llamar al 911.
-*SolicitudesApi* | [**apiVversionSolicitudesGet**](doc//SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+*ServiciosApi* | [**apiVversionTecnicosIdServiciosGet**](doc//ServiciosApi.md#apivversiontecnicosidserviciosget) | **GET** /api/v{version}/tecnicos/{id}/servicios | Servicios y precios de referencia de un técnico visible (SRV-01), para cualquier persona con sesión.
+*ServiciosApi* | [**apiVversionTecnicosMeServiciosIdDelete**](doc//ServiciosApi.md#apivversiontecnicosmeserviciosiddelete) | **DELETE** /api/v{version}/tecnicos/me/servicios/{id} | Quita un servicio propio (SRV-04): 204; uno ajeno o inexistente responde 404 `service_not_found`.
+*ServiciosApi* | [**apiVversionTecnicosMeServiciosIdPut**](doc//ServiciosApi.md#apivversiontecnicosmeserviciosidput) | **PUT** /api/v{version}/tecnicos/me/servicios/{id} | Edita un servicio propio (SRV-03): cambian solo los campos enviados.
+*ServiciosApi* | [**apiVversionTecnicosMeServiciosPost**](doc//ServiciosApi.md#apivversiontecnicosmeserviciospost) | **POST** /api/v{version}/tecnicos/me/servicios | Agrega un servicio (SRV-02): 201; el 51.º responde 409 `service_limit_reached`.
+*SolicitudesApi* | [**apiVversionSolicitudesGet**](doc//SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, las activas primero y cada grupo de la más reciente a la más antigua, con paginación por cursor.
 *SolicitudesApi* | [**apiVversionSolicitudesIdGet**](doc//SolicitudesApi.md#apivversionsolicitudesidget) | **GET** /api/v{version}/solicitudes/{id} | Detalle: vista del cliente dueño, o vista acotada del técnico elegible o que ya cotizó. Cualquier otra persona recibe 404.
 *SolicitudesApi* | [**apiVversionSolicitudesPost**](doc//SolicitudesApi.md#apivversionsolicitudespost) | **POST** /api/v{version}/solicitudes | Crea la solicitud en estado `enviada` y con `venceEn` a 48 h.
+*SuspensionAppealApi* | [**apiVversionSuspensionApelacionGet**](doc//SuspensionAppealApi.md#apivversionsuspensionapelacionget) | **GET** /api/v{version}/suspension/apelacion | Estado de la apelación (R-09). 200 con estado y fechas; 401; 404 uniforme; 429.
+*SuspensionAppealApi* | [**apiVversionSuspensionApelacionPost**](doc//SuspensionAppealApi.md#apivversionsuspensionapelacionpost) | **POST** /api/v{version}/suspension/apelacion | Presenta la apelación de la suspensión vigente (R-01 a R-05). 200 con el estado; 401, 404 uniforme, 409 `appeal_not_allowed`.
 *TecnicosApi* | [**apiVversionTecnicosAutocompletarGet**](doc//TecnicosApi.md#apivversiontecnicosautocompletarget) | **GET** /api/v{version}/tecnicos/autocompletar | Sugerencias de oficios y negocios mientras se escribe (TEC-03): hasta 8, públicas y sin registrar el texto.
+*TecnicosApi* | [**apiVversionTecnicosGet**](doc//TecnicosApi.md#apivversiontecnicosget) | **GET** /api/v{version}/tecnicos | Busca técnicos por filtros, orden y cursor (TEC-02, spec 046, R-04): solo técnicos `activo` y visibles; es pública y la respuesta no se cachea (ninguna clave lleva datos de otra persona). `radioKm` es 3, 5, 8 o 12; por defecto devuelve 20 técnicos (máx. 50) y el cursor de la página siguiente; un cursor mal formado o `limite` fuera de rango responde 422.
+*TecnicosApi* | [**apiVversionTecnicosIdFotosTrabajosGet**](doc//TecnicosApi.md#apivversiontecnicosidfotostrabajosget) | **GET** /api/v{version}/tecnicos/{id}/fotos-trabajos | Fotos de trabajos terminados que el cliente permitió publicar y que pasaron la moderación (TEC-07), por cursor (20 por defecto, máx. 50). 404 si el técnico no existe o está oculto; el servidor guarda cada página 1 minuto.
 *TecnicosApi* | [**apiVversionTecnicosIdGet**](doc//TecnicosApi.md#apivversiontecnicosidget) | **GET** /api/v{version}/tecnicos/{id} | Perfil de un técnico (TEC-05): sin sesión, solo el resumen; con sesión válida, también el detalle. Un técnico que no existe o está oculto responde 404 `technician_not_found`.
 *TecnicosApi* | [**apiVversionTecnicosIdLlegaAMiColoniaGet**](doc//TecnicosApi.md#apivversiontecnicosidllegaamicoloniaget) | **GET** /api/v{version}/tecnicos/{id}/llega-a-mi-colonia | Dice si el técnico atiende la colonia de la persona (TEC-06). 404 si el técnico no existe o está oculto; 422 si la colonia no está en el catálogo.
 *TecnicosApi* | [**apiVversionTecnicosPost**](doc//TecnicosApi.md#apivversiontecnicospost) | **POST** /api/v{version}/tecnicos | Registra a la persona del token como técnico (TEC-01): nace `activo`, sin verificación y con «Disponible hoy» apagado.
@@ -123,11 +198,22 @@ Class | Method | HTTP request | Description
 *TecnicosMeApi* | [**apiVversionTecnicosMeHorariosGet**](doc//TecnicosMeApi.md#apivversiontecnicosmehorariosget) | **GET** /api/v{version}/tecnicos/me/horarios | Horarios de los siete días (TEC-10); sin horario guardado, todos cerrados.
 *TecnicosMeApi* | [**apiVversionTecnicosMeHorariosPut**](doc//TecnicosMeApi.md#apivversiontecnicosmehorariosput) | **PUT** /api/v{version}/tecnicos/me/horarios | Reemplaza los horarios de los siete días (TEC-11).
 *TecnicosMeApi* | [**apiVversionTecnicosMePut**](doc//TecnicosMeApi.md#apivversiontecnicosmeput) | **PUT** /api/v{version}/tecnicos/me | Edita el perfil público (TEC-08): cambian solo los campos enviados.
+*TecnicosMeApi* | [**apiVversionTecnicosMeReputacionGet**](doc//TecnicosMeApi.md#apivversiontecnicosmereputacionget) | **GET** /api/v{version}/tecnicos/me/reputacion | Reputación propia (TEC-13): promedio, distribución por estrellas y nivel; una cuenta sin perfil de técnico recibe 404.
 *TrabajoApi* | [**apiVversionTecnicosMeTrabajoGet**](doc//TrabajoApi.md#apivversiontecnicosmetrabajoget) | **GET** /api/v{version}/tecnicos/me/trabajo | 
+*TradeRequestsApi* | [**apiVversionOficiosPedidosPost**](doc//TradeRequestsApi.md#apivversionoficiospedidospost) | **POST** /api/v{version}/oficios-pedidos | Guarda el oficio escrito en «Otro oficio» (OFP-01): 201 con el registro. Repetir el mismo texto (ignorando acentos, mayúsculas y espacios) devuelve el registro existente. Quien no tiene perfil de técnico recibe 404 sin más datos; un cuerpo ilegible, 400; un texto inválido, 422 `errors.texto`.
 *TrustNoticeApi* | [**apiVversionVisitasIdAvisoPost**](doc//TrustNoticeApi.md#apivversionvisitasidavisopost) | **POST** /api/v{version}/visitas/{id}/aviso | El cliente dueño obtiene el texto para compartir con alguien de confianza. Solo con la visita `confirmada` o `en_curso`.
 *TrustedTechniciansApi* | [**apiVversionMeTecnicosConfianzaGet**](doc//TrustedTechniciansApi.md#apivversionmetecnicosconfianzaget) | **GET** /api/v{version}/me/tecnicos-confianza | Los técnicos guardados, del más reciente al más antiguo, con paginación por cursor. Un técnico oculto no aparece.
 *TrustedTechniciansApi* | [**apiVversionMeTecnicosConfianzaTecnicoIdDelete**](doc//TrustedTechniciansApi.md#apivversionmetecnicosconfianzatecnicoiddelete) | **DELETE** /api/v{version}/me/tecnicos-confianza/{tecnicoId} | Quita al técnico de la lista: 204; si no estaba, 404 `trusted_technician_not_found`.
 *TrustedTechniciansApi* | [**apiVversionMeTecnicosConfianzaTecnicoIdPut**](doc//TrustedTechniciansApi.md#apivversionmetecnicosconfianzatecnicoidput) | **PUT** /api/v{version}/me/tecnicos-confianza/{tecnicoId} | Guarda al técnico: 201 la primera vez y 200 al repetir, sin duplicar. Un técnico que no existe o está oculto responde 404 `technician_not_found`.
+*VisitScheduleApi* | [**apiVversionAgendaGet**](doc//VisitScheduleApi.md#apivversionagendaget) | **GET** /api/v{version}/agenda | VIS-02: agenda del técnico entre `desde` y `hasta` (por omisión hoy y 14 días), por fecha y hora, con cursor.
+*VisitScheduleApi* | [**apiVversionVisitasIdCancelarPost**](doc//VisitScheduleApi.md#apivversionvisitasidcancelarpost) | **POST** /api/v{version}/visitas/{id}/cancelar | VIS-06: cancela con motivo obligatorio; con menos de 24 horas queda `tardia`.
+*VisitScheduleApi* | [**apiVversionVisitasIdClienteAusentePost**](doc//VisitScheduleApi.md#apivversionvisitasidclienteausentepost) | **POST** /api/v{version}/visitas/{id}/cliente-ausente | VIS-07: el técnico registra que el cliente no estaba, dentro de la ventana de la cita y sin penalizar.
+*VisitScheduleApi* | [**apiVversionVisitasIdNoTerminadoPost**](doc//VisitScheduleApi.md#apivversionvisitasidnoterminadopost) | **POST** /api/v{version}/visitas/{id}/no-terminado | VIS-10: el cliente reporta que no se terminó, una sola vez y hasta 7 días después.
+*VisitScheduleApi* | [**apiVversionVisitasIdPermisoFotosPut**](doc//VisitScheduleApi.md#apivversionvisitasidpermisofotosput) | **PUT** /api/v{version}/visitas/{id}/permiso-fotos | VIS-11: el cliente autoriza o no publicar las fotos del trabajo.
+*VisitScheduleApi* | [**apiVversionVisitasIdReprogramarPost**](doc//VisitScheduleApi.md#apivversionvisitasidreprogramarpost) | **POST** /api/v{version}/visitas/{id}/reprogramar | VIS-04: una parte propone otra fecha para la visita.
+*VisitScheduleApi* | [**apiVversionVisitasIdReprogramarRespuestaPost**](doc//VisitScheduleApi.md#apivversionvisitasidreprogramarrespuestapost) | **POST** /api/v{version}/visitas/{id}/reprogramar/respuesta | VIS-05: la otra parte confirma o rechaza la propuesta.
+*VisitScheduleApi* | [**apiVversionVisitasIdTecnicoAusentePost**](doc//VisitScheduleApi.md#apivversionvisitasidtecnicoausentepost) | **POST** /api/v{version}/visitas/{id}/tecnico-ausente | VIS-12 (spec 064): el cliente dueño reporta que el técnico no llegó, dentro de la ventana de la cita. Sin cuerpo; repetirlo es idempotente.
+*VisitScheduleApi* | [**apiVversionVisitasIdTerminarPost**](doc//VisitScheduleApi.md#apivversionvisitasidterminarpost) | **POST** /api/v{version}/visitas/{id}/terminar | VIS-09: el técnico termina la visita en curso con descripción y fotos; no hay confirmación del cliente.
 *VisitasApi* | [**apiVversionVisitasIdGet**](doc//VisitasApi.md#apivversionvisitasidget) | **GET** /api/v{version}/visitas/{id} | Vista del cliente (con el código cuando corresponde) o del técnico (con la dirección y sin código). Cualquier otra persona recibe 404.
 *ZonasApi* | [**apiVversionZonasCpCpGet**](doc//ZonasApi.md#apivversionzonascpcpget) | **GET** /api/v{version}/zonas/cp/{cp} | 
 
@@ -135,8 +221,20 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AccessRecoveryRequest](doc//AccessRecoveryRequest.md)
+ - [AccountEventBody](doc//AccountEventBody.md)
+ - [AccountPendingResponse](doc//AccountPendingResponse.md)
  - [AddressResponse](doc//AddressResponse.md)
+ - [AdjustmentBody](doc//AdjustmentBody.md)
+ - [AdjustmentDecisionResponse](doc//AdjustmentDecisionResponse.md)
+ - [AdjustmentResponse](doc//AdjustmentResponse.md)
+ - [AdminTradeListResponse](doc//AdminTradeListResponse.md)
+ - [AdminTradeResponse](doc//AdminTradeResponse.md)
+ - [AgendaItem](doc//AgendaItem.md)
+ - [AgendaResponse](doc//AgendaResponse.md)
+ - [AnswerReviewBody](doc//AnswerReviewBody.md)
  - [AppealBody](doc//AppealBody.md)
+ - [AppealResolutionBody](doc//AppealResolutionBody.md)
+ - [AppealResolutionResult](doc//AppealResolutionResult.md)
  - [AppealResult](doc//AppealResult.md)
  - [Appointment](doc//Appointment.md)
  - [AppointmentPlace](doc//AppointmentPlace.md)
@@ -144,50 +242,114 @@ Class | Method | HTTP request | Description
  - [AutocompleteResponse](doc//AutocompleteResponse.md)
  - [AvailabilityBody](doc//AvailabilityBody.md)
  - [AvailabilityResponse](doc//AvailabilityResponse.md)
+ - [AvisoInterno](doc//AvisoInterno.md)
+ - [BitacoraBody](doc//BitacoraBody.md)
+ - [BitacoraResponse](doc//BitacoraResponse.md)
+ - [BlockEventBody](doc//BlockEventBody.md)
  - [BlockedPage](doc//BlockedPage.md)
  - [BlockedPerson](doc//BlockedPerson.md)
+ - [BorradorCotizacionResponse](doc//BorradorCotizacionResponse.md)
  - [BusquedaInterpretacion](doc//BusquedaInterpretacion.md)
  - [BusquedaItem](doc//BusquedaItem.md)
  - [BusquedaOficio](doc//BusquedaOficio.md)
  - [BusquedaResponse](doc//BusquedaResponse.md)
+ - [CancelRequestBody](doc//CancelRequestBody.md)
+ - [CancelRequestResponse](doc//CancelRequestResponse.md)
+ - [CancelVisitBody](doc//CancelVisitBody.md)
+ - [CancelVisitResponse](doc//CancelVisitResponse.md)
  - [ChooseQuoteBody](doc//ChooseQuoteBody.md)
  - [ChosenTechnician](doc//ChosenTechnician.md)
+ - [ClientAbsentResponse](doc//ClientAbsentResponse.md)
  - [ConfirmPhoneChangeRequest](doc//ConfirmPhoneChangeRequest.md)
  - [ConsentResponse](doc//ConsentResponse.md)
+ - [Contraparte](doc//Contraparte.md)
+ - [ConversacionBody](doc//ConversacionBody.md)
+ - [ConversacionItem](doc//ConversacionItem.md)
+ - [ConversacionPage](doc//ConversacionPage.md)
+ - [ConversacionView](doc//ConversacionView.md)
  - [CoverageResponse](doc//CoverageResponse.md)
+ - [CrearConversacionBody](doc//CrearConversacionBody.md)
  - [CreateAddressRequest](doc//CreateAddressRequest.md)
  - [CreateItemRequest](doc//CreateItemRequest.md)
  - [CreateReportBody](doc//CreateReportBody.md)
  - [CreateRequestBody](doc//CreateRequestBody.md)
+ - [CreateReviewBody](doc//CreateReviewBody.md)
+ - [CreateServiceBody](doc//CreateServiceBody.md)
+ - [CreateTradeBody](doc//CreateTradeBody.md)
  - [CreateVerificationRequest](doc//CreateVerificationRequest.md)
+ - [CreatedReview](doc//CreatedReview.md)
  - [CursorPageOfHistoryEntryResponse](doc//CursorPageOfHistoryEntryResponse.md)
  - [CursorPageOfHistoryItemResponse](doc//CursorPageOfHistoryItemResponse.md)
+ - [CursorPageOfMensajeView](doc//CursorPageOfMensajeView.md)
  - [DayScheduleDto](doc//DayScheduleDto.md)
+ - [DecisionBody](doc//DecisionBody.md)
  - [DeleteAccountRequest](doc//DeleteAccountRequest.md)
  - [DeletionScheduledResponse](doc//DeletionScheduledResponse.md)
+ - [EnviarMensajeRequest](doc//EnviarMensajeRequest.md)
+ - [EventoDeBloqueo](doc//EventoDeBloqueo.md)
+ - [EventoInterno](doc//EventoInterno.md)
+ - [ExploreIdea](doc//ExploreIdea.md)
+ - [ExploreResponse](doc//ExploreResponse.md)
+ - [ExploreService](doc//ExploreService.md)
+ - [ExtendRequestResponse](doc//ExtendRequestResponse.md)
+ - [FinalQuoteBody](doc//FinalQuoteBody.md)
+ - [FinalQuoteDecisionResponse](doc//FinalQuoteDecisionResponse.md)
+ - [FinalQuoteReadResponse](doc//FinalQuoteReadResponse.md)
+ - [FinalQuoteResponse](doc//FinalQuoteResponse.md)
+ - [FinishVisitBody](doc//FinishVisitBody.md)
+ - [FinishVisitResponse](doc//FinishVisitResponse.md)
  - [FirebaseExchangeRequest](doc//FirebaseExchangeRequest.md)
+ - [HideReviewBody](doc//HideReviewBody.md)
  - [HistoryEntryResponse](doc//HistoryEntryResponse.md)
  - [HistoryItemResponse](doc//HistoryItemResponse.md)
+ - [IdDispositivo](doc//IdDispositivo.md)
+ - [ImagenConfirmadaResponse](doc//ImagenConfirmadaResponse.md)
  - [InboxItem](doc//InboxItem.md)
  - [InboxNeighborhood](doc//InboxNeighborhood.md)
  - [InboxResponse](doc//InboxResponse.md)
  - [ItemResponse](doc//ItemResponse.md)
+ - [LatestExportResponse](doc//LatestExportResponse.md)
+ - [LeidoBody](doc//LeidoBody.md)
+ - [MapGroup](doc//MapGroup.md)
+ - [MapResponse](doc//MapResponse.md)
+ - [MarketReference](doc//MarketReference.md)
+ - [MensajeResponse](doc//MensajeResponse.md)
+ - [MensajeView](doc//MensajeView.md)
  - [MyQuote](doc//MyQuote.md)
  - [MyQuotePage](doc//MyQuotePage.md)
  - [NeighborhoodAtPointColoniaResponse](doc//NeighborhoodAtPointColoniaResponse.md)
  - [NeighborhoodAtPointResponse](doc//NeighborhoodAtPointResponse.md)
  - [NeighborhoodExistsResponse](doc//NeighborhoodExistsResponse.md)
+ - [NoLeidasView](doc//NoLeidasView.md)
+ - [NotFinishedBody](doc//NotFinishedBody.md)
+ - [NotFinishedReportEventBody](doc//NotFinishedReportEventBody.md)
+ - [NotFinishedReportResponse](doc//NotFinishedReportResponse.md)
+ - [NotFinishedResponse](doc//NotFinishedResponse.md)
+ - [NoticeListResponse](doc//NoticeListResponse.md)
+ - [NoticePreferenceChange](doc//NoticePreferenceChange.md)
+ - [NoticePreferenceResponse](doc//NoticePreferenceResponse.md)
+ - [NoticePreferencesResponse](doc//NoticePreferencesResponse.md)
+ - [NoticeResponse](doc//NoticeResponse.md)
  - [OficioResponse](doc//OficioResponse.md)
+ - [OpinionModeratedEventBody](doc//OpinionModeratedEventBody.md)
  - [PanelAccesoResponse](doc//PanelAccesoResponse.md)
  - [PanelActivacionRequest](doc//PanelActivacionRequest.md)
  - [PanelActivacionResponse](doc//PanelActivacionResponse.md)
  - [PanelCelularRequest](doc//PanelCelularRequest.md)
  - [PanelCelularResponse](doc//PanelCelularResponse.md)
+ - [PanelPermissionCheckBody](doc//PanelPermissionCheckBody.md)
+ - [PanelPermissionCheckResponse](doc//PanelPermissionCheckResponse.md)
  - [PanelTotpRequest](doc//PanelTotpRequest.md)
+ - [PedirSubidaImagenRequest](doc//PedirSubidaImagenRequest.md)
+ - [PendingAdjustmentItem](doc//PendingAdjustmentItem.md)
+ - [PendingAdjustmentsResponse](doc//PendingAdjustmentsResponse.md)
  - [PendingGroupResponse](doc//PendingGroupResponse.md)
  - [PendingResponse](doc//PendingResponse.md)
  - [PermisoConversacion](doc//PermisoConversacion.md)
  - [PhoneAvailabilityRequest](doc//PhoneAvailabilityRequest.md)
+ - [PhotoConfirmedResponse](doc//PhotoConfirmedResponse.md)
+ - [PhotoPermissionBody](doc//PhotoPermissionBody.md)
+ - [PhotoPermissionResponse](doc//PhotoPermissionResponse.md)
  - [ProblemDetails](doc//ProblemDetails.md)
  - [ProfileResponse](doc//ProfileResponse.md)
  - [QuoteComparison](doc//QuoteComparison.md)
@@ -195,27 +357,52 @@ Class | Method | HTTP request | Description
  - [QuoteRequest](doc//QuoteRequest.md)
  - [QuoteResponse](doc//QuoteResponse.md)
  - [QuoteTechnician](doc//QuoteTechnician.md)
+ - [RangoPrecioResponse](doc//RangoPrecioResponse.md)
  - [RefreshRequest](doc//RefreshRequest.md)
  - [RefreshResponse](doc//RefreshResponse.md)
  - [RegisterTechnicianBody](doc//RegisterTechnicianBody.md)
+ - [RegistroDispositivo](doc//RegistroDispositivo.md)
  - [ReportCreated](doc//ReportCreated.md)
+ - [ReportDecisionBody](doc//ReportDecisionBody.md)
+ - [ReportDecisionResult](doc//ReportDecisionResult.md)
  - [ReportPage](doc//ReportPage.md)
+ - [ReportQueueItem](doc//ReportQueueItem.md)
+ - [ReportQueuePage](doc//ReportQueuePage.md)
  - [ReportReferenceBody](doc//ReportReferenceBody.md)
  - [ReportSummary](doc//ReportSummary.md)
+ - [ReputationResponse](doc//ReputationResponse.md)
  - [RequestNeighborhood](doc//RequestNeighborhood.md)
  - [RequestPage](doc//RequestPage.md)
  - [RequestPhoto](doc//RequestPhoto.md)
  - [RequestResponse](doc//RequestResponse.md)
  - [RequestSummary](doc//RequestSummary.md)
  - [RequestTrade](doc//RequestTrade.md)
+ - [RescheduleBody](doc//RescheduleBody.md)
+ - [RescheduleProposalResponse](doc//RescheduleProposalResponse.md)
+ - [RescheduleReplyBody](doc//RescheduleReplyBody.md)
+ - [RescheduleReplyResponse](doc//RescheduleReplyResponse.md)
+ - [ResumenChatResponse](doc//ResumenChatResponse.md)
+ - [ReviewAnswer](doc//ReviewAnswer.md)
+ - [ReviewItem](doc//ReviewItem.md)
+ - [ReviewPage](doc//ReviewPage.md)
+ - [ReviewParts](doc//ReviewParts.md)
+ - [ReviewSummary](doc//ReviewSummary.md)
  - [ScheduleBody](doc//ScheduleBody.md)
  - [SessionListItemResponse](doc//SessionListItemResponse.md)
  - [SessionResponse](doc//SessionResponse.md)
+ - [SubidaImagenResponse](doc//SubidaImagenResponse.md)
  - [Suggestion](doc//Suggestion.md)
+ - [SuspensionAppealBody](doc//SuspensionAppealBody.md)
+ - [SuspensionAppealView](doc//SuspensionAppealView.md)
+ - [TechnicianAbsentResponse](doc//TechnicianAbsentResponse.md)
+ - [TechnicianHiddenEventBody](doc//TechnicianHiddenEventBody.md)
+ - [TechnicianListResponse](doc//TechnicianListResponse.md)
  - [TechnicianProfileBody](doc//TechnicianProfileBody.md)
  - [TechnicianProfileDetail](doc//TechnicianProfileDetail.md)
  - [TechnicianProfileResponse](doc//TechnicianProfileResponse.md)
  - [TechnicianResponse](doc//TechnicianResponse.md)
+ - [TechnicianService](doc//TechnicianService.md)
+ - [TechnicianServiceList](doc//TechnicianServiceList.md)
  - [TecnicoPublicoConversacion](doc//TecnicoPublicoConversacion.md)
  - [TimeRangeDto](doc//TimeRangeDto.md)
  - [TrabajoClient](doc//TrabajoClient.md)
@@ -227,18 +414,38 @@ Class | Method | HTTP request | Description
  - [TrabajoSummary](doc//TrabajoSummary.md)
  - [TrabajoVerificationResponse](doc//TrabajoVerificationResponse.md)
  - [TrabajoVisitResponse](doc//TrabajoVisitResponse.md)
+ - [TradeChangedEventBody](doc//TradeChangedEventBody.md)
+ - [TradeDetailResponse](doc//TradeDetailResponse.md)
+ - [TradeRequestBody](doc//TradeRequestBody.md)
+ - [TradeRequestGroup](doc//TradeRequestGroup.md)
+ - [TradeRequestPage](doc//TradeRequestPage.md)
+ - [TradeRequestResponse](doc//TradeRequestResponse.md)
  - [TrustNotice](doc//TrustNotice.md)
  - [TrustedTechnician](doc//TrustedTechnician.md)
  - [TrustedTechnicianPage](doc//TrustedTechnicianPage.md)
+ - [TurnoBody](doc//TurnoBody.md)
+ - [TurnoResponse](doc//TurnoResponse.md)
+ - [UltimoMensajeView](doc//UltimoMensajeView.md)
+ - [UnreadCountResponse](doc//UnreadCountResponse.md)
  - [UpdateAddressRequest](doc//UpdateAddressRequest.md)
  - [UpdateConsentRequest](doc//UpdateConsentRequest.md)
  - [UpdateItemRequest](doc//UpdateItemRequest.md)
+ - [UpdateNoticePreferencesRequest](doc//UpdateNoticePreferencesRequest.md)
  - [UpdateProfileRequest](doc//UpdateProfileRequest.md)
+ - [UpdateServiceBody](doc//UpdateServiceBody.md)
  - [UpdateTechnicianBody](doc//UpdateTechnicianBody.md)
+ - [UpdateTradeBody](doc//UpdateTradeBody.md)
  - [ValidationProblemDetails](doc//ValidationProblemDetails.md)
  - [VerificationCreatedResponse](doc//VerificationCreatedResponse.md)
+ - [VerificationDecisionBody](doc//VerificationDecisionBody.md)
+ - [VerificationDecisionResult](doc//VerificationDecisionResult.md)
+ - [VerificationDetail](doc//VerificationDetail.md)
+ - [VerificationPhotoLink](doc//VerificationPhotoLink.md)
  - [VerificationPhotoResponse](doc//VerificationPhotoResponse.md)
  - [VerificationPhotoStateResponse](doc//VerificationPhotoStateResponse.md)
+ - [VerificationQueueItem](doc//VerificationQueueItem.md)
+ - [VerificationQueuePage](doc//VerificationQueuePage.md)
+ - [VerificationSentResponse](doc//VerificationSentResponse.md)
  - [VerificationStatusResponse](doc//VerificationStatusResponse.md)
  - [VisitCustomer](doc//VisitCustomer.md)
  - [VisitPlace](doc//VisitPlace.md)
@@ -246,6 +453,10 @@ Class | Method | HTTP request | Description
  - [VisitTechnician](doc//VisitTechnician.md)
  - [WaitlistRequest](doc//WaitlistRequest.md)
  - [WaitlistResponse](doc//WaitlistResponse.md)
+ - [WaitlistZone](doc//WaitlistZone.md)
+ - [WaitlistZonePage](doc//WaitlistZonePage.md)
+ - [WorkPhotoListResponse](doc//WorkPhotoListResponse.md)
+ - [WorkPhotoResponse](doc//WorkPhotoResponse.md)
  - [ZonaColoniaResponse](doc//ZonaColoniaResponse.md)
  - [ZonaResponse](doc//ZonaResponse.md)
 
