@@ -709,8 +709,20 @@
 - **Por qué:** las dos pantallas usaban listas de ejemplo en memoria.
 - **Pendiente:** abrir el destino de un aviso (el contrato no publica la forma de `destino`), el contador de la campana (CA-15), textos en ARB (CA-18) y los avisos `sistema` y sin rol (backend sin fusionar). Sin probar contra el backend desplegado.
 - **A evitar:** adivinar la forma de `destino`; fijar en la app qué avisos se pueden apagar; descartar un tipo que la app no conoce.
+## 2026-11-26 — Técnicos de confianza contra la API (KNOCK-91)
+- **Qué cambió:** con sesión y API, «Mis técnicos de confianza» lista por páginas y quita (`GET` y `DELETE /me/tecnicos-confianza`), el botón «Guardar» del perfil de un técnico real usa `PUT` y `DELETE`, y el contador de Mi cuenta sale de esa lista. El repositorio viene de la rama local de KNOCK-288.
+- **Por qué:** las tres pantallas usaban una lista de ejemplo en memoria.
+- **Pendiente:** textos en ARB (CA-13) y «Volver a contratar» desde la lista real (el contrato no trae el oficio). El atajo desde «Calificar» llega con las opiniones. Sin probar contra el backend desplegado.
+- **A evitar:** guardar en el servidor un id de ejemplo o el de una visita (`api:visita:…`).
 ## 2026-11-26 — Alta de técnico contra la API y rol de técnico desde el perfil (KNOCK-57)
 - **Qué cambió:** con sesión y API, «Registrarse como técnico» crea el perfil con `POST /tecnicos` (`features/tecnico`): sin segundo código SMS, sin pedir el celular ni la lista de servicios (la ruta no los recibe), con al menos un oficio del catálogo, el radio solo a domicilio y la dirección solo con taller. Al cargar `GET /me`, `esTecnico` decide el indicador de técnico.
 - **Por qué:** el registro solo vivía en memoria y pedía un código simulado; y como la app no usaba `esTecnico`, la pestaña Trabajo se perdía al volver a abrirla.
 - **Pendiente:** textos en ARB (CA-58) y los estados de la pantalla (CA-46); sin probar contra el backend desplegado. La pestaña Trabajo y sus pantallas siguen con datos de ejemplo.
 - **A evitar:** permitir el alta solo con «otro oficio» (el servidor exige uno del catálogo); decidir el rol de técnico con datos locales cuando hay API.
+
+## 2026-11-26 — KNOCK-288: enmiendas de las specs de la app alineadas con el backend
+- app 029: GET /me/exportaciones/ultima y aviso sin enlace
+- app 034: tipo «sistema» y avisos sin rol
+- app 037: 404 not_a_technician
+- app 040: 404 para ajenos y 400 con datos mal formados
+- El panel web queda fuera de alcance por decisión de José; sus specs no se tocan.

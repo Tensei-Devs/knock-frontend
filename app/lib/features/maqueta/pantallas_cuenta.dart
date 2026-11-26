@@ -1,6 +1,8 @@
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/avisos_reales.dart';
+import 'package:app/features/maqueta/confianza_real.dart';
+import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
 
 import 'dart:async';
 
@@ -62,7 +64,14 @@ class CuentaMaqueta extends ConsumerWidget {
     return MaqBuilder((context) {
       final u = maq.user;
       final k = kc(context);
-      final nsaved = maq.saved.values.where((v) => v).length;
+      final nsaved = ref.watch(solicitudesRealesActivasProvider)
+          ? ref
+                    .watch(tecnicosConfianzaControllerProvider)
+                    .value
+                    ?.items
+                    .length ??
+                0
+          : maq.saved.values.where((v) => v).length;
       return PgTab(
         title: 'Mi cuenta',
         body: stack([
@@ -887,7 +896,14 @@ class MiCasaScreen extends StatelessWidget {
 class ConfianzaScreen extends StatelessWidget {
   const ConfianzaScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => Consumer(
+    builder: (context, ref, _) => ref.watch(solicitudesRealesActivasProvider)
+        ? const Pg(title: 'Mis técnicos de confianza', body: ConfianzaReal())
+        : _ejemplo(context),
+  );
+
+  /// La lista con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final ids = maq.saved.entries
         .where((e) => e.value)

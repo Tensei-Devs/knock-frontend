@@ -117,7 +117,15 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-26, tipo sistema y avisos sin rol)
+
+- **Estado de esta enmienda:** propuesta; vale desde que se firma la línea «Enmienda 2026-11-26» de la sección Aprobación. La aprobación original se conserva.
+- El tipo `sistema` no se puede apagar, igual que `seguridad`: las preferencias lo muestran activo y deshabilitado.
+- `comoRol` puede venir nulo (aviso común). La app muestra los avisos comunes tanto en la vista de cliente como en la de técnico.
+- Depende de que el backend 044 con esta regla esté fusionado y en el contrato.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 — nombre: José Julián Hernández Hernández fecha: 2026-11-26
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
