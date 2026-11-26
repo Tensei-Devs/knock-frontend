@@ -98,6 +98,138 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @tecnicoCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get tecnicoCargando;
+
+  /// No description provided for @tecnicoReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get tecnicoReintentar;
+
+  /// No description provided for @tecnicoNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get tecnicoNoDisponible;
+
+  /// No description provided for @tecnicoCopia.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es la copia del {fecha}; puede estar desactualizada.'**
+  String tecnicoCopia(DateTime fecha);
+
+  /// No description provided for @tecnicoCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'★ {calificacion}'**
+  String tecnicoCalificacion(String calificacion);
+
+  /// No description provided for @tecnicoAnios.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} años de experiencia'**
+  String tecnicoAnios(int n);
+
+  /// No description provided for @tecnicoAtiendeTaller.
+  ///
+  /// In es, this message translates to:
+  /// **'Atiende en su taller'**
+  String get tecnicoAtiendeTaller;
+
+  /// No description provided for @tecnicoAtiendeDomicilio.
+  ///
+  /// In es, this message translates to:
+  /// **'Va a domicilio'**
+  String get tecnicoAtiendeDomicilio;
+
+  /// No description provided for @tecnicoAtiendeAmbos.
+  ///
+  /// In es, this message translates to:
+  /// **'En taller y a domicilio'**
+  String get tecnicoAtiendeAmbos;
+
+  /// No description provided for @tecnicoRadio.
+  ///
+  /// In es, this message translates to:
+  /// **'hasta {km} km'**
+  String tecnicoRadio(int km);
+
+  /// No description provided for @tecnicoDisponibleHoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Disponible hoy'**
+  String get tecnicoDisponibleHoy;
+
+  /// No description provided for @tecnicoSinColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu colonia para saber si llega hasta ti.'**
+  String get tecnicoSinColonia;
+
+  /// No description provided for @tecnicoLlega.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí atiende {colonia}'**
+  String tecnicoLlega(String colonia);
+
+  /// No description provided for @tecnicoNoLlega.
+  ///
+  /// In es, this message translates to:
+  /// **'No atiende {colonia}'**
+  String tecnicoNoLlega(String colonia);
+
+  /// No description provided for @tecnicoServicios.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precios'**
+  String get tecnicoServicios;
+
+  /// No description provided for @tecnicoSinServicios.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no publica servicios.'**
+  String get tecnicoSinServicios;
+
+  /// No description provided for @tecnicoDesde.
+  ///
+  /// In es, this message translates to:
+  /// **'desde {precio}'**
+  String tecnicoDesde(String precio);
+
+  /// No description provided for @tecnicoPreciosDeReferencia.
+  ///
+  /// In es, this message translates to:
+  /// **'Son precios de referencia. El precio final lo acuerdas con el técnico.'**
+  String get tecnicoPreciosDeReferencia;
+
+  /// No description provided for @tecnicoFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos de sus trabajos'**
+  String get tecnicoFotos;
+
+  /// No description provided for @tecnicoSinFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay fotos de sus trabajos.'**
+  String get tecnicoSinFotos;
+
+  /// No description provided for @tecnicoFotoEtiqueta.
+  ///
+  /// In es, this message translates to:
+  /// **'Foto de un trabajo terminado'**
+  String get tecnicoFotoEtiqueta;
+
+  /// No description provided for @tecnicoVerMasFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más fotos'**
+  String get tecnicoVerMasFotos;
+
   /// No description provided for @citaExistente.
   ///
   /// In es, this message translates to:
