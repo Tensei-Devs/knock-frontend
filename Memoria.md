@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 038: «Pedir también a otros» (KNOCK-266)
+- **Decisión:** una solicitud real sin cotizaciones ofrece «Pedir también a otros» (`POST /solicitudes/{id}/ampliar`) en su tarjeta de Actividad. Cuándo se puede ampliar lo decide el servidor (409 `request_not_extendable`).
+- **Pendiente:** referencia del mercado y «Cotizaciones enviadas» (pantallas del técnico que dependen de la pestaña Trabajo, spec 019). Sin probar contra el backend desplegado.
 ## 2026-11-26 — Spec 035: detalle de un oficio y pedido de uno nuevo (KNOCK-266)
 - **Decisión:** con sesión y API, el paso 2 de «Pedir cotización» muestra las frases de `GET /oficios/{clave}` (con la última copia en memoria si no hay conexión) y el alta de técnico con «Otro oficio» manda además `POST /oficios-pedidos`. Ese pedido no bloquea el alta: si falla, se avisa y se puede reintentar.
 - **Pendiente:** sin probar contra el backend desplegado.

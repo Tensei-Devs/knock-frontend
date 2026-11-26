@@ -1162,5 +1162,10 @@
   "pedirOpcionesVacias": "There are no suggestions: type what is wrong.",
   "pedirReintentar": "Try again",
   "pedirCopiaGuardada": "Offline: options saved on {fecha}, they may be outdated.",
-  "pedirOficioNuevoFallo": "Your trade is on your profile, but we could not tell Knock. {motivo}"
+  "pedirOficioNuevoFallo": "Your trade is on your profile, but we could not tell Knock. {motivo}",
+  "solicitudesAmpliar": "Ask others too",
+  "solicitudesAmpliarExplicacion": "You can keep waiting or also ask other experts nearby.",
+  "solicitudesAmpliada": "Done: we asked more experts for a quote.",
+  "solicitudesNoAmpliable": "This request can no longer be extended.",
+  "solicitudesNoDisponible": "This request is no longer available."
 }

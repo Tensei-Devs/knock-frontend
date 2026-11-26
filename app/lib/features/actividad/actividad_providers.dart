@@ -1,3 +1,4 @@
+import 'package:app/features/actividad/data/ampliar_solicitud_api.dart';
 import 'package:app/core/preferencias/almacen_borrador_solicitud.dart';
 import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
@@ -170,3 +171,11 @@ final relojSolicitudProvider = Provider<DateTime Function()>(
 /// Si ya existe la pantalla de la visita (spec 016, KNOCK-83): «Ver mi
 /// visita» lleva a `/actividad/visita/:id`.
 final visitaDisponibleProvider = Provider<bool>((ref) => true);
+
+/// «Pedir también a otros» (spec 038).
+final ampliarSolicitudApiProvider = Provider<AmpliarSolicitudApi>(
+  (ref) => AmpliarSolicitudApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);

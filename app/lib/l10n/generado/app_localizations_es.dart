@@ -2093,4 +2093,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String pedirOficioNuevoFallo(String motivo) {
     return 'Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. $motivo';
   }
+
+  @override
+  String get solicitudesAmpliar => 'Pedir también a otros';
+
+  @override
+  String get solicitudesAmpliarExplicacion =>
+      'Puedes seguir esperando o pedir también a otros expertos cerca.';
+
+  @override
+  String get solicitudesAmpliada => 'Listo: pedimos cotización a más expertos.';
+
+  @override
+  String get solicitudesNoAmpliable => 'Esta solicitud ya no se puede ampliar.';
+
+  @override
+  String get solicitudesNoDisponible => 'Esta solicitud ya no está disponible.';
 }
