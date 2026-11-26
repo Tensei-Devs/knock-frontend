@@ -697,3 +697,9 @@
 - **Por qué:** una ruta escrita a mano no falla al compilar cuando cambia el contrato, y una confirmación ajena no se debe mostrar como la cita de la persona.
 - **Pendiente:** recuperar la cita tras un 409 `request_already_chosen` (segunda parte); sin probar contra el backend desplegado.
 - **A evitar:** armar la ruta de elegir a mano; aceptar una confirmación sin comparar sus identificadores.
+
+## 2026-11-25 — Estado de las tareas tras el lote de conexión (KNOCK-288)
+- **Qué cambió:** `task.md` de las specs 015, 031 y 036 reflejan solo lo fusionado en `sprint-05` con CI en verde (#97, #98, #103, #104, #106 y #107). «Hecha contra el contrato» significa implementada según el OpenAPI y las specs, con pruebas; no que se haya probado contra el backend desplegado.
+- **Por qué:** las filas decían «en revisión» o «bloqueada» para cosas ya fusionadas.
+- **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
+- **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
