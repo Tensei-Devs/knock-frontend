@@ -726,3 +726,8 @@
 - app 037: 404 not_a_technician
 - app 040: 404 para ajenos y 400 con datos mal formados
 - El panel web queda fuera de alcance por decisión de José; sus specs no se tocan.
+
+## 2026-11-26 — Una sola versión de «Ver más» y del cambio entre datos reales y de ejemplo (KNOCK-105)
+- **Qué cambió:** `core/red/paginas_por_cursor.dart` y `PantallaSegunSesion` reemplazan el código repetido entre avisos y técnicos de confianza.
+- **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
+- **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).

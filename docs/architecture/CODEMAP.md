@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T15:35:04Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T15:39:52Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -9,7 +9,7 @@
 |---|---|---|---|---|
 | `actividad` | -, data, domain, presentation | 46 | 117 | 159 |
 | `app` | - | 3 | 2 | 5 |
-| `bandeja_avisos` | -, data, domain, presentation | 5 | 7 | 15 |
+| `bandeja_avisos` | -, data, domain, presentation | 5 | 7 | 17 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 3 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 18 | 25 | 33 |
@@ -21,7 +21,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 50 | 35 |
 | `l10n` | - | 3 | 4 | 83 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 29 | 188 | 415 |
+| `maqueta` | - | 30 | 189 | 416 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -30,19 +30,14 @@
 | `plataforma` | core | 3 | 6 | 4 |
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
-| `red` | core | 8 | 5 | 21 |
+| `red` | core | 9 | 6 | 22 |
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
 | `tecnico` | -, data, domain | 4 | 5 | 2 |
-| `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 9 |
+| `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `widgets` | core | 4 | 5 | 5 |
-
-## ⚠️ Código duplicado (misma estructura)
-
-- `app/lib/features/bandeja_avisos/presentation/bandeja_avisos_controller.dart:23 BandejaAvisosController.cargarMas` · `app/lib/features/tecnicos_confianza/presentation/tecnicos_confianza_controller.dart:24 TecnicosConfianzaController.cargarMas`
-- `app/lib/features/maqueta/pantallas_cuenta.dart:1186 AvisosScreen.build` · `app/lib/features/maqueta/pantallas_cuenta.dart:899 ConfianzaScreen.build`
 
 ## Tipos con el mismo nombre en varios lugares
 
@@ -185,7 +180,7 @@
 **presentation**
 
 - `app/lib/features/bandeja_avisos/presentation/bandeja_avisos_controller.dart` — class `BandejaAvisosController`, class `PreferenciasDeAvisosController`
-  - `build()`:13, `reintentar()`:19, `cargarMas()`:23, `marcarLeido()`:50, `marcarTodos()`:70, `build()`:95, `reintentar()`:100, `cambiar()`:103
+  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `marcarLeido()`:38, `marcarTodos()`:58, `build()`:83, `reintentar()`:88, `cambiar()`:91
 
 ### cache
 
@@ -453,12 +448,14 @@
   - `experto()`:17, `opiniones()`:18, `enviada()`:21, `comparar()`:22, `visita()`:23, `cita()`:24, `calificar()`:25, `reportar()`:26, `compartir()`:28, `chat()`:30, `ayuda()`:42, `hayCuenta()`:46, `pedirCuenta()`:51, `registrarIrA()`:60, `elegirFotos()`:70
 - `app/lib/features/maqueta/oficios_reales.dart` — class `AvisoOficios`
   - `build()`:11
+- `app/lib/features/maqueta/pantalla_segun_sesion.dart` — class `PantallaSegunSesion`
+  - `build()`:22
 - `app/lib/features/maqueta/pantallas_actividad.dart` — class `Marca`, class `BarraMarcaK`, class `PgTab`, class `ActividadMaqueta`, class `MensajesScreen`, class `ChatScreen`, class `_ChatScreenState`, class `VisitaMaqueta`, class `CitaScreen`, class `CalificarScreen`, class `_CalificarScreenState`, class `ReportarScreen`, class `_ReportarScreenState`, class `CompartirScreen`, class `_CompartirScreenState`
   - `build()`:31, `build()`:55, `build()`:116, `build()`:153, `msgFab()`:231, `jobCard()`:298, `jobChat()`:507, `adjustCard()`:559, `build()`:619, `InkWell()`:654, `initState()`:740, `dispose()`:755, `build()`:812, `reprogBlock()`:1248, `BtnK()`:1256, `reprogSheet()`:1265, `cancelBlock()`:1337, `cancelSheet()`:1345, `build()`:1395, `VisitaRealGate()`:1399, `build()`:1684, `VisitaRealGate()`:1688, `initState()`:1891, `dispose()`:1898, `build()`:1928 …
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
   - `provCard()`:21, `CardK()`:23, `initState()`:85, `dispose()`:91, `build()`:153, `reviewW()`:384, `build()`:491, `build()`:960, `initState()`:1131, `dispose()`:1150, `build()`:1249, `composerK()`:1486, `quickK()`:1492, `burbujaK()`:1494
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
-  - `hoja()`:35, `build()`:54, `MaqBuilder()`:64, `build()`:371, `editarDatos()`:377, `cambiarNumero()`:484, `e()`:495, `phone()`:496, `build()`:837, `build()`:899, `Pg()`:922, `CardK()`:942, `build()`:987, `build()`:1118, `build()`:1186, `build()`:1367, `build()`:1438, `build()`:1496, `build()`:1619, `dispose()`:1732, `build()`:1738, `build()`:1794, `build()`:1861, `build()`:1938
+  - `hoja()`:36, `build()`:55, `MaqBuilder()`:65, `build()`:372, `editarDatos()`:378, `cambiarNumero()`:485, `e()`:496, `phone()`:497, `build()`:838, `build()`:900, `Pg()`:923, `CardK()`:943, `build()`:988, `build()`:1119, `build()`:1184, `build()`:1365, `build()`:1436, `build()`:1494, `build()`:1617, `dispose()`:1730, `build()`:1736, `build()`:1792, `build()`:1859, `build()`:1936
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
   - `initState()`:61, `dispose()`:69, `build()`:126, `FieldK()`:391, `build()`:471, `step()`:477, `stateK0()`:594, `widenBlock()`:620, `initState()`:672, `build()`:1195, `CardK()`:1229
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
@@ -656,6 +653,8 @@
   - `send()`:32, `close()`:75
 - `app/lib/core/red/obtener_json.dart` — —
   - `obtenerJson()`:11
+- `app/lib/core/red/paginas_por_cursor.dart` — mixin `PaginasPorCursor`
+  - `cargarMas()`:18
 
 ### router
 
@@ -741,7 +740,7 @@
 **presentation**
 
 - `app/lib/features/tecnicos_confianza/presentation/tecnicos_confianza_controller.dart` — class `TecnicosConfianzaController`
-  - `build()`:14, `reintentar()`:20, `cargarMas()`:24, `guardar()`:49, `quitar()`:72
+  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `guardar()`:38, `quitar()`:61
 
 ### tema
 
