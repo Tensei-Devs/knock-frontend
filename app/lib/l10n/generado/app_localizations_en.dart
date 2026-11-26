@@ -10,6 +10,91 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get tecnicoCargando => 'Loading…';
+
+  @override
+  String get tecnicoReintentar => 'Try again';
+
+  @override
+  String get tecnicoNoDisponible => 'That pro is no longer available.';
+
+  @override
+  String tecnicoCopia(DateTime fecha) {
+    final intl.DateFormat fechaDateFormat = intl.DateFormat.yMd(localeName);
+    final String fechaString = fechaDateFormat.format(fecha);
+
+    return 'No connection. This is the copy from $fechaString; it may be out of date.';
+  }
+
+  @override
+  String tecnicoCalificacion(String calificacion) {
+    return '★ $calificacion';
+  }
+
+  @override
+  String tecnicoAnios(int n) {
+    return '$n years of experience';
+  }
+
+  @override
+  String get tecnicoAtiendeTaller => 'Works at their shop';
+
+  @override
+  String get tecnicoAtiendeDomicilio => 'Comes to your home';
+
+  @override
+  String get tecnicoAtiendeAmbos => 'At the shop and at your home';
+
+  @override
+  String tecnicoRadio(int km) {
+    return 'up to $km km';
+  }
+
+  @override
+  String get tecnicoDisponibleHoy => 'Available today';
+
+  @override
+  String get tecnicoSinColonia =>
+      'Choose your neighborhood to know whether they serve it.';
+
+  @override
+  String tecnicoLlega(String colonia) {
+    return 'They serve $colonia';
+  }
+
+  @override
+  String tecnicoNoLlega(String colonia) {
+    return 'They don’t serve $colonia';
+  }
+
+  @override
+  String get tecnicoServicios => 'Services and prices';
+
+  @override
+  String get tecnicoSinServicios => 'No services published yet.';
+
+  @override
+  String tecnicoDesde(String precio) {
+    return 'from $precio';
+  }
+
+  @override
+  String get tecnicoPreciosDeReferencia =>
+      'These are reference prices. You agree the final price with the pro.';
+
+  @override
+  String get tecnicoFotos => 'Photos of their work';
+
+  @override
+  String get tecnicoSinFotos => 'No work photos yet.';
+
+  @override
+  String get tecnicoFotoEtiqueta => 'Photo of a finished job';
+
+  @override
+  String get tecnicoVerMasFotos => 'See more photos';
+
+  @override
   String get citaExistente => 'Existing appointment';
 
   @override
@@ -1462,6 +1547,170 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cuentaEliminacionSalir => 'Sign out';
 
   @override
+  String get bloqueosMotivoAcoso => 'Harassment';
+
+  @override
+  String get bloqueosMotivoFraude => 'Fraud';
+
+  @override
+  String get bloqueosMotivoMalServicio => 'Poor service';
+
+  @override
+  String get bloqueosMotivoComportamiento => 'Inappropriate behavior';
+
+  @override
+  String get bloqueosMotivoPeligro => 'Danger';
+
+  @override
+  String get bloqueosMotivoOtro => 'Something else';
+
+  @override
+  String get bloqueosTitulo => 'Report a problem';
+
+  @override
+  String get bloqueosCargando => 'Loading…';
+
+  @override
+  String get bloqueosNoDisponible => 'You can\'t report from this visit.';
+
+  @override
+  String get bloqueosReintentar => 'Try again';
+
+  @override
+  String get bloqueosAviso911 => 'If you are in danger, call 911.';
+
+  @override
+  String get bloqueosRecibido => 'We got your report';
+
+  @override
+  String get bloqueosVolver => 'Back';
+
+  @override
+  String get bloqueosQuePaso => 'What happened?';
+
+  @override
+  String get bloqueosDescripcion =>
+      'Tell us what happened (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviando => 'Sending…';
+
+  @override
+  String get bloqueosEnviar => 'Send report';
+
+  @override
+  String get bloqueosFalta =>
+      'Choose what happened and write at least 8 characters';
+
+  @override
+  String get bloqueosMios => 'My reports';
+
+  @override
+  String get bloqueosCargandoLista => 'Loading your reports…';
+
+  @override
+  String get bloqueosErrorLista => 'We couldn\'t load your reports.';
+
+  @override
+  String get bloqueosVacio => 'You haven\'t made any reports.';
+
+  @override
+  String get bloqueosVerMas => 'See more';
+
+  @override
+  String get bloqueosApelacionEnviada => 'We sent your appeal';
+
+  @override
+  String get bloqueosEstadoAbierto => 'Under review';
+
+  @override
+  String get bloqueosEstadoDecidido => 'Decided';
+
+  @override
+  String get bloqueosEstadoEnApelacion => 'Under appeal';
+
+  @override
+  String get bloqueosEstadoOtro => 'Status unavailable';
+
+  @override
+  String get bloqueosApelar => 'Appeal the decision';
+
+  @override
+  String get bloqueosApelacionTexto =>
+      'Explain why you appeal (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviarApelacion => 'Send appeal';
+
+  @override
+  String get bloqueosErrorYaBloqueado => 'You had already blocked this person.';
+
+  @override
+  String get bloqueosErrorApelacion => 'This report can no longer be appealed.';
+
+  @override
+  String get bloqueosPantallaBloquear => 'Block a person';
+
+  @override
+  String get bloqueosPersonasTitulo => 'Blocked people';
+
+  @override
+  String get bloqueosPersonasCargando => 'Loading who you blocked…';
+
+  @override
+  String get bloqueosPersonasError => 'We couldn\'t load your blocks.';
+
+  @override
+  String get bloqueosPersonasVacio => 'You haven\'t blocked anyone.';
+
+  @override
+  String get bloqueosBloqueadaEl => 'Blocked on';
+
+  @override
+  String get bloqueosDesbloquear => 'Unblock';
+
+  @override
+  String get bloqueosDesbloqueando => 'Unblocking…';
+
+  @override
+  String get bloqueosDesbloqueada => 'You unblocked this person.';
+
+  @override
+  String get bloqueosBloquear => 'Block this person';
+
+  @override
+  String get bloqueosBloqueando => 'Blocking…';
+
+  @override
+  String get bloqueosBloqueada => 'You blocked this person.';
+
+  @override
+  String get bloqueosBloquearAviso =>
+      'They won\'t be able to message you or see you in searches.';
+
+  @override
+  String get bloqueosConfirmarBloqueoTitulo => 'Block this person?';
+
+  @override
+  String get bloqueosConfirmarBloqueo => 'Yes, block';
+
+  @override
+  String get bloqueosCancelar => 'Cancel';
+
+  @override
+  String get bloqueosDeshacer => 'Undo';
+
+  @override
+  String get bloqueosNoEncontrada => 'That person is no longer available.';
+
+  @override
+  String get bloqueosErrorYaNoBloqueada =>
+      'That person wasn\'t blocked anymore.';
+
+  @override
+  String get bloqueosErrorNoBloquearse => 'You can\'t block yourself.';
+
+  @override
   String get direccionesTitulo => 'My addresses';
 
   @override
@@ -1627,6 +1876,229 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Sending…';
+
+  @override
+  String get cotizacionFinalTitulo => 'Final quote';
+
+  @override
+  String get cotizacionFinalExplicacion =>
+      'If you approve it, the job goes ahead at this price. If you reject it, you only pay for the visit.';
+
+  @override
+  String get cotizacionFinalAprobada => 'You approved the final quote.';
+
+  @override
+  String get cotizacionFinalRechazada =>
+      'You rejected the final quote: you only pay for the visit.';
+
+  @override
+  String get cotizacionFinalVencida =>
+      'The final quote expired without an answer.';
+
+  @override
+  String get cotizacionFinalYaDecidida =>
+      'This final quote was already decided or has expired.';
+
+  @override
+  String get cotizacionAjusteTitulo => 'Price change to approve';
+
+  @override
+  String get cotizacionAjusteExplicacion =>
+      'If you reject it, the price stays at the cap you already approved.';
+
+  @override
+  String get cotizacionAjusteAprobado => 'You approved the new price.';
+
+  @override
+  String get cotizacionAjusteRechazado => 'You rejected the price change.';
+
+  @override
+  String get cotizacionAjusteYaDecidido =>
+      'This price change was already decided or has expired.';
+
+  @override
+  String cotizacionRespondeAntes(String fecha) {
+    return 'Answer before $fecha';
+  }
+
+  @override
+  String get cotizacionAprobar => 'Approve';
+
+  @override
+  String get cotizacionRechazar => 'Reject';
+
+  @override
+  String get cotizacionActualizar => 'Refresh';
+
+  @override
+  String get cotizacionCargandoPrecio => 'Checking for a price to approve…';
+
+  @override
+  String serviciosPrecioDesde(int precio) {
+    return 'From \$$precio';
+  }
+
+  @override
+  String get serviciosSinPerfil => 'You do not have a technician profile yet.';
+
+  @override
+  String get serviciosNoExiste => 'That service no longer exists.';
+
+  @override
+  String get serviciosLimite =>
+      'You already have the maximum of 50 services. Remove one to add another.';
+
+  @override
+  String get serviciosOficioNoValido => 'That trade is not one of yours.';
+
+  @override
+  String get serviciosOficioMecanica => 'Auto repair';
+
+  @override
+  String get serviciosOficioPlomeria => 'Plumbing';
+
+  @override
+  String get serviciosOficioElectricidad => 'Electrical';
+
+  @override
+  String get serviciosTituloPropio => 'Services and reference prices';
+
+  @override
+  String get serviciosCrearPerfil => 'Create my technician profile';
+
+  @override
+  String get serviciosCargandoPropios => 'Loading your services…';
+
+  @override
+  String get serviciosErrorPropios => 'We could not load your services.';
+
+  @override
+  String get serviciosReintentar => 'Retry';
+
+  @override
+  String get serviciosListaParcial =>
+      'For now we cannot look up the services you already saved. Changes you make now appear here.';
+
+  @override
+  String get serviciosVacioPropios => 'You have not added services yet.';
+
+  @override
+  String get serviciosEditar => 'Edit';
+
+  @override
+  String get serviciosQuitar => 'Remove';
+
+  @override
+  String get serviciosAgregar => 'Add service';
+
+  @override
+  String get serviciosErrorNombre => 'Enter the service name';
+
+  @override
+  String serviciosErrorNombreMax(int maximo) {
+    return 'The name allows up to $maximo characters';
+  }
+
+  @override
+  String serviciosErrorDetalleMax(int maximo) {
+    return 'The details allow up to $maximo characters';
+  }
+
+  @override
+  String get serviciosErrorPrecio =>
+      'Enter a price in pesos, no decimals, greater than zero';
+
+  @override
+  String get serviciosErrorOficio => 'Choose the trade';
+
+  @override
+  String get serviciosNombre => 'Service name';
+
+  @override
+  String get serviciosNombreEjemplo => 'E.g. Faucet replacement';
+
+  @override
+  String get serviciosDetalle => 'Details';
+
+  @override
+  String get serviciosPrecio => 'Reference price (pesos)';
+
+  @override
+  String get serviciosOficioPregunta => 'Which trade is it for?';
+
+  @override
+  String get serviciosGuardar => 'Save service';
+
+  @override
+  String get serviciosCancelar => 'Cancel';
+
+  @override
+  String get serviciosTituloPublico => 'Services and prices';
+
+  @override
+  String get serviciosCargandoPublicos => 'Loading their services…';
+
+  @override
+  String get serviciosNoDisponible => 'That technician is no longer available.';
+
+  @override
+  String get serviciosErrorPublicos => 'We could not load their services.';
+
+  @override
+  String serviciosCopia(String fecha) {
+    return 'Offline. This is the copy from $fecha and may be out of date.';
+  }
+
+  @override
+  String get serviciosVacioPublico => 'No services published yet.';
+
+  @override
+  String get serviciosReferencia => 'Reference prices: this is not a quote.';
+
+  @override
+  String get pedirCargandoOpciones => 'Loading options…';
+
+  @override
+  String get pedirOficioNoDisponible =>
+      'This trade is no longer available. You can type what is wrong.';
+
+  @override
+  String get pedirSinOpciones =>
+      'We could not load the options. You can type what is wrong.';
+
+  @override
+  String get pedirOpcionesVacias =>
+      'There are no suggestions: type what is wrong.';
+
+  @override
+  String get pedirReintentar => 'Try again';
+
+  @override
+  String pedirCopiaGuardada(String fecha) {
+    return 'Offline: options saved on $fecha, they may be outdated.';
+  }
+
+  @override
+  String pedirOficioNuevoFallo(String motivo) {
+    return 'Your trade is on your profile, but we could not tell Knock. $motivo';
+  }
+
+  @override
+  String get solicitudesAmpliar => 'Ask others too';
+
+  @override
+  String get solicitudesAmpliarExplicacion =>
+      'You can keep waiting or also ask other experts nearby.';
+
+  @override
+  String get solicitudesAmpliada => 'Done: we asked more experts for a quote.';
+
+  @override
+  String get solicitudesNoAmpliable =>
+      'This request can no longer be extended.';
+
+  @override
+  String get solicitudesNoDisponible => 'This request is no longer available.';
 
   @override
   String get cuentaNumeroTitulo => 'Change my number';

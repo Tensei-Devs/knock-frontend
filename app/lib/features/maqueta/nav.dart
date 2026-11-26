@@ -25,6 +25,7 @@ abstract final class RM {
   static String calificar(String job) => '/m/calificar/$job';
   static String reportar(String job, {String? pid, bool noTermino = false}) =>
       '/m/reportar/$job?pid=${pid ?? ''}&nodone=${noTermino ? 1 : 0}';
+  static String bloquear(String job) => '/m/bloquear/$job';
   static String compartir(String job) => '/m/compartir/$job';
   static const mensajes = '/m/mensajes';
   static String chat(String id) => '/m/chat/$id';

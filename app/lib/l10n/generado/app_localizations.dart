@@ -98,6 +98,138 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @tecnicoCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get tecnicoCargando;
+
+  /// No description provided for @tecnicoReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get tecnicoReintentar;
+
+  /// No description provided for @tecnicoNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get tecnicoNoDisponible;
+
+  /// No description provided for @tecnicoCopia.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es la copia del {fecha}; puede estar desactualizada.'**
+  String tecnicoCopia(DateTime fecha);
+
+  /// No description provided for @tecnicoCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'★ {calificacion}'**
+  String tecnicoCalificacion(String calificacion);
+
+  /// No description provided for @tecnicoAnios.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} años de experiencia'**
+  String tecnicoAnios(int n);
+
+  /// No description provided for @tecnicoAtiendeTaller.
+  ///
+  /// In es, this message translates to:
+  /// **'Atiende en su taller'**
+  String get tecnicoAtiendeTaller;
+
+  /// No description provided for @tecnicoAtiendeDomicilio.
+  ///
+  /// In es, this message translates to:
+  /// **'Va a domicilio'**
+  String get tecnicoAtiendeDomicilio;
+
+  /// No description provided for @tecnicoAtiendeAmbos.
+  ///
+  /// In es, this message translates to:
+  /// **'En taller y a domicilio'**
+  String get tecnicoAtiendeAmbos;
+
+  /// No description provided for @tecnicoRadio.
+  ///
+  /// In es, this message translates to:
+  /// **'hasta {km} km'**
+  String tecnicoRadio(int km);
+
+  /// No description provided for @tecnicoDisponibleHoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Disponible hoy'**
+  String get tecnicoDisponibleHoy;
+
+  /// No description provided for @tecnicoSinColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu colonia para saber si llega hasta ti.'**
+  String get tecnicoSinColonia;
+
+  /// No description provided for @tecnicoLlega.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí atiende {colonia}'**
+  String tecnicoLlega(String colonia);
+
+  /// No description provided for @tecnicoNoLlega.
+  ///
+  /// In es, this message translates to:
+  /// **'No atiende {colonia}'**
+  String tecnicoNoLlega(String colonia);
+
+  /// No description provided for @tecnicoServicios.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precios'**
+  String get tecnicoServicios;
+
+  /// No description provided for @tecnicoSinServicios.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no publica servicios.'**
+  String get tecnicoSinServicios;
+
+  /// No description provided for @tecnicoDesde.
+  ///
+  /// In es, this message translates to:
+  /// **'desde {precio}'**
+  String tecnicoDesde(String precio);
+
+  /// No description provided for @tecnicoPreciosDeReferencia.
+  ///
+  /// In es, this message translates to:
+  /// **'Son precios de referencia. El precio final lo acuerdas con el técnico.'**
+  String get tecnicoPreciosDeReferencia;
+
+  /// No description provided for @tecnicoFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos de sus trabajos'**
+  String get tecnicoFotos;
+
+  /// No description provided for @tecnicoSinFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay fotos de sus trabajos.'**
+  String get tecnicoSinFotos;
+
+  /// No description provided for @tecnicoFotoEtiqueta.
+  ///
+  /// In es, this message translates to:
+  /// **'Foto de un trabajo terminado'**
+  String get tecnicoFotoEtiqueta;
+
+  /// No description provided for @tecnicoVerMasFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más fotos'**
+  String get tecnicoVerMasFotos;
+
   /// No description provided for @citaExistente.
   ///
   /// In es, this message translates to:
@@ -2564,6 +2696,324 @@ abstract class AppLocalizations {
   /// **'Salir'**
   String get cuentaEliminacionSalir;
 
+  /// No description provided for @bloqueosMotivoAcoso.
+  ///
+  /// In es, this message translates to:
+  /// **'Acoso'**
+  String get bloqueosMotivoAcoso;
+
+  /// No description provided for @bloqueosMotivoFraude.
+  ///
+  /// In es, this message translates to:
+  /// **'Fraude'**
+  String get bloqueosMotivoFraude;
+
+  /// No description provided for @bloqueosMotivoMalServicio.
+  ///
+  /// In es, this message translates to:
+  /// **'Mal servicio'**
+  String get bloqueosMotivoMalServicio;
+
+  /// No description provided for @bloqueosMotivoComportamiento.
+  ///
+  /// In es, this message translates to:
+  /// **'Comportamiento inapropiado'**
+  String get bloqueosMotivoComportamiento;
+
+  /// No description provided for @bloqueosMotivoPeligro.
+  ///
+  /// In es, this message translates to:
+  /// **'Peligro'**
+  String get bloqueosMotivoPeligro;
+
+  /// No description provided for @bloqueosMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otra cosa'**
+  String get bloqueosMotivoOtro;
+
+  /// No description provided for @bloqueosTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Reportar un problema'**
+  String get bloqueosTitulo;
+
+  /// No description provided for @bloqueosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get bloqueosCargando;
+
+  /// No description provided for @bloqueosNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'No es posible reportar desde esta visita.'**
+  String get bloqueosNoDisponible;
+
+  /// No description provided for @bloqueosReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get bloqueosReintentar;
+
+  /// No description provided for @bloqueosAviso911.
+  ///
+  /// In es, this message translates to:
+  /// **'Si estás en peligro, llama al 911.'**
+  String get bloqueosAviso911;
+
+  /// No description provided for @bloqueosRecibido.
+  ///
+  /// In es, this message translates to:
+  /// **'Recibimos tu reporte'**
+  String get bloqueosRecibido;
+
+  /// No description provided for @bloqueosVolver.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get bloqueosVolver;
+
+  /// No description provided for @bloqueosQuePaso.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué pasó?'**
+  String get bloqueosQuePaso;
+
+  /// No description provided for @bloqueosDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntanos qué pasó (de 8 a 500 caracteres)'**
+  String get bloqueosDescripcion;
+
+  /// No description provided for @bloqueosEnviando.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get bloqueosEnviando;
+
+  /// No description provided for @bloqueosEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar reporte'**
+  String get bloqueosEnviar;
+
+  /// No description provided for @bloqueosFalta.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige qué pasó y escribe al menos 8 caracteres'**
+  String get bloqueosFalta;
+
+  /// No description provided for @bloqueosMios.
+  ///
+  /// In es, this message translates to:
+  /// **'Mis reportes'**
+  String get bloqueosMios;
+
+  /// No description provided for @bloqueosCargandoLista.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus reportes…'**
+  String get bloqueosCargandoLista;
+
+  /// No description provided for @bloqueosErrorLista.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus reportes.'**
+  String get bloqueosErrorLista;
+
+  /// No description provided for @bloqueosVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No has hecho reportes.'**
+  String get bloqueosVacio;
+
+  /// No description provided for @bloqueosVerMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más'**
+  String get bloqueosVerMas;
+
+  /// No description provided for @bloqueosApelacionEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu apelación'**
+  String get bloqueosApelacionEnviada;
+
+  /// No description provided for @bloqueosEstadoAbierto.
+  ///
+  /// In es, this message translates to:
+  /// **'En revisión'**
+  String get bloqueosEstadoAbierto;
+
+  /// No description provided for @bloqueosEstadoDecidido.
+  ///
+  /// In es, this message translates to:
+  /// **'Decidido'**
+  String get bloqueosEstadoDecidido;
+
+  /// No description provided for @bloqueosEstadoEnApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'En apelación'**
+  String get bloqueosEstadoEnApelacion;
+
+  /// No description provided for @bloqueosEstadoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Estado no disponible'**
+  String get bloqueosEstadoOtro;
+
+  /// No description provided for @bloqueosApelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Apelar la decisión'**
+  String get bloqueosApelar;
+
+  /// No description provided for @bloqueosApelacionTexto.
+  ///
+  /// In es, this message translates to:
+  /// **'Explica por qué apelas (de 8 a 500 caracteres)'**
+  String get bloqueosApelacionTexto;
+
+  /// No description provided for @bloqueosEnviarApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar apelación'**
+  String get bloqueosEnviarApelacion;
+
+  /// No description provided for @bloqueosErrorYaBloqueado.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya habías bloqueado a esta persona.'**
+  String get bloqueosErrorYaBloqueado;
+
+  /// No description provided for @bloqueosErrorApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Este reporte ya no se puede apelar.'**
+  String get bloqueosErrorApelacion;
+
+  /// No description provided for @bloqueosPantallaBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear a una persona'**
+  String get bloqueosPantallaBloquear;
+
+  /// No description provided for @bloqueosPersonasTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Personas bloqueadas'**
+  String get bloqueosPersonasTitulo;
+
+  /// No description provided for @bloqueosPersonasCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando a quién bloqueaste…'**
+  String get bloqueosPersonasCargando;
+
+  /// No description provided for @bloqueosPersonasError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus bloqueos.'**
+  String get bloqueosPersonasError;
+
+  /// No description provided for @bloqueosPersonasVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No has bloqueado a nadie.'**
+  String get bloqueosPersonasVacio;
+
+  /// No description provided for @bloqueosBloqueadaEl.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueada el'**
+  String get bloqueosBloqueadaEl;
+
+  /// No description provided for @bloqueosDesbloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquear'**
+  String get bloqueosDesbloquear;
+
+  /// No description provided for @bloqueosDesbloqueando.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloqueando…'**
+  String get bloqueosDesbloqueando;
+
+  /// No description provided for @bloqueosDesbloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloqueaste a esta persona.'**
+  String get bloqueosDesbloqueada;
+
+  /// No description provided for @bloqueosBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear a esta persona'**
+  String get bloqueosBloquear;
+
+  /// No description provided for @bloqueosBloqueando.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueando…'**
+  String get bloqueosBloqueando;
+
+  /// No description provided for @bloqueosBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueaste a esta persona.'**
+  String get bloqueosBloqueada;
+
+  /// No description provided for @bloqueosBloquearAviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no podrá escribirte ni verte en las búsquedas.'**
+  String get bloqueosBloquearAviso;
+
+  /// No description provided for @bloqueosConfirmarBloqueoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Bloquear a esta persona?'**
+  String get bloqueosConfirmarBloqueoTitulo;
+
+  /// No description provided for @bloqueosConfirmarBloqueo.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, bloquear'**
+  String get bloqueosConfirmarBloqueo;
+
+  /// No description provided for @bloqueosCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get bloqueosCancelar;
+
+  /// No description provided for @bloqueosDeshacer.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshacer'**
+  String get bloqueosDeshacer;
+
+  /// No description provided for @bloqueosNoEncontrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa persona ya no está disponible.'**
+  String get bloqueosNoEncontrada;
+
+  /// No description provided for @bloqueosErrorYaNoBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa persona ya no estaba bloqueada.'**
+  String get bloqueosErrorYaNoBloqueada;
+
+  /// No description provided for @bloqueosErrorNoBloquearse.
+  ///
+  /// In es, this message translates to:
+  /// **'No puedes bloquearte a ti mismo.'**
+  String get bloqueosErrorNoBloquearse;
+
   /// No description provided for @direccionesTitulo.
   ///
   /// In es, this message translates to:
@@ -2869,6 +3319,396 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: cotizacionFinalTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cotización final'**
+  String get cotizacionFinalTitulo;
+
+  /// Texto de la app: cotizacionFinalExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Si la apruebas, el trabajo sigue con este precio. Si la rechazas, pagas solo la visita.'**
+  String get cotizacionFinalExplicacion;
+
+  /// Texto de la app: cotizacionFinalAprobada
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobaste la cotización final.'**
+  String get cotizacionFinalAprobada;
+
+  /// Texto de la app: cotizacionFinalRechazada
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazaste la cotización final: pagas solo la visita.'**
+  String get cotizacionFinalRechazada;
+
+  /// Texto de la app: cotizacionFinalVencida
+  ///
+  /// In es, this message translates to:
+  /// **'La cotización final venció sin respuesta.'**
+  String get cotizacionFinalVencida;
+
+  /// Texto de la app: cotizacionFinalYaDecidida
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cotización final ya se decidió o venció.'**
+  String get cotizacionFinalYaDecidida;
+
+  /// Texto de la app: cotizacionAjusteTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cambio de precio por aprobar'**
+  String get cotizacionAjusteTitulo;
+
+  /// Texto de la app: cotizacionAjusteExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Si lo rechazas, el precio se queda en el tope que ya aprobaste.'**
+  String get cotizacionAjusteExplicacion;
+
+  /// Texto de la app: cotizacionAjusteAprobado
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobaste el nuevo precio.'**
+  String get cotizacionAjusteAprobado;
+
+  /// Texto de la app: cotizacionAjusteRechazado
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazaste el cambio de precio.'**
+  String get cotizacionAjusteRechazado;
+
+  /// Texto de la app: cotizacionAjusteYaDecidido
+  ///
+  /// In es, this message translates to:
+  /// **'Este cambio de precio ya se decidió o venció.'**
+  String get cotizacionAjusteYaDecidido;
+
+  /// Texto de la app: cotizacionRespondeAntes
+  ///
+  /// In es, this message translates to:
+  /// **'Responde antes del {fecha}'**
+  String cotizacionRespondeAntes(String fecha);
+
+  /// Texto de la app: cotizacionAprobar
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobar'**
+  String get cotizacionAprobar;
+
+  /// Texto de la app: cotizacionRechazar
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazar'**
+  String get cotizacionRechazar;
+
+  /// Texto de la app: cotizacionActualizar
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get cotizacionActualizar;
+
+  /// Texto de la app: cotizacionCargandoPrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Revisando si hay un precio por aprobar…'**
+  String get cotizacionCargandoPrecio;
+
+  /// No description provided for @serviciosPrecioDesde.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde \${precio}'**
+  String serviciosPrecioDesde(int precio);
+
+  /// No description provided for @serviciosSinPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no tienes perfil de técnico.'**
+  String get serviciosSinPerfil;
+
+  /// No description provided for @serviciosNoExiste.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese servicio ya no existe.'**
+  String get serviciosNoExiste;
+
+  /// No description provided for @serviciosLimite.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.'**
+  String get serviciosLimite;
+
+  /// No description provided for @serviciosOficioNoValido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese oficio no es uno de los tuyos.'**
+  String get serviciosOficioNoValido;
+
+  /// No description provided for @serviciosOficioMecanica.
+  ///
+  /// In es, this message translates to:
+  /// **'Mecánica'**
+  String get serviciosOficioMecanica;
+
+  /// No description provided for @serviciosOficioPlomeria.
+  ///
+  /// In es, this message translates to:
+  /// **'Plomería'**
+  String get serviciosOficioPlomeria;
+
+  /// No description provided for @serviciosOficioElectricidad.
+  ///
+  /// In es, this message translates to:
+  /// **'Electricidad'**
+  String get serviciosOficioElectricidad;
+
+  /// No description provided for @serviciosTituloPropio.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precio de referencia'**
+  String get serviciosTituloPropio;
+
+  /// No description provided for @serviciosCrearPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear mi perfil de técnico'**
+  String get serviciosCrearPerfil;
+
+  /// No description provided for @serviciosCargandoPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus servicios…'**
+  String get serviciosCargandoPropios;
+
+  /// No description provided for @serviciosErrorPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus servicios.'**
+  String get serviciosErrorPropios;
+
+  /// No description provided for @serviciosReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get serviciosReintentar;
+
+  /// No description provided for @serviciosListaParcial.
+  ///
+  /// In es, this message translates to:
+  /// **'Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.'**
+  String get serviciosListaParcial;
+
+  /// No description provided for @serviciosVacioPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no agregas servicios.'**
+  String get serviciosVacioPropios;
+
+  /// No description provided for @serviciosEditar.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar'**
+  String get serviciosEditar;
+
+  /// No description provided for @serviciosQuitar.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar'**
+  String get serviciosQuitar;
+
+  /// No description provided for @serviciosAgregar.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar servicio'**
+  String get serviciosAgregar;
+
+  /// No description provided for @serviciosErrorNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el nombre del servicio'**
+  String get serviciosErrorNombre;
+
+  /// No description provided for @serviciosErrorNombreMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El nombre admite hasta {maximo} caracteres'**
+  String serviciosErrorNombreMax(int maximo);
+
+  /// No description provided for @serviciosErrorDetalleMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El detalle admite hasta {maximo} caracteres'**
+  String serviciosErrorDetalleMax(int maximo);
+
+  /// No description provided for @serviciosErrorPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un precio en pesos, sin decimales y mayor que cero'**
+  String get serviciosErrorPrecio;
+
+  /// No description provided for @serviciosErrorOficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el oficio'**
+  String get serviciosErrorOficio;
+
+  /// No description provided for @serviciosNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre del servicio'**
+  String get serviciosNombre;
+
+  /// No description provided for @serviciosNombreEjemplo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Cambio de llave'**
+  String get serviciosNombreEjemplo;
+
+  /// No description provided for @serviciosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalle'**
+  String get serviciosDetalle;
+
+  /// No description provided for @serviciosPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio de referencia (pesos)'**
+  String get serviciosPrecio;
+
+  /// No description provided for @serviciosOficioPregunta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿De qué oficio es?'**
+  String get serviciosOficioPregunta;
+
+  /// No description provided for @serviciosGuardar.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar servicio'**
+  String get serviciosGuardar;
+
+  /// No description provided for @serviciosCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get serviciosCancelar;
+
+  /// No description provided for @serviciosTituloPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precios'**
+  String get serviciosTituloPublico;
+
+  /// No description provided for @serviciosCargandoPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando sus servicios…'**
+  String get serviciosCargandoPublicos;
+
+  /// No description provided for @serviciosNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get serviciosNoDisponible;
+
+  /// No description provided for @serviciosErrorPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar sus servicios.'**
+  String get serviciosErrorPublicos;
+
+  /// No description provided for @serviciosCopia.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es la copia del {fecha} y puede estar desactualizada.'**
+  String serviciosCopia(String fecha);
+
+  /// No description provided for @serviciosVacioPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no publica servicios.'**
+  String get serviciosVacioPublico;
+
+  /// No description provided for @serviciosReferencia.
+  ///
+  /// In es, this message translates to:
+  /// **'Precios de referencia: no son una cotización.'**
+  String get serviciosReferencia;
+
+  /// Texto de la app: pedirCargandoOpciones
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando opciones…'**
+  String get pedirCargandoOpciones;
+
+  /// Texto de la app: pedirOficioNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Este oficio ya no está disponible. Puedes escribir lo que pasa.'**
+  String get pedirOficioNoDisponible;
+
+  /// Texto de la app: pedirSinOpciones
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar las opciones. Puedes escribir lo que pasa.'**
+  String get pedirSinOpciones;
+
+  /// Texto de la app: pedirOpcionesVacias
+  ///
+  /// In es, this message translates to:
+  /// **'No hay opciones sugeridas: escribe lo que pasa.'**
+  String get pedirOpcionesVacias;
+
+  /// Texto de la app: pedirReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get pedirReintentar;
+
+  /// Texto de la app: pedirCopiaGuardada
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión: opciones guardadas el {fecha}, pueden estar desactualizadas.'**
+  String pedirCopiaGuardada(String fecha);
+
+  /// Texto de la app: pedirOficioNuevoFallo
+  ///
+  /// In es, this message translates to:
+  /// **'Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. {motivo}'**
+  String pedirOficioNuevoFallo(String motivo);
+
+  /// Texto de la app: solicitudesAmpliar
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir también a otros'**
+  String get solicitudesAmpliar;
+
+  /// Texto de la app: solicitudesAmpliarExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Puedes seguir esperando o pedir también a otros expertos cerca.'**
+  String get solicitudesAmpliarExplicacion;
+
+  /// Texto de la app: solicitudesAmpliada
+  ///
+  /// In es, this message translates to:
+  /// **'Listo: pedimos cotización a más expertos.'**
+  String get solicitudesAmpliada;
+
+  /// Texto de la app: solicitudesNoAmpliable
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no se puede ampliar.'**
+  String get solicitudesNoAmpliable;
+
+  /// Texto de la app: solicitudesNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no está disponible.'**
+  String get solicitudesNoDisponible;
 
   /// Texto de la app: cuentaNumeroTitulo
   ///

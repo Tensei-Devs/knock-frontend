@@ -5,9 +5,11 @@ import 'package:app/features/actividad/actividad.dart'
 import 'package:app/features/cuenta/cuenta.dart';
 import 'package:app/features/maqueta/numero_real.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
+import 'package:app/features/maqueta/bloqueos_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
 import 'package:app/features/maqueta/eliminar_real.dart';
 import 'package:app/features/maqueta/privacidad_real.dart';
+import 'package:app/features/maqueta/reportes_reales.dart';
 import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
 
 import 'dart:async';
@@ -137,6 +139,9 @@ class CuentaMaqueta extends ConsumerWidget {
               'bell',
               'Avisos',
               sub: 'Lo último que pasó',
+              extra: ContadorDeAvisos(
+                marca: (sinLeer) => Pill(sinLeer.texto, kind: 'amber'),
+              ),
               onTap: () => context.push(RM.avisos),
             ),
           ]),
@@ -1979,6 +1984,20 @@ class _AyudaState extends State<AyudaScreen> {
               ],
             ),
         ]),
+        // «Mis reportes» solo con sesión y API (spec 033, REP-02 y REP-03).
+        Consumer(
+          builder: (context, ref, _) =>
+              ref.watch(solicitudesRealesActivasProvider)
+              ? const MisReportesReales()
+              : const SizedBox.shrink(),
+        ),
+        // «Personas bloqueadas» solo con sesión y API (spec 033, BLO-03).
+        Consumer(
+          builder: (context, ref, _) =>
+              ref.watch(solicitudesRealesActivasProvider)
+              ? const PersonasBloqueadasReales()
+              : const SizedBox.shrink(),
+        ),
         sMut('¿No encontraste tu respuesta?', a: TextAlign.center),
       ]),
       cta: ctaCol([

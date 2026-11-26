@@ -34,6 +34,21 @@ class BandejaAvisosRepositoryApi implements BandejaAvisosRepository {
   }
 
   @override
+  Future<AvisosSinLeer> sinLeer() async {
+    final r = await enviarJson(
+      transporte,
+      url,
+      'GET',
+      'avisos/no-leidos/contador',
+    );
+    final m = objetoDelContrato(r.json);
+    return AvisosSinLeer(
+      enteroObligatorio(m['cantidad']),
+      masDe99: booleanoObligatorio(m['masDe99']),
+    );
+  }
+
+  @override
   Future<void> marcarLeido(String id) => enviarJsonONoEncontrado(
     transporte,
     url,

@@ -110,6 +110,10 @@ GoRoute rutaMaqueta() => GoRoute(
       path: 'compartir/:id',
       builder: (c, s) => CompartirScreen(id: s.pathParameters['id']!),
     ),
+    GoRoute(
+      path: 'bloquear/:id',
+      builder: (c, s) => BloquearScreen(id: s.pathParameters['id']!),
+    ),
     GoRoute(path: 'mensajes', builder: (c, s) => const MensajesScreen()),
     GoRoute(
       path: 'chat/:id',

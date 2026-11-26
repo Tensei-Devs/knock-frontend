@@ -7,7 +7,10 @@ export 'package:app/features/actividad/presentation/aviso_controller.dart'
 export 'package:app/features/actividad/presentation/widgets/formulario_contacto.dart'
     show mostrarFormularioContacto;
 export 'package:app/features/actividad/actividad_providers.dart'
-    show coloniaGuardadaProvider, solicitudesRealesRepositoryProvider;
+    show
+        ampliarSolicitudApiProvider,
+        coloniaGuardadaProvider,
+        solicitudesRealesRepositoryProvider;
 export 'package:app/features/actividad/domain/franja.dart' show Franja;
 export 'package:app/features/actividad/domain/solicitud.dart'
     show EstadoSolicitud, NuevaSolicitud, Solicitud;

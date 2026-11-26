@@ -9,8 +9,10 @@ import 'package:app/features/inicio/data/zonas_repository_http.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/estado.dart' show maq;
 import 'package:app/features/oficios/oficios.dart';
+import 'package:app/features/tecnico/data/servicios_repository_api.dart';
 import 'package:app/features/tecnico/data/tecnico_repository_api.dart';
 import 'package:app/features/tecnico/tecnico.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +21,7 @@ import '../../soporte/api_falsa.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/pantalla_maqueta.dart';
 import '../../soporte/preparar_maqueta.dart';
+import '../../soporte/servicios_json.dart';
 import '../../soporte/solicitud_falsa.dart';
 
 const _colonia = 'c0c0c0c0c0c0c0c0c0c0c0c0';
@@ -49,6 +52,15 @@ ApiFalsa _servidor({http.Response Function()? alRegistrar}) => ApiFalsa((p) {
           'disponibleHoy': false,
         }, estado: 201);
   }
+  if (p.metodo == 'GET' && p.ruta.endsWith('/servicios')) {
+    return jsonOk({'items': <Object?>[]});
+  }
+  if (p.llamadaCompleta == 'POST /api/v1/tecnicos/me/servicios') {
+    return jsonOk(
+      servicioJson('s1', nombre: p.json['nombre'] as String?),
+      estado: 201,
+    );
+  }
   return http.Response('', 404);
 });
 
@@ -72,6 +84,9 @@ Future<ProviderContainer> _abrir(WidgetTester tester, ApiFalsa api) async {
       ),
       tecnicoRepositoryProvider.overrideWithValue(
         TecnicoRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
+      ),
+      serviciosRepositoryProvider.overrideWithValue(
+        ServiciosRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
       ),
       solicitudesRealesRepositoryProvider.overrideWithValue(
         SolicitudesFalsas(),
@@ -150,5 +165,38 @@ void main() {
 
     expect(api.peticiones.where((p) => p.metodo == 'POST'), isEmpty);
     expect(find.textContaining('Elige al menos un servicio'), findsOneWidget);
+  });
+
+  testWidgets('CA_037_16 tras crear el perfil usa solo el id devuelto y '
+      'permite agregar un servicio', (tester) async {
+    final api = _servidor();
+    final container = await _abrir(tester, api);
+    await _tocar(tester, find.text('Plomería'));
+    await _tocar(tester, find.textContaining('Acepto los Términos'));
+    await _tocar(tester, find.text('Continuar'));
+
+    const id = 'a0a0a0a0a0a0a0a0a0a0a0a0';
+    expect(container.read(miTecnicoIdProvider), id);
+    expect(api.llamadas, contains('GET tecnicos/$id/servicios'));
+    expect(find.text('Aún no agregas servicios.'), findsOneWidget);
+
+    await _tocar(tester, find.text('Agregar servicio'));
+    await tester.enterText(find.byType(TextField).at(0), 'Cambio de llave');
+    await tester.enterText(find.byType(TextField).at(2), '250');
+    await _tocar(tester, find.text('Plomería'));
+    await _tocar(tester, find.text('Guardar servicio'));
+
+    final alta = api.peticiones.singleWhere(
+      (p) => p.llamadaCompleta == 'POST /api/v1/tecnicos/me/servicios',
+    );
+    expect(alta.json, {
+      'nombre': 'Cambio de llave',
+      'detalle': '',
+      'precioReferencia': 250,
+      'oficio': 'plo',
+    });
+    expect(find.text('Desde \$250'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 30));
+    maq.pv.dispose();
   });
 }
