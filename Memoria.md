@@ -747,3 +747,8 @@
 - **Por qué:** los interruptores y «Pedir» solo vivían en memoria.
 - **Pendiente:** la descarga va apagada porque su almacenamiento en Azure no existe; abrir el aviso `exportacion_lista` aún no lleva a esta pantalla; «Corregir mis datos» sigue de ejemplo. Sin probar contra el backend desplegado.
 - **A evitar:** guardar o registrar el enlace de descarga.
+
+## 2026-11-26 — Eliminar la cuenta desde la app (KNOCK-104)
+- **Qué cambió:** pendientes, solicitud y cancelación de la eliminación contra la API (spec 029).
+- **Por qué:** conectar la pantalla de cuenta al contrato.
+- **A evitar:** probarlo contra una cuenta real sin avisar; no se probó con el backend desplegado.

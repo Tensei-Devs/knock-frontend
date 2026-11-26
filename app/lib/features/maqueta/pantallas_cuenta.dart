@@ -1,7 +1,9 @@
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
+import 'package:app/features/cuenta/cuenta.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
+import 'package:app/features/maqueta/eliminar_real.dart';
 import 'package:app/features/maqueta/privacidad_real.dart';
 import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
 
@@ -10,7 +12,6 @@ import 'dart:async';
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
-import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/casa_y_auto_real.dart';
@@ -63,6 +64,8 @@ class CuentaMaqueta extends ConsumerWidget {
     }
     final esTecnico = ref.watch(esTecnicoProvider);
     unawaited(maq.cargarTelefono(ref.read(almacenSeguroProvider)));
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final eliminacionReal = real && ref.watch(eliminacionEnCursoProvider);
     return MaqBuilder((context) {
       final u = maq.user;
       final k = kc(context);
@@ -77,7 +80,8 @@ class CuentaMaqueta extends ConsumerWidget {
       return PgTab(
         title: 'Mi cuenta',
         body: stack([
-          if (maq.delAt != null)
+          if (eliminacionReal) const AvisoDeEliminacionReal(),
+          if (!real && maq.delAt != null)
             CardK(
               outline: k.amber,
               child: stack([
@@ -1617,13 +1621,13 @@ class PrivacidadScreen extends ConsumerWidget {
 
 // ------------------------------------------------------------ eliminar cuenta
 
-class Eliminar1Screen extends StatefulWidget {
+class Eliminar1Screen extends ConsumerStatefulWidget {
   const Eliminar1Screen({super.key});
   @override
-  State<Eliminar1Screen> createState() => _Eliminar1State();
+  ConsumerState<Eliminar1Screen> createState() => _Eliminar1State();
 }
 
-class _Eliminar1State extends State<Eliminar1Screen> {
+class _Eliminar1State extends ConsumerState<Eliminar1Screen> {
   int? o;
   @override
   Widget build(BuildContext context) {
@@ -1635,12 +1639,14 @@ class _Eliminar1State extends State<Eliminar1Screen> {
       'Me preocupa mi privacidad',
       'Otro motivo',
     ];
-    final pend = maq.pendingItems();
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final pend = real ? const <String>[] : maq.pendingItems();
     return Pg(
       title: 'Eliminar cuenta',
       body: stack([
         const Prog(1, 2),
         h1('Antes de irte, esto es lo que pasa'),
+        if (real) const PendientesReales(),
         if (pend.isNotEmpty)
           CardK(
             outline: k.amber,
@@ -1722,7 +1728,14 @@ class _Eliminar1State extends State<Eliminar1Screen> {
         ),
       ]),
       cta: ctaCol([
-        BtnK('Continuar', () => context.push(RM.eliminar2), kind: Bk.dark),
+        BtnK('Continuar', () {
+          if (real) {
+            ref.read(eliminacionControllerProvider.notifier).motivo = o == null
+                ? null
+                : ops[o!];
+          }
+          unawaited(context.push(RM.eliminar2));
+        }, kind: Bk.dark),
         BtnK('Mejor no', () => context.pop(), kind: Bk.ghost),
       ]),
     );
@@ -1746,6 +1759,9 @@ class _Eliminar2State extends ConsumerState<Eliminar2Screen> {
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(solicitudesRealesActivasProvider)) {
+      return const EliminarCuentaReal();
+    }
     final ok = sent && digits(_c.text).length == 6;
     final pend = maq.pendingItems().isNotEmpty;
     return Pg(
@@ -1801,7 +1817,19 @@ class _Eliminar2State extends ConsumerState<Eliminar2Screen> {
 class EliminadoScreen extends ConsumerWidget {
   const EliminadoScreen({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) => MaqBuilder((context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(solicitudesRealesActivasProvider)) {
+      return EliminadaReal(
+        alSalir: () async {
+          await ref.read(perfilControllerProvider.notifier).cerrarSesion();
+          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
+        },
+      );
+    }
+    return _ejemplo(ref);
+  }
+
+  Widget _ejemplo(WidgetRef ref) => MaqBuilder((context) {
     final k = kc(context);
     final pending = maq.delAt != null;
     return Pg(

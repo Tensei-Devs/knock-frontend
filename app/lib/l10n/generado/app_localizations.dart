@@ -2209,6 +2209,180 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Esa visita ya no está disponible.'**
   String get opinionesVisitaNoDisponible;
+
+  /// No description provided for @cuentaPendientesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisando lo que tienes pendiente…'**
+  String get cuentaPendientesCargando;
+
+  /// No description provided for @cuentaPendientesVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes citas ni cotizaciones abiertas.'**
+  String get cuentaPendientesVacio;
+
+  /// No description provided for @cuentaPendientesTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo que tienes pendiente'**
+  String get cuentaPendientesTitulo;
+
+  /// No description provided for @cuentaPendientesCitas.
+  ///
+  /// In es, this message translates to:
+  /// **'Citas abiertas: {total}'**
+  String cuentaPendientesCitas(int total);
+
+  /// No description provided for @cuentaPendientesCotizaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizaciones abiertas: {total}'**
+  String cuentaPendientesCotizaciones(int total);
+
+  /// No description provided for @cuentaPendientesNota.
+  ///
+  /// In es, this message translates to:
+  /// **'Al programar la eliminación se cancelan tus solicitudes abiertas y las cotizaciones pendientes, y avisamos a las personas involucradas.'**
+  String get cuentaPendientesNota;
+
+  /// No description provided for @cuentaEliminarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar cuenta'**
+  String get cuentaEliminarTitulo;
+
+  /// No description provided for @cuentaEliminarPregunta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Seguro que quieres eliminar tu cuenta?'**
+  String get cuentaEliminarPregunta;
+
+  /// No description provided for @cuentaEliminarGracia.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta quedará programada para eliminarse en 7 días y puedes cancelarlo antes.'**
+  String get cuentaEliminarGracia;
+
+  /// No description provided for @cuentaEliminarEscribe.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe ELIMINAR para confirmar'**
+  String get cuentaEliminarEscribe;
+
+  /// No description provided for @cuentaEliminarVerifica.
+  ///
+  /// In es, this message translates to:
+  /// **'Por seguridad, confirma tu celular con un código por SMS.'**
+  String get cuentaEliminarVerifica;
+
+  /// No description provided for @cuentaEliminarCelular.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu celular (10 dígitos)'**
+  String get cuentaEliminarCelular;
+
+  /// No description provided for @cuentaEliminarEnviarCodigo.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get cuentaEliminarEnviarCodigo;
+
+  /// No description provided for @cuentaEliminarCodigo.
+  ///
+  /// In es, this message translates to:
+  /// **'Código de 6 dígitos'**
+  String get cuentaEliminarCodigo;
+
+  /// No description provided for @cuentaEliminarVerificacionRechazada.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos confirmar tu identidad con ese número. Usa el celular de esta cuenta y pide otro código.'**
+  String get cuentaEliminarVerificacionRechazada;
+
+  /// No description provided for @cuentaEliminarNoPermitida.
+  ///
+  /// In es, this message translates to:
+  /// **'No se puede eliminar ahora: ya está programada o tienes una visita en curso.'**
+  String get cuentaEliminarNoPermitida;
+
+  /// No description provided for @cuentaEliminarEnviando.
+  ///
+  /// In es, this message translates to:
+  /// **'Un momento…'**
+  String get cuentaEliminarEnviando;
+
+  /// No description provided for @cuentaEliminarBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar mi cuenta'**
+  String get cuentaEliminarBoton;
+
+  /// No description provided for @cuentaEliminarMejorNo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor no'**
+  String get cuentaEliminarMejorNo;
+
+  /// No description provided for @cuentaEliminacionProgramada.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta está programada para eliminarse'**
+  String get cuentaEliminacionProgramada;
+
+  /// No description provided for @cuentaEliminacionProgramadaEl.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta se eliminará el {fecha}'**
+  String cuentaEliminacionProgramadaEl(String fecha);
+
+  /// No description provided for @cuentaEliminacionDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tienes 7 días para arrepentirte: antes de que termine el plazo puedes cancelar la eliminación.'**
+  String get cuentaEliminacionDetalle;
+
+  /// No description provided for @cuentaEliminacionCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisando tu cuenta…'**
+  String get cuentaEliminacionCargando;
+
+  /// No description provided for @cuentaEliminacionNinguna.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes una eliminación programada'**
+  String get cuentaEliminacionNinguna;
+
+  /// No description provided for @cuentaEliminacionCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar la eliminación'**
+  String get cuentaEliminacionCancelar;
+
+  /// No description provided for @cuentaEliminacionCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste la eliminación de tu cuenta'**
+  String get cuentaEliminacionCancelada;
+
+  /// No description provided for @cuentaEliminacionNadaQueCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una eliminación programada que cancelar.'**
+  String get cuentaEliminacionNadaQueCancelar;
+
+  /// No description provided for @cuentaEliminacionIrACuenta.
+  ///
+  /// In es, this message translates to:
+  /// **'Ir a Mi cuenta'**
+  String get cuentaEliminacionIrACuenta;
+
+  /// No description provided for @cuentaEliminacionSalir.
+  ///
+  /// In es, this message translates to:
+  /// **'Salir'**
+  String get cuentaEliminacionSalir;
 }
 
 class _AppLocalizationsDelegate

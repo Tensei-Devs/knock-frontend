@@ -1606,5 +1606,55 @@
   "opinionesVisitaNoDisponible": "Esa visita ya no está disponible.",
   "@opinionesVisitaNoDisponible": {
     "description": "Opiniones (spec 041)."
-  }
+  },
+  "cuentaPendientesCargando": "Revisando lo que tienes pendiente…",
+  "cuentaPendientesVacio": "No tienes citas ni cotizaciones abiertas.",
+  "cuentaPendientesTitulo": "Lo que tienes pendiente",
+  "cuentaPendientesCitas": "Citas abiertas: {total}",
+  "@cuentaPendientesCitas": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cuentaPendientesCotizaciones": "Cotizaciones abiertas: {total}",
+  "@cuentaPendientesCotizaciones": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cuentaPendientesNota": "Al programar la eliminación se cancelan tus solicitudes abiertas y las cotizaciones pendientes, y avisamos a las personas involucradas.",
+  "cuentaEliminarTitulo": "Eliminar cuenta",
+  "cuentaEliminarPregunta": "¿Seguro que quieres eliminar tu cuenta?",
+  "cuentaEliminarGracia": "Tu cuenta quedará programada para eliminarse en 7 días y puedes cancelarlo antes.",
+  "cuentaEliminarEscribe": "Escribe ELIMINAR para confirmar",
+  "cuentaEliminarVerifica": "Por seguridad, confirma tu celular con un código por SMS.",
+  "cuentaEliminarCelular": "Tu celular (10 dígitos)",
+  "cuentaEliminarEnviarCodigo": "Enviarme el código",
+  "cuentaEliminarCodigo": "Código de 6 dígitos",
+  "cuentaEliminarVerificacionRechazada": "No pudimos confirmar tu identidad con ese número. Usa el celular de esta cuenta y pide otro código.",
+  "cuentaEliminarNoPermitida": "No se puede eliminar ahora: ya está programada o tienes una visita en curso.",
+  "cuentaEliminarEnviando": "Un momento…",
+  "cuentaEliminarBoton": "Eliminar mi cuenta",
+  "cuentaEliminarMejorNo": "Mejor no",
+  "cuentaEliminacionProgramada": "Tu cuenta está programada para eliminarse",
+  "cuentaEliminacionProgramadaEl": "Tu cuenta se eliminará el {fecha}",
+  "@cuentaEliminacionProgramadaEl": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cuentaEliminacionDetalle": "Tienes 7 días para arrepentirte: antes de que termine el plazo puedes cancelar la eliminación.",
+  "cuentaEliminacionCargando": "Revisando tu cuenta…",
+  "cuentaEliminacionNinguna": "No tienes una eliminación programada",
+  "cuentaEliminacionCancelar": "Cancelar la eliminación",
+  "cuentaEliminacionCancelada": "Cancelaste la eliminación de tu cuenta",
+  "cuentaEliminacionNadaQueCancelar": "No hay una eliminación programada que cancelar.",
+  "cuentaEliminacionIrACuenta": "Ir a Mi cuenta",
+  "cuentaEliminacionSalir": "Salir"
 }
