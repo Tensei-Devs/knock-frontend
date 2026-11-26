@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
+- **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
+- **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
+- **Pendiente:** confirmar la compatibilidad del parámetro `Orden` con el gateway y comprobar el recorrido real cuando exista entorno.
 ## 2026-11-25 — Spec 036, parte 1: Explorar conectado al backend 046 (KNOCK-90)
 - **Decisión:** `features/explorar/` tiene el dominio, `ExplorarRepositoryApi` con `enviarJson` y un simulado. La pestaña Explorar de la maqueta dibuja los bloques reales con `ExplorarReal`; los chips eligen el filtro (`mec`, `plo` y `ele` son `auto`, `agua` y `luz`).
 - **Sesión opcional:** `ClienteAutenticado` manda el token a `explorar` solo si hay sesión (`_admiteSesion`). Sin sesión sale sin token y solo llegan los bloques públicos. Con sesión llegan también «Trabajos reales» y «Cerca de ti».
