@@ -20,29 +20,35 @@ final class TrabajoRepositoryApi implements TrabajoRepository {
   final api.DescarteApi descarteApi;
 
   @override
-  Future<PaginaTrabajo<SolicitudNueva>> bandeja({String? cursor}) async {
-    final respuesta = await llamarApi(
-      () => bandejaApi.apiVversionTecnicosMeSolicitudesGet(
-        versionApi,
-        cursor: cursor,
-        limit: 20,
-      ),
-    );
-    if (respuesta == null) throw const DatosInvalidosFailure();
-    return TrabajoMapper.bandeja(respuesta);
-  }
+  Future<PaginaTrabajo<SolicitudNueva>> bandeja({String? cursor}) => _leer(
+    () => bandejaApi.apiVversionTecnicosMeSolicitudesGet(
+      versionApi,
+      cursor: cursor,
+      limit: _porPagina,
+    ),
+    TrabajoMapper.bandeja,
+  );
 
   @override
-  Future<ResumenPaginado> resumen({String? cursorTerminadas}) async {
-    final respuesta = await llamarApi(
-      () => trabajoApi.apiVversionTecnicosMeTrabajoGet(
-        versionApi,
-        cursorTerminadas: cursorTerminadas,
-        limit: 20,
-      ),
-    );
+  Future<ResumenPaginado> resumen({String? cursorTerminadas}) => _leer(
+    () => trabajoApi.apiVversionTecnicosMeTrabajoGet(
+      versionApi,
+      cursorTerminadas: cursorTerminadas,
+      limit: _porPagina,
+    ),
+    TrabajoMapper.resumen,
+  );
+
+  static const _porPagina = 20;
+
+  /// Una lectura del contrato: traduce el error y exige una respuesta.
+  static Future<R> _leer<D extends Object, R>(
+    Future<D?> Function() pedir,
+    R Function(D) convertir,
+  ) async {
+    final respuesta = await llamarApi(pedir);
     if (respuesta == null) throw const DatosInvalidosFailure();
-    return TrabajoMapper.resumen(respuesta);
+    return convertir(respuesta);
   }
 
   @override

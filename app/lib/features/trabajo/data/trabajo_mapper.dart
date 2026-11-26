@@ -1,7 +1,6 @@
 import 'package:app/core/errores/failure.dart';
-import 'package:app/features/actividad/domain/cotizacion.dart' show TipoPrecio;
-import 'package:app/features/actividad/domain/franja.dart' show Franja;
-import 'package:app/features/oficios/domain/modalidad.dart' show Modalidad;
+import 'package:app/features/actividad/actividad.dart' show Franja, TipoPrecio;
+import 'package:app/features/oficios/oficios.dart' show Modalidad;
 import 'package:app/features/trabajo/domain/resumen_de_trabajo.dart';
 import 'package:app/features/trabajo/domain/trabajo_repository.dart';
 import 'package:knock_api/api.dart' as api;
