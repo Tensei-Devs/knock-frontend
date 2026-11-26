@@ -1,3 +1,4 @@
+import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/contrato_json.dart';
 import 'package:app/features/visita/domain/acciones_visita.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +18,7 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   Future<Map<Object?, Object?>> _enviar(
     String visitaId,
     String accion,
-    Map<String, Object?> cuerpo,
+    Map<String, Object?>? cuerpo,
   ) async {
     final r = await enviarJsonONoEncontrado(
       transporte,
@@ -57,5 +58,34 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   Future<void> reportarNoTerminado(String visitaId, String texto) async {
     final m = await _enviar(visitaId, 'no-terminado', {'texto': texto});
     textoObligatorio(m['estado']);
+  }
+
+  Future<String> clienteAusente(String visitaId) async {
+    final m = await _enviar(visitaId, 'cliente-ausente', null);
+    _verificarVisita(m, visitaId);
+    textoObligatorio(m['quienFalto']);
+    return textoObligatorio(m['estado']);
+  }
+
+  Future<String> terminar(
+    String visitaId, {
+    required String descripcion,
+    required List<String> fotos,
+    String? recomendacion,
+  }) async {
+    final m = await _enviar(visitaId, 'terminar', {
+      'descripcion': descripcion,
+      'recomendacion': recomendacion,
+      'fotos': fotos,
+    });
+    _verificarVisita(m, visitaId);
+    fechaHoraObligatoria(m['terminadaEn']);
+    return textoObligatorio(m['estado']);
+  }
+
+  static void _verificarVisita(Map<Object?, Object?> m, String visitaId) {
+    if (textoObligatorio(m['visitaId']) != visitaId) {
+      throw const DatosInvalidosFailure();
+    }
   }
 }
