@@ -72,6 +72,8 @@ Job? jobDeSolicitud(act.Solicitud s, {required Map<String, String> catalogo}) {
     colonia: s.coloniaNombre ?? '',
     visitaId: s.visitaId,
   );
+  job.porCalificar =
+      s.estado == act.EstadoSolicitud.terminada && s.visitaId != null;
   if (job.status == 'cancelado') {
     job.cancelNote = s.estado == act.EstadoSolicitud.vencida
         ? 'Esta solicitud venció sin que eligieras una cotización.'

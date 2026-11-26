@@ -149,3 +149,15 @@ final class EleccionRechazadaFailure extends Failure {
 final class AvisoNoPermitidoFailure extends Failure {
   const AvisoNoPermitidoFailure();
 }
+
+/// La visita no admite opinión: ya se calificó o venció el plazo de 30 días
+/// (409 `review_not_allowed`, spec 041 CA-08).
+final class OpinionNoPermitidaFailure extends Failure {
+  const OpinionNoPermitidaFailure();
+}
+
+/// La opinión ya tiene respuesta (409 `review_already_answered`, spec 041
+/// CA-11).
+final class OpinionYaRespondidaFailure extends Failure {
+  const OpinionYaRespondidaFailure();
+}

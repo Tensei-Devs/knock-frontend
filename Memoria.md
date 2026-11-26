@@ -737,6 +737,11 @@
 - **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
 - **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).
 
+## 2026-11-26 — Opiniones y reputación contra la API (KNOCK-266, spec 041)
+- **Qué cambió:** `features/opiniones/` conecta `GET /tecnicos/{id}/opiniones`, `POST /visitas/{id}/opinion` y `POST /opiniones/{id}/respuesta`. En la maqueta, el perfil y «Opiniones» de un técnico real muestran lo del servidor (con la última copia en memoria sin conexión) y una solicitud terminada se califica desde Actividad. El perfil de un técnico real ya no usa datos de ejemplo (fallaba por no tener servicios).
+- **Por qué:** las pantallas usaban opiniones inventadas.
+- **Pendiente:** «Mi reputación (Responder)» sigue de ejemplo: ninguna lectura del contrato le da a la app el id de técnico de la cuenta para pedir sus opiniones (el repositorio de la respuesta ya está). Las fotos de opiniones esperan la entrega de imágenes (spec 032). Sin probar contra el backend desplegado.
+- **A evitar:** usar `PUT /tecnicos/me` solo para averiguar el id propio.
 ## 2026-11-26 — Consentimientos y descarga de datos contra la API (KNOCK-127)
 - **Qué cambió:** con sesión y API, «Privacidad y datos» lee y cambia `me/consentimientos` y, con `--dart-define=EXPORTACION_DE_DATOS=true`, pide y consulta la descarga (`me/exportaciones` y `me/exportaciones/ultima`), con textos en ARB.
 - **Por qué:** los interruptores y «Pedir» solo vivían en memoria.

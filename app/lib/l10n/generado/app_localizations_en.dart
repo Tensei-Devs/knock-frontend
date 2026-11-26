@@ -1123,4 +1123,129 @@ class AppLocalizationsEn extends AppLocalizations {
   String cuentaConsentimientoRegistro(String version, String fecha) {
     return 'Version $version · $fecha';
   }
+
+  @override
+  String get opinionesTitulo => 'Reviews';
+
+  @override
+  String get opinionesCargando => 'Loading reviews…';
+
+  @override
+  String get opinionesError => 'We could not load the reviews.';
+
+  @override
+  String get opinionesNoDisponible => 'That technician is no longer available.';
+
+  @override
+  String get opinionesReintentar => 'Try again';
+
+  @override
+  String get opinionesVacio =>
+      'No reviews yet. The first ones arrive after their first job through Knock.';
+
+  @override
+  String opinionesCopia(String fecha) {
+    return 'You are offline. This is what you saw on $fecha; it may be out of date.';
+  }
+
+  @override
+  String opinionesPromedio(String promedio) {
+    return '★ $promedio out of 5';
+  }
+
+  @override
+  String opinionesTotal(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total reviews',
+      one: '1 review',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String opinionesEstrellas(int estrellas, int total) {
+    return '$estrellas stars: $total';
+  }
+
+  @override
+  String get opinionesVerTodas => 'See the reviews';
+
+  @override
+  String get opinionesVerMas => 'See more';
+
+  @override
+  String get opinionesServicioVerificado => 'Verified job';
+
+  @override
+  String get opinionesAnonima => 'Deleted user';
+
+  @override
+  String opinionesRespuesta(String texto) {
+    return 'Technician reply: $texto';
+  }
+
+  @override
+  String get opinionesPuntualidad => 'Punctuality';
+
+  @override
+  String get opinionesCalidad => 'Quality';
+
+  @override
+  String get opinionesPrecioJusto => 'Fair price';
+
+  @override
+  String get opinionesTrato => 'Treatment';
+
+  @override
+  String get opinionesCalificarTitulo => 'Rate the job';
+
+  @override
+  String get opinionesCalificarPregunta => 'How did it go?';
+
+  @override
+  String get opinionesCalificarBoton => 'Rate the job';
+
+  @override
+  String opinionesEstrellaBoton(int estrella) {
+    return '$estrella out of 5 stars';
+  }
+
+  @override
+  String opinionesParteBoton(String parte, int estrella) {
+    return '$parte: $estrella out of 5 stars';
+  }
+
+  @override
+  String get opinionesPorPartes => 'By category (optional)';
+
+  @override
+  String get opinionesComentario => 'Tell others how it went';
+
+  @override
+  String get opinionesGuardarConfianza => 'Save to my trusted technicians';
+
+  @override
+  String get opinionesPublicar => 'Post review';
+
+  @override
+  String get opinionesPublicando => 'Posting…';
+
+  @override
+  String get opinionesElige => 'Choose a star rating to continue';
+
+  @override
+  String get opinionesEnviada => 'We got your review. Thank you!';
+
+  @override
+  String get opinionesErrorNoPermitida =>
+      'This visit can no longer be rated: you already reviewed it or 30 days have passed.';
+
+  @override
+  String get opinionesErrorYaRespondida => 'This review already has a reply.';
+
+  @override
+  String get opinionesVisitaNoDisponible =>
+      'That visit is no longer available.';
 }
