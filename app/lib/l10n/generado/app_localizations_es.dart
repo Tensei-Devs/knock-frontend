@@ -1037,6 +1037,102 @@ class AppLocalizationsEs extends AppLocalizations {
   String get avisoCerrar => 'Cerrar';
 
   @override
+  String get cuentaDescargarTitulo => 'Descargar mis datos';
+
+  @override
+  String get cuentaDescargarNoDisponible =>
+      'La descarga de tus datos todavía no está disponible en esta versión.';
+
+  @override
+  String get cuentaDescargarCargando => 'Revisando tu archivo…';
+
+  @override
+  String get cuentaDescargarSinPedir =>
+      'Aún no has pedido tu archivo. Lo preparamos en un máximo de 48 horas.';
+
+  @override
+  String get cuentaDescargarEnPreparacion =>
+      'Estamos preparando tu archivo. Puede tardar hasta 48 horas.';
+
+  @override
+  String cuentaDescargarLista(String fecha) {
+    return 'Tu archivo está listo. El enlace vence el $fecha.';
+  }
+
+  @override
+  String get cuentaDescargarVencida =>
+      'Tu archivo anterior venció. Puedes pedirlo otra vez.';
+
+  @override
+  String get cuentaDescargarPedir => 'Pedir mi archivo';
+
+  @override
+  String get cuentaActualizar => 'Actualizar';
+
+  @override
+  String get cuentaDescargarAbrir => 'Descargar';
+
+  @override
+  String get cuentaDescargarPedida =>
+      'Pedimos tu archivo. Puede tardar hasta 48 horas.';
+
+  @override
+  String get cuentaDescargarYaEnCurso => 'Ya estamos preparando tu archivo.';
+
+  @override
+  String get cuentaDescargarNoAbrio => 'No pudimos abrir el enlace.';
+
+  @override
+  String get cuentaReintentar => 'Reintentar';
+
+  @override
+  String get cuentaConsentimientosCargando => 'Cargando tus consentimientos…';
+
+  @override
+  String get cuentaConsentimientosVacio =>
+      'No hay consentimientos para mostrar.';
+
+  @override
+  String get cuentaConsentimientoPromociones => 'Promociones y novedades';
+
+  @override
+  String get cuentaConsentimientoPromocionesDetalle =>
+      'Ofertas de expertos y noticias de Knock';
+
+  @override
+  String get cuentaConsentimientoEncuestas => 'Encuestas para mejorar Knock';
+
+  @override
+  String get cuentaConsentimientoEncuestasDetalle =>
+      'Preguntas cortas después de un servicio';
+
+  @override
+  String get cuentaConsentimientoRecomendaciones =>
+      'Recomendaciones personalizadas';
+
+  @override
+  String get cuentaConsentimientoRecomendacionesDetalle =>
+      'Sugerencias según tu casa y tu auto';
+
+  @override
+  String get cuentaConsentimientoAviso => 'Aviso de privacidad';
+
+  @override
+  String get cuentaConsentimientoTerminos => 'Términos y condiciones';
+
+  @override
+  String get cuentaConsentimientoOtro => 'Otro consentimiento';
+
+  @override
+  String get cuentaConsentimientoObligatorio =>
+      'Obligatorio: no se puede apagar';
+
+  @override
+  String cuentaConsentimientoRegistro(String version, String fecha) {
+    return 'Versión $version · $fecha';
+  }
+
+  @override
   String get opinionesTitulo => 'Opiniones';
 
   @override
