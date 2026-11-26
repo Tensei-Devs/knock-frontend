@@ -30,6 +30,114 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Knock';
 
   @override
+  String get busquedaTitulo => 'Search';
+
+  @override
+  String get busquedaEtiqueta => 'What do you need?';
+
+  @override
+  String get busquedaPlaceholder => 'E.g.: boiler, brakes, an outlet';
+
+  @override
+  String get busquedaMinimo => 'Type at least 2 letters';
+
+  @override
+  String busquedaContador(int n) {
+    return '$n/80';
+  }
+
+  @override
+  String get busquedaCargando => 'Searching…';
+
+  @override
+  String get busquedaSugerencias => 'Suggestions';
+
+  @override
+  String get busquedaSoloVerificados => 'Verified only';
+
+  @override
+  String get busquedaSoloVerificadosActivo => 'Verified only, selected';
+
+  @override
+  String busquedaBuscamos(String oficio) {
+    return 'Searching for: $oficio';
+  }
+
+  @override
+  String get busquedaAmbiguo => 'Which of these do you need?';
+
+  @override
+  String get busquedaNoEntendimos => 'We didn’t understand what you need';
+
+  @override
+  String get busquedaElegirCategoria => 'Choose a category';
+
+  @override
+  String get busquedaSinResultados => 'We found no pros for that search.';
+
+  @override
+  String busquedaSinResultadosOficio(String oficio) {
+    return 'There are no $oficio pros in your neighborhood yet';
+  }
+
+  @override
+  String get busquedaPedirCotizacion => 'Request a quote anyway';
+
+  @override
+  String get busquedaSinZona => 'Choose your area to search for pros nearby';
+
+  @override
+  String get busquedaElegirZona => 'Choose my area';
+
+  @override
+  String get busquedaCargarMas => 'See more';
+
+  @override
+  String get busquedaTope =>
+      'We show the first 100. Add more words to narrow it down.';
+
+  @override
+  String busquedaTotal(int n) {
+    return '$n results';
+  }
+
+  @override
+  String get busquedaReintentar => 'Try again';
+
+  @override
+  String get busquedaSinConexion => 'No connection';
+
+  @override
+  String get busquedaNoDisponible =>
+      'Search is not available right now. Try again.';
+
+  @override
+  String get busquedaOtrasPalabras => 'Try other words';
+
+  @override
+  String busquedaEspera(int segundos) {
+    return 'You searched many times in a row. Wait $segundos seconds.';
+  }
+
+  @override
+  String busquedaCalificacion(String calificacion, int n) {
+    return '$calificacion stars, $n reviews';
+  }
+
+  @override
+  String busquedaDistancia(int km) {
+    return 'about $km km away';
+  }
+
+  @override
+  String busquedaVerificado(String nivel) {
+    return 'Verified: $nivel';
+  }
+
+  @override
+  String get busquedaNoAtiende => 'Doesn’t serve your neighborhood';
+
+  @override
   String get tabInicio => 'Home';
 
   @override
@@ -1352,4 +1460,293 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Sign out';
+
+  @override
+  String get direccionesTitulo => 'My addresses';
+
+  @override
+  String get direccionesCargando => 'Loading your addresses…';
+
+  @override
+  String get direccionesError => 'We couldn’t load your addresses.';
+
+  @override
+  String get direccionesReintentar => 'Try again';
+
+  @override
+  String get direccionesVacio => 'You don’t have saved addresses yet.';
+
+  @override
+  String get direccionesAgregar => 'Add address';
+
+  @override
+  String get direccionesEditar => 'Edit';
+
+  @override
+  String get direccionesEliminar => 'Delete';
+
+  @override
+  String get direccionesPrincipal => 'Main';
+
+  @override
+  String get direccionesSinReferencias => 'No landmarks';
+
+  @override
+  String get direccionesNueva => 'New address';
+
+  @override
+  String get direccionesEditarTitulo => 'Edit address';
+
+  @override
+  String get direccionesCalle => 'Street and number';
+
+  @override
+  String get direccionesReferencias => 'Landmarks (optional)';
+
+  @override
+  String direccionesColonia(String colonia) {
+    return 'Neighborhood: $colonia';
+  }
+
+  @override
+  String direccionesCambiarColonia(String colonia) {
+    return 'Use my current neighborhood: $colonia';
+  }
+
+  @override
+  String get direccionesMarcarPrincipal => 'Use as main address';
+
+  @override
+  String get direccionesGuardar => 'Save address';
+
+  @override
+  String get direccionesGuardando => 'Saving…';
+
+  @override
+  String get direccionesCancelar => 'Cancel';
+
+  @override
+  String get direccionesConfirmarEliminar => 'Delete this address?';
+
+  @override
+  String get direccionesNoDisponible => 'That address is no longer available.';
+
+  @override
+  String get visitaReprogramar => 'Reschedule the appointment';
+
+  @override
+  String get visitaCancelar => 'Cancel the service';
+
+  @override
+  String get visitaCambioPendiente =>
+      'A new date is waiting for a reply. Meanwhile, the current appointment stands.';
+
+  @override
+  String get visitaCancelarTitulo => 'Cancel the service?';
+
+  @override
+  String get visitaCancelarConfirmar => 'Yes, cancel';
+
+  @override
+  String get visitaCancelarAviso =>
+      'With more than 24 h notice it is free. With less, it is recorded as a late cancellation and we notify right away.';
+
+  @override
+  String get visitaCancelarMotivo => 'Why are you cancelling?';
+
+  @override
+  String get visitaMotivoResuelto => 'I already solved it';
+
+  @override
+  String get visitaMotivoPlanes => 'My plans changed';
+
+  @override
+  String get visitaMotivoOtraOpcion => 'I found another option';
+
+  @override
+  String get visitaMotivoOtro => 'Another reason';
+
+  @override
+  String get visitaCancelada => 'You cancelled the service';
+
+  @override
+  String get visitaCanceladaTardia =>
+      'You cancelled the service. It was recorded as a late cancellation.';
+
+  @override
+  String get visitaYaCerrada =>
+      'This visit already ended or was already cancelled.';
+
+  @override
+  String get visitaReprogramarEnviar => 'Send change';
+
+  @override
+  String get visitaReprogramarExplicacion =>
+      'Pick another day and time. The other person has to confirm it; meanwhile the current appointment stands.';
+
+  @override
+  String get visitaDia => 'Day';
+
+  @override
+  String get visitaHora => 'Time';
+
+  @override
+  String get visitaFechaMuyCercana => 'Pick a time at least 2 hours from now.';
+
+  @override
+  String get visitaReprogramacionEnviada =>
+      'You sent the new date. It still has to be confirmed.';
+
+  @override
+  String get visitaNoReprogramable =>
+      'This appointment can no longer be rescheduled: it started or ended, a change is pending, or it was changed twice.';
+
+  @override
+  String get visitaNoTerminadoBoton => 'The job was not finished';
+
+  @override
+  String get visitaNoTerminadoTitulo => 'Was the job not finished?';
+
+  @override
+  String get visitaNoTerminadoCampo => 'What is still pending?';
+
+  @override
+  String get visitaNoTerminadoAyuda =>
+      'Write at least 8 characters. You can report it only once, up to 7 days later.';
+
+  @override
+  String get visitaNoTerminadoEnviar => 'Send report';
+
+  @override
+  String get visitaNoTerminadoEnviado =>
+      'You sent your report. It will be reviewed.';
+
+  @override
+  String get visitaReporteCerrado =>
+      'It can no longer be reported: more than 7 days passed or you already reported it.';
+
+  @override
+  String get visitaEnviando => 'Sending…';
+
+  @override
+  String serviciosPrecioDesde(int precio) {
+    return 'From \$$precio';
+  }
+
+  @override
+  String get serviciosSinPerfil => 'You do not have a technician profile yet.';
+
+  @override
+  String get serviciosNoExiste => 'That service no longer exists.';
+
+  @override
+  String get serviciosLimite =>
+      'You already have the maximum of 50 services. Remove one to add another.';
+
+  @override
+  String get serviciosOficioNoValido => 'That trade is not one of yours.';
+
+  @override
+  String get serviciosOficioMecanica => 'Auto repair';
+
+  @override
+  String get serviciosOficioPlomeria => 'Plumbing';
+
+  @override
+  String get serviciosOficioElectricidad => 'Electrical';
+
+  @override
+  String get serviciosTituloPropio => 'Services and reference prices';
+
+  @override
+  String get serviciosCrearPerfil => 'Create my technician profile';
+
+  @override
+  String get serviciosCargandoPropios => 'Loading your services…';
+
+  @override
+  String get serviciosErrorPropios => 'We could not load your services.';
+
+  @override
+  String get serviciosReintentar => 'Retry';
+
+  @override
+  String get serviciosListaParcial =>
+      'For now we cannot look up the services you already saved. Changes you make now appear here.';
+
+  @override
+  String get serviciosVacioPropios => 'You have not added services yet.';
+
+  @override
+  String get serviciosEditar => 'Edit';
+
+  @override
+  String get serviciosQuitar => 'Remove';
+
+  @override
+  String get serviciosAgregar => 'Add service';
+
+  @override
+  String get serviciosErrorNombre => 'Enter the service name';
+
+  @override
+  String serviciosErrorNombreMax(int maximo) {
+    return 'The name allows up to $maximo characters';
+  }
+
+  @override
+  String serviciosErrorDetalleMax(int maximo) {
+    return 'The details allow up to $maximo characters';
+  }
+
+  @override
+  String get serviciosErrorPrecio =>
+      'Enter a price in pesos, no decimals, greater than zero';
+
+  @override
+  String get serviciosErrorOficio => 'Choose the trade';
+
+  @override
+  String get serviciosNombre => 'Service name';
+
+  @override
+  String get serviciosNombreEjemplo => 'E.g. Faucet replacement';
+
+  @override
+  String get serviciosDetalle => 'Details';
+
+  @override
+  String get serviciosPrecio => 'Reference price (pesos)';
+
+  @override
+  String get serviciosOficioPregunta => 'Which trade is it for?';
+
+  @override
+  String get serviciosGuardar => 'Save service';
+
+  @override
+  String get serviciosCancelar => 'Cancel';
+
+  @override
+  String get serviciosTituloPublico => 'Services and prices';
+
+  @override
+  String get serviciosCargandoPublicos => 'Loading their services…';
+
+  @override
+  String get serviciosNoDisponible => 'That technician is no longer available.';
+
+  @override
+  String get serviciosErrorPublicos => 'We could not load their services.';
+
+  @override
+  String serviciosCopia(String fecha) {
+    return 'Offline. This is the copy from $fecha and may be out of date.';
+  }
+
+  @override
+  String get serviciosVacioPublico => 'No services published yet.';
+
+  @override
+  String get serviciosReferencia => 'Reference prices: this is not a quote.';
 }

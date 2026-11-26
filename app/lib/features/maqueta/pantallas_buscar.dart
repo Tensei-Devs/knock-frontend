@@ -3,7 +3,10 @@ import 'package:app/features/maqueta/confianza_real.dart';
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/anim_k.dart';
+import 'package:app/features/maqueta/busqueda_real.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/oficios_reales.dart';
@@ -14,6 +17,7 @@ import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 // ------------------------------------------------------------ tarjeta de experto
@@ -149,8 +153,16 @@ class _BuscarScreenState extends State<BuscarScreen> {
     );
   }
 
+  /// Con sesión y API la búsqueda es la del servidor (spec 021); sin ellas,
+  /// la de ejemplo.
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => Consumer(
+    builder: (context, ref, _) => ref.watch(solicitudesRealesActivasProvider)
+        ? BusquedaReal(enfocar: widget.focus)
+        : _ejemplo(context),
+  );
+
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final c = cats[maq.sCat]!;
     final list = maq.results();

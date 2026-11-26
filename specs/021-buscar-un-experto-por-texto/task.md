@@ -1,16 +1,16 @@
 # Tareas 021 — Buscar un experto por texto (app)
 
-> **Estado:** pendientes; las specs 015 y 016 están aprobadas y las demás en borrador. Las tareas de cada spec se activan cuando esa spec esté Aprobada.
+> **Estado:** implementadas en la rama `feature/KNOCK-66-text-search`; falta el CI del PR y el humo en teléfono contra dev.
 > **Responsable sugerido por omisión:** Erick Trejo Reséndiz. «Paralelo» indica con qué tareas puede avanzar a la vez; «Bloquea» qué tareas esperan a esta.
 
 | Tarea | Qué se hace | Cubre | Depende de | Bloquea | Paralelo con | Responsable sugerido | Estado |
 |---|---|---|---|---|---|---|---|
-| T-01 | Vendorizar backend 027 y regenerar el cliente | §4 | Backend 027 publicado en OpenAPI | T-03 | T-02 | Ángel Alexis Blas Castillo (contrato) y Erick | pendiente |
-| T-02 | Dominio: consulta, resultado con `interpretacion` y experto sin contacto | R-01, R-04, R-07, R-12 · CA-05, CA-06 | — | T-03, T-04 | T-01 | Erick Trejo Reséndiz | pendiente |
-| T-03 | Datos: repositorio con cursor, `invalid_cursor`, 422 y 503, sin caché en disco | R-03, R-05 · CA-10, CA-14, CA-17, CA-18 | T-01, T-02 | T-05 | T-04 | Erick Trejo Reséndiz | pendiente |
-| T-04 | Pantallas: barra, resultados, filtros, interpretación, estados y mensajes de §7; paso a «Pedir cotización» | R-02, R-06, R-08–R-11 · CA-01–CA-04, CA-07–CA-09, CA-11–CA-13, CA-15 | T-02 | T-05 | T-03 | Erick Trejo Reséndiz | pendiente |
-| T-05 | Accesibilidad y seguridad negativa (texto fuera de disco y registros) | R-05, R-11 · CA-14, CA-16 | T-03, T-04 | T-06 | — | Erick Trejo Reséndiz | pendiente |
-| T-06 | Integración con API simulada, recorrido con técnicos de semilla, ARB, `Memoria.md` y PR | §11 | T-05 | — | — | Erick Trejo Reséndiz | pendiente |
+| T-01 | Vendorizar backend 027 y regenerar el cliente | §4 | Backend 027 publicado en OpenAPI | T-03 | T-02 | Ángel Alexis Blas Castillo (contrato) y Erick | hecha (contrato c87ab21 en PR #91) |
+| T-02 | Dominio: consulta, resultado con `interpretacion` y experto sin contacto | R-01, R-04, R-07, R-12 · CA-05, CA-06 | — | T-03, T-04 | T-01 | Erick Trejo Reséndiz | hecha (consulta, interpretación y experto sin contacto; KNOCK-288) |
+| T-03 | Datos: repositorio con cursor, `invalid_cursor`, 422 y 503, sin caché en disco | R-03, R-05 · CA-10, CA-14, CA-17, CA-18 | T-01, T-02 | T-05 | T-04 | Erick Trejo Reséndiz | hecha (repositorio con cursor, 400/422/503 y sin caché; KNOCK-288) |
+| T-04 | Pantallas: barra, resultados, filtros, interpretación, estados y mensajes de §7; paso a «Pedir cotización» | R-02, R-06, R-08–R-11 · CA-01–CA-04, CA-07–CA-09, CA-11–CA-13, CA-15 | T-02 | T-05 | T-03 | Erick Trejo Reséndiz | hecha (`InicioScreen`, `BusquedaScreen`, `TarjetaExperto`, `/inicio/buscar` y `BusquedaReal` en maqueta; KNOCK-66) |
+| T-05 | Accesibilidad y seguridad negativa (texto fuera de disco y registros) | R-05, R-11 · CA-14, CA-16 | T-03, T-04 | T-06 | — | Erick Trejo Reséndiz | hecha (`expectAccesible`, texto al 200 % y pruebas sin caché/disco; KNOCK-66) |
+| T-06 | Integración con API simulada, recorrido con técnicos de semilla, ARB, `Memoria.md` y PR | §11 | T-05 | — | — | Erick Trejo Reséndiz | parcial (API simulada, ARB y `Memoria.md`; PR abierto; falta el CI y el recorrido en teléfono contra dev) |
 
 ## Dependencias con backend y con otras specs
 - **Backend 027** fija la ruta, la interpretación, los filtros, la paginación y el límite de 30 por minuto.

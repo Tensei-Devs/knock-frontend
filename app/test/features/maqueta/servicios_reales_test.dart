@@ -177,7 +177,7 @@ void main() {
     await _montar(tester, api, const ServiciosDeTecnicoReal(tecnicoId: 't1'));
     expect(find.text('Ese técnico ya no está disponible.'), findsOneWidget);
 
-    estado = 503;
+    estado = 422;
     await _tocar(tester, 'Reintentar');
     expect(find.text('No pudimos cargar sus servicios.'), findsOneWidget);
 

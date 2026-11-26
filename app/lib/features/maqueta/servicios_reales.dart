@@ -4,7 +4,6 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
-import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_real.dart' show fechaDeCopia;
 import 'package:app/features/maqueta/oficios_reales.dart';
@@ -33,20 +32,22 @@ class MisServiciosSegunSesion extends ConsumerWidget {
 String _precio(AppLocalizations textos, ServicioTecnico s) =>
     textos.serviciosPrecioDesde(s.precioReferencia);
 
-String _textoDeRechazo(AppLocalizations textos, RechazoDeServicio rechazo) =>
-    switch (rechazo) {
-      RechazoDeServicio.sinPerfilDeTecnico => textos.serviciosSinPerfil,
-      RechazoDeServicio.noExiste => textos.serviciosNoExiste,
-      RechazoDeServicio.limite => textos.serviciosLimite,
-      RechazoDeServicio.oficioNoValido => textos.serviciosOficioNoValido,
-    };
+String _textoDeRechazo(AppLocalizations textos, RechazoDeServicio rechazo) {
+  if (rechazo == RechazoDeServicio.limite) return textos.serviciosLimite;
+  if (rechazo == RechazoDeServicio.noExiste) return textos.serviciosNoExiste;
+  if (rechazo == RechazoDeServicio.oficioNoValido) {
+    return textos.serviciosOficioNoValido;
+  }
+  return textos.serviciosSinPerfil;
+}
 
-String _oficio(AppLocalizations textos, String clave) => switch (clave) {
-  'mec' => textos.serviciosOficioMecanica,
-  'plo' => textos.serviciosOficioPlomeria,
-  'ele' => textos.serviciosOficioElectricidad,
-  _ => clave,
-};
+String _nombreDeOficio(AppLocalizations textos, String clave) =>
+    switch (clave) {
+      'mec' => textos.serviciosOficioMecanica,
+      'plo' => textos.serviciosOficioPlomeria,
+      'ele' => textos.serviciosOficioElectricidad,
+      _ => clave,
+    };
 
 /// «Servicios y precio de referencia» de «Tu perfil público» (spec 037, SRV-02
 /// a SRV-04). Si la cuenta no tiene perfil de técnico no muestra datos y
@@ -313,7 +314,7 @@ class _FormularioState extends State<FormularioDeServicio> {
           SizedBox(
             height: 48,
             child: ChipK(
-              _oficio(textos, clave),
+              _nombreDeOficio(textos, clave),
               on: _oficio == clave,
               onTap: () => setState(() => _oficio = clave),
             ),

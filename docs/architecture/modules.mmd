@@ -2,9 +2,11 @@ graph LR
   actividad["actividad"]
   app["app"]
   bandeja_avisos["bandeja_avisos"]
+  busqueda["busqueda"]
   cache["cache"]
   config["config"]
   cuenta["cuenta"]
+  direcciones["direcciones"]
   enlaces["enlaces"]
   entrada["entrada"]
   errores["errores"]
@@ -30,17 +32,22 @@ graph LR
   tecnicos_confianza["tecnicos_confianza"]
   tema["tema"]
   trabajo["trabajo"]
+  visita["visita"]
   widgets["widgets"]
   actividad -->|1| oficios
   app -->|1| inicio
   app -->|1| maqueta
+  busqueda -->|1| actividad
+  busqueda -->|2| oficios
   cuenta -->|1| actividad
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|12| actividad
+  maqueta -->|14| actividad
   maqueta -->|1| bandeja_avisos
+  maqueta -->|1| busqueda
   maqueta -->|6| cuenta
+  maqueta -->|3| direcciones
   maqueta -->|4| entrada
   maqueta -->|1| explorar
   maqueta -->|8| inicio
@@ -50,8 +57,10 @@ graph LR
   maqueta -->|1| previa
   maqueta -->|3| tecnico
   maqueta -->|3| tecnicos_confianza
+  maqueta -->|1| visita
   previa -->|5| oficios
   router -->|5| actividad
+  router -->|1| busqueda
   router -->|5| cuenta
   router -->|2| entrada
   router -->|1| explorar

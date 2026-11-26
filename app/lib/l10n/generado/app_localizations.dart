@@ -128,6 +128,186 @@ abstract class AppLocalizations {
   /// **'Knock'**
   String get appTitle;
 
+  /// No description provided for @busquedaTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar'**
+  String get busquedaTitulo;
+
+  /// No description provided for @busquedaEtiqueta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas?'**
+  String get busquedaEtiqueta;
+
+  /// No description provided for @busquedaPlaceholder.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej.: boiler, frenos, un contacto'**
+  String get busquedaPlaceholder;
+
+  /// No description provided for @busquedaMinimo.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 2 letras'**
+  String get busquedaMinimo;
+
+  /// No description provided for @busquedaContador.
+  ///
+  /// In es, this message translates to:
+  /// **'{n}/80'**
+  String busquedaContador(int n);
+
+  /// No description provided for @busquedaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando…'**
+  String get busquedaCargando;
+
+  /// No description provided for @busquedaSugerencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Sugerencias'**
+  String get busquedaSugerencias;
+
+  /// No description provided for @busquedaSoloVerificados.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo verificados'**
+  String get busquedaSoloVerificados;
+
+  /// No description provided for @busquedaSoloVerificadosActivo.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo verificados, seleccionado'**
+  String get busquedaSoloVerificadosActivo;
+
+  /// No description provided for @busquedaBuscamos.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscamos: {oficio}'**
+  String busquedaBuscamos(String oficio);
+
+  /// No description provided for @busquedaAmbiguo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuál de estos buscas?'**
+  String get busquedaAmbiguo;
+
+  /// No description provided for @busquedaNoEntendimos.
+  ///
+  /// In es, this message translates to:
+  /// **'No entendimos qué necesitas'**
+  String get busquedaNoEntendimos;
+
+  /// No description provided for @busquedaElegirCategoria.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige una categoría'**
+  String get busquedaElegirCategoria;
+
+  /// No description provided for @busquedaSinResultados.
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos expertos con esa búsqueda.'**
+  String get busquedaSinResultados;
+
+  /// No description provided for @busquedaSinResultadosOficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay expertos de {oficio} en tu colonia'**
+  String busquedaSinResultadosOficio(String oficio);
+
+  /// No description provided for @busquedaPedirCotizacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir cotización de todos modos'**
+  String get busquedaPedirCotizacion;
+
+  /// No description provided for @busquedaSinZona.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu zona para buscar expertos cerca'**
+  String get busquedaSinZona;
+
+  /// No description provided for @busquedaElegirZona.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir mi zona'**
+  String get busquedaElegirZona;
+
+  /// No description provided for @busquedaCargarMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más'**
+  String get busquedaCargarMas;
+
+  /// No description provided for @busquedaTope.
+  ///
+  /// In es, this message translates to:
+  /// **'Mostramos los primeros 100. Agrega más palabras para afinar.'**
+  String get busquedaTope;
+
+  /// No description provided for @busquedaTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} resultados'**
+  String busquedaTotal(int n);
+
+  /// No description provided for @busquedaReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get busquedaReintentar;
+
+  /// No description provided for @busquedaSinConexion.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión'**
+  String get busquedaSinConexion;
+
+  /// No description provided for @busquedaNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La búsqueda no está disponible en este momento. Intenta de nuevo.'**
+  String get busquedaNoDisponible;
+
+  /// No description provided for @busquedaOtrasPalabras.
+  ///
+  /// In es, this message translates to:
+  /// **'Prueba con otras palabras'**
+  String get busquedaOtrasPalabras;
+
+  /// No description provided for @busquedaEspera.
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchas búsquedas seguidas. Espera {segundos} segundos.'**
+  String busquedaEspera(int segundos);
+
+  /// No description provided for @busquedaCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'{calificacion} estrellas, {n} reseñas'**
+  String busquedaCalificacion(String calificacion, int n);
+
+  /// No description provided for @busquedaDistancia.
+  ///
+  /// In es, this message translates to:
+  /// **'a unos {km} km'**
+  String busquedaDistancia(int km);
+
+  /// No description provided for @busquedaVerificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: {nivel}'**
+  String busquedaVerificado(String nivel);
+
+  /// No description provided for @busquedaNoAtiende.
+  ///
+  /// In es, this message translates to:
+  /// **'No atiende tu colonia'**
+  String get busquedaNoAtiende;
+
   /// Pestaña de la barra inferior y título de la pantalla de inicio.
   ///
   /// In es, this message translates to:
@@ -2383,6 +2563,534 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Salir'**
   String get cuentaEliminacionSalir;
+
+  /// No description provided for @direccionesTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mis direcciones'**
+  String get direccionesTitulo;
+
+  /// No description provided for @direccionesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus direcciones…'**
+  String get direccionesCargando;
+
+  /// No description provided for @direccionesError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus direcciones.'**
+  String get direccionesError;
+
+  /// No description provided for @direccionesReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get direccionesReintentar;
+
+  /// No description provided for @direccionesVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes direcciones guardadas.'**
+  String get direccionesVacio;
+
+  /// No description provided for @direccionesAgregar.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar dirección'**
+  String get direccionesAgregar;
+
+  /// No description provided for @direccionesEditar.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar'**
+  String get direccionesEditar;
+
+  /// No description provided for @direccionesEliminar.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar'**
+  String get direccionesEliminar;
+
+  /// No description provided for @direccionesPrincipal.
+  ///
+  /// In es, this message translates to:
+  /// **'Principal'**
+  String get direccionesPrincipal;
+
+  /// No description provided for @direccionesSinReferencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin referencias'**
+  String get direccionesSinReferencias;
+
+  /// No description provided for @direccionesNueva.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva dirección'**
+  String get direccionesNueva;
+
+  /// No description provided for @direccionesEditarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar dirección'**
+  String get direccionesEditarTitulo;
+
+  /// No description provided for @direccionesCalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Calle y número'**
+  String get direccionesCalle;
+
+  /// No description provided for @direccionesReferencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Referencias (opcional)'**
+  String get direccionesReferencias;
+
+  /// No description provided for @direccionesColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Colonia: {colonia}'**
+  String direccionesColonia(String colonia);
+
+  /// No description provided for @direccionesCambiarColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar mi colonia actual: {colonia}'**
+  String direccionesCambiarColonia(String colonia);
+
+  /// No description provided for @direccionesMarcarPrincipal.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar como principal'**
+  String get direccionesMarcarPrincipal;
+
+  /// No description provided for @direccionesGuardar.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar dirección'**
+  String get direccionesGuardar;
+
+  /// No description provided for @direccionesGuardando.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardando…'**
+  String get direccionesGuardando;
+
+  /// No description provided for @direccionesCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get direccionesCancelar;
+
+  /// No description provided for @direccionesConfirmarEliminar.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar esta dirección?'**
+  String get direccionesConfirmarEliminar;
+
+  /// No description provided for @direccionesNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa dirección ya no está disponible.'**
+  String get direccionesNoDisponible;
+
+  /// No description provided for @visitaReprogramar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reprogramar la cita'**
+  String get visitaReprogramar;
+
+  /// No description provided for @visitaCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar el servicio'**
+  String get visitaCancelar;
+
+  /// No description provided for @visitaCambioPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Hay un cambio de fecha esperando respuesta. Mientras tanto, la cita actual sigue en pie.'**
+  String get visitaCambioPendiente;
+
+  /// No description provided for @visitaCancelarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cancelar el servicio?'**
+  String get visitaCancelarTitulo;
+
+  /// No description provided for @visitaCancelarConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, cancelar'**
+  String get visitaCancelarConfirmar;
+
+  /// No description provided for @visitaCancelarAviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Con más de 24 h de anticipación es sin costo. Con menos, queda como cancelación tardía y avisamos de inmediato.'**
+  String get visitaCancelarAviso;
+
+  /// No description provided for @visitaCancelarMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cancelas?'**
+  String get visitaCancelarMotivo;
+
+  /// No description provided for @visitaMotivoResuelto.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya lo resolví'**
+  String get visitaMotivoResuelto;
+
+  /// No description provided for @visitaMotivoPlanes.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambié de planes'**
+  String get visitaMotivoPlanes;
+
+  /// No description provided for @visitaMotivoOtraOpcion.
+  ///
+  /// In es, this message translates to:
+  /// **'Encontré otra opción'**
+  String get visitaMotivoOtraOpcion;
+
+  /// No description provided for @visitaMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro motivo'**
+  String get visitaMotivoOtro;
+
+  /// No description provided for @visitaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste el servicio'**
+  String get visitaCancelada;
+
+  /// No description provided for @visitaCanceladaTardia.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste el servicio. Quedó como cancelación tardía.'**
+  String get visitaCanceladaTardia;
+
+  /// No description provided for @visitaYaCerrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya terminó o ya estaba cancelada.'**
+  String get visitaYaCerrada;
+
+  /// No description provided for @visitaReprogramarEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cambio'**
+  String get visitaReprogramarEnviar;
+
+  /// No description provided for @visitaReprogramarExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige otro día y hora. La otra parte tiene que confirmarlo; mientras tanto la cita actual sigue en pie.'**
+  String get visitaReprogramarExplicacion;
+
+  /// No description provided for @visitaDia.
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get visitaDia;
+
+  /// No description provided for @visitaHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Hora'**
+  String get visitaHora;
+
+  /// No description provided for @visitaFechaMuyCercana.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige una hora con al menos 2 horas de anticipación.'**
+  String get visitaFechaMuyCercana;
+
+  /// No description provided for @visitaReprogramacionEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste el cambio de fecha. Falta que lo confirmen.'**
+  String get visitaReprogramacionEnviada;
+
+  /// No description provided for @visitaNoReprogramable.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita ya no se puede reprogramar: ya empezó o terminó, hay un cambio pendiente o ya se cambió dos veces.'**
+  String get visitaNoReprogramable;
+
+  /// No description provided for @visitaNoTerminadoBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'No se terminó el trabajo'**
+  String get visitaNoTerminadoBoton;
+
+  /// No description provided for @visitaNoTerminadoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿No se terminó el trabajo?'**
+  String get visitaNoTerminadoTitulo;
+
+  /// No description provided for @visitaNoTerminadoCampo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué quedó pendiente?'**
+  String get visitaNoTerminadoCampo;
+
+  /// No description provided for @visitaNoTerminadoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres. Puedes reportarlo una sola vez, hasta 7 días después.'**
+  String get visitaNoTerminadoAyuda;
+
+  /// No description provided for @visitaNoTerminadoEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar reporte'**
+  String get visitaNoTerminadoEnviar;
+
+  /// No description provided for @visitaNoTerminadoEnviado.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste tu reporte. Pasa a revisión.'**
+  String get visitaNoTerminadoEnviado;
+
+  /// No description provided for @visitaReporteCerrado.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.'**
+  String get visitaReporteCerrado;
+
+  /// No description provided for @visitaEnviando.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get visitaEnviando;
+
+  /// No description provided for @serviciosPrecioDesde.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde \${precio}'**
+  String serviciosPrecioDesde(int precio);
+
+  /// No description provided for @serviciosSinPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no tienes perfil de técnico.'**
+  String get serviciosSinPerfil;
+
+  /// No description provided for @serviciosNoExiste.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese servicio ya no existe.'**
+  String get serviciosNoExiste;
+
+  /// No description provided for @serviciosLimite.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.'**
+  String get serviciosLimite;
+
+  /// No description provided for @serviciosOficioNoValido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese oficio no es uno de los tuyos.'**
+  String get serviciosOficioNoValido;
+
+  /// No description provided for @serviciosOficioMecanica.
+  ///
+  /// In es, this message translates to:
+  /// **'Mecánica'**
+  String get serviciosOficioMecanica;
+
+  /// No description provided for @serviciosOficioPlomeria.
+  ///
+  /// In es, this message translates to:
+  /// **'Plomería'**
+  String get serviciosOficioPlomeria;
+
+  /// No description provided for @serviciosOficioElectricidad.
+  ///
+  /// In es, this message translates to:
+  /// **'Electricidad'**
+  String get serviciosOficioElectricidad;
+
+  /// No description provided for @serviciosTituloPropio.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precio de referencia'**
+  String get serviciosTituloPropio;
+
+  /// No description provided for @serviciosCrearPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear mi perfil de técnico'**
+  String get serviciosCrearPerfil;
+
+  /// No description provided for @serviciosCargandoPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus servicios…'**
+  String get serviciosCargandoPropios;
+
+  /// No description provided for @serviciosErrorPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus servicios.'**
+  String get serviciosErrorPropios;
+
+  /// No description provided for @serviciosReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get serviciosReintentar;
+
+  /// No description provided for @serviciosListaParcial.
+  ///
+  /// In es, this message translates to:
+  /// **'Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.'**
+  String get serviciosListaParcial;
+
+  /// No description provided for @serviciosVacioPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no agregas servicios.'**
+  String get serviciosVacioPropios;
+
+  /// No description provided for @serviciosEditar.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar'**
+  String get serviciosEditar;
+
+  /// No description provided for @serviciosQuitar.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar'**
+  String get serviciosQuitar;
+
+  /// No description provided for @serviciosAgregar.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar servicio'**
+  String get serviciosAgregar;
+
+  /// No description provided for @serviciosErrorNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el nombre del servicio'**
+  String get serviciosErrorNombre;
+
+  /// No description provided for @serviciosErrorNombreMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El nombre admite hasta {maximo} caracteres'**
+  String serviciosErrorNombreMax(int maximo);
+
+  /// No description provided for @serviciosErrorDetalleMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El detalle admite hasta {maximo} caracteres'**
+  String serviciosErrorDetalleMax(int maximo);
+
+  /// No description provided for @serviciosErrorPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un precio en pesos, sin decimales y mayor que cero'**
+  String get serviciosErrorPrecio;
+
+  /// No description provided for @serviciosErrorOficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el oficio'**
+  String get serviciosErrorOficio;
+
+  /// No description provided for @serviciosNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre del servicio'**
+  String get serviciosNombre;
+
+  /// No description provided for @serviciosNombreEjemplo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Cambio de llave'**
+  String get serviciosNombreEjemplo;
+
+  /// No description provided for @serviciosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalle'**
+  String get serviciosDetalle;
+
+  /// No description provided for @serviciosPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio de referencia (pesos)'**
+  String get serviciosPrecio;
+
+  /// No description provided for @serviciosOficioPregunta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿De qué oficio es?'**
+  String get serviciosOficioPregunta;
+
+  /// No description provided for @serviciosGuardar.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar servicio'**
+  String get serviciosGuardar;
+
+  /// No description provided for @serviciosCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get serviciosCancelar;
+
+  /// No description provided for @serviciosTituloPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precios'**
+  String get serviciosTituloPublico;
+
+  /// No description provided for @serviciosCargandoPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando sus servicios…'**
+  String get serviciosCargandoPublicos;
+
+  /// No description provided for @serviciosNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get serviciosNoDisponible;
+
+  /// No description provided for @serviciosErrorPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar sus servicios.'**
+  String get serviciosErrorPublicos;
+
+  /// No description provided for @serviciosCopia.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es la copia del {fecha} y puede estar desactualizada.'**
+  String serviciosCopia(String fecha);
+
+  /// No description provided for @serviciosVacioPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no publica servicios.'**
+  String get serviciosVacioPublico;
+
+  /// No description provided for @serviciosReferencia.
+  ///
+  /// In es, this message translates to:
+  /// **'Precios de referencia: no son una cotización.'**
+  String get serviciosReferencia;
 }
 
 class _AppLocalizationsDelegate
