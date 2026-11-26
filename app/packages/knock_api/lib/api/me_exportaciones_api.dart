@@ -55,4 +55,56 @@ class MeExportacionesApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
+
+  /// USR-06b. La app lo llama al abrir el aviso `exportacion_lista`: `en_preparacion`, `vencida` o `lista` con un enlace firmado de 24 horas que se genera en este momento. 404 `export_not_found` si nunca pidió una; 503 `export_unavailable` si el contenedor no responde. Solo la persona del token; sin caché y el enlace no se registra.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] version (required):
+  Future<Response> apiVversionMeExportacionesUltimaGetWithHttpInfo(String version, { Future<void>? abortTrigger, }) async {
+    final path = r'/api/v{version}/me/exportaciones/ultima'
+      .replaceAll('{version}', version);
+
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
+    );
+  }
+
+  /// USR-06b. La app lo llama al abrir el aviso `exportacion_lista`: `en_preparacion`, `vencida` o `lista` con un enlace firmado de 24 horas que se genera en este momento. 404 `export_not_found` si nunca pidió una; 503 `export_unavailable` si el contenedor no responde. Solo la persona del token; sin caché y el enlace no se registra.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] version (required):
+  Future<LatestExportResponse?> apiVversionMeExportacionesUltimaGet(String version, { Future<void>? abortTrigger, }) async {
+    final response = await apiVversionMeExportacionesUltimaGetWithHttpInfo(version, abortTrigger: abortTrigger,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'LatestExportResponse',) as LatestExportResponse;
+    
+    }
+    return null;
+  }
 }

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **oficioClave** | **String** | Clave de un oficio activo del catálogo. La modalidad (domicilio o taller) la dicta el oficio. | 
 **descripcion** | **String** | De 8 a 500 caracteres; pasa por moderación antes de guardarse. | 
-**fotos** | **List<String>** | De 1 a 5 identificadores de archivo (24 hexadecimales), sin repetidos, de archivos ya confirmados del mismo usuario. | [default to const []]
+**fotos** | **List<String>** | De 1 a 5 identificadores de archivo (`archivoId`: 32 hexadecimales, UUID v7 sin guiones), sin repetidos, de archivos ya confirmados del mismo usuario. | [default to const []]
 **dia** | **String** | Fecha `YYYY-MM-DD` en la zona America/Mexico_City, de hoy a hoy + 5 días. | 
 **franja** | **String** | Una de `manana`, `tarde` o `noche`. | 
 **coloniaId** | **String** | Identificador (24 hexadecimales) de una colonia del catálogo. | 

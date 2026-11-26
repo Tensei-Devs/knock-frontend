@@ -25,7 +25,7 @@ class CreateRequestBody {
   /// De 8 a 500 caracteres; pasa por moderación antes de guardarse.
   String? descripcion;
 
-  /// De 1 a 5 identificadores de archivo (24 hexadecimales), sin repetidos, de archivos ya confirmados del mismo usuario.
+  /// De 1 a 5 identificadores de archivo (`archivoId`: 32 hexadecimales, UUID v7 sin guiones), sin repetidos, de archivos ya confirmados del mismo usuario.
   List<String>? fotos;
 
   /// Fecha `YYYY-MM-DD` en la zona America/Mexico_City, de hoy a hoy + 5 días.

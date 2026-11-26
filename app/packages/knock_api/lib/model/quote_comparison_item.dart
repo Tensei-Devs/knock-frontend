@@ -24,6 +24,7 @@ class QuoteComparisonItem {
     this.etiquetas = const [],
     required this.tecnico,
     required this.motivoRechazo,
+    this.tecnicoUsuarioId,
   });
 
   String id;
@@ -56,6 +57,8 @@ class QuoteComparisonItem {
 
   String? motivoRechazo;
 
+  String? tecnicoUsuarioId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is QuoteComparisonItem &&
     other.id == id &&
@@ -72,7 +75,8 @@ class QuoteComparisonItem {
     other.cubre == cubre &&
     _deepEquality.equals(other.etiquetas, etiquetas) &&
     other.tecnico == tecnico &&
-    other.motivoRechazo == motivoRechazo;
+    other.motivoRechazo == motivoRechazo &&
+    other.tecnicoUsuarioId == tecnicoUsuarioId;
 
   @override
   int get hashCode =>
@@ -90,10 +94,11 @@ class QuoteComparisonItem {
     (cubre.hashCode) +
     (etiquetas.hashCode) +
     (tecnico.hashCode) +
-    (motivoRechazo == null ? 0 : motivoRechazo!.hashCode);
+    (motivoRechazo == null ? 0 : motivoRechazo!.hashCode) +
+    (tecnicoUsuarioId == null ? 0 : tecnicoUsuarioId!.hashCode);
 
   @override
-  String toString() => 'QuoteComparisonItem[id=$id, estado=$estado, tipoPrecio=$tipoPrecio, precio=$precio, precioMin=$precioMin, precioMax=$precioMax, tope=$tope, requiereAprobacion=$requiereAprobacion, dia=$dia, hora=$hora, nota=$nota, cubre=$cubre, etiquetas=$etiquetas, tecnico=$tecnico, motivoRechazo=$motivoRechazo]';
+  String toString() => 'QuoteComparisonItem[id=$id, estado=$estado, tipoPrecio=$tipoPrecio, precio=$precio, precioMin=$precioMin, precioMax=$precioMax, tope=$tope, requiereAprobacion=$requiereAprobacion, dia=$dia, hora=$hora, nota=$nota, cubre=$cubre, etiquetas=$etiquetas, tecnico=$tecnico, motivoRechazo=$motivoRechazo, tecnicoUsuarioId=$tecnicoUsuarioId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -131,6 +136,11 @@ class QuoteComparisonItem {
       json[r'motivoRechazo'] = this.motivoRechazo;
     } else {
       json[r'motivoRechazo'] = null;
+    }
+    if (this.tecnicoUsuarioId != null) {
+      json[r'tecnicoUsuarioId'] = this.tecnicoUsuarioId;
+    } else {
+      json[r'tecnicoUsuarioId'] = null;
     }
     return json;
   }
@@ -191,6 +201,7 @@ class QuoteComparisonItem {
             : const [],
         tecnico: QuoteTechnician.fromJson(json[r'tecnico'])!,
         motivoRechazo: mapValueOfType<String>(json, r'motivoRechazo'),
+        tecnicoUsuarioId: mapValueOfType<String>(json, r'tecnicoUsuarioId'),
       );
     }
     return null;
