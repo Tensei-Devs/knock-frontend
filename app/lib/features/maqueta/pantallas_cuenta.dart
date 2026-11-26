@@ -6,6 +6,7 @@ import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/maqueta/casa_y_auto_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
@@ -819,87 +820,9 @@ void _aplicarNumero(
 class MiCasaScreen extends StatelessWidget {
   const MiCasaScreen({super.key});
 
-  void _addCar(BuildContext context) {
-    final m = TextEditingController();
-    final y = TextEditingController();
-    unawaited(
-      hoja<void>(context, (ctx, set) {
-        final ok =
-            m.text.trim().length >= 2 &&
-            RegExp(r'^(19|20)\d\d$').hasMatch(y.text.trim());
-        return stack([
-          sheetH(ctx, 'Agregar mi auto'),
-          FieldK(
-            label: 'Marca y modelo',
-            c: m,
-            hint: 'Ej.: Nissan Versa',
-            onChanged: (_) => set(() {}),
-          ),
-          FieldK(
-            label: 'Año',
-            c: y,
-            hint: 'Ej.: 2018',
-            keyboard: TextInputType.number,
-            maxLen: 4,
-            onChanged: (_) => set(() {}),
-          ),
-          BtnK(
-            'Guardar',
-            ok
-                ? () {
-                    maq.car = (m: m.text.trim(), y: y.text.trim());
-                    Navigator.pop(ctx);
-                    maq.refresh();
-                    maq.toast('Auto guardado');
-                  }
-                : null,
-          ),
-        ]);
-      }).whenComplete(() {
-        m.dispose();
-        y.dispose();
-      }),
-    );
-  }
-
-  void _addHome(BuildContext context) {
-    final t = TextEditingController();
-    unawaited(
-      hoja<void>(
-        context,
-        (ctx, set) => stack([
-          sheetH(ctx, 'Agregar a Mi casa'),
-          FieldK(
-            label: '¿Qué quieres recordar?',
-            c: t,
-            hint: 'Ej.: Bomba de agua',
-            onChanged: (_) => set(() {}),
-          ),
-          BtnK(
-            'Guardar',
-            t.text.trim().isEmpty
-                ? null
-                : () {
-                    maq.home.add(
-                      Casa(t.text.trim(), 'Agregado hoy', 'Al día', 'green'),
-                    );
-                    Navigator.pop(ctx);
-                    maq.refresh();
-                    maq.toast('Agregado a Mi casa');
-                  },
-          ),
-        ]),
-      ).whenComplete(t.dispose),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
-    final cj = maq.jobs
-        .where((j) => j.cat == 'mec' && j.status != 'enviada')
-        .toList();
-    final c = maq.car;
     return Pg(
       title: 'Mi casa y mi auto',
       body: stack([
@@ -948,129 +871,8 @@ class MiCasaScreen extends StatelessWidget {
               ),
             ], gap: 12),
           ),
-        FoldK(
-          k: 'mc-casa',
-          title: 'Mi casa',
-          summary:
-              '${maq.user.addr.isEmpty ? 'Sin dirección guardada' : maq.user.addr} · ${maq.home.isNotEmpty ? '${maq.home.length} ${maq.home.length > 1 ? 'cosas registradas' : 'cosa registrada'}' : 'nada registrado aún'}',
-          icon: 'house',
-          open0: true,
-          child: maq.home.isNotEmpty
-              ? GroupK([
-                  for (final h in maq.home)
-                    Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Row(
-                        spacing: 14,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: k.navySoft,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(icn('house'), color: k.navy),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                T(h.t, w: FontWeight.w800),
-                                sMut(h.d, size: 13.5),
-                              ],
-                            ),
-                          ),
-                          Pill(h.tag, kind: h.c),
-                        ],
-                      ),
-                    ),
-                ])
-              : sMut(
-                  'Agrega el tinaco, el boiler o lo que quieras recordar para darle mantenimiento a tiempo.',
-                ),
-        ),
-        FoldK(
-          k: 'mc-auto',
-          title: 'Mi auto',
-          summary: c != null
-              ? '${c.m} ${c.y} · ${cj.length} ${cj.length == 1 ? 'servicio' : 'servicios'}'
-              : 'Sin auto registrado',
-          icon: 'car',
-          open0: c == null,
-          child: c != null
-              ? (cj.isNotEmpty
-                    ? Column(
-                        children: [
-                          for (final j in cj)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 14,
-                                children: [
-                                  Container(
-                                    width: 32,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                      color: j.status == 'terminado'
-                                          ? k.green
-                                          : k.amber,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      j.status == 'terminado'
-                                          ? Icons.check
-                                          : Icons.schedule,
-                                      size: 16,
-                                      color: j.status == 'terminado'
-                                          ? Colors.white
-                                          : const Color(0xFF231A15),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        bT(j.title),
-                                        sMut(
-                                          '${j.status == 'terminado'
-                                              ? (j.date.isEmpty ? 'Terminado' : j.date)
-                                              : j.status == 'cotizando'
-                                              ? 'Cotizando'
-                                              : (j.when.isEmpty ? 'En curso' : j.when)}${j.pid != null ? ' · ${provs[j.pid]!.name}' : ''}',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ],
-                      )
-                    : sMut(
-                        'Cuando pidas un servicio para tu auto, aquí queda el historial.',
-                      ))
-              : stack([
-                  sMut(
-                    'Registra tu auto para llevar su historial de servicios.',
-                  ),
-                  BtnK(
-                    'Agregar mi auto',
-                    () => _addCar(context),
-                    kind: Bk.sec,
-                    sm: true,
-                    icon: 'plus',
-                  ),
-                ], gap: 10),
-        ),
-        BtnK(
-          'Agregar algo de tu casa',
-          () => _addHome(context),
-          kind: Bk.sec,
-          icon: 'plus',
-        ),
+        // Spec 031: los elementos reales de la persona (backend 041).
+        const CasaYAutoReal(),
       ]),
     );
   });

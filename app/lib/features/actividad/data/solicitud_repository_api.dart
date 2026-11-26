@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/configuracion_api.dart';
 import 'package:app/core/red/enviar_json.dart';
+import 'package:app/core/red/errores_api.dart';
 import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/data/solicitud_contrato_mapper.dart';
 import 'package:app/features/actividad/data/solicitud_mapper.dart';
@@ -154,14 +155,36 @@ class SolicitudRepositoryApi implements SolicitudRepository {
     String solicitudId, {
     OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
   }) async {
-    return SolicitudContratoMapper.comparacion(
-      await obtenerJsonONoEncontrado(
-        transporte,
-        url,
-        'solicitudes/${Uri.encodeComponent(solicitudId)}/cotizaciones',
-        consulta: {'orden': orden.valor},
-      ),
-    );
+    final cliente = api.ApiClient(basePath: url)..client = transporte;
+    final http.Response respuesta;
+    try {
+      respuesta = await api.QuoteComparisonApi(cliente)
+          .apiVversionSolicitudesIdCotizacionesGetWithHttpInfo(
+            Uri.encodeComponent(solicitudId),
+            '1',
+            orden: orden.valor,
+          );
+    } on Failure {
+      rethrow;
+    } on Exception {
+      throw const ServicioNoDisponibleFailure();
+    }
+    if (respuesta.statusCode == 404) throw const NoEncontradoFailure();
+    if (respuesta.statusCode < 200 || respuesta.statusCode >= 300) {
+      throw mapearErrorApi(
+        api.ApiException(respuesta.statusCode, respuesta.body),
+      );
+    }
+    final Object? json;
+    try {
+      json = jsonDecode(utf8.decode(respuesta.bodyBytes));
+    } on FormatException {
+      throw const DatosInvalidosFailure();
+    }
+    if (mapaDelContrato(json)['solicitudId'] != solicitudId) {
+      throw const DatosInvalidosFailure();
+    }
+    return SolicitudContratoMapper.comparacion(json);
   }
 
   @override

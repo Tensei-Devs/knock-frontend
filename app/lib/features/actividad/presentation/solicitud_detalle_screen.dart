@@ -266,9 +266,14 @@ Future<void> _mostrarCancelacion(
                               textos.solicitudErrorConCita,
                             CancelacionYaVencida() =>
                               textos.solicitudErrorYaVencida,
-                            CancelacionNoDisponible() =>
-                            mensajeDeError(textos, const NoEncontradoFailure()),
-                          _ => mensajeDeError(textos, const ServicioNoDisponibleFailure()),
+                            CancelacionNoDisponible() => mensajeDeError(
+                              textos,
+                              const NoEncontradoFailure(),
+                            ),
+                            _ => mensajeDeError(
+                              textos,
+                              const ServicioNoDisponibleFailure(),
+                            ),
                           };
                         });
                       },
