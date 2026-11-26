@@ -1029,4 +1029,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avisoCerrar => 'Close';
+
+  @override
+  String get cuentaDescargarTitulo => 'Download my data';
+
+  @override
+  String get cuentaDescargarNoDisponible =>
+      'Downloading your data is not available in this version yet.';
+
+  @override
+  String get cuentaDescargarCargando => 'Checking your file…';
+
+  @override
+  String get cuentaDescargarSinPedir =>
+      'You have not requested your file yet. We prepare it within 48 hours.';
+
+  @override
+  String get cuentaDescargarEnPreparacion =>
+      'We are preparing your file. It can take up to 48 hours.';
+
+  @override
+  String cuentaDescargarLista(String fecha) {
+    return 'Your file is ready. The link expires on $fecha.';
+  }
+
+  @override
+  String get cuentaDescargarVencida =>
+      'Your previous file expired. You can request it again.';
+
+  @override
+  String get cuentaDescargarPedir => 'Request my file';
+
+  @override
+  String get cuentaActualizar => 'Refresh';
+
+  @override
+  String get cuentaDescargarAbrir => 'Download';
+
+  @override
+  String get cuentaDescargarPedida =>
+      'We requested your file. It can take up to 48 hours.';
+
+  @override
+  String get cuentaDescargarYaEnCurso => 'We are already preparing your file.';
+
+  @override
+  String get cuentaDescargarNoAbrio => 'We could not open the link.';
+
+  @override
+  String get cuentaReintentar => 'Retry';
+
+  @override
+  String get cuentaConsentimientosCargando => 'Loading your consents…';
+
+  @override
+  String get cuentaConsentimientosVacio => 'There are no consents to show.';
+
+  @override
+  String get cuentaConsentimientoPromociones => 'Offers and news';
+
+  @override
+  String get cuentaConsentimientoPromocionesDetalle =>
+      'Offers from experts and news from Knock';
+
+  @override
+  String get cuentaConsentimientoEncuestas => 'Surveys to improve Knock';
+
+  @override
+  String get cuentaConsentimientoEncuestasDetalle =>
+      'Short questions after a service';
+
+  @override
+  String get cuentaConsentimientoRecomendaciones => 'Personalised suggestions';
+
+  @override
+  String get cuentaConsentimientoRecomendacionesDetalle =>
+      'Suggestions based on your home and car';
+
+  @override
+  String get cuentaConsentimientoAviso => 'Privacy notice';
+
+  @override
+  String get cuentaConsentimientoTerminos => 'Terms and conditions';
+
+  @override
+  String get cuentaConsentimientoOtro => 'Other consent';
+
+  @override
+  String get cuentaConsentimientoObligatorio =>
+      'Required: it cannot be turned off';
+
+  @override
+  String cuentaConsentimientoRegistro(String version, String fecha) {
+    return 'Version $version · $fecha';
+  }
 }

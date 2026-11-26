@@ -736,3 +736,9 @@
 - **Qué cambió:** `core/red/paginas_por_cursor.dart` y `PantallaSegunSesion` reemplazan el código repetido entre avisos y técnicos de confianza.
 - **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
 - **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).
+
+## 2026-11-26 — Consentimientos y descarga de datos contra la API (KNOCK-127)
+- **Qué cambió:** con sesión y API, «Privacidad y datos» lee y cambia `me/consentimientos` y, con `--dart-define=EXPORTACION_DE_DATOS=true`, pide y consulta la descarga (`me/exportaciones` y `me/exportaciones/ultima`), con textos en ARB.
+- **Por qué:** los interruptores y «Pedir» solo vivían en memoria.
+- **Pendiente:** la descarga va apagada porque su almacenamiento en Azure no existe; abrir el aviso `exportacion_lista` aún no lleva a esta pantalla; «Corregir mis datos» sigue de ejemplo. Sin probar contra el backend desplegado.
+- **A evitar:** guardar o registrar el enlace de descarga.
