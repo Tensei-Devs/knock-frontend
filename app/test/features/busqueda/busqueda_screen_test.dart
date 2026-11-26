@@ -102,9 +102,8 @@ Future<void> _montarBusqueda(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.linear(escalaDeTexto),
-          ),
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: TextScaler.linear(escalaDeTexto)),
           child: child!,
         ),
         home: const BusquedaScreen(),
@@ -121,32 +120,33 @@ Future<void> _buscar(WidgetTester tester, String texto) async {
 }
 
 void main() {
-  testWidgets('InicioScreen muestra barra de búsqueda y navega a /inicio/buscar', (
-    tester,
-  ) async {
-    final api = ApiFalsa((_) => jsonOk(perfilJson()));
-    final container = await montarApp(
-      tester,
-      esTecnico: false,
-      extra: <Override>[
-        urlApiProvider.overrideWithValue(urlApiPrueba),
-        transporteHttpProvider.overrideWithValue(api.transporte),
-        almacenSeguroProvider.overrideWithValue(AlmacenSeguroEnMemoria()),
-        tokensInicialesProvider.overrideWithValue(tokensA),
-        sesionInicialProvider.overrideWithValue(true),
-        oficiosRepositoryProvider.overrideWithValue(
-          const _OficiosFalsos(_oficiosCatalogo),
-        ),
-      ],
-    );
+  testWidgets(
+    'InicioScreen muestra barra de búsqueda y navega a /inicio/buscar',
+    (tester) async {
+      final api = ApiFalsa((_) => jsonOk(perfilJson()));
+      final container = await montarApp(
+        tester,
+        esTecnico: false,
+        extra: <Override>[
+          urlApiProvider.overrideWithValue(urlApiPrueba),
+          transporteHttpProvider.overrideWithValue(api.transporte),
+          almacenSeguroProvider.overrideWithValue(AlmacenSeguroEnMemoria()),
+          tokensInicialesProvider.overrideWithValue(tokensA),
+          sesionInicialProvider.overrideWithValue(true),
+          oficiosRepositoryProvider.overrideWithValue(
+            const _OficiosFalsos(_oficiosCatalogo),
+          ),
+        ],
+      );
 
-    expect(find.text('Ej.: boiler, frenos, un contacto'), findsOneWidget);
-    await tester.tap(find.text('Ej.: boiler, frenos, un contacto'));
-    await tester.pumpAndSettle();
+      expect(find.text('Ej.: boiler, frenos, un contacto'), findsOneWidget);
+      await tester.tap(find.text('Ej.: boiler, frenos, un contacto'));
+      await tester.pumpAndSettle();
 
-    expect(ubicacion(container), Rutas.buscar);
-    expect(find.byType(BusquedaScreen), findsOneWidget);
-  });
+      expect(ubicacion(container), Rutas.buscar);
+      expect(find.byType(BusquedaScreen), findsOneWidget);
+    },
+  );
 
   testWidgets('CA_021_05_06 mínimo 2 letras y contador hasta 80 caracteres', (
     tester,
@@ -285,7 +285,9 @@ void main() {
     await tester.tap(find.text('Reintentar'));
     await tester.pumpAndSettle();
     expect(
-      find.text('La búsqueda no está disponible en este momento. Intenta de nuevo.'),
+      find.text(
+        'La búsqueda no está disponible en este momento. Intenta de nuevo.',
+      ),
       findsOneWidget,
     );
 
@@ -302,7 +304,10 @@ void main() {
     await _montarBusqueda(tester, api, coloniaId: null);
     await _buscar(tester, 'boiler');
 
-    expect(find.text('Elige tu zona para buscar expertos cerca'), findsOneWidget);
+    expect(
+      find.text('Elige tu zona para buscar expertos cerca'),
+      findsOneWidget,
+    );
     expect(api.peticiones, isEmpty);
   });
 
@@ -346,7 +351,9 @@ void main() {
     expect(uri.queryParameters[Rutas.parametroOficio], 'plo');
   });
 
-  testWidgets('CA_021_18 tope de 100 resultados muestra mensaje', (tester) async {
+  testWidgets('CA_021_18 tope de 100 resultados muestra mensaje', (
+    tester,
+  ) async {
     final items = [for (var i = 0; i < 100; i++) _experto(id: '$i')];
     final api = ApiFalsa((_) => jsonOk(_respuesta(items: items)));
     await _montarBusqueda(tester, api);

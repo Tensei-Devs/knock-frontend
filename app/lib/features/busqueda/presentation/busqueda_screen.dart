@@ -59,7 +59,8 @@ class _BusquedaScreenState extends ConsumerState<BusquedaScreen> {
     final consulta = ref.watch(consultaBusquedaProvider);
     final control = ref.read(consultaBusquedaProvider.notifier);
     final coloniaId = ref.watch(coloniaGuardadaProvider);
-    final oficios = ref.watch(oficiosBusquedaProvider).value ?? const <Oficio>[];
+    final oficios =
+        ref.watch(oficiosBusquedaProvider).value ?? const <Oficio>[];
     final largo = _textController.text.length;
 
     return Scaffold(
@@ -129,9 +130,7 @@ class _BusquedaScreenState extends ConsumerState<BusquedaScreen> {
             ),
           ),
           const Divider(height: 1),
-          Expanded(
-            child: _buildBody(context, l, consulta, coloniaId, oficios),
-          ),
+          Expanded(child: _buildBody(context, l, consulta, coloniaId, oficios)),
         ],
       ),
     );
@@ -210,9 +209,12 @@ class _ResultadosView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controlNotifier =
-        ref.read(busquedaControllerProvider(coloniaId).notifier);
-    return ref.watch(busquedaControllerProvider(coloniaId)).when(
+    final controlNotifier = ref.read(
+      busquedaControllerProvider(coloniaId).notifier,
+    );
+    return ref
+        .watch(busquedaControllerProvider(coloniaId))
+        .when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, _) => _ErrorView(
             mensaje: _mensajeDeError(l, error),
@@ -236,15 +238,16 @@ class _ResultadosView extends ConsumerWidget {
   }
 
   String _mensajeDeError(AppLocalizations l, Object error) => switch (error) {
-        BusquedaNoDisponible() => l.busquedaNoDisponible,
-        ServicioNoDisponibleFailure() => l.busquedaSinConexion,
-        DatosRechazadosFailure() => l.busquedaOtrasPalabras,
-        DemasiadosIntentosFailure(:final espera?) =>
-          l.busquedaEspera(espera.inSeconds),
-        OpcionNoDisponibleFailure() => l.busquedaSinZona,
-        final Failure f => mensajeDeFailure(f),
-        _ => l.busquedaNoDisponible,
-      };
+    BusquedaNoDisponible() => l.busquedaNoDisponible,
+    ServicioNoDisponibleFailure() => l.busquedaSinConexion,
+    DatosRechazadosFailure() => l.busquedaOtrasPalabras,
+    DemasiadosIntentosFailure(:final espera?) => l.busquedaEspera(
+      espera.inSeconds,
+    ),
+    OpcionNoDisponibleFailure() => l.busquedaSinZona,
+    final Failure f => mensajeDeFailure(f),
+    _ => l.busquedaNoDisponible,
+  };
 }
 
 /// Un estado de error con «Reintentar» (CA-12, CA-13, R-09).
@@ -298,8 +301,7 @@ class _PaginaView extends ConsumerWidget {
     final interpretacion = pagina.interpretacion;
     final detectado = interpretacion.oficioDetectado;
     final control = ref.read(busquedaControllerProvider(coloniaId).notifier);
-    final filtrar =
-        ref.read(consultaBusquedaProvider.notifier).filtrarOficio;
+    final filtrar = ref.read(consultaBusquedaProvider.notifier).filtrarOficio;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -363,24 +365,47 @@ class _PaginaView extends ConsumerWidget {
   ) {
     final detectado = interp.oficioDetectado;
     return switch (interp.estado) {
-      EstadoInterpretacion.detectado ||
-      EstadoInterpretacion.elegido => [
-          if (detectado != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(l.busquedaBuscamos(detectado.nombre)),
-            ),
-        ],
-      EstadoInterpretacion.ambiguo => [
+      EstadoInterpretacion.detectado || EstadoInterpretacion.elegido => [
+        if (detectado != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(l.busquedaAmbiguo),
+            child: Text(l.busquedaBuscamos(detectado.nombre)),
           ),
+      ],
+      EstadoInterpretacion.ambiguo => [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(l.busquedaAmbiguo),
+        ),
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: [
+            for (final o in interp.oficiosSugeridos.take(3))
+              ActionChip(
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                label: Text(o.nombre),
+                onPressed: () => filtrar(o.clave),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+      ],
+      EstadoInterpretacion.noEntendido => [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(l.busquedaNoEntendimos),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(l.busquedaElegirCategoria),
+        ),
+        if (oficios.isNotEmpty)
           Wrap(
             spacing: 8,
             runSpacing: 4,
             children: [
-              for (final o in interp.oficiosSugeridos.take(3))
+              for (final o in oficios)
                 ActionChip(
                   materialTapTargetSize: MaterialTapTargetSize.padded,
                   label: Text(o.nombre),
@@ -388,32 +413,8 @@ class _PaginaView extends ConsumerWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 8),
-        ],
-      EstadoInterpretacion.noEntendido => [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(l.busquedaNoEntendimos),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(l.busquedaElegirCategoria),
-          ),
-          if (oficios.isNotEmpty)
-            Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: [
-                for (final o in oficios)
-                  ActionChip(
-                    materialTapTargetSize: MaterialTapTargetSize.padded,
-                    label: Text(o.nombre),
-                    onPressed: () => filtrar(o.clave),
-                  ),
-              ],
-            ),
-          const SizedBox(height: 8),
-        ],
+        const SizedBox(height: 8),
+      ],
     };
   }
 }
@@ -459,11 +460,8 @@ class _BotonVerMasState extends State<_BotonVerMas> {
     try {
       final falla = await widget.control.verMas();
       if (falla != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(mensajeDeFailure(falla)),
-          ),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(mensajeDeFailure(falla))));
       }
     } finally {
       if (mounted) setState(() => _cargando = false);

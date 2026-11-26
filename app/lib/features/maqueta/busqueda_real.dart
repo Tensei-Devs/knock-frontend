@@ -244,8 +244,7 @@ class _Resultados extends ConsumerWidget {
     final filtrar = ref.read(consultaBusquedaProvider.notifier).filtrarOficio;
     return stack([
       ...switch (entendido.estado) {
-        EstadoInterpretacion.detectado ||
-        EstadoInterpretacion.elegido => [
+        EstadoInterpretacion.detectado || EstadoInterpretacion.elegido => [
           if (detectado != null) bT(l.busquedaBuscamos(detectado.nombre)),
         ],
         EstadoInterpretacion.ambiguo => [
@@ -284,10 +283,8 @@ class _Resultados extends ConsumerWidget {
       for (final e in pagina.items)
         _Experto(
           e,
-          () => _pedir(
-            context,
-            detectado?.clave ?? e.oficios.firstOrNull?.clave,
-          ),
+          () =>
+              _pedir(context, detectado?.clave ?? e.oficios.firstOrNull?.clave),
         ),
       if (pagina.siguiente != null)
         BtnK(l.busquedaCargarMas, () async {

@@ -63,15 +63,14 @@ Map<String, Object?> _pagina({
   'nextCursor': siguiente,
 };
 
-ApiFalsa _servidor(http.Response Function(PeticionApi) busqueda) => ApiFalsa((
-  p,
-) {
-  if (p.ruta.startsWith('zonas/cp/')) return jsonOk(_zona);
-  if (p.ruta == 'tecnicos/autocompletar') {
-    return jsonOk({'sugerencias': <Object?>[]});
-  }
-  return busqueda(p);
-});
+ApiFalsa _servidor(http.Response Function(PeticionApi) busqueda) =>
+    ApiFalsa((p) {
+      if (p.ruta.startsWith('zonas/cp/')) return jsonOk(_zona);
+      if (p.ruta == 'tecnicos/autocompletar') {
+        return jsonOk({'sugerencias': <Object?>[]});
+      }
+      return busqueda(p);
+    });
 
 Future<void> _montar(WidgetTester tester, ApiFalsa api) async {
   maq.user
@@ -152,10 +151,7 @@ void main() {
     await tester.tap(find.text('Solo verificados'));
     await asentarMaqueta(tester);
 
-    expect(
-      _busquedas(api).last.url.queryParameters['soloVerificados'],
-      'true',
-    );
+    expect(_busquedas(api).last.url.queryParameters['soloVerificados'], 'true');
   });
 
   testWidgets('CA_021_03 ambiguo: elegir un oficio repite la búsqueda con '
@@ -218,9 +214,7 @@ void main() {
   ) async {
     await _montar(
       tester,
-      _servidor(
-        (_) => jsonOk({'code': 'colonia_not_found'}, estado: 422),
-      ),
+      _servidor((_) => jsonOk({'code': 'colonia_not_found'}, estado: 422)),
     );
     await _escribir(tester, 'boiler');
 
@@ -237,10 +231,7 @@ void main() {
       return vencido
           ? jsonOk({'code': 'invalid_cursor'}, estado: 400)
           : jsonOk(
-              _pagina(
-                items: [_experto('1'), _experto('2')],
-                siguiente: 'c2',
-              ),
+              _pagina(items: [_experto('1'), _experto('2')], siguiente: 'c2'),
             );
     });
     await _montar(tester, api);

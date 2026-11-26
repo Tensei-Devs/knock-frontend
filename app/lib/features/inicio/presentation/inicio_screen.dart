@@ -149,9 +149,8 @@ class _BarraBusqueda extends StatelessWidget {
                   Expanded(
                     child: Text(
                       placeholder,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: cs.onSurfaceVariant,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge
+                          ?.copyWith(color: cs.onSurfaceVariant),
                     ),
                   ),
                 ],

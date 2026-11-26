@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:app/features/direcciones/direcciones.dart';
+import 'package:app/features/maqueta/direcciones_reales.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
@@ -123,7 +125,11 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => MaqBuilder(
+    (_) => Consumer(builder: (context, ref, _) => _pagina(context, ref)),
+  );
+
+  Widget _pagina(BuildContext context, WidgetRef ref) {
     final r = maq.req;
     if (r == null) return const Pg(noHeader: true, body: SizedBox());
     final k = kc(context);
@@ -292,8 +298,13 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
       final days0 = days;
       final d = days0[r.day], s = slots[r.slot];
       final taller = c!.taller;
+      // Con sesión y API, la dirección sale de las guardadas (spec 030).
+      final conServidor = ref.watch(solicitudesRealesActivasProvider);
       final needAddr =
-          !taller && maq.user.addr.isEmpty && r.addr.trim().length < 5;
+          !taller &&
+          (conServidor
+              ? ref.watch(direccionParaPedirProvider) == null
+              : maq.user.addr.isEmpty && r.addr.trim().length < 5);
       b.addAll([
         h1('¿Cuándo te queda bien?'),
         stack([
@@ -368,7 +379,9 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
         else
           stack([
             labT('¿Dónde?'),
-            if (maq.user.addr.isNotEmpty)
+            if (conServidor)
+              const DireccionAlPedirReal()
+            else if (maq.user.addr.isNotEmpty)
               CardK(
                 child: Row(
                   spacing: 12,
@@ -445,7 +458,7 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
           icon: 'send',
           busy: _enviando,
         ),
-        if (needAddr)
+        if (needAddr && !conServidor)
           helpT(
             'Escribe tu calle y número para que el experto sepa a dónde ir',
           ),
@@ -459,7 +472,7 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
       body: stack(b, gap: 20),
       cta: cta,
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ enviada

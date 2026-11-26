@@ -24,10 +24,7 @@ Map<String, Object?> _experto(String id) => {
   'fotoUrl': null,
 };
 
-Map<String, Object?> _pagina({
-  List<Object?>? items,
-  String? siguiente,
-}) => {
+Map<String, Object?> _pagina({List<Object?>? items, String? siguiente}) => {
   'interpretacion': {
     'estado': 'detectado',
     'oficioDetectado': {'clave': 'plo', 'nombre': 'Plomería'},
@@ -62,80 +59,95 @@ void main() {
     });
   });
 
-  test('CA_021_08 filtrarOficio y soloVerificados viajan al servidor', () async {
-    final api = ApiFalsa((_) => jsonOk(_pagina()));
-    final c = contenedorConApi(api);
-    addTearDown(c.dispose);
+  test(
+    'CA_021_08 filtrarOficio y soloVerificados viajan al servidor',
+    () async {
+      final api = ApiFalsa((_) => jsonOk(_pagina()));
+      final c = contenedorConApi(api);
+      addTearDown(c.dispose);
 
-    c.listen(busquedaControllerProvider('col-1'), (_, _) {});
-    c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
-    await c.read(busquedaControllerProvider('col-1').future);
+      c.listen(busquedaControllerProvider('col-1'), (_, _) {});
+      c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
+      await c.read(busquedaControllerProvider('col-1').future);
 
-    c.read(consultaBusquedaProvider.notifier).filtrarOficio('plo');
-    await c.read(busquedaControllerProvider('col-1').future);
-    expect(api.peticiones.last.url.queryParameters['oficio'], 'plo');
+      c.read(consultaBusquedaProvider.notifier).filtrarOficio('plo');
+      await c.read(busquedaControllerProvider('col-1').future);
+      expect(api.peticiones.last.url.queryParameters['oficio'], 'plo');
 
-    c.read(consultaBusquedaProvider.notifier).soloVerificados(activo: true);
-    await c.read(busquedaControllerProvider('col-1').future);
-    expect(api.peticiones.last.url.queryParameters['soloVerificados'], 'true');
-  });
-
-  test('CA_021_17_18 verMas une sin repetir y reinicia si invalid_cursor', () async {
-    var cursorInvalido = false;
-    final api = ApiFalsa((p) {
-      final cursor = p.url.queryParameters['cursor'];
-      if (cursor == null) {
-        return jsonOk(_pagina(items: [_experto('1')], siguiente: 'c1'));
-      }
-      if (cursorInvalido) {
-        return jsonOk({'code': 'invalid_cursor'}, estado: 400);
-      }
-      return jsonOk(
-        _pagina(items: [_experto('1'), _experto('2')], siguiente: 'c2'),
+      c.read(consultaBusquedaProvider.notifier).soloVerificados(activo: true);
+      await c.read(busquedaControllerProvider('col-1').future);
+      expect(
+        api.peticiones.last.url.queryParameters['soloVerificados'],
+        'true',
       );
-    });
-    final c = contenedorConApi(api);
-    addTearDown(c.dispose);
+    },
+  );
 
-    c.listen(busquedaControllerProvider('col-1'), (_, _) {});
-    c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
-    var pagina = await c.read(busquedaControllerProvider('col-1').future);
-    expect(pagina?.items.map((e) => e.id), ['1']);
+  test(
+    'CA_021_17_18 verMas une sin repetir y reinicia si invalid_cursor',
+    () async {
+      var cursorInvalido = false;
+      final api = ApiFalsa((p) {
+        final cursor = p.url.queryParameters['cursor'];
+        if (cursor == null) {
+          return jsonOk(_pagina(items: [_experto('1')], siguiente: 'c1'));
+        }
+        if (cursorInvalido) {
+          return jsonOk({'code': 'invalid_cursor'}, estado: 400);
+        }
+        return jsonOk(
+          _pagina(items: [_experto('1'), _experto('2')], siguiente: 'c2'),
+        );
+      });
+      final c = contenedorConApi(api);
+      addTearDown(c.dispose);
 
-    final falla =
-        await c.read(busquedaControllerProvider('col-1').notifier).verMas();
-    expect(falla, isNull);
-    pagina = c.read(busquedaControllerProvider('col-1')).value;
-    expect(pagina?.items.map((e) => e.id), ['1', '2']);
+      c.listen(busquedaControllerProvider('col-1'), (_, _) {});
+      c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
+      var pagina = await c.read(busquedaControllerProvider('col-1').future);
+      expect(pagina?.items.map((e) => e.id), ['1']);
 
-    cursorInvalido = true;
-    final fallaCursor =
-        await c.read(busquedaControllerProvider('col-1').notifier).verMas();
-    expect(fallaCursor, isNull);
-    pagina = await c.read(busquedaControllerProvider('col-1').future);
-    expect(pagina?.items.map((e) => e.id), ['1']);
-  });
+      final falla = await c
+          .read(busquedaControllerProvider('col-1').notifier)
+          .verMas();
+      expect(falla, isNull);
+      pagina = c.read(busquedaControllerProvider('col-1')).value;
+      expect(pagina?.items.map((e) => e.id), ['1', '2']);
 
-  test('CA_021_13 503 en verMas devuelve ServicioNoDisponibleFailure', () async {
-    var fase = 0;
-    final api = ApiFalsa((_) {
-      if (fase == 0) {
-        fase = 1;
-        return jsonOk(_pagina(items: [_experto('1')], siguiente: 'c1'));
-      }
-      return http.Response('', 503);
-    });
-    final c = contenedorConApi(api);
-    addTearDown(c.dispose);
+      cursorInvalido = true;
+      final fallaCursor = await c
+          .read(busquedaControllerProvider('col-1').notifier)
+          .verMas();
+      expect(fallaCursor, isNull);
+      pagina = await c.read(busquedaControllerProvider('col-1').future);
+      expect(pagina?.items.map((e) => e.id), ['1']);
+    },
+  );
 
-    c.listen(busquedaControllerProvider('col-1'), (_, _) {});
-    c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
-    await c.read(busquedaControllerProvider('col-1').future);
+  test(
+    'CA_021_13 503 en verMas devuelve ServicioNoDisponibleFailure',
+    () async {
+      var fase = 0;
+      final api = ApiFalsa((_) {
+        if (fase == 0) {
+          fase = 1;
+          return jsonOk(_pagina(items: [_experto('1')], siguiente: 'c1'));
+        }
+        return http.Response('', 503);
+      });
+      final c = contenedorConApi(api);
+      addTearDown(c.dispose);
 
-    final falla =
-        await c.read(busquedaControllerProvider('col-1').notifier).verMas();
-    expect(falla, isA<ServicioNoDisponibleFailure>());
-  });
+      c.listen(busquedaControllerProvider('col-1'), (_, _) {});
+      c.read(consultaBusquedaProvider.notifier).buscarYa('boiler');
+      await c.read(busquedaControllerProvider('col-1').future);
+
+      final falla = await c
+          .read(busquedaControllerProvider('col-1').notifier)
+          .verMas();
+      expect(falla, isA<ServicioNoDisponibleFailure>());
+    },
+  );
 
   test('sugerenciasBusquedaProvider pide solo con texto válido', () async {
     final api = ApiFalsa(

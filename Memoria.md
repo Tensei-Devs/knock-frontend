@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
+- **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
+- **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.
+- **Verificado en local (2026-11-26):** `dart format`, `flutter analyze`, `flutter test` (1165 pruebas), `sdd_lint --trace 030`, `codemap.py --check`, `check_exceptions.py` y `sync_agents.py --check` en verde; `jscpd` sin clones propios (en Windows el `ignore` no cubre `knock_api`, que es ruido preexistente). Falta el humo en teléfono con sesión.
+- **Pendiente:** el contrato no pide la colonia del catálogo al guardar (es texto). Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
 - **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
 - **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.

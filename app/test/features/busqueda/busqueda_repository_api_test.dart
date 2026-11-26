@@ -205,36 +205,45 @@ void main() {
     }
   });
 
-  test('CA_036_09 sugerencias: solo los campos del contrato y sin caché', () async {
-    api.responder = (_) => jsonOk(
-      {
-        'sugerencias': [
-          {'tipo': 'oficio', 'texto': 'Plomería', 'clave': 'plo', 'id': null},
-        ],
-      },
-      h: {'etag': '"v1"'},
-    );
-    final lista = await repo().sugerencias('plo');
-    await repo().sugerencias('plo');
+  test(
+    'CA_036_09 sugerencias: solo los campos del contrato y sin caché',
+    () async {
+      api.responder = (_) => jsonOk(
+        {
+          'sugerencias': [
+            {'tipo': 'oficio', 'texto': 'Plomería', 'clave': 'plo', 'id': null},
+          ],
+        },
+        h: {'etag': '"v1"'},
+      );
+      final lista = await repo().sugerencias('plo');
+      await repo().sugerencias('plo');
 
-    expect(lista.single.clave, 'plo');
-    expect(lista.single.id, isNull);
-    expect(api.peticiones.first.ruta, 'tecnicos/autocompletar');
-    expect(api.peticiones.last.url.queryParameters, {'q': 'plo'});
-    expect(api.peticiones.last.cabeceras.containsKey('if-none-match'), isFalse);
-  });
+      expect(lista.single.clave, 'plo');
+      expect(lista.single.id, isNull);
+      expect(api.peticiones.first.ruta, 'tecnicos/autocompletar');
+      expect(api.peticiones.last.url.queryParameters, {'q': 'plo'});
+      expect(
+        api.peticiones.last.cabeceras.containsKey('if-none-match'),
+        isFalse,
+      );
+    },
+  );
 
-  test('CA_036_11 sugerencias: 422 es DatosRechazados y 1 letra no sale', () async {
-    api.responder = (_) => http.Response('', 422);
-    await expectLater(
-      repo().sugerencias('plo'),
-      throwsA(isA<DatosRechazadosFailure>()),
-    );
-    api.peticiones.clear();
-    await expectLater(
-      repo().sugerencias('p'),
-      throwsA(isA<DatosRechazadosFailure>()),
-    );
-    expect(api.peticiones, isEmpty);
-  });
+  test(
+    'CA_036_11 sugerencias: 422 es DatosRechazados y 1 letra no sale',
+    () async {
+      api.responder = (_) => http.Response('', 422);
+      await expectLater(
+        repo().sugerencias('plo'),
+        throwsA(isA<DatosRechazadosFailure>()),
+      );
+      api.peticiones.clear();
+      await expectLater(
+        repo().sugerencias('p'),
+        throwsA(isA<DatosRechazadosFailure>()),
+      );
+      expect(api.peticiones, isEmpty);
+    },
+  );
 }

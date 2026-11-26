@@ -35,7 +35,8 @@ class TarjetaExperto extends StatelessWidget {
 
     return MergeSemantics(
       child: Semantics(
-        label: '${experto.nombre}. $resumen.'
+        label:
+            '${experto.nombre}. $resumen.'
             '${experto.verificado ? ' ${l.busquedaVerificado(experto.nivelVerificacion)}.' : ''}'
             '${experto.atiendeTuColonia ? '' : ' ${l.busquedaNoAtiende}.'}',
         button: true,
@@ -49,10 +50,7 @@ class TarjetaExperto extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    experto.nombre,
-                    style: theme.textTheme.titleMedium,
-                  ),
+                  Text(experto.nombre, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
                     experto.oficios.map((o) => o.nombre).join(' · '),
