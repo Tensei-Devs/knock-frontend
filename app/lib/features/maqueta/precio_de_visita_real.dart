@@ -2,6 +2,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/maqueta/envio_de_visita.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/visita/visita.dart';
@@ -134,37 +135,19 @@ class _TarjetaPorDecidir extends ConsumerStatefulWidget {
   ConsumerState<_TarjetaPorDecidir> createState() => _TarjetaPorDecidirState();
 }
 
-class _TarjetaPorDecidirState extends ConsumerState<_TarjetaPorDecidir> {
-  bool _enviando = false;
-  String? _error;
-
+class _TarjetaPorDecidirState extends ConsumerState<_TarjetaPorDecidir>
+    with EnvioDeVisita {
   void _actualizar() {
     ref.invalidate(precioDeVisitaControllerProvider(widget.visitaId));
     ref.invalidate(act.visitaRealProvider(widget.visitaId));
   }
 
   Future<void> _decidir(bool aprueba) async {
-    if (_enviando) return;
-    final textos = AppLocalizations.of(context);
-    setState(() {
-      _enviando = true;
-      _error = null;
-    });
-    try {
-      await widget.decidir(ref, aprueba);
-    } on Failure catch (falla) {
-      if (!mounted) return;
-      setState(() {
-        _enviando = false;
-        _error = switch (falla) {
-          ConflictoFailure() => widget.conflicto,
-          NoEncontradoFailure() => textos.visitaNoDisponible,
-          _ => mensajeDeError(textos, falla),
-        };
-      });
-      return;
-    }
-    if (!mounted) return;
+    final bien = await enviarUnaVez(
+      widget.conflicto,
+      () => widget.decidir(ref, aprueba),
+    );
+    if (!bien) return;
     maq.toast(aprueba ? widget.aprobado : widget.rechazado);
     maq.reintentarSolicitudes?.call();
     _actualizar();
@@ -186,7 +169,7 @@ class _TarjetaPorDecidirState extends ConsumerState<_TarjetaPorDecidir> {
         T(widget.texto, size: 14),
         sMut(widget.explicacion),
         sMut(textos.cotizacionRespondeAntes(fecha)),
-        if (_error case final error?) ...[
+        if (errorDeEnvio case final error?) ...[
           NoteK('red', 'help', error),
           BtnK(
             textos.cotizacionActualizar,
@@ -197,13 +180,13 @@ class _TarjetaPorDecidirState extends ConsumerState<_TarjetaPorDecidir> {
         ],
         BtnK(
           textos.cotizacionAprobar,
-          _enviando ? null : () => _decidir(true),
+          enviando ? null : () => _decidir(true),
           icon: 'check',
           sm: true,
         ),
         BtnK(
           textos.cotizacionRechazar,
-          _enviando ? null : () => _decidir(false),
+          enviando ? null : () => _decidir(false),
           kind: Bk.sec,
           sm: true,
         ),

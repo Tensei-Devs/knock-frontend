@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T19:34:17Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T19:37:06Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -23,7 +23,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 129 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 38 | 226 | 468 |
+| `maqueta` | - | 39 | 227 | 468 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -507,6 +507,7 @@
 - `app/lib/features/maqueta/en_dict.dart` — —
 - `app/lib/features/maqueta/entrada_maqueta.dart` — class `EntradaMaqueta`, class `_EntradaState`
   - `initState()`:66, `dispose()`:72, `build()`:312, `head()`:321
+- `app/lib/features/maqueta/envio_de_visita.dart` — mixin `EnvioDeVisita`
 - `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, enum `CargaReal`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
   - `qTope()`:46, `fijarOficios()`:252, `fijarSolicitudesReales()`:268, `refresh()`:276, `cargarTelefono()`:284, `guardarTelefono()`:290, `olvidarTelefono()`:296, `dispose()`:302, `after()`:309, `toast()`:320, `job()`:324, `notif()`:334, `results()`:344, `convIds()`:362, `accepted()`:366, `toggleSave()`:371, `openChat()`:376, `sendMsg()`:381, `block()`:404, `unblock()`:409, `startReq()`:415, `sendReq()`:434, `agregarSolicitudReal()`:475, `startClientQuotes()`:481, `reach()`:491 …
 - `app/lib/features/maqueta/explorar_maqueta.dart` — class `ExplorarMaqueta`
@@ -542,7 +543,7 @@
 - `app/lib/features/maqueta/pantallas_tecnico2.dart` — class `CotizarScreen`, class `_CotizarState`, class `IniciarScreen`, class `_IniciarState`, class `CerrarScreen`, class `_CerrarState`, class `PerfilEditarScreen`, class `_PerfilEditarState`, class `ReputacionScreen`, class `_ReputacionState`
   - `dispose()`:39, `doSend()`:54, `build()`:65, `upd()`:103, `seg()`:108, `BtnK()`:278, `FieldK()`:363, `dispose()`:470, `build()`:476, `Pg()`:480, `check()`:566, `dispose()`:661, `build()`:722, `BtnK()`:846, `initState()`:896, `dispose()`:916, `build()`:979, `dispose()`:1191, `build()`:1197
 - `app/lib/features/maqueta/precio_de_visita_real.dart` — class `PrecioDeVisitaReal`, class `_TarjetaPorDecidir`, class `_TarjetaPorDecidirState`
-  - `build()`:20, `NoteK()`:75, `build()`:174
+  - `build()`:21, `NoteK()`:76, `build()`:157
 - `app/lib/features/maqueta/privacidad_real.dart` — class `ExportacionReal`, class `ConsentimientosReales`, class `_FilaConsentimiento`
   - `build()`:20, `pedir()`:49, `fechaDeCuenta()`:81, `build()`:112, `build()`:156
 - `app/lib/features/maqueta/sesiones_reales.dart` — class `SesionesAbiertas`
@@ -554,7 +555,7 @@
 - `app/lib/features/maqueta/ui.dart` — class `KC`, class `T`, enum `Bk`, class `BtnK`, class `LinkK`, class `CardK`, class `Pill`, class `NoteK`, class `Av`, class `Stars`, class `ChipK`, class `ChoiceK`, class `GroupK`, class `LiK`, class `FoldK`, class `_FoldKState`, class `Sw`, class `Prog`, class `FieldK`, class `PhoneCc`, class `PhotoTile`, class `AddPhoto`, class `Pg`, class `MaqBuilder`, class `AvisosHost`, class `_AvisosHostState`
   - `tr()`:29, `hit()`:32, `kc()`:99, `build()`:136, `h1()`:150, `h2()`:153, `h3()`:155, `bT()`:157, `tT()`:159, `sMut()`:162, `mutT()`:172, `labT()`:175, `stack()`:188, `rowW()`:199, `icn()`:214, `build()`:298, `build()`:394, `build()`:427, `build()`:485, `build()`:536, `rich()`:566, `build()`:617, `build()`:676, `rateW()`:697, `whereTxt()`:724 …
 - `app/lib/features/maqueta/visita_acciones_reales.dart` — class `AccionesVisitaReal`, class `BotonNoTerminadoReal`, class `_HojaDeEnvio`, class `_HojaDeEnvioState`
-  - `build()`:24, `build()`:61, `elegida()`:111, `aTiempo()`:117, `dispose()`:229, `build()`:264
+  - `build()`:23, `build()`:60, `elegida()`:110, `aTiempo()`:116, `dispose()`:226, `build()`:245
 - `app/lib/features/maqueta/visita_real.dart` — class `VisitaRealGate`
   - `build()`:29, `textoDeMotivoDeCodigo()`:75
 
