@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/maqueta/asistente_real.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
@@ -68,15 +69,19 @@ GoRoute rutaMaqueta() => GoRoute(
       path: 'asistente',
       builder: (c, s) {
         final e = s.extra;
-        if (e is Map) {
-          return AsistenteScreen(
-            texto: e['texto'] as String?,
-            cat: e['cat'] as String?,
-          );
-        }
-        return AsistenteScreen(texto: e is String ? e : null);
+        final dato = e is Map ? e['texto'] : e;
+        final texto = dato is String ? dato : null;
+        return Consumer(
+          builder: (c, ref, _) => ref.watch(asistenteDisponibleProvider)
+              ? AsistenteChatReal(texto: texto)
+              : AsistenteScreen(
+                  texto: texto,
+                  cat: e is Map ? e['cat'] as String? : null,
+                ),
+        );
       },
     ),
+    ...rutasAsistente(),
     GoRoute(path: 'solicitar', builder: (c, s) => const SolicitarScreen()),
     GoRoute(
       path: 'enviada/:id',

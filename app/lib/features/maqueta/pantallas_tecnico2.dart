@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/features/maqueta/asistente_real.dart';
 import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/anim_k.dart';
@@ -166,6 +167,7 @@ class _CotizarState extends State<CotizarScreen> {
                 ),
               ],
             ),
+            const NotaIaDeEjemplo(),
             rich(
               'Armé este borrador con tu chat con ${c.n.split(' ').first} (${d.msgs} mensajes) y la solicitud. **Revísalo y edítalo antes de enviar.**',
               w: FontWeight.w400,
