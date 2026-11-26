@@ -703,3 +703,9 @@
 - **Por qué:** las filas decían «en revisión» o «bloqueada» para cosas ya fusionadas.
 - **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
 - **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
+
+## 2026-11-26 — Alta de técnico contra la API y rol de técnico desde el perfil (KNOCK-57)
+- **Qué cambió:** con sesión y API, «Registrarse como técnico» crea el perfil con `POST /tecnicos` (`features/tecnico`): sin segundo código SMS, sin pedir el celular ni la lista de servicios (la ruta no los recibe), con al menos un oficio del catálogo, el radio solo a domicilio y la dirección solo con taller. Al cargar `GET /me`, `esTecnico` decide el indicador de técnico.
+- **Por qué:** el registro solo vivía en memoria y pedía un código simulado; y como la app no usaba `esTecnico`, la pestaña Trabajo se perdía al volver a abrirla.
+- **Pendiente:** textos en ARB (CA-58) y los estados de la pantalla (CA-46); sin probar contra el backend desplegado. La pestaña Trabajo y sus pantallas siguen con datos de ejemplo.
+- **A evitar:** permitir el alta solo con «otro oficio» (el servidor exige uno del catálogo); decidir el rol de técnico con datos locales cuando hay API.
