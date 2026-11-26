@@ -8,9 +8,14 @@ import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/presentation/cotizaciones_controller.dart';
+import 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart';
+import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+
+import '../../../soporte/api_falsa.dart';
 
 const _base = 'https://api.ejemplo.invalid';
 const _id = '64b7f0c2a1b2c3d4e5f60718';
@@ -94,6 +99,188 @@ Map<String, Object?> _cita() => {
 };
 
 void main() {
+  test('CA_015_11 elección recarga por transporte autenticado', () async {
+    var elegida = false;
+    final api = ApiFalsa((p) {
+      if (p.metodo == 'POST' && p.ruta == 'solicitudes/$_id/elegir') {
+        elegida = true;
+        return jsonOk(_cita());
+      }
+      if (p.ruta == 'solicitudes') {
+        return jsonOk({
+          'items': [_fila(estado: elegida ? 'cita_confirmada' : 'cotizando')],
+          'nextCursor': null,
+        });
+      }
+      if (p.ruta == 'solicitudes/$_id') {
+        return jsonOk({
+          'id': _id,
+          'estado': elegida ? 'cita_confirmada' : 'cotizando',
+          'oficio': {'clave': 'plo', 'nombre': 'Plomería'},
+          'colonia': {'nombre': 'Centro'},
+          'descripcion': 'Reparación',
+          'fotos': <Object>[],
+          'dia': '2026-11-20',
+          'franja': 'tarde',
+          'totalCotizaciones': 1,
+          'venceEn': '2026-11-19T18:00:00Z',
+          'creadoEn': '2026-11-17T18:00:00Z',
+        });
+      }
+      if (p.ruta == 'solicitudes/$_id/cotizaciones') {
+        return jsonOk({
+          'solicitudId': _id,
+          'cotizaciones': <Object>[],
+          'totalCotizaciones': 1,
+          'tiposMixtos': false,
+          'puedeElegir': !elegida,
+          'motivo': elegida ? 'request_already_chosen' : null,
+          'visitaId': elegida ? 'v1' : null,
+        });
+      }
+      return http.Response('', 404);
+    });
+    final c = contenedorConApi(api);
+    addTearDown(c.dispose);
+    const consulta = (solicitudId: _id, orden: OrdenCotizaciones.recomendadas);
+    c.listen(solicitudesRealesControllerProvider, (_, _) {});
+    c.listen(solicitudRealDetalleProvider(_id), (_, _) {});
+    c.listen(cotizacionesRealesProvider(consulta), (_, _) {});
+    c.listen(eleccionRealProvider(_id), (_, _) {});
+    await c.read(solicitudesRealesControllerProvider.future);
+    await c.read(solicitudRealDetalleProvider(_id).future);
+    await c.read(cotizacionesRealesProvider(consulta).future);
+    await c.read(eleccionRealProvider(_id).notifier).elegir('c1');
+    expect(c.read(eleccionRealProvider(_id)), isA<EleccionHecha>());
+    expect(
+      (await c.read(solicitudesRealesControllerProvider.future)).single.estado,
+      EstadoSolicitud.citaConfirmada,
+    );
+    expect(
+      (await c.read(solicitudRealDetalleProvider(_id).future)).estado,
+      EstadoSolicitud.citaConfirmada,
+    );
+    expect(
+      (await c.read(cotizacionesRealesProvider(consulta).future)).visitaId,
+      'v1',
+    );
+    for (final p in api.peticiones) {
+      expect(p.autorizacion, 'Bearer acc-A', reason: '$p');
+    }
+    for (final ruta in [
+      'solicitudes',
+      'solicitudes/$_id',
+      'solicitudes/$_id/cotizaciones',
+    ]) {
+      expect(api.peticiones.where((p) => p.ruta == ruta), hasLength(2));
+    }
+  });
+
+  test(
+    'CA_015_20 reintento recupera visita con transporte autenticado',
+    () async {
+      final api = ApiFalsa((p) {
+        if (p.ruta.endsWith('/elegir')) {
+          return jsonOk({'code': 'request_already_chosen'}, estado: 409);
+        }
+        if (p.ruta.endsWith('/cotizaciones')) {
+          return jsonOk({
+            'solicitudId': _id,
+            'cotizaciones': <Object>[],
+            'totalCotizaciones': 1,
+            'tiposMixtos': false,
+            'puedeElegir': false,
+            'motivo': 'request_already_chosen',
+            'visitaId': 'v1',
+          });
+        }
+        if (p.ruta == 'visitas/v1') {
+          return jsonOk({
+            'id': 'v1',
+            'rol': 'cliente',
+            'estado': 'confirmada',
+            'modalidad': 'domicilio',
+            'dia': '2026-11-20',
+            'hora': '16:00',
+            'precio': 450,
+            'tope': 500,
+            'tecnico': {'nombre': 'Técnico ficticio', 'verificado': true},
+            'lugar': {'direccion': 'Dirección ficticia'},
+            'puedeAvisar': true,
+          });
+        }
+        return http.Response('', 404);
+      });
+      final c = contenedorConApi(api);
+      addTearDown(c.dispose);
+      c.listen(eleccionRealProvider(_id), (_, _) {});
+      await c.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      final estado =
+          c.read(eleccionRealProvider(_id)) as EleccionVisitaExistente;
+      expect(estado.visita.id, 'v1');
+      expect(estado.visita.tecnico.nombre, 'Técnico ficticio');
+      expect(api.peticiones, hasLength(3));
+      for (final p in api.peticiones) {
+        expect(p.autorizacion, 'Bearer acc-A');
+      }
+    },
+  );
+
+  test('CA_015_11 elección sin sesión no llega a la red', () async {
+    final api = ApiFalsa();
+    final c = contenedorConApi(api, tokens: null);
+    addTearDown(c.dispose);
+    c.listen(eleccionRealProvider(_id), (_, _) {});
+    await c.read(eleccionRealProvider(_id).notifier).elegir('c1');
+    final estado = c.read(eleccionRealProvider(_id)) as EleccionFallida;
+    expect(estado.falla, isA<NoAutorizadoFailure>());
+    expect(api.peticiones, isEmpty);
+  });
+
+  test(
+    'CA_015_20 error de red no repite la elección automáticamente',
+    () async {
+      final api = ApiFalsa((_) => throw http.ClientException('sin conexión'));
+      final c = contenedorConApi(api);
+      addTearDown(c.dispose);
+      c.listen(eleccionRealProvider(_id), (_, _) {});
+      await c.read(eleccionRealProvider(_id).notifier).elegir('c1');
+      final estado = c.read(eleccionRealProvider(_id)) as EleccionFallida;
+      expect(estado.falla, isA<ServicioNoDisponibleFailure>());
+      expect(estado.sePuedeReintentar, isTrue);
+      expect(api.peticiones, hasLength(1));
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    },
+  );
+
+  test('CA_015_20 comparación ajena no recupera visita', () async {
+    final api = ApiFalsa((p) {
+      if (p.ruta.endsWith('/elegir')) {
+        return jsonOk({'code': 'request_already_chosen'}, estado: 409);
+      }
+      return jsonOk({
+        'solicitudId': 'otra',
+        'cotizaciones': <Object>[],
+        'totalCotizaciones': 1,
+        'tiposMixtos': false,
+        'puedeElegir': false,
+        'motivo': 'request_already_chosen',
+        'visitaId': 'v1',
+      });
+    });
+    final c = contenedorConApi(api);
+    addTearDown(c.dispose);
+    c.listen(eleccionRealProvider(_id), (_, _) {});
+    await c.read(eleccionRealProvider(_id).notifier).elegir('c1');
+    expect(c.read(eleccionRealProvider(_id)), isA<EleccionFallida>());
+    expect(api.peticiones, hasLength(2));
+    expect(
+      api.peticiones.every((p) => p.autorizacion == 'Bearer acc-A'),
+      isTrue,
+    );
+    expect(api.peticiones.any((p) => p.ruta.startsWith('visitas/')), isFalse);
+  });
+
   group('GET /solicitudes', () {
     test('Lista_LeeLasFilasYSigueElCursor', () async {
       final llamadas = <Uri>[];

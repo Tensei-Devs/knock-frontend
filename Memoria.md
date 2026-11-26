@@ -672,6 +672,16 @@
 - **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
 - **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.
 
+## 2026-11-25 — Recuperar la cita cuando la cotización ya estaba elegida (KNOCK-245)
+- **Qué cambió:** ante un 409 `request_already_chosen`, el controlador pide la comparación de esa solicitud, toma su `visitaId`, lee la visita y la muestra como «cita existente», sin atribuirla a la cotización que se reintentó; si algo no coincide deja el estado de error. También recarga la lista, el detalle y la comparación. Es la segunda de las dos partes en que se dividió el PR #99.
+- **Por qué:** la persona ya tiene una cita y debe verla; el contrato no dice con qué cotización se creó.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** inventar el `cotizacionId` de la visita recuperada; reintentar la elección de forma automática.
+
+## 2026-11-25 — Montaje común en las pruebas de la cita recuperada (KNOCK-245)
+- **Qué cambió:** las pruebas del controlador que simulan `request_already_chosen` comparten una función de montaje y otra para la comparación con visita.
+- **Por qué:** `jscpd` marcaba el montaje repetido.
+- **A evitar:** copiar el montaje en un caso nuevo; excluir las pruebas del control de duplicados.
 ## 2026-11-25 — Elegir cotización con el cliente generado (KNOCK-245)
 - **Qué cambió:** la elección usa `ChooseQuoteApi` del cliente generado y rechaza una confirmación que sea de otra solicitud o de otra cotización. Es la primera de las dos partes en que se dividió el PR #99.
 - **Por qué:** una ruta escrita a mano no falla al compilar cuando cambia el contrato, y una confirmación ajena no se debe mostrar como la cita de la persona.
