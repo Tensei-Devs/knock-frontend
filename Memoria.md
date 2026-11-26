@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
+- **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
+- **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
