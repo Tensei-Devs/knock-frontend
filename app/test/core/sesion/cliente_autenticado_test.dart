@@ -259,6 +259,36 @@ void main() {
       await pedir('explorar?filtro=todo');
       expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
     });
+
+    test('CA_036_17 tecnicos/{id} lleva el Bearer solo con sesión', () async {
+      await montar();
+      await pedir('tecnicos/64b7f3a2c9e77a1d2f3b4c5d');
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test(
+      'CA_036_17 sin sesión, tecnicos/{id} sale sin Authorization',
+      () async {
+        await montar(tokens: null);
+        await pedir('tecnicos/64b7f3a2c9e77a1d2f3b4c5d');
+        expect(
+          api.peticiones.single.cabeceras,
+          isNot(contains('authorization')),
+        );
+      },
+    );
+
+    test('CA_026_11 el perfil de otro servidor sale sin Bearer', () async {
+      await montar();
+      await c
+          .read(transporteApiProvider)
+          .get(
+            Uri.parse(
+              'https://otro.test/api/v1/tecnicos/64b7f3a2c9e77a1d2f3b4c5d',
+            ),
+          );
+      expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
+    });
   });
 
   group('401 con renovación', () {

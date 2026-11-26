@@ -20,11 +20,15 @@ import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
+import 'package:app/features/maqueta/rutas_tecnico.dart';
+import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+export 'package:app/features/maqueta/rutas_tecnico.dart' show RT;
 
 TecEstado get pv => maq.pv;
 
@@ -36,22 +40,6 @@ String _catIcon(String id) => id == 'mec'
     : id == 'plo'
     ? 'drop'
     : 'bolt';
-
-/// Rutas del lado del técnico.
-abstract final class RT {
-  static const registro = '/m/tecnico/registro';
-  static const verif = '/m/tecnico/verificacion';
-  static const pendiente = '/m/tecnico/pendiente';
-  static const verificado = '/m/tecnico/verificado';
-  static const rechazada = '/m/tecnico/rechazada';
-  static const mensajes = '/m/tecnico/mensajes';
-  static String chat(String cid, String rid) => '/m/tecnico/chat/$cid/$rid';
-  static String cotizar(String rid) => '/m/tecnico/cotizar/$rid';
-  static String iniciar(String vid) => '/m/tecnico/iniciar/$vid';
-  static String cerrar(String vid) => '/m/tecnico/cerrar/$vid';
-  static const perfil = '/m/tecnico/perfil';
-  static const reputacion = '/m/tecnico/reputacion';
-}
 
 void registrarRutasTecnico(GoRouter router) {
   pv.irChat = (cid, rid) => router.push(RT.chat(cid, rid));
@@ -484,7 +472,7 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     try {
       final coloniaId = await coloniaIdDeLaPersona(ref, maq.user);
       final taller = how == 'taller';
-      await ref
+      final creado = await ref
           .read(tecnicoRepositoryProvider)
           .registrar(
             AltaTecnico(
@@ -501,6 +489,8 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
               aceptaTerminos: terms,
             ),
           );
+      // Es la única vez que la app recibe su id de técnico (spec 037).
+      if (mounted) ref.read(miTecnicoIdProvider.notifier).recordar(creado.id);
     } on Failure catch (falla) {
       if (!mounted) return;
       setState(() {
@@ -654,6 +644,7 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
               ],
             ),
           ),
+          if (real) const CardK(child: MisServiciosReales()),
           const NoteK(
             'blue',
             'shield',

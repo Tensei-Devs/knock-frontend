@@ -26,6 +26,7 @@ graph LR
   preferencias["preferencias"]
   previa["previa"]
   red["red"]
+  reportes["reportes"]
   router["router"]
   sesion["sesion"]
   tecnico["tecnico"]
@@ -43,7 +44,7 @@ graph LR
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|14| actividad
+  maqueta -->|17| actividad
   maqueta -->|1| bandeja_avisos
   maqueta -->|1| busqueda
   maqueta -->|6| cuenta
@@ -55,9 +56,10 @@ graph LR
   maqueta -->|4| oficios
   maqueta -->|1| opiniones
   maqueta -->|1| previa
-  maqueta -->|2| tecnico
+  maqueta -->|2| reportes
+  maqueta -->|4| tecnico
   maqueta -->|3| tecnicos_confianza
-  maqueta -->|1| visita
+  maqueta -->|2| visita
   previa -->|5| oficios
   router -->|5| actividad
   router -->|1| busqueda

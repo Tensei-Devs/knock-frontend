@@ -1,5 +1,77 @@
 {
   "@@locale": "es",
+  "tecnicoCargando": "Cargando…",
+  "tecnicoReintentar": "Reintentar",
+  "tecnicoNoDisponible": "Ese técnico ya no está disponible.",
+  "tecnicoCopia": "Sin conexión. Es la copia del {fecha}; puede estar desactualizada.",
+  "@tecnicoCopia": {
+    "placeholders": {
+      "fecha": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "tecnicoCalificacion": "★ {calificacion}",
+  "@tecnicoCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoAnios": "{n} años de experiencia",
+  "@tecnicoAnios": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicoAtiendeTaller": "Atiende en su taller",
+  "tecnicoAtiendeDomicilio": "Va a domicilio",
+  "tecnicoAtiendeAmbos": "En taller y a domicilio",
+  "tecnicoRadio": "hasta {km} km",
+  "@tecnicoRadio": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicoDisponibleHoy": "Disponible hoy",
+  "tecnicoSinColonia": "Elige tu colonia para saber si llega hasta ti.",
+  "tecnicoLlega": "Sí atiende {colonia}",
+  "@tecnicoLlega": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoNoLlega": "No atiende {colonia}",
+  "@tecnicoNoLlega": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoServicios": "Servicios y precios",
+  "tecnicoSinServicios": "Todavía no publica servicios.",
+  "tecnicoDesde": "desde {precio}",
+  "@tecnicoDesde": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoPreciosDeReferencia": "Son precios de referencia. El precio final lo acuerdas con el técnico.",
+  "tecnicoFotos": "Fotos de sus trabajos",
+  "tecnicoSinFotos": "Todavía no hay fotos de sus trabajos.",
+  "tecnicoFotoEtiqueta": "Foto de un trabajo terminado",
+  "tecnicoVerMasFotos": "Ver más fotos",
   "citaExistente": "Cita existente",
   "visitaRecuperacionFallida": "No pudimos recuperar la visita. Consulta tu actividad.",
   "citaMonto": "Cotización: {monto}",
@@ -27,38 +99,89 @@
   "busquedaPlaceholder": "Ej.: boiler, frenos, un contacto",
   "busquedaMinimo": "Escribe al menos 2 letras",
   "busquedaContador": "{n}/80",
-  "@busquedaContador": {"placeholders": {"n": {"type": "int"}}},
+  "@busquedaContador": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "busquedaCargando": "Buscando…",
   "busquedaSugerencias": "Sugerencias",
   "busquedaSoloVerificados": "Solo verificados",
   "busquedaSoloVerificadosActivo": "Solo verificados, seleccionado",
   "busquedaBuscamos": "Buscamos: {oficio}",
-  "@busquedaBuscamos": {"placeholders": {"oficio": {"type": "String"}}},
+  "@busquedaBuscamos": {
+    "placeholders": {
+      "oficio": {
+        "type": "String"
+      }
+    }
+  },
   "busquedaAmbiguo": "¿Cuál de estos buscas?",
   "busquedaNoEntendimos": "No entendimos qué necesitas",
   "busquedaElegirCategoria": "Elige una categoría",
   "busquedaSinResultados": "No encontramos expertos con esa búsqueda.",
   "busquedaSinResultadosOficio": "Todavía no hay expertos de {oficio} en tu colonia",
-  "@busquedaSinResultadosOficio": {"placeholders": {"oficio": {"type": "String"}}},
+  "@busquedaSinResultadosOficio": {
+    "placeholders": {
+      "oficio": {
+        "type": "String"
+      }
+    }
+  },
   "busquedaPedirCotizacion": "Pedir cotización de todos modos",
   "busquedaSinZona": "Elige tu zona para buscar expertos cerca",
   "busquedaElegirZona": "Elegir mi zona",
   "busquedaCargarMas": "Ver más",
   "busquedaTope": "Mostramos los primeros 100. Agrega más palabras para afinar.",
   "busquedaTotal": "{n} resultados",
-  "@busquedaTotal": {"placeholders": {"n": {"type": "int"}}},
+  "@busquedaTotal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "busquedaReintentar": "Reintentar",
   "busquedaSinConexion": "Sin conexión",
   "busquedaNoDisponible": "La búsqueda no está disponible en este momento. Intenta de nuevo.",
   "busquedaOtrasPalabras": "Prueba con otras palabras",
   "busquedaEspera": "Hiciste muchas búsquedas seguidas. Espera {segundos} segundos.",
-  "@busquedaEspera": {"placeholders": {"segundos": {"type": "int"}}},
+  "@busquedaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
   "busquedaCalificacion": "{calificacion} estrellas, {n} reseñas",
-  "@busquedaCalificacion": {"placeholders": {"calificacion": {"type": "String"}, "n": {"type": "int"}}},
+  "@busquedaCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "busquedaDistancia": "a unos {km} km",
-  "@busquedaDistancia": {"placeholders": {"km": {"type": "int"}}},
+  "@busquedaDistancia": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "busquedaVerificado": "Verificado: {nivel}",
-  "@busquedaVerificado": {"placeholders": {"nivel": {"type": "String"}}},
+  "@busquedaVerificado": {
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
   "busquedaNoAtiende": "No atiende tu colonia",
   "tabInicio": "Inicio",
   "@tabInicio": {
@@ -1695,6 +1818,59 @@
   "cuentaEliminacionNadaQueCancelar": "No hay una eliminación programada que cancelar.",
   "cuentaEliminacionIrACuenta": "Ir a Mi cuenta",
   "cuentaEliminacionSalir": "Salir",
+  "bloqueosMotivoAcoso": "Acoso",
+  "bloqueosMotivoFraude": "Fraude",
+  "bloqueosMotivoMalServicio": "Mal servicio",
+  "bloqueosMotivoComportamiento": "Comportamiento inapropiado",
+  "bloqueosMotivoPeligro": "Peligro",
+  "bloqueosMotivoOtro": "Otra cosa",
+  "bloqueosTitulo": "Reportar un problema",
+  "bloqueosCargando": "Cargando…",
+  "bloqueosNoDisponible": "No es posible reportar desde esta visita.",
+  "bloqueosReintentar": "Reintentar",
+  "bloqueosAviso911": "Si estás en peligro, llama al 911.",
+  "bloqueosRecibido": "Recibimos tu reporte",
+  "bloqueosVolver": "Volver",
+  "bloqueosQuePaso": "¿Qué pasó?",
+  "bloqueosDescripcion": "Cuéntanos qué pasó (de 8 a 500 caracteres)",
+  "bloqueosEnviando": "Enviando…",
+  "bloqueosEnviar": "Enviar reporte",
+  "bloqueosFalta": "Elige qué pasó y escribe al menos 8 caracteres",
+  "bloqueosMios": "Mis reportes",
+  "bloqueosCargandoLista": "Cargando tus reportes…",
+  "bloqueosErrorLista": "No pudimos cargar tus reportes.",
+  "bloqueosVacio": "No has hecho reportes.",
+  "bloqueosVerMas": "Ver más",
+  "bloqueosApelacionEnviada": "Enviamos tu apelación",
+  "bloqueosEstadoAbierto": "En revisión",
+  "bloqueosEstadoDecidido": "Decidido",
+  "bloqueosEstadoEnApelacion": "En apelación",
+  "bloqueosEstadoOtro": "Estado no disponible",
+  "bloqueosApelar": "Apelar la decisión",
+  "bloqueosApelacionTexto": "Explica por qué apelas (de 8 a 500 caracteres)",
+  "bloqueosEnviarApelacion": "Enviar apelación",
+  "bloqueosErrorYaBloqueado": "Ya habías bloqueado a esta persona.",
+  "bloqueosErrorApelacion": "Este reporte ya no se puede apelar.",
+  "bloqueosPantallaBloquear": "Bloquear a una persona",
+  "bloqueosPersonasTitulo": "Personas bloqueadas",
+  "bloqueosPersonasCargando": "Cargando a quién bloqueaste…",
+  "bloqueosPersonasError": "No pudimos cargar tus bloqueos.",
+  "bloqueosPersonasVacio": "No has bloqueado a nadie.",
+  "bloqueosBloqueadaEl": "Bloqueada el",
+  "bloqueosDesbloquear": "Desbloquear",
+  "bloqueosDesbloqueando": "Desbloqueando…",
+  "bloqueosDesbloqueada": "Desbloqueaste a esta persona.",
+  "bloqueosBloquear": "Bloquear a esta persona",
+  "bloqueosBloqueando": "Bloqueando…",
+  "bloqueosBloqueada": "Bloqueaste a esta persona.",
+  "bloqueosBloquearAviso": "Ya no podrá escribirte ni verte en las búsquedas.",
+  "bloqueosConfirmarBloqueoTitulo": "¿Bloquear a esta persona?",
+  "bloqueosConfirmarBloqueo": "Sí, bloquear",
+  "bloqueosCancelar": "Cancelar",
+  "bloqueosDeshacer": "Deshacer",
+  "bloqueosNoEncontrada": "Esa persona ya no está disponible.",
+  "bloqueosErrorYaNoBloqueada": "Esa persona ya no estaba bloqueada.",
+  "bloqueosErrorNoBloquearse": "No puedes bloquearte a ti mismo.",
   "direccionesTitulo": "Mis direcciones",
   "direccionesCargando": "Cargando tus direcciones…",
   "direccionesError": "No pudimos cargar tus direcciones.",
@@ -1710,9 +1886,21 @@
   "direccionesCalle": "Calle y número",
   "direccionesReferencias": "Referencias (opcional)",
   "direccionesColonia": "Colonia: {colonia}",
-  "@direccionesColonia": {"placeholders": {"colonia": {"type": "String"}}},
+  "@direccionesColonia": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
   "direccionesCambiarColonia": "Usar mi colonia actual: {colonia}",
-  "@direccionesCambiarColonia": {"placeholders": {"colonia": {"type": "String"}}},
+  "@direccionesCambiarColonia": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
   "direccionesMarcarPrincipal": "Usar como principal",
   "direccionesGuardar": "Guardar dirección",
   "direccionesGuardando": "Guardando…",
@@ -1748,18 +1936,176 @@
   "visitaNoTerminadoEnviado": "Enviaste tu reporte. Pasa a revisión.",
   "visitaReporteCerrado": "Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.",
   "visitaEnviando": "Enviando…",
+  "cotizacionFinalTitulo": "Cotización final",
+  "@cotizacionFinalTitulo": {
+    "description": "Texto de la app: cotizacionFinalTitulo"
+  },
+  "cotizacionFinalExplicacion": "Si la apruebas, el trabajo sigue con este precio. Si la rechazas, pagas solo la visita.",
+  "@cotizacionFinalExplicacion": {
+    "description": "Texto de la app: cotizacionFinalExplicacion"
+  },
+  "cotizacionFinalAprobada": "Aprobaste la cotización final.",
+  "@cotizacionFinalAprobada": {
+    "description": "Texto de la app: cotizacionFinalAprobada"
+  },
+  "cotizacionFinalRechazada": "Rechazaste la cotización final: pagas solo la visita.",
+  "@cotizacionFinalRechazada": {
+    "description": "Texto de la app: cotizacionFinalRechazada"
+  },
+  "cotizacionFinalVencida": "La cotización final venció sin respuesta.",
+  "@cotizacionFinalVencida": {
+    "description": "Texto de la app: cotizacionFinalVencida"
+  },
+  "cotizacionFinalYaDecidida": "Esta cotización final ya se decidió o venció.",
+  "@cotizacionFinalYaDecidida": {
+    "description": "Texto de la app: cotizacionFinalYaDecidida"
+  },
+  "cotizacionAjusteTitulo": "Cambio de precio por aprobar",
+  "@cotizacionAjusteTitulo": {
+    "description": "Texto de la app: cotizacionAjusteTitulo"
+  },
+  "cotizacionAjusteExplicacion": "Si lo rechazas, el precio se queda en el tope que ya aprobaste.",
+  "@cotizacionAjusteExplicacion": {
+    "description": "Texto de la app: cotizacionAjusteExplicacion"
+  },
+  "cotizacionAjusteAprobado": "Aprobaste el nuevo precio.",
+  "@cotizacionAjusteAprobado": {
+    "description": "Texto de la app: cotizacionAjusteAprobado"
+  },
+  "cotizacionAjusteRechazado": "Rechazaste el cambio de precio.",
+  "@cotizacionAjusteRechazado": {
+    "description": "Texto de la app: cotizacionAjusteRechazado"
+  },
+  "cotizacionAjusteYaDecidido": "Este cambio de precio ya se decidió o venció.",
+  "@cotizacionAjusteYaDecidido": {
+    "description": "Texto de la app: cotizacionAjusteYaDecidido"
+  },
+  "cotizacionRespondeAntes": "Responde antes del {fecha}",
+  "@cotizacionRespondeAntes": {
+    "description": "Texto de la app: cotizacionRespondeAntes",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionAprobar": "Aprobar",
+  "@cotizacionAprobar": {
+    "description": "Texto de la app: cotizacionAprobar"
+  },
+  "cotizacionRechazar": "Rechazar",
+  "@cotizacionRechazar": {
+    "description": "Texto de la app: cotizacionRechazar"
+  },
+  "cotizacionActualizar": "Actualizar",
+  "@cotizacionActualizar": {
+    "description": "Texto de la app: cotizacionActualizar"
+  },
+  "cotizacionCargandoPrecio": "Revisando si hay un precio por aprobar…",
+  "@cotizacionCargandoPrecio": {
+    "description": "Texto de la app: cotizacionCargandoPrecio"
+  },
+  "serviciosPrecioDesde": "Desde ${precio}",
+  "@serviciosPrecioDesde": {
+    "placeholders": {
+      "precio": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosSinPerfil": "Todavía no tienes perfil de técnico.",
+  "serviciosNoExiste": "Ese servicio ya no existe.",
+  "serviciosLimite": "Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.",
+  "serviciosOficioNoValido": "Ese oficio no es uno de los tuyos.",
+  "serviciosOficioMecanica": "Mecánica",
+  "serviciosOficioPlomeria": "Plomería",
+  "serviciosOficioElectricidad": "Electricidad",
+  "serviciosTituloPropio": "Servicios y precio de referencia",
+  "serviciosCrearPerfil": "Crear mi perfil de técnico",
+  "serviciosCargandoPropios": "Cargando tus servicios…",
+  "serviciosErrorPropios": "No pudimos cargar tus servicios.",
+  "serviciosReintentar": "Reintentar",
+  "serviciosListaParcial": "Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.",
+  "serviciosVacioPropios": "Aún no agregas servicios.",
+  "serviciosEditar": "Editar",
+  "serviciosQuitar": "Quitar",
+  "serviciosAgregar": "Agregar servicio",
+  "serviciosErrorNombre": "Escribe el nombre del servicio",
+  "serviciosErrorNombreMax": "El nombre admite hasta {maximo} caracteres",
+  "@serviciosErrorNombreMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorDetalleMax": "El detalle admite hasta {maximo} caracteres",
+  "@serviciosErrorDetalleMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorPrecio": "Escribe un precio en pesos, sin decimales y mayor que cero",
+  "serviciosErrorOficio": "Elige el oficio",
+  "serviciosNombre": "Nombre del servicio",
+  "serviciosNombreEjemplo": "Ej. Cambio de llave",
+  "serviciosDetalle": "Detalle",
+  "serviciosPrecio": "Precio de referencia (pesos)",
+  "serviciosOficioPregunta": "¿De qué oficio es?",
+  "serviciosGuardar": "Guardar servicio",
+  "serviciosCancelar": "Cancelar",
+  "serviciosTituloPublico": "Servicios y precios",
+  "serviciosCargandoPublicos": "Cargando sus servicios…",
+  "serviciosNoDisponible": "Ese técnico ya no está disponible.",
+  "serviciosErrorPublicos": "No pudimos cargar sus servicios.",
+  "serviciosCopia": "Sin conexión. Es la copia del {fecha} y puede estar desactualizada.",
+  "@serviciosCopia": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "serviciosVacioPublico": "Todavía no publica servicios.",
+  "serviciosReferencia": "Precios de referencia: no son una cotización.",
   "pedirCargandoOpciones": "Cargando opciones…",
-  "@pedirCargandoOpciones": {"description": "Texto de la app: pedirCargandoOpciones"},
+  "@pedirCargandoOpciones": {
+    "description": "Texto de la app: pedirCargandoOpciones"
+  },
   "pedirOficioNoDisponible": "Este oficio ya no está disponible. Puedes escribir lo que pasa.",
-  "@pedirOficioNoDisponible": {"description": "Texto de la app: pedirOficioNoDisponible"},
+  "@pedirOficioNoDisponible": {
+    "description": "Texto de la app: pedirOficioNoDisponible"
+  },
   "pedirSinOpciones": "No pudimos cargar las opciones. Puedes escribir lo que pasa.",
-  "@pedirSinOpciones": {"description": "Texto de la app: pedirSinOpciones"},
+  "@pedirSinOpciones": {
+    "description": "Texto de la app: pedirSinOpciones"
+  },
   "pedirOpcionesVacias": "No hay opciones sugeridas: escribe lo que pasa.",
-  "@pedirOpcionesVacias": {"description": "Texto de la app: pedirOpcionesVacias"},
+  "@pedirOpcionesVacias": {
+    "description": "Texto de la app: pedirOpcionesVacias"
+  },
   "pedirReintentar": "Reintentar",
-  "@pedirReintentar": {"description": "Texto de la app: pedirReintentar"},
+  "@pedirReintentar": {
+    "description": "Texto de la app: pedirReintentar"
+  },
   "pedirCopiaGuardada": "Sin conexión: opciones guardadas el {fecha}, pueden estar desactualizadas.",
-  "@pedirCopiaGuardada": {"description": "Texto de la app: pedirCopiaGuardada", "placeholders": {"fecha": {"type": "String"}}},
+  "@pedirCopiaGuardada": {
+    "description": "Texto de la app: pedirCopiaGuardada",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
   "pedirOficioNuevoFallo": "Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. {motivo}",
-  "@pedirOficioNuevoFallo": {"description": "Texto de la app: pedirOficioNuevoFallo", "placeholders": {"motivo": {"type": "String"}}}
+  "@pedirOficioNuevoFallo": {
+    "description": "Texto de la app: pedirOficioNuevoFallo",
+    "placeholders": {
+      "motivo": {
+        "type": "String"
+      }
+    }
+  }
 }
