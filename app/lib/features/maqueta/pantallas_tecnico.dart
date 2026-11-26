@@ -903,6 +903,14 @@ bool needVerif(BuildContext context, String why, void Function() cont) {
 }
 
 void openVerif(BuildContext context) {
+  // Con servidor el estado lo dice el servidor (spec 018).
+  if (ProviderScope.containerOf(
+    context,
+    listen: false,
+  ).read(solicitudesRealesActivasProvider)) {
+    unawaited(context.push(RT.verif));
+    return;
+  }
   switch (pv.status) {
     case 'verificado':
       unawaited(context.push(RT.verificado));

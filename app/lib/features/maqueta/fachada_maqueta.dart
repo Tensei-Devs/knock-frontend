@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
+import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
@@ -154,7 +156,14 @@ GoRoute rutaMaqueta() => GoRoute(
           state.uri.path == '/m/tecnico' ? Rutas.inicio : null,
       routes: [
         GoRoute(path: 'registro', builder: (c, s) => const TecRegistroScreen()),
-        GoRoute(path: 'verificacion', builder: (c, s) => const VerifScreen()),
+        GoRoute(
+          path: 'verificacion',
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Verificación',
+            real: const EstadoDeVerificacionReal(),
+            ejemplo: (_) => const VerifScreen(),
+          ),
+        ),
         GoRoute(path: 'pendiente', builder: (c, s) => const PendienteScreen()),
         GoRoute(
           path: 'verificado',
