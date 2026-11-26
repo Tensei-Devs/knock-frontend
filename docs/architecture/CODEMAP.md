@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T22:07:19Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T22:17:09Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,7 +24,7 @@
 | `l10n` | - | 3 | 4 | 155 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 48 | 265 | 511 |
-| `mensajes` | data, domain, presentation | 4 | 9 | 9 |
+| `mensajes` | data, domain, presentation | 4 | 9 | 10 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -589,7 +589,7 @@
 **data**
 
 - `app/lib/features/mensajes/data/conversaciones_repository_api.dart` — class `ConversacionesRepositoryApi`
-  - `consultar()`:17, `contador()`:35, `marcarLeido()`:45
+  - `consultar()`:17, `contador()`:36, `marcarLeido()`:46
 
 **domain**
 
@@ -599,7 +599,7 @@
 **presentation**
 
 - `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
-  - `reintentar()`:30, `canalConectado()`:62, `canalDesconectado()`:66, `actualizarTotalDesdeServidor()`:78, `limpiar()`:90, `dispose()`:103
+  - `reintentar()`:32, `cargarMas()`:67, `canalConectado()`:111, `canalDesconectado()`:115, `actualizarTotalDesdeServidor()`:128, `limpiar()`:141, `dispose()`:154
 
 ### mi
 

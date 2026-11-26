@@ -12,15 +12,74 @@ class RepositorioDePrueba implements ConversacionesRepository {
   );
   bool falla = false;
   Completer<ResumenConversaciones>? pendiente;
+  String? ultimoCursor;
 
   @override
-  Future<ResumenConversaciones> consultar() async {
+  Future<ResumenConversaciones> consultar({String? cursor}) async {
+    ultimoCursor = cursor;
     if (falla) throw Exception('sin red');
     return pendiente?.future ?? respuesta;
   }
 }
 
 void main() {
+  test('carga la siguiente página y elimina duplicados por id', () async {
+    const persona = ContraparteConversacion(nombre: 'Ana');
+    const primera = Conversacion(
+      id: 'c1',
+      solicitudId: 's1',
+      rol: 'cliente',
+      estado: 'abierta',
+      contraparte: persona,
+      servicio: 'Servicio',
+      noLeidos: 1,
+    );
+    const segunda = Conversacion(
+      id: 'c2',
+      solicitudId: 's2',
+      rol: 'cliente',
+      estado: 'abierta',
+      contraparte: persona,
+      servicio: 'Servicio',
+      noLeidos: 0,
+    );
+    final repo = RepositorioDePrueba()
+      ..respuesta = const ResumenConversaciones(
+        conversaciones: [primera],
+        totalNoLeidos: 1,
+        siguiente: 'cursor-2',
+      );
+    final controller = ConversacionesController(repo);
+    await controller.reintentar();
+    repo.respuesta = const ResumenConversaciones(
+      conversaciones: [primera, segunda],
+      totalNoLeidos: 1,
+    );
+    await controller.cargarMas();
+    expect(repo.ultimoCursor, 'cursor-2');
+    expect(controller.estado.conversaciones.map((e) => e.id), ['c1', 'c2']);
+    expect(controller.estado.siguiente, isNull);
+  });
+
+  test('una página pendiente no restaura datos después de limpiar', () async {
+    final repo = RepositorioDePrueba()
+      ..respuesta = const ResumenConversaciones(
+        conversaciones: [],
+        totalNoLeidos: 2,
+        siguiente: 'c2',
+      );
+    final controller = ConversacionesController(repo);
+    await controller.reintentar();
+    repo.pendiente = Completer<ResumenConversaciones>();
+    final carga = controller.cargarMas();
+    controller.limpiar();
+    repo.pendiente!.complete(
+      const ResumenConversaciones(conversaciones: [], totalNoLeidos: 8),
+    );
+    await carga;
+    expect(controller.estado.totalNoLeidos, isNull);
+    expect(controller.estado.siguiente, isNull);
+  });
   test(
     'CA_020_13 usa el total confirmado y congela al caer el canal',
     () async {

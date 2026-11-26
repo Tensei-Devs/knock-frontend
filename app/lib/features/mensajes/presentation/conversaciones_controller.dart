@@ -9,12 +9,14 @@ class EstadoConversaciones {
     this.totalNoLeidos,
     this.cargando = false,
     this.sinConexion = false,
+    this.siguiente,
   });
 
   final List<Conversacion> conversaciones;
   final int? totalNoLeidos;
   final bool cargando;
   final bool sinConexion;
+  final String? siguiente;
 }
 
 /// Mantiene solo en memoria los datos recibidos y descarta respuestas antiguas.
@@ -35,6 +37,7 @@ class ConversacionesController extends ChangeNotifier {
         totalNoLeidos: estado.totalNoLeidos,
         cargando: true,
         sinConexion: estado.sinConexion,
+        siguiente: estado.siguiente,
       ),
     );
     try {
@@ -44,6 +47,7 @@ class ConversacionesController extends ChangeNotifier {
         EstadoConversaciones(
           conversaciones: List.unmodifiable(resultado.conversaciones),
           totalNoLeidos: resultado.totalNoLeidos,
+          siguiente: resultado.siguiente,
           sinConexion: !_canalDisponible,
         ),
       );
@@ -53,6 +57,51 @@ class ConversacionesController extends ChangeNotifier {
         EstadoConversaciones(
           conversaciones: estado.conversaciones,
           totalNoLeidos: estado.totalNoLeidos,
+          sinConexion: true,
+          siguiente: estado.siguiente,
+        ),
+      );
+    }
+  }
+
+  Future<void> cargarMas() async {
+    final cursor = estado.siguiente;
+    if (_disposed || estado.cargando || cursor == null) return;
+    final generacion = ++_generacion;
+    _publicar(
+      EstadoConversaciones(
+        conversaciones: estado.conversaciones,
+        totalNoLeidos: estado.totalNoLeidos,
+        siguiente: cursor,
+        sinConexion: estado.sinConexion,
+        cargando: true,
+      ),
+    );
+    try {
+      final resultado = await _repository.consultar(cursor: cursor);
+      if (_disposed || generacion != _generacion) return;
+      final existentes = {for (final c in estado.conversaciones) c.id};
+      _publicar(
+        EstadoConversaciones(
+          conversaciones: List.unmodifiable([
+            ...estado.conversaciones,
+            for (final c in resultado.conversaciones)
+              if (existentes.add(c.id)) c,
+          ]),
+          totalNoLeidos: _canalDisponible
+              ? resultado.totalNoLeidos
+              : estado.totalNoLeidos,
+          siguiente: resultado.siguiente,
+          sinConexion: !_canalDisponible,
+        ),
+      );
+    } on Exception {
+      if (_disposed || generacion != _generacion) return;
+      _publicar(
+        EstadoConversaciones(
+          conversaciones: estado.conversaciones,
+          totalNoLeidos: estado.totalNoLeidos,
+          siguiente: cursor,
           sinConexion: true,
         ),
       );
@@ -71,6 +120,7 @@ class ConversacionesController extends ChangeNotifier {
         totalNoLeidos: estado.totalNoLeidos,
         cargando: estado.cargando,
         sinConexion: true,
+        siguiente: estado.siguiente,
       ),
     );
   }
@@ -83,6 +133,7 @@ class ConversacionesController extends ChangeNotifier {
         totalNoLeidos: total,
         cargando: estado.cargando,
         sinConexion: false,
+        siguiente: estado.siguiente,
       ),
     );
   }

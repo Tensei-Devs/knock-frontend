@@ -14,12 +14,13 @@ class ConversacionesRepositoryApi implements ConversacionesRepository {
   final String url;
 
   @override
-  Future<ResumenConversaciones> consultar() async {
+  Future<ResumenConversaciones> consultar({String? cursor}) async {
     final r = await enviarJsonONoEncontrado(
       transporte,
       url,
       'GET',
       'conversaciones',
+      consulta: {'limit': '20', 'cursor': ?cursor},
     );
     final m = objetoDelContrato(r.json);
     return ResumenConversaciones(

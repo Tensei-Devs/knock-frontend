@@ -1,6 +1,6 @@
 import 'conversacion.dart';
 
-/// Puerto de lectura. No hay implementación de producción hasta integrar la API.
+/// Puerto de lectura de conversaciones.
 abstract interface class ConversacionesRepository {
-  Future<ResumenConversaciones> consultar();
+  Future<ResumenConversaciones> consultar({String? cursor});
 }

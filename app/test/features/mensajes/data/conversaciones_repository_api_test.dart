@@ -6,6 +6,20 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 void main() {
+  test('envía el cursor de la siguiente página', () async {
+    final cliente = MockClient((r) async {
+      expect(r.url.queryParameters, {'cursor': 'pagina-2', 'limit': '20'});
+      return http.Response(
+        '{"items":[],"totalNoLeidos":1,"nextCursor":null}',
+        200,
+      );
+    });
+    final repo = ConversacionesRepositoryApi(
+      transporte: cliente,
+      url: 'https://example.test',
+    );
+    expect((await repo.consultar(cursor: 'pagina-2')).siguiente, isNull);
+  });
   test('CA_020_09 consulta conversaciones y contador', () async {
     final cliente = MockClient((r) async {
       expect(r.url.path, '/api/v1/conversaciones');

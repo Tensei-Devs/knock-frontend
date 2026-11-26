@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Paginación del dominio de conversaciones (KNOCK-73)
+- **Avance:** el repositorio envía `limit=20` y el cursor del contrato; el controlador concatena páginas sin repetir ids y descarta respuestas tardías al limpiar. Once pruebas focalizadas y `flutter analyze` pasan.
+- **Límite:** sigue sin conexión a pantallas, sesión ni hub; `sdd_lint --trace 020` reporta tres faltantes y las coincidencias por nombre no prueban CA-13 ni CA-14 completos.
+
 ## 2026-11-26 — REST de conversaciones, avance parcial (KNOCK-73)
 - **Avance:** repositorio con lectura de la primera página, contador y marca de lectura según el contrato de #110; probado con API simulada.
 - **Límite:** no está conectado a pantalla ni sesión; falta implementar la consulta de páginas siguientes y el hub real. La marca no debe ejecutarse hasta que exista una pantalla aprobada que muestre realmente los mensajes. No se envían mensajes.
