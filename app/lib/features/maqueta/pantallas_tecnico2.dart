@@ -4,6 +4,7 @@ import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/horarios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
@@ -1118,34 +1119,39 @@ class _PerfilEditarState extends State<PerfilEditarScreen> {
             ),
           ], gap: 12),
         ),
-        GroupK([
-          for (var i = 0; i < 3; i++)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                spacing: 14,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 2,
-                      children: [
-                        T(hd[i][0], w: FontWeight.w800),
-                        sMut(pv.hours[i] ? hd[i][1] : 'Cerrado', size: 13.5),
-                      ],
+        HorariosSegunSesion(
+          ejemplo: GroupK([
+            for (var i = 0; i < 3; i++)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                child: Row(
+                  spacing: 14,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 2,
+                        children: [
+                          T(hd[i][0], w: FontWeight.w800),
+                          sMut(pv.hours[i] ? hd[i][1] : 'Cerrado', size: 13.5),
+                        ],
+                      ),
                     ),
-                  ),
-                  Sw(
-                    on: pv.hours[i],
-                    onTap: () {
-                      pv.hours[i] = !pv.hours[i];
-                      setState(() {});
-                    },
-                  ),
-                ],
+                    Sw(
+                      on: pv.hours[i],
+                      onTap: () {
+                        pv.hours[i] = !pv.hours[i];
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-        ]),
+          ]),
+        ),
         BtnK(
           'Ver cómo lo ven los clientes',
           () {

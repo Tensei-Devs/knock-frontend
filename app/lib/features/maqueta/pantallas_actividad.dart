@@ -8,11 +8,13 @@ import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/opiniones_reales.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/visita_real.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -367,6 +369,14 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
       );
     case 'terminado' when j.real:
       pill = const Pill('Terminado', kind: 'gray');
+      if (j.porCalificar) {
+        action = BtnK(
+          AppLocalizations.of(context).opinionesCalificarBoton,
+          () => context.push(RM.calificar(j.id)),
+          kind: Bk.sec,
+          sm: true,
+        );
+      }
     case 'visita':
       pill = Pill(
         j.diag ? 'Visita para cotizar' : 'Visita confirmada',
@@ -1927,6 +1937,10 @@ class _CalificarScreenState extends State<CalificarScreen> {
   @override
   Widget build(BuildContext context) {
     final j = maq.job(widget.id)!;
+    // Una visita real se califica en el servidor (spec 041, OPI-02).
+    if (j.real && j.visitaId != null) {
+      return CalificarReal(visitaId: j.visitaId!, trabajo: j.title);
+    }
     final pr = provs[j.pid]!;
     final first = pr.first;
     final k = kc(context);

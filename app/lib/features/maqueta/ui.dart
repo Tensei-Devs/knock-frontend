@@ -1303,7 +1303,7 @@ class FieldK extends StatelessWidget {
           Row(
             spacing: 6,
             children: [
-              // Con texto grande la etiqueta se parte en renglones.
+              // Una etiqueta larga baja de renglón en vez de desbordar.
               Flexible(child: T(label, size: 15, w: FontWeight.w900)),
               if (opt)
                 T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),

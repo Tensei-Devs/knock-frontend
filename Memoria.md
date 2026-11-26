@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
+- **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
+- **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.
+- **Pendiente:** el interruptor «Disponible hoy» no se conectó: su valor actual solo llega en `GET /tecnicos/me/trabajo` (spec 019, en otro PR). Textos de la maqueta, sin ARB (spec 045). Sin probar contra el backend desplegado.
+
 ## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
 - **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
@@ -732,8 +737,18 @@
 - **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
 - **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).
 
+## 2026-11-26 — Opiniones y reputación contra la API (KNOCK-266, spec 041)
+- **Qué cambió:** `features/opiniones/` conecta `GET /tecnicos/{id}/opiniones`, `POST /visitas/{id}/opinion` y `POST /opiniones/{id}/respuesta`. En la maqueta, el perfil y «Opiniones» de un técnico real muestran lo del servidor (con la última copia en memoria sin conexión) y una solicitud terminada se califica desde Actividad. El perfil de un técnico real ya no usa datos de ejemplo (fallaba por no tener servicios).
+- **Por qué:** las pantallas usaban opiniones inventadas.
+- **Pendiente:** «Mi reputación (Responder)» sigue de ejemplo: ninguna lectura del contrato le da a la app el id de técnico de la cuenta para pedir sus opiniones (el repositorio de la respuesta ya está). Las fotos de opiniones esperan la entrega de imágenes (spec 032). Sin probar contra el backend desplegado.
+- **A evitar:** usar `PUT /tecnicos/me` solo para averiguar el id propio.
 ## 2026-11-26 — Consentimientos y descarga de datos contra la API (KNOCK-127)
 - **Qué cambió:** con sesión y API, «Privacidad y datos» lee y cambia `me/consentimientos` y, con `--dart-define=EXPORTACION_DE_DATOS=true`, pide y consulta la descarga (`me/exportaciones` y `me/exportaciones/ultima`), con textos en ARB.
 - **Por qué:** los interruptores y «Pedir» solo vivían en memoria.
 - **Pendiente:** la descarga va apagada porque su almacenamiento en Azure no existe; abrir el aviso `exportacion_lista` aún no lleva a esta pantalla; «Corregir mis datos» sigue de ejemplo. Sin probar contra el backend desplegado.
 - **A evitar:** guardar o registrar el enlace de descarga.
+
+## 2026-11-26 — Eliminar la cuenta desde la app (KNOCK-104)
+- **Qué cambió:** pendientes, solicitud y cancelación de la eliminación contra la API (spec 029).
+- **Por qué:** conectar la pantalla de cuenta al contrato.
+- **A evitar:** probarlo contra una cuenta real sin avisar; no se probó con el backend desplegado.

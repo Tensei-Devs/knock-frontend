@@ -3,9 +3,21 @@
   "citaExistente": "Cita existente",
   "visitaRecuperacionFallida": "No pudimos recuperar la visita. Consulta tu actividad.",
   "citaMonto": "Cotización: {monto}",
-  "@citaMonto": {"placeholders": {"monto": {"type": "String"}}},
+  "@citaMonto": {
+    "placeholders": {
+      "monto": {
+        "type": "String"
+      }
+    }
+  },
   "citaTope": "Máximo: {monto}",
-  "@citaTope": {"placeholders": {"monto": {"type": "String"}}},
+  "@citaTope": {
+    "placeholders": {
+      "monto": {
+        "type": "String"
+      }
+    }
+  },
   "appTitle": "Knock",
   "@appTitle": {
     "description": "Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce."
@@ -1380,7 +1392,13 @@
   "cuentaDescargarSinPedir": "Aún no has pedido tu archivo. Lo preparamos en un máximo de 48 horas.",
   "cuentaDescargarEnPreparacion": "Estamos preparando tu archivo. Puede tardar hasta 48 horas.",
   "cuentaDescargarLista": "Tu archivo está listo. El enlace vence el {fecha}.",
-  "@cuentaDescargarLista": {"placeholders": {"fecha": {"type": "String"}}},
+  "@cuentaDescargarLista": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
   "cuentaDescargarVencida": "Tu archivo anterior venció. Puedes pedirlo otra vez.",
   "cuentaDescargarPedir": "Pedir mi archivo",
   "cuentaActualizar": "Actualizar",
@@ -1402,14 +1420,212 @@
   "cuentaConsentimientoOtro": "Otro consentimiento",
   "cuentaConsentimientoObligatorio": "Obligatorio: no se puede apagar",
   "cuentaConsentimientoRegistro": "Versión {version} · {fecha}",
-  "@cuentaConsentimientoRegistro": {"placeholders": {"version": {"type": "String"}, "fecha": {"type": "String"}}},
+  "@cuentaConsentimientoRegistro": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesTitulo": "Opiniones",
+  "@opinionesTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCargando": "Cargando las opiniones…",
+  "@opinionesCargando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesError": "No pudimos cargar las opiniones.",
+  "@opinionesError": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesNoDisponible": "Ese técnico ya no está disponible.",
+  "@opinionesNoDisponible": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesReintentar": "Reintentar",
+  "@opinionesReintentar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVacio": "Aún sin opiniones. Las primeras llegan después de su primer servicio por Knock.",
+  "@opinionesVacio": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCopia": "Sin conexión. Es lo que viste el {fecha}; puede estar desactualizado.",
+  "@opinionesCopia": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPromedio": "★ {promedio} de 5",
+  "@opinionesPromedio": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "promedio": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesTotal": "{total, plural, =1{1 opinión} other{{total} opiniones}}",
+  "@opinionesTotal": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesEstrellas": "{estrellas} estrellas: {total}",
+  "@opinionesEstrellas": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrellas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesVerTodas": "Ver las opiniones",
+  "@opinionesVerTodas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVerMas": "Ver más",
+  "@opinionesVerMas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesServicioVerificado": "Servicio verificado",
+  "@opinionesServicioVerificado": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesAnonima": "Usuario eliminado",
+  "@opinionesAnonima": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesRespuesta": "Respuesta del técnico: {texto}",
+  "@opinionesRespuesta": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "texto": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPuntualidad": "Puntualidad",
+  "@opinionesPuntualidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalidad": "Calidad",
+  "@opinionesCalidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPrecioJusto": "Precio justo",
+  "@opinionesPrecioJusto": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesTrato": "Trato",
+  "@opinionesTrato": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarTitulo": "Califica el servicio",
+  "@opinionesCalificarTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarPregunta": "¿Cómo te fue?",
+  "@opinionesCalificarPregunta": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarBoton": "Calificar el servicio",
+  "@opinionesCalificarBoton": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEstrellaBoton": "{estrella} de 5 estrellas",
+  "@opinionesEstrellaBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesParteBoton": "{parte}: {estrella} de 5 estrellas",
+  "@opinionesParteBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "parte": {
+        "type": "String"
+      },
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesPorPartes": "Por partes (opcional)",
+  "@opinionesPorPartes": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesComentario": "Cuéntale a otros cómo fue",
+  "@opinionesComentario": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesGuardarConfianza": "Guardar en mis técnicos de confianza",
+  "@opinionesGuardarConfianza": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicar": "Publicar opinión",
+  "@opinionesPublicar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicando": "Publicando…",
+  "@opinionesPublicando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesElige": "Elige cuántas estrellas para continuar",
+  "@opinionesElige": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEnviada": "Recibimos tu opinión. ¡Gracias!",
+  "@opinionesEnviada": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorNoPermitida": "Esta visita ya no se puede calificar: ya opinaste o pasaron los 30 días.",
+  "@opinionesErrorNoPermitida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorYaRespondida": "Esta opinión ya tiene respuesta.",
+  "@opinionesErrorYaRespondida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVisitaNoDisponible": "Esa visita ya no está disponible.",
+  "@opinionesVisitaNoDisponible": {
+    "description": "Opiniones (spec 041)."
+  },
   "cuentaPendientesCargando": "Revisando lo que tienes pendiente…",
   "cuentaPendientesVacio": "No tienes citas ni cotizaciones abiertas.",
   "cuentaPendientesTitulo": "Lo que tienes pendiente",
   "cuentaPendientesCitas": "Citas abiertas: {total}",
-  "@cuentaPendientesCitas": {"placeholders": {"total": {"type": "int"}}},
+  "@cuentaPendientesCitas": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "cuentaPendientesCotizaciones": "Cotizaciones abiertas: {total}",
-  "@cuentaPendientesCotizaciones": {"placeholders": {"total": {"type": "int"}}},
+  "@cuentaPendientesCotizaciones": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "cuentaPendientesNota": "Al programar la eliminación se cancelan tus solicitudes abiertas y las cotizaciones pendientes, y avisamos a las personas involucradas.",
   "cuentaEliminarTitulo": "Eliminar cuenta",
   "cuentaEliminarPregunta": "¿Seguro que quieres eliminar tu cuenta?",
@@ -1426,7 +1642,13 @@
   "cuentaEliminarMejorNo": "Mejor no",
   "cuentaEliminacionProgramada": "Tu cuenta está programada para eliminarse",
   "cuentaEliminacionProgramadaEl": "Tu cuenta se eliminará el {fecha}",
-  "@cuentaEliminacionProgramadaEl": {"placeholders": {"fecha": {"type": "String"}}},
+  "@cuentaEliminacionProgramadaEl": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
   "cuentaEliminacionDetalle": "Tienes 7 días para arrepentirte: antes de que termine el plazo puedes cancelar la eliminación.",
   "cuentaEliminacionCargando": "Revisando tu cuenta…",
   "cuentaEliminacionNinguna": "No tienes una eliminación programada",

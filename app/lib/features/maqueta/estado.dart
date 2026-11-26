@@ -106,6 +106,10 @@ class Job {
   /// Visita de la cita elegida (solo en las reales).
   String? visitaId;
 
+  /// La visita terminó y todavía no tiene opinión (solo en las reales; el
+  /// plazo de 30 días lo decide el servidor, spec 041).
+  bool porCalificar = false;
+
   /// De la visita real (`GET /visitas/{id}`): por qué no hay código
   /// (`usado`, `vencido`, `bloqueada` o `no_aplica`) y el lugar de la cita.
   String? motivoCodigo;
