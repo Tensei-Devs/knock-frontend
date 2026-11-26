@@ -1,3 +1,7 @@
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/avisos_reales.dart';
+
 import 'dart:async';
 
 import 'package:app/core/preferencias/preferencias_provider.dart';
@@ -1095,7 +1099,17 @@ class ConfigMaqueta extends ConsumerWidget {
 class AvisosConfigScreen extends StatelessWidget {
   const AvisosConfigScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => Consumer(
+    builder: (context, ref, _) => ref.watch(solicitudesRealesActivasProvider)
+        ? const Pg(
+            title: 'Qué avisos recibir',
+            body: PreferenciasDeAvisosReales(),
+          )
+        : _ejemplo(context),
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     const opt = [
       ('Recordatorios de mantenimiento', 'Aceite, tinaco, boiler y más'),
       ('Opiniones y respuestas', 'Cuando un experto responde tu opinión'),
@@ -1153,7 +1167,14 @@ Widget _swRow(String t, String s, bool on, VoidCallback? onTap) => Padding(
 class AvisosScreen extends StatelessWidget {
   const AvisosScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => Consumer(
+    builder: (context, ref, _) => ref.watch(solicitudesRealesActivasProvider)
+        ? const Pg(title: 'Avisos', body: AvisosReales())
+        : _ejemplo(context),
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final tec = pv.me.registered ? pv.notifs : <AvisoT>[];
     if (maq.notifs.isEmpty && tec.isEmpty) {

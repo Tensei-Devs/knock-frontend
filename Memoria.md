@@ -703,3 +703,9 @@
 - **Por qué:** las filas decían «en revisión» o «bloqueada» para cosas ya fusionadas.
 - **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
 - **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
+
+## 2026-11-26 — Avisos y preferencias contra la API (KNOCK-105)
+- **Qué cambió:** con sesión y API, «Avisos» lista por páginas y marca leídos (uno y todos) y «Qué avisos recibir» muestra los interruptores que manda el servidor, incluido cuáles se pueden apagar; un interruptor solo cambia cuando el servidor lo confirma. Feature `bandeja_avisos`.
+- **Por qué:** las dos pantallas usaban listas de ejemplo en memoria.
+- **Pendiente:** abrir el destino de un aviso (el contrato no publica la forma de `destino`), el contador de la campana (CA-15), textos en ARB (CA-18) y los avisos `sistema` y sin rol (backend sin fusionar). Sin probar contra el backend desplegado.
+- **A evitar:** adivinar la forma de `destino`; fijar en la app qué avisos se pueden apagar; descartar un tipo que la app no conoce.
