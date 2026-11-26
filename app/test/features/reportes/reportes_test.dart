@@ -250,7 +250,7 @@ void main() {
       nombre: 'Persona Ejemplo',
       bloqueadoEn: DateTime.utc(2026, 11, 20),
     );
-    final reporte = NuevoReporte(
+    final reporte = const NuevoReporte(
       reportadoId: 'u-2',
       visitaId: 'v-1',
       motivo: MotivoDeReporte.otro,

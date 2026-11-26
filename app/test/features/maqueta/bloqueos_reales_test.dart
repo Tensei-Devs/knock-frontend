@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import '../../soporte/accesibilidad.dart';
 import '../../soporte/api_falsa.dart';
 import '../../soporte/montar_app.dart';
-import '../../soporte/montar_cuerpo_real.dart';
 import '../../soporte/preparar_maqueta.dart';
 import '../../soporte/reportes_json.dart';
 
@@ -163,7 +162,7 @@ void main() {
     var falla = true;
     final api = ApiFalsa(
       (_) => falla
-          ? http.Response('', 500)
+          ? http.Response('', 422)
           : jsonOk(paginaDeBloqueadosJson(['u-2'], null)),
     );
     await _montar(tester, api, const PersonasBloqueadasReales());
@@ -191,10 +190,10 @@ void main() {
   testWidgets('CA_033_09 «Ver más» pide la página siguiente sin repetir', (
     tester,
   ) async {
-    final api = _servidor(
-      (_) => jsonOk(paginaDeBloqueadosJson([], null)),
-      bloqueados: ['u-2'],
-      cursor: 'c1',
+    final api = ApiFalsa(
+      (p) => p.url.queryParameters['cursor'] == 'c1'
+          ? jsonOk(paginaDeBloqueadosJson(['u-2', 'u-3'], null))
+          : jsonOk(paginaDeBloqueadosJson(['u-2'], 'c1')),
     );
     await _montar(tester, api, const PersonasBloqueadasReales());
 
@@ -214,7 +213,7 @@ void main() {
     final api = ApiFalsa((p) {
       if (p.ruta == 'reportes/me') {
         return falla
-            ? http.Response('', 500)
+            ? http.Response('', 422)
             : jsonOk(paginaDeReportesJson([], null));
       }
       return jsonOk(paginaDeBloqueadosJson([], null));

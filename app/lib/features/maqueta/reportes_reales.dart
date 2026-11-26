@@ -1,6 +1,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/lista_paginada_real.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/reportes/reportes.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -188,45 +189,37 @@ class _FormularioState extends ConsumerState<_Formulario> {
 
 /// «Mis reportes» dentro del Centro de ayuda (REP-02 y REP-03): estados,
 /// «Ver más» y apelar una decisión.
-class MisReportesReales extends ConsumerWidget {
+class MisReportesReales extends ListaPaginadaReal<PaginaReportes> {
   const MisReportesReales({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final textos = AppLocalizations.of(context);
-    final control = ref.read(misReportesControllerProvider.notifier);
-    return stack([
-      h2(textos.bloqueosMios),
-      ref
-          .watch(misReportesControllerProvider)
-          .when(
-            skipLoadingOnRefresh: false,
-            loading: () => sMut(textos.bloqueosCargandoLista),
-            error: (e, _) => stack([
-              NoteK(
-                'red',
-                'help',
-                e is ServicioNoDisponibleFailure
-                    ? textos.errorSinConexion
-                    : textos.bloqueosErrorLista,
-              ),
-              BtnK(textos.bloqueosReintentar, control.reintentar, kind: Bk.sec),
-            ], gap: 8),
-            data: (pagina) => stack([
-              if (pagina.items.isEmpty) sMut(textos.bloqueosVacio),
-              for (final r in pagina.items)
-                _TarjetaDeReporte(r, key: ValueKey(r.reporteId)),
-              if (pagina.siguiente != null)
-                BtnK(textos.bloqueosVerMas, () async {
-                  final falla = await control.cargarMas();
-                  if (falla != null && context.mounted) {
-                    maq.toast(mensajeDeError(textos, falla));
-                  }
-                }, kind: Bk.ghost),
-            ], gap: 10),
-          ),
-    ], gap: 10);
-  }
+  TextosDeLista textosDeLista(AppLocalizations t) => (
+    titulo: t.bloqueosMios,
+    cargando: t.bloqueosCargandoLista,
+    error: t.bloqueosErrorLista,
+    vacio: t.bloqueosVacio,
+  );
+
+  @override
+  AsyncValue<PaginaReportes> observar(WidgetRef ref) =>
+      ref.watch(misReportesControllerProvider);
+
+  @override
+  List<Widget> filas(PaginaReportes pagina) => [
+    for (final r in pagina.items)
+      _TarjetaDeReporte(r, key: ValueKey(r.reporteId)),
+  ];
+
+  @override
+  bool hayMas(PaginaReportes pagina) => pagina.siguiente != null;
+
+  @override
+  void reintentar(WidgetRef ref) =>
+      ref.read(misReportesControllerProvider.notifier).reintentar();
+
+  @override
+  Future<Failure?> cargarMas(WidgetRef ref) =>
+      ref.read(misReportesControllerProvider.notifier).cargarMas();
 }
 
 class _TarjetaDeReporte extends ConsumerStatefulWidget {

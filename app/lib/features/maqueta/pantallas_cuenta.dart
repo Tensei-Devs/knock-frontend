@@ -16,6 +16,7 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/maqueta/direcciones_reales.dart';
 import 'package:app/features/maqueta/casa_y_auto_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
@@ -384,6 +385,11 @@ class _Gl extends StatelessWidget {
 
 void editarDatos(BuildContext context) {
   final u = maq.user;
+  // Con sesión y API, las direcciones son las del servidor (spec 030).
+  final conServidor = ProviderScope.containerOf(
+    context,
+    listen: false,
+  ).read(solicitudesRealesActivasProvider);
   final name = TextEditingController(text: u.name);
   final addr = TextEditingController(text: u.addr);
   var col = u.col;
@@ -439,15 +445,18 @@ void editarDatos(BuildContext context) {
           err: err && !okN ? 'Escribe tu nombre (solo letras)' : null,
           onChanged: (_) => set(() {}),
         ),
-        FieldK(
-          label: 'Calle y número',
-          opt: true,
-          c: addr,
-          hint: 'Ej.: Calle Jacarandas 45',
-          err: err && !okA ? 'Escribe calle y número' : null,
-          help: 'Se pide al pedir un servicio a domicilio. Solo la ve el experto que elijas.',
-          onChanged: (_) => set(() {}),
-        ),
+        if (conServidor)
+          const DireccionesReales()
+        else
+          FieldK(
+            label: 'Calle y número',
+            opt: true,
+            c: addr,
+            hint: 'Ej.: Calle Jacarandas 45',
+            err: err && !okA ? 'Escribe calle y número' : null,
+            help: 'Se pide al pedir un servicio a domicilio. Solo la ve el experto que elijas.',
+            onChanged: (_) => set(() {}),
+          ),
         stack([
           labT('Colonia'),
           chipsWrap([
@@ -472,7 +481,10 @@ void editarDatos(BuildContext context) {
           }
           u.name = nm;
           u.first = nm.split(' ').first;
-          u.addr = addr.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+          // Con servidor la dirección vive en `me/direcciones` (spec 030).
+          if (!conServidor) {
+            u.addr = addr.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+          }
           u.col = col;
           u.photoPath = photo;
           Navigator.pop(ctx);

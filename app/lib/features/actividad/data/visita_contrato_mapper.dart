@@ -41,6 +41,7 @@ abstract final class VisitaContratoMapper {
           : null,
       motivoCodigo: motivo is String ? MotivoCodigo.desdeTexto(motivo) : null,
       puedeAvisar: m['puedeAvisar'] == true,
+      reprogramacionPendiente: m['reprogramacionPendiente'] == true,
       precio: _entero(m['precio']),
       tope: _entero(m['tope']),
     );

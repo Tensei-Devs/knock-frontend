@@ -1,6 +1,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/maqueta/estado.dart';
+import 'package:app/features/maqueta/lista_paginada_real.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/reportes/reportes.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -22,45 +23,36 @@ String _errorDeBloqueo(
 
 /// «Personas bloqueadas» (spec 033, BLO-03) con «Desbloquear» (BLO-02). Se
 /// muestra en el Centro de ayuda; solo con sesión y API.
-class PersonasBloqueadasReales extends ConsumerWidget {
+class PersonasBloqueadasReales extends ListaPaginadaReal<PaginaBloqueados> {
   const PersonasBloqueadasReales({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final textos = AppLocalizations.of(context);
-    final control = ref.read(bloqueosControllerProvider.notifier);
-    return stack([
-      h2(textos.bloqueosPersonasTitulo),
-      ref
-          .watch(bloqueosControllerProvider)
-          .when(
-            skipLoadingOnRefresh: false,
-            loading: () => sMut(textos.bloqueosPersonasCargando),
-            error: (e, _) => stack([
-              NoteK(
-                'red',
-                'help',
-                e is ServicioNoDisponibleFailure
-                    ? textos.errorSinConexion
-                    : textos.bloqueosPersonasError,
-              ),
-              BtnK(textos.bloqueosReintentar, control.reintentar, kind: Bk.sec),
-            ], gap: 8),
-            data: (pagina) => stack([
-              if (pagina.items.isEmpty) sMut(textos.bloqueosPersonasVacio),
-              for (final p in pagina.items)
-                _FilaBloqueada(p, key: ValueKey(p.usuarioId)),
-              if (pagina.siguiente != null)
-                BtnK(textos.bloqueosVerMas, () async {
-                  final falla = await control.cargarMas();
-                  if (falla != null && context.mounted) {
-                    maq.toast(mensajeDeError(textos, falla));
-                  }
-                }, kind: Bk.ghost),
-            ], gap: 10),
-          ),
-    ], gap: 10);
-  }
+  TextosDeLista textosDeLista(AppLocalizations t) => (
+    titulo: t.bloqueosPersonasTitulo,
+    cargando: t.bloqueosPersonasCargando,
+    error: t.bloqueosPersonasError,
+    vacio: t.bloqueosPersonasVacio,
+  );
+
+  @override
+  AsyncValue<PaginaBloqueados> observar(WidgetRef ref) =>
+      ref.watch(bloqueosControllerProvider);
+
+  @override
+  List<Widget> filas(PaginaBloqueados pagina) => [
+    for (final p in pagina.items) _FilaBloqueada(p, key: ValueKey(p.usuarioId)),
+  ];
+
+  @override
+  bool hayMas(PaginaBloqueados pagina) => pagina.siguiente != null;
+
+  @override
+  void reintentar(WidgetRef ref) =>
+      ref.read(bloqueosControllerProvider.notifier).reintentar();
+
+  @override
+  Future<Failure?> cargarMas(WidgetRef ref) =>
+      ref.read(bloqueosControllerProvider.notifier).cargarMas();
 }
 
 class _FilaBloqueada extends StatelessWidget {

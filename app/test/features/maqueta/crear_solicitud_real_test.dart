@@ -12,6 +12,8 @@ import 'package:app/features/actividad/data/foto_preparada.dart';
 import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/subida_de_fotos_api.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
+import 'package:app/features/direcciones/data/direcciones_repository_api.dart';
+import 'package:app/features/direcciones/direcciones_providers.dart';
 import 'package:app/features/inicio/data/zonas_repository_http.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/datos.dart';
@@ -83,6 +85,7 @@ String _idDeFoto(int n) => '$n'.padLeft(32, '0');
 ApiFalsa _servidor({
   FutureOr<http.Response> Function()? alCrear,
   http.Response? Function(String id)? alConfirmar,
+  String coloniaGuardada = 'Col. Centro',
 }) {
   var creada = false;
   var enlaces = 0;
@@ -102,6 +105,18 @@ ApiFalsa _servidor({
       return alConfirmar?.call(id) ?? jsonOk({'id': id});
     }
     if (ruta.startsWith('GET /api/v1/zonas/cp/')) return jsonOk(_zona());
+    if (ruta == 'GET /api/v1/me/direcciones') {
+      return jsonOk([
+        {
+          'id': 'dir-1',
+          'calleNumero': 'Calle Jacarandas 45',
+          'colonia': coloniaGuardada,
+          'referencias': null,
+          'principal': true,
+          'creadoEn': '2026-11-20T18:00:00Z',
+        },
+      ]);
+    }
     if (ruta == 'POST /api/v1/solicitudes') {
       final r = await (alCrear?.call() ?? jsonOk(_creada(), estado: 201));
       if (r.statusCode == 201) creada = true;
@@ -167,6 +182,9 @@ Future<void> _abrir(
         ),
       ),
       subidaDeFotosActivaProvider.overrideWithValue(conFotos),
+      direccionesRepositoryProvider.overrideWithValue(
+        DireccionesRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
+      ),
       zonasRepositoryProvider.overrideWithValue(
         ZonasRepositoryHttp(transporte: api.cliente, url: urlApiPrueba),
       ),
@@ -284,9 +302,8 @@ void main() {
 
   testWidgets('CA_288_05 una colonia que el servidor no conoce no envía '
       'nada', (tester) async {
-    final api = _servidor();
+    final api = _servidor(coloniaGuardada: 'Col. Inventada');
     await _abrir(tester, api);
-    maq.user.col = 'Col. Inventada';
 
     await tester.tap(find.text('Enviar solicitud'));
     await asentarMaqueta(tester);

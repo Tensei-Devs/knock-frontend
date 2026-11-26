@@ -30,6 +30,115 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'Knock';
 
   @override
+  String get busquedaTitulo => 'Buscar';
+
+  @override
+  String get busquedaEtiqueta => '¿Qué necesitas?';
+
+  @override
+  String get busquedaPlaceholder => 'Ej.: boiler, frenos, un contacto';
+
+  @override
+  String get busquedaMinimo => 'Escribe al menos 2 letras';
+
+  @override
+  String busquedaContador(int n) {
+    return '$n/80';
+  }
+
+  @override
+  String get busquedaCargando => 'Buscando…';
+
+  @override
+  String get busquedaSugerencias => 'Sugerencias';
+
+  @override
+  String get busquedaSoloVerificados => 'Solo verificados';
+
+  @override
+  String get busquedaSoloVerificadosActivo => 'Solo verificados, seleccionado';
+
+  @override
+  String busquedaBuscamos(String oficio) {
+    return 'Buscamos: $oficio';
+  }
+
+  @override
+  String get busquedaAmbiguo => '¿Cuál de estos buscas?';
+
+  @override
+  String get busquedaNoEntendimos => 'No entendimos qué necesitas';
+
+  @override
+  String get busquedaElegirCategoria => 'Elige una categoría';
+
+  @override
+  String get busquedaSinResultados =>
+      'No encontramos expertos con esa búsqueda.';
+
+  @override
+  String busquedaSinResultadosOficio(String oficio) {
+    return 'Todavía no hay expertos de $oficio en tu colonia';
+  }
+
+  @override
+  String get busquedaPedirCotizacion => 'Pedir cotización de todos modos';
+
+  @override
+  String get busquedaSinZona => 'Elige tu zona para buscar expertos cerca';
+
+  @override
+  String get busquedaElegirZona => 'Elegir mi zona';
+
+  @override
+  String get busquedaCargarMas => 'Ver más';
+
+  @override
+  String get busquedaTope =>
+      'Mostramos los primeros 100. Agrega más palabras para afinar.';
+
+  @override
+  String busquedaTotal(int n) {
+    return '$n resultados';
+  }
+
+  @override
+  String get busquedaReintentar => 'Reintentar';
+
+  @override
+  String get busquedaSinConexion => 'Sin conexión';
+
+  @override
+  String get busquedaNoDisponible =>
+      'La búsqueda no está disponible en este momento. Intenta de nuevo.';
+
+  @override
+  String get busquedaOtrasPalabras => 'Prueba con otras palabras';
+
+  @override
+  String busquedaEspera(int segundos) {
+    return 'Hiciste muchas búsquedas seguidas. Espera $segundos segundos.';
+  }
+
+  @override
+  String busquedaCalificacion(String calificacion, int n) {
+    return '$calificacion estrellas, $n reseñas';
+  }
+
+  @override
+  String busquedaDistancia(int km) {
+    return 'a unos $km km';
+  }
+
+  @override
+  String busquedaVerificado(String nivel) {
+    return 'Verificado: $nivel';
+  }
+
+  @override
+  String get busquedaNoAtiende => 'No atiende tu colonia';
+
+  @override
   String get tabInicio => 'Inicio';
 
   @override
@@ -1510,6 +1619,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bloqueosConfirmarBloqueo => 'Sí, bloquear';
 
   @override
+  String get bloqueosCancelar => 'Cancelar';
+
+  @override
   String get bloqueosDeshacer => 'Deshacer';
 
   @override
@@ -1521,4 +1633,171 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get bloqueosErrorNoBloquearse => 'No puedes bloquearte a ti mismo.';
+
+  @override
+  String get direccionesTitulo => 'Mis direcciones';
+
+  @override
+  String get direccionesCargando => 'Cargando tus direcciones…';
+
+  @override
+  String get direccionesError => 'No pudimos cargar tus direcciones.';
+
+  @override
+  String get direccionesReintentar => 'Reintentar';
+
+  @override
+  String get direccionesVacio => 'Aún no tienes direcciones guardadas.';
+
+  @override
+  String get direccionesAgregar => 'Agregar dirección';
+
+  @override
+  String get direccionesEditar => 'Editar';
+
+  @override
+  String get direccionesEliminar => 'Eliminar';
+
+  @override
+  String get direccionesPrincipal => 'Principal';
+
+  @override
+  String get direccionesSinReferencias => 'Sin referencias';
+
+  @override
+  String get direccionesNueva => 'Nueva dirección';
+
+  @override
+  String get direccionesEditarTitulo => 'Editar dirección';
+
+  @override
+  String get direccionesCalle => 'Calle y número';
+
+  @override
+  String get direccionesReferencias => 'Referencias (opcional)';
+
+  @override
+  String direccionesColonia(String colonia) {
+    return 'Colonia: $colonia';
+  }
+
+  @override
+  String direccionesCambiarColonia(String colonia) {
+    return 'Usar mi colonia actual: $colonia';
+  }
+
+  @override
+  String get direccionesMarcarPrincipal => 'Usar como principal';
+
+  @override
+  String get direccionesGuardar => 'Guardar dirección';
+
+  @override
+  String get direccionesGuardando => 'Guardando…';
+
+  @override
+  String get direccionesCancelar => 'Cancelar';
+
+  @override
+  String get direccionesConfirmarEliminar => '¿Eliminar esta dirección?';
+
+  @override
+  String get direccionesNoDisponible => 'Esa dirección ya no está disponible.';
+
+  @override
+  String get visitaReprogramar => 'Reprogramar la cita';
+
+  @override
+  String get visitaCancelar => 'Cancelar el servicio';
+
+  @override
+  String get visitaCambioPendiente =>
+      'Hay un cambio de fecha esperando respuesta. Mientras tanto, la cita actual sigue en pie.';
+
+  @override
+  String get visitaCancelarTitulo => '¿Cancelar el servicio?';
+
+  @override
+  String get visitaCancelarConfirmar => 'Sí, cancelar';
+
+  @override
+  String get visitaCancelarAviso =>
+      'Con más de 24 h de anticipación es sin costo. Con menos, queda como cancelación tardía y avisamos de inmediato.';
+
+  @override
+  String get visitaCancelarMotivo => '¿Por qué cancelas?';
+
+  @override
+  String get visitaMotivoResuelto => 'Ya lo resolví';
+
+  @override
+  String get visitaMotivoPlanes => 'Cambié de planes';
+
+  @override
+  String get visitaMotivoOtraOpcion => 'Encontré otra opción';
+
+  @override
+  String get visitaMotivoOtro => 'Otro motivo';
+
+  @override
+  String get visitaCancelada => 'Cancelaste el servicio';
+
+  @override
+  String get visitaCanceladaTardia =>
+      'Cancelaste el servicio. Quedó como cancelación tardía.';
+
+  @override
+  String get visitaYaCerrada => 'Esta visita ya terminó o ya estaba cancelada.';
+
+  @override
+  String get visitaReprogramarEnviar => 'Enviar cambio';
+
+  @override
+  String get visitaReprogramarExplicacion =>
+      'Elige otro día y hora. La otra parte tiene que confirmarlo; mientras tanto la cita actual sigue en pie.';
+
+  @override
+  String get visitaDia => 'Día';
+
+  @override
+  String get visitaHora => 'Hora';
+
+  @override
+  String get visitaFechaMuyCercana =>
+      'Elige una hora con al menos 2 horas de anticipación.';
+
+  @override
+  String get visitaReprogramacionEnviada =>
+      'Enviaste el cambio de fecha. Falta que lo confirmen.';
+
+  @override
+  String get visitaNoReprogramable =>
+      'Esta cita ya no se puede reprogramar: ya empezó o terminó, hay un cambio pendiente o ya se cambió dos veces.';
+
+  @override
+  String get visitaNoTerminadoBoton => 'No se terminó el trabajo';
+
+  @override
+  String get visitaNoTerminadoTitulo => '¿No se terminó el trabajo?';
+
+  @override
+  String get visitaNoTerminadoCampo => '¿Qué quedó pendiente?';
+
+  @override
+  String get visitaNoTerminadoAyuda =>
+      'Escribe al menos 8 caracteres. Puedes reportarlo una sola vez, hasta 7 días después.';
+
+  @override
+  String get visitaNoTerminadoEnviar => 'Enviar reporte';
+
+  @override
+  String get visitaNoTerminadoEnviado =>
+      'Enviaste tu reporte. Pasa a revisión.';
+
+  @override
+  String get visitaReporteCerrado =>
+      'Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.';
+
+  @override
+  String get visitaEnviando => 'Enviando…';
 }
