@@ -1,6 +1,9 @@
+import 'package:app/core/red/configuracion_api.dart';
+import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/cuenta/cuenta.dart';
+import 'package:app/features/maqueta/numero_real.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:app/features/maqueta/bloqueos_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
@@ -504,7 +507,22 @@ void editarDatos(BuildContext context) {
 
 // ------------------------------------------------------------ Cambiar número / recuperar acceso
 
+/// Con API y Firebase sin sesión se puede pedir la recuperación; para cambiar
+/// el número hace falta además la sesión.
+bool _numeroConServidor(BuildContext context, {required bool recuperar}) {
+  final contenedor = ProviderScope.containerOf(context, listen: false);
+  return recuperar
+      ? normalizarUrlApi(contenedor.read(urlApiProvider)) != null
+      : contenedor.read(solicitudesRealesActivasProvider);
+}
+
 void cambiarNumero(BuildContext context, {required bool recuperar}) {
+  if (_numeroConServidor(context, recuperar: recuperar)) {
+    unawaited(
+      hoja<void>(context, (_, _) => HojaDeNumeroReal(recuperar: recuperar)),
+    );
+    return;
+  }
   var step = recuperar ? 'old' : 'new';
   var old = '', nphone = '', note = '', err = '';
   var selfie = false, failed = false;

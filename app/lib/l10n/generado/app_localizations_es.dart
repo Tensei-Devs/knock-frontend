@@ -2111,6 +2111,57 @@ class AppLocalizationsEs extends AppLocalizations {
   String get solicitudesNoDisponible => 'Esta solicitud ya no está disponible.';
 
   @override
+  String get cuentaNumeroTitulo => 'Cambiar mi número';
+
+  @override
+  String get cuentaRecuperarTitulo => 'Recuperar mi cuenta';
+
+  @override
+  String get cuentaNumeroExplicacion =>
+      'Te mandaremos un código por SMS al número nuevo. Tu cuenta, tus trabajos y tus mensajes se quedan igual.';
+
+  @override
+  String get cuentaRecuperarExplicacion =>
+      'Escribe tu número anterior, qué cuenta es y tu número nuevo. Te mandaremos un código al número nuevo.';
+
+  @override
+  String get cuentaNumeroAnterior => 'Tu número anterior (10 dígitos)';
+
+  @override
+  String get cuentaNumeroNuevo => 'Número nuevo (10 dígitos)';
+
+  @override
+  String get cuentaTipoCliente => 'Soy cliente';
+
+  @override
+  String get cuentaTipoTecnico => 'Soy técnico';
+
+  @override
+  String get cuentaNumeroCodigo => 'Código de 6 números';
+
+  @override
+  String get cuentaNumeroEnviarCodigo => 'Enviarme el código';
+
+  @override
+  String get cuentaNumeroConfirmar => 'Confirmar';
+
+  @override
+  String get cuentaNumeroEntendido => 'Entendido';
+
+  @override
+  String get cuentaNumeroOtro => 'Usar otro número';
+
+  @override
+  String get cuentaNumeroEnUso => 'Ese número ya pertenece a otra cuenta.';
+
+  @override
+  String get cuentaNumeroCambiado => 'Tu número cambió.';
+
+  @override
+  String get cuentaRecuperarRecibida =>
+      'Recibimos tu solicitud. Una persona del equipo la revisará.';
+
+  @override
   String get verificacionCargando => 'Cargando tu verificación…';
 
   @override

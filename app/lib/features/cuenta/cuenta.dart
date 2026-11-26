@@ -8,3 +8,6 @@ export 'package:app/features/cuenta/domain/privacidad.dart';
 export 'package:app/features/cuenta/presentation/eliminacion_controller.dart';
 export 'package:app/features/cuenta/presentation/perfil_controller.dart';
 export 'package:app/features/cuenta/presentation/privacidad_controller.dart';
+export 'package:app/features/cuenta/cuenta_providers.dart'
+    show numeroRepositoryProvider;
+export 'package:app/features/cuenta/domain/numero.dart';
