@@ -2,8 +2,10 @@ import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/cuenta/data/perfil_repository_api.dart';
 import 'package:app/features/cuenta/data/perfil_repository_simulado.dart';
+import 'package:app/features/cuenta/data/privacidad_repository_api.dart';
 import 'package:app/features/cuenta/data/sesiones_repository_api.dart';
 import 'package:app/features/cuenta/domain/perfil_repository.dart';
+import 'package:app/features/cuenta/domain/privacidad.dart';
 import 'package:app/features/cuenta/domain/sesiones_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +28,15 @@ final perfilRepositoryProvider = Provider<PerfilRepository>((ref) {
 /// Sesiones por dispositivo (spec 026, R-09): solo capa de datos, sin pantalla.
 final sesionesRepositoryProvider = Provider<SesionesRepository>(
   (ref) => SesionesRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+/// Consentimientos y descarga de datos (spec 029). La maqueta lo usa solo con
+/// sesión y API.
+final privacidadRepositoryProvider = Provider<PrivacidadRepository>(
+  (ref) => PrivacidadRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),

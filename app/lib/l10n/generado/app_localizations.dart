@@ -1843,6 +1843,168 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cerrar'**
   String get avisoCerrar;
+
+  /// No description provided for @cuentaDescargarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Descargar mis datos'**
+  String get cuentaDescargarTitulo;
+
+  /// No description provided for @cuentaDescargarNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La descarga de tus datos todavía no está disponible en esta versión.'**
+  String get cuentaDescargarNoDisponible;
+
+  /// No description provided for @cuentaDescargarCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisando tu archivo…'**
+  String get cuentaDescargarCargando;
+
+  /// No description provided for @cuentaDescargarSinPedir.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no has pedido tu archivo. Lo preparamos en un máximo de 48 horas.'**
+  String get cuentaDescargarSinPedir;
+
+  /// No description provided for @cuentaDescargarEnPreparacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Estamos preparando tu archivo. Puede tardar hasta 48 horas.'**
+  String get cuentaDescargarEnPreparacion;
+
+  /// No description provided for @cuentaDescargarLista.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu archivo está listo. El enlace vence el {fecha}.'**
+  String cuentaDescargarLista(String fecha);
+
+  /// No description provided for @cuentaDescargarVencida.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu archivo anterior venció. Puedes pedirlo otra vez.'**
+  String get cuentaDescargarVencida;
+
+  /// No description provided for @cuentaDescargarPedir.
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir mi archivo'**
+  String get cuentaDescargarPedir;
+
+  /// No description provided for @cuentaActualizar.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get cuentaActualizar;
+
+  /// No description provided for @cuentaDescargarAbrir.
+  ///
+  /// In es, this message translates to:
+  /// **'Descargar'**
+  String get cuentaDescargarAbrir;
+
+  /// No description provided for @cuentaDescargarPedida.
+  ///
+  /// In es, this message translates to:
+  /// **'Pedimos tu archivo. Puede tardar hasta 48 horas.'**
+  String get cuentaDescargarPedida;
+
+  /// No description provided for @cuentaDescargarYaEnCurso.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya estamos preparando tu archivo.'**
+  String get cuentaDescargarYaEnCurso;
+
+  /// No description provided for @cuentaDescargarNoAbrio.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir el enlace.'**
+  String get cuentaDescargarNoAbrio;
+
+  /// No description provided for @cuentaReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get cuentaReintentar;
+
+  /// No description provided for @cuentaConsentimientosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus consentimientos…'**
+  String get cuentaConsentimientosCargando;
+
+  /// No description provided for @cuentaConsentimientosVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay consentimientos para mostrar.'**
+  String get cuentaConsentimientosVacio;
+
+  /// No description provided for @cuentaConsentimientoPromociones.
+  ///
+  /// In es, this message translates to:
+  /// **'Promociones y novedades'**
+  String get cuentaConsentimientoPromociones;
+
+  /// No description provided for @cuentaConsentimientoPromocionesDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ofertas de expertos y noticias de Knock'**
+  String get cuentaConsentimientoPromocionesDetalle;
+
+  /// No description provided for @cuentaConsentimientoEncuestas.
+  ///
+  /// In es, this message translates to:
+  /// **'Encuestas para mejorar Knock'**
+  String get cuentaConsentimientoEncuestas;
+
+  /// No description provided for @cuentaConsentimientoEncuestasDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Preguntas cortas después de un servicio'**
+  String get cuentaConsentimientoEncuestasDetalle;
+
+  /// No description provided for @cuentaConsentimientoRecomendaciones.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendaciones personalizadas'**
+  String get cuentaConsentimientoRecomendaciones;
+
+  /// No description provided for @cuentaConsentimientoRecomendacionesDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Sugerencias según tu casa y tu auto'**
+  String get cuentaConsentimientoRecomendacionesDetalle;
+
+  /// No description provided for @cuentaConsentimientoAviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Aviso de privacidad'**
+  String get cuentaConsentimientoAviso;
+
+  /// No description provided for @cuentaConsentimientoTerminos.
+  ///
+  /// In es, this message translates to:
+  /// **'Términos y condiciones'**
+  String get cuentaConsentimientoTerminos;
+
+  /// No description provided for @cuentaConsentimientoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro consentimiento'**
+  String get cuentaConsentimientoOtro;
+
+  /// No description provided for @cuentaConsentimientoObligatorio.
+  ///
+  /// In es, this message translates to:
+  /// **'Obligatorio: no se puede apagar'**
+  String get cuentaConsentimientoObligatorio;
+
+  /// No description provided for @cuentaConsentimientoRegistro.
+  ///
+  /// In es, this message translates to:
+  /// **'Versión {version} · {fecha}'**
+  String cuentaConsentimientoRegistro(String version, String fecha);
 }
 
 class _AppLocalizationsDelegate
