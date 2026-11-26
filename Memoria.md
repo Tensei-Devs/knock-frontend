@@ -709,3 +709,10 @@
 - **Por qué:** el registro solo vivía en memoria y pedía un código simulado; y como la app no usaba `esTecnico`, la pestaña Trabajo se perdía al volver a abrirla.
 - **Pendiente:** textos en ARB (CA-58) y los estados de la pantalla (CA-46); sin probar contra el backend desplegado. La pestaña Trabajo y sus pantallas siguen con datos de ejemplo.
 - **A evitar:** permitir el alta solo con «otro oficio» (el servidor exige uno del catálogo); decidir el rol de técnico con datos locales cuando hay API.
+
+## 2026-11-26 — KNOCK-288: enmiendas de las specs de la app alineadas con el backend
+- app 029: GET /me/exportaciones/ultima y aviso sin enlace
+- app 034: tipo «sistema» y avisos sin rol
+- app 037: 404 not_a_technician
+- app 040: 404 para ajenos y 400 con datos mal formados
+- El panel web queda fuera de alcance por decisión de José; sus specs no se tocan.
