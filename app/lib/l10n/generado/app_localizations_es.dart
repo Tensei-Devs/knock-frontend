@@ -1330,6 +1330,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get opinionesTitulo => 'Opiniones';
 
   @override
+  String reputacionNivel(String nivel) {
+    return 'Nivel: $nivel';
+  }
+
+  @override
+  String get reputacionNuevo => 'Nuevo';
+
+  @override
+  String get reputacionConfiable => 'Confiable';
+
+  @override
+  String get reputacionDestacado => 'Destacado';
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override

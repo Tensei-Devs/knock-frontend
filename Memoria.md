@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Reputación propia (KNOCK-94, spec 036)
+- **Cambio:** la pantalla «Mi reputación» consulta `GET /tecnicos/me/reputacion` con el transporte autenticado y muestra el promedio, total, distribución y nivel del servidor. No usa el id de persona ni intenta consultar opiniones propias sin id de técnico. Sin sesión o API se conserva la pantalla de ejemplo existente.
+- **Copia:** la última respuesta se conserva solo en memoria para el aviso sin conexión y se descarta al cambiar o cerrar sesión. No se muestran opiniones inventadas junto con datos reales.
+- **Reutilización:** se usa `PantallaSegunSesion`, los textos de opiniones y el transporte de `core/red`; se agregó un repositorio específico porque el existente requiere un id de técnico.
+- **Pendiente:** verificar en dispositivo y contra el backend desplegado; las opiniones propias y respuestas necesitan el id de técnico.
+
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
