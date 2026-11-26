@@ -1360,4 +1360,74 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Salir';
+
+  @override
+  String get direccionesTitulo => 'Mis direcciones';
+
+  @override
+  String get direccionesCargando => 'Cargando tus direcciones…';
+
+  @override
+  String get direccionesError => 'No pudimos cargar tus direcciones.';
+
+  @override
+  String get direccionesReintentar => 'Reintentar';
+
+  @override
+  String get direccionesVacio => 'Aún no tienes direcciones guardadas.';
+
+  @override
+  String get direccionesAgregar => 'Agregar dirección';
+
+  @override
+  String get direccionesEditar => 'Editar';
+
+  @override
+  String get direccionesEliminar => 'Eliminar';
+
+  @override
+  String get direccionesPrincipal => 'Principal';
+
+  @override
+  String get direccionesSinReferencias => 'Sin referencias';
+
+  @override
+  String get direccionesNueva => 'Nueva dirección';
+
+  @override
+  String get direccionesEditarTitulo => 'Editar dirección';
+
+  @override
+  String get direccionesCalle => 'Calle y número';
+
+  @override
+  String get direccionesReferencias => 'Referencias (opcional)';
+
+  @override
+  String direccionesColonia(String colonia) {
+    return 'Colonia: $colonia';
+  }
+
+  @override
+  String direccionesCambiarColonia(String colonia) {
+    return 'Usar mi colonia actual: $colonia';
+  }
+
+  @override
+  String get direccionesMarcarPrincipal => 'Usar como principal';
+
+  @override
+  String get direccionesGuardar => 'Guardar dirección';
+
+  @override
+  String get direccionesGuardando => 'Guardando…';
+
+  @override
+  String get direccionesCancelar => 'Cancelar';
+
+  @override
+  String get direccionesConfirmarEliminar => '¿Eliminar esta dirección?';
+
+  @override
+  String get direccionesNoDisponible => 'Esa dirección ya no está disponible.';
 }

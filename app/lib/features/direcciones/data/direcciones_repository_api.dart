@@ -75,10 +75,11 @@ class DireccionesRepositoryApi implements DireccionesRepository {
 
 Direccion _aDireccion(Object? json) {
   final m = objetoDelContrato(json);
+  String texto(String campo) => textoObligatorio(m[campo]);
   return Direccion(
-    id: textoObligatorio(m['id']),
-    calleNumero: textoObligatorio(m['calleNumero']),
-    colonia: textoObligatorio(m['colonia']),
+    id: texto('id'),
+    calleNumero: texto('calleNumero'),
+    colonia: texto('colonia'),
     referencias: textoOpcional(m['referencias']),
     principal: booleanoObligatorio(m['principal']),
     creadoEn: fechaHoraObligatoria(m['creadoEn']),

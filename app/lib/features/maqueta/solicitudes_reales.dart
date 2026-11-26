@@ -1,5 +1,6 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/direcciones/direcciones.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/estado.dart';
@@ -206,12 +207,16 @@ void aplicarVisitaAlJob(Job j, act.Visita v) {
 /// nombre y su código postal; el identificador sale del catálogo del servidor
 /// (`GET /zonas/cp/{cp}`, spec 017) buscando la colonia por nombre. Falla con
 /// [OpcionNoDisponibleFailure] si no la encuentra (la persona debe elegir su
-/// zona de nuevo).
-Future<String> coloniaIdDeLaPersona(WidgetRef ref, UserData user) async {
+/// zona de nuevo). Con [colonia] busca esa otra, del mismo código postal.
+Future<String> coloniaIdDeLaPersona(
+  WidgetRef ref,
+  UserData user, {
+  String? colonia,
+}) async {
   final cp = user.cp.trim();
   if (cp.length != 5) throw const OpcionNoDisponibleFailure();
   final zona = await ref.read(zonasRepositoryProvider).porCodigoPostal(cp);
-  final nombre = user.col.trim().toLowerCase();
+  final nombre = (colonia ?? user.col).trim().toLowerCase();
   for (final c in zona.colonias) {
     if (c.nombre.trim().toLowerCase() == nombre) return c.id;
   }
@@ -233,13 +238,14 @@ Future<Job> crearSolicitudReal(
   final cat = cats[req.cat]!;
   final user = maq.user;
   final hoy = DateTime.now().add(Duration(days: req.day));
-  final coloniaId = await coloniaIdDeLaPersona(ref, user);
-  final direccion = cat.taller
-      ? null
-      : (user.addr.isNotEmpty ? user.addr : req.addr).trim().replaceAll(
-          RegExp(r'\s+'),
-          ' ',
-        );
+  // A domicilio se usa la dirección elegida entre las guardadas (spec 030).
+  final guardada = cat.taller ? null : ref.read(direccionParaPedirProvider);
+  if (!cat.taller && guardada == null) throw const DatosRechazadosFailure();
+  final coloniaId = await coloniaIdDeLaPersona(
+    ref,
+    user,
+    colonia: guardada?.colonia,
+  );
   if (req.photos.isEmpty || req.photos.length > 5) {
     throw const FotoNoValidaFailure();
   }
@@ -259,7 +265,7 @@ Future<Job> crearSolicitudReal(
       _ => act.Franja.noche,
     },
     coloniaId: coloniaId,
-    direccion: direccion,
+    direccion: guardada?.calleNumero,
   );
   final act.Solicitud creada;
   try {
@@ -271,8 +277,5 @@ Future<Job> crearSolicitudReal(
   final job = jobDeSolicitud(creada, catalogo: const {});
   if (job == null) throw const DatosInvalidosFailure();
   job.sent = 'Hoy, ahora';
-  if (!cat.taller && user.addr.isEmpty && direccion != null) {
-    user.addr = direccion;
-  }
   return job;
 }

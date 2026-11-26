@@ -137,7 +137,12 @@ void main() {
     );
   });
 
-  test('CA_030_08 PUT con 403 y 404 se distinguen', () async {
+  test('CA_030_08 PUT con 400, 403 y 404 se distinguen', () async {
+    api.responder = (_) => http.Response('', 400);
+    await expectLater(
+      repo().editar('d-1', const CambiosDireccion(principal: true)),
+      throwsA(isA<DatosRechazadosFailure>()),
+    );
     api.responder = (_) => http.Response('', 403);
     await expectLater(
       repo().editar('d-1', const CambiosDireccion(principal: true)),
@@ -177,6 +182,19 @@ void main() {
     await expectLater(
       repo().eliminar('d-1'),
       throwsA(isA<NoEncontradoFailure>()),
+    );
+  });
+
+  test('CA_030_16 me/direcciones no se guarda en la caché de respuestas (spec '
+      '030 §5)', () async {
+    api.responder = (_) => jsonOk([_dir()], h: {'etag': '"v1"'});
+    await repo().listar();
+    await repo().listar();
+    expect(api.peticiones, hasLength(2));
+    expect(
+      api.peticiones.last.cabeceras.containsKey('if-none-match'),
+      isFalse,
+      reason: 'una dirección exacta no se reutiliza desde la caché',
     );
   });
 
