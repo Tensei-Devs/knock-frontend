@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
+- **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
+- **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
 ## 2026-11-26 — Spec 038: «Pedir también a otros» (KNOCK-266)
 - **Decisión:** una solicitud real sin cotizaciones ofrece «Pedir también a otros» (`POST /solicitudes/{id}/ampliar`) en su tarjeta de Actividad. Cuándo se puede ampliar lo decide el servidor (409 `request_not_extendable`).
 - **Pendiente:** referencia del mercado y «Cotizaciones enviadas» (pantallas del técnico que dependen de la pestaña Trabajo, spec 019). Sin probar contra el backend desplegado.

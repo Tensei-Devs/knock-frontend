@@ -1,3 +1,5 @@
+import 'package:app/features/cuenta/data/numero_repository_api.dart';
+import 'package:app/features/cuenta/domain/numero.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/cuenta/data/eliminacion_repository_api.dart';
@@ -48,6 +50,14 @@ final privacidadRepositoryProvider = Provider<PrivacidadRepository>(
 /// API.
 final eliminacionRepositoryProvider = Provider<EliminacionRepository>(
   (ref) => EliminacionRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+/// Cambio de número y recuperación de acceso (spec 029).
+final numeroRepositoryProvider = Provider<NumeroRepository>(
+  (ref) => NumeroRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),

@@ -1167,5 +1167,21 @@
   "solicitudesAmpliarExplicacion": "You can keep waiting or also ask other experts nearby.",
   "solicitudesAmpliada": "Done: we asked more experts for a quote.",
   "solicitudesNoAmpliable": "This request can no longer be extended.",
-  "solicitudesNoDisponible": "This request is no longer available."
+  "solicitudesNoDisponible": "This request is no longer available.",
+  "cuentaNumeroTitulo": "Change my number",
+  "cuentaRecuperarTitulo": "Recover my account",
+  "cuentaNumeroExplicacion": "We will text a code to your new number. Your account, jobs and messages stay the same.",
+  "cuentaRecuperarExplicacion": "Enter your old number, the account type and your new number. We will text a code to the new one.",
+  "cuentaNumeroAnterior": "Your old number (10 digits)",
+  "cuentaNumeroNuevo": "New number (10 digits)",
+  "cuentaTipoCliente": "I am a client",
+  "cuentaTipoTecnico": "I am a technician",
+  "cuentaNumeroCodigo": "6-digit code",
+  "cuentaNumeroEnviarCodigo": "Text me the code",
+  "cuentaNumeroConfirmar": "Confirm",
+  "cuentaNumeroEntendido": "Got it",
+  "cuentaNumeroOtro": "Use another number",
+  "cuentaNumeroEnUso": "That number already belongs to another account.",
+  "cuentaNumeroCambiado": "Your number was changed.",
+  "cuentaRecuperarRecibida": "We received your request. Someone on the team will review it."
 }
