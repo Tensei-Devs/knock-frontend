@@ -2869,6 +2869,48 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: pedirCargandoOpciones
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando opciones…'**
+  String get pedirCargandoOpciones;
+
+  /// Texto de la app: pedirOficioNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Este oficio ya no está disponible. Puedes escribir lo que pasa.'**
+  String get pedirOficioNoDisponible;
+
+  /// Texto de la app: pedirSinOpciones
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar las opciones. Puedes escribir lo que pasa.'**
+  String get pedirSinOpciones;
+
+  /// Texto de la app: pedirOpcionesVacias
+  ///
+  /// In es, this message translates to:
+  /// **'No hay opciones sugeridas: escribe lo que pasa.'**
+  String get pedirOpcionesVacias;
+
+  /// Texto de la app: pedirReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get pedirReintentar;
+
+  /// Texto de la app: pedirCopiaGuardada
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión: opciones guardadas el {fecha}, pueden estar desactualizadas.'**
+  String pedirCopiaGuardada(String fecha);
+
+  /// Texto de la app: pedirOficioNuevoFallo
+  ///
+  /// In es, this message translates to:
+  /// **'Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. {motivo}'**
+  String pedirOficioNuevoFallo(String motivo);
 }
 
 class _AppLocalizationsDelegate

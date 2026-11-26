@@ -3,8 +3,10 @@ import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/detalle_oficio_real.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart'
     show coloniaIdDeLaPersona;
+import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/tecnico/tecnico.dart';
 
 import 'dart:async';
@@ -510,6 +512,15 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
       return;
     }
     if (!mounted) return;
+    if (otherOn) {
+      unawaited(
+        pedirOficioNuevo(
+          ref.read(detalleOficioRepositoryProvider),
+          textos,
+          clean(other.text),
+        ),
+      );
+    }
     setState(() => sending = false);
     await _create();
     // El perfil de la cuenta ya dice que es técnica.

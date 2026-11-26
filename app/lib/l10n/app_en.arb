@@ -999,5 +999,12 @@
   "visitaNoTerminadoEnviar": "Send report",
   "visitaNoTerminadoEnviado": "You sent your report. It will be reviewed.",
   "visitaReporteCerrado": "It can no longer be reported: more than 7 days passed or you already reported it.",
-  "visitaEnviando": "Sending…"
+  "visitaEnviando": "Sending…",
+  "pedirCargandoOpciones": "Loading options…",
+  "pedirOficioNoDisponible": "This trade is no longer available. You can type what is wrong.",
+  "pedirSinOpciones": "We could not load the options. You can type what is wrong.",
+  "pedirOpcionesVacias": "There are no suggestions: type what is wrong.",
+  "pedirReintentar": "Try again",
+  "pedirCopiaGuardada": "Offline: options saved on {fecha}, they may be outdated.",
+  "pedirOficioNuevoFallo": "Your trade is on your profile, but we could not tell Knock. {motivo}"
 }

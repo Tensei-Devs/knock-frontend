@@ -1747,5 +1747,19 @@
   "visitaNoTerminadoEnviar": "Enviar reporte",
   "visitaNoTerminadoEnviado": "Enviaste tu reporte. Pasa a revisión.",
   "visitaReporteCerrado": "Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.",
-  "visitaEnviando": "Enviando…"
+  "visitaEnviando": "Enviando…",
+  "pedirCargandoOpciones": "Cargando opciones…",
+  "@pedirCargandoOpciones": {"description": "Texto de la app: pedirCargandoOpciones"},
+  "pedirOficioNoDisponible": "Este oficio ya no está disponible. Puedes escribir lo que pasa.",
+  "@pedirOficioNoDisponible": {"description": "Texto de la app: pedirOficioNoDisponible"},
+  "pedirSinOpciones": "No pudimos cargar las opciones. Puedes escribir lo que pasa.",
+  "@pedirSinOpciones": {"description": "Texto de la app: pedirSinOpciones"},
+  "pedirOpcionesVacias": "No hay opciones sugeridas: escribe lo que pasa.",
+  "@pedirOpcionesVacias": {"description": "Texto de la app: pedirOpcionesVacias"},
+  "pedirReintentar": "Reintentar",
+  "@pedirReintentar": {"description": "Texto de la app: pedirReintentar"},
+  "pedirCopiaGuardada": "Sin conexión: opciones guardadas el {fecha}, pueden estar desactualizadas.",
+  "@pedirCopiaGuardada": {"description": "Texto de la app: pedirCopiaGuardada", "placeholders": {"fecha": {"type": "String"}}},
+  "pedirOficioNuevoFallo": "Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. {motivo}",
+  "@pedirOficioNuevoFallo": {"description": "Texto de la app: pedirOficioNuevoFallo", "placeholders": {"motivo": {"type": "String"}}}
 }

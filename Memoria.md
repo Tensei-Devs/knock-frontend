@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 035: detalle de un oficio y pedido de uno nuevo (KNOCK-266)
+- **Decisión:** con sesión y API, el paso 2 de «Pedir cotización» muestra las frases de `GET /oficios/{clave}` (con la última copia en memoria si no hay conexión) y el alta de técnico con «Otro oficio» manda además `POST /oficios-pedidos`. Ese pedido no bloquea el alta: si falla, se avisa y se puede reintentar.
+- **Pendiente:** sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
 - **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
 - **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.

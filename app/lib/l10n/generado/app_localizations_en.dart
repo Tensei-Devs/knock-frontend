@@ -1627,4 +1627,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Sending…';
+
+  @override
+  String get pedirCargandoOpciones => 'Loading options…';
+
+  @override
+  String get pedirOficioNoDisponible =>
+      'This trade is no longer available. You can type what is wrong.';
+
+  @override
+  String get pedirSinOpciones =>
+      'We could not load the options. You can type what is wrong.';
+
+  @override
+  String get pedirOpcionesVacias =>
+      'There are no suggestions: type what is wrong.';
+
+  @override
+  String get pedirReintentar => 'Try again';
+
+  @override
+  String pedirCopiaGuardada(String fecha) {
+    return 'Offline: options saved on $fecha, they may be outdated.';
+  }
+
+  @override
+  String pedirOficioNuevoFallo(String motivo) {
+    return 'Your trade is on your profile, but we could not tell Knock. $motivo';
+  }
 }
