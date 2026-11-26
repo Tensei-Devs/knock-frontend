@@ -10,6 +10,91 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get tecnicoCargando => 'Loading…';
+
+  @override
+  String get tecnicoReintentar => 'Try again';
+
+  @override
+  String get tecnicoNoDisponible => 'That pro is no longer available.';
+
+  @override
+  String tecnicoCopia(DateTime fecha) {
+    final intl.DateFormat fechaDateFormat = intl.DateFormat.yMd(localeName);
+    final String fechaString = fechaDateFormat.format(fecha);
+
+    return 'No connection. This is the copy from $fechaString; it may be out of date.';
+  }
+
+  @override
+  String tecnicoCalificacion(String calificacion) {
+    return '★ $calificacion';
+  }
+
+  @override
+  String tecnicoAnios(int n) {
+    return '$n years of experience';
+  }
+
+  @override
+  String get tecnicoAtiendeTaller => 'Works at their shop';
+
+  @override
+  String get tecnicoAtiendeDomicilio => 'Comes to your home';
+
+  @override
+  String get tecnicoAtiendeAmbos => 'At the shop and at your home';
+
+  @override
+  String tecnicoRadio(int km) {
+    return 'up to $km km';
+  }
+
+  @override
+  String get tecnicoDisponibleHoy => 'Available today';
+
+  @override
+  String get tecnicoSinColonia =>
+      'Choose your neighborhood to know whether they serve it.';
+
+  @override
+  String tecnicoLlega(String colonia) {
+    return 'They serve $colonia';
+  }
+
+  @override
+  String tecnicoNoLlega(String colonia) {
+    return 'They don’t serve $colonia';
+  }
+
+  @override
+  String get tecnicoServicios => 'Services and prices';
+
+  @override
+  String get tecnicoSinServicios => 'No services published yet.';
+
+  @override
+  String tecnicoDesde(String precio) {
+    return 'from $precio';
+  }
+
+  @override
+  String get tecnicoPreciosDeReferencia =>
+      'These are reference prices. You agree the final price with the pro.';
+
+  @override
+  String get tecnicoFotos => 'Photos of their work';
+
+  @override
+  String get tecnicoSinFotos => 'No work photos yet.';
+
+  @override
+  String get tecnicoFotoEtiqueta => 'Photo of a finished job';
+
+  @override
+  String get tecnicoVerMasFotos => 'See more photos';
+
+  @override
   String get citaExistente => 'Existing appointment';
 
   @override
