@@ -13,6 +13,7 @@ import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/maqueta/visita_acciones_reales.dart';
 import 'package:app/features/maqueta/visita_real.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -369,13 +370,17 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
       );
     case 'terminado' when j.real:
       pill = const Pill('Terminado', kind: 'gray');
-      if (j.porCalificar) {
-        action = BtnK(
-          AppLocalizations.of(context).opinionesCalificarBoton,
-          () => context.push(RM.calificar(j.id)),
-          kind: Bk.sec,
-          sm: true,
-        );
+      if (j.visitaId case final visitaId?) {
+        action = stack([
+          if (j.porCalificar)
+            BtnK(
+              AppLocalizations.of(context).opinionesCalificarBoton,
+              () => context.push(RM.calificar(j.id)),
+              kind: Bk.sec,
+              sm: true,
+            ),
+          BotonNoTerminadoReal(visitaId: visitaId),
+        ], gap: 10);
       }
     case 'visita':
       pill = Pill(
@@ -1660,7 +1665,12 @@ class VisitaMaqueta extends StatelessWidget {
           'house',
           '**Esta visita es para ver el trabajo.** Después, $first te enviará la cotización final aquí para que la apruebes. Si la contratas, la visita se descuenta; si no, pagas solo la visita.',
         ),
-      if (!j.real) ...[reprogBlock(context, j, first), cancelBlock(context, j)],
+      if (j.real && j.visitaId != null)
+        AccionesVisitaReal(visitaId: j.visitaId!)
+      else ...[
+        reprogBlock(context, j, first),
+        cancelBlock(context, j),
+      ],
       const NoteK(
         'blue',
         'clock',
@@ -1861,7 +1871,9 @@ class CitaScreen extends StatelessWidget {
             () => context.push(RM.reportar(j.id)),
           ),
         ]),
-        if (!j.real) ...[
+        if (j.real && j.visitaId != null)
+          AccionesVisitaReal(visitaId: j.visitaId!)
+        else ...[
           reprogBlock(context, j, pr.first),
           cancelBlock(context, j),
         ],

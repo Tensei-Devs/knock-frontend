@@ -752,3 +752,8 @@
 - **Qué cambió:** pendientes, solicitud y cancelación de la eliminación contra la API (spec 029).
 - **Por qué:** conectar la pantalla de cuenta al contrato.
 - **A evitar:** probarlo contra una cuenta real sin avisar; no se probó con el backend desplegado.
+
+## 2026-11-26 — Acciones del cliente en la visita (KNOCK-266)
+- **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
+- **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
+- **A evitar:** aceptar una propuesta sin ver la fecha.

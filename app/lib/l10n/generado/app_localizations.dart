@@ -2383,6 +2383,180 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Salir'**
   String get cuentaEliminacionSalir;
+
+  /// No description provided for @visitaReprogramar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reprogramar la cita'**
+  String get visitaReprogramar;
+
+  /// No description provided for @visitaCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar el servicio'**
+  String get visitaCancelar;
+
+  /// No description provided for @visitaCambioPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Hay un cambio de fecha esperando respuesta. Mientras tanto, la cita actual sigue en pie.'**
+  String get visitaCambioPendiente;
+
+  /// No description provided for @visitaCancelarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cancelar el servicio?'**
+  String get visitaCancelarTitulo;
+
+  /// No description provided for @visitaCancelarConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, cancelar'**
+  String get visitaCancelarConfirmar;
+
+  /// No description provided for @visitaCancelarAviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Con más de 24 h de anticipación es sin costo. Con menos, queda como cancelación tardía y avisamos de inmediato.'**
+  String get visitaCancelarAviso;
+
+  /// No description provided for @visitaCancelarMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cancelas?'**
+  String get visitaCancelarMotivo;
+
+  /// No description provided for @visitaMotivoResuelto.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya lo resolví'**
+  String get visitaMotivoResuelto;
+
+  /// No description provided for @visitaMotivoPlanes.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambié de planes'**
+  String get visitaMotivoPlanes;
+
+  /// No description provided for @visitaMotivoOtraOpcion.
+  ///
+  /// In es, this message translates to:
+  /// **'Encontré otra opción'**
+  String get visitaMotivoOtraOpcion;
+
+  /// No description provided for @visitaMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro motivo'**
+  String get visitaMotivoOtro;
+
+  /// No description provided for @visitaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste el servicio'**
+  String get visitaCancelada;
+
+  /// No description provided for @visitaCanceladaTardia.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste el servicio. Quedó como cancelación tardía.'**
+  String get visitaCanceladaTardia;
+
+  /// No description provided for @visitaYaCerrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya terminó o ya estaba cancelada.'**
+  String get visitaYaCerrada;
+
+  /// No description provided for @visitaReprogramarEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cambio'**
+  String get visitaReprogramarEnviar;
+
+  /// No description provided for @visitaReprogramarExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige otro día y hora. La otra parte tiene que confirmarlo; mientras tanto la cita actual sigue en pie.'**
+  String get visitaReprogramarExplicacion;
+
+  /// No description provided for @visitaDia.
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get visitaDia;
+
+  /// No description provided for @visitaHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Hora'**
+  String get visitaHora;
+
+  /// No description provided for @visitaFechaMuyCercana.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige una hora con al menos 2 horas de anticipación.'**
+  String get visitaFechaMuyCercana;
+
+  /// No description provided for @visitaReprogramacionEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste el cambio de fecha. Falta que lo confirmen.'**
+  String get visitaReprogramacionEnviada;
+
+  /// No description provided for @visitaNoReprogramable.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita ya no se puede reprogramar: ya empezó o terminó, hay un cambio pendiente o ya se cambió dos veces.'**
+  String get visitaNoReprogramable;
+
+  /// No description provided for @visitaNoTerminadoBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'No se terminó el trabajo'**
+  String get visitaNoTerminadoBoton;
+
+  /// No description provided for @visitaNoTerminadoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿No se terminó el trabajo?'**
+  String get visitaNoTerminadoTitulo;
+
+  /// No description provided for @visitaNoTerminadoCampo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué quedó pendiente?'**
+  String get visitaNoTerminadoCampo;
+
+  /// No description provided for @visitaNoTerminadoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 8 caracteres. Puedes reportarlo una sola vez, hasta 7 días después.'**
+  String get visitaNoTerminadoAyuda;
+
+  /// No description provided for @visitaNoTerminadoEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar reporte'**
+  String get visitaNoTerminadoEnviar;
+
+  /// No description provided for @visitaNoTerminadoEnviado.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste tu reporte. Pasa a revisión.'**
+  String get visitaNoTerminadoEnviado;
+
+  /// No description provided for @visitaReporteCerrado.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.'**
+  String get visitaReporteCerrado;
+
+  /// No description provided for @visitaEnviando.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get visitaEnviando;
 }
 
 class _AppLocalizationsDelegate
