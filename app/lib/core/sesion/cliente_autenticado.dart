@@ -10,7 +10,8 @@ import 'package:http/http.dart' as http;
 /// - El `Authorization: Bearer` solo sale hacia la URL base de la API y solo en
 ///   rutas protegidas (todas menos las públicas: `auth/firebase`,
 ///   `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar`
-///   y `tecnicos/{id}` de **un solo segmento**, CA-026-11).
+///   y `tecnicos/{id}` de **un solo segmento**, CA-026-11). `explorar` lo lleva
+///   solo si hay sesión (spec 036).
 /// - Una llamada protegida sin sesión no sale a la red: falla con
 ///   [NoAutorizadoFailure] (CA-026-05).
 /// - Si la petición repetida vuelve a dar 401, la sesión se cierra.
@@ -40,10 +41,16 @@ class ClienteAutenticado extends http.BaseClient {
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     final ruta = _rutaDeLaApi(request.url);
-    if (ruta == null || !_esProtegida(ruta)) return _interno.send(request);
+    if (ruta == null) return _interno.send(request);
+    final protegida = _esProtegida(ruta);
+    if (!protegida && !_admiteSesion(ruta)) return _interno.send(request);
 
     final tokens = leer();
-    if (tokens == null) throw const NoAutorizadoFailure();
+    if (tokens == null) {
+      // Con sesión opcional, sin sesión sale sin token (spec 036, TEC-14).
+      if (!protegida) return _interno.send(request);
+      throw const NoAutorizadoFailure();
+    }
     final respuesta = await _interno.send(_conToken(request, tokens));
     // Solo se pueden repetir las peticiones con cuerpo en memoria.
     if (respuesta.statusCode != 401 ||
@@ -101,7 +108,13 @@ const _rutasPublicas = {
 final _perfilPublicoDeTecnico = RegExp(r'^tecnicos/[0-9a-fA-F]{24}$');
 
 bool _esProtegida(String ruta) =>
-    !_rutasPublicas.contains(ruta) && !_perfilPublicoDeTecnico.hasMatch(ruta);
+    !_rutasPublicas.contains(ruta) &&
+    !_admiteSesion(ruta) &&
+    !_perfilPublicoDeTecnico.hasMatch(ruta);
+
+/// Rutas públicas que con sesión entregan más (spec 036, backend 046 R-49):
+/// llevan el token solo si hay sesión.
+bool _admiteSesion(String ruta) => ruta == 'explorar';
 
 bool _esRenovable(String ruta) => ruta != 'auth/logout';
 

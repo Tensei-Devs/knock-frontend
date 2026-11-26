@@ -129,6 +129,21 @@ void main() {
   });
 
   group('Bearer solo en rutas protegidas de la API', () {
+    test('CA_015_08 comparación lleva sesión', () async {
+      await montar();
+      await pedir('solicitudes/abc/cotizaciones');
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_015_08 comparación sin sesión no sale', () async {
+      await montar(tokens: null);
+      await expectLater(
+        pedir('solicitudes/abc/cotizaciones'),
+        throwsA(isA<NoAutorizadoFailure>()),
+      );
+      expect(api.peticiones, isEmpty);
+    });
+
     test(
       'CA_026_11 auth/firebase, auth/refresh y oficios salen sin Authorization',
       () async {
@@ -202,6 +217,18 @@ void main() {
       await montar(tokens: null);
       await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
       expect(api.peticiones, isEmpty);
+    });
+
+    test('CA_036_43 explorar lleva el Bearer cuando hay sesión', () async {
+      await montar();
+      expect((await pedir('explorar?filtro=todo')).statusCode, 200);
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_036_44 sin sesión, explorar sale sin Authorization', () async {
+      await montar(tokens: null);
+      await pedir('explorar?filtro=todo');
+      expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
     });
   });
 

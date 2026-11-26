@@ -1,12 +1,12 @@
 # Tareas 036 — Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas)
 
-> **Estado:** pendientes; se activan cuando la spec esté Aprobada y una persona lo indique.
+> **Estado:** en curso desde el 2026-11-25. Parte 1, Explorar (KNOCK-90): en revisión. Parte 2, perfil público y horarios (KNOCK-57): sigue. El backend 046 ya está en `sprint-05`.
 > **Responsable sugerido por omisión:** Erick Trejo Reséndiz.
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
 |---|---|---|---|---|---|
-| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Almacén de búsqueda de la spec 027 y elegibilidad de la 028 (hoy no implementados); `disponibleHasta` (HU-019): hoy solo existe en las semillas | §10 | — | T-01 | pendiente |
-| T-01 | Vendorizar las rutas de backend 046 y regenerar el cliente Dart | §4 | Backend 046 publicado en OpenAPI | T-02 | pendiente |
+| T-00 | Prerrequisitos que hoy no existen y no son parte de esta spec: Almacén de búsqueda de la spec 027 y elegibilidad de la 028 (hoy no implementados); `disponibleHasta` (HU-019): hoy solo existe en las semillas | §10 | — | T-01 | no aplica por ahora: el Tech Lead regenera el cliente al final; se usan llamadas a mano con `enviarJson` (spec 026, D-01) |
+| T-01 | Vendorizar las rutas de backend 046 y regenerar el cliente Dart | §4 | Backend 046 publicado en OpenAPI | T-02 | parcial: dominio de Explorar en `features/explorar/domain/explorar.dart`; el del perfil va con la parte 2 |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-09, CA-13, CA-17, CA-21, CA-25, CA-30, CA-33, CA-36, CA-38, CA-40, CA-43 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/tecnicos` (TEC-01) y mapeo de errores | §4 · CA-01 a CA-12, CA-17 a CA-42 | T-01, T-02 | otras rutas | pendiente |
 | T-04 | Repositorio de `GET /api/v1/tecnicos` (TEC-02) y mapeo de errores | §4 · CA-01 a CA-12, CA-17 a CA-42 | T-01, T-02 | otras rutas | pendiente |
@@ -20,20 +20,20 @@
 | T-12 | Repositorio de `GET /api/v1/tecnicos/me/horarios` (TEC-10) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
 | T-13 | Repositorio de `PUT /api/v1/tecnicos/me/horarios` (TEC-11) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
 | T-14 | Repositorio de `GET /api/v1/tecnicos/me/reputacion` (TEC-13) y mapeo de errores | §4 · CA-40 a CA-42 | T-01, T-02 | otras rutas | pendiente |
-| T-15 | Repositorio de `GET /api/v1/explorar` (TEC-14) y mapeo de errores | §4 · CA-43 a CA-45 | T-01, T-02 | otras rutas | pendiente |
+| T-15 | Repositorio de `GET /api/v1/explorar` (TEC-14) y mapeo de errores | §4 · CA-43 a CA-45 | T-01, T-02 | otras rutas | en revisión: `ExplorarRepositoryApi` (filtro `todo`, `auto`, `agua` o `luz`; 401 y 422); el transporte manda el token solo si hay sesión |
 | T-16 | Pantalla «Registrarse como técnico»: estados, textos es/en, 48 dp y semántica | §7 · CA-46 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-17 | Pantalla «Inicio (lista)»: estados, textos es/en, 48 dp y semántica | §7 · CA-47 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-18 | Pantalla «Buscar»: estados, textos es/en, 48 dp y semántica | §7 · CA-48 | T-02 y su repositorio | otras pantallas | pendiente |
-| T-19 | Pantalla «Explorar»: estados, textos es/en, 48 dp y semántica | §7 · CA-49, CA-53 | T-02 y su repositorio | otras pantallas | pendiente |
+| T-19 | Pantalla «Explorar»: estados, textos es/en, 48 dp y semántica | §7 · CA-49, CA-53 | T-02 y su repositorio | otras pantallas | en revisión: la pestaña Explorar de la maqueta muestra los bloques reales (`explorar_real.dart`) con carga, vacío, error con Reintentar y copia sin conexión; textos de la maqueta, sin ARB (spec 045) |
 | T-20 | Pantalla «Inicio (barra de búsqueda)»: estados, textos es/en, 48 dp y semántica | §7 · CA-50 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-21 | Pantalla «Inicio (mapa)»: estados, textos es/en, 48 dp y semántica | §7 · CA-51 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-22 | Pantalla «Perfil del técnico»: estados, textos es/en, 48 dp y semántica | §7 · CA-52 | T-02 y su repositorio | otras pantallas | pendiente |
-| T-23 | Pantalla «Explorar (Trabajos reales)»: estados, textos es/en, 48 dp y semántica | §7 · CA-53 | T-02 y su repositorio | otras pantallas | pendiente |
+| T-23 | Pantalla «Explorar (Trabajos reales)»: estados, textos es/en, 48 dp y semántica | §7 · CA-53 | T-02 y su repositorio | otras pantallas | parcial: el bloque «Trabajos reales» de Explorar sale de `/explorar`; la pantalla propia con TEC-07 sigue pendiente |
 | T-24 | Pantalla «Mi perfil público»: estados, textos es/en, 48 dp y semántica | §7 · CA-54 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-25 | Pantalla «Mi negocio»: estados, textos es/en, 48 dp y semántica | §7 · CA-55 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-26 | Pantalla «Trabajo»: estados, textos es/en, 48 dp y semántica | §7 · CA-53, CA-56 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-27 | Pantalla «Mi reputación»: estados, textos es/en, 48 dp y semántica | §7 · CA-57 | T-02 y su repositorio | otras pantallas | pendiente |
-| T-28 | Registros sin datos personales y borrado local al cerrar sesión | §5, §6 · CA-02, CA-05, CA-08, CA-10, CA-12, CA-14, CA-16, CA-18, CA-20, CA-22, CA-24, CA-26, CA-29, CA-31, CA-34, CA-37, CA-39, CA-41 a CA-42, CA-44 a CA-45, CA-58 a CA-60 | T-02 | — | pendiente |
+| T-28 | Registros sin datos personales y borrado local al cerrar sesión | §5, §6 · CA-02, CA-05, CA-08, CA-10, CA-12, CA-14, CA-16, CA-18, CA-20, CA-22, CA-24, CA-26, CA-29, CA-31, CA-34, CA-37, CA-39, CA-41 a CA-42, CA-44 a CA-45, CA-58 a CA-60 | T-02 | — | parcial: la copia de Explorar vive en memoria y se borra al abrir o cerrar sesión; no se registra nada |
 | T-29 | Gates: `flutter analyze`, `dart format`, `flutter test`, `sdd_lint --trace`, `codemap.py` y `Memoria.md` | §11 | todas | — | pendiente |
 
 ## Definición de terminado
