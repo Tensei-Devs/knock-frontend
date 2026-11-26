@@ -1344,6 +1344,44 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reputacionDestacado => 'Destacado';
 
   @override
+  String get agendaCargando => 'Cargando tu agenda…';
+
+  @override
+  String get agendaError => 'No pudimos cargar tu agenda.';
+
+  @override
+  String get agendaVacia => 'No tienes visitas próximas.';
+
+  @override
+  String get agendaSinMapa =>
+      'La ubicación de las visitas no está disponible en el mapa.';
+
+  @override
+  String get agendaVerMas => 'Ver más visitas';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmada',
+      'en_curso': 'En curso',
+      'terminada': 'Terminada',
+      'cancelada': 'Cancelada',
+      'other': 'Estado no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'A domicilio',
+      'taller': 'En taller',
+      'other': 'Modalidad no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override

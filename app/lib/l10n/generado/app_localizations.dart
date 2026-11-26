@@ -2348,6 +2348,48 @@ abstract class AppLocalizations {
   /// **'Destacado'**
   String get reputacionDestacado;
 
+  /// No description provided for @agendaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu agenda…'**
+  String get agendaCargando;
+
+  /// No description provided for @agendaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tu agenda.'**
+  String get agendaError;
+
+  /// No description provided for @agendaVacia.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes visitas próximas.'**
+  String get agendaVacia;
+
+  /// No description provided for @agendaSinMapa.
+  ///
+  /// In es, this message translates to:
+  /// **'La ubicación de las visitas no está disponible en el mapa.'**
+  String get agendaSinMapa;
+
+  /// No description provided for @agendaVerMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más visitas'**
+  String get agendaVerMas;
+
+  /// No description provided for @agendaEstado.
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, confirmada{Confirmada} en_curso{En curso} terminada{Terminada} cancelada{Cancelada} other{Estado no disponible}}'**
+  String agendaEstado(String estado);
+
+  /// No description provided for @agendaModalidad.
+  ///
+  /// In es, this message translates to:
+  /// **'{modalidad, select, domicilio{A domicilio} taller{En taller} other{Modalidad no disponible}}'**
+  String agendaModalidad(String modalidad);
+
   /// Opiniones (spec 041).
   ///
   /// In es, this message translates to:

@@ -1335,6 +1335,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reputacionDestacado => 'Outstanding';
 
   @override
+  String get agendaCargando => 'Loading your schedule…';
+
+  @override
+  String get agendaError => 'We could not load your schedule.';
+
+  @override
+  String get agendaVacia => 'You have no upcoming visits.';
+
+  @override
+  String get agendaSinMapa => 'Visit locations are not available on the map.';
+
+  @override
+  String get agendaVerMas => 'See more visits';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmed',
+      'en_curso': 'In progress',
+      'terminada': 'Finished',
+      'cancelada': 'Cancelled',
+      'other': 'Status unavailable',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'At home',
+      'taller': 'At workshop',
+      'other': 'Mode unavailable',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Loading reviews…';
 
   @override

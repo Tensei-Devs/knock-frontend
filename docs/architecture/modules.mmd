@@ -33,7 +33,6 @@ graph LR
   tecnicos_confianza["tecnicos_confianza"]
   tema["tema"]
   trabajo["trabajo"]
-  verificacion["verificacion"]
   visita["visita"]
   widgets["widgets"]
   actividad -->|1| oficios
@@ -45,7 +44,7 @@ graph LR
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|18| actividad
+  maqueta -->|19| actividad
   maqueta -->|1| bandeja_avisos
   maqueta -->|1| busqueda
   maqueta -->|7| cuenta
@@ -58,10 +57,9 @@ graph LR
   maqueta -->|1| opiniones
   maqueta -->|1| previa
   maqueta -->|2| reportes
-  maqueta -->|5| tecnico
+  maqueta -->|4| tecnico
   maqueta -->|3| tecnicos_confianza
-  maqueta -->|1| verificacion
-  maqueta -->|2| visita
+  maqueta -->|3| visita
   previa -->|5| oficios
   router -->|5| actividad
   router -->|1| busqueda
