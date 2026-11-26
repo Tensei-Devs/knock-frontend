@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-25 — Spec 031, Mi casa y mi auto conectada al backend 041 (KNOCK-117 y KNOCK-126)
+- **Decisión:** la capa de datos vive en `features/mi/` (dominio, `CasaYAutoRepositoryApi` con `enviarJson` y un simulado). La pantalla «Mi casa y mi auto» de la maqueta (`MiCasaScreen`) muestra los datos reales con `CasaYAutoReal`, igual que «Dónde está abierta tu cuenta» con las sesiones.
+- **Porqué:** la app arranca con la maqueta y el Tech Lead pidió no regenerar el cliente generado todavía (lo regenera él al final).
+- **Cambio en la maqueta:** se quitaron los bloques simulados «Mi casa» y «Mi auto» y sus hojas de alta; la tarjeta de recordatorio queda igual.
+- **A evitar:** liberar los `TextEditingController` de una hoja en `whenComplete`: la animación de cierre todavía los usa. El formulario es un `StatefulWidget` que los libera en `dispose()`.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
