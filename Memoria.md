@@ -1,9 +1,21 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
+- **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
+- **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.
+- **Verificado en local (2026-11-26):** `dart format`, `flutter analyze`, `flutter test` (1165 pruebas), `sdd_lint --trace 030`, `codemap.py --check`, `check_exceptions.py` y `sync_agents.py --check` en verde; `jscpd` sin clones propios (en Windows el `ignore` no cubre `knock_api`, que es ruido preexistente). Falta el humo en teléfono con sesión.
+- **Pendiente:** el contrato no pide la colonia del catálogo al guardar (es texto). Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
 - **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
 - **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.
 - **Pendiente:** el interruptor «Disponible hoy» no se conectó: su valor actual solo llega en `GET /tecnicos/me/trabajo` (spec 019, en otro PR). Textos de la maqueta, sin ARB (spec 045). Sin probar contra el backend desplegado.
+
+## 2026-11-26 — Specs 021 y 036: búsqueda por texto en la app (KNOCK-66)
+- **Decisión:** con sesión y API, «Buscar» usa `GET /busqueda` (pausa de 400 ms, filtros en el servidor, páginas por cursor y los estados de la spec 021) y muestra las sugerencias de `GET /tecnicos/autocompletar`. Lo escrito no se guarda en `maq`, en disco ni en la caché de respuestas.
+- **Pantallas conectadas:** en la maqueta (`BusquedaReal` en `pantallas_buscar.dart`) y en la app real (`InicioScreen` con barra de búsqueda → `/inicio/buscar` → `BusquedaScreen` + `TarjetaExperto`, filtros de verificados y oficios y paso a `Rutas.solicitudNueva?oficio=`).
+- **Dudas entre specs:** la 021 deja fuera las sugerencias al escribir y la 036 (TEC-03) las pide; se siguió la 036. La copia sin conexión de las sugerencias (CA-12 de la 036) no se hizo porque guardaría lo escrito (021, R-05).
+- **Pendiente:** E2E, mutación y humo contra el backend desplegado; filtros de la maqueta (distancia, estrellas) solo siguen en el flujo de ejemplo.
 
 ## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
@@ -752,3 +764,8 @@
 - **Qué cambió:** pendientes, solicitud y cancelación de la eliminación contra la API (spec 029).
 - **Por qué:** conectar la pantalla de cuenta al contrato.
 - **A evitar:** probarlo contra una cuenta real sin avisar; no se probó con el backend desplegado.
+
+## 2026-11-26 — Acciones del cliente en la visita (KNOCK-266)
+- **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
+- **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
+- **A evitar:** aceptar una propuesta sin ver la fecha.
