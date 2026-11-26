@@ -23,6 +23,9 @@
 ## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
 - **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
 - **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
+## 2026-11-26 — Estados de agenda (KNOCK-118)
+- **Verificación adicional:** la interfaz prueba error con reintento, lista vacía y carga de una segunda página con cursor. Las acciones de finalizar y ausencia siguen sin pantalla real conectada.
+
 ## 2026-11-26 — Acciones del técnico, avance de datos (KNOCK-266, spec 040)
 - **Avance:** el repositorio existente agrega cliente ausente y terminar con fotos como identificadores de archivo; dos pruebas HTTP simuladas verifican cuerpo y rutas. Confirma que la respuesta corresponde a la visita.
 - **Pendiente:** no se conectó a la interfaz ni al proveedor de producción; terminar necesita fotos privadas subidas y confirmadas, no las rutas locales del selector. No declarar estas acciones integradas.
