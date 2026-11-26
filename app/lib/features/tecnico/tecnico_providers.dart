@@ -1,8 +1,10 @@
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/features/tecnico/data/horarios_repository_api.dart';
+import 'package:app/features/tecnico/data/servicios_repository_api.dart';
 import 'package:app/features/tecnico/data/tecnico_repository_api.dart';
 import 'package:app/features/tecnico/domain/alta_tecnico.dart';
 import 'package:app/features/tecnico/domain/horarios.dart';
+import 'package:app/features/tecnico/domain/servicios.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Repositorio del alta de técnico (spec 036). La pantalla solo lo usa con
@@ -18,6 +20,14 @@ final tecnicoRepositoryProvider = Provider<TecnicoRepository>(
 /// Horarios y «Disponible hoy» (spec 036).
 final horariosRepositoryProvider = Provider<HorariosRepository>(
   (ref) => HorariosRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+/// Servicios y precios de referencia (spec 037).
+final serviciosRepositoryProvider = Provider<ServiciosRepository>(
+  (ref) => ServiciosRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),

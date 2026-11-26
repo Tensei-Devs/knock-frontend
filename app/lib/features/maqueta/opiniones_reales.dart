@@ -2,6 +2,7 @@ import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_real.dart' show fechaDeCopia;
@@ -188,6 +189,8 @@ class PerfilTecnicoReal extends ConsumerWidget {
               size: 14,
             ),
           ),
+        // Servicios y precios de referencia (spec 037, SRV-01).
+        if (activas) ServiciosDeTecnicoReal(tecnicoId: tecnicoId),
         if (activas)
           _EstadoDeOpiniones(
             tecnicoId,

@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 037: servicios del técnico contra el backend 047 (KNOCK-266)
+- **Decisión:** `features/tecnico/` suma los repositorios y controladores de servicios. El perfil de un técnico real los muestra y «Tu perfil público» los agrega, edita y quita. Ante `not_a_technician` ofrece crear el perfil.
+- **Límite:** el contrato no deja leer el id de técnico propio; solo se conoce al crear el perfil. Sin él no se listan los servicios ya guardados.
+- **Pendiente:** textos sin ARB (CA-17), servicios en el registro (CA-16). Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
 - **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
 - **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.

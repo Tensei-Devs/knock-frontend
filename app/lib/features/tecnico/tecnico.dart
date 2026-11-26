@@ -4,5 +4,7 @@ library;
 
 export 'package:app/features/tecnico/domain/alta_tecnico.dart';
 export 'package:app/features/tecnico/domain/horarios.dart';
+export 'package:app/features/tecnico/domain/servicios.dart';
 export 'package:app/features/tecnico/presentation/horarios_controller.dart';
+export 'package:app/features/tecnico/presentation/servicios_controller.dart';
 export 'package:app/features/tecnico/tecnico_providers.dart';
