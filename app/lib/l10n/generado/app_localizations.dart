@@ -3319,6 +3319,102 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: cotizacionFinalTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cotización final'**
+  String get cotizacionFinalTitulo;
+
+  /// Texto de la app: cotizacionFinalExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Si la apruebas, el trabajo sigue con este precio. Si la rechazas, pagas solo la visita.'**
+  String get cotizacionFinalExplicacion;
+
+  /// Texto de la app: cotizacionFinalAprobada
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobaste la cotización final.'**
+  String get cotizacionFinalAprobada;
+
+  /// Texto de la app: cotizacionFinalRechazada
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazaste la cotización final: pagas solo la visita.'**
+  String get cotizacionFinalRechazada;
+
+  /// Texto de la app: cotizacionFinalVencida
+  ///
+  /// In es, this message translates to:
+  /// **'La cotización final venció sin respuesta.'**
+  String get cotizacionFinalVencida;
+
+  /// Texto de la app: cotizacionFinalYaDecidida
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cotización final ya se decidió o venció.'**
+  String get cotizacionFinalYaDecidida;
+
+  /// Texto de la app: cotizacionAjusteTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cambio de precio por aprobar'**
+  String get cotizacionAjusteTitulo;
+
+  /// Texto de la app: cotizacionAjusteExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Si lo rechazas, el precio se queda en el tope que ya aprobaste.'**
+  String get cotizacionAjusteExplicacion;
+
+  /// Texto de la app: cotizacionAjusteAprobado
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobaste el nuevo precio.'**
+  String get cotizacionAjusteAprobado;
+
+  /// Texto de la app: cotizacionAjusteRechazado
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazaste el cambio de precio.'**
+  String get cotizacionAjusteRechazado;
+
+  /// Texto de la app: cotizacionAjusteYaDecidido
+  ///
+  /// In es, this message translates to:
+  /// **'Este cambio de precio ya se decidió o venció.'**
+  String get cotizacionAjusteYaDecidido;
+
+  /// Texto de la app: cotizacionRespondeAntes
+  ///
+  /// In es, this message translates to:
+  /// **'Responde antes del {fecha}'**
+  String cotizacionRespondeAntes(String fecha);
+
+  /// Texto de la app: cotizacionAprobar
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobar'**
+  String get cotizacionAprobar;
+
+  /// Texto de la app: cotizacionRechazar
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazar'**
+  String get cotizacionRechazar;
+
+  /// Texto de la app: cotizacionActualizar
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get cotizacionActualizar;
+
+  /// Texto de la app: cotizacionCargandoPrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Revisando si hay un precio por aprobar…'**
+  String get cotizacionCargandoPrecio;
 }
 
 class _AppLocalizationsDelegate

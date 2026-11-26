@@ -1074,5 +1074,21 @@
   "visitaNoTerminadoEnviar": "Send report",
   "visitaNoTerminadoEnviado": "You sent your report. It will be reviewed.",
   "visitaReporteCerrado": "It can no longer be reported: more than 7 days passed or you already reported it.",
-  "visitaEnviando": "Sending…"
+  "visitaEnviando": "Sending…",
+  "cotizacionFinalTitulo": "Final quote",
+  "cotizacionFinalExplicacion": "If you approve it, the job goes ahead at this price. If you reject it, you only pay for the visit.",
+  "cotizacionFinalAprobada": "You approved the final quote.",
+  "cotizacionFinalRechazada": "You rejected the final quote: you only pay for the visit.",
+  "cotizacionFinalVencida": "The final quote expired without an answer.",
+  "cotizacionFinalYaDecidida": "This final quote was already decided or has expired.",
+  "cotizacionAjusteTitulo": "Price change to approve",
+  "cotizacionAjusteExplicacion": "If you reject it, the price stays at the cap you already approved.",
+  "cotizacionAjusteAprobado": "You approved the new price.",
+  "cotizacionAjusteRechazado": "You rejected the price change.",
+  "cotizacionAjusteYaDecidido": "This price change was already decided or has expired.",
+  "cotizacionRespondeAntes": "Answer before {fecha}",
+  "cotizacionAprobar": "Approve",
+  "cotizacionRechazar": "Reject",
+  "cotizacionActualizar": "Refresh",
+  "cotizacionCargandoPrecio": "Checking for a price to approve…"
 }

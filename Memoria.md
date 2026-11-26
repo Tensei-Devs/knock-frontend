@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 039, lado cliente: cotización final y ajustes de precio (KNOCK-266)
+- **Decisión:** con sesión y API, la visita y la cita muestran la cotización final y los ajustes pendientes (`PrecioDeVisitaReal`) con Aprobar y Rechazar. Las dos lecturas son las del backend 063; las decisiones, las de la spec 039.
+- **Pendiente:** el lado del técnico (enviar la cotización final y proponer el ajuste), y decidir desde Mensajes. Sin probar contra el backend desplegado.
 ## 2026-11-26 — Spec 033: reportes conectados al backend 043 (KNOCK-266)
 - **Decisión:** `features/reportes/` tiene los repositorios de reportes y bloqueos. Con una visita real, «Reportar un problema» envía el reporte; «Centro de ayuda» muestra «Mis reportes» con apelación.
 - **Motivos:** ni la spec ni el contrato listan los valores; se tomaron de `ReportRules.Reasons` del backend. Falta que el equipo los confirme.
