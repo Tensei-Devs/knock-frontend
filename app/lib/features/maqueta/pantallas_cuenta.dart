@@ -50,8 +50,12 @@ class CuentaMaqueta extends ConsumerWidget {
         ),
         BtnK('Cerrar sesión', () async {
           Navigator.pop(ctx);
-          await ref.read(perfilControllerProvider.notifier).cerrarSesion();
-          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
+          // Al cerrar la sesión el router quita esta pantalla: `ref` ya no
+          // sirve después del primer `await`.
+          final perfil = ref.read(perfilControllerProvider.notifier);
+          final almacen = ref.read(almacenSeguroProvider);
+          await perfil.cerrarSesion();
+          await maq.olvidarTelefono(almacen);
           maq.toast('Cerraste sesión');
         }, kind: Bk.dark),
         BtnK('Cancelar', () => Navigator.pop(ctx), kind: Bk.ghost),
