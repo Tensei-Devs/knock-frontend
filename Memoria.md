@@ -656,3 +656,8 @@
 - **Por qué:** el backend exige de 1 a 5 fotos para crear la solicitud; confirmar una foto depende del almacenamiento y la moderación reales de Azure, que no se han probado desde la app.
 - **Pendiente:** probar en teléfono contra dev con `--dart-define=SUBIDA_DE_FOTOS=true`; la spec 015 (T-04) describe la ruta anterior de archivos y no la de la spec 062 del backend.
 - **A evitar:** subir el archivo que entrega el selector sin prepararlo; mandar el token al enlace temporal; registrar el enlace; encender el interruptor en la publicación sin haber probado la confirmación en dev.
+## 2026-11-25 — Las rutas protegidas envían el token de la sesión (KNOCK-288)
+- **Qué cambió:** el cliente envía el `Authorization: Bearer` en las rutas de la API salvo las públicas: `auth/firebase`, `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar` y `tecnicos/{id}` (un solo segmento de 24 hexadecimales). La lista sale de los `[AllowAnonymous]` del backend y de las rutas `anonymous` del gateway. `/busqueda` tampoco se guarda en la caché de respuestas.
+- **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.
+- **Pruebas:** `rutas_protegidas_test.dart` (lista pública y protegida) y `sesion_en_flujos_reales_test.dart` (las llamadas de los repositorios reales de solicitudes, visitas y zonas, contra una API falsa que exige la sesión).
+- **A evitar:** volver a una lista de rutas protegidas; agregar una ruta pública sin comprobar su `[AllowAnonymous]` y su política en el gateway; hacer que `tecnicos/{id}` coincida por prefijo.
