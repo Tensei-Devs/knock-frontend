@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Estados de Mi reputación (KNOCK-94)
+- **Verificación adicional:** pruebas de widget comprueban carga, cero opiniones sin promedio inventado y copia fechada ante pérdida de conexión, además del error y reintento que ya se probaban.
+- **Pendiente:** 401 hasta la navegación de entrada, accesibilidad ampliada, ejecución en dispositivo y backend desplegado. El linter de trazabilidad no sustituye esas pruebas.
+
 ## 2026-11-26 — Reputación propia (KNOCK-94, spec 036)
 - **Cambio:** la pantalla «Mi reputación» consulta `GET /tecnicos/me/reputacion` con el transporte autenticado y muestra el promedio, total, distribución y nivel del servidor. No usa el id de persona ni intenta consultar opiniones propias sin id de técnico. Sin sesión o API se conserva la pantalla de ejemplo existente.
 - **Copia:** la última respuesta se conserva solo en memoria para el aviso sin conexión y se descarta al cambiar o cerrar sesión. No se muestran opiniones inventadas junto con datos reales.
