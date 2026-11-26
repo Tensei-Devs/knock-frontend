@@ -23,6 +23,10 @@
 ## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
 - **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
 - **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
 ## 2026-11-26 — Lista y mapa de técnicos, avance parcial (KNOCK-55, spec 036)
 - **Avance:** repositorio inicial para `GET /tecnicos` y `GET /mapa/tecnicos`, con pruebas HTTP simuladas. Los grupos son celdas agregadas, nunca se interpretan como ubicación personal.
 - **Pendiente:** conectar a Inicio y al mapa, completar filtros, límites, paginación y estados; evaluar su compatibilidad con `BusquedaReal`. El repositorio aún no está cableado a producción y no se declara la integración terminada.

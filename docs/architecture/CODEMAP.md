@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T22:03:30Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T22:20:12Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -873,7 +873,7 @@
 **data**
 
 - `app/lib/features/tecnico/data/buscar_tecnicos_repository_api.dart` — class `BuscarTecnicosRepositoryApi`
-  - `listar()`:14, `mapa()`:29
+  - `listar()`:14, `mapa()`:51
 - `app/lib/features/tecnico/data/horarios_repository_api.dart` — class `HorariosRepositoryApi`
   - `horarios()`:19, `guardar()`:23, `cambiarDisponibilidad()`:37
 - `app/lib/features/tecnico/data/perfil_publico_repository_api.dart` — class `PerfilPublicoRepositoryApi`

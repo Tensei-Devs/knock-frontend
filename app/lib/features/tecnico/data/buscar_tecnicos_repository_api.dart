@@ -11,13 +11,35 @@ class BuscarTecnicosRepositoryApi {
   final http.Client transporte;
   final String url;
 
-  Future<PaginaTecnicos> listar({String? oficio, String? cursor}) async {
+  Future<PaginaTecnicos> listar({
+    String? oficio,
+    String? colonia,
+    String? lat,
+    String? lng,
+    String? radioKm,
+    bool? disponibleHoy,
+    bool? soloVerificados,
+    String? orden,
+    String? cursor,
+    int? limite,
+  }) async {
     final r = await enviarJsonONoEncontrado(
       transporte,
       url,
       'GET',
       'tecnicos',
-      consulta: {'oficio': ?oficio, 'cursor': ?cursor},
+      consulta: {
+        'oficio': ?oficio,
+        'colonia': ?colonia,
+        'lat': ?lat,
+        'lng': ?lng,
+        'radioKm': ?radioKm,
+        'disponibleHoy': ?disponibleHoy?.toString(),
+        'soloVerificados': ?soloVerificados?.toString(),
+        'orden': ?orden,
+        'cursor': ?cursor,
+        'limite': ?limite?.toString(),
+      },
     );
     final m = objetoDelContrato(r.json);
     return PaginaTecnicos([
@@ -26,13 +48,27 @@ class BuscarTecnicosRepositoryApi {
     ], textoOpcional(m['nextCursor']));
   }
 
-  Future<List<GrupoMapa>> mapa({String? zoom}) async {
+  Future<List<GrupoMapa>> mapa({
+    String? norte,
+    String? sur,
+    String? este,
+    String? oeste,
+    String? oficio,
+    String? zoom,
+  }) async {
     final r = await enviarJsonONoEncontrado(
       transporte,
       url,
       'GET',
       'mapa/tecnicos',
-      consulta: {'zoom': ?zoom},
+      consulta: {
+        'norte': ?norte,
+        'sur': ?sur,
+        'este': ?este,
+        'oeste': ?oeste,
+        'oficio': ?oficio,
+        'zoom': ?zoom,
+      },
     );
     final m = objetoDelContrato(r.json);
     return [
