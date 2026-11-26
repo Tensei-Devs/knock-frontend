@@ -2,6 +2,7 @@ import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
+import 'package:app/features/maqueta/privacidad_real.dart';
 import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
 
 import 'dart:async';
@@ -1487,11 +1488,16 @@ class TerminosScreen extends StatelessWidget {
 
 // ------------------------------------------------------------ privacidad y datos
 
-class PrivacidadScreen extends StatelessWidget {
+class PrivacidadScreen extends ConsumerWidget {
   const PrivacidadScreen({super.key, this.sesiones = false});
   final bool sesiones;
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    return MaqBuilder((context) => _pantalla(context, real: real));
+  }
+
+  Widget _pantalla(BuildContext context, {required bool real}) {
     final k = kc(context);
     const cons = [
       ('Promociones y novedades', 'Ofertas de expertos y noticias de Knock'),
@@ -1506,39 +1512,42 @@ class PrivacidadScreen extends StatelessWidget {
       body: stack([
         const _Gl('Tus datos'),
         GroupK([
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              spacing: 14,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: k.navySoft,
-                    borderRadius: BorderRadius.circular(12),
+          if (real)
+            const ExportacionReal()
+          else
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                spacing: 14,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: k.navySoft,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(icn('download'), color: k.navy),
                   ),
-                  child: Icon(icn('download'), color: k.navy),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const T('Descargar mis datos', w: FontWeight.w800),
-                      sMut('Te mandamos un archivo en 48 horas', size: 13.5),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const T('Descargar mis datos', w: FontWeight.w800),
+                        sMut('Te mandamos un archivo en 48 horas', size: 13.5),
+                      ],
+                    ),
                   ),
-                ),
-                BtnK(
-                  'Pedir',
-                  () => maq.toast('Te enviaremos tu archivo en 48 horas'),
-                  kind: Bk.sec,
-                  sm: true,
-                  auto: true,
-                ),
-              ],
+                  BtnK(
+                    'Pedir',
+                    () => maq.toast('Te enviaremos tu archivo en 48 horas'),
+                    kind: Bk.sec,
+                    sm: true,
+                    auto: true,
+                  ),
+                ],
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -1574,13 +1583,16 @@ class PrivacidadScreen extends StatelessWidget {
           ),
         ]),
         const _Gl('Tú decides'),
-        GroupK([
-          for (var i = 0; i < cons.length; i++)
-            _swRow(cons[i].$1, cons[i].$2, maq.cons[i], () {
-              maq.cons[i] = !maq.cons[i];
-              maq.refresh();
-            }),
-        ]),
+        if (real)
+          const ConsentimientosReales()
+        else
+          GroupK([
+            for (var i = 0; i < cons.length; i++)
+              _swRow(cons[i].$1, cons[i].$2, maq.cons[i], () {
+                maq.cons[i] = !maq.cons[i];
+                maq.refresh();
+              }),
+          ]),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
@@ -1600,7 +1612,7 @@ class PrivacidadScreen extends StatelessWidget {
         const SesionesAbiertas(),
       ]),
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ eliminar cuenta
