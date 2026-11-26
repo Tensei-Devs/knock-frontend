@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Fundamentos de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** se recuperaron en una rama limpia las entidades y el controlador en memoria existentes, sin integrar red ni pantalla. El controlador descarta respuestas posteriores a su limpieza y conserva los datos ante un fallo.
+- **Tiempo real bloqueado:** el `ChatHub` de `origin/develop` del backend consultado solo une salas de visita y no implementa `noLeidos` ni `UnirseAConversacion`. La spec 030 del backend está aprobada y el contrato de #110 incluye las rutas REST; la lectura de mensajes y su pantalla dependen de la enmienda sin firma del #131.
+- **SignalR:** la evaluación preliminar de `signalr_netcore` 1.4.4 indica licencia MIT y sin avisos OSV en la consulta del 2026-11-26; faltan revisión transitiva e interoperabilidad. No se agregó ninguna dependencia.
+- **Pendiente:** repositorio, interfaz, integración de sesión, protocolo real y pruebas completas de CA-13 y CA-14. No presentar el controlador aislado como integración terminada.
+
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.

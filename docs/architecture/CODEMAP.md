@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T21:29:24Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T21:55:17Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,6 +24,7 @@
 | `l10n` | - | 3 | 4 | 155 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 48 | 265 | 511 |
+| `mensajes` | domain, presentation | 3 | 8 | 6 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -582,6 +583,18 @@
   - `build()`:23, `build()`:60, `elegida()`:110, `aTiempo()`:116, `dispose()`:226, `build()`:245
 - `app/lib/features/maqueta/visita_real.dart` — class `VisitaRealGate`
   - `build()`:29, `textoDeMotivoDeCodigo()`:75
+
+### mensajes
+
+**domain**
+
+- `app/lib/features/mensajes/domain/conversacion.dart` — class `Conversacion`, class `ContraparteConversacion`, class `UltimoMensaje`, class `ContadorDeNoLeidos`, class `ResumenConversaciones`
+- `app/lib/features/mensajes/domain/conversaciones_repository.dart` — class `ConversacionesRepository`
+
+**presentation**
+
+- `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
+  - `reintentar()`:30, `canalConectado()`:62, `canalDesconectado()`:66, `actualizarTotalDesdeServidor()`:78, `limpiar()`:90, `dispose()`:103
 
 ### mi
 
