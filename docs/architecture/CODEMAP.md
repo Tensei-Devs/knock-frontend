@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T21:19:59Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T21:29:24Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -472,7 +472,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:3719, `isSupported()`:3724, `shouldReload()`:3728, `lookupAppLocalizations()`:3731
+  - `of()`:70, `load()`:3815, `isSupported()`:3820, `shouldReload()`:3824, `lookupAppLocalizations()`:3827
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
