@@ -1373,5 +1373,182 @@
   "avisoCerrar": "Cerrar",
   "@avisoCerrar": {
     "description": "Cerrar la hoja del aviso."
+  },
+  "opinionesTitulo": "Opiniones",
+  "@opinionesTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCargando": "Cargando las opiniones…",
+  "@opinionesCargando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesError": "No pudimos cargar las opiniones.",
+  "@opinionesError": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesNoDisponible": "Ese técnico ya no está disponible.",
+  "@opinionesNoDisponible": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesReintentar": "Reintentar",
+  "@opinionesReintentar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVacio": "Aún sin opiniones. Las primeras llegan después de su primer servicio por Knock.",
+  "@opinionesVacio": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCopia": "Sin conexión. Es lo que viste el {fecha}; puede estar desactualizado.",
+  "@opinionesCopia": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPromedio": "★ {promedio} de 5",
+  "@opinionesPromedio": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "promedio": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesTotal": "{total, plural, =1{1 opinión} other{{total} opiniones}}",
+  "@opinionesTotal": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesEstrellas": "{estrellas} estrellas: {total}",
+  "@opinionesEstrellas": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrellas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesVerTodas": "Ver las opiniones",
+  "@opinionesVerTodas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVerMas": "Ver más",
+  "@opinionesVerMas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesServicioVerificado": "Servicio verificado",
+  "@opinionesServicioVerificado": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesAnonima": "Usuario eliminado",
+  "@opinionesAnonima": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesRespuesta": "Respuesta del técnico: {texto}",
+  "@opinionesRespuesta": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "texto": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPuntualidad": "Puntualidad",
+  "@opinionesPuntualidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalidad": "Calidad",
+  "@opinionesCalidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPrecioJusto": "Precio justo",
+  "@opinionesPrecioJusto": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesTrato": "Trato",
+  "@opinionesTrato": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarTitulo": "Califica el servicio",
+  "@opinionesCalificarTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarPregunta": "¿Cómo te fue?",
+  "@opinionesCalificarPregunta": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarBoton": "Calificar el servicio",
+  "@opinionesCalificarBoton": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEstrellaBoton": "{estrella} de 5 estrellas",
+  "@opinionesEstrellaBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesParteBoton": "{parte}: {estrella} de 5 estrellas",
+  "@opinionesParteBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "parte": {
+        "type": "String"
+      },
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesPorPartes": "Por partes (opcional)",
+  "@opinionesPorPartes": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesComentario": "Cuéntale a otros cómo fue",
+  "@opinionesComentario": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesGuardarConfianza": "Guardar en mis técnicos de confianza",
+  "@opinionesGuardarConfianza": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicar": "Publicar opinión",
+  "@opinionesPublicar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicando": "Publicando…",
+  "@opinionesPublicando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesElige": "Elige cuántas estrellas para continuar",
+  "@opinionesElige": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEnviada": "Recibimos tu opinión. ¡Gracias!",
+  "@opinionesEnviada": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorNoPermitida": "Esta visita ya no se puede calificar: ya opinaste o pasaron los 30 días.",
+  "@opinionesErrorNoPermitida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorYaRespondida": "Esta opinión ya tiene respuesta.",
+  "@opinionesErrorYaRespondida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVisitaNoDisponible": "Esa visita ya no está disponible.",
+  "@opinionesVisitaNoDisponible": {
+    "description": "Opiniones (spec 041)."
   }
 }

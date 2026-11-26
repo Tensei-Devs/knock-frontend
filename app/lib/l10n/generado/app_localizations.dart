@@ -1843,6 +1843,210 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cerrar'**
   String get avisoCerrar;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Opiniones'**
+  String get opinionesTitulo;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando las opiniones…'**
+  String get opinionesCargando;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar las opiniones.'**
+  String get opinionesError;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get opinionesNoDisponible;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get opinionesReintentar;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Aún sin opiniones. Las primeras llegan después de su primer servicio por Knock.'**
+  String get opinionesVacio;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es lo que viste el {fecha}; puede estar desactualizado.'**
+  String opinionesCopia(String fecha);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'★ {promedio} de 5'**
+  String opinionesPromedio(String promedio);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'{total, plural, =1{1 opinión} other{{total} opiniones}}'**
+  String opinionesTotal(int total);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'{estrellas} estrellas: {total}'**
+  String opinionesEstrellas(int estrellas, int total);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver las opiniones'**
+  String get opinionesVerTodas;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más'**
+  String get opinionesVerMas;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Servicio verificado'**
+  String get opinionesServicioVerificado;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Usuario eliminado'**
+  String get opinionesAnonima;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta del técnico: {texto}'**
+  String opinionesRespuesta(String texto);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Puntualidad'**
+  String get opinionesPuntualidad;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Calidad'**
+  String get opinionesCalidad;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Precio justo'**
+  String get opinionesPrecioJusto;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Trato'**
+  String get opinionesTrato;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Califica el servicio'**
+  String get opinionesCalificarTitulo;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo te fue?'**
+  String get opinionesCalificarPregunta;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Calificar el servicio'**
+  String get opinionesCalificarBoton;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'{estrella} de 5 estrellas'**
+  String opinionesEstrellaBoton(int estrella);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'{parte}: {estrella} de 5 estrellas'**
+  String opinionesParteBoton(String parte, int estrella);
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Por partes (opcional)'**
+  String get opinionesPorPartes;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntale a otros cómo fue'**
+  String get opinionesComentario;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar en mis técnicos de confianza'**
+  String get opinionesGuardarConfianza;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Publicar opinión'**
+  String get opinionesPublicar;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Publicando…'**
+  String get opinionesPublicando;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Elige cuántas estrellas para continuar'**
+  String get opinionesElige;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Recibimos tu opinión. ¡Gracias!'**
+  String get opinionesEnviada;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no se puede calificar: ya opinaste o pasaron los 30 días.'**
+  String get opinionesErrorNoPermitida;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Esta opinión ya tiene respuesta.'**
+  String get opinionesErrorYaRespondida;
+
+  /// Opiniones (spec 041).
+  ///
+  /// In es, this message translates to:
+  /// **'Esa visita ya no está disponible.'**
+  String get opinionesVisitaNoDisponible;
 }
 
 class _AppLocalizationsDelegate
