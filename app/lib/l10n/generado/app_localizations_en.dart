@@ -1627,4 +1627,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Sending…';
+
+  @override
+  String get cotizacionFinalTitulo => 'Final quote';
+
+  @override
+  String get cotizacionFinalExplicacion =>
+      'If you approve it, the job goes ahead at this price. If you reject it, you only pay for the visit.';
+
+  @override
+  String get cotizacionFinalAprobada => 'You approved the final quote.';
+
+  @override
+  String get cotizacionFinalRechazada =>
+      'You rejected the final quote: you only pay for the visit.';
+
+  @override
+  String get cotizacionFinalVencida =>
+      'The final quote expired without an answer.';
+
+  @override
+  String get cotizacionFinalYaDecidida =>
+      'This final quote was already decided or has expired.';
+
+  @override
+  String get cotizacionAjusteTitulo => 'Price change to approve';
+
+  @override
+  String get cotizacionAjusteExplicacion =>
+      'If you reject it, the price stays at the cap you already approved.';
+
+  @override
+  String get cotizacionAjusteAprobado => 'You approved the new price.';
+
+  @override
+  String get cotizacionAjusteRechazado => 'You rejected the price change.';
+
+  @override
+  String get cotizacionAjusteYaDecidido =>
+      'This price change was already decided or has expired.';
+
+  @override
+  String cotizacionRespondeAntes(String fecha) {
+    return 'Answer before $fecha';
+  }
+
+  @override
+  String get cotizacionAprobar => 'Approve';
+
+  @override
+  String get cotizacionRechazar => 'Reject';
+
+  @override
+  String get cotizacionActualizar => 'Refresh';
+
+  @override
+  String get cotizacionCargandoPrecio => 'Checking for a price to approve…';
 }

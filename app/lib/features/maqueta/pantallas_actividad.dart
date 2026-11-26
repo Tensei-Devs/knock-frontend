@@ -11,6 +11,7 @@ import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/opiniones_reales.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
+import 'package:app/features/maqueta/precio_de_visita_real.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/visita_acciones_reales.dart';
@@ -1430,6 +1431,8 @@ class VisitaMaqueta extends StatelessWidget {
     final code = (j.code.isEmpty ? '0000' : j.code).split('');
     final b = <Widget>[
       adjustCard(context, j),
+      if (j.real && j.visitaId != null)
+        PrecioDeVisitaReal(visitaId: j.visitaId!),
       Align(
         alignment: Alignment.centerLeft,
         child: Pill(
@@ -1728,6 +1731,8 @@ class CitaScreen extends StatelessWidget {
     return Pg(
       title: 'Cita en taller',
       body: stack([
+        if (j.real && j.visitaId != null)
+          PrecioDeVisitaReal(visitaId: j.visitaId!),
         const Align(
           alignment: Alignment.centerLeft,
           child: Pill(
