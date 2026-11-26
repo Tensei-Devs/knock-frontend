@@ -4,6 +4,58 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 void main() {
+  test('envía los filtros admitidos de lista y límites del mapa', () async {
+    final cliente = MockClient((r) async {
+      if (r.url.path.endsWith('/mapa/tecnicos')) {
+        expect(r.url.queryParameters, {
+          'norte': '21',
+          'sur': '20',
+          'este': '-98',
+          'oeste': '-99',
+          'oficio': 'plo',
+          'zoom': '12',
+        });
+        return http.Response('{"grupos":[]}', 200);
+      }
+      expect(r.url.queryParameters, {
+        'oficio': 'plo',
+        'colonia': 'col',
+        'lat': '20',
+        'lng': '-99',
+        'radioKm': '5',
+        'disponibleHoy': 'true',
+        'soloVerificados': 'true',
+        'orden': 'distancia',
+        'cursor': 'c1',
+        'limite': '10',
+      });
+      return http.Response('{"tecnicos":[],"nextCursor":null}', 200);
+    });
+    final repo = BuscarTecnicosRepositoryApi(
+      transporte: cliente,
+      url: 'https://example.test',
+    );
+    await repo.listar(
+      oficio: 'plo',
+      colonia: 'col',
+      lat: '20',
+      lng: '-99',
+      radioKm: '5',
+      disponibleHoy: true,
+      soloVerificados: true,
+      orden: 'distancia',
+      cursor: 'c1',
+      limite: 10,
+    );
+    await repo.mapa(
+      norte: '21',
+      sur: '20',
+      este: '-98',
+      oeste: '-99',
+      oficio: 'plo',
+      zoom: '12',
+    );
+  });
   test('CA_036_01 consulta técnicos con filtros y cursor', () async {
     final cliente = MockClient((r) async {
       expect(r.url.path, '/api/v1/tecnicos');

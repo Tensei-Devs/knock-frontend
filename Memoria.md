@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
 ## 2026-11-26 — Lista y mapa de técnicos, avance parcial (KNOCK-55, spec 036)
 - **Avance:** repositorio inicial para `GET /tecnicos` y `GET /mapa/tecnicos`, con pruebas HTTP simuladas. Los grupos son celdas agregadas, nunca se interpretan como ubicación personal.
 - **Pendiente:** conectar a Inicio y al mapa, completar filtros, límites, paginación y estados; evaluar su compatibilidad con `BusquedaReal`. El repositorio aún no está cableado a producción y no se declara la integración terminada.
