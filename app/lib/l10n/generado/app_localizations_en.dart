@@ -1354,6 +1354,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cuentaEliminacionSalir => 'Sign out';
 
   @override
+  String get direccionesTitulo => 'My addresses';
+
+  @override
+  String get direccionesCargando => 'Loading your addresses…';
+
+  @override
+  String get direccionesError => 'We couldn’t load your addresses.';
+
+  @override
+  String get direccionesReintentar => 'Try again';
+
+  @override
+  String get direccionesVacio => 'You don’t have saved addresses yet.';
+
+  @override
+  String get direccionesAgregar => 'Add address';
+
+  @override
+  String get direccionesEditar => 'Edit';
+
+  @override
+  String get direccionesEliminar => 'Delete';
+
+  @override
+  String get direccionesPrincipal => 'Main';
+
+  @override
+  String get direccionesSinReferencias => 'No landmarks';
+
+  @override
+  String get direccionesNueva => 'New address';
+
+  @override
+  String get direccionesEditarTitulo => 'Edit address';
+
+  @override
+  String get direccionesCalle => 'Street and number';
+
+  @override
+  String get direccionesReferencias => 'Landmarks (optional)';
+
+  @override
+  String direccionesColonia(String colonia) {
+    return 'Neighborhood: $colonia';
+  }
+
+  @override
+  String direccionesCambiarColonia(String colonia) {
+    return 'Use my current neighborhood: $colonia';
+  }
+
+  @override
+  String get direccionesMarcarPrincipal => 'Use as main address';
+
+  @override
+  String get direccionesGuardar => 'Save address';
+
+  @override
+  String get direccionesGuardando => 'Saving…';
+
+  @override
+  String get direccionesCancelar => 'Cancel';
+
+  @override
+  String get direccionesConfirmarEliminar => 'Delete this address?';
+
+  @override
+  String get direccionesNoDisponible => 'That address is no longer available.';
+
+  @override
   String get visitaReprogramar => 'Reschedule the appointment';
 
   @override

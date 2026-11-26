@@ -2384,6 +2384,138 @@ abstract class AppLocalizations {
   /// **'Salir'**
   String get cuentaEliminacionSalir;
 
+  /// No description provided for @direccionesTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mis direcciones'**
+  String get direccionesTitulo;
+
+  /// No description provided for @direccionesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus direcciones…'**
+  String get direccionesCargando;
+
+  /// No description provided for @direccionesError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus direcciones.'**
+  String get direccionesError;
+
+  /// No description provided for @direccionesReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get direccionesReintentar;
+
+  /// No description provided for @direccionesVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes direcciones guardadas.'**
+  String get direccionesVacio;
+
+  /// No description provided for @direccionesAgregar.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar dirección'**
+  String get direccionesAgregar;
+
+  /// No description provided for @direccionesEditar.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar'**
+  String get direccionesEditar;
+
+  /// No description provided for @direccionesEliminar.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar'**
+  String get direccionesEliminar;
+
+  /// No description provided for @direccionesPrincipal.
+  ///
+  /// In es, this message translates to:
+  /// **'Principal'**
+  String get direccionesPrincipal;
+
+  /// No description provided for @direccionesSinReferencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin referencias'**
+  String get direccionesSinReferencias;
+
+  /// No description provided for @direccionesNueva.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva dirección'**
+  String get direccionesNueva;
+
+  /// No description provided for @direccionesEditarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar dirección'**
+  String get direccionesEditarTitulo;
+
+  /// No description provided for @direccionesCalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Calle y número'**
+  String get direccionesCalle;
+
+  /// No description provided for @direccionesReferencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Referencias (opcional)'**
+  String get direccionesReferencias;
+
+  /// No description provided for @direccionesColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Colonia: {colonia}'**
+  String direccionesColonia(String colonia);
+
+  /// No description provided for @direccionesCambiarColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar mi colonia actual: {colonia}'**
+  String direccionesCambiarColonia(String colonia);
+
+  /// No description provided for @direccionesMarcarPrincipal.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar como principal'**
+  String get direccionesMarcarPrincipal;
+
+  /// No description provided for @direccionesGuardar.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar dirección'**
+  String get direccionesGuardar;
+
+  /// No description provided for @direccionesGuardando.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardando…'**
+  String get direccionesGuardando;
+
+  /// No description provided for @direccionesCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get direccionesCancelar;
+
+  /// No description provided for @direccionesConfirmarEliminar.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Eliminar esta dirección?'**
+  String get direccionesConfirmarEliminar;
+
+  /// No description provided for @direccionesNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa dirección ya no está disponible.'**
+  String get direccionesNoDisponible;
+
   /// No description provided for @visitaReprogramar.
   ///
   /// In es, this message translates to:
