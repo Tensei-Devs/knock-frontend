@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T14:58:10Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T15:39:52Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -9,6 +9,7 @@
 |---|---|---|---|---|
 | `actividad` | -, data, domain, presentation | 46 | 117 | 159 |
 | `app` | - | 3 | 2 | 5 |
+| `bandeja_avisos` | -, data, domain, presentation | 5 | 7 | 17 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 3 | 0 | 1 |
 | `cuenta` | -, data, domain, presentation | 18 | 25 | 33 |
@@ -20,7 +21,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 50 | 35 |
 | `l10n` | - | 3 | 4 | 83 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 28 | 185 | 412 |
+| `maqueta` | - | 30 | 189 | 416 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -29,11 +30,11 @@
 | `plataforma` | core | 3 | 6 | 4 |
 | `preferencias` | core | 6 | 12 | 25 |
 | `previa` | -, domain, presentation | 16 | 32 | 48 |
-| `red` | core | 8 | 5 | 21 |
+| `red` | core | 9 | 6 | 22 |
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
 | `tecnico` | -, data, domain | 4 | 5 | 2 |
-| `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 9 |
+| `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `widgets` | core | 4 | 5 | 5 |
@@ -158,6 +159,28 @@
   - `main()`:17, `arrancar()`:27
 - `app/lib/main_spike_mapa.dart` — class `SpikeMapaApp`
   - `main()`:11, `build()`:20
+
+### bandeja_avisos
+
+**-**
+
+- `app/lib/features/bandeja_avisos/bandeja_avisos.dart` — —
+- `app/lib/features/bandeja_avisos/bandeja_avisos_providers.dart` — —
+
+**data**
+
+- `app/lib/features/bandeja_avisos/data/bandeja_avisos_repository_api.dart` — class `BandejaAvisosRepositoryApi`
+  - `listar()`:21, `marcarLeido()`:37, `marcarTodos()`:45, `preferencias()`:49, `cambiar()`:54
+
+**domain**
+
+- `app/lib/features/bandeja_avisos/domain/aviso_en_bandeja.dart` — class `AvisoEnBandeja`, class `PaginaAvisos`, class `PreferenciaDeAviso`, class `BandejaAvisosRepository`
+  - `comoLeido()`:24, `toString()`:34
+
+**presentation**
+
+- `app/lib/features/bandeja_avisos/presentation/bandeja_avisos_controller.dart` — class `BandejaAvisosController`, class `PreferenciasDeAvisosController`
+  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `marcarLeido()`:38, `marcarTodos()`:58, `build()`:83, `reintentar()`:88, `cambiar()`:91
 
 ### cache
 
@@ -392,6 +415,8 @@
 
 - `app/lib/features/maqueta/anim_k.dart` — class `Pulsa`, class `_PulsaState`, class `Aparece`, class `_ApareceState`, class `TransicionKnock`, class `ShimmerK`, class `_ShimmerKState`, class `BoneK`, class `EsqueletoLista`, class `CargaInicial`, class `_CargaInicialState`, class `PulsoInsignia`, class `_PulsoInsigniaState`, class `EsqueletoReputacion`
   - `sinMovimiento()`:20, `hapticoLigero()`:25, `hapticoExito()`:27, `hapticoSeleccion()`:29, `build()`:55, `Listener()`:57, `didChangeDependencies()`:90, `dispose()`:109, `build()`:116, `FadeTransition()`:118, `escalona()`:133, `buildTransitions()`:141, `didChangeDependencies()`:196, `dispose()`:209, `build()`:215, `AnimatedBuilder()`:219, `build()`:252, `build()`:271, `item()`:272, `didChangeDependencies()`:331, `dispose()`:346, `build()`:352, `initState()`:379, `didChangeDependencies()`:385, `didUpdateWidget()`:394 …
+- `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`
+  - `build()`:77, `build()`:125, `build()`:156
 - `app/lib/features/maqueta/campo_buscar.dart` — class `CampoBuscarK`
   - `build()`:18
 - `app/lib/features/maqueta/carga_k.dart` — enum `TipoCarga`, class `CargaK`, class `MensajesRotativos`, class `_MensajesRotativosState`, class `ExitoK`, class `_ExitoKState`
@@ -423,12 +448,14 @@
   - `experto()`:17, `opiniones()`:18, `enviada()`:21, `comparar()`:22, `visita()`:23, `cita()`:24, `calificar()`:25, `reportar()`:26, `compartir()`:28, `chat()`:30, `ayuda()`:42, `hayCuenta()`:46, `pedirCuenta()`:51, `registrarIrA()`:60, `elegirFotos()`:70
 - `app/lib/features/maqueta/oficios_reales.dart` — class `AvisoOficios`
   - `build()`:11
+- `app/lib/features/maqueta/pantalla_segun_sesion.dart` — class `PantallaSegunSesion`
+  - `build()`:22
 - `app/lib/features/maqueta/pantallas_actividad.dart` — class `Marca`, class `BarraMarcaK`, class `PgTab`, class `ActividadMaqueta`, class `MensajesScreen`, class `ChatScreen`, class `_ChatScreenState`, class `VisitaMaqueta`, class `CitaScreen`, class `CalificarScreen`, class `_CalificarScreenState`, class `ReportarScreen`, class `_ReportarScreenState`, class `CompartirScreen`, class `_CompartirScreenState`
   - `build()`:31, `build()`:55, `build()`:116, `build()`:153, `msgFab()`:231, `jobCard()`:298, `jobChat()`:507, `adjustCard()`:559, `build()`:619, `InkWell()`:654, `initState()`:740, `dispose()`:755, `build()`:812, `reprogBlock()`:1248, `BtnK()`:1256, `reprogSheet()`:1265, `cancelBlock()`:1337, `cancelSheet()`:1345, `build()`:1395, `VisitaRealGate()`:1399, `build()`:1684, `VisitaRealGate()`:1688, `initState()`:1891, `dispose()`:1898, `build()`:1928 …
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
   - `provCard()`:21, `CardK()`:23, `initState()`:85, `dispose()`:91, `build()`:153, `reviewW()`:384, `build()`:491, `build()`:960, `initState()`:1131, `dispose()`:1150, `build()`:1249, `composerK()`:1486, `quickK()`:1492, `burbujaK()`:1494
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
-  - `hoja()`:34, `build()`:53, `MaqBuilder()`:63, `build()`:370, `editarDatos()`:376, `cambiarNumero()`:483, `e()`:494, `phone()`:495, `build()`:836, `build()`:898, `Pg()`:921, `CardK()`:941, `build()`:986, `build()`:1117, `build()`:1175, `build()`:1349, `build()`:1420, `build()`:1478, `build()`:1601, `dispose()`:1714, `build()`:1720, `build()`:1776, `build()`:1843, `build()`:1920
+  - `hoja()`:36, `build()`:55, `MaqBuilder()`:65, `build()`:372, `editarDatos()`:378, `cambiarNumero()`:485, `e()`:496, `phone()`:497, `build()`:838, `build()`:900, `Pg()`:923, `CardK()`:943, `build()`:988, `build()`:1119, `build()`:1184, `build()`:1365, `build()`:1436, `build()`:1494, `build()`:1617, `dispose()`:1730, `build()`:1736, `build()`:1792, `build()`:1859, `build()`:1936
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
   - `initState()`:61, `dispose()`:69, `build()`:126, `FieldK()`:391, `build()`:471, `step()`:477, `stateK0()`:594, `widenBlock()`:620, `initState()`:672, `build()`:1195, `CardK()`:1229
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
@@ -626,6 +653,8 @@
   - `send()`:32, `close()`:75
 - `app/lib/core/red/obtener_json.dart` — —
   - `obtenerJson()`:11
+- `app/lib/core/red/paginas_por_cursor.dart` — mixin `PaginasPorCursor`
+  - `cargarMas()`:18
 
 ### router
 
@@ -711,7 +740,7 @@
 **presentation**
 
 - `app/lib/features/tecnicos_confianza/presentation/tecnicos_confianza_controller.dart` — class `TecnicosConfianzaController`
-  - `build()`:14, `reintentar()`:20, `cargarMas()`:24, `guardar()`:49, `quitar()`:72
+  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `guardar()`:38, `quitar()`:61
 
 ### tema
 

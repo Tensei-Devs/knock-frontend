@@ -1,5 +1,6 @@
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/avisos_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
 import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
 
@@ -14,6 +15,7 @@ import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/casa_y_auto_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/sesiones_reales.dart';
@@ -895,10 +897,10 @@ class MiCasaScreen extends StatelessWidget {
 class ConfianzaScreen extends StatelessWidget {
   const ConfianzaScreen({super.key});
   @override
-  Widget build(BuildContext context) => Consumer(
-    builder: (context, ref, _) => ref.watch(solicitudesRealesActivasProvider)
-        ? const Pg(title: 'Mis técnicos de confianza', body: ConfianzaReal())
-        : _ejemplo(context),
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mis técnicos de confianza',
+    real: const ConfianzaReal(),
+    ejemplo: _ejemplo,
   );
 
   /// La lista con datos de ejemplo (sin sesión o sin API).
@@ -1114,7 +1116,14 @@ class ConfigMaqueta extends ConsumerWidget {
 class AvisosConfigScreen extends StatelessWidget {
   const AvisosConfigScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Qué avisos recibir',
+    real: const PreferenciasDeAvisosReales(),
+    ejemplo: _ejemplo,
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     const opt = [
       ('Recordatorios de mantenimiento', 'Aceite, tinaco, boiler y más'),
       ('Opiniones y respuestas', 'Cuando un experto responde tu opinión'),
@@ -1172,7 +1181,14 @@ Widget _swRow(String t, String s, bool on, VoidCallback? onTap) => Padding(
 class AvisosScreen extends StatelessWidget {
   const AvisosScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Avisos',
+    real: const AvisosReales(),
+    ejemplo: _ejemplo,
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final tec = pv.me.registered ? pv.notifs : <AvisoT>[];
     if (maq.notifs.isEmpty && tec.isEmpty) {

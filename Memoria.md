@@ -704,6 +704,11 @@
 - **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
 - **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
 
+## 2026-11-26 — Avisos y preferencias contra la API (KNOCK-105)
+- **Qué cambió:** con sesión y API, «Avisos» lista por páginas y marca leídos (uno y todos) y «Qué avisos recibir» muestra los interruptores que manda el servidor, incluido cuáles se pueden apagar; un interruptor solo cambia cuando el servidor lo confirma. Feature `bandeja_avisos`.
+- **Por qué:** las dos pantallas usaban listas de ejemplo en memoria.
+- **Pendiente:** abrir el destino de un aviso (el contrato no publica la forma de `destino`), el contador de la campana (CA-15), textos en ARB (CA-18) y los avisos `sistema` y sin rol (backend sin fusionar). Sin probar contra el backend desplegado.
+- **A evitar:** adivinar la forma de `destino`; fijar en la app qué avisos se pueden apagar; descartar un tipo que la app no conoce.
 ## 2026-11-26 — Técnicos de confianza contra la API (KNOCK-91)
 - **Qué cambió:** con sesión y API, «Mis técnicos de confianza» lista por páginas y quita (`GET` y `DELETE /me/tecnicos-confianza`), el botón «Guardar» del perfil de un técnico real usa `PUT` y `DELETE`, y el contador de Mi cuenta sale de esa lista. El repositorio viene de la rama local de KNOCK-288.
 - **Por qué:** las tres pantallas usaban una lista de ejemplo en memoria.
@@ -721,3 +726,8 @@
 - app 037: 404 not_a_technician
 - app 040: 404 para ajenos y 400 con datos mal formados
 - El panel web queda fuera de alcance por decisión de José; sus specs no se tocan.
+
+## 2026-11-26 — Una sola versión de «Ver más» y del cambio entre datos reales y de ejemplo (KNOCK-105)
+- **Qué cambió:** `core/red/paginas_por_cursor.dart` y `PantallaSegunSesion` reemplazan el código repetido entre avisos y técnicos de confianza.
+- **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
+- **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).
