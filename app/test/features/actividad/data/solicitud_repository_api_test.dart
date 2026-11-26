@@ -497,6 +497,17 @@ void main() {
   });
 
   group('POST /solicitudes/{id}/elegir', () {
+    for (final campo in ['solicitudId', 'cotizacionId']) {
+      test('CA_015_11 rechaza confirmación de otro $campo', () async {
+        final respuesta = _cita()..[campo] = 'otro';
+        final repo = _repo(MockClient((_) async => _json(respuesta)));
+        await expectLater(
+          repo.elegir(_id, 'c1'),
+          throwsA(isA<DatosInvalidosFailure>()),
+        );
+      });
+    }
+
     test('Eleccion_DevuelveLaCitaConElContactoDelTecnico', () async {
       http.Request? recibida;
       final repo = _repo(

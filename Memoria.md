@@ -682,3 +682,8 @@
 - **Qué cambió:** las pruebas del controlador que simulan `request_already_chosen` comparten una función de montaje y otra para la comparación con visita.
 - **Por qué:** `jscpd` marcaba el montaje repetido.
 - **A evitar:** copiar el montaje en un caso nuevo; excluir las pruebas del control de duplicados.
+## 2026-11-25 — Elegir cotización con el cliente generado (KNOCK-245)
+- **Qué cambió:** la elección usa `ChooseQuoteApi` del cliente generado y rechaza una confirmación que sea de otra solicitud o de otra cotización. Es la primera de las dos partes en que se dividió el PR #99.
+- **Por qué:** una ruta escrita a mano no falla al compilar cuando cambia el contrato, y una confirmación ajena no se debe mostrar como la cita de la persona.
+- **Pendiente:** recuperar la cita tras un 409 `request_already_chosen` (segunda parte); sin probar contra el backend desplegado.
+- **A evitar:** armar la ruta de elegir a mano; aceptar una confirmación sin comparar sus identificadores.
