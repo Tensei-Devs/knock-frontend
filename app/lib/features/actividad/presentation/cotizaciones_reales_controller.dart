@@ -33,7 +33,11 @@ class EleccionRealController extends Notifier<EstadoEleccion> {
   EstadoEleccion build() => const EleccionInactiva();
 
   Future<void> elegir(String cotizacionId) async {
-    if (state is EleccionEnCurso || state is EleccionHecha) return;
+    if (state is EleccionEnCurso ||
+        state is EleccionHecha ||
+        state is EleccionVisitaExistente) {
+      return;
+    }
     state = EleccionEnCurso(cotizacionId);
     try {
       final cita = await ref
@@ -43,13 +47,38 @@ class EleccionRealController extends Notifier<EstadoEleccion> {
       // La solicitud pasa a «cita confirmada» y la comparación a «ya elegiste».
       ref
         ..invalidate(solicitudesRealesControllerProvider)
+        ..invalidate(solicitudRealDetalleProvider(solicitudId))
         ..invalidate(cotizacionesRealesProvider);
     } on Failure catch (falla) {
-      state = EleccionFallida(falla, cotizacionId);
+      if (falla is EleccionRechazadaFailure &&
+          falla.motivo == MotivoEleccionRechazada.yaElegida) {
+        try {
+          final comparacion = await ref
+              .read(solicitudesRealesRepositoryProvider)
+              .cotizaciones(solicitudId);
+          final visitaId = comparacion.visitaId;
+          if (comparacion.puedeElegir ||
+              comparacion.motivo != MotivoSinEleccion.yaElegida ||
+              visitaId == null ||
+              visitaId.isEmpty) {
+            throw const DatosInvalidosFailure();
+          }
+          final visita = await ref
+              .read(visitasRealesRepositoryProvider)
+              .obtenerVisita(visitaId);
+          if (visita.id != visitaId) throw const DatosInvalidosFailure();
+          state = EleccionVisitaExistente(visita);
+        } on Failure {
+          state = EleccionFallida(falla, cotizacionId);
+        }
+      } else {
+        state = EleccionFallida(falla, cotizacionId);
+      }
       // Con un 409 lo que se veía ya no es cierto: se vuelve a pedir.
       if (falla is EleccionRechazadaFailure) {
         ref
           ..invalidate(solicitudesRealesControllerProvider)
+          ..invalidate(solicitudRealDetalleProvider(solicitudId))
           ..invalidate(cotizacionesRealesProvider);
       }
     }

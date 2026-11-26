@@ -671,3 +671,9 @@
 - **Qué cambió:** `test/soporte/cliente_que_responde.dart` reemplaza el bloque que repetían las pruebas de los repositorios de Explorar y de «Mi casa y mi auto».
 - **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
 - **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.
+
+## 2026-11-25 — Recuperar la cita cuando la cotización ya estaba elegida (KNOCK-245)
+- **Qué cambió:** ante un 409 `request_already_chosen`, el controlador pide la comparación de esa solicitud, toma su `visitaId`, lee la visita y la muestra como «cita existente», sin atribuirla a la cotización que se reintentó; si algo no coincide deja el estado de error. También recarga la lista, el detalle y la comparación. Es la segunda de las dos partes en que se dividió el PR #99.
+- **Por qué:** la persona ya tiene una cita y debe verla; el contrato no dice con qué cotización se creó.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** inventar el `cotizacionId` de la visita recuperada; reintentar la elección de forma automática.

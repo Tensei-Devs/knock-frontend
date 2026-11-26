@@ -98,6 +98,30 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @citaExistente.
+  ///
+  /// In es, this message translates to:
+  /// **'Cita existente'**
+  String get citaExistente;
+
+  /// No description provided for @visitaRecuperacionFallida.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos recuperar la visita. Consulta tu actividad.'**
+  String get visitaRecuperacionFallida;
+
+  /// No description provided for @citaMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Cotización: {monto}'**
+  String citaMonto(String monto);
+
+  /// No description provided for @citaTope.
+  ///
+  /// In es, this message translates to:
+  /// **'Máximo: {monto}'**
+  String citaTope(String monto);
+
   /// Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce.
   ///
   /// In es, this message translates to:
