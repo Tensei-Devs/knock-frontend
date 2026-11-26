@@ -1021,5 +1021,19 @@
   "visitaNoTerminadoEnviar": "Send report",
   "visitaNoTerminadoEnviado": "You sent your report. It will be reviewed.",
   "visitaReporteCerrado": "It can no longer be reported: more than 7 days passed or you already reported it.",
-  "visitaEnviando": "Sending…"
+  "visitaEnviando": "Sending…",
+  "verificacionCargando": "Loading your verification…",
+  "verificacionReintentar": "Try again",
+  "verificacionSinVerificar": "Not verified",
+  "verificacionSinVerificarDetalle": "Verification is optional and helps clients trust you.",
+  "verificacionFotosBorradas": "Your photos were deleted because they were not reviewed in time. You can send them again.",
+  "verificacionEnRevision": "Under review",
+  "verificacionEnRevisionDetalle": "We review in less than 24 h",
+  "verificacionVerificadoBasico": "Verified: basic",
+  "verificacionVerificadoCompleto": "Verified: complete",
+  "verificacionVerificadoDetalle": "Your profile shows the verified badge.",
+  "verificacionNoVerificado": "We could not verify you",
+  "verificacionSinMotivo": "No reason was given.",
+  "verificacionEnviadaEl": "Sent on {fecha}",
+  "verificacionEnvioNoDisponible": "Sending your photos from the app is not available yet."
 }

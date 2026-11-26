@@ -3001,6 +3001,90 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: verificacionCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu verificación…'**
+  String get verificacionCargando;
+
+  /// Texto de la app: verificacionReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get verificacionReintentar;
+
+  /// Texto de la app: verificacionSinVerificar
+  ///
+  /// In es, this message translates to:
+  /// **'Sin verificar'**
+  String get verificacionSinVerificar;
+
+  /// Texto de la app: verificacionSinVerificarDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'La verificación es opcional y le da más confianza a tus clientes.'**
+  String get verificacionSinVerificarDetalle;
+
+  /// Texto de la app: verificacionFotosBorradas
+  ///
+  /// In es, this message translates to:
+  /// **'Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.'**
+  String get verificacionFotosBorradas;
+
+  /// Texto de la app: verificacionEnRevision
+  ///
+  /// In es, this message translates to:
+  /// **'En revisión'**
+  String get verificacionEnRevision;
+
+  /// Texto de la app: verificacionEnRevisionDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Revisamos en menos de 24 h'**
+  String get verificacionEnRevisionDetalle;
+
+  /// Texto de la app: verificacionVerificadoBasico
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: básica'**
+  String get verificacionVerificadoBasico;
+
+  /// Texto de la app: verificacionVerificadoCompleto
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: completa'**
+  String get verificacionVerificadoCompleto;
+
+  /// Texto de la app: verificacionVerificadoDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Tu perfil muestra la insignia de verificado.'**
+  String get verificacionVerificadoDetalle;
+
+  /// Texto de la app: verificacionNoVerificado
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo verificar'**
+  String get verificacionNoVerificado;
+
+  /// Texto de la app: verificacionSinMotivo
+  ///
+  /// In es, this message translates to:
+  /// **'No se indicó el motivo.'**
+  String get verificacionSinMotivo;
+
+  /// Texto de la app: verificacionEnviadaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Enviada el {fecha}'**
+  String verificacionEnviadaEl(String fecha);
+
+  /// Texto de la app: verificacionEnvioNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar tus fotos desde la app todavía no está disponible.'**
+  String get verificacionEnvioNoDisponible;
 }
 
 class _AppLocalizationsDelegate
