@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-21T22:31:42Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T03:38:15Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -598,7 +598,7 @@
 - `app/lib/core/sesion/canje_sesion.dart` — class `SesionEmitida`, class `CanjeSesion`, class `CanjeSesionApi`
   - `toString()`:24, `canjear()`:46
 - `app/lib/core/sesion/cliente_autenticado.dart` — class `ClienteAutenticado`
-  - `send()`:40, `close()`:76
+  - `send()`:41, `close()`:77
 - `app/lib/core/sesion/datos_de_visita.dart` — —
   - `leerIndiceDeVisitas()`:21, `escribirIndiceDeVisitas()`:32, `borrarDatosDeVisita()`:40
 - `app/lib/core/sesion/es_tecnico_provider.dart` — class `EsTecnicoNotifier`

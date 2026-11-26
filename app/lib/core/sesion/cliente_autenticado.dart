@@ -8,8 +8,9 @@ import 'package:http/http.dart' as http;
 /// (spec 002, R-02; spec 026, R-04, R-06, R-07).
 ///
 /// - El `Authorization: Bearer` solo sale hacia la URL base de la API y solo en
-///   rutas protegidas (`me`, `auth/logout`, `colonias/…`); `auth/firebase`,
-///   `auth/refresh` y `oficios` van sin él (CA-026-11).
+///   rutas protegidas (todas menos las públicas: `auth/firebase`,
+///   `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar`
+///   y `tecnicos/{id}` de **un solo segmento**, CA-026-11).
 /// - Una llamada protegida sin sesión no sale a la red: falla con
 ///   [NoAutorizadoFailure] (CA-026-05).
 /// - Si la petición repetida vuelve a dar 401, la sesión se cierra.
@@ -76,11 +77,31 @@ class ClienteAutenticado extends http.BaseClient {
   void close() => _interno.close();
 }
 
+/// Rutas del contrato que NO piden sesión: el resto de la API es protegido y
+/// lleva el Bearer (así cada ruta nueva del contrato queda protegida por
+/// omisión). La lista sale del backend: `[AllowAnonymous]` en
+/// `AuthController.cs:18-19` (`auth/firebase`), `RefreshController.cs:18-19`
+/// (`auth/refresh`), `OficiosController.cs:28-29` (`oficios`),
+/// `AccessRecoveryController.cs:15-16` (`recuperacion-acceso`) y
+/// `TecnicosController.cs:61-62` y `76-77` (`tecnicos/{id}` y
+/// `tecnicos/autocompletar`), y de las rutas con política `anonymous` del
+/// gateway (`appsettings.json`). `health` no pasa por el gateway y no se usa.
+const _rutasPublicas = {
+  'auth/firebase',
+  'auth/refresh',
+  'oficios',
+  'recuperacion-acceso',
+  'tecnicos/autocompletar',
+};
+
+/// `tecnicos/{id}`: el perfil público de un técnico. Coincide con **un solo
+/// segmento** y con un identificador de 24 hexadecimales; así `tecnicos/me`,
+/// `tecnicos/{id}/llega-a-mi-colonia` y cualquier subruta siguen exigiendo
+/// sesión (llevan datos personales o acciones de la persona).
+final _perfilPublicoDeTecnico = RegExp(r'^tecnicos/[0-9a-fA-F]{24}$');
+
 bool _esProtegida(String ruta) =>
-    ruta == 'me' ||
-    ruta.startsWith('me/') ||
-    ruta == 'auth/logout' ||
-    ruta.startsWith('colonias/');
+    !_rutasPublicas.contains(ruta) && !_perfilPublicoDeTecnico.hasMatch(ruta);
 
 bool _esRenovable(String ruta) => ruta != 'auth/logout';
 
