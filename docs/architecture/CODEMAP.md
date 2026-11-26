@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T18:09:00Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T19:43:33Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -9,7 +9,7 @@
 |---|---|---|---|---|
 | `actividad` | -, data, domain, presentation | 46 | 117 | 159 |
 | `app` | - | 3 | 2 | 5 |
-| `bandeja_avisos` | -, data, domain, presentation | 5 | 7 | 17 |
+| `bandeja_avisos` | -, data, domain, presentation | 5 | 9 | 19 |
 | `busqueda` | -, data, domain, presentation | 8 | 21 | 25 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 4 | 0 | 1 |
@@ -23,7 +23,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 127 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 37 | 223 | 465 |
+| `maqueta` | - | 37 | 225 | 467 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -176,17 +176,17 @@
 **data**
 
 - `app/lib/features/bandeja_avisos/data/bandeja_avisos_repository_api.dart` — class `BandejaAvisosRepositoryApi`
-  - `listar()`:21, `marcarLeido()`:37, `marcarTodos()`:45, `preferencias()`:49, `cambiar()`:54
+  - `listar()`:21, `sinLeer()`:37, `marcarLeido()`:52, `marcarTodos()`:60, `preferencias()`:64, `cambiar()`:69
 
 **domain**
 
-- `app/lib/features/bandeja_avisos/domain/aviso_en_bandeja.dart` — class `AvisoEnBandeja`, class `PaginaAvisos`, class `PreferenciaDeAviso`, class `BandejaAvisosRepository`
+- `app/lib/features/bandeja_avisos/domain/aviso_en_bandeja.dart` — class `AvisoEnBandeja`, class `PaginaAvisos`, class `PreferenciaDeAviso`, class `AvisosSinLeer`, class `BandejaAvisosRepository`
   - `comoLeido()`:24, `toString()`:34
 
 **presentation**
 
-- `app/lib/features/bandeja_avisos/presentation/bandeja_avisos_controller.dart` — class `BandejaAvisosController`, class `PreferenciasDeAvisosController`
-  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `marcarLeido()`:38, `marcarTodos()`:58, `build()`:83, `reintentar()`:88, `cambiar()`:91
+- `app/lib/features/bandeja_avisos/presentation/bandeja_avisos_controller.dart` — class `BandejaAvisosController`, class `AvisosSinLeerController`, class `PreferenciasDeAvisosController`
+  - `build()`:13, `reintentar()`:19, `cursorDe()`:22, `pedirPagina()`:25, `unirPaginas()`:30, `marcarLeido()`:38, `marcarTodos()`:59, `build()`:84, `build()`:101, `reintentar()`:106, `cambiar()`:109
 
 ### busqueda
 
@@ -484,8 +484,8 @@
 
 - `app/lib/features/maqueta/anim_k.dart` — class `Pulsa`, class `_PulsaState`, class `Aparece`, class `_ApareceState`, class `TransicionKnock`, class `ShimmerK`, class `_ShimmerKState`, class `BoneK`, class `EsqueletoLista`, class `CargaInicial`, class `_CargaInicialState`, class `PulsoInsignia`, class `_PulsoInsigniaState`, class `EsqueletoReputacion`
   - `sinMovimiento()`:20, `hapticoLigero()`:25, `hapticoExito()`:27, `hapticoSeleccion()`:29, `build()`:55, `Listener()`:57, `didChangeDependencies()`:90, `dispose()`:109, `build()`:116, `FadeTransition()`:118, `escalona()`:133, `buildTransitions()`:141, `didChangeDependencies()`:196, `dispose()`:209, `build()`:215, `AnimatedBuilder()`:219, `build()`:252, `build()`:271, `item()`:272, `didChangeDependencies()`:331, `dispose()`:346, `build()`:352, `initState()`:379, `didChangeDependencies()`:385, `didUpdateWidget()`:394 …
-- `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`
-  - `build()`:77, `build()`:125, `build()`:156
+- `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`, class `ContadorDeAvisos`
+  - `build()`:79, `build()`:127, `build()`:158, `build()`:226
 - `app/lib/features/maqueta/busqueda_real.dart` — class `BusquedaReal`, class `_BusquedaRealState`, class `_SinZona`, class `_Error`, class `_Sugerencias`, class `_Resultados`, class `_Experto`
   - `initState()`:55, `dispose()`:61, `build()`:87, `Pg()`:93, `stack()`:148, `build()`:167, `build()`:183, `build()`:199, `build()`:219, `stack()`:245, `build()`:311
 - `app/lib/features/maqueta/campo_buscar.dart` — class `CampoBuscarK`
@@ -517,8 +517,8 @@
   - `previa()`:38, `entrada()`:39, `inicio()`:40, `explorar()`:41, `actividad()`:42, `trabajo()`:43, `cuenta()`:44, `configuracion()`:45, `rutaMaqueta()`:49, `build()`:219, `preparar()`:232, `conTransiciones()`:239, `envolver()`:247, `initState()`:270, `dispose()`:348, `build()`:356
 - `app/lib/features/maqueta/horarios_reales.dart` — class `HorariosSegunSesion`, class `HorariosReales`
   - `build()`:21, `build()`:51
-- `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`
-  - `initState()`:157, `dispose()`:190, `build()`:244, `MaqBuilder()`:253, `Scaffold()`:365
+- `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`, class `_PuntoDeAvisos`
+  - `initState()`:158, `dispose()`:191, `build()`:245, `MaqBuilder()`:254, `Scaffold()`:365, `build()`:818
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`
   - `posicionDeMundo()`:35, `posicionDeExperto()`:45, `acercar()`:79, `alejar()`:80, `moverA()`:83, `ir()`:90, `ajustar()`:93, `dibujarPin()`:151, `initState()`:282, `dispose()`:295, `didUpdateWidget()`:344, `build()`:430, `build()`:480, `b()`:500, `ListenableBuilder()`:517
 - `app/lib/features/maqueta/nav.dart` — class `RM`
@@ -534,7 +534,7 @@
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
   - `provCard()`:25, `CardK()`:27, `initState()`:89, `dispose()`:95, `build()`:159, `reviewW()`:396, `build()`:503, `PerfilTecnicoReal()`:508, `build()`:978, `initState()`:1162, `dispose()`:1181, `build()`:1280, `composerK()`:1517, `quickK()`:1523, `burbujaK()`:1525
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
-  - `hoja()`:39, `build()`:58, `MaqBuilder()`:70, `build()`:378, `editarDatos()`:384, `FieldK()`:449, `cambiarNumero()`:502, `e()`:513, `phone()`:514, `build()`:855, `build()`:917, `Pg()`:940, `CardK()`:960, `build()`:1005, `build()`:1136, `build()`:1201, `build()`:1382, `build()`:1453, `build()`:1511, `MaqBuilder()`:1513, `build()`:1645, `dispose()`:1767, `build()`:1773, `build()`:1832, `EliminadaReal()`:1834 …
+  - `hoja()`:39, `build()`:58, `MaqBuilder()`:70, `build()`:381, `editarDatos()`:387, `FieldK()`:452, `cambiarNumero()`:505, `e()`:516, `phone()`:517, `build()`:858, `build()`:920, `Pg()`:943, `CardK()`:963, `build()`:1008, `build()`:1139, `build()`:1204, `build()`:1385, `build()`:1456, `build()`:1514, `MaqBuilder()`:1516, `build()`:1648, `dispose()`:1770, `build()`:1776, `build()`:1835, `EliminadaReal()`:1837 …
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
   - `initState()`:63, `dispose()`:71, `build()`:128, `FieldK()`:404, `build()`:484, `step()`:490, `stateK0()`:607, `widenBlock()`:633, `initState()`:685, `build()`:1208, `CardK()`:1242
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`

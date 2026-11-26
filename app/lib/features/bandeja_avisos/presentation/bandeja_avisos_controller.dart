@@ -52,6 +52,7 @@ class BandejaAvisosController extends AsyncNotifier<PaginaAvisos>
     _cambiar(
       (items) => [for (final a in items) a.id == id ? a.comoLeido() : a],
     );
+    ref.invalidate(avisosSinLeerControllerProvider);
     return null;
   }
 
@@ -62,6 +63,7 @@ class BandejaAvisosController extends AsyncNotifier<PaginaAvisos>
       return falla;
     }
     _cambiar((items) => [for (final a in items) a.comoLeido()]);
+    ref.invalidate(avisosSinLeerControllerProvider);
     return null;
   }
 
@@ -75,6 +77,22 @@ class BandejaAvisosController extends AsyncNotifier<PaginaAvisos>
     );
   }
 }
+
+/// El contador de la campana. Sin sesión no pide nada.
+class AvisosSinLeerController extends AsyncNotifier<AvisosSinLeer> {
+  @override
+  Future<AvisosSinLeer> build() async {
+    final conSesion = ref.watch(sesionProvider.select((t) => t != null));
+    if (!conSesion) return const AvisosSinLeer(0);
+    return ref.watch(bandejaAvisosRepositoryProvider).sinLeer();
+  }
+}
+
+final avisosSinLeerControllerProvider =
+    AsyncNotifierProvider.autoDispose<AvisosSinLeerController, AvisosSinLeer>(
+      AvisosSinLeerController.new,
+      retry: (_, _) => null,
+    );
 
 /// «Qué avisos recibir»: lo que dice el servidor.
 class PreferenciasDeAvisosController
