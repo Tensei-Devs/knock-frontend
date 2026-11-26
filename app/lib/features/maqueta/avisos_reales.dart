@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
 import 'package:app/features/bandeja_avisos/bandeja_avisos.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/ui.dart';
@@ -203,5 +205,29 @@ class PreferenciasDeAvisosReales extends ConsumerWidget {
           ),
       ]),
     );
+  }
+}
+
+/// El punto de la campana y el contador de «Avisos». Con sesión y API salen de
+/// `GET /avisos/no-leidos/contador`; mientras carga o si falla no se muestra
+/// nada. Sin sesión se queda lo de [ejemplo].
+class ContadorDeAvisos extends ConsumerWidget {
+  const ContadorDeAvisos({
+    super.key,
+    required this.marca,
+    this.ejemplo = const SizedBox.shrink(),
+  });
+
+  /// Cómo se dibuja cuando hay avisos sin leer.
+  final Widget Function(AvisosSinLeer) marca;
+  final Widget ejemplo;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(solicitudesRealesActivasProvider)) return ejemplo;
+    final sinLeer = ref.watch(avisosSinLeerControllerProvider).value;
+    return sinLeer == null || sinLeer.cantidad == 0
+        ? const SizedBox.shrink()
+        : marca(sinLeer);
   }
 }

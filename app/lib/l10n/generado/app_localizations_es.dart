@@ -10,6 +10,91 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get tecnicoCargando => 'Cargando…';
+
+  @override
+  String get tecnicoReintentar => 'Reintentar';
+
+  @override
+  String get tecnicoNoDisponible => 'Ese técnico ya no está disponible.';
+
+  @override
+  String tecnicoCopia(DateTime fecha) {
+    final intl.DateFormat fechaDateFormat = intl.DateFormat.yMd(localeName);
+    final String fechaString = fechaDateFormat.format(fecha);
+
+    return 'Sin conexión. Es la copia del $fechaString; puede estar desactualizada.';
+  }
+
+  @override
+  String tecnicoCalificacion(String calificacion) {
+    return '★ $calificacion';
+  }
+
+  @override
+  String tecnicoAnios(int n) {
+    return '$n años de experiencia';
+  }
+
+  @override
+  String get tecnicoAtiendeTaller => 'Atiende en su taller';
+
+  @override
+  String get tecnicoAtiendeDomicilio => 'Va a domicilio';
+
+  @override
+  String get tecnicoAtiendeAmbos => 'En taller y a domicilio';
+
+  @override
+  String tecnicoRadio(int km) {
+    return 'hasta $km km';
+  }
+
+  @override
+  String get tecnicoDisponibleHoy => 'Disponible hoy';
+
+  @override
+  String get tecnicoSinColonia =>
+      'Elige tu colonia para saber si llega hasta ti.';
+
+  @override
+  String tecnicoLlega(String colonia) {
+    return 'Sí atiende $colonia';
+  }
+
+  @override
+  String tecnicoNoLlega(String colonia) {
+    return 'No atiende $colonia';
+  }
+
+  @override
+  String get tecnicoServicios => 'Servicios y precios';
+
+  @override
+  String get tecnicoSinServicios => 'Todavía no publica servicios.';
+
+  @override
+  String tecnicoDesde(String precio) {
+    return 'desde $precio';
+  }
+
+  @override
+  String get tecnicoPreciosDeReferencia =>
+      'Son precios de referencia. El precio final lo acuerdas con el técnico.';
+
+  @override
+  String get tecnicoFotos => 'Fotos de sus trabajos';
+
+  @override
+  String get tecnicoSinFotos => 'Todavía no hay fotos de sus trabajos.';
+
+  @override
+  String get tecnicoFotoEtiqueta => 'Foto de un trabajo terminado';
+
+  @override
+  String get tecnicoVerMasFotos => 'Ver más fotos';
+
+  @override
   String get citaExistente => 'Cita existente';
 
   @override
@@ -1471,6 +1556,170 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cuentaEliminacionSalir => 'Salir';
 
   @override
+  String get bloqueosMotivoAcoso => 'Acoso';
+
+  @override
+  String get bloqueosMotivoFraude => 'Fraude';
+
+  @override
+  String get bloqueosMotivoMalServicio => 'Mal servicio';
+
+  @override
+  String get bloqueosMotivoComportamiento => 'Comportamiento inapropiado';
+
+  @override
+  String get bloqueosMotivoPeligro => 'Peligro';
+
+  @override
+  String get bloqueosMotivoOtro => 'Otra cosa';
+
+  @override
+  String get bloqueosTitulo => 'Reportar un problema';
+
+  @override
+  String get bloqueosCargando => 'Cargando…';
+
+  @override
+  String get bloqueosNoDisponible =>
+      'No es posible reportar desde esta visita.';
+
+  @override
+  String get bloqueosReintentar => 'Reintentar';
+
+  @override
+  String get bloqueosAviso911 => 'Si estás en peligro, llama al 911.';
+
+  @override
+  String get bloqueosRecibido => 'Recibimos tu reporte';
+
+  @override
+  String get bloqueosVolver => 'Volver';
+
+  @override
+  String get bloqueosQuePaso => '¿Qué pasó?';
+
+  @override
+  String get bloqueosDescripcion =>
+      'Cuéntanos qué pasó (de 8 a 500 caracteres)';
+
+  @override
+  String get bloqueosEnviando => 'Enviando…';
+
+  @override
+  String get bloqueosEnviar => 'Enviar reporte';
+
+  @override
+  String get bloqueosFalta => 'Elige qué pasó y escribe al menos 8 caracteres';
+
+  @override
+  String get bloqueosMios => 'Mis reportes';
+
+  @override
+  String get bloqueosCargandoLista => 'Cargando tus reportes…';
+
+  @override
+  String get bloqueosErrorLista => 'No pudimos cargar tus reportes.';
+
+  @override
+  String get bloqueosVacio => 'No has hecho reportes.';
+
+  @override
+  String get bloqueosVerMas => 'Ver más';
+
+  @override
+  String get bloqueosApelacionEnviada => 'Enviamos tu apelación';
+
+  @override
+  String get bloqueosEstadoAbierto => 'En revisión';
+
+  @override
+  String get bloqueosEstadoDecidido => 'Decidido';
+
+  @override
+  String get bloqueosEstadoEnApelacion => 'En apelación';
+
+  @override
+  String get bloqueosEstadoOtro => 'Estado no disponible';
+
+  @override
+  String get bloqueosApelar => 'Apelar la decisión';
+
+  @override
+  String get bloqueosApelacionTexto =>
+      'Explica por qué apelas (de 8 a 500 caracteres)';
+
+  @override
+  String get bloqueosEnviarApelacion => 'Enviar apelación';
+
+  @override
+  String get bloqueosErrorYaBloqueado => 'Ya habías bloqueado a esta persona.';
+
+  @override
+  String get bloqueosErrorApelacion => 'Este reporte ya no se puede apelar.';
+
+  @override
+  String get bloqueosPantallaBloquear => 'Bloquear a una persona';
+
+  @override
+  String get bloqueosPersonasTitulo => 'Personas bloqueadas';
+
+  @override
+  String get bloqueosPersonasCargando => 'Cargando a quién bloqueaste…';
+
+  @override
+  String get bloqueosPersonasError => 'No pudimos cargar tus bloqueos.';
+
+  @override
+  String get bloqueosPersonasVacio => 'No has bloqueado a nadie.';
+
+  @override
+  String get bloqueosBloqueadaEl => 'Bloqueada el';
+
+  @override
+  String get bloqueosDesbloquear => 'Desbloquear';
+
+  @override
+  String get bloqueosDesbloqueando => 'Desbloqueando…';
+
+  @override
+  String get bloqueosDesbloqueada => 'Desbloqueaste a esta persona.';
+
+  @override
+  String get bloqueosBloquear => 'Bloquear a esta persona';
+
+  @override
+  String get bloqueosBloqueando => 'Bloqueando…';
+
+  @override
+  String get bloqueosBloqueada => 'Bloqueaste a esta persona.';
+
+  @override
+  String get bloqueosBloquearAviso =>
+      'Ya no podrá escribirte ni verte en las búsquedas.';
+
+  @override
+  String get bloqueosConfirmarBloqueoTitulo => '¿Bloquear a esta persona?';
+
+  @override
+  String get bloqueosConfirmarBloqueo => 'Sí, bloquear';
+
+  @override
+  String get bloqueosCancelar => 'Cancelar';
+
+  @override
+  String get bloqueosDeshacer => 'Deshacer';
+
+  @override
+  String get bloqueosNoEncontrada => 'Esa persona ya no está disponible.';
+
+  @override
+  String get bloqueosErrorYaNoBloqueada =>
+      'Esa persona ya no estaba bloqueada.';
+
+  @override
+  String get bloqueosErrorNoBloquearse => 'No puedes bloquearte a ti mismo.';
+
+  @override
   String get direccionesTitulo => 'Mis direcciones';
 
   @override
@@ -1636,6 +1885,214 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Enviando…';
+
+  @override
+  String get cotizacionFinalTitulo => 'Cotización final';
+
+  @override
+  String get cotizacionFinalExplicacion =>
+      'Si la apruebas, el trabajo sigue con este precio. Si la rechazas, pagas solo la visita.';
+
+  @override
+  String get cotizacionFinalAprobada => 'Aprobaste la cotización final.';
+
+  @override
+  String get cotizacionFinalRechazada =>
+      'Rechazaste la cotización final: pagas solo la visita.';
+
+  @override
+  String get cotizacionFinalVencida =>
+      'La cotización final venció sin respuesta.';
+
+  @override
+  String get cotizacionFinalYaDecidida =>
+      'Esta cotización final ya se decidió o venció.';
+
+  @override
+  String get cotizacionAjusteTitulo => 'Cambio de precio por aprobar';
+
+  @override
+  String get cotizacionAjusteExplicacion =>
+      'Si lo rechazas, el precio se queda en el tope que ya aprobaste.';
+
+  @override
+  String get cotizacionAjusteAprobado => 'Aprobaste el nuevo precio.';
+
+  @override
+  String get cotizacionAjusteRechazado => 'Rechazaste el cambio de precio.';
+
+  @override
+  String get cotizacionAjusteYaDecidido =>
+      'Este cambio de precio ya se decidió o venció.';
+
+  @override
+  String cotizacionRespondeAntes(String fecha) {
+    return 'Responde antes del $fecha';
+  }
+
+  @override
+  String get cotizacionAprobar => 'Aprobar';
+
+  @override
+  String get cotizacionRechazar => 'Rechazar';
+
+  @override
+  String get cotizacionActualizar => 'Actualizar';
+
+  @override
+  String get cotizacionCargandoPrecio =>
+      'Revisando si hay un precio por aprobar…';
+
+  @override
+  String serviciosPrecioDesde(int precio) {
+    return 'Desde \$$precio';
+  }
+
+  @override
+  String get serviciosSinPerfil => 'Todavía no tienes perfil de técnico.';
+
+  @override
+  String get serviciosNoExiste => 'Ese servicio ya no existe.';
+
+  @override
+  String get serviciosLimite =>
+      'Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.';
+
+  @override
+  String get serviciosOficioNoValido => 'Ese oficio no es uno de los tuyos.';
+
+  @override
+  String get serviciosOficioMecanica => 'Mecánica';
+
+  @override
+  String get serviciosOficioPlomeria => 'Plomería';
+
+  @override
+  String get serviciosOficioElectricidad => 'Electricidad';
+
+  @override
+  String get serviciosTituloPropio => 'Servicios y precio de referencia';
+
+  @override
+  String get serviciosCrearPerfil => 'Crear mi perfil de técnico';
+
+  @override
+  String get serviciosCargandoPropios => 'Cargando tus servicios…';
+
+  @override
+  String get serviciosErrorPropios => 'No pudimos cargar tus servicios.';
+
+  @override
+  String get serviciosReintentar => 'Reintentar';
+
+  @override
+  String get serviciosListaParcial =>
+      'Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.';
+
+  @override
+  String get serviciosVacioPropios => 'Aún no agregas servicios.';
+
+  @override
+  String get serviciosEditar => 'Editar';
+
+  @override
+  String get serviciosQuitar => 'Quitar';
+
+  @override
+  String get serviciosAgregar => 'Agregar servicio';
+
+  @override
+  String get serviciosErrorNombre => 'Escribe el nombre del servicio';
+
+  @override
+  String serviciosErrorNombreMax(int maximo) {
+    return 'El nombre admite hasta $maximo caracteres';
+  }
+
+  @override
+  String serviciosErrorDetalleMax(int maximo) {
+    return 'El detalle admite hasta $maximo caracteres';
+  }
+
+  @override
+  String get serviciosErrorPrecio =>
+      'Escribe un precio en pesos, sin decimales y mayor que cero';
+
+  @override
+  String get serviciosErrorOficio => 'Elige el oficio';
+
+  @override
+  String get serviciosNombre => 'Nombre del servicio';
+
+  @override
+  String get serviciosNombreEjemplo => 'Ej. Cambio de llave';
+
+  @override
+  String get serviciosDetalle => 'Detalle';
+
+  @override
+  String get serviciosPrecio => 'Precio de referencia (pesos)';
+
+  @override
+  String get serviciosOficioPregunta => '¿De qué oficio es?';
+
+  @override
+  String get serviciosGuardar => 'Guardar servicio';
+
+  @override
+  String get serviciosCancelar => 'Cancelar';
+
+  @override
+  String get serviciosTituloPublico => 'Servicios y precios';
+
+  @override
+  String get serviciosCargandoPublicos => 'Cargando sus servicios…';
+
+  @override
+  String get serviciosNoDisponible => 'Ese técnico ya no está disponible.';
+
+  @override
+  String get serviciosErrorPublicos => 'No pudimos cargar sus servicios.';
+
+  @override
+  String serviciosCopia(String fecha) {
+    return 'Sin conexión. Es la copia del $fecha y puede estar desactualizada.';
+  }
+
+  @override
+  String get serviciosVacioPublico => 'Todavía no publica servicios.';
+
+  @override
+  String get serviciosReferencia =>
+      'Precios de referencia: no son una cotización.';
+
+  @override
+  String get pedirCargandoOpciones => 'Cargando opciones…';
+
+  @override
+  String get pedirOficioNoDisponible =>
+      'Este oficio ya no está disponible. Puedes escribir lo que pasa.';
+
+  @override
+  String get pedirSinOpciones =>
+      'No pudimos cargar las opciones. Puedes escribir lo que pasa.';
+
+  @override
+  String get pedirOpcionesVacias =>
+      'No hay opciones sugeridas: escribe lo que pasa.';
+
+  @override
+  String get pedirReintentar => 'Reintentar';
+
+  @override
+  String pedirCopiaGuardada(String fecha) {
+    return 'Sin conexión: opciones guardadas el $fecha, pueden estar desactualizadas.';
+  }
+
+  @override
+  String pedirOficioNuevoFallo(String motivo) {
+    return 'Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. $motivo';
+  }
 
   @override
   String get solicitudesAmpliar => 'Pedir también a otros';

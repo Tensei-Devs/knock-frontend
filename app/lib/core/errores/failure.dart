@@ -156,6 +156,17 @@ final class OpinionNoPermitidaFailure extends Failure {
   const OpinionNoPermitidaFailure();
 }
 
+/// La persona ya estaba bloqueada (409 `already_blocked`, spec 033 CA-03).
+final class YaBloqueadoFailure extends Failure {
+  const YaBloqueadoFailure();
+}
+
+/// El reporte no se puede apelar: sin decisión o ya apelado (409
+/// `appeal_not_allowed`, spec 033 CA-18).
+final class ApelacionNoPermitidaFailure extends Failure {
+  const ApelacionNoPermitidaFailure();
+}
+
 /// La opinión ya tiene respuesta (409 `review_already_answered`, spec 041
 /// CA-11).
 final class OpinionYaRespondidaFailure extends Failure {

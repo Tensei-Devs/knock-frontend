@@ -57,7 +57,20 @@ final class PreferenciaDeAviso {
   final bool apagable;
 }
 
+/// `GET /avisos/no-leidos/contador`: el servidor cuenta hasta 99 y avisa con
+/// [masDe99] si hay más.
+final class AvisosSinLeer {
+  const AvisosSinLeer(this.cantidad, {this.masDe99 = false});
+
+  final int cantidad;
+  final bool masDe99;
+
+  String get texto => masDe99 ? '99+' : '$cantidad';
+}
+
 abstract interface class BandejaAvisosRepository {
+  Future<AvisosSinLeer> sinLeer();
+
   Future<PaginaAvisos> listar({String? cursor});
 
   /// Falla con `NoEncontradoFailure` si el aviso ya no existe.
