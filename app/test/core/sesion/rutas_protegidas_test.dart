@@ -39,7 +39,10 @@ void main() {
       for (final ruta in protegidas) {
         await cliente.get(Uri.parse('$urlApiPrueba/api/v1/$ruta'));
       }
-      final publicas = ['oficios', 'tecnicos/autocompletar', 'tecnicos/$_id'];
+      // `tecnicos/{id}` con sesión pide el detalle (spec 036, TEC-05).
+      await cliente.get(Uri.parse('$urlApiPrueba/api/v1/tecnicos/$_id'));
+      protegidas.add('tecnicos/$_id');
+      final publicas = ['oficios', 'tecnicos/autocompletar'];
       for (final ruta in publicas) {
         await cliente.get(Uri.parse('$urlApiPrueba/api/v1/$ruta'));
       }

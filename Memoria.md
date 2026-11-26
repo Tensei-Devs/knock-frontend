@@ -3,6 +3,11 @@
 ## 2026-11-26 — Spec 039, lado cliente: cotización final y ajustes de precio (KNOCK-266)
 - **Decisión:** con sesión y API, la visita y la cita muestran la cotización final y los ajustes pendientes (`PrecioDeVisitaReal`) con Aprobar y Rechazar. Las dos lecturas son las del backend 063; las decisiones, las de la spec 039.
 - **Pendiente:** el lado del técnico (enviar la cotización final y proponer el ajuste), y decidir desde Mensajes. Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 033: reportes conectados al backend 043 (KNOCK-266)
+- **Decisión:** `features/reportes/` tiene los repositorios de reportes y bloqueos. Con una visita real, «Reportar un problema» envía el reporte; «Centro de ayuda» muestra «Mis reportes» con apelación.
+- **Motivos:** ni la spec ni el contrato listan los valores; se tomaron de `ReportRules.Reasons` del backend. Falta que el equipo los confirme.
+- **Bloqueos:** se bloquea desde el detalle de una visita real o el menú del chat con esa visita; «Centro de ayuda» lista a las personas bloqueadas y permite desbloquear.
+- **Pendiente:** no se envían fotos de evidencia. Sin probar contra el backend desplegado.
 
 ## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
 - **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
@@ -773,3 +778,8 @@
 - **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
 - **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
 - **A evitar:** aceptar una propuesta sin ver la fecha.
+
+## 2026-11-26 — Perfil público del técnico contra la API (KNOCK-90)
+- **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.

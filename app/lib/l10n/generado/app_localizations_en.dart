@@ -10,6 +10,91 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get tecnicoCargando => 'Loading…';
+
+  @override
+  String get tecnicoReintentar => 'Try again';
+
+  @override
+  String get tecnicoNoDisponible => 'That pro is no longer available.';
+
+  @override
+  String tecnicoCopia(DateTime fecha) {
+    final intl.DateFormat fechaDateFormat = intl.DateFormat.yMd(localeName);
+    final String fechaString = fechaDateFormat.format(fecha);
+
+    return 'No connection. This is the copy from $fechaString; it may be out of date.';
+  }
+
+  @override
+  String tecnicoCalificacion(String calificacion) {
+    return '★ $calificacion';
+  }
+
+  @override
+  String tecnicoAnios(int n) {
+    return '$n years of experience';
+  }
+
+  @override
+  String get tecnicoAtiendeTaller => 'Works at their shop';
+
+  @override
+  String get tecnicoAtiendeDomicilio => 'Comes to your home';
+
+  @override
+  String get tecnicoAtiendeAmbos => 'At the shop and at your home';
+
+  @override
+  String tecnicoRadio(int km) {
+    return 'up to $km km';
+  }
+
+  @override
+  String get tecnicoDisponibleHoy => 'Available today';
+
+  @override
+  String get tecnicoSinColonia =>
+      'Choose your neighborhood to know whether they serve it.';
+
+  @override
+  String tecnicoLlega(String colonia) {
+    return 'They serve $colonia';
+  }
+
+  @override
+  String tecnicoNoLlega(String colonia) {
+    return 'They don’t serve $colonia';
+  }
+
+  @override
+  String get tecnicoServicios => 'Services and prices';
+
+  @override
+  String get tecnicoSinServicios => 'No services published yet.';
+
+  @override
+  String tecnicoDesde(String precio) {
+    return 'from $precio';
+  }
+
+  @override
+  String get tecnicoPreciosDeReferencia =>
+      'These are reference prices. You agree the final price with the pro.';
+
+  @override
+  String get tecnicoFotos => 'Photos of their work';
+
+  @override
+  String get tecnicoSinFotos => 'No work photos yet.';
+
+  @override
+  String get tecnicoFotoEtiqueta => 'Photo of a finished job';
+
+  @override
+  String get tecnicoVerMasFotos => 'See more photos';
+
+  @override
   String get citaExistente => 'Existing appointment';
 
   @override
@@ -1460,6 +1545,170 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Sign out';
+
+  @override
+  String get bloqueosMotivoAcoso => 'Harassment';
+
+  @override
+  String get bloqueosMotivoFraude => 'Fraud';
+
+  @override
+  String get bloqueosMotivoMalServicio => 'Poor service';
+
+  @override
+  String get bloqueosMotivoComportamiento => 'Inappropriate behavior';
+
+  @override
+  String get bloqueosMotivoPeligro => 'Danger';
+
+  @override
+  String get bloqueosMotivoOtro => 'Something else';
+
+  @override
+  String get bloqueosTitulo => 'Report a problem';
+
+  @override
+  String get bloqueosCargando => 'Loading…';
+
+  @override
+  String get bloqueosNoDisponible => 'You can\'t report from this visit.';
+
+  @override
+  String get bloqueosReintentar => 'Try again';
+
+  @override
+  String get bloqueosAviso911 => 'If you are in danger, call 911.';
+
+  @override
+  String get bloqueosRecibido => 'We got your report';
+
+  @override
+  String get bloqueosVolver => 'Back';
+
+  @override
+  String get bloqueosQuePaso => 'What happened?';
+
+  @override
+  String get bloqueosDescripcion =>
+      'Tell us what happened (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviando => 'Sending…';
+
+  @override
+  String get bloqueosEnviar => 'Send report';
+
+  @override
+  String get bloqueosFalta =>
+      'Choose what happened and write at least 8 characters';
+
+  @override
+  String get bloqueosMios => 'My reports';
+
+  @override
+  String get bloqueosCargandoLista => 'Loading your reports…';
+
+  @override
+  String get bloqueosErrorLista => 'We couldn\'t load your reports.';
+
+  @override
+  String get bloqueosVacio => 'You haven\'t made any reports.';
+
+  @override
+  String get bloqueosVerMas => 'See more';
+
+  @override
+  String get bloqueosApelacionEnviada => 'We sent your appeal';
+
+  @override
+  String get bloqueosEstadoAbierto => 'Under review';
+
+  @override
+  String get bloqueosEstadoDecidido => 'Decided';
+
+  @override
+  String get bloqueosEstadoEnApelacion => 'Under appeal';
+
+  @override
+  String get bloqueosEstadoOtro => 'Status unavailable';
+
+  @override
+  String get bloqueosApelar => 'Appeal the decision';
+
+  @override
+  String get bloqueosApelacionTexto =>
+      'Explain why you appeal (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviarApelacion => 'Send appeal';
+
+  @override
+  String get bloqueosErrorYaBloqueado => 'You had already blocked this person.';
+
+  @override
+  String get bloqueosErrorApelacion => 'This report can no longer be appealed.';
+
+  @override
+  String get bloqueosPantallaBloquear => 'Block a person';
+
+  @override
+  String get bloqueosPersonasTitulo => 'Blocked people';
+
+  @override
+  String get bloqueosPersonasCargando => 'Loading who you blocked…';
+
+  @override
+  String get bloqueosPersonasError => 'We couldn\'t load your blocks.';
+
+  @override
+  String get bloqueosPersonasVacio => 'You haven\'t blocked anyone.';
+
+  @override
+  String get bloqueosBloqueadaEl => 'Blocked on';
+
+  @override
+  String get bloqueosDesbloquear => 'Unblock';
+
+  @override
+  String get bloqueosDesbloqueando => 'Unblocking…';
+
+  @override
+  String get bloqueosDesbloqueada => 'You unblocked this person.';
+
+  @override
+  String get bloqueosBloquear => 'Block this person';
+
+  @override
+  String get bloqueosBloqueando => 'Blocking…';
+
+  @override
+  String get bloqueosBloqueada => 'You blocked this person.';
+
+  @override
+  String get bloqueosBloquearAviso =>
+      'They won\'t be able to message you or see you in searches.';
+
+  @override
+  String get bloqueosConfirmarBloqueoTitulo => 'Block this person?';
+
+  @override
+  String get bloqueosConfirmarBloqueo => 'Yes, block';
+
+  @override
+  String get bloqueosCancelar => 'Cancel';
+
+  @override
+  String get bloqueosDeshacer => 'Undo';
+
+  @override
+  String get bloqueosNoEncontrada => 'That person is no longer available.';
+
+  @override
+  String get bloqueosErrorYaNoBloqueada =>
+      'That person wasn\'t blocked anymore.';
+
+  @override
+  String get bloqueosErrorNoBloquearse => 'You can\'t block yourself.';
 
   @override
   String get direccionesTitulo => 'My addresses';
