@@ -1,8 +1,10 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:flutter/painting.dart' show Color;
+import 'package:flutter_riverpod/flutter_riverpod.dart' show WidgetRef;
 
 /// Pasa las solicitudes reales (`GET /solicitudes`, spec 015 y backend 020) al
 /// modelo de la maqueta (spec 045, enmienda 1): una [Job] marcada como real.
@@ -196,4 +198,79 @@ void aplicarVisitaAlJob(Job j, act.Visita v) {
     ..motivoCodigo = v.motivoCodigo?.valor
     ..direccion = v.direccion
     ..price = v.precio == null ? '' : money(v.precio!);
+}
+
+/// El `coloniaId` de la colonia de la persona. La maqueta solo guarda su
+/// nombre y su código postal; el identificador sale del catálogo del servidor
+/// (`GET /zonas/cp/{cp}`, spec 017) buscando la colonia por nombre. Falla con
+/// [OpcionNoDisponibleFailure] si no la encuentra (la persona debe elegir su
+/// zona de nuevo).
+Future<String> coloniaIdDeLaPersona(WidgetRef ref, UserData user) async {
+  final cp = user.cp.trim();
+  if (cp.length != 5) throw const OpcionNoDisponibleFailure();
+  final zona = await ref.read(zonasRepositoryProvider).porCodigoPostal(cp);
+  final nombre = user.col.trim().toLowerCase();
+  for (final c in zona.colonias) {
+    if (c.nombre.trim().toLowerCase() == nombre) return c.id;
+  }
+  throw const OpcionNoDisponibleFailure();
+}
+
+/// Sube las fotos (de 1 a 5, backend 062), crea la solicitud en el servidor
+/// (`POST /solicitudes`, spec 015 y backend 020) y la devuelve como [Job] real.
+///
+/// [subidas] recuerda el `archivoId` de cada foto ya subida: si algo falla
+/// después, el reintento no la sube otra vez. Si el servidor rechaza una foto
+/// al crear, se olvidan todas. Falla con un `Failure`; nunca reintenta (una
+/// escritura no se repite sola).
+Future<Job> crearSolicitudReal(
+  WidgetRef ref,
+  Solicitud req,
+  Map<String, String> subidas,
+) async {
+  final cat = cats[req.cat]!;
+  final user = maq.user;
+  final hoy = DateTime.now().add(Duration(days: req.day));
+  final coloniaId = await coloniaIdDeLaPersona(ref, user);
+  final direccion = cat.taller
+      ? null
+      : (user.addr.isNotEmpty ? user.addr : req.addr).trim().replaceAll(
+          RegExp(r'\s+'),
+          ' ',
+        );
+  if (req.photos.isEmpty || req.photos.length > 5) {
+    throw const FotoNoValidaFailure();
+  }
+  final repositorio = ref.read(act.solicitudesRealesRepositoryProvider);
+  final archivoIds = <String>[];
+  for (final ruta in [...req.photos]) {
+    archivoIds.add(subidas[ruta] ??= await repositorio.subirFoto(ruta));
+  }
+  final nueva = act.NuevaSolicitud(
+    oficioClave: req.cat!,
+    descripcion: req.desc.trim(),
+    archivoIds: archivoIds,
+    dia: DateTime(hoy.year, hoy.month, hoy.day),
+    franja: switch (req.slot) {
+      0 => act.Franja.manana,
+      1 => act.Franja.tarde,
+      _ => act.Franja.noche,
+    },
+    coloniaId: coloniaId,
+    direccion: direccion,
+  );
+  final act.Solicitud creada;
+  try {
+    creada = await repositorio.crear(nueva);
+  } on FotoNoValidaFailure {
+    subidas.clear();
+    rethrow;
+  }
+  final job = jobDeSolicitud(creada, catalogo: const {});
+  if (job == null) throw const DatosInvalidosFailure();
+  job.sent = 'Hoy, ahora';
+  if (!cat.taller && user.addr.isEmpty && direccion != null) {
+    user.addr = direccion;
+  }
+  return job;
 }

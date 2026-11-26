@@ -656,11 +656,21 @@
 - **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
 - **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).
 
+## 2026-11-21 — Crear solicitud conectada al servidor (KNOCK-288)
+- **Qué cambió:** «Enviar solicitud» de la app llama a `POST /solicitudes` cuando hay sesión y `KNOCK_API_URL` (`crearSolicitudReal` en `solicitudes_reales.dart`, botón en `SolicitarScreen`). Tras crear se agrega la solicitud real y se vuelve a pedir la lista. Sin API sigue el flujo de datos de ejemplo.
+- **Por qué:** la pantalla solo agregaba una solicitud local y nunca llamaba al repositorio real que ya existía.
+- **Decisiones (con porqué):** (1) Sin `Idempotency-Key`: el contrato (`contracts/openapi.v1.json`) no la define; el botón se deshabilita mientras envía y un error nunca se reintenta solo. (2) La app solo guarda el nombre y el código postal de la colonia, así que el `coloniaId` se busca en `GET /zonas/cp/{cp}` por nombre. (3) Las fotos no se suben (no hay endpoints de archivos desplegados): `fotos` va vacío.
+- **A evitar:** el contrato pide de 1 a 5 `fotos` en `POST /solicitudes`; mientras no haya subida de archivos, el servidor puede rechazar la solicitud y la persona verá el mensaje de error. No darlo por funcionando de punta a punta hasta probarlo contra el servidor. Tras un corte de red a media petición, reintentar a mano puede duplicar la solicitud (no hay clave de idempotencia).
 ## 2026-11-21 — Conectar la app a la API real: base común (KNOCK-288)
 - **Qué cambió:** ayudantes para leer el JSON del contrato (`core/red/contrato_json.dart`) y el contrato de la API en `contracts/openapi.v1.json` con el cliente generado (71 operaciones, KNOCK-277). Es la base de las ramas de repositorios de KNOCK-288 (la app usa datos de ejemplo donde todavía no hay endpoint conectado) (direcciones, casa y auto, técnicos de confianza, mis datos, zona, búsqueda y trabajo), que van en PR aparte y dependen de esta.
 - **Por qué:** cada repositorio lee las respuestas con los mismos ayudantes, sin copiarlos (jscpd).
 - **A evitar:** no editar el cliente generado a mano; no abrir los PR de repositorios antes de que esta base esté en `sprint-05`.
 
+## 2026-11-25 — La solicitud se crea con sus fotos, detrás de un interruptor (KNOCK-288)
+- **Qué cambió:** «Enviar solicitud» sube de 1 a 5 fotos por el flujo privado del backend (`POST /imagenes/subidas` con `proposito = solicitud`, `PUT` al enlace temporal y `POST …/confirmar`) y crea la solicitud con sus `archivoId`. Antes de salir del teléfono cada foto pasa por `prepararFoto` (reducción y sin metadatos, incluida la ubicación). El `PUT` va por un transporte aparte, sin la sesión, y solo a un enlace `https`. Todo queda detrás del interruptor de compilación `SUBIDA_DE_FOTOS`, **apagado por omisión**: apagado, el botón no llama a la API y sigue el flujo de datos de ejemplo. Se corrigió que la quinta foto no se pudiera agregar (el selector múltiple exige un límite de 2 o más).
+- **Por qué:** el backend exige de 1 a 5 fotos para crear la solicitud; confirmar una foto depende del almacenamiento y la moderación reales de Azure, que no se han probado desde la app.
+- **Pendiente:** probar en teléfono contra dev con `--dart-define=SUBIDA_DE_FOTOS=true`; la spec 015 (T-04) describe la ruta anterior de archivos y no la de la spec 062 del backend.
+- **A evitar:** subir el archivo que entrega el selector sin prepararlo; mandar el token al enlace temporal; registrar el enlace; encender el interruptor en la publicación sin haber probado la confirmación en dev.
 ## 2026-11-25 — Las rutas protegidas envían el token de la sesión (KNOCK-288)
 - **Qué cambió:** el cliente envía el `Authorization: Bearer` en las rutas de la API salvo las públicas: `auth/firebase`, `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar` y `tecnicos/{id}` (un solo segmento de 24 hexadecimales). La lista sale de los `[AllowAnonymous]` del backend y de las rutas `anonymous` del gateway. `/busqueda` tampoco se guarda en la caché de respuestas.
 - **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.

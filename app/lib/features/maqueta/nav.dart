@@ -70,7 +70,9 @@ void registrarIrA(GoRouter router) {
 Future<List<String>> elegirFotos({bool varias = true, int max = 5}) async {
   final p = ImagePicker();
   try {
-    if (varias) {
+    // El selector múltiple exige un límite de 2 o más: con un solo hueco libre
+    // (la quinta foto) se usa el de una foto, con el mismo tamaño.
+    if (varias && max > 1) {
       final l = await p.pickMultiImage(
         limit: max,
         maxWidth: 1600,
@@ -80,8 +82,8 @@ Future<List<String>> elegirFotos({bool varias = true, int max = 5}) async {
     }
     final x = await p.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 800,
-      imageQuality: 80,
+      maxWidth: varias ? 1600 : 800,
+      imageQuality: varias ? 75 : 80,
     );
     return x == null ? [] : [x.path];
   } on Object {
