@@ -14,6 +14,7 @@ import 'package:app/features/actividad/presentation/solicitudes_reales_controlle
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart' show maq;
 import 'package:app/features/oficios/oficios.dart';
+import 'package:app/features/visita/visita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -58,6 +59,33 @@ class _VisitasFalsas implements VisitaRepository, AvisoRepository {
   }
 }
 
+class _AccionesFalsas implements AccionesVisitaRepository {
+  final llamadas = <String>[];
+  Failure? falla;
+  bool tardia = false;
+
+  void _anotar(String llamada) {
+    llamadas.add(llamada);
+    if (falla case final f?) throw f;
+  }
+
+  @override
+  Future<VisitaCancelada> cancelar(String visitaId, String motivo) async {
+    _anotar('cancelar $motivo');
+    return VisitaCancelada(estado: 'cancelada', tardia: tardia);
+  }
+
+  @override
+  Future<PropuestaDeFecha> reprogramar(String visitaId, DateTime f) async {
+    _anotar('reprogramar ${f.hour}:00');
+    return PropuestaDeFecha(fechaHora: f, propuestaPor: 'u-1', venceEn: f);
+  }
+
+  @override
+  Future<void> reportarNoTerminado(String visitaId, String texto) async =>
+      _anotar('no-terminado $texto');
+}
+
 class _EnlacesFalsos implements AbridorDeEnlaces {
   final abiertos = <Uri>[];
 
@@ -72,10 +100,13 @@ Visita _visita({
   bool taller = false,
   String? codigo = '4821',
   MotivoCodigo? motivo,
+  EstadoVisita estado = EstadoVisita.confirmada,
+  bool pendiente = false,
   String direccion = 'Calle 5 #10, Col. Centro',
 }) => Visita(
   id: _visitaId,
-  estado: EstadoVisita.confirmada,
+  estado: estado,
+  reprogramacionPendiente: pendiente,
   esTaller: taller,
   dia: DateTime(2026, 11, 20),
   hora: '16:00 a 18:00',
@@ -92,21 +123,24 @@ Visita _visita({
   tope: 500,
 );
 
-Solicitud _solicitud({String clave = 'plo', String nombre = 'Plomería'}) =>
-    Solicitud(
-      id: _id,
-      estado: EstadoSolicitud.citaConfirmada,
-      oficioNombre: nombre,
-      oficioClave: clave,
-      coloniaNombre: 'Col. Centro',
-      descripcion: '',
-      totalFotos: 0,
-      dia: DateTime(2026, 11, 12),
-      franja: Franja.tarde,
-      creadoEn: DateTime(2026, 11, 10),
-      totalCotizaciones: 1,
-      visitaId: _visitaId,
-    );
+Solicitud _solicitud({
+  String clave = 'plo',
+  String nombre = 'Plomería',
+  EstadoSolicitud estado = EstadoSolicitud.citaConfirmada,
+}) => Solicitud(
+  id: _id,
+  estado: estado,
+  oficioNombre: nombre,
+  oficioClave: clave,
+  coloniaNombre: 'Col. Centro',
+  descripcion: '',
+  totalFotos: 0,
+  dia: DateTime(2026, 11, 12),
+  franja: Franja.tarde,
+  creadoEn: DateTime(2026, 11, 10),
+  totalCotizaciones: 1,
+  visitaId: _visitaId,
+);
 
 Future<void> _abrir(
   WidgetTester tester,
@@ -114,6 +148,7 @@ Future<void> _abrir(
   Solicitud? solicitud,
   String boton = 'Ver visita y código',
   _EnlacesFalsos? enlaces,
+  _AccionesFalsas? acciones,
   Size? tamano,
   double escala = 1,
 }) async {
@@ -131,6 +166,9 @@ Future<void> _abrir(
       solicitudesRealesActivasProvider.overrideWithValue(true),
       visitasRealesRepositoryProvider.overrideWithValue(visitas),
       avisosRealesRepositoryProvider.overrideWithValue(visitas),
+      accionesVisitaRepositoryProvider.overrideWithValue(
+        acciones ?? _AccionesFalsas(),
+      ),
       abridorDeEnlacesProvider.overrideWithValue(enlaces ?? _EnlacesFalsos()),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
       intervaloRefrescoSolicitudProvider.overrideWithValue(null),
@@ -138,7 +176,12 @@ Future<void> _abrir(
   );
   container.read(appRouterProvider).go('/actividad');
   await asentarMaqueta(tester);
-  await tester.tap(find.text(boton));
+  await _tocar(tester, boton);
+}
+
+Future<void> _tocar(WidgetTester tester, String texto) async {
+  await tester.ensureVisible(find.text(texto));
+  await tester.tap(find.text(texto));
   await asentarMaqueta(tester);
 }
 
@@ -185,14 +228,6 @@ void main() {
       expect(find.text('Tu código venció.'), findsOneWidget);
       expect(find.text('Tu código para cuando llegue'), findsNothing);
       expect(find.text('0'), findsNothing);
-    });
-
-    testWidgets('CA_045_10 una visita real no ofrece reprogramar ni cancelar', (
-      tester,
-    ) async {
-      await _abrir(tester, _VisitasFalsas([_visita()]));
-      expect(find.text('Cancelar el servicio'), findsNothing);
-      expect(find.textContaining('Cambiar el día'), findsNothing);
     });
 
     testWidgets('CA_045_12 si falla no hay datos inventados y Reintentar '
@@ -268,7 +303,112 @@ void main() {
         findsNothing,
         reason: 'no se inventa la distancia',
       );
-      expect(find.text('Cancelar el servicio'), findsNothing);
+      expect(find.text('Cancelar el servicio'), findsOneWidget);
+    });
+  });
+
+  group('acciones del cliente (spec 040)', () {
+    testWidgets('CA_040_11 cancela con el motivo elegido y vuelve a '
+        'Actividad', (tester) async {
+      final acciones = _AccionesFalsas()..tardia = true;
+      await _abrir(tester, _VisitasFalsas([_visita()]), acciones: acciones);
+      await _tocar(tester, 'Cancelar el servicio');
+      await _tocar(tester, 'Sí, cancelar');
+      expect(acciones.llamadas, isEmpty, reason: 'el motivo es obligatorio');
+      await _tocar(tester, 'Cambié de planes');
+      await _tocar(tester, 'Sí, cancelar');
+      expect(acciones.llamadas, ['cancelar Cambié de planes']);
+      expect(find.textContaining('cancelación tardía'), findsOneWidget);
+      expect(find.text('Tu código para cuando llegue'), findsNothing);
+    });
+
+    for (final (falla, texto) in <(Failure, String)>[
+      (const ConflictoFailure(), 'ya terminó o ya estaba cancelada'),
+      (const NoEncontradoFailure(), 'Esta visita ya no está disponible.'),
+    ]) {
+      testWidgets('CA_040_13 $falla al cancelar: mensaje y se conserva lo '
+          'elegido', (tester) async {
+        final acciones = _AccionesFalsas()..falla = falla;
+        await _abrir(tester, _VisitasFalsas([_visita()]), acciones: acciones);
+        await _tocar(tester, 'Cancelar el servicio');
+        await _tocar(tester, 'Otro motivo');
+        await _tocar(tester, 'Sí, cancelar');
+        expect(find.textContaining(texto), findsOneWidget);
+        await _tocar(tester, 'Sí, cancelar');
+        expect(acciones.llamadas, hasLength(2));
+        expect(acciones.llamadas.last, 'cancelar Otro motivo');
+      });
+    }
+
+    testWidgets('CA_040_05 propone otra fecha y la visita se pide de nuevo', (
+      tester,
+    ) async {
+      final visitas = _VisitasFalsas([_visita(), _visita(pendiente: true)]);
+      final acciones = _AccionesFalsas();
+      await _abrir(tester, visitas, acciones: acciones);
+      await _tocar(tester, 'Reprogramar la cita');
+      await _tocar(tester, '12:00');
+      await _tocar(tester, 'Enviar cambio');
+      expect(acciones.llamadas, ['reprogramar 12:00']);
+      expect(visitas.visitasPedidas, 2);
+      expect(find.textContaining('esperando respuesta'), findsOneWidget);
+      expect(find.text('Reprogramar la cita'), findsNothing);
+    });
+
+    testWidgets('CA_040_07 un 409 al reprogramar lo explica', (tester) async {
+      final acciones = _AccionesFalsas()..falla = const ConflictoFailure();
+      await _abrir(tester, _VisitasFalsas([_visita()]), acciones: acciones);
+      await _tocar(tester, 'Reprogramar la cita');
+      await _tocar(tester, 'Enviar cambio');
+      expect(find.textContaining('ya no se puede reprogramar'), findsOneWidget);
+    });
+
+    for (final (estado, cancelar) in [
+      (EstadoVisita.enCurso, findsOneWidget),
+      (EstadoVisita.cancelada, findsNothing),
+    ]) {
+      testWidgets('CA_040_28 con la visita ${estado.name} solo ofrece lo que '
+          'el servidor acepta', (tester) async {
+        await _abrir(tester, _VisitasFalsas([_visita(estado: estado)]));
+        expect(find.text('Cancelar el servicio'), cancelar);
+        expect(find.text('Reprogramar la cita'), findsNothing);
+      });
+    }
+
+    Future<void> abrirReporte(
+      WidgetTester tester,
+      _AccionesFalsas acciones,
+    ) async {
+      await _abrir(
+        tester,
+        _VisitasFalsas([_visita()]),
+        solicitud: _solicitud(estado: EstadoSolicitud.terminada),
+        boton: 'No se terminó el trabajo',
+        acciones: acciones,
+      );
+      await _tocar(tester, 'Enviar reporte');
+      expect(acciones.llamadas, isEmpty, reason: 'faltan 8 caracteres');
+      await tester.enterText(find.byType(TextField), 'La llave sigue goteando');
+      await asentarMaqueta(tester);
+      await _tocar(tester, 'Enviar reporte');
+    }
+
+    testWidgets('CA_040_20 reporta que no se terminó', (tester) async {
+      final acciones = _AccionesFalsas();
+      await abrirReporte(tester, acciones);
+      expect(acciones.llamadas, ['no-terminado La llave sigue goteando']);
+      expect(find.textContaining('Pasa a revisión'), findsOneWidget);
+    });
+
+    testWidgets('CA_040_22 fuera de plazo lo dice y conserva el texto', (
+      tester,
+    ) async {
+      await abrirReporte(
+        tester,
+        _AccionesFalsas()..falla = const ConflictoFailure(),
+      );
+      expect(find.textContaining('Ya no se puede reportar'), findsOneWidget);
+      expect(find.text('La llave sigue goteando'), findsOneWidget);
     });
   });
 
