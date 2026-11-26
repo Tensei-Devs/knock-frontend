@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T21:55:17Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T22:07:19Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,7 +24,7 @@
 | `l10n` | - | 3 | 4 | 155 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 48 | 265 | 511 |
-| `mensajes` | domain, presentation | 3 | 8 | 6 |
+| `mensajes` | data, domain, presentation | 4 | 9 | 9 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -585,6 +585,11 @@
   - `build()`:29, `textoDeMotivoDeCodigo()`:75
 
 ### mensajes
+
+**data**
+
+- `app/lib/features/mensajes/data/conversaciones_repository_api.dart` — class `ConversacionesRepositoryApi`
+  - `consultar()`:17, `contador()`:35, `marcarLeido()`:45
 
 **domain**
 

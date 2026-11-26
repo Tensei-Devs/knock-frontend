@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — REST de conversaciones, avance parcial (KNOCK-73)
+- **Avance:** repositorio con lectura de la primera página, contador y marca de lectura según el contrato de #110; probado con API simulada.
+- **Límite:** no está conectado a pantalla ni sesión; falta implementar la consulta de páginas siguientes y el hub real. La marca no debe ejecutarse hasta que exista una pantalla aprobada que muestre realmente los mensajes. No se envían mensajes.
+
 ## 2026-11-26 — Fundamentos de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** se recuperaron en una rama limpia las entidades y el controlador en memoria existentes, sin integrar red ni pantalla. El controlador descarta respuestas posteriores a su limpieza y conserva los datos ante un fallo.
 - **Tiempo real bloqueado:** el `ChatHub` de `origin/develop` del backend consultado solo une salas de visita y no implementa `noLeidos` ni `UnirseAConversacion`. La spec 030 del backend está aprobada y el contrato de #110 incluye las rutas REST; la lectura de mensajes y su pantalla dependen de la enmienda sin firma del #131.

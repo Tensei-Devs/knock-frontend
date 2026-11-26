@@ -52,8 +52,10 @@ class ResumenConversaciones {
   const ResumenConversaciones({
     required this.conversaciones,
     required this.totalNoLeidos,
+    this.siguiente,
   });
 
   final List<Conversacion> conversaciones;
   final int totalNoLeidos;
+  final String? siguiente;
 }
