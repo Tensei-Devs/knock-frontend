@@ -1,9 +1,11 @@
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/sesion.dart';
+import 'package:app/features/cuenta/data/eliminacion_repository_api.dart';
 import 'package:app/features/cuenta/data/perfil_repository_api.dart';
 import 'package:app/features/cuenta/data/perfil_repository_simulado.dart';
 import 'package:app/features/cuenta/data/privacidad_repository_api.dart';
 import 'package:app/features/cuenta/data/sesiones_repository_api.dart';
+import 'package:app/features/cuenta/domain/eliminacion.dart';
 import 'package:app/features/cuenta/domain/perfil_repository.dart';
 import 'package:app/features/cuenta/domain/privacidad.dart';
 import 'package:app/features/cuenta/domain/sesiones_repository.dart';
@@ -37,6 +39,15 @@ final sesionesRepositoryProvider = Provider<SesionesRepository>(
 /// sesión y API.
 final privacidadRepositoryProvider = Provider<PrivacidadRepository>(
   (ref) => PrivacidadRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+/// Eliminación de la cuenta (spec 029). La maqueta lo usa solo con sesión y
+/// API.
+final eliminacionRepositoryProvider = Provider<EliminacionRepository>(
+  (ref) => EliminacionRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),

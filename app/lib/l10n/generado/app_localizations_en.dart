@@ -1123,4 +1123,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String cuentaConsentimientoRegistro(String version, String fecha) {
     return 'Version $version · $fecha';
   }
+
+  @override
+  String get cuentaPendientesCargando => 'Checking what you have pending…';
+
+  @override
+  String get cuentaPendientesVacio =>
+      'You have no open appointments or quotes.';
+
+  @override
+  String get cuentaPendientesTitulo => 'What you have pending';
+
+  @override
+  String cuentaPendientesCitas(int total) {
+    return 'Open appointments: $total';
+  }
+
+  @override
+  String cuentaPendientesCotizaciones(int total) {
+    return 'Open quotes: $total';
+  }
+
+  @override
+  String get cuentaPendientesNota =>
+      'When you schedule the deletion, your open requests and pending quotes are cancelled and we let the people involved know.';
+
+  @override
+  String get cuentaEliminarTitulo => 'Delete account';
+
+  @override
+  String get cuentaEliminarPregunta =>
+      'Are you sure you want to delete your account?';
+
+  @override
+  String get cuentaEliminarGracia =>
+      'Your account will be scheduled for deletion in 7 days and you can cancel before then.';
+
+  @override
+  String get cuentaEliminarEscribe => 'Type ELIMINAR to confirm';
+
+  @override
+  String get cuentaEliminarVerifica =>
+      'For your security, confirm your phone with an SMS code.';
+
+  @override
+  String get cuentaEliminarCelular => 'Your phone number (10 digits)';
+
+  @override
+  String get cuentaEliminarEnviarCodigo => 'Send me the code';
+
+  @override
+  String get cuentaEliminarCodigo => '6-digit code';
+
+  @override
+  String get cuentaEliminarVerificacionRechazada =>
+      'We could not confirm your identity with that number. Use the phone number of this account and ask for a new code.';
+
+  @override
+  String get cuentaEliminarNoPermitida =>
+      'It cannot be deleted right now: it is already scheduled or you have a visit in progress.';
+
+  @override
+  String get cuentaEliminarEnviando => 'One moment…';
+
+  @override
+  String get cuentaEliminarBoton => 'Delete my account';
+
+  @override
+  String get cuentaEliminarMejorNo => 'Never mind';
+
+  @override
+  String get cuentaEliminacionProgramada =>
+      'Your account is scheduled for deletion';
+
+  @override
+  String cuentaEliminacionProgramadaEl(String fecha) {
+    return 'Your account will be deleted on $fecha';
+  }
+
+  @override
+  String get cuentaEliminacionDetalle =>
+      'You have 7 days to change your mind: you can cancel the deletion before the period ends.';
+
+  @override
+  String get cuentaEliminacionCargando => 'Checking your account…';
+
+  @override
+  String get cuentaEliminacionNinguna => 'You have no scheduled deletion';
+
+  @override
+  String get cuentaEliminacionCancelar => 'Cancel the deletion';
+
+  @override
+  String get cuentaEliminacionCancelada =>
+      'You cancelled the deletion of your account';
+
+  @override
+  String get cuentaEliminacionNadaQueCancelar =>
+      'There is no scheduled deletion to cancel.';
+
+  @override
+  String get cuentaEliminacionIrACuenta => 'Go to My account';
+
+  @override
+  String get cuentaEliminacionSalir => 'Sign out';
 }

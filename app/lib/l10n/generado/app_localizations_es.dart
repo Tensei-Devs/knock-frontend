@@ -1131,4 +1131,108 @@ class AppLocalizationsEs extends AppLocalizations {
   String cuentaConsentimientoRegistro(String version, String fecha) {
     return 'Versión $version · $fecha';
   }
+
+  @override
+  String get cuentaPendientesCargando => 'Revisando lo que tienes pendiente…';
+
+  @override
+  String get cuentaPendientesVacio =>
+      'No tienes citas ni cotizaciones abiertas.';
+
+  @override
+  String get cuentaPendientesTitulo => 'Lo que tienes pendiente';
+
+  @override
+  String cuentaPendientesCitas(int total) {
+    return 'Citas abiertas: $total';
+  }
+
+  @override
+  String cuentaPendientesCotizaciones(int total) {
+    return 'Cotizaciones abiertas: $total';
+  }
+
+  @override
+  String get cuentaPendientesNota =>
+      'Al programar la eliminación se cancelan tus solicitudes abiertas y las cotizaciones pendientes, y avisamos a las personas involucradas.';
+
+  @override
+  String get cuentaEliminarTitulo => 'Eliminar cuenta';
+
+  @override
+  String get cuentaEliminarPregunta =>
+      '¿Seguro que quieres eliminar tu cuenta?';
+
+  @override
+  String get cuentaEliminarGracia =>
+      'Tu cuenta quedará programada para eliminarse en 7 días y puedes cancelarlo antes.';
+
+  @override
+  String get cuentaEliminarEscribe => 'Escribe ELIMINAR para confirmar';
+
+  @override
+  String get cuentaEliminarVerifica =>
+      'Por seguridad, confirma tu celular con un código por SMS.';
+
+  @override
+  String get cuentaEliminarCelular => 'Tu celular (10 dígitos)';
+
+  @override
+  String get cuentaEliminarEnviarCodigo => 'Enviarme el código';
+
+  @override
+  String get cuentaEliminarCodigo => 'Código de 6 dígitos';
+
+  @override
+  String get cuentaEliminarVerificacionRechazada =>
+      'No pudimos confirmar tu identidad con ese número. Usa el celular de esta cuenta y pide otro código.';
+
+  @override
+  String get cuentaEliminarNoPermitida =>
+      'No se puede eliminar ahora: ya está programada o tienes una visita en curso.';
+
+  @override
+  String get cuentaEliminarEnviando => 'Un momento…';
+
+  @override
+  String get cuentaEliminarBoton => 'Eliminar mi cuenta';
+
+  @override
+  String get cuentaEliminarMejorNo => 'Mejor no';
+
+  @override
+  String get cuentaEliminacionProgramada =>
+      'Tu cuenta está programada para eliminarse';
+
+  @override
+  String cuentaEliminacionProgramadaEl(String fecha) {
+    return 'Tu cuenta se eliminará el $fecha';
+  }
+
+  @override
+  String get cuentaEliminacionDetalle =>
+      'Tienes 7 días para arrepentirte: antes de que termine el plazo puedes cancelar la eliminación.';
+
+  @override
+  String get cuentaEliminacionCargando => 'Revisando tu cuenta…';
+
+  @override
+  String get cuentaEliminacionNinguna => 'No tienes una eliminación programada';
+
+  @override
+  String get cuentaEliminacionCancelar => 'Cancelar la eliminación';
+
+  @override
+  String get cuentaEliminacionCancelada =>
+      'Cancelaste la eliminación de tu cuenta';
+
+  @override
+  String get cuentaEliminacionNadaQueCancelar =>
+      'No hay una eliminación programada que cancelar.';
+
+  @override
+  String get cuentaEliminacionIrACuenta => 'Ir a Mi cuenta';
+
+  @override
+  String get cuentaEliminacionSalir => 'Salir';
 }
