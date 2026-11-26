@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 /// - El `Authorization: Bearer` solo sale hacia la URL base de la API y solo en
 ///   rutas protegidas (todas menos las públicas: `auth/firebase`,
 ///   `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar`
-///   y `tecnicos/{id}` de **un solo segmento**, CA-026-11). `explorar` lo lleva
-///   solo si hay sesión (spec 036).
+///   y `tecnicos/{id}` de **un solo segmento**, CA-026-11). `explorar` y
+///   `tecnicos/{id}` lo llevan solo si hay sesión (spec 036).
 /// - Una llamada protegida sin sesión no sale a la red: falla con
 ///   [NoAutorizadoFailure] (CA-026-05).
 /// - Si la petición repetida vuelve a dar 401, la sesión se cierra.
@@ -108,13 +108,12 @@ const _rutasPublicas = {
 final _perfilPublicoDeTecnico = RegExp(r'^tecnicos/[0-9a-fA-F]{24}$');
 
 bool _esProtegida(String ruta) =>
-    !_rutasPublicas.contains(ruta) &&
-    !_admiteSesion(ruta) &&
-    !_perfilPublicoDeTecnico.hasMatch(ruta);
+    !_rutasPublicas.contains(ruta) && !_admiteSesion(ruta);
 
-/// Rutas públicas que con sesión entregan más (spec 036, backend 046 R-49):
-/// llevan el token solo si hay sesión.
-bool _admiteSesion(String ruta) => ruta == 'explorar';
+/// Rutas públicas que con sesión entregan más (spec 036, TEC-05 y backend 046
+/// R-49): llevan el token solo si hay sesión.
+bool _admiteSesion(String ruta) =>
+    ruta == 'explorar' || _perfilPublicoDeTecnico.hasMatch(ruta);
 
 bool _esRenovable(String ruta) => ruta != 'auth/logout';
 

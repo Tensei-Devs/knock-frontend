@@ -1,8 +1,10 @@
+import 'package:app/features/maqueta/perfil_publico_real.dart';
+import 'package:app/core/red/cliente_api_provider.dart';
+import 'package:app/core/red/configuracion_api.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
-import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_real.dart' show fechaDeCopia;
@@ -149,8 +151,8 @@ class OpinionesReales extends ConsumerWidget {
   }
 }
 
-/// El perfil de un técnico real: solo lo que manda el servidor y sus opiniones
-/// (spec 041). El resto del perfil llega con TEC-05 (spec 036).
+/// El perfil de un técnico real: solo lo que manda el servidor (specs 036 y
+/// 037) y sus opiniones (spec 041).
 class PerfilTecnicoReal extends ConsumerWidget {
   const PerfilTecnicoReal({
     super.key,
@@ -189,8 +191,8 @@ class PerfilTecnicoReal extends ConsumerWidget {
               size: 14,
             ),
           ),
-        // Servicios y precios de referencia (spec 037, SRV-01).
-        if (activas) ServiciosDeTecnicoReal(tecnicoId: tecnicoId),
+        if (normalizarUrlApi(ref.watch(urlApiProvider)) != null)
+          PerfilPublicoReal(tecnicoId: tecnicoId, conSesion: activas),
         if (activas)
           _EstadoDeOpiniones(
             tecnicoId,
