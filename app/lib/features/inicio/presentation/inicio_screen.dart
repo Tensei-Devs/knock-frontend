@@ -36,6 +36,12 @@ class InicioScreen extends ConsumerWidget {
           if (nombre.isNotEmpty)
             Text(nombre, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: Espaciado.bloque),
+          _BarraBusqueda(
+            etiqueta: textos.busquedaEtiqueta,
+            placeholder: textos.busquedaPlaceholder,
+            alTocar: () => context.go(Rutas.buscar),
+          ),
+          const SizedBox(height: Espaciado.bloque),
           const _TarjetaColonia(),
           const SizedBox(height: Espaciado.bloque),
           GrupoDeFilas(
@@ -103,6 +109,55 @@ class _TarjetaColonia extends ConsumerWidget {
             FilledButton(onPressed: consultar, child: Text(boton)),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// Barra de búsqueda en Inicio que abre `/inicio/buscar` (spec 021, §7, R-11).
+class _BarraBusqueda extends StatelessWidget {
+  const _BarraBusqueda({
+    required this.etiqueta,
+    required this.placeholder,
+    required this.alTocar,
+  });
+
+  final String etiqueta;
+  final String placeholder;
+  final VoidCallback alTocar;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Semantics(
+      button: true,
+      label: etiqueta,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Material(
+          color: cs.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(Radios.grande),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: alTocar,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              child: Row(
+                children: [
+                  Icon(Icons.search, color: cs.onSurfaceVariant),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      placeholder,
+                      style: Theme.of(context).textTheme.bodyLarge
+                          ?.copyWith(color: cs.onSurfaceVariant),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

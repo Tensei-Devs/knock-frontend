@@ -30,6 +30,115 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'Knock';
 
   @override
+  String get busquedaTitulo => 'Buscar';
+
+  @override
+  String get busquedaEtiqueta => '¿Qué necesitas?';
+
+  @override
+  String get busquedaPlaceholder => 'Ej.: boiler, frenos, un contacto';
+
+  @override
+  String get busquedaMinimo => 'Escribe al menos 2 letras';
+
+  @override
+  String busquedaContador(int n) {
+    return '$n/80';
+  }
+
+  @override
+  String get busquedaCargando => 'Buscando…';
+
+  @override
+  String get busquedaSugerencias => 'Sugerencias';
+
+  @override
+  String get busquedaSoloVerificados => 'Solo verificados';
+
+  @override
+  String get busquedaSoloVerificadosActivo => 'Solo verificados, seleccionado';
+
+  @override
+  String busquedaBuscamos(String oficio) {
+    return 'Buscamos: $oficio';
+  }
+
+  @override
+  String get busquedaAmbiguo => '¿Cuál de estos buscas?';
+
+  @override
+  String get busquedaNoEntendimos => 'No entendimos qué necesitas';
+
+  @override
+  String get busquedaElegirCategoria => 'Elige una categoría';
+
+  @override
+  String get busquedaSinResultados =>
+      'No encontramos expertos con esa búsqueda.';
+
+  @override
+  String busquedaSinResultadosOficio(String oficio) {
+    return 'Todavía no hay expertos de $oficio en tu colonia';
+  }
+
+  @override
+  String get busquedaPedirCotizacion => 'Pedir cotización de todos modos';
+
+  @override
+  String get busquedaSinZona => 'Elige tu zona para buscar expertos cerca';
+
+  @override
+  String get busquedaElegirZona => 'Elegir mi zona';
+
+  @override
+  String get busquedaCargarMas => 'Ver más';
+
+  @override
+  String get busquedaTope =>
+      'Mostramos los primeros 100. Agrega más palabras para afinar.';
+
+  @override
+  String busquedaTotal(int n) {
+    return '$n resultados';
+  }
+
+  @override
+  String get busquedaReintentar => 'Reintentar';
+
+  @override
+  String get busquedaSinConexion => 'Sin conexión';
+
+  @override
+  String get busquedaNoDisponible =>
+      'La búsqueda no está disponible en este momento. Intenta de nuevo.';
+
+  @override
+  String get busquedaOtrasPalabras => 'Prueba con otras palabras';
+
+  @override
+  String busquedaEspera(int segundos) {
+    return 'Hiciste muchas búsquedas seguidas. Espera $segundos segundos.';
+  }
+
+  @override
+  String busquedaCalificacion(String calificacion, int n) {
+    return '$calificacion estrellas, $n reseñas';
+  }
+
+  @override
+  String busquedaDistancia(int km) {
+    return 'a unos $km km';
+  }
+
+  @override
+  String busquedaVerificado(String nivel) {
+    return 'Verificado: $nivel';
+  }
+
+  @override
+  String get busquedaNoAtiende => 'No atiende tu colonia';
+
+  @override
   String get tabInicio => 'Inicio';
 
   @override

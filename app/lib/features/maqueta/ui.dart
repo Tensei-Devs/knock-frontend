@@ -502,13 +502,15 @@ class Pill extends StatelessWidget {
         spacing: 5,
         children: [
           if (icon != null) Icon(icn(icon!), size: 15, color: fg ?? f),
-          Text(
-            tr(s),
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: size,
-              fontWeight: FontWeight.w900,
-              color: fg ?? f,
+          Flexible(
+            child: Text(
+              tr(s),
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: size,
+                fontWeight: FontWeight.w900,
+                color: fg ?? f,
+              ),
             ),
           ),
         ],
