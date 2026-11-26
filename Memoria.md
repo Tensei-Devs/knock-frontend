@@ -703,3 +703,9 @@
 - **Por qué:** las filas decían «en revisión» o «bloqueada» para cosas ya fusionadas.
 - **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
 - **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
+
+## 2026-11-26 — Técnicos de confianza contra la API (KNOCK-91)
+- **Qué cambió:** con sesión y API, «Mis técnicos de confianza» lista por páginas y quita (`GET` y `DELETE /me/tecnicos-confianza`), el botón «Guardar» del perfil de un técnico real usa `PUT` y `DELETE`, y el contador de Mi cuenta sale de esa lista. El repositorio viene de la rama local de KNOCK-288.
+- **Por qué:** las tres pantallas usaban una lista de ejemplo en memoria.
+- **Pendiente:** textos en ARB (CA-13) y «Volver a contratar» desde la lista real (el contrato no trae el oficio). El atajo desde «Calificar» llega con las opiniones. Sin probar contra el backend desplegado.
+- **A evitar:** guardar en el servidor un id de ejemplo o el de una visita (`api:visita:…`).

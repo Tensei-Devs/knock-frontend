@@ -1,3 +1,8 @@
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/confianza_real.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'dart:async';
 import 'dart:ui';
 
@@ -868,7 +873,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
       ];
     }
 
-    final right = Padding(
+    final deEjemplo = Padding(
       padding: const EdgeInsets.only(right: 4),
       child: ChipK(
         saved ? 'Guardado' : 'Guardar',
@@ -886,6 +891,15 @@ class _PerfilScreenState extends State<PerfilScreen> {
           );
         },
       ),
+    );
+    // Un técnico real se guarda en el servidor (spec 032); uno de ejemplo, en
+    // la maqueta.
+    final idReal = idDeTecnicoReal(o.id);
+    final right = Consumer(
+      builder: (context, ref, _) =>
+          idReal != null && ref.watch(solicitudesRealesActivasProvider)
+          ? GuardarTecnicoReal(tecnicoId: idReal, destino: RM.experto(o.id))
+          : deEjemplo,
     );
     return Pg(
       right: right,

@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T05:14:51Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T14:50:13Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -20,7 +20,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 50 | 35 |
 | `l10n` | - | 3 | 4 | 83 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 27 | 181 | 407 |
+| `maqueta` | - | 28 | 185 | 412 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -32,6 +32,7 @@
 | `red` | core | 8 | 5 | 21 |
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
+| `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 9 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `widgets` | core | 4 | 5 | 5 |
@@ -398,6 +399,8 @@
   - `build()`:18, `stack()`:21, `build()`:72, `Semantics()`:74, `nombreDeTipo()`:124, `textoDeErrorCasa()`:133, `abrirFormulario()`:188, `dispose()`:217, `build()`:255, `abrirHistorial()`:313, `hoja()`:325, `cargar()`:326
 - `app/lib/features/maqueta/cobertura.dart` — class `ZonaKnock`, class `ResultadoCobertura`, class `PantallaFueraDeCobertura`
   - `distanciaKm()`:34, `evaluarCobertura()`:54, `build()`:104, `elegirZonaDisponible()`:182, `mostrarFueraDeCobertura()`:207, `hoja()`:211
+- `app/lib/features/maqueta/confianza_real.dart` — class `ConfianzaReal`, class `_Tarjeta`, class `GuardarTecnicoReal`, class `_GuardarTecnicoState`
+  - `idDeTecnicoReal()`:15, `build()`:33, `stack()`:36, `build()`:73, `build()`:140
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
   - `guessCat()`:145, `longDate()`:648, `money()`:651, `nowH()`:661, `initials()`:666
 - `app/lib/features/maqueta/en_dict.dart` — —
@@ -422,9 +425,9 @@
 - `app/lib/features/maqueta/pantallas_actividad.dart` — class `Marca`, class `BarraMarcaK`, class `PgTab`, class `ActividadMaqueta`, class `MensajesScreen`, class `ChatScreen`, class `_ChatScreenState`, class `VisitaMaqueta`, class `CitaScreen`, class `CalificarScreen`, class `_CalificarScreenState`, class `ReportarScreen`, class `_ReportarScreenState`, class `CompartirScreen`, class `_CompartirScreenState`
   - `build()`:31, `build()`:55, `build()`:116, `build()`:153, `msgFab()`:231, `jobCard()`:298, `jobChat()`:507, `adjustCard()`:559, `build()`:619, `InkWell()`:654, `initState()`:740, `dispose()`:755, `build()`:812, `reprogBlock()`:1248, `BtnK()`:1256, `reprogSheet()`:1265, `cancelBlock()`:1337, `cancelSheet()`:1345, `build()`:1395, `VisitaRealGate()`:1399, `build()`:1684, `VisitaRealGate()`:1688, `initState()`:1891, `dispose()`:1898, `build()`:1928 …
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
-  - `provCard()`:16, `CardK()`:18, `initState()`:80, `dispose()`:86, `build()`:148, `reviewW()`:379, `build()`:486, `build()`:946, `initState()`:1117, `dispose()`:1136, `build()`:1235, `composerK()`:1472, `quickK()`:1478, `burbujaK()`:1480
+  - `provCard()`:21, `CardK()`:23, `initState()`:85, `dispose()`:91, `build()`:153, `reviewW()`:384, `build()`:491, `build()`:960, `initState()`:1131, `dispose()`:1150, `build()`:1249, `composerK()`:1486, `quickK()`:1492, `burbujaK()`:1494
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
-  - `hoja()`:29, `build()`:48, `MaqBuilder()`:58, `build()`:358, `editarDatos()`:364, `cambiarNumero()`:471, `e()`:482, `phone()`:483, `build()`:824, `build()`:886, `Pg()`:902, `CardK()`:922, `build()`:967, `build()`:1098, `build()`:1156, `build()`:1330, `build()`:1401, `build()`:1459, `build()`:1582, `dispose()`:1695, `build()`:1701, `build()`:1757, `build()`:1824, `build()`:1901
+  - `hoja()`:34, `build()`:53, `MaqBuilder()`:63, `build()`:370, `editarDatos()`:376, `cambiarNumero()`:483, `e()`:494, `phone()`:495, `build()`:836, `build()`:898, `Pg()`:921, `CardK()`:941, `build()`:986, `build()`:1117, `build()`:1175, `build()`:1349, `build()`:1420, `build()`:1478, `build()`:1601, `dispose()`:1714, `build()`:1720, `build()`:1776, `build()`:1843, `build()`:1920
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
   - `initState()`:61, `dispose()`:69, `build()`:126, `FieldK()`:391, `build()`:471, `step()`:477, `stateK0()`:594, `widenBlock()`:620, `initState()`:672, `build()`:1195, `CardK()`:1229
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `RT`, class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
@@ -669,6 +672,29 @@
   - `toString()`:26, `enviarCodigo()`:52, `tokenDeId()`:58, `cerrarSesion()`:62
 - `app/lib/core/sesion/verificador_celular_firebase.dart` — class `VerificadorCelularFirebase`
   - `enviarCodigo()`:21, `tokenDeId()`:66, `cerrarSesion()`:84, `mapearErrorFirebase()`:88
+
+### tecnicos_confianza
+
+**-**
+
+- `app/lib/features/tecnicos_confianza/tecnicos_confianza.dart` — —
+- `app/lib/features/tecnicos_confianza/tecnicos_confianza_providers.dart` — —
+
+**data**
+
+- `app/lib/features/tecnicos_confianza/data/tecnicos_confianza_repository_api.dart` — class `TecnicosConfianzaRepositoryApi`
+  - `listar()`:22, `guardar()`:38, `quitar()`:50
+
+**domain**
+
+- `app/lib/features/tecnicos_confianza/domain/tecnico_confianza.dart` — class `TecnicoDeConfianza`, class `PaginaTecnicosConfianza`, class `ResultadoGuardado`
+  - `toString()`:19
+- `app/lib/features/tecnicos_confianza/domain/tecnicos_confianza_repository.dart` — class `TecnicosConfianzaRepository`
+
+**presentation**
+
+- `app/lib/features/tecnicos_confianza/presentation/tecnicos_confianza_controller.dart` — class `TecnicosConfianzaController`
+  - `build()`:14, `reintentar()`:20, `cargarMas()`:24, `guardar()`:49, `quitar()`:72
 
 ### tema
 
