@@ -1155,5 +1155,12 @@
     }
   },
   "serviciosVacioPublico": "No services published yet.",
-  "serviciosReferencia": "Reference prices: this is not a quote."
+  "serviciosReferencia": "Reference prices: this is not a quote.",
+  "pedirCargandoOpciones": "Loading options…",
+  "pedirOficioNoDisponible": "This trade is no longer available. You can type what is wrong.",
+  "pedirSinOpciones": "We could not load the options. You can type what is wrong.",
+  "pedirOpcionesVacias": "There are no suggestions: type what is wrong.",
+  "pedirReintentar": "Try again",
+  "pedirCopiaGuardada": "Offline: options saved on {fecha}, they may be outdated.",
+  "pedirOficioNuevoFallo": "Your trade is on your profile, but we could not tell Knock. {motivo}"
 }

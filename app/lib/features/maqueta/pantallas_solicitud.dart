@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/features/direcciones/direcciones.dart';
+import 'package:app/features/maqueta/detalle_oficio_real.dart';
 import 'package:app/features/maqueta/direcciones_reales.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/maqueta/anim_k.dart';
@@ -194,18 +195,22 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
         ], gap: 8),
         stack([
           labT('Toca una opción o escribe abajo'),
-          chipsWrap([
-            for (final t in c!.chips)
-              ChipK(
-                t,
-                on: r.desc == t,
-                onTap: () {
-                  r.desc = t;
-                  _desc.text = t;
-                  maq.refresh();
-                },
-              ),
-          ]),
+          FrasesDelOficio(
+            clave: r.cat!,
+            ejemplo: c!.chips,
+            opciones: (frases) => chipsWrap([
+              for (final t in frases)
+                ChipK(
+                  t,
+                  on: r.desc == t,
+                  onTap: () {
+                    r.desc = t;
+                    _desc.text = t;
+                    maq.refresh();
+                  },
+                ),
+            ]),
+          ),
         ], gap: 8),
         FieldK(
           label: '¿Qué pasa y desde cuándo?',

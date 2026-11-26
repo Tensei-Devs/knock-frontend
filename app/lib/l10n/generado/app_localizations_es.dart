@@ -2065,4 +2065,32 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get serviciosReferencia =>
       'Precios de referencia: no son una cotización.';
+
+  @override
+  String get pedirCargandoOpciones => 'Cargando opciones…';
+
+  @override
+  String get pedirOficioNoDisponible =>
+      'Este oficio ya no está disponible. Puedes escribir lo que pasa.';
+
+  @override
+  String get pedirSinOpciones =>
+      'No pudimos cargar las opciones. Puedes escribir lo que pasa.';
+
+  @override
+  String get pedirOpcionesVacias =>
+      'No hay opciones sugeridas: escribe lo que pasa.';
+
+  @override
+  String get pedirReintentar => 'Reintentar';
+
+  @override
+  String pedirCopiaGuardada(String fecha) {
+    return 'Sin conexión: opciones guardadas el $fecha, pueden estar desactualizadas.';
+  }
+
+  @override
+  String pedirOficioNuevoFallo(String motivo) {
+    return 'Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. $motivo';
+  }
 }

@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 035: detalle de un oficio y pedido de uno nuevo (KNOCK-266)
+- **Decisión:** con sesión y API, el paso 2 de «Pedir cotización» muestra las frases de `GET /oficios/{clave}` (con la última copia en memoria si no hay conexión) y el alta de técnico con «Otro oficio» manda además `POST /oficios-pedidos`. Ese pedido no bloquea el alta: si falla, se avisa y se puede reintentar.
+- **Pendiente:** sin probar contra el backend desplegado.
 ## 2026-11-26 — Spec 034: contador de avisos sin leer (KNOCK-266)
 - **Decisión:** con sesión y API, la campana de Inicio y la fila «Avisos» de Mi cuenta usan `GET /avisos/no-leidos/contador`. Mientras carga o si falla no se marca nada: es un adorno, no una pantalla. Marcar leídos vuelve a pedir el contador.
 - **Pendiente:** sin probar contra el backend desplegado.
