@@ -809,3 +809,8 @@
 - **Por qué:** la versión del 17-nov ya no correspondía al código (modo maqueta, endpoints, agentes, skills, CodeQL, eliminar cuenta y cifras de pruebas).
 - **Pendiente:** corrida en teléfono físico y pruebas contra el backend real; `docs/QA_DEVSECOPS.md` no se revisó en este cambio.
 - **A evitar:** contar como consumida una operación sin decir si está tras un interruptor apagado o sin pantalla que la llame.
+
+## 2026-11-26 — Propuesta de excepción temporal al cliente generado (KNOCK-266)
+- **Qué cambió:** se agrega ADR-007, sin firma.
+- **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
+- **A evitar:** darla por aprobada sin las dos firmas.
