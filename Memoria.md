@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
+- **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
+- **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
+
 ## 2026-11-26 — Estados de Mi reputación (KNOCK-94)
 - **Verificación adicional:** pruebas de widget comprueban carga, cero opiniones sin promedio inventado y copia fechada ante pérdida de conexión, además del error y reintento que ya se probaban.
 - **Pendiente:** 401 hasta la navegación de entrada, accesibilidad ampliada, ejecución en dispositivo y backend desplegado. El linter de trazabilidad no sustituye esas pruebas.

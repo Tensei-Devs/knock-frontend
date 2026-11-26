@@ -10,12 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../soporte/accesibilidad.dart';
+
 class _Repositorio implements ReputacionRepository {
   bool falla = true;
+  bool noAutorizado = false;
   Completer<Reputacion>? pendiente;
   @override
   Future<Reputacion> obtener() async {
     if (pendiente case final p?) return p.future;
+    if (noAutorizado) throw const NoAutorizadoFailure();
     if (falla) throw const ServicioNoDisponibleFailure();
     return Reputacion(
       promedio: 4.5,
@@ -82,5 +86,56 @@ void main() {
     expect(find.textContaining('Sin conexión.'), findsOneWidget);
     expect(find.text('★ 4.5 de 5'), findsOneWidget);
     expect(find.text('Reintentar'), findsOneWidget);
+  });
+
+  testWidgets('el reintento tiene semántica y objetivo táctil accesible', (
+    tester,
+  ) async {
+    final semantica = tester.ensureSemantics();
+    await _montar(tester, _Repositorio());
+    await tester.pumpAndSettle();
+    await expectAccesible(tester);
+    semantica.dispose();
+  });
+
+  testWidgets('ante sesión rechazada no conserva la reputación visible', (
+    tester,
+  ) async {
+    final repo = _Repositorio()..falla = false;
+    await _montar(tester, repo);
+    await tester.pumpAndSettle();
+    expect(find.text('★ 4.5 de 5'), findsOneWidget);
+    repo.noAutorizado = true;
+    final context = tester.element(find.byType(ReputacionReal));
+    ProviderScope.containerOf(context)
+        .read(reputacionControllerProvider.notifier)
+        .reintentar();
+    await tester.pumpAndSettle();
+    expect(find.text('★ 4.5 de 5'), findsNothing);
+  });
+
+  testWidgets('la reputación admite texto al 200 %', (tester) async {
+    final repo = _Repositorio()..falla = false;
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [reputacionRepositoryProvider.overrideWithValue(repo)],
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: const TextScaler.linear(2)),
+            child: child!,
+          ),
+          home: const Scaffold(
+            body: SingleChildScrollView(child: ReputacionReal()),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('★ 4.5 de 5'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

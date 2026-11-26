@@ -1,8 +1,12 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/tecnico/data/reputacion_repository_api.dart';
+import 'package:app/features/tecnico/tecnico_providers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+
+import '../../soporte/api_falsa.dart';
 
 void main() {
   test('CA_036_40 lee la reputación propia del contrato', () async {
@@ -42,5 +46,17 @@ void main() {
       url: 'https://example.test',
     );
     await expectLater(repo.obtener(), throwsA(isA<NoAutorizadoFailure>()));
+  });
+
+  test('al rechazar renovación por 401 se limpia la sesión', () async {
+    final api = ApiFalsa((_) => http.Response('', 401));
+    final container = contenedorConApi(api);
+    addTearDown(container.dispose);
+    expect(container.read(sesionProvider), isNotNull);
+    await expectLater(
+      container.read(reputacionRepositoryProvider).obtener(),
+      throwsA(isA<NoAutorizadoFailure>()),
+    );
+    expect(container.read(sesionProvider), isNull);
   });
 }
