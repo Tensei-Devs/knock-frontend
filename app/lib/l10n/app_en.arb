@@ -1183,5 +1183,19 @@
   "cuentaNumeroOtro": "Use another number",
   "cuentaNumeroEnUso": "That number already belongs to another account.",
   "cuentaNumeroCambiado": "Your number was changed.",
-  "cuentaRecuperarRecibida": "We received your request. Someone on the team will review it."
+  "cuentaRecuperarRecibida": "We received your request. Someone on the team will review it.",
+  "verificacionCargando": "Loading your verification…",
+  "verificacionReintentar": "Try again",
+  "verificacionSinVerificar": "Not verified",
+  "verificacionSinVerificarDetalle": "Verification is optional and helps clients trust you.",
+  "verificacionFotosBorradas": "Your photos were deleted because they were not reviewed in time. You can send them again.",
+  "verificacionEnRevision": "Under review",
+  "verificacionEnRevisionDetalle": "We review in less than 24 h",
+  "verificacionVerificadoBasico": "Verified: basic",
+  "verificacionVerificadoCompleto": "Verified: complete",
+  "verificacionVerificadoDetalle": "Your profile shows the verified badge.",
+  "verificacionNoVerificado": "We could not verify you",
+  "verificacionSinMotivo": "No reason was given.",
+  "verificacionEnviadaEl": "Sent on {fecha}",
+  "verificacionEnvioNoDisponible": "Sending your photos from the app is not available yet."
 }
