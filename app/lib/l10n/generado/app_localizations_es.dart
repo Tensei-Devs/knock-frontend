@@ -1942,4 +1942,127 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get cotizacionCargandoPrecio =>
       'Revisando si hay un precio por aprobar…';
+
+  @override
+  String serviciosPrecioDesde(int precio) {
+    return 'Desde \$$precio';
+  }
+
+  @override
+  String get serviciosSinPerfil => 'Todavía no tienes perfil de técnico.';
+
+  @override
+  String get serviciosNoExiste => 'Ese servicio ya no existe.';
+
+  @override
+  String get serviciosLimite =>
+      'Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.';
+
+  @override
+  String get serviciosOficioNoValido => 'Ese oficio no es uno de los tuyos.';
+
+  @override
+  String get serviciosOficioMecanica => 'Mecánica';
+
+  @override
+  String get serviciosOficioPlomeria => 'Plomería';
+
+  @override
+  String get serviciosOficioElectricidad => 'Electricidad';
+
+  @override
+  String get serviciosTituloPropio => 'Servicios y precio de referencia';
+
+  @override
+  String get serviciosCrearPerfil => 'Crear mi perfil de técnico';
+
+  @override
+  String get serviciosCargandoPropios => 'Cargando tus servicios…';
+
+  @override
+  String get serviciosErrorPropios => 'No pudimos cargar tus servicios.';
+
+  @override
+  String get serviciosReintentar => 'Reintentar';
+
+  @override
+  String get serviciosListaParcial =>
+      'Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.';
+
+  @override
+  String get serviciosVacioPropios => 'Aún no agregas servicios.';
+
+  @override
+  String get serviciosEditar => 'Editar';
+
+  @override
+  String get serviciosQuitar => 'Quitar';
+
+  @override
+  String get serviciosAgregar => 'Agregar servicio';
+
+  @override
+  String get serviciosErrorNombre => 'Escribe el nombre del servicio';
+
+  @override
+  String serviciosErrorNombreMax(int maximo) {
+    return 'El nombre admite hasta $maximo caracteres';
+  }
+
+  @override
+  String serviciosErrorDetalleMax(int maximo) {
+    return 'El detalle admite hasta $maximo caracteres';
+  }
+
+  @override
+  String get serviciosErrorPrecio =>
+      'Escribe un precio en pesos, sin decimales y mayor que cero';
+
+  @override
+  String get serviciosErrorOficio => 'Elige el oficio';
+
+  @override
+  String get serviciosNombre => 'Nombre del servicio';
+
+  @override
+  String get serviciosNombreEjemplo => 'Ej. Cambio de llave';
+
+  @override
+  String get serviciosDetalle => 'Detalle';
+
+  @override
+  String get serviciosPrecio => 'Precio de referencia (pesos)';
+
+  @override
+  String get serviciosOficioPregunta => '¿De qué oficio es?';
+
+  @override
+  String get serviciosGuardar => 'Guardar servicio';
+
+  @override
+  String get serviciosCancelar => 'Cancelar';
+
+  @override
+  String get serviciosTituloPublico => 'Servicios y precios';
+
+  @override
+  String get serviciosCargandoPublicos => 'Cargando sus servicios…';
+
+  @override
+  String get serviciosNoDisponible => 'Ese técnico ya no está disponible.';
+
+  @override
+  String get serviciosErrorPublicos => 'No pudimos cargar sus servicios.';
+
+  @override
+  String serviciosCopia(String fecha) {
+    return 'Sin conexión. Es la copia del $fecha y puede estar desactualizada.';
+  }
+
+  @override
+  String get serviciosVacioPublico => 'Todavía no publica servicios.';
+
+  @override
+  String get serviciosReferencia =>
+      'Precios de referencia: no son una cotización.';
 }

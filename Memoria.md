@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 037: servicios del técnico contra el backend 047 (KNOCK-266)
+- **Decisión:** `features/tecnico/` suma los repositorios y controladores de servicios. El perfil de un técnico real los muestra y «Tu perfil público» los agrega, edita y quita. Ante `not_a_technician` ofrece crear el perfil.
+- **Límite:** el contrato no deja leer el id de técnico propio; solo se conoce al crear el perfil. Sin él no se listan los servicios ya guardados.
+- **Registro:** al crear el perfil, la pantalla permite agregar servicios con el id devuelto. Los textos nuevos salen del ARB (es y en).
+- **Pendiente:** falta una operación para leer el id de técnico propio. Sin probar contra el backend desplegado.
 ## 2026-11-26 — Spec 039, lado cliente: cotización final y ajustes de precio (KNOCK-266)
 - **Decisión:** con sesión y API, la visita y la cita muestran la cotización final y los ajustes pendientes (`PrecioDeVisitaReal`) con Aprobar y Rechazar. Las dos lecturas son las del backend 063; las decisiones, las de la spec 039.
 - **Pendiente:** el lado del técnico (enviar la cotización final y proponer el ajuste), y decidir desde Mensajes. Sin probar contra el backend desplegado.

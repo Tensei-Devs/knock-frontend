@@ -3415,6 +3415,228 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Revisando si hay un precio por aprobar…'**
   String get cotizacionCargandoPrecio;
+
+  /// No description provided for @serviciosPrecioDesde.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde \${precio}'**
+  String serviciosPrecioDesde(int precio);
+
+  /// No description provided for @serviciosSinPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no tienes perfil de técnico.'**
+  String get serviciosSinPerfil;
+
+  /// No description provided for @serviciosNoExiste.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese servicio ya no existe.'**
+  String get serviciosNoExiste;
+
+  /// No description provided for @serviciosLimite.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.'**
+  String get serviciosLimite;
+
+  /// No description provided for @serviciosOficioNoValido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese oficio no es uno de los tuyos.'**
+  String get serviciosOficioNoValido;
+
+  /// No description provided for @serviciosOficioMecanica.
+  ///
+  /// In es, this message translates to:
+  /// **'Mecánica'**
+  String get serviciosOficioMecanica;
+
+  /// No description provided for @serviciosOficioPlomeria.
+  ///
+  /// In es, this message translates to:
+  /// **'Plomería'**
+  String get serviciosOficioPlomeria;
+
+  /// No description provided for @serviciosOficioElectricidad.
+  ///
+  /// In es, this message translates to:
+  /// **'Electricidad'**
+  String get serviciosOficioElectricidad;
+
+  /// No description provided for @serviciosTituloPropio.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precio de referencia'**
+  String get serviciosTituloPropio;
+
+  /// No description provided for @serviciosCrearPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear mi perfil de técnico'**
+  String get serviciosCrearPerfil;
+
+  /// No description provided for @serviciosCargandoPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus servicios…'**
+  String get serviciosCargandoPropios;
+
+  /// No description provided for @serviciosErrorPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus servicios.'**
+  String get serviciosErrorPropios;
+
+  /// No description provided for @serviciosReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get serviciosReintentar;
+
+  /// No description provided for @serviciosListaParcial.
+  ///
+  /// In es, this message translates to:
+  /// **'Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.'**
+  String get serviciosListaParcial;
+
+  /// No description provided for @serviciosVacioPropios.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no agregas servicios.'**
+  String get serviciosVacioPropios;
+
+  /// No description provided for @serviciosEditar.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar'**
+  String get serviciosEditar;
+
+  /// No description provided for @serviciosQuitar.
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar'**
+  String get serviciosQuitar;
+
+  /// No description provided for @serviciosAgregar.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar servicio'**
+  String get serviciosAgregar;
+
+  /// No description provided for @serviciosErrorNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el nombre del servicio'**
+  String get serviciosErrorNombre;
+
+  /// No description provided for @serviciosErrorNombreMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El nombre admite hasta {maximo} caracteres'**
+  String serviciosErrorNombreMax(int maximo);
+
+  /// No description provided for @serviciosErrorDetalleMax.
+  ///
+  /// In es, this message translates to:
+  /// **'El detalle admite hasta {maximo} caracteres'**
+  String serviciosErrorDetalleMax(int maximo);
+
+  /// No description provided for @serviciosErrorPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un precio en pesos, sin decimales y mayor que cero'**
+  String get serviciosErrorPrecio;
+
+  /// No description provided for @serviciosErrorOficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el oficio'**
+  String get serviciosErrorOficio;
+
+  /// No description provided for @serviciosNombre.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre del servicio'**
+  String get serviciosNombre;
+
+  /// No description provided for @serviciosNombreEjemplo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Cambio de llave'**
+  String get serviciosNombreEjemplo;
+
+  /// No description provided for @serviciosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalle'**
+  String get serviciosDetalle;
+
+  /// No description provided for @serviciosPrecio.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio de referencia (pesos)'**
+  String get serviciosPrecio;
+
+  /// No description provided for @serviciosOficioPregunta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿De qué oficio es?'**
+  String get serviciosOficioPregunta;
+
+  /// No description provided for @serviciosGuardar.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar servicio'**
+  String get serviciosGuardar;
+
+  /// No description provided for @serviciosCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get serviciosCancelar;
+
+  /// No description provided for @serviciosTituloPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicios y precios'**
+  String get serviciosTituloPublico;
+
+  /// No description provided for @serviciosCargandoPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando sus servicios…'**
+  String get serviciosCargandoPublicos;
+
+  /// No description provided for @serviciosNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Ese técnico ya no está disponible.'**
+  String get serviciosNoDisponible;
+
+  /// No description provided for @serviciosErrorPublicos.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar sus servicios.'**
+  String get serviciosErrorPublicos;
+
+  /// No description provided for @serviciosCopia.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Es la copia del {fecha} y puede estar desactualizada.'**
+  String serviciosCopia(String fecha);
+
+  /// No description provided for @serviciosVacioPublico.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no publica servicios.'**
+  String get serviciosVacioPublico;
+
+  /// No description provided for @serviciosReferencia.
+  ///
+  /// In es, this message translates to:
+  /// **'Precios de referencia: no son una cotización.'**
+  String get serviciosReferencia;
 }
 
 class _AppLocalizationsDelegate

@@ -1090,5 +1090,70 @@
   "cotizacionAprobar": "Approve",
   "cotizacionRechazar": "Reject",
   "cotizacionActualizar": "Refresh",
-  "cotizacionCargandoPrecio": "Checking for a price to approve…"
+  "cotizacionCargandoPrecio": "Checking for a price to approve…",
+  "serviciosPrecioDesde": "From ${precio}",
+  "@serviciosPrecioDesde": {
+    "placeholders": {
+      "precio": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosSinPerfil": "You do not have a technician profile yet.",
+  "serviciosNoExiste": "That service no longer exists.",
+  "serviciosLimite": "You already have the maximum of 50 services. Remove one to add another.",
+  "serviciosOficioNoValido": "That trade is not one of yours.",
+  "serviciosOficioMecanica": "Auto repair",
+  "serviciosOficioPlomeria": "Plumbing",
+  "serviciosOficioElectricidad": "Electrical",
+  "serviciosTituloPropio": "Services and reference prices",
+  "serviciosCrearPerfil": "Create my technician profile",
+  "serviciosCargandoPropios": "Loading your services…",
+  "serviciosErrorPropios": "We could not load your services.",
+  "serviciosReintentar": "Retry",
+  "serviciosListaParcial": "For now we cannot look up the services you already saved. Changes you make now appear here.",
+  "serviciosVacioPropios": "You have not added services yet.",
+  "serviciosEditar": "Edit",
+  "serviciosQuitar": "Remove",
+  "serviciosAgregar": "Add service",
+  "serviciosErrorNombre": "Enter the service name",
+  "serviciosErrorNombreMax": "The name allows up to {maximo} characters",
+  "@serviciosErrorNombreMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorDetalleMax": "The details allow up to {maximo} characters",
+  "@serviciosErrorDetalleMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorPrecio": "Enter a price in pesos, no decimals, greater than zero",
+  "serviciosErrorOficio": "Choose the trade",
+  "serviciosNombre": "Service name",
+  "serviciosNombreEjemplo": "E.g. Faucet replacement",
+  "serviciosDetalle": "Details",
+  "serviciosPrecio": "Reference price (pesos)",
+  "serviciosOficioPregunta": "Which trade is it for?",
+  "serviciosGuardar": "Save service",
+  "serviciosCancelar": "Cancel",
+  "serviciosTituloPublico": "Services and prices",
+  "serviciosCargandoPublicos": "Loading their services…",
+  "serviciosNoDisponible": "That technician is no longer available.",
+  "serviciosErrorPublicos": "We could not load their services.",
+  "serviciosCopia": "Offline. This is the copy from {fecha} and may be out of date.",
+  "@serviciosCopia": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "serviciosVacioPublico": "No services published yet.",
+  "serviciosReferencia": "Reference prices: this is not a quote."
 }

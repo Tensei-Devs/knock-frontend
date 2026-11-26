@@ -1932,4 +1932,126 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cotizacionCargandoPrecio => 'Checking for a price to approve…';
+
+  @override
+  String serviciosPrecioDesde(int precio) {
+    return 'From \$$precio';
+  }
+
+  @override
+  String get serviciosSinPerfil => 'You do not have a technician profile yet.';
+
+  @override
+  String get serviciosNoExiste => 'That service no longer exists.';
+
+  @override
+  String get serviciosLimite =>
+      'You already have the maximum of 50 services. Remove one to add another.';
+
+  @override
+  String get serviciosOficioNoValido => 'That trade is not one of yours.';
+
+  @override
+  String get serviciosOficioMecanica => 'Auto repair';
+
+  @override
+  String get serviciosOficioPlomeria => 'Plumbing';
+
+  @override
+  String get serviciosOficioElectricidad => 'Electrical';
+
+  @override
+  String get serviciosTituloPropio => 'Services and reference prices';
+
+  @override
+  String get serviciosCrearPerfil => 'Create my technician profile';
+
+  @override
+  String get serviciosCargandoPropios => 'Loading your services…';
+
+  @override
+  String get serviciosErrorPropios => 'We could not load your services.';
+
+  @override
+  String get serviciosReintentar => 'Retry';
+
+  @override
+  String get serviciosListaParcial =>
+      'For now we cannot look up the services you already saved. Changes you make now appear here.';
+
+  @override
+  String get serviciosVacioPropios => 'You have not added services yet.';
+
+  @override
+  String get serviciosEditar => 'Edit';
+
+  @override
+  String get serviciosQuitar => 'Remove';
+
+  @override
+  String get serviciosAgregar => 'Add service';
+
+  @override
+  String get serviciosErrorNombre => 'Enter the service name';
+
+  @override
+  String serviciosErrorNombreMax(int maximo) {
+    return 'The name allows up to $maximo characters';
+  }
+
+  @override
+  String serviciosErrorDetalleMax(int maximo) {
+    return 'The details allow up to $maximo characters';
+  }
+
+  @override
+  String get serviciosErrorPrecio =>
+      'Enter a price in pesos, no decimals, greater than zero';
+
+  @override
+  String get serviciosErrorOficio => 'Choose the trade';
+
+  @override
+  String get serviciosNombre => 'Service name';
+
+  @override
+  String get serviciosNombreEjemplo => 'E.g. Faucet replacement';
+
+  @override
+  String get serviciosDetalle => 'Details';
+
+  @override
+  String get serviciosPrecio => 'Reference price (pesos)';
+
+  @override
+  String get serviciosOficioPregunta => 'Which trade is it for?';
+
+  @override
+  String get serviciosGuardar => 'Save service';
+
+  @override
+  String get serviciosCancelar => 'Cancel';
+
+  @override
+  String get serviciosTituloPublico => 'Services and prices';
+
+  @override
+  String get serviciosCargandoPublicos => 'Loading their services…';
+
+  @override
+  String get serviciosNoDisponible => 'That technician is no longer available.';
+
+  @override
+  String get serviciosErrorPublicos => 'We could not load their services.';
+
+  @override
+  String serviciosCopia(String fecha) {
+    return 'Offline. This is the copy from $fecha and may be out of date.';
+  }
+
+  @override
+  String get serviciosVacioPublico => 'No services published yet.';
+
+  @override
+  String get serviciosReferencia => 'Reference prices: this is not a quote.';
 }
