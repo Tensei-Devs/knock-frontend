@@ -4,14 +4,12 @@
 import 'package:app/features/maqueta/confianza_real.dart';
 import 'package:app/features/tecnicos_confianza/data/tecnicos_confianza_repository_api.dart';
 import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
-import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
-import '../../soporte/montar_app.dart';
+import '../../soporte/montar_cuerpo_real.dart';
 import '../../soporte/preparar_maqueta.dart';
 
 const _a = 'a0a0a0a0a0a0a0a0a0a0a0a0';
@@ -25,28 +23,17 @@ Map<String, Object?> _tecnico(String id, String nombre) => {
   'guardadoEn': '2026-11-20T18:00:00Z',
 };
 
-Future<void> _montar(WidgetTester tester, ApiFalsa api, Widget hijo) async {
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        conSesion(),
-        tecnicosConfianzaRepositoryProvider.overrideWithValue(
-          TecnicosConfianzaRepositoryApi(
-            transporte: api.cliente,
-            url: urlApiPrueba,
-          ),
+Future<void> _montar(WidgetTester tester, ApiFalsa api, Widget hijo) =>
+    montarCuerpoReal(
+      tester,
+      tecnicosConfianzaRepositoryProvider.overrideWithValue(
+        TecnicosConfianzaRepositoryApi(
+          transporte: api.cliente,
+          url: urlApiPrueba,
         ),
-      ],
-      child: MaterialApp(
-        locale: const Locale('es'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: SingleChildScrollView(child: hijo)),
       ),
-    ),
-  );
-  await asentarMaqueta(tester);
-}
+      hijo,
+    );
 
 void main() {
   prepararPruebasDeMaqueta();

@@ -3,14 +3,12 @@
 import 'package:app/features/bandeja_avisos/bandeja_avisos.dart';
 import 'package:app/features/bandeja_avisos/data/bandeja_avisos_repository_api.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
-import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
-import '../../soporte/montar_app.dart';
+import '../../soporte/montar_cuerpo_real.dart';
 import '../../soporte/preparar_maqueta.dart';
 
 Map<String, Object?> _aviso(String id, {bool leido = false}) => {
@@ -32,28 +30,14 @@ Map<String, Object?> _preferencias({bool promociones = false}) => {
   ],
 };
 
-Future<void> _montar(WidgetTester tester, ApiFalsa api, Widget hijo) async {
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        conSesion(),
-        bandejaAvisosRepositoryProvider.overrideWithValue(
-          BandejaAvisosRepositoryApi(
-            transporte: api.cliente,
-            url: urlApiPrueba,
-          ),
-        ),
-      ],
-      child: MaterialApp(
-        locale: const Locale('es'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: SingleChildScrollView(child: hijo)),
+Future<void> _montar(WidgetTester tester, ApiFalsa api, Widget hijo) =>
+    montarCuerpoReal(
+      tester,
+      bandejaAvisosRepositoryProvider.overrideWithValue(
+        BandejaAvisosRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
       ),
-    ),
-  );
-  await asentarMaqueta(tester);
-}
+      hijo,
+    );
 
 void main() {
   prepararPruebasDeMaqueta();
