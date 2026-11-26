@@ -1352,4 +1352,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Sign out';
+
+  @override
+  String get visitaReprogramar => 'Reschedule the appointment';
+
+  @override
+  String get visitaCancelar => 'Cancel the service';
+
+  @override
+  String get visitaCambioPendiente =>
+      'A new date is waiting for a reply. Meanwhile, the current appointment stands.';
+
+  @override
+  String get visitaCancelarTitulo => 'Cancel the service?';
+
+  @override
+  String get visitaCancelarConfirmar => 'Yes, cancel';
+
+  @override
+  String get visitaCancelarAviso =>
+      'With more than 24 h notice it is free. With less, it is recorded as a late cancellation and we notify right away.';
+
+  @override
+  String get visitaCancelarMotivo => 'Why are you cancelling?';
+
+  @override
+  String get visitaMotivoResuelto => 'I already solved it';
+
+  @override
+  String get visitaMotivoPlanes => 'My plans changed';
+
+  @override
+  String get visitaMotivoOtraOpcion => 'I found another option';
+
+  @override
+  String get visitaMotivoOtro => 'Another reason';
+
+  @override
+  String get visitaCancelada => 'You cancelled the service';
+
+  @override
+  String get visitaCanceladaTardia =>
+      'You cancelled the service. It was recorded as a late cancellation.';
+
+  @override
+  String get visitaYaCerrada =>
+      'This visit already ended or was already cancelled.';
+
+  @override
+  String get visitaReprogramarEnviar => 'Send change';
+
+  @override
+  String get visitaReprogramarExplicacion =>
+      'Pick another day and time. The other person has to confirm it; meanwhile the current appointment stands.';
+
+  @override
+  String get visitaDia => 'Day';
+
+  @override
+  String get visitaHora => 'Time';
+
+  @override
+  String get visitaFechaMuyCercana => 'Pick a time at least 2 hours from now.';
+
+  @override
+  String get visitaReprogramacionEnviada =>
+      'You sent the new date. It still has to be confirmed.';
+
+  @override
+  String get visitaNoReprogramable =>
+      'This appointment can no longer be rescheduled: it started or ended, a change is pending, or it was changed twice.';
+
+  @override
+  String get visitaNoTerminadoBoton => 'The job was not finished';
+
+  @override
+  String get visitaNoTerminadoTitulo => 'Was the job not finished?';
+
+  @override
+  String get visitaNoTerminadoCampo => 'What is still pending?';
+
+  @override
+  String get visitaNoTerminadoAyuda =>
+      'Write at least 8 characters. You can report it only once, up to 7 days later.';
+
+  @override
+  String get visitaNoTerminadoEnviar => 'Send report';
+
+  @override
+  String get visitaNoTerminadoEnviado =>
+      'You sent your report. It will be reviewed.';
+
+  @override
+  String get visitaReporteCerrado =>
+      'It can no longer be reported: more than 7 days passed or you already reported it.';
+
+  @override
+  String get visitaEnviando => 'Sending…';
 }

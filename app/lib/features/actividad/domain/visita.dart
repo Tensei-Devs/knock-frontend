@@ -80,6 +80,7 @@ final class Visita {
     required this.tecnico,
     required this.direccion,
     required this.puedeAvisar,
+    this.reprogramacionPendiente = false,
     this.codigo,
     this.motivoCodigo,
     this.precio,
@@ -102,6 +103,9 @@ final class Visita {
   final String? codigo;
   final MotivoCodigo? motivoCodigo;
   final bool puedeAvisar;
+
+  /// Hay una propuesta de otra fecha sin responder (spec 040, VIS-04).
+  final bool reprogramacionPendiente;
   final int? precio;
   final int? tope;
 }
