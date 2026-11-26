@@ -111,7 +111,13 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-26, cuenta sin perfil de técnico)
+
+- **Estado de esta enmienda:** propuesta; vale desde que se firma la línea «Enmienda 2026-11-26» de la sección Aprobación. La aprobación original se conserva.
+- En las rutas de crear, editar y quitar servicios, una cuenta sin perfil de técnico recibe **404 `not_a_technician`** (backend 047, CA-13). La app la lleva a crear su perfil de técnico, sin mostrar datos.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 — nombre: ________ fecha: ________
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

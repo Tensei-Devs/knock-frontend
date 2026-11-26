@@ -149,7 +149,14 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 - Los estados de la visita son los de la spec 021 y se reflejan en la spec 016.
 
+## Nota de enmienda (2026-11-26, persona ajena a la visita e id mal formado)
+
+- **Estado de esta enmienda:** propuesta; vale desde que se firma la línea «Enmienda 2026-11-26» de la sección Aprobación. La aprobación original se conserva.
+- En reprogramar, responder la reprogramación, cancelar, «no terminado» y permiso de fotos, una persona ajena a la visita recibe **404**, igual que una visita inexistente (backend 050, CA-08, 14, 20, 37 y 43). La app lo muestra como «no disponible». El 403 queda para las rutas que exigen perfil de técnico.
+- Un id de visita mal formado o un `permiso` que no es booleano responden **400**.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 — nombre: ________ fecha: ________
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

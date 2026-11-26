@@ -147,7 +147,15 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 - Dependencia: la app necesita Firebase para verificar el número nuevo (spec 012 y 015) y las pantallas del panel de la spec 043.
 
+## Nota de enmienda (2026-11-26, exportación de datos)
+
+- **Estado de esta enmienda:** propuesta; vale desde que se firma la línea «Enmienda 2026-11-26» de la sección Aprobación. La aprobación original se conserva.
+- La app consulta `GET /api/v1/me/exportaciones/ultima` para saber el estado de la última exportación y, si está lista, obtener su enlace. Los códigos de respuesta son los del contrato.
+- El aviso `exportacion_lista` es de texto fijo y **no lleva enlace**: al abrirlo, la app consulta esa ruta (backend 039, R-22).
+- Sin exportación o con error del almacenamiento, la app muestra su estado vacío o de «no disponible» con reintento.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 — nombre: ________ fecha: ________
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
