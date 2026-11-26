@@ -1,3 +1,4 @@
+import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/core/sesion/sesion_provider.dart'
@@ -11,13 +12,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Perfil de la cuenta: cargando, datos o error.
 class PerfilController extends AsyncNotifier<Perfil> {
   @override
-  Future<Perfil> build() {
-    // Vuelve a pedir el perfil cuando se abre o se cierra una sesión (no en
-    // cada renovación del token).
+  Future<Perfil> build() async {
     // Vuelve a pedir el perfil cuando se abre o se cierra una sesión (no en
     // cada renovación del token).
     ref.watch(sesionProvider.select((tokens) => tokens != null));
-    return ref.watch(perfilRepositoryProvider).obtener();
+    final real = usaApiReal(ref);
+    final perfil = await ref.watch(perfilRepositoryProvider).obtener();
+    // Con la API real, el rol de técnico lo dice el servidor: así la pestaña
+    // Trabajo sigue ahí al volver a abrir la app.
+    if (real && ref.mounted) {
+      ref.read(esTecnicoProvider.notifier).cambiar(esTecnico: perfil.esTecnico);
+    }
+    return perfil;
   }
 
   /// Guarda el nombre (HU-002). Devuelve el error si falla (`null` si salió

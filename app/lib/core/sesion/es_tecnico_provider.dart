@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// Empieza en falso: por defecto la cuenta es de cliente
 /// (FUNCIONES_Y_FLUJOS §2). Vive solo en memoria. Es un indicador de
-/// interfaz, **no** un control de seguridad: la autorización real la hará la
-/// API. Se reemplaza por el rol de la sesión real en la historia de sesión
-/// (TT-MOB-01, spec §8 decisión 1).
+/// interfaz, **no** un control de seguridad: la autorización real la hace la
+/// API. Con la API real toma el valor de `esTecnico` de `GET /me` al cargar el
+/// perfil; sin ella lo cambia el flujo de ejemplo.
 class EsTecnicoNotifier extends Notifier<bool> {
   @override
   bool build() => false;
