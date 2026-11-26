@@ -10,6 +10,91 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get tecnicoCargando => 'Cargando…';
+
+  @override
+  String get tecnicoReintentar => 'Reintentar';
+
+  @override
+  String get tecnicoNoDisponible => 'Ese técnico ya no está disponible.';
+
+  @override
+  String tecnicoCopia(DateTime fecha) {
+    final intl.DateFormat fechaDateFormat = intl.DateFormat.yMd(localeName);
+    final String fechaString = fechaDateFormat.format(fecha);
+
+    return 'Sin conexión. Es la copia del $fechaString; puede estar desactualizada.';
+  }
+
+  @override
+  String tecnicoCalificacion(String calificacion) {
+    return '★ $calificacion';
+  }
+
+  @override
+  String tecnicoAnios(int n) {
+    return '$n años de experiencia';
+  }
+
+  @override
+  String get tecnicoAtiendeTaller => 'Atiende en su taller';
+
+  @override
+  String get tecnicoAtiendeDomicilio => 'Va a domicilio';
+
+  @override
+  String get tecnicoAtiendeAmbos => 'En taller y a domicilio';
+
+  @override
+  String tecnicoRadio(int km) {
+    return 'hasta $km km';
+  }
+
+  @override
+  String get tecnicoDisponibleHoy => 'Disponible hoy';
+
+  @override
+  String get tecnicoSinColonia =>
+      'Elige tu colonia para saber si llega hasta ti.';
+
+  @override
+  String tecnicoLlega(String colonia) {
+    return 'Sí atiende $colonia';
+  }
+
+  @override
+  String tecnicoNoLlega(String colonia) {
+    return 'No atiende $colonia';
+  }
+
+  @override
+  String get tecnicoServicios => 'Servicios y precios';
+
+  @override
+  String get tecnicoSinServicios => 'Todavía no publica servicios.';
+
+  @override
+  String tecnicoDesde(String precio) {
+    return 'desde $precio';
+  }
+
+  @override
+  String get tecnicoPreciosDeReferencia =>
+      'Son precios de referencia. El precio final lo acuerdas con el técnico.';
+
+  @override
+  String get tecnicoFotos => 'Fotos de sus trabajos';
+
+  @override
+  String get tecnicoSinFotos => 'Todavía no hay fotos de sus trabajos.';
+
+  @override
+  String get tecnicoFotoEtiqueta => 'Foto de un trabajo terminado';
+
+  @override
+  String get tecnicoVerMasFotos => 'Ver más fotos';
+
+  @override
   String get citaExistente => 'Cita existente';
 
   @override
