@@ -20,7 +20,7 @@
 | T-12 | Repositorio de `GET /api/v1/tecnicos/me/horarios` (TEC-10) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
 | T-13 | Repositorio de `PUT /api/v1/tecnicos/me/horarios` (TEC-11) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
 | T-14 | Repositorio de `GET /api/v1/tecnicos/me/reputacion` (TEC-13) y mapeo de errores | §4 · CA-40 a CA-42 | T-01, T-02 | otras rutas | pendiente |
-| T-15 | Repositorio de `GET /api/v1/explorar` (TEC-14) y mapeo de errores | §4 · CA-43 a CA-45 | T-01, T-02 | otras rutas | en revisión: `ExplorarRepositoryApi` (filtro `todo`, `auto`, `agua` o `luz`; 401 y 422); el transporte manda el token solo si hay sesión |
+| T-15 | Repositorio de `GET /api/v1/explorar` (TEC-14) y mapeo de errores | §4 · CA-43 a CA-45 | T-01, T-02 | otras rutas | hecha contra el contrato (#104; CI en verde): `ExplorarRepositoryApi` (filtro `todo`, `auto`, `agua` o `luz`; 401 y 422; el token va solo si hay sesión). Sin probar contra el backend desplegado |
 | T-16 | Pantalla «Registrarse como técnico»: estados, textos es/en, 48 dp y semántica | §7 · CA-46 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-17 | Pantalla «Inicio (lista)»: estados, textos es/en, 48 dp y semántica | §7 · CA-47 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-18 | Pantalla «Buscar»: estados, textos es/en, 48 dp y semántica | §7 · CA-48 | T-02 y su repositorio | otras pantallas | pendiente |
