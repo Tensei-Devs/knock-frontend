@@ -999,5 +999,10 @@
   "visitaNoTerminadoEnviar": "Send report",
   "visitaNoTerminadoEnviado": "You sent your report. It will be reviewed.",
   "visitaReporteCerrado": "It can no longer be reported: more than 7 days passed or you already reported it.",
-  "visitaEnviando": "Sending…"
+  "visitaEnviando": "Sending…",
+  "solicitudesAmpliar": "Ask others too",
+  "solicitudesAmpliarExplicacion": "You can keep waiting or also ask other experts nearby.",
+  "solicitudesAmpliada": "Done: we asked more experts for a quote.",
+  "solicitudesNoAmpliable": "This request can no longer be extended.",
+  "solicitudesNoDisponible": "This request is no longer available."
 }

@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 038: «Pedir también a otros» (KNOCK-266)
+- **Decisión:** una solicitud real sin cotizaciones ofrece «Pedir también a otros» (`POST /solicitudes/{id}/ampliar`) en su tarjeta de Actividad. Cuándo se puede ampliar lo decide el servidor (409 `request_not_extendable`).
+- **Pendiente:** referencia del mercado y «Cotizaciones enviadas» (pantallas del técnico que dependen de la pestaña Trabajo, spec 019). Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
 - **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
 - **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.

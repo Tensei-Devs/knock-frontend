@@ -2869,6 +2869,36 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviando…'**
   String get visitaEnviando;
+
+  /// Texto de la app: solicitudesAmpliar
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir también a otros'**
+  String get solicitudesAmpliar;
+
+  /// Texto de la app: solicitudesAmpliarExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Puedes seguir esperando o pedir también a otros expertos cerca.'**
+  String get solicitudesAmpliarExplicacion;
+
+  /// Texto de la app: solicitudesAmpliada
+  ///
+  /// In es, this message translates to:
+  /// **'Listo: pedimos cotización a más expertos.'**
+  String get solicitudesAmpliada;
+
+  /// Texto de la app: solicitudesNoAmpliable
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no se puede ampliar.'**
+  String get solicitudesNoAmpliable;
+
+  /// Texto de la app: solicitudesNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no está disponible.'**
+  String get solicitudesNoDisponible;
 }
 
 class _AppLocalizationsDelegate

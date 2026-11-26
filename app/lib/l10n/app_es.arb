@@ -1747,5 +1747,15 @@
   "visitaNoTerminadoEnviar": "Enviar reporte",
   "visitaNoTerminadoEnviado": "Enviaste tu reporte. Pasa a revisión.",
   "visitaReporteCerrado": "Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.",
-  "visitaEnviando": "Enviando…"
+  "visitaEnviando": "Enviando…",
+  "solicitudesAmpliar": "Pedir también a otros",
+  "@solicitudesAmpliar": {"description": "Texto de la app: solicitudesAmpliar"},
+  "solicitudesAmpliarExplicacion": "Puedes seguir esperando o pedir también a otros expertos cerca.",
+  "@solicitudesAmpliarExplicacion": {"description": "Texto de la app: solicitudesAmpliarExplicacion"},
+  "solicitudesAmpliada": "Listo: pedimos cotización a más expertos.",
+  "@solicitudesAmpliada": {"description": "Texto de la app: solicitudesAmpliada"},
+  "solicitudesNoAmpliable": "Esta solicitud ya no se puede ampliar.",
+  "@solicitudesNoAmpliable": {"description": "Texto de la app: solicitudesNoAmpliable"},
+  "solicitudesNoDisponible": "Esta solicitud ya no está disponible.",
+  "@solicitudesNoDisponible": {"description": "Texto de la app: solicitudesNoDisponible"}
 }

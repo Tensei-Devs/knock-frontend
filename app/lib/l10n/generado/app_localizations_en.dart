@@ -1627,4 +1627,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitaEnviando => 'Sending…';
+
+  @override
+  String get solicitudesAmpliar => 'Ask others too';
+
+  @override
+  String get solicitudesAmpliarExplicacion =>
+      'You can keep waiting or also ask other experts nearby.';
+
+  @override
+  String get solicitudesAmpliada => 'Done: we asked more experts for a quote.';
+
+  @override
+  String get solicitudesNoAmpliable =>
+      'This request can no longer be extended.';
+
+  @override
+  String get solicitudesNoDisponible => 'This request is no longer available.';
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/features/direcciones/direcciones.dart';
+import 'package:app/features/maqueta/ampliar_real.dart';
 import 'package:app/features/maqueta/direcciones_reales.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/maqueta/anim_k.dart';
@@ -631,6 +632,11 @@ Widget stateK0(
 Widget _widen(BuildContext context, Job j) => widenBlock(context, j);
 
 Widget widenBlock(BuildContext context, Job j) {
+  if (j.real) {
+    return j.status == 'enviada'
+        ? AmpliarSolicitudReal(key: ValueKey(j.id), solicitudId: j.id)
+        : const SizedBox();
+  }
   if (!j.silent || !j.only) return const SizedBox();
   final o = provs[j.target];
   final n = o?.first ?? 'El experto';
