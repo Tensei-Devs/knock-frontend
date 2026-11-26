@@ -684,3 +684,9 @@
 - **Qué cambió:** `test/soporte/cliente_que_responde.dart` reemplaza el bloque que repetían las pruebas de los repositorios de Explorar y de «Mi casa y mi auto».
 - **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
 - **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.
+
+## 2026-11-25 — Elegir cotización con el cliente generado (KNOCK-245)
+- **Qué cambió:** la elección usa `ChooseQuoteApi` del cliente generado y rechaza una confirmación que sea de otra solicitud o de otra cotización. Es la primera de las dos partes en que se dividió el PR #99.
+- **Por qué:** una ruta escrita a mano no falla al compilar cuando cambia el contrato, y una confirmación ajena no se debe mostrar como la cita de la persona.
+- **Pendiente:** recuperar la cita tras un 409 `request_already_chosen` (segunda parte); sin probar contra el backend desplegado.
+- **A evitar:** armar la ruta de elegir a mano; aceptar una confirmación sin comparar sus identificadores.
