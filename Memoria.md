@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-25 — Spec 036, parte 1: Explorar conectado al backend 046 (KNOCK-90)
+- **Decisión:** `features/explorar/` tiene el dominio, `ExplorarRepositoryApi` con `enviarJson` y un simulado. La pestaña Explorar de la maqueta dibuja los bloques reales con `ExplorarReal`; los chips eligen el filtro (`mec`, `plo` y `ele` son `auto`, `agua` y `luz`).
+- **Sesión opcional:** `ClienteAutenticado` manda el token a `explorar` solo si hay sesión (`_admiteSesion`). Sin sesión sale sin token y solo llegan los bloques públicos. Con sesión llegan también «Trabajos reales» y «Cerca de ti».
+- **Sin conexión:** se guarda en memoria la última respuesta buena de cada filtro y se muestra con su fecha (CA-45); se borra al abrir o cerrar sesión.
+- **Pendiente:** la maqueta no tiene el id real de la colonia, así que «Cerca de ti» llega vacío; los textos son de la maqueta, sin ARB.
 ## 2026-11-25 — Spec 031, Mi casa y mi auto conectada al backend 041 (KNOCK-117 y KNOCK-126)
 - **Decisión:** la capa de datos vive en `features/mi/` (dominio, `CasaYAutoRepositoryApi` con `enviarJson` y un simulado). La pantalla «Mi casa y mi auto» de la maqueta (`MiCasaScreen`) muestra los datos reales con `CasaYAutoReal`, igual que «Dónde está abierta tu cuenta» con las sesiones.
 - **Porqué:** la app arranca con la maqueta y el Tech Lead pidió no regenerar el cliente generado todavía (lo regenera él al final).
@@ -657,3 +662,8 @@
 - **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.
 - **Pruebas:** `rutas_protegidas_test.dart` (lista pública y protegida) y `sesion_en_flujos_reales_test.dart` (las llamadas de los repositorios reales de solicitudes, visitas y zonas, contra una API falsa que exige la sesión).
 - **A evitar:** volver a una lista de rutas protegidas; agregar una ruta pública sin comprobar su `[AllowAnonymous]` y su política en el gateway; hacer que `tecnicos/{id}` coincida por prefijo.
+
+## 2026-11-25 — Cliente HTTP falso compartido por las pruebas de repositorios (KNOCK-90)
+- **Qué cambió:** `test/soporte/cliente_que_responde.dart` reemplaza el bloque que repetían las pruebas de los repositorios de Explorar y de «Mi casa y mi auto».
+- **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
+- **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.

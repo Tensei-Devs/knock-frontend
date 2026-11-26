@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T03:50:36Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T04:02:14Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -15,12 +15,12 @@
 | `enlaces` | core | 2 | 3 | 6 |
 | `entrada` | -, domain, presentation | 8 | 13 | 25 |
 | `errores` | core | 3 | 23 | 3 |
-| `explorar` | presentation | 1 | 1 | 1 |
+| `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 50 | 35 |
 | `l10n` | - | 3 | 4 | 79 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 26 | 174 | 396 |
+| `maqueta` | - | 27 | 181 | 404 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 12 | 18 | 17 |
@@ -266,8 +266,26 @@
 
 ### explorar
 
+**-**
+
+- `app/lib/features/explorar/explorar.dart` — —
+- `app/lib/features/explorar/explorar_providers.dart` — —
+
+**data**
+
+- `app/lib/features/explorar/data/explorar_repository_api.dart` — class `ExplorarRepositoryApi`
+  - `cargar()`:17, `explorarDesdeJson()`:31, `tecnicoDesdeJson()`:48
+- `app/lib/features/explorar/data/explorar_repository_simulado.dart` — class `ExplorarRepositorySimulado`
+  - `cargar()`:42, `entra()`:43
+
+**domain**
+
+- `app/lib/features/explorar/domain/explorar.dart` — enum `FiltroExplorar`, class `ServicioPopular`, class `IdeaExplorar`, class `TecnicoDestacado`, class `FotoTrabajo`, class `Explorar`, class `ExplorarRepository`
+  - `deOficio()`:18
+
 **presentation**
 
+- `app/lib/features/explorar/presentation/explorar_controller.dart` — class `VistaExplorar`
 - `app/lib/features/explorar/presentation/explorar_screen.dart` — class `ExplorarScreen`
   - `build()`:17
 
@@ -385,7 +403,9 @@
 - `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, enum `CargaReal`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
   - `qTope()`:46, `fijarOficios()`:248, `fijarSolicitudesReales()`:264, `refresh()`:272, `cargarTelefono()`:280, `guardarTelefono()`:286, `olvidarTelefono()`:292, `dispose()`:298, `after()`:305, `toast()`:316, `job()`:320, `notif()`:330, `results()`:340, `convIds()`:358, `accepted()`:362, `toggleSave()`:367, `openChat()`:372, `sendMsg()`:377, `block()`:400, `unblock()`:405, `startReq()`:411, `sendReq()`:430, `startClientQuotes()`:468, `reach()`:478, `widen()`:506 …
 - `app/lib/features/maqueta/explorar_maqueta.dart` — class `ExplorarMaqueta`
-  - `build()`:32, `sec()`:107, `row()`:119, `pro()`:125, `tile()`:170
+  - `build()`:29
+- `app/lib/features/maqueta/explorar_real.dart` — class `ExplorarReal`, class `_Aviso`, class `_Seccion`, class `_Fila`, class `_Servicio`, class `_Fotos`, class `_Tecnico`
+  - `iconoDeOficio()`:14, `fechaDeCopia()`:21, `dos()`:22, `build()`:41, `reintentar()`:44, `build()`:112, `build()`:131, `build()`:151, `build()`:169, `build()`:220, `foto()`:221, `build()`:280
 - `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
   - `previa()`:38, `entrada()`:39, `inicio()`:40, `explorar()`:41, `actividad()`:42, `trabajo()`:43, `cuenta()`:44, `configuracion()`:45, `rutaMaqueta()`:49, `build()`:219, `preparar()`:232, `conTransiciones()`:239, `envolver()`:247, `initState()`:270, `dispose()`:348, `build()`:356
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`
@@ -625,7 +645,7 @@
 - `app/lib/core/sesion/canje_sesion.dart` — class `SesionEmitida`, class `CanjeSesion`, class `CanjeSesionApi`
   - `toString()`:24, `canjear()`:46
 - `app/lib/core/sesion/cliente_autenticado.dart` — class `ClienteAutenticado`
-  - `send()`:41, `close()`:77
+  - `send()`:42, `close()`:84
 - `app/lib/core/sesion/datos_de_visita.dart` — —
   - `leerIndiceDeVisitas()`:21, `escribirIndiceDeVisitas()`:32, `borrarDatosDeVisita()`:40
 - `app/lib/core/sesion/es_tecnico_provider.dart` — class `EsTecnicoNotifier`

@@ -7,7 +7,8 @@ import 'package:app/features/mi/data/casa_y_auto_repository_api.dart';
 import 'package:app/features/mi/domain/casa_y_auto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
+
+import '../../soporte/cliente_que_responde.dart';
 
 const _url = 'https://api.knock.test';
 
@@ -28,15 +29,7 @@ Map<String, Object?> _item({
   int estado, [
   Object? cuerpo,
 ]) {
-  final peticiones = <http.Request>[];
-  final cliente = MockClient((peticion) async {
-    peticiones.add(peticion);
-    return http.Response(
-      cuerpo == null ? '' : jsonEncode(cuerpo),
-      estado,
-      headers: {'content-type': 'application/json'},
-    );
-  });
+  final (:cliente, :peticiones) = clienteQueResponde(estado, cuerpo);
   return (
     repo: CasaYAutoRepositoryApi(transporte: cliente, url: _url),
     peticiones: peticiones,
