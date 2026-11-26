@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/features/mensajes/domain/conversacion.dart';
 import 'package:app/features/mensajes/domain/conversaciones_repository.dart';
 import 'package:app/features/mensajes/presentation/conversaciones_controller.dart';
@@ -11,18 +12,32 @@ class RepositorioDePrueba implements ConversacionesRepository {
     totalNoLeidos: 3,
   );
   bool falla = false;
+  bool noAutorizado = false;
   Completer<ResumenConversaciones>? pendiente;
   String? ultimoCursor;
+  @override
+  Future<int> contador() async => respuesta.totalNoLeidos;
 
   @override
   Future<ResumenConversaciones> consultar({String? cursor}) async {
     ultimoCursor = cursor;
+    if (noAutorizado) throw const NoAutorizadoFailure();
     if (falla) throw Exception('sin red');
     return pendiente?.future ?? respuesta;
   }
 }
 
 void main() {
+  test('401 elimina los resúmenes retenidos', () async {
+    final repo = RepositorioDePrueba();
+    final controller = ConversacionesController(repo);
+    await controller.reintentar();
+    expect(controller.estado.totalNoLeidos, 3);
+    repo.noAutorizado = true;
+    await controller.reintentar();
+    expect(controller.estado.totalNoLeidos, isNull);
+    expect(controller.estado.conversaciones, isEmpty);
+  });
   test('carga la siguiente página y elimina duplicados por id', () async {
     const persona = ContraparteConversacion(nombre: 'Ana');
     const primera = Conversacion(

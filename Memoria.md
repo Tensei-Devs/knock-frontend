@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
+- **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
+- **Pruebas:** widgets verifican ambas pantallas, contador y etiqueta, y paginación; pruebas del controlador verifican limpieza y respuesta tardía. Pendientes CA-13, CA-14 completos, accesibilidad ampliada, dispositivo y backend desplegado.
+
 ## 2026-11-26 — Paginación del dominio de conversaciones (KNOCK-73)
 - **Avance:** el repositorio envía `limit=20` y el cursor del contrato; el controlador concatena páginas sin repetir ids y descarta respuestas tardías al limpiar. Once pruebas focalizadas y `flutter analyze` pasan.
 - **Límite:** sigue sin conexión a pantallas, sesión ni hub; `sdd_lint --trace 020` reporta tres faltantes y las coincidencias por nombre no prueban CA-13 ni CA-14 completos.

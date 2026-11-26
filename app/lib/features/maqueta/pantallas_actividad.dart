@@ -8,6 +8,8 @@ import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/bloqueos_reales.dart';
 import 'package:app/features/maqueta/carga_k.dart';
+import 'package:app/features/maqueta/conversaciones_reales.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/opiniones_reales.dart';
@@ -18,6 +20,7 @@ import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/visita_acciones_reales.dart';
 import 'package:app/features/maqueta/visita_real.dart';
+import 'package:app/features/mensajes/mensajes.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -235,67 +238,90 @@ Widget _errorDeSolicitudes(BuildContext context) => CardK(
 
 /// Globo flotante de mensajes (abajo a la derecha, con contador).
 Widget msgFab(BuildContext context) {
-  if (maq.convIds().isEmpty) return const SizedBox();
-  final k = kc(context);
-  final u = maq.unreadCount;
   return Positioned(
     right: 16,
     bottom: 16,
-    child: Semantics(
-      label: '${tr('Mensajes')}${u > 0 ? ', $u ${tr('sin leer')}' : ''}',
-      button: true,
-      child: GestureDetector(
-        onTap: () => context.push(RM.mensajes),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              width: 58,
-              height: 58,
-              decoration: BoxDecoration(
-                color: k.navyBg,
-                shape: BoxShape.circle,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x520F1E32),
-                    blurRadius: 20,
-                    offset: Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.chat_bubble_outline,
-                color: Colors.white,
-                size: 26,
-              ),
+    child: Consumer(
+      builder: (context, ref, _) {
+        final real = ref.watch(act.solicitudesRealesActivasProvider);
+        if (!real && maq.convIds().isEmpty) return const SizedBox.shrink();
+        final total = real
+            ? ref.watch(contadorConversacionesProvider).value
+            : maq.unreadCount;
+        return _botonMensajes(context, total, () async {
+          await context.push(RM.mensajes);
+          if (real && context.mounted) {
+            ref.invalidate(contadorConversacionesProvider);
+          }
+        });
+      },
+    ),
+  );
+}
+
+Widget _botonMensajes(BuildContext context, int? total, VoidCallback alTocar) {
+  final k = kc(context);
+  final u = total ?? 0;
+  final textos = AppLocalizations.of(context);
+  return Semantics(
+    container: true,
+    excludeSemantics: true,
+    onTap: alTocar,
+    label: u > 0
+        ? textos.conversacionesGloboConTotal(textos.conversacionesNoLeidos(u))
+        : textos.conversacionesGlobo,
+    button: true,
+    child: GestureDetector(
+      onTap: alTocar,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 58,
+            height: 58,
+            decoration: BoxDecoration(
+              color: k.navyBg,
+              shape: BoxShape.circle,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x520F1E32),
+                  blurRadius: 20,
+                  offset: Offset(0, 6),
+                ),
+              ],
             ),
-            if (u > 0)
-              Positioned(
-                top: -4,
-                right: -4,
-                child: Container(
-                  constraints: const BoxConstraints(minWidth: 22),
-                  height: 22,
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: k.red,
-                    borderRadius: BorderRadius.circular(11),
-                    border: Border.all(color: k.surface, width: 2),
-                  ),
-                  child: Text(
-                    '$u',
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
+            child: const Icon(
+              Icons.chat_bubble_outline,
+              color: Colors.white,
+              size: 26,
+            ),
+          ),
+          if (u > 0)
+            Positioned(
+              top: -4,
+              right: -4,
+              child: Container(
+                constraints: const BoxConstraints(minWidth: 22),
+                height: 22,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: k.red,
+                  borderRadius: BorderRadius.circular(11),
+                  border: Border.all(color: k.surface, width: 2),
+                ),
+                child: Text(
+                  u > 9 ? '9+' : '$u',
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
                   ),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     ),
   );
@@ -634,7 +660,13 @@ Widget adjustCard(BuildContext context, Job j) {
 class MensajesScreen extends StatelessWidget {
   const MensajesScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mensajes',
+    real: const ConversacionesReales(),
+    ejemplo: _ejemplo,
+  );
+
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final ids = maq.convIds();
     return Pg(

@@ -33,6 +33,7 @@ class ConversacionesRepositoryApi implements ConversacionesRepository {
     );
   }
 
+  @override
   Future<int> contador() async {
     final r = await enviarJsonONoEncontrado(
       transporte,

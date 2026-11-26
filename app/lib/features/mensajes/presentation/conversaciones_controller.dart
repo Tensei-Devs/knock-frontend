@@ -1,3 +1,4 @@
+import 'package:app/core/errores/failure.dart';
 import 'package:flutter/foundation.dart';
 
 import '../domain/conversacion.dart';
@@ -51,6 +52,9 @@ class ConversacionesController extends ChangeNotifier {
           sinConexion: !_canalDisponible,
         ),
       );
+    } on NoAutorizadoFailure {
+      if (_disposed || generacion != _generacion) return;
+      limpiar();
     } on Exception {
       if (_disposed || generacion != _generacion) return;
       _publicar(
@@ -95,6 +99,9 @@ class ConversacionesController extends ChangeNotifier {
           sinConexion: !_canalDisponible,
         ),
       );
+    } on NoAutorizadoFailure {
+      if (_disposed || generacion != _generacion) return;
+      limpiar();
     } on Exception {
       if (_disposed || generacion != _generacion) return;
       _publicar(

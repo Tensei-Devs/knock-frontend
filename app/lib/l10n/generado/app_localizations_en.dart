@@ -1321,6 +1321,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get opinionesTitulo => 'Reviews';
 
   @override
+  String get conversacionesSinConexion => 'Offline';
+
+  @override
+  String get conversacionesGlobo => 'Messages';
+
+  @override
+  String conversacionesGloboConTotal(String total) {
+    return 'Messages, $total';
+  }
+
+  @override
+  String get conversacionesCargando => 'Loading conversations…';
+
+  @override
+  String get conversacionesVacias => 'You have no conversations yet.';
+
+  @override
+  String get conversacionesAbrirPendiente =>
+      'Opening conversations is not available yet.';
+
+  @override
+  String conversacionesNoLeidos(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total unread messages',
+      one: '1 unread message',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Loading reviews…';
 
   @override
