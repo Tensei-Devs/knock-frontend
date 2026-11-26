@@ -25,4 +25,4 @@ No cambia ningún otro control: contrato, CI, seguridad y cobertura siguen igual
 La constitución (§11) pide la aprobación de al menos dos integrantes.
 
 - [x] Aprobado por: Julián Hernández · Fecha: 2026-11-26
-- [ ] Aprobado por: ______________________ · Fecha: ________
+- [x] Aprobado por: Angel Alexis Blas Castillo· Fecha: 2026-11-26
