@@ -1,13 +1,12 @@
 // Spec 036 (backend 046, TEC-14): el repositorio de Explorar manda el filtro,
 // lee solo los campos del contrato y traduce cada estado.
-import 'dart:convert';
-
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/explorar/data/explorar_repository_api.dart';
 import 'package:app/features/explorar/domain/explorar.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
+
+import '../../soporte/cliente_que_responde.dart';
 
 const _url = 'https://api.knock.test';
 
@@ -51,15 +50,7 @@ Map<String, Object?> _respuesta({bool conSesion = false}) => {
   int estado, [
   Object? cuerpo,
 ]) {
-  final peticiones = <http.Request>[];
-  final cliente = MockClient((peticion) async {
-    peticiones.add(peticion);
-    return http.Response(
-      cuerpo == null ? '' : jsonEncode(cuerpo),
-      estado,
-      headers: {'content-type': 'application/json'},
-    );
-  });
+  final (:cliente, :peticiones) = clienteQueResponde(estado, cuerpo);
   return (
     repo: ExplorarRepositoryApi(transporte: cliente, url: _url),
     peticiones: peticiones,

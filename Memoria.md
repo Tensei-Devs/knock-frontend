@@ -662,3 +662,8 @@
 - **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.
 - **Pruebas:** `rutas_protegidas_test.dart` (lista pública y protegida) y `sesion_en_flujos_reales_test.dart` (las llamadas de los repositorios reales de solicitudes, visitas y zonas, contra una API falsa que exige la sesión).
 - **A evitar:** volver a una lista de rutas protegidas; agregar una ruta pública sin comprobar su `[AllowAnonymous]` y su política en el gateway; hacer que `tecnicos/{id}` coincida por prefijo.
+
+## 2026-11-25 — Cliente HTTP falso compartido por las pruebas de repositorios (KNOCK-90)
+- **Qué cambió:** `test/soporte/cliente_que_responde.dart` reemplaza el bloque que repetían las pruebas de los repositorios de Explorar y de «Mi casa y mi auto».
+- **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
+- **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.
