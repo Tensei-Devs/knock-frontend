@@ -42,8 +42,9 @@ class BusquedaRepositoryApi implements BusquedaRepository {
         'cursor': ?cursor,
         'limit': '$limite',
       },
-      aceptar: const {400, 422},
+      aceptar: const {400, 422, 500, 502, 503, 504},
     );
+    if (r.estado >= 500) throw const BusquedaNoDisponible();
     if (r.estado == 400 || r.estado == 422) {
       throw _falloDeBusqueda(r);
     }
@@ -56,6 +57,33 @@ class BusquedaRepositoryApi implements BusquedaRepository {
       siguiente: textoOpcional(m['nextCursor']),
     );
   }
+
+  @override
+  Future<List<SugerenciaBusqueda>> sugerencias(String consulta) async {
+    if (normalizarConsulta(consulta) != consulta) {
+      throw const DatosRechazadosFailure();
+    }
+    final r = await enviarJson(
+      transporte,
+      url,
+      'GET',
+      'tecnicos/autocompletar',
+      consulta: {'q': consulta},
+    );
+    final filas = listaDelContrato(objetoDelContrato(r.json)['sugerencias']);
+    return [for (final fila in filas) _aSugerencia(fila)];
+  }
+}
+
+SugerenciaBusqueda _aSugerencia(Object? json) {
+  final m = objetoDelContrato(json);
+  String? opcional(String campo) => textoOpcional(m[campo]);
+  return SugerenciaBusqueda(
+    tipo: textoObligatorio(m['tipo']),
+    texto: textoObligatorio(m['texto']),
+    clave: opcional('clave'),
+    id: opcional('id'),
+  );
 }
 
 Failure _falloDeBusqueda(RespuestaJson r) {

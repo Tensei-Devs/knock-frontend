@@ -5,7 +5,8 @@ import 'package:app/features/busqueda/domain/busqueda.dart';
 /// `invalid_cursor`, hay que reiniciar desde la primera página) y 422 sin
 /// `colonia_not_found` `DatosRechazadosFailure`; 422 `colonia_not_found`
 /// `OpcionNoDisponibleFailure` (pedir la zona otra vez); 429
-/// `DemasiadosIntentosFailure`; 503 `ServicioNoDisponibleFailure`.
+/// `DemasiadosIntentosFailure`; 503 y otros 5xx [BusquedaNoDisponible]; sin
+/// conexión `ServicioNoDisponibleFailure`.
 abstract interface class BusquedaRepository {
   /// [consulta] ya normalizada con `normalizarConsulta`; si no es válida no
   /// sale a la red. Nada de lo buscado se guarda en disco ni en caché (R-05).
@@ -17,4 +18,7 @@ abstract interface class BusquedaRepository {
     String? cursor,
     int limite = 20,
   });
+
+  /// `GET /tecnicos/autocompletar` con [consulta] ya normalizada.
+  Future<List<SugerenciaBusqueda>> sugerencias(String consulta);
 }

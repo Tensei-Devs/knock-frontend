@@ -128,6 +128,186 @@ abstract class AppLocalizations {
   /// **'Knock'**
   String get appTitle;
 
+  /// No description provided for @busquedaTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar'**
+  String get busquedaTitulo;
+
+  /// No description provided for @busquedaEtiqueta.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas?'**
+  String get busquedaEtiqueta;
+
+  /// No description provided for @busquedaPlaceholder.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej.: boiler, frenos, un contacto'**
+  String get busquedaPlaceholder;
+
+  /// No description provided for @busquedaMinimo.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe al menos 2 letras'**
+  String get busquedaMinimo;
+
+  /// No description provided for @busquedaContador.
+  ///
+  /// In es, this message translates to:
+  /// **'{n}/80'**
+  String busquedaContador(int n);
+
+  /// No description provided for @busquedaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando…'**
+  String get busquedaCargando;
+
+  /// No description provided for @busquedaSugerencias.
+  ///
+  /// In es, this message translates to:
+  /// **'Sugerencias'**
+  String get busquedaSugerencias;
+
+  /// No description provided for @busquedaSoloVerificados.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo verificados'**
+  String get busquedaSoloVerificados;
+
+  /// No description provided for @busquedaSoloVerificadosActivo.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo verificados, seleccionado'**
+  String get busquedaSoloVerificadosActivo;
+
+  /// No description provided for @busquedaBuscamos.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscamos: {oficio}'**
+  String busquedaBuscamos(String oficio);
+
+  /// No description provided for @busquedaAmbiguo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuál de estos buscas?'**
+  String get busquedaAmbiguo;
+
+  /// No description provided for @busquedaNoEntendimos.
+  ///
+  /// In es, this message translates to:
+  /// **'No entendimos qué necesitas'**
+  String get busquedaNoEntendimos;
+
+  /// No description provided for @busquedaElegirCategoria.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige una categoría'**
+  String get busquedaElegirCategoria;
+
+  /// No description provided for @busquedaSinResultados.
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos expertos con esa búsqueda.'**
+  String get busquedaSinResultados;
+
+  /// No description provided for @busquedaSinResultadosOficio.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay expertos de {oficio} en tu colonia'**
+  String busquedaSinResultadosOficio(String oficio);
+
+  /// No description provided for @busquedaPedirCotizacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pedir cotización de todos modos'**
+  String get busquedaPedirCotizacion;
+
+  /// No description provided for @busquedaSinZona.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige tu zona para buscar expertos cerca'**
+  String get busquedaSinZona;
+
+  /// No description provided for @busquedaElegirZona.
+  ///
+  /// In es, this message translates to:
+  /// **'Elegir mi zona'**
+  String get busquedaElegirZona;
+
+  /// No description provided for @busquedaCargarMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más'**
+  String get busquedaCargarMas;
+
+  /// No description provided for @busquedaTope.
+  ///
+  /// In es, this message translates to:
+  /// **'Mostramos los primeros 100. Agrega más palabras para afinar.'**
+  String get busquedaTope;
+
+  /// No description provided for @busquedaTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'{n} resultados'**
+  String busquedaTotal(int n);
+
+  /// No description provided for @busquedaReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get busquedaReintentar;
+
+  /// No description provided for @busquedaSinConexion.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión'**
+  String get busquedaSinConexion;
+
+  /// No description provided for @busquedaNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La búsqueda no está disponible en este momento. Intenta de nuevo.'**
+  String get busquedaNoDisponible;
+
+  /// No description provided for @busquedaOtrasPalabras.
+  ///
+  /// In es, this message translates to:
+  /// **'Prueba con otras palabras'**
+  String get busquedaOtrasPalabras;
+
+  /// No description provided for @busquedaEspera.
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchas búsquedas seguidas. Espera {segundos} segundos.'**
+  String busquedaEspera(int segundos);
+
+  /// No description provided for @busquedaCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'{calificacion} estrellas, {n} reseñas'**
+  String busquedaCalificacion(String calificacion, int n);
+
+  /// No description provided for @busquedaDistancia.
+  ///
+  /// In es, this message translates to:
+  /// **'a unos {km} km'**
+  String busquedaDistancia(int km);
+
+  /// No description provided for @busquedaVerificado.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: {nivel}'**
+  String busquedaVerificado(String nivel);
+
+  /// No description provided for @busquedaNoAtiende.
+  ///
+  /// In es, this message translates to:
+  /// **'No atiende tu colonia'**
+  String get busquedaNoAtiende;
+
   /// Pestaña de la barra inferior y título de la pantalla de inicio.
   ///
   /// In es, this message translates to:

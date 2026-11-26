@@ -1,6 +1,10 @@
 /// Rutas de las pestañas de la barra inferior (TT-MOB-01, spec §8 decisión 9).
 abstract final class Rutas {
   static const inicio = '/inicio';
+
+  /// Búsqueda de expertos por texto (spec 021): subruta de Inicio.
+  static const buscar = '/inicio/buscar';
+
   static const explorar = '/explorar';
   static const actividad = '/actividad';
   static const trabajo = '/trabajo';

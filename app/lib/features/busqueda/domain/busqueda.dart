@@ -97,3 +97,25 @@ final class PaginaBusqueda {
   final List<ExpertoBuscado> items;
   final String? siguiente;
 }
+
+/// El servidor respondió que la búsqueda no está disponible (503 u otro 5xx);
+/// es distinto de no tener conexión (spec 021, CA-12 y CA-13).
+final class BusquedaNoDisponible implements Exception {
+  const BusquedaNoDisponible();
+}
+
+/// Una sugerencia mientras se escribe (`GET /tecnicos/autocompletar`, spec
+/// 036, TEC-03). Con [id] es un negocio concreto; con [clave], un oficio.
+final class SugerenciaBusqueda {
+  const SugerenciaBusqueda({
+    required this.tipo,
+    required this.texto,
+    this.clave,
+    this.id,
+  });
+
+  final String tipo;
+  final String texto;
+  final String? clave;
+  final String? id;
+}

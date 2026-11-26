@@ -5,6 +5,12 @@
 - **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.
 - **Pendiente:** el interruptor «Disponible hoy» no se conectó: su valor actual solo llega en `GET /tecnicos/me/trabajo` (spec 019, en otro PR). Textos de la maqueta, sin ARB (spec 045). Sin probar contra el backend desplegado.
 
+## 2026-11-26 — Specs 021 y 036: búsqueda por texto en la app (KNOCK-66)
+- **Decisión:** con sesión y API, «Buscar» usa `GET /busqueda` (pausa de 400 ms, filtros en el servidor, páginas por cursor y los estados de la spec 021) y muestra las sugerencias de `GET /tecnicos/autocompletar`. Lo escrito no se guarda en `maq`, en disco ni en la caché de respuestas.
+- **Pantallas conectadas:** en la maqueta (`BusquedaReal` en `pantallas_buscar.dart`) y en la app real (`InicioScreen` con barra de búsqueda → `/inicio/buscar` → `BusquedaScreen` + `TarjetaExperto`, filtros de verificados y oficios y paso a `Rutas.solicitudNueva?oficio=`).
+- **Dudas entre specs:** la 021 deja fuera las sugerencias al escribir y la 036 (TEC-03) las pide; se siguió la 036. La copia sin conexión de las sugerencias (CA-12 de la 036) no se hizo porque guardaría lo escrito (021, R-05).
+- **Pendiente:** E2E, mutación y humo contra el backend desplegado; filtros de la maqueta (distancia, estrellas) solo siguen en el flujo de ejemplo.
+
 ## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
 - **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
