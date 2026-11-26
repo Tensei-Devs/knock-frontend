@@ -8,6 +8,7 @@ import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/core/config/subida_de_fotos.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -49,6 +50,9 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
   bool _enviando = false;
   String? _errorEnvio;
 
+  /// `archivoId` de cada foto ya subida, para no repetirla al reintentar.
+  final _subidas = <String, String>{};
+
   late final TextEditingController _desc;
   late final TextEditingController _addr;
 
@@ -77,11 +81,13 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
     }
   }
 
-  /// Con sesión y servidor la solicitud se crea de verdad (`POST /solicitudes`);
-  /// sin ellos sigue el flujo de ejemplo de siempre.
+  /// Con sesión, servidor y la subida de fotos encendida, la solicitud se crea
+  /// de verdad (`POST /solicitudes`); si falta algo sigue el flujo de ejemplo
+  /// de siempre.
   Future<void> _enviar() async {
     if (_enviando) return;
-    if (!ref.read(solicitudesRealesActivasProvider)) {
+    if (!ref.read(solicitudesRealesActivasProvider) ||
+        !ref.read(subidaDeFotosActivaProvider)) {
       final job = maq.sendReq();
       context.go(RM.enviada(job.id));
       return;
@@ -92,7 +98,7 @@ class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
       _errorEnvio = null;
     });
     try {
-      final job = await crearSolicitudReal(ref, maq.req!);
+      final job = await crearSolicitudReal(ref, maq.req!, _subidas);
       if (!mounted) return;
       maq.agregarSolicitudReal(job);
       ref.invalidate(solicitudesRealesControllerProvider);

@@ -216,11 +216,18 @@ Future<String> coloniaIdDeLaPersona(WidgetRef ref, UserData user) async {
   throw const OpcionNoDisponibleFailure();
 }
 
-/// Crea la solicitud en el servidor (`POST /solicitudes`, spec 015 y backend
-/// 020) y la devuelve como [Job] real. Las fotos NO se suben: el módulo de
-/// archivos no está desplegado, así que `fotos` va vacío y el servidor decide.
-/// Falla con un `Failure`; nunca reintenta (una escritura no se repite sola).
-Future<Job> crearSolicitudReal(WidgetRef ref, Solicitud req) async {
+/// Sube las fotos (de 1 a 5, backend 062), crea la solicitud en el servidor
+/// (`POST /solicitudes`, spec 015 y backend 020) y la devuelve como [Job] real.
+///
+/// [subidas] recuerda el `archivoId` de cada foto ya subida: si algo falla
+/// después, el reintento no la sube otra vez. Si el servidor rechaza una foto
+/// al crear, se olvidan todas. Falla con un `Failure`; nunca reintenta (una
+/// escritura no se repite sola).
+Future<Job> crearSolicitudReal(
+  WidgetRef ref,
+  Solicitud req,
+  Map<String, String> subidas,
+) async {
   final cat = cats[req.cat]!;
   final user = maq.user;
   final hoy = DateTime.now().add(Duration(days: req.day));
@@ -231,23 +238,34 @@ Future<Job> crearSolicitudReal(WidgetRef ref, Solicitud req) async {
           RegExp(r'\s+'),
           ' ',
         );
-  final creada = await ref
-      .read(act.solicitudesRealesRepositoryProvider)
-      .crear(
-        act.NuevaSolicitud(
-          oficioClave: req.cat!,
-          descripcion: req.desc.trim(),
-          archivoIds: const [],
-          dia: DateTime(hoy.year, hoy.month, hoy.day),
-          franja: switch (req.slot) {
-            0 => act.Franja.manana,
-            1 => act.Franja.tarde,
-            _ => act.Franja.noche,
-          },
-          coloniaId: coloniaId,
-          direccion: direccion,
-        ),
-      );
+  if (req.photos.isEmpty || req.photos.length > 5) {
+    throw const FotoNoValidaFailure();
+  }
+  final repositorio = ref.read(act.solicitudesRealesRepositoryProvider);
+  final archivoIds = <String>[];
+  for (final ruta in [...req.photos]) {
+    archivoIds.add(subidas[ruta] ??= await repositorio.subirFoto(ruta));
+  }
+  final nueva = act.NuevaSolicitud(
+    oficioClave: req.cat!,
+    descripcion: req.desc.trim(),
+    archivoIds: archivoIds,
+    dia: DateTime(hoy.year, hoy.month, hoy.day),
+    franja: switch (req.slot) {
+      0 => act.Franja.manana,
+      1 => act.Franja.tarde,
+      _ => act.Franja.noche,
+    },
+    coloniaId: coloniaId,
+    direccion: direccion,
+  );
+  final act.Solicitud creada;
+  try {
+    creada = await repositorio.crear(nueva);
+  } on FotoNoValidaFailure {
+    subidas.clear();
+    rethrow;
+  }
   final job = jobDeSolicitud(creada, catalogo: const {});
   if (job == null) throw const DatosInvalidosFailure();
   job.sent = 'Hoy, ahora';

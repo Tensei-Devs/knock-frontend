@@ -8,13 +8,15 @@ import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
-import 'package:app/features/actividad/data/visita_repository_api.dart';
+import 'package:app/features/actividad/data/subida_de_fotos_api.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
+import 'package:app/features/actividad/data/visita_repository_api.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 /// Raíz de composición de la función Actividad (spec 015): es lo único que
 /// junta `data/` con el resto, para que `presentation/` no importe `data/`.
@@ -26,6 +28,15 @@ final solicitudRepositoryProvider = Provider<SolicitudRepository>(
   (ref) => ref.watch(_datosDePruebaProvider),
 );
 
+/// Transporte hacia el almacenamiento de las fotos (el enlace temporal). Es
+/// aparte del de la API: no lleva la sesión, y un 429 del almacenamiento no
+/// frena las llamadas a la API.
+final transporteDeSubidasProvider = Provider<http.Client>((ref) {
+  final cliente = http.Client();
+  ref.onDispose(cliente.close);
+  return cliente;
+});
+
 /// Solicitudes para la maqueta (spec 045, enmienda 1): la API real con
 /// `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Es aparte de
 /// [solicitudRepositoryProvider] para no cambiar las pantallas anteriores.
@@ -36,6 +47,11 @@ final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
   return SolicitudRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
+    fotos: SubidaDeFotosApi(
+      transporte: ref.watch(transporteApiProvider),
+      url: ref.watch(urlApiProvider),
+      almacenamiento: ref.watch(transporteDeSubidasProvider),
+    ),
   );
 });
 
