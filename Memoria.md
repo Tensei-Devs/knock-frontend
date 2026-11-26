@@ -1,5 +1,18 @@
 # Memoria — knock-frontend
 
+## 2026-11-24 — Dominio de Trabajo (KNOCK-67)
+- **Hecho:** T-02 de la spec 019: entidades inmutables de Trabajo, listas copiadas y sin datos de contacto en solicitudes o visitas; se reutilizan `Modalidad`, `Franja` y `TipoPrecio`. Las entidades propias son necesarias porque el resumen del técnico expone datos distintos a los de Actividad.
+- **Verificación:** tres pruebas unitarias del dominio y `flutter analyze` pasan; se aplicó `dart format`.
+- **Pendiente:** T-03 a T-06. El contrato vendorizado y el cliente generado incluyen las rutas; la tarea T-01 sigue pendiente en la tabla. La petición de implementar llamadas HTTP manuales contradice la constitución y la spec 019, que exigen el cliente generado.
+
+## 2026-11-24 — Repositorios de Trabajo (KNOCK-67)
+- **Hecho:** T-01 confirmada por el Tech Lead como completada en PR #100; T-03 y T-04 implementan bandeja, descarte y resumen paginados mediante el cliente generado. Tres pruebas con dobles del cliente y `flutter analyze` pasan.
+- **Bloqueo para conectar:** `ClienteAutenticado` no reconoce `tecnicos/me/solicitudes` ni `tecnicos/me/trabajo` como rutas protegidas, y `ClienteConCache` no las excluye expresamente. Conectar la pantalla sin corregirlo enviaría estas lecturas sin Bearer y podría cachearlas si el servidor emitiera ETag sin `no-store`.
+- **Pendiente:** adaptar y probar transporte y exclusión de caché antes de T-05; cierre de sesión y T-06; probar el contrato contra backend real. El cliente permite precio y dirección nulos, y `nivel` es un objeto sin esquema: el mapper exige clave y nombre como indica la spec 019.
+
+## 2026-11-24 — Transporte de Trabajo autenticado (KNOCK-67)
+- **Hecho:** el transporte existente agrega Bearer a `tecnicos/me/` y excluye de la caché la bandeja, el resumen y las rutas `solicitudes/`; el descarte ya estaba autenticado. Dos pruebas nuevas comprueban Bearer, denegación sin sesión y ausencia de caché, incluso con ETag; `flutter analyze` pasa.
+- **Pendiente:** T-05 y T-06, su conexión y pruebas de interfaz y cierre de sesión; la pantalla de maqueta sigue con datos simulados.
 ## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
 - **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
 - **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.

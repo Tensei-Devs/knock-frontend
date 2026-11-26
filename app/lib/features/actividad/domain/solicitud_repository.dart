@@ -1,6 +1,7 @@
 import 'package:app/features/actividad/domain/borrador_solicitud.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 
 /// Fuente de las solicitudes (spec 015). Falla con un `Failure` de
 /// `core/errores`.
@@ -9,6 +10,8 @@ import 'package:app/features/actividad/domain/solicitud.dart';
 /// y spec 013), la app usa una implementación de prueba; la API real se
 /// conecta después sin tocar la pantalla.
 abstract interface class SolicitudRepository {
+  Future<ResultadoCancelacion> cancelar(String id, {MotivoCancelacion? motivo});
+
   /// Sube la foto de [rutaLocal] por el flujo de archivos privados (spec 013,
   /// `uso: solicitud`) y devuelve su `archivoId`.
   Future<String> subirFoto(String rutaLocal);

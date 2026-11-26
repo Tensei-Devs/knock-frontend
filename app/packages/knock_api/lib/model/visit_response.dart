@@ -27,6 +27,11 @@ class VisitResponse {
     required this.puedeAvisar,
     required this.puedeLlegar,
     required this.llegadaEn,
+    this.tecnicoUsuarioId,
+    this.reprogramacionPendiente = false,
+    this.estadoCotizacionFinal,
+    this.permisoFotos,
+    this.terminadaEn,
   });
 
   String id;
@@ -65,6 +70,16 @@ class VisitResponse {
 
   DateTime? llegadaEn;
 
+  String? tecnicoUsuarioId;
+
+  bool reprogramacionPendiente;
+
+  String? estadoCotizacionFinal;
+
+  bool? permisoFotos;
+
+  DateTime? terminadaEn;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is VisitResponse &&
     other.id == id &&
@@ -84,7 +99,12 @@ class VisitResponse {
     other.reglaSeguridad == reglaSeguridad &&
     other.puedeAvisar == puedeAvisar &&
     other.puedeLlegar == puedeLlegar &&
-    other.llegadaEn == llegadaEn;
+    other.llegadaEn == llegadaEn &&
+    other.tecnicoUsuarioId == tecnicoUsuarioId &&
+    other.reprogramacionPendiente == reprogramacionPendiente &&
+    other.estadoCotizacionFinal == estadoCotizacionFinal &&
+    other.permisoFotos == permisoFotos &&
+    other.terminadaEn == terminadaEn;
 
   @override
   int get hashCode =>
@@ -105,10 +125,15 @@ class VisitResponse {
     (reglaSeguridad == null ? 0 : reglaSeguridad!.hashCode) +
     (puedeAvisar == null ? 0 : puedeAvisar!.hashCode) +
     (puedeLlegar.hashCode) +
-    (llegadaEn == null ? 0 : llegadaEn!.hashCode);
+    (llegadaEn == null ? 0 : llegadaEn!.hashCode) +
+    (tecnicoUsuarioId == null ? 0 : tecnicoUsuarioId!.hashCode) +
+    (reprogramacionPendiente.hashCode) +
+    (estadoCotizacionFinal == null ? 0 : estadoCotizacionFinal!.hashCode) +
+    (permisoFotos == null ? 0 : permisoFotos!.hashCode) +
+    (terminadaEn == null ? 0 : terminadaEn!.hashCode);
 
   @override
-  String toString() => 'VisitResponse[id=$id, rol=$rol, estado=$estado, modalidad=$modalidad, dia=$dia, hora=$hora, precio=$precio, tope=$tope, tecnico=$tecnico, cliente=$cliente, lugar=$lugar, codigo=$codigo, codigoVenceEn=$codigoVenceEn, motivoCodigo=$motivoCodigo, reglaSeguridad=$reglaSeguridad, puedeAvisar=$puedeAvisar, puedeLlegar=$puedeLlegar, llegadaEn=$llegadaEn]';
+  String toString() => 'VisitResponse[id=$id, rol=$rol, estado=$estado, modalidad=$modalidad, dia=$dia, hora=$hora, precio=$precio, tope=$tope, tecnico=$tecnico, cliente=$cliente, lugar=$lugar, codigo=$codigo, codigoVenceEn=$codigoVenceEn, motivoCodigo=$motivoCodigo, reglaSeguridad=$reglaSeguridad, puedeAvisar=$puedeAvisar, puedeLlegar=$puedeLlegar, llegadaEn=$llegadaEn, tecnicoUsuarioId=$tecnicoUsuarioId, reprogramacionPendiente=$reprogramacionPendiente, estadoCotizacionFinal=$estadoCotizacionFinal, permisoFotos=$permisoFotos, terminadaEn=$terminadaEn]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -165,6 +190,27 @@ class VisitResponse {
       json[r'llegadaEn'] = this.llegadaEn!.toUtc().toIso8601String();
     } else {
       json[r'llegadaEn'] = null;
+    }
+    if (this.tecnicoUsuarioId != null) {
+      json[r'tecnicoUsuarioId'] = this.tecnicoUsuarioId;
+    } else {
+      json[r'tecnicoUsuarioId'] = null;
+    }
+      json[r'reprogramacionPendiente'] = this.reprogramacionPendiente;
+    if (this.estadoCotizacionFinal != null) {
+      json[r'estadoCotizacionFinal'] = this.estadoCotizacionFinal;
+    } else {
+      json[r'estadoCotizacionFinal'] = null;
+    }
+    if (this.permisoFotos != null) {
+      json[r'permisoFotos'] = this.permisoFotos;
+    } else {
+      json[r'permisoFotos'] = null;
+    }
+    if (this.terminadaEn != null) {
+      json[r'terminadaEn'] = this.terminadaEn!.toUtc().toIso8601String();
+    } else {
+      json[r'terminadaEn'] = null;
     }
     return json;
   }
@@ -228,6 +274,11 @@ class VisitResponse {
         puedeAvisar: mapValueOfType<bool>(json, r'puedeAvisar'),
         puedeLlegar: mapValueOfType<bool>(json, r'puedeLlegar')!,
         llegadaEn: mapDateTime(json, r'llegadaEn', r''),
+        tecnicoUsuarioId: mapValueOfType<String>(json, r'tecnicoUsuarioId'),
+        reprogramacionPendiente: mapValueOfType<bool>(json, r'reprogramacionPendiente') ?? false,
+        estadoCotizacionFinal: mapValueOfType<String>(json, r'estadoCotizacionFinal'),
+        permisoFotos: mapValueOfType<bool>(json, r'permisoFotos'),
+        terminadaEn: mapDateTime(json, r'terminadaEn', r''),
       );
     }
     return null;

@@ -22,6 +22,7 @@ class RequestResponse {
     required this.totalCotizaciones,
     required this.venceEn,
     required this.creadoEn,
+    this.puedeVolverAPedir,
   });
 
   String id;
@@ -50,6 +51,8 @@ class RequestResponse {
 
   DateTime creadoEn;
 
+  bool? puedeVolverAPedir;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is RequestResponse &&
     other.id == id &&
@@ -64,7 +67,8 @@ class RequestResponse {
     other.direccion == direccion &&
     other.totalCotizaciones == totalCotizaciones &&
     other.venceEn == venceEn &&
-    other.creadoEn == creadoEn;
+    other.creadoEn == creadoEn &&
+    other.puedeVolverAPedir == puedeVolverAPedir;
 
   @override
   int get hashCode =>
@@ -80,10 +84,11 @@ class RequestResponse {
     (direccion == null ? 0 : direccion!.hashCode) +
     (totalCotizaciones == null ? 0 : totalCotizaciones!.hashCode) +
     (venceEn.hashCode) +
-    (creadoEn.hashCode);
+    (creadoEn.hashCode) +
+    (puedeVolverAPedir == null ? 0 : puedeVolverAPedir!.hashCode);
 
   @override
-  String toString() => 'RequestResponse[id=$id, estado=$estado, modalidad=$modalidad, oficio=$oficio, colonia=$colonia, descripcion=$descripcion, fotos=$fotos, dia=$dia, franja=$franja, direccion=$direccion, totalCotizaciones=$totalCotizaciones, venceEn=$venceEn, creadoEn=$creadoEn]';
+  String toString() => 'RequestResponse[id=$id, estado=$estado, modalidad=$modalidad, oficio=$oficio, colonia=$colonia, descripcion=$descripcion, fotos=$fotos, dia=$dia, franja=$franja, direccion=$direccion, totalCotizaciones=$totalCotizaciones, venceEn=$venceEn, creadoEn=$creadoEn, puedeVolverAPedir=$puedeVolverAPedir]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -108,6 +113,11 @@ class RequestResponse {
     }
       json[r'venceEn'] = this.venceEn.toUtc().toIso8601String();
       json[r'creadoEn'] = this.creadoEn.toUtc().toIso8601String();
+    if (this.puedeVolverAPedir != null) {
+      json[r'puedeVolverAPedir'] = this.puedeVolverAPedir;
+    } else {
+      json[r'puedeVolverAPedir'] = null;
+    }
     return json;
   }
 
@@ -162,6 +172,7 @@ class RequestResponse {
         totalCotizaciones: mapValueOfType<int>(json, r'totalCotizaciones'),
         venceEn: mapDateTime(json, r'venceEn', r'')!,
         creadoEn: mapDateTime(json, r'creadoEn', r'')!,
+        puedeVolverAPedir: mapValueOfType<bool>(json, r'puedeVolverAPedir'),
       );
     }
     return null;

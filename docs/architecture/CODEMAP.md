@@ -1,13 +1,13 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T04:28:01Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T04:57:30Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
 
 | Módulo | Capas | Archivos | Tipos | Métodos públicos |
 |---|---|---|---|---|
-| `actividad` | -, data, domain, presentation | 45 | 114 | 158 |
+| `actividad` | -, data, domain, presentation | 46 | 126 | 160 |
 | `app` | - | 3 | 2 | 5 |
 | `cache` | core | 2 | 7 | 9 |
 | `config` | core | 2 | 0 | 1 |
@@ -33,7 +33,7 @@
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
 | `tema` | core | 6 | 11 | 5 |
-| `trabajo` | presentation | 1 | 1 | 1 |
+| `trabajo` | data, domain, presentation | 5 | 17 | 5 |
 | `widgets` | core | 4 | 5 | 5 |
 
 ## Tipos con el mismo nombre en varios lugares
@@ -69,9 +69,9 @@
 - `app/lib/features/actividad/data/solicitud_mapper.dart` — —
   - `cuerpoDeSolicitud()`:11
 - `app/lib/features/actividad/data/solicitud_repository_api.dart` — class `SolicitudRepositoryApi`
-  - `subirFoto()`:32, `crear()`:36, `obtener()`:63, `listar()`:74, `cotizaciones()`:94, `elegir()`:131
+  - `cancelar()`:34, `subirFoto()`:92, `crear()`:96, `obtener()`:123, `listar()`:134, `cotizaciones()`:154, `elegir()`:191
 - `app/lib/features/actividad/data/solicitud_repository_de_prueba.dart` — class `SolicitudRepositoryDePrueba`
-  - `subirFoto()`:72, `crear()`:75, `obtener()`:116, `listar()`:123, `cotizaciones()`:130, `elegir()`:160, `obtenerVisita()`:209, `pedirAviso()`:238, `cotizacion()`:256, `etiquetarComoElServidor()`:350, `ordenarComoElServidor()`:387, `porCalificacion()`:391, `porTope()`:393
+  - `cancelar()`:24, `subirFoto()`:78, `crear()`:81, `obtener()`:122, `listar()`:129, `cotizaciones()`:136, `elegir()`:166, `obtenerVisita()`:215, `pedirAviso()`:244, `cotizacion()`:262, `etiquetarComoElServidor()`:356, `ordenarComoElServidor()`:393, `porCalificacion()`:397, `porTope()`:399
 - `app/lib/features/actividad/data/visita_contrato_mapper.dart` — class `VisitaContratoMapper`
   - `visita()`:14, `aviso()`:50
 - `app/lib/features/actividad/data/visita_local_repository.dart` — class `VisitaLocalRepositorySeguro`
@@ -91,7 +91,8 @@
   - `esFotoPermitida()`:10, `fotosPermitidas()`:23
 - `app/lib/features/actividad/domain/franja.dart` — enum `Franja`
   - `desdeTexto()`:16
-- `app/lib/features/actividad/domain/solicitud.dart` — enum `EstadoSolicitud`, class `Solicitud`, class `NuevaSolicitud`
+- `app/lib/features/actividad/domain/regla_cancelacion.dart` — class `ReglaCancelacion`, enum `MotivoCancelacion`, class `ResultadoCancelacion`, class `Cancelada`, class `CancelacionConCita`, class `CancelacionYaVencida`, class `CancelacionNoDisponible`, class `CancelacionInvalida`, class `CancelacionLimite`, class `CancelacionError`, class `CancelacionSinConexion`
+- `app/lib/features/actividad/domain/solicitud.dart` — enum `EstadoSolicitud`, class `Solicitud`, class `PrellenadoSolicitud`, class `NuevaSolicitud`
   - `desdeTexto()`:21
 - `app/lib/features/actividad/domain/solicitud_repository.dart` — class `SolicitudRepository`, class `BorradorSolicitudRepository`, class `FuenteDeFotos`
 - `app/lib/features/actividad/domain/validacion_solicitud.dart` — enum `ErrorDeLargo`, enum `ErrorDeFotos`
@@ -682,6 +683,18 @@
 - `app/lib/core/tema/tokens.dart` — class `Radios`, class `Alturas`, class `Espaciado`, class `Sombras`
 
 ### trabajo
+
+**data**
+
+- `app/lib/features/trabajo/data/trabajo_mapper.dart` — class `TrabajoMapper`
+  - `resumen()`:37
+- `app/lib/features/trabajo/data/trabajo_repository_api.dart` — class `TrabajoRepositoryApi`
+  - `bandeja()`:23, `resumen()`:33, `descartar()`:55
+
+**domain**
+
+- `app/lib/features/trabajo/domain/resumen_de_trabajo.dart` — enum `EstadoVisitaProxima`, enum `EstadoCotizacionEnviada`, class `NivelDeTrabajo`, class `OficioDeSolicitud`, class `ColoniaDeSolicitud`, class `VisitaProxima`, class `SolicitudNueva`, class `CotizacionEnviada`, class `TrabajoTerminado`, class `ResumenDeTrabajo`
+- `app/lib/features/trabajo/domain/trabajo_repository.dart` — class `PaginaTrabajo`, class `ResumenPaginado`, enum `ResultadoDescarte`, class `TrabajoRepository`
 
 **presentation**
 

@@ -12,7 +12,7 @@ class SolicitudesApi {
 
   final ApiClient apiClient;
 
-  /// Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+  /// Solicitudes del `sub` del token, las activas primero y cada grupo de la más reciente a la más antigua, con paginación por cursor.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -63,7 +63,7 @@ class SolicitudesApi {
     );
   }
 
-  /// Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+  /// Solicitudes del `sub` del token, las activas primero y cada grupo de la más reciente a la más antigua, con paginación por cursor.
   ///
   /// Parameters:
   ///
