@@ -1352,4 +1352,165 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Sign out';
+
+  @override
+  String get bloqueosMotivoAcoso => 'Harassment';
+
+  @override
+  String get bloqueosMotivoFraude => 'Fraud';
+
+  @override
+  String get bloqueosMotivoMalServicio => 'Poor service';
+
+  @override
+  String get bloqueosMotivoComportamiento => 'Inappropriate behavior';
+
+  @override
+  String get bloqueosMotivoPeligro => 'Danger';
+
+  @override
+  String get bloqueosMotivoOtro => 'Something else';
+
+  @override
+  String get bloqueosTitulo => 'Report a problem';
+
+  @override
+  String get bloqueosCargando => 'Loading…';
+
+  @override
+  String get bloqueosNoDisponible => 'You can\'t report from this visit.';
+
+  @override
+  String get bloqueosReintentar => 'Try again';
+
+  @override
+  String get bloqueosAviso911 => 'If you are in danger, call 911.';
+
+  @override
+  String get bloqueosRecibido => 'We got your report';
+
+  @override
+  String get bloqueosVolver => 'Back';
+
+  @override
+  String get bloqueosQuePaso => 'What happened?';
+
+  @override
+  String get bloqueosDescripcion =>
+      'Tell us what happened (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviando => 'Sending…';
+
+  @override
+  String get bloqueosEnviar => 'Send report';
+
+  @override
+  String get bloqueosFalta =>
+      'Choose what happened and write at least 8 characters';
+
+  @override
+  String get bloqueosMios => 'My reports';
+
+  @override
+  String get bloqueosCargandoLista => 'Loading your reports…';
+
+  @override
+  String get bloqueosErrorLista => 'We couldn\'t load your reports.';
+
+  @override
+  String get bloqueosVacio => 'You haven\'t made any reports.';
+
+  @override
+  String get bloqueosVerMas => 'See more';
+
+  @override
+  String get bloqueosApelacionEnviada => 'We sent your appeal';
+
+  @override
+  String get bloqueosEstadoAbierto => 'Under review';
+
+  @override
+  String get bloqueosEstadoDecidido => 'Decided';
+
+  @override
+  String get bloqueosEstadoEnApelacion => 'Under appeal';
+
+  @override
+  String get bloqueosEstadoOtro => 'Status unavailable';
+
+  @override
+  String get bloqueosApelar => 'Appeal the decision';
+
+  @override
+  String get bloqueosApelacionTexto =>
+      'Explain why you appeal (8 to 500 characters)';
+
+  @override
+  String get bloqueosEnviarApelacion => 'Send appeal';
+
+  @override
+  String get bloqueosErrorYaBloqueado => 'You had already blocked this person.';
+
+  @override
+  String get bloqueosErrorApelacion => 'This report can no longer be appealed.';
+
+  @override
+  String get bloqueosPantallaBloquear => 'Block a person';
+
+  @override
+  String get bloqueosPersonasTitulo => 'Blocked people';
+
+  @override
+  String get bloqueosPersonasCargando => 'Loading who you blocked…';
+
+  @override
+  String get bloqueosPersonasError => 'We couldn\'t load your blocks.';
+
+  @override
+  String get bloqueosPersonasVacio => 'You haven\'t blocked anyone.';
+
+  @override
+  String get bloqueosBloqueadaEl => 'Blocked on';
+
+  @override
+  String get bloqueosDesbloquear => 'Unblock';
+
+  @override
+  String get bloqueosDesbloqueando => 'Unblocking…';
+
+  @override
+  String get bloqueosDesbloqueada => 'You unblocked this person.';
+
+  @override
+  String get bloqueosBloquear => 'Block this person';
+
+  @override
+  String get bloqueosBloqueando => 'Blocking…';
+
+  @override
+  String get bloqueosBloqueada => 'You blocked this person.';
+
+  @override
+  String get bloqueosBloquearAviso =>
+      'They won\'t be able to message you or see you in searches.';
+
+  @override
+  String get bloqueosConfirmarBloqueoTitulo => 'Block this person?';
+
+  @override
+  String get bloqueosConfirmarBloqueo => 'Yes, block';
+
+  @override
+  String get bloqueosDeshacer => 'Undo';
+
+  @override
+  String get bloqueosNoEncontrada => 'That person is no longer available.';
+
+  @override
+  String get bloqueosErrorYaNoBloqueada =>
+      'That person wasn\'t blocked anymore.';
+
+  @override
+  String get bloqueosErrorNoBloquearse => 'You can\'t block yourself.';
 }

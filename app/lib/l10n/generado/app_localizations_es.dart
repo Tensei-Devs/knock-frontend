@@ -1360,4 +1360,165 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cuentaEliminacionSalir => 'Salir';
+
+  @override
+  String get bloqueosMotivoAcoso => 'Acoso';
+
+  @override
+  String get bloqueosMotivoFraude => 'Fraude';
+
+  @override
+  String get bloqueosMotivoMalServicio => 'Mal servicio';
+
+  @override
+  String get bloqueosMotivoComportamiento => 'Comportamiento inapropiado';
+
+  @override
+  String get bloqueosMotivoPeligro => 'Peligro';
+
+  @override
+  String get bloqueosMotivoOtro => 'Otra cosa';
+
+  @override
+  String get bloqueosTitulo => 'Reportar un problema';
+
+  @override
+  String get bloqueosCargando => 'Cargando…';
+
+  @override
+  String get bloqueosNoDisponible =>
+      'No es posible reportar desde esta visita.';
+
+  @override
+  String get bloqueosReintentar => 'Reintentar';
+
+  @override
+  String get bloqueosAviso911 => 'Si estás en peligro, llama al 911.';
+
+  @override
+  String get bloqueosRecibido => 'Recibimos tu reporte';
+
+  @override
+  String get bloqueosVolver => 'Volver';
+
+  @override
+  String get bloqueosQuePaso => '¿Qué pasó?';
+
+  @override
+  String get bloqueosDescripcion =>
+      'Cuéntanos qué pasó (de 8 a 500 caracteres)';
+
+  @override
+  String get bloqueosEnviando => 'Enviando…';
+
+  @override
+  String get bloqueosEnviar => 'Enviar reporte';
+
+  @override
+  String get bloqueosFalta => 'Elige qué pasó y escribe al menos 8 caracteres';
+
+  @override
+  String get bloqueosMios => 'Mis reportes';
+
+  @override
+  String get bloqueosCargandoLista => 'Cargando tus reportes…';
+
+  @override
+  String get bloqueosErrorLista => 'No pudimos cargar tus reportes.';
+
+  @override
+  String get bloqueosVacio => 'No has hecho reportes.';
+
+  @override
+  String get bloqueosVerMas => 'Ver más';
+
+  @override
+  String get bloqueosApelacionEnviada => 'Enviamos tu apelación';
+
+  @override
+  String get bloqueosEstadoAbierto => 'En revisión';
+
+  @override
+  String get bloqueosEstadoDecidido => 'Decidido';
+
+  @override
+  String get bloqueosEstadoEnApelacion => 'En apelación';
+
+  @override
+  String get bloqueosEstadoOtro => 'Estado no disponible';
+
+  @override
+  String get bloqueosApelar => 'Apelar la decisión';
+
+  @override
+  String get bloqueosApelacionTexto =>
+      'Explica por qué apelas (de 8 a 500 caracteres)';
+
+  @override
+  String get bloqueosEnviarApelacion => 'Enviar apelación';
+
+  @override
+  String get bloqueosErrorYaBloqueado => 'Ya habías bloqueado a esta persona.';
+
+  @override
+  String get bloqueosErrorApelacion => 'Este reporte ya no se puede apelar.';
+
+  @override
+  String get bloqueosPantallaBloquear => 'Bloquear a una persona';
+
+  @override
+  String get bloqueosPersonasTitulo => 'Personas bloqueadas';
+
+  @override
+  String get bloqueosPersonasCargando => 'Cargando a quién bloqueaste…';
+
+  @override
+  String get bloqueosPersonasError => 'No pudimos cargar tus bloqueos.';
+
+  @override
+  String get bloqueosPersonasVacio => 'No has bloqueado a nadie.';
+
+  @override
+  String get bloqueosBloqueadaEl => 'Bloqueada el';
+
+  @override
+  String get bloqueosDesbloquear => 'Desbloquear';
+
+  @override
+  String get bloqueosDesbloqueando => 'Desbloqueando…';
+
+  @override
+  String get bloqueosDesbloqueada => 'Desbloqueaste a esta persona.';
+
+  @override
+  String get bloqueosBloquear => 'Bloquear a esta persona';
+
+  @override
+  String get bloqueosBloqueando => 'Bloqueando…';
+
+  @override
+  String get bloqueosBloqueada => 'Bloqueaste a esta persona.';
+
+  @override
+  String get bloqueosBloquearAviso =>
+      'Ya no podrá escribirte ni verte en las búsquedas.';
+
+  @override
+  String get bloqueosConfirmarBloqueoTitulo => '¿Bloquear a esta persona?';
+
+  @override
+  String get bloqueosConfirmarBloqueo => 'Sí, bloquear';
+
+  @override
+  String get bloqueosDeshacer => 'Deshacer';
+
+  @override
+  String get bloqueosNoEncontrada => 'Esa persona ya no está disponible.';
+
+  @override
+  String get bloqueosErrorYaNoBloqueada =>
+      'Esa persona ya no estaba bloqueada.';
+
+  @override
+  String get bloqueosErrorNoBloquearse => 'No puedes bloquearte a ti mismo.';
 }

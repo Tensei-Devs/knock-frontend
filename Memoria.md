@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 033: reportes conectados al backend 043 (KNOCK-266)
+- **Decisión:** `features/reportes/` tiene los repositorios de reportes y bloqueos. Con una visita real, «Reportar un problema» envía el reporte; «Centro de ayuda» muestra «Mis reportes» con apelación.
+- **Motivos:** ni la spec ni el contrato listan los valores; se tomaron de `ReportRules.Reasons` del backend. Falta que el equipo los confirme.
+- **Pendiente:** bloquear y desbloquear no tienen pantalla (el chat no está conectado) y no se envían fotos. Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
 - **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
 - **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.

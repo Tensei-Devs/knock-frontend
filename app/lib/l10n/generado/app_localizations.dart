@@ -2383,6 +2383,318 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Salir'**
   String get cuentaEliminacionSalir;
+
+  /// No description provided for @bloqueosMotivoAcoso.
+  ///
+  /// In es, this message translates to:
+  /// **'Acoso'**
+  String get bloqueosMotivoAcoso;
+
+  /// No description provided for @bloqueosMotivoFraude.
+  ///
+  /// In es, this message translates to:
+  /// **'Fraude'**
+  String get bloqueosMotivoFraude;
+
+  /// No description provided for @bloqueosMotivoMalServicio.
+  ///
+  /// In es, this message translates to:
+  /// **'Mal servicio'**
+  String get bloqueosMotivoMalServicio;
+
+  /// No description provided for @bloqueosMotivoComportamiento.
+  ///
+  /// In es, this message translates to:
+  /// **'Comportamiento inapropiado'**
+  String get bloqueosMotivoComportamiento;
+
+  /// No description provided for @bloqueosMotivoPeligro.
+  ///
+  /// In es, this message translates to:
+  /// **'Peligro'**
+  String get bloqueosMotivoPeligro;
+
+  /// No description provided for @bloqueosMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otra cosa'**
+  String get bloqueosMotivoOtro;
+
+  /// No description provided for @bloqueosTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Reportar un problema'**
+  String get bloqueosTitulo;
+
+  /// No description provided for @bloqueosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get bloqueosCargando;
+
+  /// No description provided for @bloqueosNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'No es posible reportar desde esta visita.'**
+  String get bloqueosNoDisponible;
+
+  /// No description provided for @bloqueosReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get bloqueosReintentar;
+
+  /// No description provided for @bloqueosAviso911.
+  ///
+  /// In es, this message translates to:
+  /// **'Si estás en peligro, llama al 911.'**
+  String get bloqueosAviso911;
+
+  /// No description provided for @bloqueosRecibido.
+  ///
+  /// In es, this message translates to:
+  /// **'Recibimos tu reporte'**
+  String get bloqueosRecibido;
+
+  /// No description provided for @bloqueosVolver.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get bloqueosVolver;
+
+  /// No description provided for @bloqueosQuePaso.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué pasó?'**
+  String get bloqueosQuePaso;
+
+  /// No description provided for @bloqueosDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntanos qué pasó (de 8 a 500 caracteres)'**
+  String get bloqueosDescripcion;
+
+  /// No description provided for @bloqueosEnviando.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get bloqueosEnviando;
+
+  /// No description provided for @bloqueosEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar reporte'**
+  String get bloqueosEnviar;
+
+  /// No description provided for @bloqueosFalta.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige qué pasó y escribe al menos 8 caracteres'**
+  String get bloqueosFalta;
+
+  /// No description provided for @bloqueosMios.
+  ///
+  /// In es, this message translates to:
+  /// **'Mis reportes'**
+  String get bloqueosMios;
+
+  /// No description provided for @bloqueosCargandoLista.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus reportes…'**
+  String get bloqueosCargandoLista;
+
+  /// No description provided for @bloqueosErrorLista.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus reportes.'**
+  String get bloqueosErrorLista;
+
+  /// No description provided for @bloqueosVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No has hecho reportes.'**
+  String get bloqueosVacio;
+
+  /// No description provided for @bloqueosVerMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más'**
+  String get bloqueosVerMas;
+
+  /// No description provided for @bloqueosApelacionEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu apelación'**
+  String get bloqueosApelacionEnviada;
+
+  /// No description provided for @bloqueosEstadoAbierto.
+  ///
+  /// In es, this message translates to:
+  /// **'En revisión'**
+  String get bloqueosEstadoAbierto;
+
+  /// No description provided for @bloqueosEstadoDecidido.
+  ///
+  /// In es, this message translates to:
+  /// **'Decidido'**
+  String get bloqueosEstadoDecidido;
+
+  /// No description provided for @bloqueosEstadoEnApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'En apelación'**
+  String get bloqueosEstadoEnApelacion;
+
+  /// No description provided for @bloqueosEstadoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Estado no disponible'**
+  String get bloqueosEstadoOtro;
+
+  /// No description provided for @bloqueosApelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Apelar la decisión'**
+  String get bloqueosApelar;
+
+  /// No description provided for @bloqueosApelacionTexto.
+  ///
+  /// In es, this message translates to:
+  /// **'Explica por qué apelas (de 8 a 500 caracteres)'**
+  String get bloqueosApelacionTexto;
+
+  /// No description provided for @bloqueosEnviarApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar apelación'**
+  String get bloqueosEnviarApelacion;
+
+  /// No description provided for @bloqueosErrorYaBloqueado.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya habías bloqueado a esta persona.'**
+  String get bloqueosErrorYaBloqueado;
+
+  /// No description provided for @bloqueosErrorApelacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Este reporte ya no se puede apelar.'**
+  String get bloqueosErrorApelacion;
+
+  /// No description provided for @bloqueosPantallaBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear a una persona'**
+  String get bloqueosPantallaBloquear;
+
+  /// No description provided for @bloqueosPersonasTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Personas bloqueadas'**
+  String get bloqueosPersonasTitulo;
+
+  /// No description provided for @bloqueosPersonasCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando a quién bloqueaste…'**
+  String get bloqueosPersonasCargando;
+
+  /// No description provided for @bloqueosPersonasError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tus bloqueos.'**
+  String get bloqueosPersonasError;
+
+  /// No description provided for @bloqueosPersonasVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No has bloqueado a nadie.'**
+  String get bloqueosPersonasVacio;
+
+  /// No description provided for @bloqueosBloqueadaEl.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueada el'**
+  String get bloqueosBloqueadaEl;
+
+  /// No description provided for @bloqueosDesbloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquear'**
+  String get bloqueosDesbloquear;
+
+  /// No description provided for @bloqueosDesbloqueando.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloqueando…'**
+  String get bloqueosDesbloqueando;
+
+  /// No description provided for @bloqueosDesbloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloqueaste a esta persona.'**
+  String get bloqueosDesbloqueada;
+
+  /// No description provided for @bloqueosBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear a esta persona'**
+  String get bloqueosBloquear;
+
+  /// No description provided for @bloqueosBloqueando.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueando…'**
+  String get bloqueosBloqueando;
+
+  /// No description provided for @bloqueosBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloqueaste a esta persona.'**
+  String get bloqueosBloqueada;
+
+  /// No description provided for @bloqueosBloquearAviso.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no podrá escribirte ni verte en las búsquedas.'**
+  String get bloqueosBloquearAviso;
+
+  /// No description provided for @bloqueosConfirmarBloqueoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Bloquear a esta persona?'**
+  String get bloqueosConfirmarBloqueoTitulo;
+
+  /// No description provided for @bloqueosConfirmarBloqueo.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, bloquear'**
+  String get bloqueosConfirmarBloqueo;
+
+  /// No description provided for @bloqueosDeshacer.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshacer'**
+  String get bloqueosDeshacer;
+
+  /// No description provided for @bloqueosNoEncontrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa persona ya no está disponible.'**
+  String get bloqueosNoEncontrada;
+
+  /// No description provided for @bloqueosErrorYaNoBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa persona ya no estaba bloqueada.'**
+  String get bloqueosErrorYaNoBloqueada;
+
+  /// No description provided for @bloqueosErrorNoBloquearse.
+  ///
+  /// In es, this message translates to:
+  /// **'No puedes bloquearte a ti mismo.'**
+  String get bloqueosErrorNoBloquearse;
 }
 
 class _AppLocalizationsDelegate
