@@ -34,7 +34,8 @@ bool usaApiReal(Ref ref) {
 
 /// Transporte del cliente generado (spec 002): caché con ETag (R-06) sobre
 /// sesión con token y renovación (R-02), sobre [transporteHttpProvider].
-/// `colonias/en-punto` no se guarda en la caché (lleva coordenadas exactas).
+/// `colonias/en-punto` (coordenadas exactas) y `busqueda` (texto escrito,
+/// spec 021 R-05) no se guardan en la caché.
 final transporteApiProvider = Provider<http.Client>((ref) {
   final sesion = ref.read(sesionProvider.notifier);
   return ClienteConCache(
@@ -46,7 +47,9 @@ final transporteApiProvider = Provider<http.Client>((ref) {
       cerrar: sesion.cerrar,
     ),
     ref.watch(cacheRespuestasProvider),
-    sinCache: (url) => url.path.endsWith('/colonias/en-punto'),
+    sinCache: (url) =>
+        url.path.endsWith('/colonias/en-punto') ||
+        url.path.endsWith('/busqueda'),
   );
 });
 
