@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
 import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
+import 'package:app/features/maqueta/agenda_real.dart';
 import 'package:app/features/maqueta/campo_buscar.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/estado.dart';
@@ -61,6 +64,7 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
 
   List<MarcadorAgenda> _agenda() {
     if (!_work) return const [];
+    if (ref.read(solicitudesRealesActivasProvider)) return const [];
     final out = <MarcadorAgenda>[];
     for (final v in maq.pv.visits.where((x) => !x.done)) {
       final p = _cpos[v.cid] ?? (580.0, 700.0);
@@ -552,7 +556,9 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                                     ],
                                   ),
                                   if (esTecnico && _work)
-                                    AgendaEnMapaBloque(selV: _selV),
+                                    ref.watch(solicitudesRealesActivasProvider)
+                                        ? const AgendaReal()
+                                        : AgendaEnMapaBloque(selV: _selV),
                                   InkWell(
                                     borderRadius: BorderRadius.circular(14),
                                     onTap: () => context.go('/explorar'),

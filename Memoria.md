@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Agenda real en Inicio (KNOCK-118, spec 040)
+- **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
+- **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
+- **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.

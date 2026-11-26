@@ -1595,6 +1595,15 @@
   "@opinionesTitulo": {
     "description": "Opiniones (spec 041)."
   },
+  "agendaCargando": "Cargando tu agenda…",
+  "agendaError": "No pudimos cargar tu agenda.",
+  "agendaVacia": "No tienes visitas próximas.",
+  "agendaSinMapa": "La ubicación de las visitas no está disponible en el mapa.",
+  "agendaVerMas": "Ver más visitas",
+  "agendaEstado": "{estado, select, confirmada{Confirmada} en_curso{En curso} terminada{Terminada} cancelada{Cancelada} other{Estado no disponible}}",
+  "@agendaEstado": {"placeholders": {"estado": {"type": "String"}}},
+  "agendaModalidad": "{modalidad, select, domicilio{A domicilio} taller{En taller} other{Modalidad no disponible}}",
+  "@agendaModalidad": {"placeholders": {"modalidad": {"type": "String"}}},
   "opinionesCargando": "Cargando las opiniones…",
   "@opinionesCargando": {
     "description": "Opiniones (spec 041)."

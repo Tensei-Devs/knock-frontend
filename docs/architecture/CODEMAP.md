@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-26T21:29:24Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-26T22:01:08Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -21,9 +21,9 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 155 |
+| `l10n` | - | 3 | 4 | 159 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 48 | 265 | 511 |
+| `maqueta` | - | 49 | 266 | 512 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -41,7 +41,7 @@
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
-| `visita` | -, data, domain, presentation | 7 | 11 | 8 |
+| `visita` | -, data, domain, presentation | 10 | 16 | 14 |
 | `widgets` | core | 4 | 5 | 5 |
 
 ## Tipos con el mismo nombre en varios lugares
@@ -472,7 +472,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:3815, `isSupported()`:3820, `shouldReload()`:3824, `lookupAppLocalizations()`:3827
+  - `of()`:70, `load()`:3857, `isSupported()`:3862, `shouldReload()`:3866, `lookupAppLocalizations()`:3869
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -488,6 +488,8 @@
 
 **-**
 
+- `app/lib/features/maqueta/agenda_real.dart` — class `AgendaReal`
+  - `build()`:13
 - `app/lib/features/maqueta/ampliar_real.dart` — class `AmpliarSolicitudReal`, enum `_Paso`, class `_AmpliarState`
   - `build()`:50
 - `app/lib/features/maqueta/anim_k.dart` — class `Pulsa`, class `_PulsaState`, class `Aparece`, class `_ApareceState`, class `TransicionKnock`, class `ShimmerK`, class `_ShimmerKState`, class `BoneK`, class `EsqueletoLista`, class `CargaInicial`, class `_CargaInicialState`, class `PulsoInsignia`, class `_PulsoInsigniaState`, class `EsqueletoReputacion`
@@ -531,7 +533,7 @@
 - `app/lib/features/maqueta/horarios_reales.dart` — class `HorariosSegunSesion`, class `HorariosReales`
   - `build()`:21, `build()`:51
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`, class `_PuntoDeAvisos`
-  - `initState()`:158, `dispose()`:191, `build()`:245, `MaqBuilder()`:254, `Scaffold()`:365, `build()`:818
+  - `initState()`:162, `dispose()`:195, `build()`:249, `MaqBuilder()`:258, `Scaffold()`:369, `build()`:824
 - `app/lib/features/maqueta/lista_paginada_real.dart` — class `ListaPaginadaReal`, typedef `TextosDeLista`
   - `build()`:23
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`
@@ -952,16 +954,21 @@
 
 - `app/lib/features/visita/data/acciones_visita_repository_api.dart` — class `AccionesVisitaRepositoryApi`
   - `cancelar()`:33, `reprogramar()`:42, `reportarNoTerminado()`:57
+- `app/lib/features/visita/data/agenda_repository_api.dart` — class `AgendaRepositoryApi`
+  - `listar()`:12
 - `app/lib/features/visita/data/precio_de_visita_repository_api.dart` — class `PrecioDeVisitaRepositoryApi`
   - `cotizacionFinal()`:37, `ajustesPendientes()`:53, `decidirCotizacionFinal()`:69, `decidirAjuste()`:75
 
 **domain**
 
 - `app/lib/features/visita/domain/acciones_visita.dart` — class `VisitaCancelada`, class `PropuestaDeFecha`, class `ReglasDeVisita`, class `AccionesVisitaRepository`
+- `app/lib/features/visita/domain/agenda.dart` — class `VisitaAgenda`, class `PaginaAgenda`, class `AgendaRepository`
 - `app/lib/features/visita/domain/precio_de_visita.dart` — class `CotizacionFinal`, class `AjusteDePrecio`, class `PrecioDeVisita`, class `PrecioDeVisitaRepository`
 
 **presentation**
 
+- `app/lib/features/visita/presentation/agenda_controller.dart` — class `AgendaController`
+  - `build()`:10, `reintentar()`:15, `cursorDe()`:18, `pedirPagina()`:21, `unirPaginas()`:25
 - `app/lib/features/visita/presentation/precio_de_visita_controller.dart` — class `PrecioDeVisitaController`
   - `build()`:14
 
