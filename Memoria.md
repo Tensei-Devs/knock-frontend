@@ -797,3 +797,9 @@
 - **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
 - **Pendiente:** sin probar contra el backend desplegado.
 - **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.
+
+## 2026-11-26 — Evaluación de la parte móvil actualizada (KNOCK-181)
+- **Qué cambió:** `docs/EVALUACION.md` responde la parte móvil y la suite en dispositivo físico en tablas con evidencia y estado, sobre `sprint-05` en `73a0f7a`: 78 operaciones de la API con llamada en el código.
+- **Por qué:** la versión del 17-nov ya no correspondía al código (modo maqueta, endpoints, agentes, skills, CodeQL, eliminar cuenta y cifras de pruebas).
+- **Pendiente:** corrida en teléfono físico y pruebas contra el backend real; `docs/QA_DEVSECOPS.md` no se revisó en este cambio.
+- **A evitar:** contar como consumida una operación sin decir si está tras un interruptor apagado o sin pantalla que la llame.
