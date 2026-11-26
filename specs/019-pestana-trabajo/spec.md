@@ -255,8 +255,16 @@ Se respeta la spec 001: `domain` en Dart puro, `presentation` sin `data/`, un `t
 - **Duda abierta (para backend):** ¿«Terminadas» incluye canceladas? Esta spec asume que no.
 - **Resuelto en la revisión:** el técnico no ve el nombre del cliente; ve su colonia y, en visitas aceptadas, la dirección (backend 022 R-05).
 
+## Nota de enmienda (2026-11-26, enviar la cotización pasa a la spec 046)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** 2026-11-26, después de que `POST /api/v1/solicitudes/{id}/cotizaciones` existe en el backend.
+- `GET /api/v1/tecnicos/me/solicitudes` ya está cubierto por esta spec (§4) y no cambia.
+- La exclusión de §3 y D-02 (el botón de cotizar no se muestra) deja de aplicar **solo** cuando estén firmadas esta enmienda y la spec 046, que define el detalle para el técnico y el envío. El chat sigue fuera.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 (rutas publicadas) — nombre: ______ fecha: ______
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

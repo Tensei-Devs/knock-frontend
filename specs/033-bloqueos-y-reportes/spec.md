@@ -131,7 +131,26 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-26, apelación de una cuenta suspendida)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 060. Es distinta de `POST /api/v1/reportes/{id}/apelacion`, que exige sesión y no cambia.
+- Las dos rutas **no usan la sesión de Knock**: llevan `Authorization: Bearer <idToken de Firebase>` de un inicio de sesión por SMS de hace 10 minutos como máximo. No emiten sesión. Una cuenta suspendida recibe `403 account_suspended` en `POST /api/v1/auth/firebase`.
+
+| Método y ruta | Cuerpo | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/suspension/apelacion` | `{ texto }` (8 a 500 caracteres) | `200` `{ estado, presentadaEn, resueltaEn? }` | `400`, `401`, `404 not_found`, `409 appeal_not_allowed`, `413`, `422` (`errors.texto`), `429 rate_limited` |
+| `GET /api/v1/suspension/apelacion` | — | `200` `{ estado (pendiente, aceptada o rechazada), presentadaEn, resueltaEn? }` | `401`, `404 not_found`, `429` |
+
+- **CA-E01:** Dada una persona suspendida, cuando la app consulta o envía la apelación, entonces usa el `idToken` de Firebase, no el token de Knock, y no guarda el `idToken` ni el texto. · Verificación: prueba unitaria del repositorio.
+- **CA-E02:** Dado un `401`, cuando llega en estas rutas, entonces la app pide verificar el número otra vez por SMS (no hay sesión de Knock que cerrar). · Verificación: prueba de widget.
+- **CA-E03:** Dado un `404 not_found`, cuando llega, entonces la app muestra que no hay una apelación disponible, sin afirmar si la cuenta existe o está suspendida. · Verificación: prueba de widget.
+- **Decisión pendiente:** desde dónde se llega (propuesta: aviso tras el `403 account_suspended` de la entrada), y los textos y estados de la pantalla en español e inglés.
+- **Decisión pendiente:** confirmar en backend qué responde `GET` a una persona suspendida que aún no ha apelado, para saber cuándo mostrar el formulario.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 (rutas publicadas) — nombre: ______ fecha: ______
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

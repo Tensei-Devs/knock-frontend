@@ -284,8 +284,19 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 - **Pendiente de validar:** la forma de la respuesta de `GET /colonias/en-punto` (KNOCK-141) no está en ninguna spec de backend del Sprint 4; se toma la del contrato desplegado al vendorizar.
 - **Duda abierta (para José):** ¿la zona se pide también a los técnicos o solo a los clientes? Esta spec la pide a cualquier cuenta que complete su perfil.
 
+## Nota de enmienda (2026-11-26, consulta de existencia de colonia)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- **Contrato (backend, `docs/endpoints.md`, KNOCK-212):** `GET /api/v1/colonias/existe?nombre=` con sesión; `nombre` de hasta 80 caracteres. Responde `200` `{ existe }`; `401`, `422` (`errors.nombre`), `429`. Sin caché (`Cache-Control: no-store`). No distingue mayúsculas ni acentos.
+- Según `docs/endpoints.md`, la consulta el servicio de Identidad al leer o guardar el perfil, reenviando la sesión; el gateway la publica con las rutas de `colonias`.
+- Esta enmienda **no agrega pantallas ni cambia el flujo**: la app sigue eligiendo la colonia de la lista de `zonas/cp/{cp}` o de `colonias/en-punto`, y la validación la hace el servidor en `PUT /api/v1/me` (`422`).
+- **CA-E01:** Dado el flujo de zona, cuando la persona guarda su colonia, entonces la app no llama a `colonias/existe` y trata el `422` de `PUT /api/v1/me` como colonia no válida. · Verificación: prueba unitaria del repositorio.
+- **Decisión pendiente:** confirmar que la app no debe consumir esta ruta. Si debe, hay que definir en qué pantalla y con qué texto.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-12
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-26 (rutas publicadas) — nombre: ______ fecha: ______
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)
