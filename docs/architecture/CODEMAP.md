@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T12:04:15Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -44,7 +44,7 @@
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
-| `visita` | -, data, domain, presentation | 10 | 16 | 16 |
+| `visita` | -, data, domain, presentation | 11 | 17 | 18 |
 | `widgets` | core | 5 | 6 | 6 |
 
 ## Tipos con el mismo nombre en varios lugares
@@ -1062,6 +1062,8 @@
   - `listar()`:12
 - `app/lib/features/visita/data/precio_de_visita_repository_api.dart` — class `PrecioDeVisitaRepositoryApi`
   - `cotizacionFinal()`:37, `ajustesPendientes()`:53, `decidirCotizacionFinal()`:69, `decidirAjuste()`:75
+- `app/lib/features/visita/data/precio_tecnico_repository_api.dart` — class `PrecioTecnicoRepositoryApi`
+  - `enviarFinal()`:14, `proponerAjuste()`:35
 
 **domain**
 
