@@ -76,7 +76,9 @@ void main() {
   test('CA_016_13 un 422 de formato no es un intento fallido', () async {
     final api = ApiFalsa(
       (_) => problemaJson(422, 'validation_error', {
-        'errors': {'codigo': ['4 dígitos']},
+        'errors': {
+          'codigo': ['4 dígitos'],
+        },
       }),
     );
     final r = await _confirmar(api) as LlegadaRechazada;
