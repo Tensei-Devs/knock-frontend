@@ -1374,6 +1374,20 @@ class AppLocalizationsEs extends AppLocalizations {
       'Ahora no se puede registrar: solo dentro de la ventana de la cita.';
 
   @override
+  String get visitaTecnicoAusenteBoton => 'El técnico no se presentó';
+
+  @override
+  String get visitaTecnicoAusenteExplicacion =>
+      'Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita.';
+
+  @override
+  String get visitaTecnicoAusenteConfirmar => 'Registrar que no llegó';
+
+  @override
+  String get visitaTecnicoAusenteRegistrada =>
+      'Registraste que el técnico no se presentó.';
+
+  @override
   String get visitaTerminarBoton => 'Terminar servicio';
 
   @override

@@ -85,6 +85,12 @@ class _AccionesFalsas implements AccionesVisitaRepository {
   Future<String> clienteAusente(String visitaId) => throw UnimplementedError();
 
   @override
+  Future<String> tecnicoAusente(String visitaId) async {
+    _anotar('tecnico-ausente');
+    return 'no_presentado';
+  }
+
+  @override
   Future<String> terminar(
     String visitaId, {
     required String descripcion,
@@ -227,6 +233,43 @@ void main() {
   prepararPruebasDeMaqueta(
     alTerminar: () => provs.removeWhere((k, _) => k.startsWith('api:')),
   );
+
+  testWidgets('CA_040_E01 el cliente registra que el técnico no llegó', (
+    tester,
+  ) async {
+    final acciones = _AccionesFalsas();
+    await _abrir(tester, _VisitasFalsas([_visita()]), acciones: acciones);
+    await _tocar(tester, 'El técnico no se presentó');
+    await _tocar(tester, 'Registrar que no llegó');
+    await tester.pump(const Duration(seconds: 4));
+    expect(acciones.llamadas, ['tecnico-ausente']);
+    expect(
+      find.text('Registraste que el técnico no se presentó.'),
+      findsWidgets,
+    );
+    expect(find.text('Registrar que no llegó'), findsNothing);
+  });
+
+  for (final (falla, texto) in <(Failure, String)>[
+    (
+      const ConflictoFailure(),
+      'Ahora no se puede registrar: solo dentro de la ventana de la cita.',
+    ),
+    (const NoEncontradoFailure(), 'Esta visita ya no está disponible.'),
+  ]) {
+    testWidgets('CA_040_E02 $falla lo explica y vuelve a leer la visita', (
+      tester,
+    ) async {
+      final visitas = _VisitasFalsas([_visita()]);
+      final acciones = _AccionesFalsas()..falla = falla;
+      await _abrir(tester, visitas, acciones: acciones);
+      await _tocar(tester, 'El técnico no se presentó');
+      final antes = visitas.visitasPedidas;
+      await _tocar(tester, 'Registrar que no llegó');
+      expect(find.text(texto), findsOneWidget);
+      expect(visitas.visitasPedidas, greaterThan(antes));
+    });
+  }
 
   group('visita a domicilio', () {
     testWidgets(

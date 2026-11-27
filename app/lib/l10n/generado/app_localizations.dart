@@ -2402,6 +2402,30 @@ abstract class AppLocalizations {
   /// **'Ahora no se puede registrar: solo dentro de la ventana de la cita.'**
   String get visitaAusenteFueraDeVentana;
 
+  /// No description provided for @visitaTecnicoAusenteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'El técnico no se presentó'**
+  String get visitaTecnicoAusenteBoton;
+
+  /// No description provided for @visitaTecnicoAusenteExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita.'**
+  String get visitaTecnicoAusenteExplicacion;
+
+  /// No description provided for @visitaTecnicoAusenteConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Registrar que no llegó'**
+  String get visitaTecnicoAusenteConfirmar;
+
+  /// No description provided for @visitaTecnicoAusenteRegistrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Registraste que el técnico no se presentó.'**
+  String get visitaTecnicoAusenteRegistrada;
+
   /// No description provided for @visitaTerminarBoton.
   ///
   /// In es, this message translates to:

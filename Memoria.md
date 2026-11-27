@@ -869,3 +869,7 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — «El técnico no se presentó» (KNOCK-266, spec 040)
+- **Qué cambió:** el cliente puede registrarlo en una visita confirmada (`POST /visitas/{id}/tecnico-ausente`); la ventana la decide el servidor y un 409 o 404 vuelve a leer la visita.
+- **Pendiente:** teléfono y backend desplegado.
