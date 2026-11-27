@@ -298,5 +298,5 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-12
 - [x] Sin conflicto con la constitución
-- [ ] Enmienda 2026-11-26 (rutas publicadas) — nombre: ______ fecha: ______
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

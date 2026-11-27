@@ -1,6 +1,6 @@
 # Spec 046 — El técnico ve una solicitud y envía su cotización (pantallas)
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Redacción:** 2026-11-26, **después** de que las rutas existen en el backend (contrato `docs/openapi.publico.v1.json` de `origin/develop` de knock-backend). En `sprint-05` la app no llama a `POST /api/v1/solicitudes/{id}/cotizaciones`; solo existe la pantalla simulada `CotizarScreen` de la maqueta (`features/maqueta/`, spec 045), que es anterior a este documento y no es implementación de esta spec.
 > **Claves de trabajo:** KNOCK-266 (tarea paraguas) · **Sprint:** por definir · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (specs 020 y 028). **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -78,13 +78,13 @@ CA-01 a CA-10 con pruebas en verde, CI en verde, revisión de una persona y `Mem
 - El lugar del código es `features/trabajo/`.
 
 ## 13. Riesgos y dudas abiertas
-Decisiones pendientes antes de firmar:
-1. **Nota:** `docs/endpoints.md` del backend dice que la nota necesita moderación «actualmente no disponible». Confirmar si hoy funciona en el entorno desplegado y, si no, si el campo `nota` se oculta.
-2. **Entrada y ruta:** desde la tarjeta de «Solicitudes nuevas» (spec 019) y qué ruta de go_router usa.
-3. **Claves:** si basta KNOCK-266 o se enlaza la historia de enviar cotización (019 cita HU-029 y HU-031) y quién responde.
-4. **Ya cotizada** (`yaCotizo`): si el detalle muestra la cotización propia; el detalle no la devuelve y habría que tomarla de la spec 038.
+Decisiones tomadas al firmar:
+1. **Nota:** el campo `nota` se oculta mientras la moderación no esté disponible.
+2. **Entrada y ruta:** desde la tarjeta de «Solicitudes nuevas» (spec 019).
+3. **Claves:** KNOCK-74.
+4. **Ya cotizada:** se muestra la cotización propia tomada de la spec 038.
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ______ fecha: ______
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: Julián Hernández fecha: 2026-11-26
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
