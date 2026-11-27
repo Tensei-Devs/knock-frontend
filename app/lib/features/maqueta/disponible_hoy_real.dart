@@ -40,6 +40,13 @@ class _DisponibleHoyState extends ConsumerState<DisponibleHoyReal>
   @override
   Widget build(BuildContext context) {
     final textos = AppLocalizations.of(context);
+    // Un dato recién leído manda sobre lo confirmado antes en esta pantalla.
+    ref.listen(disponibleHoyProvider, (_, ahora) {
+      if (ahora is AsyncData<bool> && !ahora.isLoading) {
+        _confirmado = null;
+        errorDeEnvio = null;
+      }
+    });
     return ref
         .watch(disponibleHoyProvider)
         .when(

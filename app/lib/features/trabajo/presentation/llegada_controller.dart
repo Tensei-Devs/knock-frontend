@@ -48,17 +48,21 @@ class LlegadaController extends Notifier<EstadoLlegada> {
     return const EstadoLlegada();
   }
 
-  Future<void> confirmar(String codigo) async {
+  /// [alConfirmar] se llama aunque la persona ya haya salido de la pantalla.
+  Future<void> confirmar(String codigo, {void Function()? alConfirmar}) async {
     if (state.enviando || state.cerrada || state.confirmada != null) return;
     if (!ReglasDeLlegada.codigoValido(codigo)) {
       state = const EstadoLlegada(motivo: MotivoLlegada.formato);
       return;
     }
     state = const EstadoLlegada(enviando: true);
+    // Sin cierre automático mientras la respuesta está en camino.
+    final viva = ref.keepAlive();
     try {
       final resultado = await ref
           .read(llegadaRepositoryProvider)
           .confirmar(visitaId, codigo);
+      if (resultado is LlegadaConfirmada) alConfirmar?.call();
       if (!ref.mounted) return;
       state = switch (resultado) {
         LlegadaConfirmada(:final visita) => EstadoLlegada(confirmada: visita),
@@ -68,6 +72,8 @@ class LlegadaController extends Notifier<EstadoLlegada> {
     } on Failure catch (falla) {
       if (!ref.mounted) return;
       state = EstadoLlegada(falla: falla);
+    } finally {
+      viva.close();
     }
   }
 }

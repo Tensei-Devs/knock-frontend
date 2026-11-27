@@ -46,11 +46,6 @@ class _LlegadaRealState extends ConsumerState<LlegadaReal> {
   Widget build(BuildContext context) {
     final textos = AppLocalizations.of(context);
     final envio = ref.watch(llegadaControllerProvider(widget.visitaId));
-    ref.listen(llegadaControllerProvider(widget.visitaId), (antes, ahora) {
-      if (ahora.confirmada != null && antes?.confirmada == null) {
-        ref.invalidate(agendaControllerProvider);
-      }
-    });
     final confirmada = envio.confirmada;
     if (confirmada != null) return _enCurso(textos, confirmada);
     final proveedor = visitaDelTecnicoProvider(widget.visitaId);
@@ -142,7 +137,14 @@ class _LlegadaRealState extends ConsumerState<LlegadaReal> {
     final controlador = ref.read(
       llegadaControllerProvider(widget.visitaId).notifier,
     );
-    unawaited(controlador.confirmar(_codigo.text.trim()));
+    // El contenedor sigue vivo aunque la persona salga antes de la respuesta.
+    final contenedor = ProviderScope.containerOf(context, listen: false);
+    unawaited(
+      controlador.confirmar(
+        _codigo.text.trim(),
+        alConfirmar: () => contenedor.invalidate(agendaControllerProvider),
+      ),
+    );
   }
 
   void _actualizar() {

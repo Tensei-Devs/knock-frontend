@@ -117,8 +117,12 @@ class PgTab extends StatelessWidget {
     this.right,
     this.scroll = true,
     this.flush = false,
+    this.onRefresh,
   });
   final bool flush;
+
+  /// Con valor, deslizar hacia abajo actualiza la pestaña.
+  final Future<void> Function()? onRefresh;
   final String title;
   final Widget body;
   final Widget? fab, top, right;
@@ -135,16 +139,7 @@ class PgTab extends StatelessWidget {
               children: [
                 BarraMarcaK(title: title, right: right),
                 ?top,
-                Expanded(
-                  child: scroll
-                      ? SingleChildScrollView(
-                          padding: flush
-                              ? const EdgeInsets.only(bottom: 90)
-                              : const EdgeInsets.fromLTRB(20, 20, 20, 90),
-                          child: body,
-                        )
-                      : body,
-                ),
+                Expanded(child: scroll ? _conDesplazamiento() : body),
               ],
             ),
             ?fab,
@@ -152,6 +147,22 @@ class PgTab extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _conDesplazamiento() {
+    final actualizar = onRefresh;
+    final vista = SingleChildScrollView(
+      physics: actualizar == null
+          ? null
+          : const AlwaysScrollableScrollPhysics(),
+      padding: flush
+          ? const EdgeInsets.only(bottom: 90)
+          : const EdgeInsets.fromLTRB(20, 20, 20, 90),
+      child: body,
+    );
+    return actualizar == null
+        ? vista
+        : RefreshIndicator(onRefresh: actualizar, child: vista);
   }
 }
 
