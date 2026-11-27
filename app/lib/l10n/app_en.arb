@@ -937,6 +937,32 @@
   "visitaTerminarSinSubida": "Photo upload is not available yet, so you cannot finish the job from the app.",
   "visitaTerminarNoEnCurso": "This visit is not in progress: it cannot be finished.",
   "visitaTerminarHecho": "Job finished.",
+  "precioFinalBoton": "Send final quote",
+  "precioAjusteBoton": "Propose another price",
+  "precioFinalExplicacion": "Only for diagnostic visits. The client approves or rejects it.",
+  "precioFinalMonto": "Final price in pesos",
+  "precioFinalDescripcion": "What does it include?",
+  "precioDescripcionAyuda": "8 to 500 characters.",
+  "precioMontoAyuda": "Whole pesos, greater than zero.",
+  "precioFinalEnviar": "Send to the client",
+  "precioFinalEnviada": "We sent your final quote. The client still has to approve it.",
+  "precioFinalNoPermitida": "It cannot be sent now: only once, while the diagnostic visit is in progress.",
+  "precioAjusteCargando": "Looking for your accepted quote…",
+  "precioAjusteSinCotizacion": "We could not find the accepted quote for this visit.",
+  "precioAjusteMonto": "New total price in pesos",
+  "precioAjusteMinimo": "At least {monto} pesos.",
+  "@precioAjusteMinimo": {
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "precioAjusteMotivo": "Why is the price changing?",
+  "precioAjusteMotivoAyuda": "10 to 300 characters.",
+  "precioAjusteEnviar": "Propose to the client",
+  "precioAjusteEnviado": "We sent your proposal. The client still has to approve it.",
+  "precioAjusteNoPermitido": "It cannot be proposed now: the visit must be in progress with no pending change.",
   "agendaCargando": "Loading your schedule…",
   "agendaError": "We could not load your schedule.",
   "agendaVacia": "You have no upcoming visits.",

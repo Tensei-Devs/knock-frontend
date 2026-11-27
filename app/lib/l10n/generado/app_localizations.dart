@@ -2492,6 +2492,120 @@ abstract class AppLocalizations {
   /// **'Servicio terminado.'**
   String get visitaTerminarHecho;
 
+  /// No description provided for @precioFinalBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cotización final'**
+  String get precioFinalBoton;
+
+  /// No description provided for @precioAjusteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer otro precio'**
+  String get precioAjusteBoton;
+
+  /// No description provided for @precioFinalExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.'**
+  String get precioFinalExplicacion;
+
+  /// No description provided for @precioFinalMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio final en pesos'**
+  String get precioFinalMonto;
+
+  /// No description provided for @precioFinalDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué incluye?'**
+  String get precioFinalDescripcion;
+
+  /// No description provided for @precioDescripcionAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 8 a 500 caracteres.'**
+  String get precioDescripcionAyuda;
+
+  /// No description provided for @precioMontoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'Pesos sin centavos, mayor que cero.'**
+  String get precioMontoAyuda;
+
+  /// No description provided for @precioFinalEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar al cliente'**
+  String get precioFinalEnviar;
+
+  /// No description provided for @precioFinalEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu cotización final. Falta que el cliente la apruebe.'**
+  String get precioFinalEnviada;
+
+  /// No description provided for @precioFinalNoPermitida.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.'**
+  String get precioFinalNoPermitida;
+
+  /// No description provided for @precioAjusteCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando tu cotización aceptada…'**
+  String get precioAjusteCargando;
+
+  /// No description provided for @precioAjusteSinCotizacion.
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos la cotización aceptada de esta visita.'**
+  String get precioAjusteSinCotizacion;
+
+  /// No description provided for @precioAjusteMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo precio total en pesos'**
+  String get precioAjusteMonto;
+
+  /// No description provided for @precioAjusteMinimo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo {monto} pesos.'**
+  String precioAjusteMinimo(int monto);
+
+  /// No description provided for @precioAjusteMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cambia el precio?'**
+  String get precioAjusteMotivo;
+
+  /// No description provided for @precioAjusteMotivoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 10 a 300 caracteres.'**
+  String get precioAjusteMotivoAyuda;
+
+  /// No description provided for @precioAjusteEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer al cliente'**
+  String get precioAjusteEnviar;
+
+  /// No description provided for @precioAjusteEnviado.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu propuesta. Falta que el cliente la apruebe.'**
+  String get precioAjusteEnviado;
+
+  /// No description provided for @precioAjusteNoPermitido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.'**
+  String get precioAjusteNoPermitido;
+
   /// No description provided for @agendaCargando.
   ///
   /// In es, this message translates to:

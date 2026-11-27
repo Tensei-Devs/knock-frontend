@@ -4,6 +4,7 @@ import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/envio_de_visita.dart';
 import 'package:app/features/maqueta/estado.dart' show maq;
 import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/precio_tecnico_real.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/visita/visita.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -83,6 +84,7 @@ class _TerminarState extends ConsumerState<TerminarServicioReal>
     final listo =
         subida && _fotos.isNotEmpty && _descripcion.text.trim().length >= 8;
     return stack([
+      PrecioTecnicoReal(visitaId: widget.visitaId),
       if (!subida) NoteK('amber', 'clock', textos.visitaTerminarSinSubida),
       labT(textos.visitaTerminarFotos),
       Wrap(

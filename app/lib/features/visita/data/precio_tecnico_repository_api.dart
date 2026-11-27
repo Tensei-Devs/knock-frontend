@@ -1,9 +1,10 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/contrato_json.dart';
+import 'package:app/features/visita/domain/precio_tecnico.dart';
 import 'package:http/http.dart' as http;
 
 /// Escrituras del técnico; no se reintentan automáticamente.
-class PrecioTecnicoRepositoryApi {
+class PrecioTecnicoRepositoryApi implements PrecioTecnicoRepository {
   const PrecioTecnicoRepositoryApi({
     required this.transporte,
     required this.url,
@@ -11,6 +12,34 @@ class PrecioTecnicoRepositoryApi {
   final http.Client transporte;
   final String url;
 
+  @override
+  Future<CotizacionAceptada?> cotizacionAceptada(String visitaId) async {
+    final r = await enviarJsonONoEncontrado(
+      transporte,
+      url,
+      'GET',
+      'tecnicos/me/trabajo',
+    );
+    final m = objetoDelContrato(r.json);
+    Object? solicitud;
+    for (final item in listaDelContrato(m['proximasVisitas'])) {
+      final visita = objetoDelContrato(item);
+      if (visita['visitaId'] == visitaId) solicitud = visita['solicitudId'];
+    }
+    if (solicitud == null) return null;
+    for (final item in listaDelContrato(m['cotizacionesEnviadas'])) {
+      final c = objetoDelContrato(item);
+      if (c['solicitudId'] == solicitud && c['estado'] == 'aceptada') {
+        return CotizacionAceptada(
+          id: textoObligatorio(c['cotizacionId']),
+          tope: _entero(c['tope']),
+        );
+      }
+    }
+    return null;
+  }
+
+  @override
   Future<void> enviarFinal(
     String visitaId, {
     required int precio,
@@ -32,6 +61,7 @@ class PrecioTecnicoRepositoryApi {
     fechaHoraObligatoria(m['venceEn']);
   }
 
+  @override
   Future<void> proponerAjuste(
     String cotizacionId, {
     required int montoNuevo,

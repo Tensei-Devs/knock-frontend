@@ -901,3 +901,8 @@
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Cotización final y ajuste de precio del técnico (KNOCK-266, spec 039)
+- **Qué cambió:** en «Terminar servicio» de una visita en curso, el técnico envía la cotización final y propone otro precio (`POST /visitas/{id}/cotizacion-final` y `POST /cotizaciones/{id}/ajuste-precio`). La cotización aceptada y su tope salen de `GET /tecnicos/me/trabajo`. Parte del repositorio de Alexis. HTTP a mano por ADR-007.
+- **Pendiente:** cuenta regresiva de la vigencia (D-03), error 422 por campo (hoy hay límites en el teléfono y un mensaje general), referencia de mercado (spec 038, espera la pantalla de cotizar). Sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** ofrecer la cotización final como si aplicara a toda visita: el backend solo la acepta en visitas de diagnóstico en curso.

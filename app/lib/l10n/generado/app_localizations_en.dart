@@ -1426,6 +1426,71 @@ class AppLocalizationsEn extends AppLocalizations {
   String get visitaTerminarHecho => 'Job finished.';
 
   @override
+  String get precioFinalBoton => 'Send final quote';
+
+  @override
+  String get precioAjusteBoton => 'Propose another price';
+
+  @override
+  String get precioFinalExplicacion =>
+      'Only for diagnostic visits. The client approves or rejects it.';
+
+  @override
+  String get precioFinalMonto => 'Final price in pesos';
+
+  @override
+  String get precioFinalDescripcion => 'What does it include?';
+
+  @override
+  String get precioDescripcionAyuda => '8 to 500 characters.';
+
+  @override
+  String get precioMontoAyuda => 'Whole pesos, greater than zero.';
+
+  @override
+  String get precioFinalEnviar => 'Send to the client';
+
+  @override
+  String get precioFinalEnviada =>
+      'We sent your final quote. The client still has to approve it.';
+
+  @override
+  String get precioFinalNoPermitida =>
+      'It cannot be sent now: only once, while the diagnostic visit is in progress.';
+
+  @override
+  String get precioAjusteCargando => 'Looking for your accepted quote…';
+
+  @override
+  String get precioAjusteSinCotizacion =>
+      'We could not find the accepted quote for this visit.';
+
+  @override
+  String get precioAjusteMonto => 'New total price in pesos';
+
+  @override
+  String precioAjusteMinimo(int monto) {
+    return 'At least $monto pesos.';
+  }
+
+  @override
+  String get precioAjusteMotivo => 'Why is the price changing?';
+
+  @override
+  String get precioAjusteMotivoAyuda => '10 to 300 characters.';
+
+  @override
+  String get precioAjusteEnviar => 'Propose to the client';
+
+  @override
+  String get precioAjusteEnviado =>
+      'We sent your proposal. The client still has to approve it.';
+
+  @override
+  String get precioAjusteNoPermitido =>
+      'It cannot be proposed now: the visit must be in progress with no pending change.';
+
+  @override
   String get agendaCargando => 'Loading your schedule…';
 
   @override
