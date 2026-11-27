@@ -13,3 +13,4 @@ export 'package:app/features/entrada/domain/validacion_entrada.dart'
 // mensajes de la entrada.
 export 'package:app/features/entrada/presentation/mensaje_de_error.dart';
 export 'package:app/features/entrada/presentation/widgets/marco_de_entrada.dart';
+export 'package:app/features/entrada/presentation/widgets/pie_de_codigo.dart';

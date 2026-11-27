@@ -55,6 +55,13 @@ Future<void> _tocar(WidgetTester tester, String texto) async {
 }
 
 Future<_Verificador> _hastaVerificar(WidgetTester tester, ApiFalsa api) async {
+  final verificador = await _hastaElCodigo(tester, api);
+  await tester.enterText(find.byType(TextField), '123456');
+  await _tocar(tester, 'Verificar');
+  return verificador;
+}
+
+Future<_Verificador> _hastaElCodigo(WidgetTester tester, ApiFalsa api) async {
   final verificador = _Verificador();
   tester.view.physicalSize = const Size(800, 2000);
   tester.view.devicePixelRatio = 1;
@@ -77,8 +84,6 @@ Future<_Verificador> _hastaVerificar(WidgetTester tester, ApiFalsa api) async {
   await asentarMaqueta(tester);
   await tester.enterText(find.byType(TextField), '7712345678');
   await _tocar(tester, 'Enviarme el código');
-  await tester.enterText(find.byType(TextField), '123456');
-  await _tocar(tester, 'Verificar');
   return verificador;
 }
 
@@ -189,6 +194,16 @@ void main() {
     falla = false;
     await _tocar(tester, 'Reintentar');
     expect(find.text('Tu apelación fue rechazada.'), findsOneWidget);
+  });
+
+  testWidgets('en el paso del código se puede cambiar el número', (
+    tester,
+  ) async {
+    await _hastaElCodigo(tester, _api());
+    expect(find.textContaining('Reenviar'), findsOneWidget);
+    await _tocar(tester, 'Cambiar número');
+    expect(find.text('Enviarme el código'), findsOneWidget);
+    expect(find.textContaining('Reenviar'), findsNothing);
   });
 
   testWidgets('la cuenta suspendida ofrece apelar al entrar', (tester) async {

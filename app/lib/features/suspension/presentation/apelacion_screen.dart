@@ -182,6 +182,16 @@ class _ApelacionScreenState extends ConsumerState<ApelacionScreen> {
           }),
       ],
       pie: [
+        if (ui.paso == PasoDeApelacion.codigo)
+          PieDeCodigo(
+            cargando: ui.cargando,
+            reenviar: control.reenviarCodigo,
+            alCambiarNumero: () {
+              _codigo.clear();
+              setState(() => _invalido = false);
+              control.cambiarNumero();
+            },
+          ),
         TextButton(
           onPressed: () => context.go(Rutas.entrar),
           child: Text(textos.suspensionVolver),

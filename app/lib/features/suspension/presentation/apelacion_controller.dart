@@ -71,6 +71,29 @@ class ApelacionController extends Notifier<ApelacionUiState> {
     return _consultar();
   });
 
+  /// Pide otro SMS para el mismo celular. `true` si salió.
+  Future<bool> reenviarCodigo() async {
+    final anterior = _solicitud;
+    if (state.cargando || anterior == null) return false;
+    var enviado = false;
+    await _intentar(() async {
+      _solicitud = await _verificador.enviarCodigo(
+        anterior.celular,
+        anterior: anterior,
+      );
+      enviado = true;
+      return const ApelacionUiState(paso: PasoDeApelacion.codigo);
+    });
+    return enviado;
+  }
+
+  /// Vuelve a pedir el número; el código pedido se olvida.
+  void cambiarNumero() {
+    if (state.cargando) return;
+    _solicitud = null;
+    state = const ApelacionUiState();
+  }
+
   Future<void> reintentarConsulta() => _intentar(_consultar);
 
   Future<ApelacionUiState> _consultar() async {
