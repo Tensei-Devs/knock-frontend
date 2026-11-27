@@ -1,5 +1,6 @@
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/features/tecnico/data/horarios_repository_api.dart';
+import 'package:app/features/tecnico/data/buscar_tecnicos_repository_api.dart';
 import 'package:app/features/tecnico/data/perfil_publico_repository_api.dart';
 import 'package:app/features/tecnico/data/servicios_repository_api.dart';
 import 'package:app/features/tecnico/data/tecnico_repository_api.dart';
@@ -38,6 +39,13 @@ final serviciosRepositoryProvider = Provider<ServiciosRepository>(
 /// Perfil público, servicios, colonia y fotos (specs 036 y 037).
 final perfilPublicoRepositoryProvider = Provider<PerfilPublicoRepository>(
   (ref) => PerfilPublicoRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+final buscarTecnicosRepositoryProvider = Provider<BuscarTecnicosRepositoryApi>(
+  (ref) => BuscarTecnicosRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),

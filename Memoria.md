@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Lista real de técnicos en Inicio (KNOCK-55, spec 036)
+- **Cambio:** con sesión y API, Inicio consulta `GET /tecnicos` y muestra la lista paginada con filtros por oficio, disponibilidad y verificación, estados de carga, vacío y error con reintento; una tarjeta abre el perfil real mediante el puente existente de Explorar.
+- **Mapa:** se ocultan los pines de ejemplo en ese modo y se avisa que el mapa de expertos aún no está disponible. No se fabrican coordenadas; faltan límites reales de cámara y conectar `GET /mapa/tecnicos`.
+- **Reutilización:** se usaron el repositorio ya existente, `PaginasPorCursor`, `provDeTecnico` y la pantalla de perfil real; el controlador y el widget nuevos son necesarios para conectar la lista de Inicio.
+- **Pendiente:** filtros adicionales del contrato, prueba en dispositivo y backend desplegado, estados y accesibilidad completos, y mapa real.
+
 ## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
 - **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
 - **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.

@@ -1321,6 +1321,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get opinionesTitulo => 'Reviews';
 
   @override
+  String get tecnicosListadoTitulo => 'Experts';
+
+  @override
+  String get tecnicosMapaPendiente =>
+      'Experts are not available on the map yet.';
+
+  @override
   String get opinionesCargando => 'Loading reviews…';
 
   @override
