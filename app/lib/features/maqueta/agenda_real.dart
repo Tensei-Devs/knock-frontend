@@ -11,8 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// La agenda real del técnico (`GET /agenda`) con las acciones de cada visita
-/// (spec 040, D-04): «El cliente no estaba» en las confirmadas y «Terminar
-/// servicio» en las que están en curso.
+/// (spec 040, D-04): «Confirmar llegada» (spec 016) y «El cliente no estaba» en
+/// las confirmadas y «Terminar servicio» en las que están en curso.
 class AgendaReal extends ConsumerWidget {
   const AgendaReal({super.key, this.avisoDeMapa = true});
 
@@ -43,13 +43,19 @@ class AgendaReal extends ConsumerWidget {
                   sMut(
                     '${t.agendaModalidad(visita.modalidad)} · ${t.agendaEstado(visita.estado)}',
                   ),
-                  if (visita.estado == 'confirmada')
+                  if (visita.estado == 'confirmada') ...[
+                    BtnK(
+                      t.llegadaTitulo,
+                      () => context.push(RT.iniciar(visita.id)),
+                      sm: true,
+                    ),
                     BtnK(
                       t.visitaAusenteBoton,
                       () => hojaClienteAusente(context, visita.id),
                       kind: Bk.ghost,
                       sm: true,
                     ),
+                  ],
                   if (visita.estado == 'en_curso')
                     BtnK(
                       t.visitaTerminarBoton,

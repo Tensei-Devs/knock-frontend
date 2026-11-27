@@ -937,6 +937,50 @@
   "visitaTerminarSinSubida": "Photo upload is not available yet, so you cannot finish the job from the app.",
   "visitaTerminarNoEnCurso": "This visit is not in progress: it cannot be finished.",
   "visitaTerminarHecho": "Job finished.",
+  "llegadaTitulo": "Confirm arrival",
+  "llegadaCargando": "Loading your visit…",
+  "llegadaInstruccion": "Ask for the 4-digit code at the door and type it here.",
+  "llegadaCodigo": "4-digit code",
+  "llegadaConfirmar": "I have arrived",
+  "llegadaConfirmando": "Confirming…",
+  "llegadaConfirmada": "Arrival confirmed. The visit is in progress.",
+  "llegadaHora": "Arrival time: {hora}",
+  "@llegadaHora": {
+    "placeholders": {
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "llegadaIncorrecto": "The code does not match. Make sure you are at the right address.",
+  "llegadaIntentos": "Attempts left: {n}",
+  "@llegadaIntentos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "llegadaCuatroDigitos": "Type the 4 digits.",
+  "llegadaBloqueada": "This visit was locked for safety. The Knock team will review it.",
+  "llegadaYaUsado": "This code has already been used.",
+  "llegadaVencido": "The code for this visit has expired.",
+  "llegadaCancelada": "This visit was cancelled.",
+  "errorFueraDeVentana": "You can confirm arrival on the day of the appointment, from 00:00.",
+  "errorVisitaNoVigente": "This visit is no longer active.",
+  "llegadaTaller": "This appointment is at the workshop and needs no code.",
+  "llegadaNoTecnico": "Only the technician of this visit can confirm arrival.",
+  "llegadaNoDisponible": "This visit is no longer available.",
+  "llegadaAunNo": "You can confirm your arrival on the day of the appointment.",
+  "llegadaReintentoCuenta": "If the code was wrong, this retry counts as an attempt.",
+  "llegadaEspera": "Too many attempts. Wait {segundos} seconds.",
+  "@llegadaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
   "agendaCargando": "Loading your schedule…",
   "agendaError": "We could not load your schedule.",
   "agendaVacia": "You have no upcoming visits.",

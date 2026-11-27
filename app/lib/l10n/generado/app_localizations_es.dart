@@ -1434,6 +1434,88 @@ class AppLocalizationsEs extends AppLocalizations {
   String get visitaTerminarHecho => 'Servicio terminado.';
 
   @override
+  String get llegadaTitulo => 'Confirmar llegada';
+
+  @override
+  String get llegadaCargando => 'Cargando tu visita…';
+
+  @override
+  String get llegadaInstruccion =>
+      'Pide en la puerta el código de 4 dígitos y escríbelo aquí.';
+
+  @override
+  String get llegadaCodigo => 'Código de 4 dígitos';
+
+  @override
+  String get llegadaConfirmar => 'Ya llegué';
+
+  @override
+  String get llegadaConfirmando => 'Confirmando…';
+
+  @override
+  String get llegadaConfirmada =>
+      'Llegada confirmada. La visita está en curso.';
+
+  @override
+  String llegadaHora(String hora) {
+    return 'Hora de llegada: $hora';
+  }
+
+  @override
+  String get llegadaIncorrecto =>
+      'El código no coincide. Confirma que estás en la dirección correcta.';
+
+  @override
+  String llegadaIntentos(int n) {
+    return 'Te quedan $n intentos';
+  }
+
+  @override
+  String get llegadaCuatroDigitos => 'Escribe los 4 dígitos.';
+
+  @override
+  String get llegadaBloqueada =>
+      'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.';
+
+  @override
+  String get llegadaYaUsado => 'Este código ya se usó.';
+
+  @override
+  String get llegadaVencido => 'El código de esta visita ya venció.';
+
+  @override
+  String get llegadaCancelada => 'Esta visita se canceló.';
+
+  @override
+  String get errorFueraDeVentana =>
+      'Podrás confirmar la llegada el día de la cita, desde las 00:00.';
+
+  @override
+  String get errorVisitaNoVigente => 'Esta visita ya no está vigente.';
+
+  @override
+  String get llegadaTaller => 'Esta cita es en el taller y no necesita código.';
+
+  @override
+  String get llegadaNoTecnico =>
+      'Solo el técnico de la visita puede confirmar la llegada.';
+
+  @override
+  String get llegadaNoDisponible => 'Esta visita ya no está disponible.';
+
+  @override
+  String get llegadaAunNo => 'Podrás confirmar tu llegada el día de la cita.';
+
+  @override
+  String get llegadaReintentoCuenta =>
+      'Si el código era incorrecto, este reintento cuenta como intento.';
+
+  @override
+  String llegadaEspera(int segundos) {
+    return 'Hiciste muchos intentos. Espera $segundos segundos.';
+  }
+
+  @override
   String get agendaCargando => 'Cargando tu agenda…';
 
   @override

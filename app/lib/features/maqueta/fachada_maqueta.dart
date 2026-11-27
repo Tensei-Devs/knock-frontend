@@ -11,6 +11,7 @@ import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_maqueta.dart';
 import 'package:app/features/maqueta/globo_real.dart';
 import 'package:app/features/maqueta/inicio_maqueta.dart';
+import 'package:app/features/maqueta/llegada_real.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
@@ -192,7 +193,11 @@ GoRoute rutaMaqueta() => GoRoute(
         ),
         GoRoute(
           path: 'iniciar/:vid',
-          builder: (c, s) => IniciarScreen(vid: s.pathParameters['vid']!),
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Confirmar llegada',
+            real: LlegadaReal(visitaId: s.pathParameters['vid']!),
+            ejemplo: (_) => IniciarScreen(vid: s.pathParameters['vid']!),
+          ),
         ),
         GoRoute(
           path: 'cerrar/:vid',

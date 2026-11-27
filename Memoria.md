@@ -897,3 +897,9 @@
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Llegada del técnico con código contra la API (KNOCK-85)
+- **Qué cambió:** «Confirmar llegada» en la agenda del técnico abre la pantalla real: lee `GET /visitas/{id}` (vista del técnico) y envía `POST /visitas/{id}/llegada` sin clave de idempotencia; con `code_used` consulta la visita y, si ya está en curso, es éxito (spec 016, CA-10 a CA-13, CA-15, CA-17 y CA-20). HTTP a mano por ADR-007.
+- **Desviación:** la pantalla vive en la maqueta (`/m/tecnico/iniciar/:vid`), como las demás pantallas reales, y no en `/trabajo/visita/:id`; con `MODO_MAQUETA=false` no hay ruta.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; sin prueba de texto al 200 % (CA-14).
+- **A evitar:** reintentar la llegada sola: un reintento con código incorrecto vuelve a contar como intento.

@@ -1633,6 +1633,50 @@
   "visitaTerminarSinSubida": "La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.",
   "visitaTerminarNoEnCurso": "Esta visita no está en curso: no se puede terminar.",
   "visitaTerminarHecho": "Servicio terminado.",
+  "llegadaTitulo": "Confirmar llegada",
+  "llegadaCargando": "Cargando tu visita…",
+  "llegadaInstruccion": "Pide en la puerta el código de 4 dígitos y escríbelo aquí.",
+  "llegadaCodigo": "Código de 4 dígitos",
+  "llegadaConfirmar": "Ya llegué",
+  "llegadaConfirmando": "Confirmando…",
+  "llegadaConfirmada": "Llegada confirmada. La visita está en curso.",
+  "llegadaHora": "Hora de llegada: {hora}",
+  "@llegadaHora": {
+    "placeholders": {
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "llegadaIncorrecto": "El código no coincide. Confirma que estás en la dirección correcta.",
+  "llegadaIntentos": "Te quedan {n} intentos",
+  "@llegadaIntentos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "llegadaCuatroDigitos": "Escribe los 4 dígitos.",
+  "llegadaBloqueada": "Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.",
+  "llegadaYaUsado": "Este código ya se usó.",
+  "llegadaVencido": "El código de esta visita ya venció.",
+  "llegadaCancelada": "Esta visita se canceló.",
+  "errorFueraDeVentana": "Podrás confirmar la llegada el día de la cita, desde las 00:00.",
+  "errorVisitaNoVigente": "Esta visita ya no está vigente.",
+  "llegadaTaller": "Esta cita es en el taller y no necesita código.",
+  "llegadaNoTecnico": "Solo el técnico de la visita puede confirmar la llegada.",
+  "llegadaNoDisponible": "Esta visita ya no está disponible.",
+  "llegadaAunNo": "Podrás confirmar tu llegada el día de la cita.",
+  "llegadaReintentoCuenta": "Si el código era incorrecto, este reintento cuenta como intento.",
+  "llegadaEspera": "Hiciste muchos intentos. Espera {segundos} segundos.",
+  "@llegadaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
   "agendaCargando": "Cargando tu agenda…",
   "agendaError": "No pudimos cargar tu agenda.",
   "agendaVacia": "No tienes visitas próximas.",
