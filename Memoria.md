@@ -941,3 +941,9 @@
 ## 2026-11-27 — KNOCK-266: licencias de los paquetes del chat en EXC-002
 - Se agregan 9 paquetes de pub a la lista de exención de `dependency-review` (MIT y BSD, revisadas en su LICENSE), autorizado por José. El control sigue activo para el resto.
 - A evitar: fusionar dependencias nuevas hacia `sprint-05` sin revisar su licencia; el fallo aparece recién al promover a `develop`.
+## 2026-11-27 — Enviar mensajes en una conversación (KNOCK-72, spec 020 enmienda 2026-11-26)
+- **Qué cambió:** `ConversacionesRepositoryApi.enviar` (`POST /api/v1/conversaciones/{id}/mensajes`, puerto `EnvioDeMensajes`, `envioDeMensajesProvider`); regla del texto en dominio (`TextoDeMensaje`: 1 a 1000 unidades UTF-16, 4096 bytes, sin control salvo `\n`) que se revisa antes de salir a la red; `EnvioMensajesController` optimista (pendiente, fallido, enviado; un envío a la vez; reintento solo manual; 409 cierra) y `CampoEnvioMensaje` con textos en ARB.
+- **Por qué:** el envío no es idempotente (CA-E02); el hub solo recibe.
+- **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
+- **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
+- **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.
