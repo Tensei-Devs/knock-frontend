@@ -37,11 +37,13 @@ class FuenteFcmFirebase implements FuenteFcm {
   final FirebaseMessaging _mensajeria;
 
   /// El backend envía al token de registro de FCM (HTTP v1 `message.token`),
-  /// no al FID de `register()`; por eso se usa `getToken`.
+  /// no al FID de `register()`; por eso se usa `getToken` (EXC-006).
   @override
+  // ignore: deprecated_member_use -- EXC-006
   Future<String?> token() => _mensajeria.getToken();
 
   @override
+  // ignore: deprecated_member_use -- EXC-006
   Future<void> borrarToken() => _mensajeria.deleteToken();
 
   @override
