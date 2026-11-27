@@ -1390,6 +1390,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trabajoReputacion => 'Mi reputación';
 
   @override
+  String get trabajoDisponibleHoy => 'Disponible hoy';
+
+  @override
+  String get trabajoDisponibleDetalle =>
+      'Enciéndelo si hoy puedes atender solicitudes. Se apaga solo al terminar el día.';
+
+  @override
+  String get trabajoDisponibleCargando => 'Cargando tu disponibilidad…';
+
+  @override
   String get visitaAusenteBoton => 'El cliente no estaba';
 
   @override

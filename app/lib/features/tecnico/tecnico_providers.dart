@@ -1,11 +1,13 @@
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/features/tecnico/data/horarios_repository_api.dart';
 import 'package:app/features/tecnico/data/buscar_tecnicos_repository_api.dart';
+import 'package:app/features/tecnico/data/disponible_hoy_repository_api.dart';
 import 'package:app/features/tecnico/data/perfil_publico_repository_api.dart';
 import 'package:app/features/tecnico/data/reputacion_repository_api.dart';
 import 'package:app/features/tecnico/data/servicios_repository_api.dart';
 import 'package:app/features/tecnico/data/tecnico_repository_api.dart';
 import 'package:app/features/tecnico/domain/alta_tecnico.dart';
+import 'package:app/features/tecnico/domain/disponible_hoy.dart';
 import 'package:app/features/tecnico/domain/horarios.dart';
 import 'package:app/features/tecnico/domain/perfil_publico.dart';
 import 'package:app/features/tecnico/domain/reputacion.dart';
@@ -28,6 +30,20 @@ final horariosRepositoryProvider = Provider<HorariosRepository>(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
   ),
+);
+
+/// El valor actual de «Disponible hoy» (spec 019).
+final disponibleHoyRepositoryProvider = Provider<DisponibleHoyRepository>(
+  (ref) => DisponibleHoyRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+/// Sin reintento automático.
+final disponibleHoyProvider = FutureProvider.autoDispose<bool>(
+  (ref) => ref.watch(disponibleHoyRepositoryProvider).consultar(),
+  retry: (_, _) => null,
 );
 
 /// Servicios y precios de referencia (spec 037).

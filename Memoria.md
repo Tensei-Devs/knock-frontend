@@ -918,3 +918,7 @@
 - **Qué cambió:** en una visita terminada, el cliente abre «Fotos del trabajo» y enciende o apaga el permiso (`PUT /visitas/{id}/permiso-fotos`). El valor actual sale de `GET /visitas/{id}` (`permisoFotos`). Textos de la enmienda del 2026-11-27, firmada en el PR #148 (todavía sin fusionar). HTTP a mano por ADR-007.
 - **Pendiente:** sin probar contra el backend desplegado ni en teléfono; el backend aún no tiene quién publique o retire las fotos.
 - **A evitar:** prometer plazos o retiro de fotos ya publicadas.
+## 2026-11-27 — Interruptor «Disponible hoy» en Trabajo (KNOCK-266, specs 019 y 036)
+- **Qué cambió:** la cabecera de Trabajo tiene el interruptor. El valor inicial sale de `GET /tecnicos/me/trabajo` y el cambio usa `PUT /tecnicos/me/disponibilidad` (repositorio que ya existía sin pantalla). Enmienda del 2026-11-27 firmada en el PR #148, todavía sin fusionar.
+- **Pendiente:** resumen, solicitudes nuevas y descartar de Trabajo; sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** calcular en el teléfono cuándo se apaga: lo decide el servidor.

@@ -2414,6 +2414,24 @@ abstract class AppLocalizations {
   /// **'Mi reputación'**
   String get trabajoReputacion;
 
+  /// No description provided for @trabajoDisponibleHoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Disponible hoy'**
+  String get trabajoDisponibleHoy;
+
+  /// No description provided for @trabajoDisponibleDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Enciéndelo si hoy puedes atender solicitudes. Se apaga solo al terminar el día.'**
+  String get trabajoDisponibleDetalle;
+
+  /// No description provided for @trabajoDisponibleCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu disponibilidad…'**
+  String get trabajoDisponibleCargando;
+
   /// No description provided for @visitaAusenteBoton.
   ///
   /// In es, this message translates to:
