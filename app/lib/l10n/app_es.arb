@@ -1608,7 +1608,7 @@
     }
   },
   "trabajoProximasVisitas": "Próximas visitas",
-  "trabajoPendiente": "Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.",
+  "trabajoPendiente": "Los trabajos terminados todavía no se muestran aquí.",
   "trabajoVerificacion": "Mi verificación",
   "trabajoReputacion": "Mi reputación",
   "visitaAusenteBoton": "El cliente no estaba",
@@ -2317,5 +2317,191 @@
       }
     }
   },
-  "tecnicosListadoTitulo": "Expertos"
+  "tecnicosListadoTitulo": "Expertos",
+  "cotizarSinPerfil": "Necesitas un perfil de técnico para ver esto.",
+  "@cotizarSinPerfil": {
+    "description": "Texto de la app: cotizarSinPerfil"
+  },
+  "cotizarYaNoSeCotiza": "Esta solicitud ya no admite cotizaciones.",
+  "@cotizarYaNoSeCotiza": {
+    "description": "Texto de la app: cotizarYaNoSeCotiza"
+  },
+  "cotizarYaCotizada": "Ya enviaste una cotización para esta solicitud.",
+  "@cotizarYaCotizada": {
+    "description": "Texto de la app: cotizarYaCotizada"
+  },
+  "cotizarCupoLleno": "Esta solicitud ya tiene el máximo de cotizaciones.",
+  "@cotizarCupoLleno": {
+    "description": "Texto de la app: cotizarCupoLleno"
+  },
+  "cotizarTitulo": "Cotizar",
+  "@cotizarTitulo": {
+    "description": "Texto de la app: cotizarTitulo"
+  },
+  "cotizarNuevas": "Solicitudes nuevas",
+  "@cotizarNuevas": {
+    "description": "Texto de la app: cotizarNuevas"
+  },
+  "cotizarNuevasVacio": "No tienes solicitudes nuevas.",
+  "@cotizarNuevasVacio": {
+    "description": "Texto de la app: cotizarNuevasVacio"
+  },
+  "cotizarVer": "Ver y cotizar",
+  "@cotizarVer": {
+    "description": "Texto de la app: cotizarVer"
+  },
+  "cotizarVerPropia": "Ver mi cotización",
+  "@cotizarVerPropia": {
+    "description": "Texto de la app: cotizarVerPropia"
+  },
+  "cotizarEnviadas": "Cotizaciones enviadas",
+  "@cotizarEnviadas": {
+    "description": "Texto de la app: cotizarEnviadas"
+  },
+  "cotizarEnviadasVacio": "Todavía no has enviado cotizaciones.",
+  "@cotizarEnviadasVacio": {
+    "description": "Texto de la app: cotizarEnviadasVacio"
+  },
+  "cotizarCargando": "Cargando…",
+  "@cotizarCargando": {
+    "description": "Texto de la app: cotizarCargando"
+  },
+  "cotizarTipoLabel": "Tipo de precio",
+  "@cotizarTipoLabel": {
+    "description": "Texto de la app: cotizarTipoLabel"
+  },
+  "cotizarPrecio": "Precio en pesos",
+  "@cotizarPrecio": {
+    "description": "Texto de la app: cotizarPrecio"
+  },
+  "cotizarPrecioVisita": "Precio de la visita en pesos",
+  "@cotizarPrecioVisita": {
+    "description": "Texto de la app: cotizarPrecioVisita"
+  },
+  "cotizarPrecioMin": "Mínimo en pesos",
+  "@cotizarPrecioMin": {
+    "description": "Texto de la app: cotizarPrecioMin"
+  },
+  "cotizarPrecioMax": "Máximo en pesos",
+  "@cotizarPrecioMax": {
+    "description": "Texto de la app: cotizarPrecioMax"
+  },
+  "cotizarDia": "Día de la visita",
+  "@cotizarDia": {
+    "description": "Texto de la app: cotizarDia"
+  },
+  "cotizarHora": "Hora (HH:mm)",
+  "@cotizarHora": {
+    "description": "Texto de la app: cotizarHora"
+  },
+  "cotizarErrorMonto": "Escribe un número entero de 1 a 200 000.",
+  "@cotizarErrorMonto": {
+    "description": "Texto de la app: cotizarErrorMonto"
+  },
+  "cotizarErrorMaximo": "El máximo debe ser un entero mayor que el mínimo, hasta 200 000.",
+  "@cotizarErrorMaximo": {
+    "description": "Texto de la app: cotizarErrorMaximo"
+  },
+  "cotizarErrorDia": "Elige un día.",
+  "@cotizarErrorDia": {
+    "description": "Texto de la app: cotizarErrorDia"
+  },
+  "cotizarErrorHora": "Escribe la hora como 09:30.",
+  "@cotizarErrorHora": {
+    "description": "Texto de la app: cotizarErrorHora"
+  },
+  "cotizarEnviar": "Enviar cotización",
+  "@cotizarEnviar": {
+    "description": "Texto de la app: cotizarEnviar"
+  },
+  "cotizarEnviada": "Cotización enviada",
+  "@cotizarEnviada": {
+    "description": "Texto de la app: cotizarEnviada"
+  },
+  "cotizarRequiereAprobacion": "El cliente tendrá que aprobar el precio final.",
+  "@cotizarRequiereAprobacion": {
+    "description": "Texto de la app: cotizarRequiereAprobacion"
+  },
+  "cotizarSinAprobacion": "No requiere otra aprobación del cliente.",
+  "@cotizarSinAprobacion": {
+    "description": "Texto de la app: cotizarSinAprobacion"
+  },
+  "cotizarFotoDe": "Foto {numero} de la solicitud",
+  "@cotizarFotoDe": {
+    "description": "Texto de la app: cotizarFotoDe",
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarTope": "Tope: ${monto}",
+  "@cotizarTope": {
+    "description": "Texto de la app: cotizarTope",
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarMonto": "${monto}",
+  "@cotizarMonto": {
+    "description": "Texto de la app: cotizarMonto",
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarRango": "${min} a ${max}",
+  "@cotizarRango": {
+    "description": "Texto de la app: cotizarRango",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarCuando": "{dia} · {franja}",
+  "@cotizarCuando": {
+    "description": "Texto de la app: cotizarCuando",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarTipo": "{tipo, select, fijo{Precio fijo} rango{Rango} visita{Por visita} other{{tipo}}}",
+  "@cotizarTipo": {
+    "description": "Texto de la app: cotizarTipo",
+    "placeholders": {
+      "tipo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarFranja": "{franja, select, manana{Mañana} tarde{Tarde} noche{Noche} other{{franja}}}",
+  "@cotizarFranja": {
+    "description": "Texto de la app: cotizarFranja",
+    "placeholders": {
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarEstado": "{estado, select, enviada{Esperando respuesta} aceptada{Aceptada} rechazada{Rechazada} retirada{Retirada} other{{estado}}}",
+  "@cotizarEstado": {
+    "description": "Texto de la app: cotizarEstado",
+    "placeholders": {
+      "estado": {
+        "type": "String"
+      }
+    }
+  }
 }

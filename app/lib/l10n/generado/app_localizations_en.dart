@@ -1338,8 +1338,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trabajoProximasVisitas => 'Upcoming visits';
 
   @override
-  String get trabajoPendiente =>
-      'New requests, sent quotes and finished jobs are not shown here yet.';
+  String get trabajoPendiente => 'Finished jobs aren’t shown here yet.';
 
   @override
   String get trabajoVerificacion => 'My verification';
@@ -2336,4 +2335,148 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tecnicosListadoTitulo => 'Experts';
+
+  @override
+  String get cotizarSinPerfil => 'You need a technician profile to see this.';
+
+  @override
+  String get cotizarYaNoSeCotiza => 'This request no longer accepts quotes.';
+
+  @override
+  String get cotizarYaCotizada => 'You already sent a quote for this request.';
+
+  @override
+  String get cotizarCupoLleno =>
+      'This request already has the maximum number of quotes.';
+
+  @override
+  String get cotizarTitulo => 'Send a quote';
+
+  @override
+  String get cotizarNuevas => 'New requests';
+
+  @override
+  String get cotizarNuevasVacio => 'You have no new requests.';
+
+  @override
+  String get cotizarVer => 'View and quote';
+
+  @override
+  String get cotizarVerPropia => 'View my quote';
+
+  @override
+  String get cotizarEnviadas => 'Sent quotes';
+
+  @override
+  String get cotizarEnviadasVacio => 'You haven’t sent any quotes yet.';
+
+  @override
+  String get cotizarCargando => 'Loading…';
+
+  @override
+  String get cotizarTipoLabel => 'Price type';
+
+  @override
+  String get cotizarPrecio => 'Price in pesos';
+
+  @override
+  String get cotizarPrecioVisita => 'Visit price in pesos';
+
+  @override
+  String get cotizarPrecioMin => 'Minimum in pesos';
+
+  @override
+  String get cotizarPrecioMax => 'Maximum in pesos';
+
+  @override
+  String get cotizarDia => 'Visit day';
+
+  @override
+  String get cotizarHora => 'Time (HH:mm)';
+
+  @override
+  String get cotizarErrorMonto => 'Enter a whole number from 1 to 200,000.';
+
+  @override
+  String get cotizarErrorMaximo =>
+      'The maximum must be a whole number above the minimum, up to 200,000.';
+
+  @override
+  String get cotizarErrorDia => 'Pick a day.';
+
+  @override
+  String get cotizarErrorHora => 'Enter the time like 09:30.';
+
+  @override
+  String get cotizarEnviar => 'Send quote';
+
+  @override
+  String get cotizarEnviada => 'Quote sent';
+
+  @override
+  String get cotizarRequiereAprobacion =>
+      'The client will have to approve the final price.';
+
+  @override
+  String get cotizarSinAprobacion =>
+      'No further approval from the client is needed.';
+
+  @override
+  String cotizarFotoDe(int numero) {
+    return 'Request photo $numero';
+  }
+
+  @override
+  String cotizarTope(int monto) {
+    return 'Cap: \$$monto';
+  }
+
+  @override
+  String cotizarMonto(int monto) {
+    return '\$$monto';
+  }
+
+  @override
+  String cotizarRango(int min, int max) {
+    return '\$$min to \$$max';
+  }
+
+  @override
+  String cotizarCuando(String dia, String franja) {
+    return '$dia · $franja';
+  }
+
+  @override
+  String cotizarTipo(String tipo) {
+    String _temp0 = intl.Intl.selectLogic(tipo, {
+      'fijo': 'Fixed price',
+      'rango': 'Range',
+      'visita': 'Per visit',
+      'other': '$tipo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarFranja(String franja) {
+    String _temp0 = intl.Intl.selectLogic(franja, {
+      'manana': 'Morning',
+      'tarde': 'Afternoon',
+      'noche': 'Evening',
+      'other': '$franja',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'enviada': 'Waiting for an answer',
+      'aceptada': 'Accepted',
+      'rechazada': 'Rejected',
+      'retirada': 'Withdrawn',
+      'other': '$estado',
+    });
+    return '$_temp0';
+  }
 }

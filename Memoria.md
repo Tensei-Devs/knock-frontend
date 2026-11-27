@@ -869,3 +869,7 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — El técnico ve una solicitud y envía su cotización (KNOCK-74, spec 046)
+- **Qué cambió:** con sesión y API, «Trabajo» muestra solicitudes nuevas y cotizaciones enviadas; «Cotizar» lee el detalle y envía la cotización, sin campo de nota (046 §13).
+- **Pendiente:** descartar y el resumen de «Trabajo» (#101, #102), teléfono y backend desplegado.

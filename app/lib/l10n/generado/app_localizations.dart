@@ -2357,7 +2357,7 @@ abstract class AppLocalizations {
   /// No description provided for @trabajoPendiente.
   ///
   /// In es, this message translates to:
-  /// **'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.'**
+  /// **'Los trabajos terminados todavía no se muestran aquí.'**
   String get trabajoPendiente;
 
   /// No description provided for @trabajoVerificacion.
@@ -4105,6 +4105,216 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Expertos'**
   String get tecnicosListadoTitulo;
+
+  /// Texto de la app: cotizarSinPerfil
+  ///
+  /// In es, this message translates to:
+  /// **'Necesitas un perfil de técnico para ver esto.'**
+  String get cotizarSinPerfil;
+
+  /// Texto de la app: cotizarYaNoSeCotiza
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no admite cotizaciones.'**
+  String get cotizarYaNoSeCotiza;
+
+  /// Texto de la app: cotizarYaCotizada
+  ///
+  /// In es, this message translates to:
+  /// **'Ya enviaste una cotización para esta solicitud.'**
+  String get cotizarYaCotizada;
+
+  /// Texto de la app: cotizarCupoLleno
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya tiene el máximo de cotizaciones.'**
+  String get cotizarCupoLleno;
+
+  /// Texto de la app: cotizarTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizar'**
+  String get cotizarTitulo;
+
+  /// Texto de la app: cotizarNuevas
+  ///
+  /// In es, this message translates to:
+  /// **'Solicitudes nuevas'**
+  String get cotizarNuevas;
+
+  /// Texto de la app: cotizarNuevasVacio
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes solicitudes nuevas.'**
+  String get cotizarNuevasVacio;
+
+  /// Texto de la app: cotizarVer
+  ///
+  /// In es, this message translates to:
+  /// **'Ver y cotizar'**
+  String get cotizarVer;
+
+  /// Texto de la app: cotizarVerPropia
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mi cotización'**
+  String get cotizarVerPropia;
+
+  /// Texto de la app: cotizarEnviadas
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizaciones enviadas'**
+  String get cotizarEnviadas;
+
+  /// Texto de la app: cotizarEnviadasVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no has enviado cotizaciones.'**
+  String get cotizarEnviadasVacio;
+
+  /// Texto de la app: cotizarCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get cotizarCargando;
+
+  /// Texto de la app: cotizarTipoLabel
+  ///
+  /// In es, this message translates to:
+  /// **'Tipo de precio'**
+  String get cotizarTipoLabel;
+
+  /// Texto de la app: cotizarPrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Precio en pesos'**
+  String get cotizarPrecio;
+
+  /// Texto de la app: cotizarPrecioVisita
+  ///
+  /// In es, this message translates to:
+  /// **'Precio de la visita en pesos'**
+  String get cotizarPrecioVisita;
+
+  /// Texto de la app: cotizarPrecioMin
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo en pesos'**
+  String get cotizarPrecioMin;
+
+  /// Texto de la app: cotizarPrecioMax
+  ///
+  /// In es, this message translates to:
+  /// **'Máximo en pesos'**
+  String get cotizarPrecioMax;
+
+  /// Texto de la app: cotizarDia
+  ///
+  /// In es, this message translates to:
+  /// **'Día de la visita'**
+  String get cotizarDia;
+
+  /// Texto de la app: cotizarHora
+  ///
+  /// In es, this message translates to:
+  /// **'Hora (HH:mm)'**
+  String get cotizarHora;
+
+  /// Texto de la app: cotizarErrorMonto
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un número entero de 1 a 200 000.'**
+  String get cotizarErrorMonto;
+
+  /// Texto de la app: cotizarErrorMaximo
+  ///
+  /// In es, this message translates to:
+  /// **'El máximo debe ser un entero mayor que el mínimo, hasta 200 000.'**
+  String get cotizarErrorMaximo;
+
+  /// Texto de la app: cotizarErrorDia
+  ///
+  /// In es, this message translates to:
+  /// **'Elige un día.'**
+  String get cotizarErrorDia;
+
+  /// Texto de la app: cotizarErrorHora
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe la hora como 09:30.'**
+  String get cotizarErrorHora;
+
+  /// Texto de la app: cotizarEnviar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cotización'**
+  String get cotizarEnviar;
+
+  /// Texto de la app: cotizarEnviada
+  ///
+  /// In es, this message translates to:
+  /// **'Cotización enviada'**
+  String get cotizarEnviada;
+
+  /// Texto de la app: cotizarRequiereAprobacion
+  ///
+  /// In es, this message translates to:
+  /// **'El cliente tendrá que aprobar el precio final.'**
+  String get cotizarRequiereAprobacion;
+
+  /// Texto de la app: cotizarSinAprobacion
+  ///
+  /// In es, this message translates to:
+  /// **'No requiere otra aprobación del cliente.'**
+  String get cotizarSinAprobacion;
+
+  /// Texto de la app: cotizarFotoDe
+  ///
+  /// In es, this message translates to:
+  /// **'Foto {numero} de la solicitud'**
+  String cotizarFotoDe(int numero);
+
+  /// Texto de la app: cotizarTope
+  ///
+  /// In es, this message translates to:
+  /// **'Tope: \${monto}'**
+  String cotizarTope(int monto);
+
+  /// Texto de la app: cotizarMonto
+  ///
+  /// In es, this message translates to:
+  /// **'\${monto}'**
+  String cotizarMonto(int monto);
+
+  /// Texto de la app: cotizarRango
+  ///
+  /// In es, this message translates to:
+  /// **'\${min} a \${max}'**
+  String cotizarRango(int min, int max);
+
+  /// Texto de la app: cotizarCuando
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} · {franja}'**
+  String cotizarCuando(String dia, String franja);
+
+  /// Texto de la app: cotizarTipo
+  ///
+  /// In es, this message translates to:
+  /// **'{tipo, select, fijo{Precio fijo} rango{Rango} visita{Por visita} other{{tipo}}}'**
+  String cotizarTipo(String tipo);
+
+  /// Texto de la app: cotizarFranja
+  ///
+  /// In es, this message translates to:
+  /// **'{franja, select, manana{Mañana} tarde{Tarde} noche{Noche} other{{franja}}}'**
+  String cotizarFranja(String franja);
+
+  /// Texto de la app: cotizarEstado
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, enviada{Esperando respuesta} aceptada{Aceptada} rechazada{Rechazada} retirada{Retirada} other{{estado}}}'**
+  String cotizarEstado(String estado);
 }
 
 class _AppLocalizationsDelegate

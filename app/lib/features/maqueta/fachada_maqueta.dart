@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/maqueta/cotizar_real.dart';
 import 'package:app/features/maqueta/terminar_servicio_real.dart';
 import 'package:app/features/maqueta/trabajo_real.dart';
 import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
@@ -25,6 +26,7 @@ import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -182,7 +184,11 @@ GoRoute rutaMaqueta() => GoRoute(
         ),
         GoRoute(
           path: 'cotizar/:rid',
-          builder: (c, s) => CotizarScreen(rid: s.pathParameters['rid']!),
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: AppLocalizations.of(c).cotizarTitulo,
+            real: CotizarReal(solicitudId: s.pathParameters['rid']!),
+            ejemplo: (_) => CotizarScreen(rid: s.pathParameters['rid']!),
+          ),
         ),
         GoRoute(
           path: 'iniciar/:vid',

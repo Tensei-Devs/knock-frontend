@@ -1348,7 +1348,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get trabajoPendiente =>
-      'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.';
+      'Los trabajos terminados todavía no se muestran aquí.';
 
   @override
   String get trabajoVerificacion => 'Mi verificación';
@@ -2344,4 +2344,149 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tecnicosListadoTitulo => 'Expertos';
+
+  @override
+  String get cotizarSinPerfil =>
+      'Necesitas un perfil de técnico para ver esto.';
+
+  @override
+  String get cotizarYaNoSeCotiza => 'Esta solicitud ya no admite cotizaciones.';
+
+  @override
+  String get cotizarYaCotizada =>
+      'Ya enviaste una cotización para esta solicitud.';
+
+  @override
+  String get cotizarCupoLleno =>
+      'Esta solicitud ya tiene el máximo de cotizaciones.';
+
+  @override
+  String get cotizarTitulo => 'Cotizar';
+
+  @override
+  String get cotizarNuevas => 'Solicitudes nuevas';
+
+  @override
+  String get cotizarNuevasVacio => 'No tienes solicitudes nuevas.';
+
+  @override
+  String get cotizarVer => 'Ver y cotizar';
+
+  @override
+  String get cotizarVerPropia => 'Ver mi cotización';
+
+  @override
+  String get cotizarEnviadas => 'Cotizaciones enviadas';
+
+  @override
+  String get cotizarEnviadasVacio => 'Todavía no has enviado cotizaciones.';
+
+  @override
+  String get cotizarCargando => 'Cargando…';
+
+  @override
+  String get cotizarTipoLabel => 'Tipo de precio';
+
+  @override
+  String get cotizarPrecio => 'Precio en pesos';
+
+  @override
+  String get cotizarPrecioVisita => 'Precio de la visita en pesos';
+
+  @override
+  String get cotizarPrecioMin => 'Mínimo en pesos';
+
+  @override
+  String get cotizarPrecioMax => 'Máximo en pesos';
+
+  @override
+  String get cotizarDia => 'Día de la visita';
+
+  @override
+  String get cotizarHora => 'Hora (HH:mm)';
+
+  @override
+  String get cotizarErrorMonto => 'Escribe un número entero de 1 a 200 000.';
+
+  @override
+  String get cotizarErrorMaximo =>
+      'El máximo debe ser un entero mayor que el mínimo, hasta 200 000.';
+
+  @override
+  String get cotizarErrorDia => 'Elige un día.';
+
+  @override
+  String get cotizarErrorHora => 'Escribe la hora como 09:30.';
+
+  @override
+  String get cotizarEnviar => 'Enviar cotización';
+
+  @override
+  String get cotizarEnviada => 'Cotización enviada';
+
+  @override
+  String get cotizarRequiereAprobacion =>
+      'El cliente tendrá que aprobar el precio final.';
+
+  @override
+  String get cotizarSinAprobacion => 'No requiere otra aprobación del cliente.';
+
+  @override
+  String cotizarFotoDe(int numero) {
+    return 'Foto $numero de la solicitud';
+  }
+
+  @override
+  String cotizarTope(int monto) {
+    return 'Tope: \$$monto';
+  }
+
+  @override
+  String cotizarMonto(int monto) {
+    return '\$$monto';
+  }
+
+  @override
+  String cotizarRango(int min, int max) {
+    return '\$$min a \$$max';
+  }
+
+  @override
+  String cotizarCuando(String dia, String franja) {
+    return '$dia · $franja';
+  }
+
+  @override
+  String cotizarTipo(String tipo) {
+    String _temp0 = intl.Intl.selectLogic(tipo, {
+      'fijo': 'Precio fijo',
+      'rango': 'Rango',
+      'visita': 'Por visita',
+      'other': '$tipo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarFranja(String franja) {
+    String _temp0 = intl.Intl.selectLogic(franja, {
+      'manana': 'Mañana',
+      'tarde': 'Tarde',
+      'noche': 'Noche',
+      'other': '$franja',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'enviada': 'Esperando respuesta',
+      'aceptada': 'Aceptada',
+      'rechazada': 'Rechazada',
+      'retirada': 'Retirada',
+      'other': '$estado',
+    });
+    return '$_temp0';
+  }
 }

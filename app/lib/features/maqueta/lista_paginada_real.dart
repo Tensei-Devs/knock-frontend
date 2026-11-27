@@ -19,6 +19,12 @@ abstract class ListaPaginadaReal<P> extends ConsumerWidget {
   void reintentar(WidgetRef ref);
   Future<Failure?> cargarMas(WidgetRef ref);
 
+  /// El mensaje cuando falla la carga; sin conexión, el del catálogo.
+  String textoDeError(AppLocalizations t, Object error) =>
+      error is ServicioNoDisponibleFailure
+      ? t.errorSinConexion
+      : textosDeLista(t).error;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textos = AppLocalizations.of(context);
@@ -29,13 +35,7 @@ abstract class ListaPaginadaReal<P> extends ConsumerWidget {
         skipLoadingOnRefresh: false,
         loading: () => sMut(propios.cargando),
         error: (e, _) => stack([
-          NoteK(
-            'red',
-            'help',
-            e is ServicioNoDisponibleFailure
-                ? textos.errorSinConexion
-                : propios.error,
-          ),
+          NoteK('red', 'help', textoDeError(textos, e)),
           BtnK(textos.bloqueosReintentar, () => reintentar(ref), kind: Bk.sec),
         ], gap: 8),
         data: (pagina) {
