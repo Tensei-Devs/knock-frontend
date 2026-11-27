@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
 import '../../soporte/cotizar_json.dart';
+import '../../soporte/fecha_esperada.dart';
 import '../../soporte/montar_app.dart';
 import '../../soporte/preparar_maqueta.dart';
 
@@ -75,7 +76,9 @@ const _pantalla = CotizarReal(solicitudId: 's1');
 
 Future<void> _llenar(WidgetTester tester) async {
   await tester.enterText(find.byType(TextField).first, '350');
-  await tester.tap(find.text('2026-11-27'));
+  await tester.tap(
+    find.text(fechaEsperada(tester, CotizarReal, DateTime(2026, 11, 27))),
+  );
   await tester.enterText(find.byType(TextField).last, '09:30');
   await tester.pump();
 }

@@ -3,6 +3,7 @@ import 'package:app/features/maqueta/llegada_real.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/trabajo/data/llegada_repository_api.dart';
 import 'package:app/features/trabajo/llegada_providers.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -69,6 +70,30 @@ void main() {
     );
     expect(_boton(tester).onTap, isNotNull);
   });
+
+  testWidgets('con un solo intento restante habla en singular', (tester) async {
+    final api = _apiQueResponde(
+      () => problemaJson(422, 'wrong_code', {'intentosRestantes': 1}),
+    );
+    await _montar(tester, api);
+    await _confirmar(tester, '1111');
+    expect(
+      find.textContaining('Te queda 1 intento', findRichText: true),
+      findsOneWidget,
+    );
+  });
+
+  test(
+    'los intentos restantes tienen singular y plural en los dos idiomas',
+    () {
+      final es = lookupAppLocalizations(const Locale('es'));
+      final en = lookupAppLocalizations(const Locale('en'));
+      expect(es.llegadaIntentos(1), 'Te queda 1 intento');
+      expect(es.llegadaIntentos(2), 'Te quedan 2 intentos');
+      expect(en.llegadaIntentos(1), 'You have 1 attempt left');
+      expect(en.llegadaIntentos(2), 'You have 2 attempts left');
+    },
+  );
 
   for (final (estado, codigo, texto) in [
     (409, 'visit_locked', 'Esta visita quedó bloqueada'),

@@ -960,7 +960,7 @@
     }
   },
   "llegadaIncorrecto": "The code does not match. Make sure you are at the right address.",
-  "llegadaIntentos": "Attempts left: {n}",
+  "llegadaIntentos": "{n, plural, =1{You have 1 attempt left} other{You have {n} attempts left}}",
   "@llegadaIntentos": {
     "placeholders": {
       "n": {

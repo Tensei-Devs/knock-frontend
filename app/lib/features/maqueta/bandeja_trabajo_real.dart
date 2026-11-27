@@ -29,7 +29,7 @@ class TarjetaDeCotizacionPropia extends StatelessWidget {
     return CardK(
       child: stack([
         bT(precioDeCotizacion(t, cotizacion)),
-        sMut('${cotizacion.dia} · ${cotizacion.hora}'),
+        sMut('${fechaLegible(context, cotizacion.dia)} · ${cotizacion.hora}'),
         sMut(t.cotizarTope(cotizacion.tope)),
         sMut(t.cotizarEstado(cotizacion.estado)),
       ], gap: 4),
@@ -94,7 +94,12 @@ class _TarjetaDeSolicitud extends StatelessWidget {
       child: stack([
         bT('${solicitud.oficio} · ${solicitud.colonia}'),
         T(solicitud.descripcion),
-        sMut(t.cotizarCuando(solicitud.dia, t.cotizarFranja(solicitud.franja))),
+        sMut(
+          t.cotizarCuando(
+            fechaLegible(context, solicitud.dia),
+            t.cotizarFranja(solicitud.franja),
+          ),
+        ),
         BtnK(
           solicitud.yaCotizo ? t.cotizarVerPropia : t.cotizarVer,
           () => context.push(RT.cotizar(solicitud.solicitudId)),

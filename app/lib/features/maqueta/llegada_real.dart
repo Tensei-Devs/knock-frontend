@@ -70,7 +70,10 @@ class _LlegadaRealState extends ConsumerState<LlegadaReal> {
 
   Widget _datos(VisitaDelTecnico visita) => CardK(
     child: stack([
-      T('${visita.dia} · ${visita.hora}', w: FontWeight.w900),
+      T(
+        '${fechaLegible(context, visita.dia)} · ${visita.hora}',
+        w: FontWeight.w900,
+      ),
       if (visita.colonia case final colonia?) sMut(colonia),
       if (visita.direccion case final direccion?) sMut(direccion),
     ], gap: 4),

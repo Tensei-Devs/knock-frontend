@@ -49,7 +49,12 @@ class _Detalle extends StatelessWidget {
       child: stack([
         h2('${solicitud.oficio} · ${solicitud.colonia}'),
         T(solicitud.descripcion),
-        sMut(t.cotizarCuando(solicitud.dia, t.cotizarFranja(solicitud.franja))),
+        sMut(
+          t.cotizarCuando(
+            fechaLegible(context, solicitud.dia),
+            t.cotizarFranja(solicitud.franja),
+          ),
+        ),
         if (solicitud.fotos.isNotEmpty)
           Wrap(
             spacing: 8,
@@ -219,7 +224,10 @@ class _EnvioState extends ConsumerState<_Envio> {
       ],
       labT(t.cotizarDia),
       if (dias.isEmpty) sMut(t.cotizarSinDias),
-      _opciones([for (final dia in dias) (dia, _dia == dia, () => _dia = dia)]),
+      _opciones([
+        for (final dia in dias)
+          (fechaLegible(context, dia), _dia == dia, () => _dia = dia),
+      ]),
       if (_errores.contains(CampoCotizacion.dia)) sMut(t.cotizarErrorDia),
       FieldK(
         label: t.cotizarHora,

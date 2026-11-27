@@ -1491,7 +1491,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String llegadaIntentos(int n) {
-    return 'Te quedan $n intentos';
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Te quedan $n intentos',
+      one: 'Te queda 1 intento',
+    );
+    return '$_temp0';
   }
 
   @override

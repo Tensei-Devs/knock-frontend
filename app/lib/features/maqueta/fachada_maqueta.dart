@@ -200,7 +200,7 @@ GoRoute rutaMaqueta() => GoRoute(
         GoRoute(
           path: 'iniciar/:vid',
           builder: (c, s) => PantallaSegunSesion(
-            titulo: 'Confirmar llegada',
+            titulo: AppLocalizations.of(c).llegadaTitulo,
             real: LlegadaReal(visitaId: s.pathParameters['vid']!),
             ejemplo: (_) => IniciarScreen(vid: s.pathParameters['vid']!),
           ),
@@ -208,7 +208,7 @@ GoRoute rutaMaqueta() => GoRoute(
         GoRoute(
           path: 'cerrar/:vid',
           builder: (c, s) => PantallaSegunSesion(
-            titulo: 'Terminar servicio',
+            titulo: AppLocalizations.of(c).visitaTerminarBoton,
             real: TerminarServicioReal(visitaId: s.pathParameters['vid']!),
             ejemplo: (_) => CerrarScreen(vid: s.pathParameters['vid']!),
           ),

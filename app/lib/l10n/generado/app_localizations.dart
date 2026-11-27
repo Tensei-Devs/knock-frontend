@@ -2591,7 +2591,7 @@ abstract class AppLocalizations {
   /// No description provided for @llegadaIntentos.
   ///
   /// In es, this message translates to:
-  /// **'Te quedan {n} intentos'**
+  /// **'{n, plural, =1{Te queda 1 intento} other{Te quedan {n} intentos}}'**
   String llegadaIntentos(int n);
 
   /// No description provided for @llegadaCuatroDigitos.

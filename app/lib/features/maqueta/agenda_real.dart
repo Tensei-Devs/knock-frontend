@@ -39,7 +39,7 @@ class AgendaReal extends ConsumerWidget {
             for (final visita in pagina.items)
               CardK(
                 child: stack([
-                  T('${visita.dia} · ${visita.hora}'),
+                  T('${fechaLegible(context, visita.dia)} · ${visita.hora}'),
                   sMut(
                     '${t.agendaModalidad(visita.modalidad)} · ${t.agendaEstado(visita.estado)}',
                   ),

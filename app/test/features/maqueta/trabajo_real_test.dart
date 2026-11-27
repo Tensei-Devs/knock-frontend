@@ -21,6 +21,8 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
+import '../../soporte/fecha_esperada.dart';
+
 const _url = 'https://api.knock.test';
 
 class _Api {
@@ -134,7 +136,12 @@ void main() {
       overrides: _Api().overrides,
     );
     expect(find.text('Próximas visitas'), findsOneWidget);
-    expect(find.text('2026-11-27 · 12:00'), findsOneWidget);
+    final dia = fechaEsperada(
+      tester,
+      TrabajoSegunSesion,
+      DateTime(2026, 11, 27),
+    );
+    expect(find.text('$dia · 12:00'), findsOneWidget);
     expect(find.text('El cliente no estaba'), findsOneWidget);
     await tester.tap(find.text('Terminar servicio'));
     await tester.pumpAndSettle();
