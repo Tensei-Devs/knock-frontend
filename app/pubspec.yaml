@@ -33,6 +33,9 @@ dependencies:
   # (ID token para POST /api/v1/auth/firebase). Evaluadas en Memoria.md.
   firebase_core: 5.1.0
   firebase_auth: 7.0.1
+  # Notificaciones push (spec 012, KNOCK-60), tras el interruptor
+  # NOTIFICACIONES_PUSH (apagado). Evaluada en Memoria.md.
+  firebase_messaging: 17.1.0
   # Tokens de la sesión solo en Keystore/Keychain (nunca shared_preferences).
   flutter_secure_storage: 11.2.0
   # deviceId (UUID v4) que genera la app y guarda en almacenamiento seguro.

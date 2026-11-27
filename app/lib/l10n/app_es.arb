@@ -375,6 +375,10 @@
   "@avisosActivadas": {
     "description": "Mensaje cuando el permiso de notificaciones está concedido."
   },
+  "avisosNoDisponibles": "Las notificaciones no están disponibles por ahora. La app sigue funcionando.",
+  "@avisosNoDisponibles": {
+    "description": "Mensaje cuando el servidor no puede registrar el teléfono para notificaciones (503)."
+  },
   "zonaUsarUbicacion": "Usar mi ubicación",
   "@zonaUsarUbicacion": {
     "description": "Botón para elegir la zona con la ubicación del teléfono."

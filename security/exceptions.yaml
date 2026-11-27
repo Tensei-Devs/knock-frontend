@@ -96,3 +96,17 @@ excepciones:
     creada: 2026-11-17
     vence: 2026-12-17
     plan: cuando exista una versión corregida de picomatch, actualizarla en panel/package-lock.json y quitar esta excepción y panel/osv-scanner.toml; si no hay versión corregida antes de vencer, volver a evaluar con evidencia nueva (no se renueva en automático).
+  - id: EXC-006
+    herramienta: dart-analyzer
+    regla: deprecated_member_use
+    alcance: app/lib/features/notificaciones/data/servicio_notificaciones_fcm.dart (solo FirebaseMessaging.getToken y deleteToken)
+    justificacion: >-
+      firebase_messaging 17 marca getToken y deleteToken como obsoletos en favor de register() y onRegistered, que
+      entregan el Firebase Installation ID (FID). El backend envía con FCM HTTP v1 usando `message.token`
+      (knock-backend, sprint-05: src/Knock.Messaging.Api/Modules/Avisos/Push/FcmPushSender.cs), que necesita el token de
+      registro de FCM, no el FID. getToken sigue funcionando en 17.1.0; la 16.x no admite el firebase_core 5.1.0 fijado.
+      Todo queda tras el interruptor NOTIFICACIONES_PUSH, apagado por omisión (spec 012, KNOCK-60).
+    responsable: Guillermo Rangel
+    creada: 2026-11-27
+    vence: 2027-01-25
+    plan: acordar con backend si el envío pasa al FID (direct-send) y migrar a register()/onRegistered y unregister(); si sigue con el token, revisar antes de vencer si la versión vigente del paquete aún lo ofrece.

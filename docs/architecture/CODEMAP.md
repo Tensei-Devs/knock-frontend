@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T17:26:36Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -13,8 +13,8 @@
 | `bandeja_avisos` | -, data, domain, presentation | 5 | 9 | 19 |
 | `busqueda` | -, data, domain, presentation | 8 | 21 | 25 |
 | `cache` | core | 2 | 7 | 9 |
-| `config` | core | 5 | 0 | 1 |
-| `cuenta` | -, data, domain, presentation | 27 | 43 | 55 |
+| `config` | core | 6 | 0 | 1 |
+| `cuenta` | -, data, domain, presentation | 27 | 42 | 54 |
 | `direcciones` | -, data, domain, presentation | 6 | 7 | 15 |
 | `enlaces` | core | 2 | 3 | 6 |
 | `entrada` | -, domain, presentation | 8 | 13 | 25 |
@@ -27,7 +27,7 @@
 | `maqueta` | - | 58 | 291 | 549 |
 | `mensajes` | -, data, domain, presentation | 9 | 13 | 15 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
-| `notificaciones` | core | 7 | 17 | 20 |
+| `notificaciones` | -, core, data | 12 | 26 | 40 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
 | `opiniones` | -, data, domain, presentation | 5 | 11 | 8 |
 | `panel` | - | 3 | 1 | 0 |
@@ -169,7 +169,7 @@
 - `app/lib/app.dart` — class `KnockApp`
   - `build()`:19
 - `app/lib/main.dart` — —
-  - `main()`:17, `arrancar()`:27
+  - `main()`:19, `arrancar()`:29
 - `app/lib/main_spike_mapa.dart` — class `SpikeMapaApp`
   - `main()`:11, `build()`:20
 
@@ -261,6 +261,7 @@
   - `direccionDelAvisoDePrivacidad()`:17
 - `app/lib/core/config/exportacion_de_datos.dart` — —
 - `app/lib/core/config/modo_maqueta.dart` — —
+- `app/lib/core/config/notificaciones_push.dart` — —
 - `app/lib/core/config/subida_de_fotos.dart` — —
 
 ### cuenta
@@ -314,15 +315,15 @@
 - `app/lib/features/cuenta/presentation/eliminacion_controller.dart` — class `PendientesController`, class `EliminacionController`
   - `build()`:12, `reintentar()`:17, `build()`:27, `programar()`:34, `cancelar()`:46
 - `app/lib/features/cuenta/presentation/perfil_controller.dart` — class `PerfilController`
-  - `build()`:15, `guardarNombre()`:32, `cerrarSesion()`:46, `reintentar()`:56, `perfilCargado()`:76
+  - `build()`:16, `guardarNombre()`:33, `cerrarSesion()`:47, `reintentar()`:66, `perfilCargado()`:86
 - `app/lib/features/cuenta/presentation/privacidad_controller.dart` — class `ConsentimientosController`, class `ExportacionController`
   - `build()`:10, `reintentar()`:16, `cambiar()`:19, `build()`:42, `reintentar()`:48, `pedir()`:52
 - `app/lib/features/cuenta/presentation/sesiones_controller.dart` — class `SesionesController`
   - `build()`:11, `reintentar()`:15, `cerrar()`:20
 - `app/lib/features/cuenta/presentation/widgets/menu_de_prueba.dart` — class `MenuDePrueba`
   - `build()`:15
-- `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`, class `_SeccionAvisosState`
-  - `initState()`:28, `build()`:55
+- `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`
+  - `build()`:14
 
 ### direcciones
 
@@ -376,7 +377,7 @@
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
   - `build()`:18, `reiniciar()`:25
 - `app/lib/features/entrada/presentation/entrada_controller.dart` — class `EntradaUiState`, class `EntradaController`
-  - `copyWith()`:23, `build()`:41, `enviarCodigo()`:46, `reenviar()`:64, `verificar()`:82, `limpiarError()`:106
+  - `copyWith()`:26, `build()`:44, `enviarCodigo()`:49, `reenviar()`:67, `verificar()`:85, `limpiarError()`:117
 - `app/lib/features/entrada/presentation/mensaje_de_error.dart` — —
   - `mensajeDeErrorDeEntrada()`:5
 - `app/lib/features/entrada/presentation/widgets/marco_de_entrada.dart` — class `MarcoDeEntrada`, class `_Marca`, class `BotonPrincipalDeEntrada`, class `MensajeDeErrorDeEntrada`
@@ -498,11 +499,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4361, `isSupported()`:4366, `shouldReload()`:4370, `lookupAppLocalizations()`:4373
+  - `of()`:70, `load()`:4367, `isSupported()`:4372, `shouldReload()`:4376, `lookupAppLocalizations()`:4379
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
+  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:477, `entradaCodigoEnviadoA()`:540, `entradaReenviarEn()`:554, `previaExpertosCerca()`:636, `previaPinSemantica()`:647, `previaTarjetaSemantica()`:652, `previaDistanciaKm()`:675, `solicitudPasoDeTotal()`:686 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:165, `busquedaTotal()`:186, `busquedaEspera()`:204, `busquedaCalificacion()`:209, `busquedaDistancia()`:214, `busquedaVerificado()`:219, `entradaAceptoAviso()`:475, `entradaCodigoEnviadoA()`:540, `entradaReenviarEn()`:554, `previaExpertosCerca()`:638, `previaPinSemantica()`:649, `previaTarjetaSemantica()`:654, `previaDistanciaKm()`:677, `solicitudPasoDeTotal()`:688 …
+  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:165, `busquedaTotal()`:186, `busquedaEspera()`:204, `busquedaCalificacion()`:209, `busquedaDistancia()`:214, `busquedaVerificado()`:219, `entradaAceptoAviso()`:479, `entradaCodigoEnviadoA()`:544, `entradaReenviarEn()`:558, `previaExpertosCerca()`:642, `previaPinSemantica()`:653, `previaTarjetaSemantica()`:658, `previaDistanciaKm()`:681, `solicitudPasoDeTotal()`:692 …
 
 ### layout
 
@@ -523,7 +524,7 @@
 - `app/lib/features/maqueta/asistente_real.dart` — class `NotaIaDeEjemplo`, class `_Pantalla`, class `AsistenteChatReal`, class `_ChatState`, class `ResumenReal`, class `BorradorReal`, class `_BorradorEditable`, class `_BorradorState`, class `RangoReal`, class `BitacoraReal`, class `_BitacoraEditable`, class `_BitacoraState`
   - `build()`:30, `rutasAsistente()`:53, `build()`:94, `dispose()`:160, `build()`:177, `build()`:217, `build()`:243, `dispose()`:274, `build()`:282, `build()`:303, `build()`:342, `dispose()`:379, `build()`:410
 - `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`, class `ContadorDeAvisos`
-  - `build()`:79, `build()`:127, `build()`:158, `build()`:226
+  - `build()`:81, `build()`:129, `build()`:162, `build()`:245
 - `app/lib/features/maqueta/bloqueos_reales.dart` — class `PersonasBloqueadasReales`, class `_FilaBloqueada`, class `DesbloquearReal`, class `_DesbloquearRealState`, class `BloquearReal`, class `_ConfirmarBloqueo`, class `_ConfirmarBloqueoState`
   - `textosDeLista()`:30, `filas()`:42, `hayMas()`:47, `reintentar()`:50, `cargarMas()`:54, `build()`:64, `build()`:121, `build()`:148, `build()`:261
 - `app/lib/features/maqueta/busqueda_real.dart` — class `BusquedaReal`, class `_BusquedaRealState`, class `_SinZona`, class `_Error`, class `_Sugerencias`, class `_Resultados`, class `_Experto`
@@ -682,6 +683,11 @@
 
 ### notificaciones
 
+**-**
+
+- `app/lib/features/notificaciones/notificaciones_providers.dart` — —
+  - `registroDispositivosReal()`:19, `overridesDeNotificaciones()`:34
+
 **core**
 
 - `app/lib/core/notificaciones/avisos_provider.dart` — class `PreferenciasAvisos`, class `AvisosNotifier`, class `ConversacionAbiertaNotifier`
@@ -692,12 +698,22 @@
   - `revisarTextoDeNotificacion()`:27, `esTextoSeguro()`:34
 - `app/lib/core/notificaciones/navegacion_notificaciones.dart` — —
   - `abrirPantallaDesdeNotificaciones()`:13, `abrir()`:14
-- `app/lib/core/notificaciones/registro_dispositivo_controller.dart` — class `EstadoRegistro`, class `SinRegistrar`, class `SinPermisoDeNotificaciones`, class `SinIdentificador`, class `RegistroFallido`, class `Registrado`, class `RegistroDispositivoController`
-  - `toString()`:38, `build()`:48, `alIniciarSesion()`:52, `alCerrarSesion()`:86
-- `app/lib/core/notificaciones/registro_dispositivos.dart` — class `RegistroDispositivosRepository`, class `RegistroDispositivosSimulado`
-  - `registrar()`:21, `desregistrar()`:27
+- `app/lib/core/notificaciones/permiso_notificaciones.dart` — class `PermisoDeNotificaciones`, class `_PermisoDeNotificacionesState`
+  - `initState()`:28, `build()`:55
+- `app/lib/core/notificaciones/registro_dispositivo_controller.dart` — class `EstadoRegistro`, class `SinRegistrar`, class `SinPermisoDeNotificaciones`, class `SinIdentificador`, class `RegistroFallido`, class `NotificacionesNoDisponibles`, class `Registrado`, class `RegistroDispositivoController`
+  - `toString()`:53, `build()`:63, `alIniciarSesion()`:67, `alCerrarSesion()`:105
+- `app/lib/core/notificaciones/registro_dispositivos.dart` — class `NotificacionesNoDisponiblesException`, class `RegistroDispositivosRepository`, class `RegistroDispositivosSimulado`
+  - `toString()`:8, `registrar()`:36, `desregistrar()`:44
+- `app/lib/core/notificaciones/registro_dispositivos_provider.dart` — —
 - `app/lib/core/notificaciones/servicio_notificaciones.dart` — class `ServicioNotificaciones`, class `ServicioNotificacionesNoDisponible`
   - `obtenerIdentificador()`:30, `borrarIdentificador()`:33, `toqueInicial()`:39
+
+**data**
+
+- `app/lib/features/notificaciones/data/registro_dispositivos_api.dart` — class `RegistroDispositivosApi`
+  - `registrar()`:30, `desregistrar()`:52
+- `app/lib/features/notificaciones/data/servicio_notificaciones_fcm.dart` — class `FuenteFcm`, class `FuenteFcmFirebase`, class `ServicioNotificacionesFcm`, class `GestorPermisosFcm`
+  - `token()`:42, `borrarToken()`:45, `inicial()`:53, `permiso()`:59, `pedirPermiso()`:64, `abrirAjustes()`:70, `estadoDePermisoFcm()`:79, `obtenerIdentificador()`:98, `borrarIdentificador()`:108, `toqueInicial()`:114, `estado()`:131, `pedir()`:137, `abrirAjustes()`:143
 
 ### oficios
 

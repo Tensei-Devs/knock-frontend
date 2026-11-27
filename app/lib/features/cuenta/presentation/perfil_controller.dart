@@ -1,3 +1,4 @@
+import 'package:app/core/notificaciones/registro_dispositivo_controller.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
 import 'package:app/core/sesion/sesion.dart';
@@ -44,6 +45,15 @@ class PerfilController extends AsyncNotifier<Perfil> {
   /// dependía de la cuenta (spec 001 §6: sin datos de la sesión anterior). La
   /// bandera de sesión pasa a falso y el router lleva a `/entrar` (spec 026).
   Future<void> cerrarSesion() async {
+    // Con la sesión aún válida se da de baja el dispositivo (spec 012, R-01).
+    // No lanza y no bloquea el cierre si el servidor falla.
+    try {
+      await ref
+          .read(registroDispositivoControllerProvider.notifier)
+          .alCerrarSesion();
+    } on Object {
+      // El cierre de sesión sigue.
+    }
     await ref.read(perfilRepositoryProvider).cerrarSesion();
     ref.read(sesionIniciadaProvider.notifier).cerrar();
     ref.read(esTecnicoProvider.notifier).cambiar(esTecnico: false);

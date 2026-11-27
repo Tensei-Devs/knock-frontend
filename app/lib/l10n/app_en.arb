@@ -153,6 +153,7 @@
   "avisosApagadas": "Notifications are turned off on your phone. The app keeps working; you can turn them on whenever you like.",
   "avisosAbrirAjustes": "Open settings",
   "avisosActivadas": "Notifications are on",
+  "avisosNoDisponibles": "Notifications are not available right now. The app keeps working.",
   "zonaUsarUbicacion": "Use my location",
   "zonaPideCodigoPostal": "Without your location, type your postal code to continue.",
   "zonaCodigoPostal": "Postal code",
