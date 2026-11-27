@@ -1,6 +1,7 @@
 graph LR
   actividad["actividad"]
   app["app"]
+  asistente["asistente"]
   bandeja_avisos["bandeja_avisos"]
   busqueda["busqueda"]
   cache["cache"]
@@ -16,6 +17,7 @@ graph LR
   l10n["l10n"]
   layout["layout"]
   maqueta["maqueta"]
+  mensajes["mensajes"]
   mi["mi"]
   notificaciones["notificaciones"]
   oficios["oficios"]
@@ -46,7 +48,8 @@ graph LR
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|23| actividad
+  maqueta -->|25| actividad
+  maqueta -->|1| asistente
   maqueta -->|1| bandeja_avisos
   maqueta -->|1| busqueda
   maqueta -->|7| cuenta
@@ -54,6 +57,7 @@ graph LR
   maqueta -->|3| entrada
   maqueta -->|1| explorar
   maqueta -->|8| inicio
+  maqueta -->|2| mensajes
   maqueta -->|1| mi
   maqueta -->|4| oficios
   maqueta -->|1| opiniones

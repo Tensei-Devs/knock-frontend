@@ -311,4 +311,23 @@ void main() {
       }
     });
   });
+
+  test('CA_020_18 la mensajería no registra texto, nombres ni token', () {
+    final registro = RegExp(
+      r'print\(|debugPrint|developer\.log|logger:|Logger\(|reportError',
+    );
+    final archivos = [
+      ..._archivos(['lib/features/mensajes'], {'.dart'}),
+      File('lib/features/maqueta/conversaciones_reales.dart'),
+      File('lib/features/maqueta/globo_real.dart'),
+    ];
+    expect(archivos.length, greaterThan(3));
+    for (final archivo in archivos) {
+      expect(
+        registro.hasMatch(archivo.readAsStringSync()),
+        isFalse,
+        reason: archivo.path,
+      );
+    }
+  });
 }
