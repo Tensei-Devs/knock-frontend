@@ -7,6 +7,8 @@ import 'package:app/features/actividad/actividad.dart';
 import 'package:app/features/maqueta/terminar_servicio_real.dart';
 import 'package:app/features/maqueta/trabajo_real.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/tecnico/data/disponible_hoy_repository_api.dart';
+import 'package:app/features/tecnico/tecnico_providers.dart';
 import 'package:app/features/visita/data/acciones_visita_repository_api.dart';
 import 'package:app/features/visita/data/agenda_repository_api.dart';
 import 'package:app/features/visita/visita_providers.dart';
@@ -18,6 +20,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+
+import '../../soporte/fecha_esperada.dart';
 
 const _url = 'https://api.knock.test';
 
@@ -33,6 +37,9 @@ class _Api {
         'items': [_visita('v1', 'confirmada'), _visita('v2', 'en_curso')],
         'nextCursor': null,
       }, 200);
+    }
+    if (ruta.endsWith('/tecnicos/me/trabajo')) {
+      return _json({'disponibleHoy': false}, 200);
     }
     if (estadoDeAccion != 200) return _json({}, estadoDeAccion);
     if (ruta.endsWith('/cliente-ausente')) {
@@ -64,6 +71,9 @@ class _Api {
 
   List<Override> get overrides => [
     solicitudesRealesActivasProvider.overrideWithValue(true),
+    disponibleHoyRepositoryProvider.overrideWithValue(
+      DisponibleHoyRepositoryApi(transporte: cliente, url: _url),
+    ),
     agendaRepositoryProvider.overrideWithValue(
       AgendaRepositoryApi(transporte: cliente, url: _url),
     ),
@@ -126,7 +136,12 @@ void main() {
       overrides: _Api().overrides,
     );
     expect(find.text('Próximas visitas'), findsOneWidget);
-    expect(find.text('2026-11-27 · 12:00'), findsOneWidget);
+    final dia = fechaEsperada(
+      tester,
+      TrabajoSegunSesion,
+      DateTime(2026, 11, 27),
+    );
+    expect(find.text('$dia · 12:00'), findsOneWidget);
     expect(find.text('El cliente no estaba'), findsOneWidget);
     await tester.tap(find.text('Terminar servicio'));
     await tester.pumpAndSettle();

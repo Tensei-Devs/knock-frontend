@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../soporte/fecha_esperada.dart';
+
 class _Agenda implements AgendaRepository {
   bool falla = false;
   bool vacia = false;
@@ -44,13 +46,16 @@ Future<void> _montar(WidgetTester tester, _Agenda repo) => tester.pumpWidget(
   ),
 );
 
+String _dia(WidgetTester tester) =>
+    fechaEsperada(tester, AgendaReal, DateTime(2026, 11, 27));
+
 void main() {
   testWidgets('CA_040_27 muestra visitas del servidor sin inventar ubicación', (
     tester,
   ) async {
     await _montar(tester, _Agenda());
     await tester.pumpAndSettle();
-    expect(find.text('2026-11-27 · 12:00'), findsOneWidget);
+    expect(find.text('${_dia(tester)} · 12:00'), findsOneWidget);
     expect(
       find.text('La ubicación de las visitas no está disponible en el mapa.'),
       findsOneWidget,
@@ -79,8 +84,8 @@ void main() {
     await tester.tap(find.text('Ver más visitas'));
     await tester.pumpAndSettle();
     expect(repo.cursorPedido, 'c2');
-    expect(find.text('2026-11-27 · 12:00'), findsOneWidget);
-    expect(find.text('2026-11-27 · 13:00'), findsOneWidget);
+    expect(find.text('${_dia(tester)} · 12:00'), findsOneWidget);
+    expect(find.text('${_dia(tester)} · 13:00'), findsOneWidget);
     expect(find.text('Ver más visitas'), findsNothing);
   });
 }

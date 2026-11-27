@@ -78,6 +78,10 @@
 - **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
 - **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
 - **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+## 2026-11-26 — Escrituras de precio del técnico, avance parcial (KNOCK-266, spec 039)
+- **Avance:** `PrecioTecnicoRepositoryApi` envía cotización final y propuesta de ajuste mediante el transporte común; verifica los identificadores de la confirmación. Las pruebas HTTP simuladas cubren ambas peticiones y una respuesta ajena.
+- **Límite:** no está conectado a ninguna pantalla ni a proveedores de producción. La pantalla existente de cierre usa visitas y cotizaciones de ejemplo; no se deben enviar esos ids a la API. CA-01 y CA-07 siguen parciales.
+- **Pendiente:** obtener y conectar una visita y su cotización reales, formularios, estados y validaciones, y completar pruebas de aceptación. No publicar como integración terminada.
 
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
@@ -891,9 +895,40 @@
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
 
+## 2026-11-26 — El técnico ve una solicitud y envía su cotización (KNOCK-74, spec 046)
+- **Qué cambió:** con sesión y API, «Trabajo» muestra solicitudes nuevas y cotizaciones enviadas; «Cotizar» lee el detalle y envía la cotización, sin campo de nota (046 §13).
+- **Pendiente:** descartar y el resumen de «Trabajo» (#101, #102), teléfono y backend desplegado.
+## 2026-11-26 — «El técnico no se presentó» (KNOCK-266, spec 040)
+- **Qué cambió:** el cliente puede registrarlo en una visita confirmada (`POST /visitas/{id}/tecnico-ausente`); la ventana la decide el servidor y un 409 o 404 vuelve a leer la visita.
+- **Pendiente:** teléfono y backend desplegado.
+## 2026-11-26 — Apelación de una cuenta suspendida (KNOCK-266, spec 033)
+- **Qué cambió:** tras `account_suspended` al entrar se puede apelar en `/entrar/apelacion`: SMS nuevo, `idToken` de Firebase solo en memoria y sin sesión de Knock (`GET` y `POST /suspension/apelacion`).
+- **Pendiente:** SMS real, teléfono y backend desplegado.
+- **A evitar:** poner red en `features/entrada/`; su prueba de arquitectura lo prohíbe.
+## 2026-11-26 — Lecturas de la cotización final y los ajustes (KNOCK-266, spec 039)
+- **Qué cambió:** al revisar la enmienda, un 404 de la cotización final y una lista vacía de ajustes ahora se dicen en pantalla en vez de ocultar la sección.
+- **Pendiente:** teléfono y backend desplegado.
 ## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
 - **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
 - **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Llegada del técnico con código contra la API (KNOCK-85)
+- **Qué cambió:** «Confirmar llegada» en la agenda del técnico abre la pantalla real: lee `GET /visitas/{id}` (vista del técnico) y envía `POST /visitas/{id}/llegada` sin clave de idempotencia; con `code_used` consulta la visita y, si ya está en curso, es éxito (spec 016, CA-10 a CA-13, CA-15, CA-17 y CA-20). HTTP a mano por ADR-007.
+- **Desviación:** la pantalla vive en la maqueta (`/m/tecnico/iniciar/:vid`), como las demás pantallas reales, y no en `/trabajo/visita/:id`; con `MODO_MAQUETA=false` no hay ruta.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; sin prueba de texto al 200 % (CA-14).
+- **A evitar:** reintentar la llegada sola: un reintento con código incorrecto vuelve a contar como intento.
+## 2026-11-27 — Cotización final y ajuste de precio del técnico (KNOCK-266, spec 039)
+- **Qué cambió:** en «Terminar servicio» de una visita en curso, el técnico envía la cotización final y propone otro precio (`POST /visitas/{id}/cotizacion-final` y `POST /cotizaciones/{id}/ajuste-precio`). La cotización aceptada y su tope salen de `GET /tecnicos/me/trabajo`. Parte del repositorio de Alexis. HTTP a mano por ADR-007.
+- **Pendiente:** cuenta regresiva de la vigencia (D-03), error 422 por campo (hoy hay límites en el teléfono y un mensaje general), referencia de mercado (spec 038, espera la pantalla de cotizar). Sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** ofrecer la cotización final como si aplicara a toda visita: el backend solo la acepta en visitas de diagnóstico en curso.
+## 2026-11-27 — Permiso de fotos del trabajo (KNOCK-266, spec 040)
+- **Qué cambió:** en una visita terminada, el cliente abre «Fotos del trabajo» y enciende o apaga el permiso (`PUT /visitas/{id}/permiso-fotos`). El valor actual sale de `GET /visitas/{id}` (`permisoFotos`). Textos de la enmienda del 2026-11-27, firmada en el PR #148 (todavía sin fusionar). HTTP a mano por ADR-007.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; el backend aún no tiene quién publique o retire las fotos.
+- **A evitar:** prometer plazos o retiro de fotos ya publicadas.
+## 2026-11-27 — Interruptor «Disponible hoy» en Trabajo (KNOCK-266, specs 019 y 036)
+- **Qué cambió:** la cabecera de Trabajo tiene el interruptor. El valor inicial sale de `GET /tecnicos/me/trabajo` y el cambio usa `PUT /tecnicos/me/disponibilidad` (repositorio que ya existía sin pantalla). Enmienda del 2026-11-27 firmada en el PR #148, todavía sin fusionar.
+- **Pendiente:** resumen, solicitudes nuevas y descartar de Trabajo; sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** calcular en el teléfono cuándo se apaga: lo decide el servidor.

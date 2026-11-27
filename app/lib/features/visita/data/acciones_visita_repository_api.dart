@@ -4,7 +4,8 @@ import 'package:app/features/visita/domain/acciones_visita.dart';
 import 'package:http/http.dart' as http;
 
 /// REAL: `POST /api/v1/visitas/{id}/cancelar`, `/reprogramar`,
-/// `/cliente-ausente`, `/terminar` y `/no-terminado` (backend 050). Con sesión, por el transporte de la spec 026.
+/// `/cliente-ausente`, `/terminar` y `/no-terminado` (backend 050), y
+/// `/tecnico-ausente` (backend 064). Con sesión, por el transporte de la spec 026.
 /// El motivo y el texto de la persona no se registran (CA-37).
 class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   const AccionesVisitaRepositoryApi({
@@ -61,8 +62,15 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   }
 
   @override
-  Future<String> clienteAusente(String visitaId) async {
-    final m = await _enviar(visitaId, 'cliente-ausente', null);
+  Future<String> clienteAusente(String visitaId) =>
+      _ausencia(visitaId, 'cliente-ausente');
+
+  @override
+  Future<String> tecnicoAusente(String visitaId) =>
+      _ausencia(visitaId, 'tecnico-ausente');
+
+  Future<String> _ausencia(String visitaId, String accion) async {
+    final m = await _enviar(visitaId, accion, null);
     _verificarVisita(m, visitaId);
     textoObligatorio(m['quienFalto']);
     return textoObligatorio(m['estado']);

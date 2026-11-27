@@ -921,14 +921,21 @@
   "reputacionConfiable": "Trusted",
   "reputacionDestacado": "Outstanding",
   "trabajoProximasVisitas": "Upcoming visits",
-  "trabajoPendiente": "New requests, sent quotes and finished jobs are not shown here yet.",
+  "trabajoPendiente": "Finished jobs aren’t shown here yet.",
   "trabajoVerificacion": "My verification",
   "trabajoReputacion": "My reputation",
+  "trabajoDisponibleHoy": "Available today",
+  "trabajoDisponibleDetalle": "Turn it on if you can take requests today. It turns itself off at the end of the day.",
+  "trabajoDisponibleCargando": "Loading your availability…",
   "visitaAusenteBoton": "The client was not there",
   "visitaAusenteExplicacion": "We record that the client was not there. You are not penalized. Only possible within the appointment window.",
   "visitaAusenteConfirmar": "Record that they were not there",
   "visitaAusenteRegistrada": "We recorded that the client was not there.",
   "visitaAusenteFueraDeVentana": "This cannot be recorded now: only within the appointment window.",
+  "visitaTecnicoAusenteBoton": "The technician didn’t show up",
+  "visitaTecnicoAusenteExplicacion": "Confirm only if the technician didn’t arrive. You can record it from 15 minutes up to 2 hours after the appointment time.",
+  "visitaTecnicoAusenteConfirmar": "Record that they didn’t arrive",
+  "visitaTecnicoAusenteRegistrada": "You recorded that the technician didn’t show up.",
   "visitaTerminarBoton": "Finish job",
   "visitaTerminarFotos": "Photos of the finished job (1 to 5)",
   "visitaTerminarDescripcion": "What did you do?",
@@ -937,6 +944,50 @@
   "visitaTerminarSinSubida": "Photo upload is not available yet, so you cannot finish the job from the app.",
   "visitaTerminarNoEnCurso": "This visit is not in progress: it cannot be finished.",
   "visitaTerminarHecho": "Job finished.",
+  "llegadaTitulo": "Confirm arrival",
+  "llegadaCargando": "Loading your visit…",
+  "llegadaInstruccion": "Ask for the 4-digit code at the door and type it here.",
+  "llegadaCodigo": "4-digit code",
+  "llegadaConfirmar": "I have arrived",
+  "llegadaConfirmando": "Confirming…",
+  "llegadaConfirmada": "Arrival confirmed. The visit is in progress.",
+  "llegadaHora": "Arrival time: {hora}",
+  "@llegadaHora": {
+    "placeholders": {
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "llegadaIncorrecto": "The code does not match. Make sure you are at the right address.",
+  "llegadaIntentos": "{n, plural, =1{You have 1 attempt left} other{You have {n} attempts left}}",
+  "@llegadaIntentos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "llegadaCuatroDigitos": "Type the 4 digits.",
+  "llegadaBloqueada": "This visit was locked for safety. The Knock team will review it.",
+  "llegadaYaUsado": "This code has already been used.",
+  "llegadaVencido": "The code for this visit has expired.",
+  "llegadaCancelada": "This visit was cancelled.",
+  "errorFueraDeVentana": "You can confirm arrival on the day of the appointment, from 00:00.",
+  "errorVisitaNoVigente": "This visit is no longer active.",
+  "llegadaTaller": "This appointment is at the workshop and needs no code.",
+  "llegadaNoTecnico": "Only the technician of this visit can confirm arrival.",
+  "llegadaNoDisponible": "This visit is no longer available.",
+  "llegadaAunNo": "You can confirm your arrival on the day of the appointment.",
+  "llegadaReintentoCuenta": "If the code was wrong, this retry counts as an attempt.",
+  "llegadaEspera": "Too many attempts. Wait {segundos} seconds.",
+  "@llegadaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
   "agendaCargando": "Loading your schedule…",
   "agendaError": "We could not load your schedule.",
   "agendaVacia": "You have no upcoming visits.",
@@ -1126,6 +1177,8 @@
   "cotizacionRechazar": "Reject",
   "cotizacionActualizar": "Refresh",
   "cotizacionCargandoPrecio": "Checking for a price to approve…",
+  "cotizacionFinalNoDisponible": "The final quote isn’t available.",
+  "cotizacionSinAjustes": "There are no pending price changes.",
   "serviciosPrecioDesde": "From ${precio}",
   "@serviciosPrecioDesde": {
     "placeholders": {
@@ -1308,5 +1361,112 @@
         "type": "String"
       }
     }
-  }
+  },
+  "cotizarSinPerfil": "You need a technician profile to see this.",
+  "cotizarYaNoSeCotiza": "This request no longer accepts quotes.",
+  "cotizarYaCotizada": "You already sent a quote for this request.",
+  "cotizarCupoLleno": "This request already has the maximum number of quotes.",
+  "cotizarTitulo": "Send a quote",
+  "cotizarNuevas": "New requests",
+  "cotizarNuevasVacio": "You have no new requests.",
+  "cotizarVer": "View and quote",
+  "cotizarVerPropia": "View my quote",
+  "cotizarEnviadas": "Sent quotes",
+  "cotizarEnviadasVacio": "You haven’t sent any quotes yet.",
+  "cotizarCargando": "Loading…",
+  "cotizarTipoLabel": "Price type",
+  "cotizarPrecio": "Price in pesos",
+  "cotizarPrecioVisita": "Visit price in pesos",
+  "cotizarPrecioMin": "Minimum in pesos",
+  "cotizarPrecioMax": "Maximum in pesos",
+  "cotizarDia": "Visit day",
+  "cotizarHora": "Time (HH:mm)",
+  "cotizarPrecioVisitaRango": "From {minimo} to {maximo} pesos.",
+  "@cotizarPrecioVisitaRango": {
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarErrorMontoVisita": "Enter a whole number from {minimo} to {maximo}.",
+  "@cotizarErrorMontoVisita": {
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarSinDias": "There are no days left for this request.",
+  "cotizarErrorMonto": "Enter a whole number from 1 to 200,000.",
+  "cotizarErrorMaximo": "The maximum must be a whole number above the minimum, up to 200,000.",
+  "cotizarErrorDia": "Pick a day.",
+  "cotizarErrorHora": "Enter the time like 09:30.",
+  "cotizarEnviar": "Send quote",
+  "cotizarEnviada": "Quote sent",
+  "cotizarRequiereAprobacion": "The client will have to approve the final price.",
+  "cotizarSinAprobacion": "No further approval from the client is needed.",
+  "cotizarFotoDe": "Request photo {numero}",
+  "cotizarTope": "Cap: ${monto}",
+  "cotizarMonto": "${monto}",
+  "cotizarRango": "${min} to ${max}",
+  "cotizarCuando": "{dia} · {franja}",
+  "cotizarTipo": "{tipo, select, fijo{Fixed price} rango{Range} visita{Per visit} other{{tipo}}}",
+  "cotizarFranja": "{franja, select, manana{Morning} tarde{Afternoon} noche{Evening} other{{franja}}}",
+  "cotizarEstado": "{estado, select, enviada{Waiting for an answer} aceptada{Accepted} rechazada{Rejected} retirada{Withdrawn} other{{estado}}}",
+  "precioFinalBoton": "Send final quote",
+  "precioAjusteBoton": "Propose another price",
+  "precioFinalExplicacion": "Only for diagnostic visits. The client approves or rejects it.",
+  "precioFinalMonto": "Final price in pesos",
+  "precioFinalDescripcion": "What does it include?",
+  "precioDescripcionAyuda": "8 to 500 characters.",
+  "precioMontoAyuda": "Whole pesos, greater than zero.",
+  "precioFinalEnviar": "Send to the client",
+  "precioFinalEnviada": "We sent your final quote. The client still has to approve it.",
+  "precioFinalNoPermitida": "It cannot be sent now: only once, while the diagnostic visit is in progress.",
+  "precioAjusteCargando": "Looking for your accepted quote…",
+  "precioAjusteSinCotizacion": "We could not find the accepted quote for this visit.",
+  "precioAjusteMonto": "New total price in pesos",
+  "precioAjusteMinimo": "At least {monto} pesos.",
+  "@precioAjusteMinimo": {
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "precioAjusteMotivo": "Why is the price changing?",
+  "precioAjusteMotivoAyuda": "10 to 300 characters.",
+  "precioAjusteEnviar": "Propose to the client",
+  "precioAjusteEnviado": "We sent your proposal. The client still has to approve it.",
+  "precioAjusteMotivoRechazado": "The reason couldn't be posted. Review it and remove personal data or offensive words.",
+  "precioAjusteSinRevision": "We couldn't review the reason right now. Try again in a few minutes.",
+  "precioAjusteNoPermitido": "It cannot be proposed now: the visit must be in progress with no pending change.",
+  "visitaPermisoFotosTitulo": "Photos of the job",
+  "visitaPermisoFotosCasilla": "Allow these photos to be shown on the technician’s profile and in Explore",
+  "visitaPermisoFotosDetalle": "This is optional. They are shown only with your permission and after a content review. You can change your answer.",
+  "visitaPermisoFotosGuardado": "Your answer was saved.",
+  "visitaPermisoFotosCargando": "Loading your answer…",
+  "suspensionApelar": "Appeal the suspension",
+  "suspensionTitulo": "Your appeal",
+  "suspensionDetalle": "Verify your number with an SMS code. This doesn’t sign you in.",
+  "suspensionEnviarCodigo": "Send me the code",
+  "suspensionVerificar": "Verify",
+  "suspensionSinConsulta": "There’s no appeal available to check. If you want to appeal, write your reasons.",
+  "suspensionTexto": "Your reasons",
+  "suspensionTextoAyuda": "Write between 8 and 500 characters.",
+  "suspensionPresentar": "Send appeal",
+  "suspensionNoDisponible": "There’s no appeal available.",
+  "suspensionNoPermitida": "You can’t send another appeal.",
+  "suspensionVerificarOtraVez": "Verify your number again with an SMS code.",
+  "suspensionVolver": "Back",
+  "suspensionEstado": "{estado, select, pendiente{Your appeal is under review.} aceptada{Your appeal was accepted.} rechazada{Your appeal was rejected.} other{Your appeal status: {estado}}}",
+  "suspensionPresentadaEl": "Sent on {fecha}",
+  "suspensionResueltaEl": "Resolved on {fecha}"
 }
