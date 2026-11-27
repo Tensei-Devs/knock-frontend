@@ -1598,12 +1598,24 @@
   "conversacionesSinConexion": "Sin conexión",
   "conversacionesGlobo": "Mensajes",
   "conversacionesGloboConTotal": "Mensajes, {total}",
-  "@conversacionesGloboConTotal": {"placeholders": {"total": {"type": "String"}}},
+  "@conversacionesGloboConTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "conversacionesCargando": "Cargando conversaciones…",
   "conversacionesVacias": "Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.",
   "conversacionesAbrirPendiente": "Abrir conversaciones aún no está disponible.",
   "conversacionesNoLeidos": "{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}",
-  "@conversacionesNoLeidos": {"placeholders": {"total": {"type": "int"}}},
+  "@conversacionesNoLeidos": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "reputacionNivel": "Nivel: {nivel}",
   "reputacionNuevo": "Nuevo",
   "reputacionConfiable": "Confiable",
@@ -2713,5 +2725,31 @@
         "type": "String"
       }
     }
-  }
+  },
+  "precioFinalBoton": "Enviar cotización final",
+  "precioAjusteBoton": "Proponer otro precio",
+  "precioFinalExplicacion": "Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.",
+  "precioFinalMonto": "Precio final en pesos",
+  "precioFinalDescripcion": "¿Qué incluye?",
+  "precioDescripcionAyuda": "De 8 a 500 caracteres.",
+  "precioMontoAyuda": "Pesos sin centavos, mayor que cero.",
+  "precioFinalEnviar": "Enviar al cliente",
+  "precioFinalEnviada": "Enviamos tu cotización final. Falta que el cliente la apruebe.",
+  "precioFinalNoPermitida": "Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.",
+  "precioAjusteCargando": "Buscando tu cotización aceptada…",
+  "precioAjusteSinCotizacion": "No encontramos la cotización aceptada de esta visita.",
+  "precioAjusteMonto": "Nuevo precio total en pesos",
+  "precioAjusteMinimo": "Mínimo {monto} pesos.",
+  "@precioAjusteMinimo": {
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "precioAjusteMotivo": "¿Por qué cambia el precio?",
+  "precioAjusteMotivoAyuda": "De 10 a 300 caracteres.",
+  "precioAjusteEnviar": "Proponer al cliente",
+  "precioAjusteEnviado": "Enviamos tu propuesta. Falta que el cliente la apruebe.",
+  "precioAjusteNoPermitido": "Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente."
 }

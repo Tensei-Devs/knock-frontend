@@ -78,6 +78,10 @@
 - **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
 - **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
 - **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+## 2026-11-26 — Escrituras de precio del técnico, avance parcial (KNOCK-266, spec 039)
+- **Avance:** `PrecioTecnicoRepositoryApi` envía cotización final y propuesta de ajuste mediante el transporte común; verifica los identificadores de la confirmación. Las pruebas HTTP simuladas cubren ambas peticiones y una respuesta ajena.
+- **Límite:** no está conectado a ninguna pantalla ni a proveedores de producción. La pantalla existente de cierre usa visitas y cotizaciones de ejemplo; no se deben enviar esos ids a la API. CA-01 y CA-07 siguen parciales.
+- **Pendiente:** obtener y conectar una visita y su cotización reales, formularios, estados y validaciones, y completar pruebas de aceptación. No publicar como integración terminada.
 
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
@@ -906,3 +910,7 @@
 - **Desviación:** la pantalla vive en la maqueta (`/m/tecnico/iniciar/:vid`), como las demás pantallas reales, y no en `/trabajo/visita/:id`; con `MODO_MAQUETA=false` no hay ruta.
 - **Pendiente:** sin probar contra el backend desplegado ni en teléfono; sin prueba de texto al 200 % (CA-14).
 - **A evitar:** reintentar la llegada sola: un reintento con código incorrecto vuelve a contar como intento.
+## 2026-11-27 — Cotización final y ajuste de precio del técnico (KNOCK-266, spec 039)
+- **Qué cambió:** en «Terminar servicio» de una visita en curso, el técnico envía la cotización final y propone otro precio (`POST /visitas/{id}/cotizacion-final` y `POST /cotizaciones/{id}/ajuste-precio`). La cotización aceptada y su tope salen de `GET /tecnicos/me/trabajo`. Parte del repositorio de Alexis. HTTP a mano por ADR-007.
+- **Pendiente:** cuenta regresiva de la vigencia (D-03), error 422 por campo (hoy hay límites en el teléfono y un mensaje general), referencia de mercado (spec 038, espera la pantalla de cotizar). Sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** ofrecer la cotización final como si aplicara a toda visita: el backend solo la acepta en visitas de diagnóstico en curso.
