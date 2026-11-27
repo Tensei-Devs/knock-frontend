@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 /// Máximo de caracteres del identificador que acepta el contrato.
 const maximoIdentificadorDispositivo = 4096;
 
-/// Registro real contra `POST /api/v1/dispositivos` y
+/// Repositorio escrito a mano (ADR-007): registro real contra `POST /api/v1/dispositivos` y
 /// `DELETE /api/v1/dispositivos/{id}` (contrato de mensajería, spec 037).
 ///
 /// El endpoint aún no está en el cliente generado: usa [enviarJson] (mismo

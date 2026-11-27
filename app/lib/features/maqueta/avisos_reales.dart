@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:app/core/config/notificaciones_push.dart';
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/core/notificaciones/permiso_notificaciones.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/bandeja_avisos/bandeja_avisos.dart';
@@ -150,63 +152,80 @@ class _Fila extends StatelessWidget {
 }
 
 /// «Qué avisos recibir» con datos reales: los interruptores y cuáles se pueden
-/// apagar los dice el servidor.
+/// apagar los dice el servidor. Con las notificaciones push encendidas
+/// (interruptor `NOTIFICACIONES_PUSH`, spec 012) muestra también el permiso
+/// del teléfono, que al concederse registra el dispositivo.
 class PreferenciasDeAvisosReales extends ConsumerWidget {
   const PreferenciasDeAvisosReales({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final control = ref.read(preferenciasDeAvisosControllerProvider.notifier);
+    final push = ref.watch(notificacionesPushActivasProvider);
     return _estados(
       ref.watch(preferenciasDeAvisosControllerProvider),
       cargando: 'Cargando tus preferencias…',
       error: 'No pudimos cargar tus preferencias.',
       reintentar: control.reintentar,
-      datos: (preferencias) => GroupK([
-        for (final p in preferencias)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              spacing: 14,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 2,
-                    children: [
-                      T(textoDeTipo(p.tipo).titulo, w: FontWeight.w800),
-                      sMut(
-                        p.apagable
-                            ? textoDeTipo(p.tipo).detalle
-                            : 'Siempre activo',
-                        size: 13.5,
-                      ),
-                    ],
+      datos: (preferencias) => _conPermiso(
+        push: push,
+        preferencias: GroupK([
+          for (final p in preferencias)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                spacing: 14,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 2,
+                      children: [
+                        T(textoDeTipo(p.tipo).titulo, w: FontWeight.w800),
+                        sMut(
+                          p.apagable
+                              ? textoDeTipo(p.tipo).detalle
+                              : 'Siempre activo',
+                          size: 13.5,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Semantics(
-                  label: textoDeTipo(p.tipo).titulo,
-                  toggled: p.activo,
-                  child: Sw(
-                    on: p.activo,
-                    onTap: p.apagable
-                        ? () => unawaited(
-                            control.cambiar(p.tipo, activo: !p.activo).then((
-                              falla,
-                            ) {
-                              if (context.mounted) _avisarFalla(context, falla);
-                            }),
-                          )
-                        : null,
+                  Semantics(
+                    label: textoDeTipo(p.tipo).titulo,
+                    toggled: p.activo,
+                    child: Sw(
+                      on: p.activo,
+                      onTap: p.apagable
+                          ? () => unawaited(
+                              control.cambiar(p.tipo, activo: !p.activo).then((
+                                falla,
+                              ) {
+                                if (context.mounted) {
+                                  _avisarFalla(context, falla);
+                                }
+                              }),
+                            )
+                          : null,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-      ]),
+        ]),
+      ),
     );
   }
 }
+
+/// El permiso de notificaciones arriba de las preferencias, solo si [push].
+Widget _conPermiso({required bool push, required Widget preferencias}) => push
+    ? Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
+        children: [const PermisoDeNotificaciones(), preferencias],
+      )
+    : preferencias;
 
 /// El punto de la campana y el contador de «Avisos». Con sesión y API salen de
 /// `GET /avisos/no-leidos/contador`; mientras carga o si falla no se muestra

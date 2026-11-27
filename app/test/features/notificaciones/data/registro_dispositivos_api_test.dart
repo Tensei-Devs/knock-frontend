@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/notificaciones/registro_dispositivos.dart';
-import 'package:app/core/notificaciones/registro_dispositivos_api.dart';
+import 'package:app/features/notificaciones/data/registro_dispositivos_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';

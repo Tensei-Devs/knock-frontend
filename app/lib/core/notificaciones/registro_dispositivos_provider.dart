@@ -1,21 +1,13 @@
 import 'package:app/core/notificaciones/registro_dispositivos.dart';
-import 'package:app/core/notificaciones/registro_dispositivos_api.dart';
-import 'package:app/core/red/cliente_api_provider.dart';
-import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Repositorio del registro (raíz de composición). Con `KNOCK_API_URL` válida
-/// usa el contrato real; sin ella, el SIMULADO solo fuera de `release` (en
-/// `release` falla con `ApiNoConfiguradaFailure`, spec 026 R-10).
+/// Repositorio del registro del dispositivo (spec 012, R-01).
+///
+/// Por omisión es el SIMULADO. La raíz de composición (`main.dart`) lo
+/// sustituye por el de `features/notificaciones`, que usa el contrato real con
+/// `KNOCK_API_URL` válida (ADR-007: los repositorios escritos a mano viven en
+/// `features/<función>/data`).
 final registroDispositivosRepositoryProvider =
-    Provider<RegistroDispositivosRepository>((ref) {
-      if (!usaApiReal(ref)) return RegistroDispositivosSimulado();
-      return RegistroDispositivosApi(
-        transporte: ref.watch(transporteApiProvider),
-        url: ref.watch(urlApiProvider),
-        plataforma: defaultTargetPlatform == TargetPlatform.iOS
-            ? 'ios'
-            : 'android',
-      );
-    });
+    Provider<RegistroDispositivosRepository>(
+      (ref) => RegistroDispositivosSimulado(),
+    );
