@@ -45,14 +45,10 @@ class PrecioTecnicoRepositoryApi implements PrecioTecnicoRepository {
     required int precio,
     required String descripcion,
   }) async {
-    final r = await enviarJsonONoEncontrado(
-      transporte,
-      url,
-      'POST',
+    final m = await _escribir(
       'visitas/${Uri.encodeComponent(visitaId)}/cotizacion-final',
-      cuerpo: {'precio': precio, 'descripcion': descripcion},
+      {'precio': precio, 'descripcion': descripcion},
     );
-    final m = objetoDelContrato(r.json);
     if (textoObligatorio(m['visitaId']) != visitaId) {
       throw const DatosInvalidosFailure();
     }
@@ -67,14 +63,10 @@ class PrecioTecnicoRepositoryApi implements PrecioTecnicoRepository {
     required int montoNuevo,
     required String motivo,
   }) async {
-    final r = await enviarJsonONoEncontrado(
-      transporte,
-      url,
-      'POST',
+    final m = await _escribir(
       'cotizaciones/${Uri.encodeComponent(cotizacionId)}/ajuste-precio',
-      cuerpo: {'montoNuevo': montoNuevo, 'motivo': motivo},
+      {'montoNuevo': montoNuevo, 'motivo': motivo},
     );
-    final m = objetoDelContrato(r.json);
     if (textoObligatorio(m['cotizacionId']) != cotizacionId) {
       throw const DatosInvalidosFailure();
     }
@@ -83,6 +75,33 @@ class PrecioTecnicoRepositoryApi implements PrecioTecnicoRepository {
     _entero(m['montoNuevo']);
     textoObligatorio(m['estado']);
     fechaHoraObligatoria(m['venceEn']);
+  }
+
+  /// El 422 y el 503 de moderación traen su `code`; el resto de los 422 y 503
+  /// son datos rechazados y servicio no disponible.
+  Future<Map<Object?, Object?>> _escribir(
+    String ruta,
+    Map<String, Object?> cuerpo,
+  ) async {
+    final r = await enviarJsonONoEncontrado(
+      transporte,
+      url,
+      'POST',
+      ruta,
+      cuerpo: cuerpo,
+      aceptar: const {422, 503},
+    );
+    if (r.estado != 422 && r.estado != 503) return objetoDelContrato(r.json);
+    final json = r.json;
+    final codigo = json is Map<Object?, Object?> ? json['code'] : null;
+    throw switch (r.estado) {
+      422 when codigo == 'content_rejected' =>
+        const ContenidoRechazadoFailure(),
+      422 => const DatosRechazadosFailure(),
+      503 when codigo == 'moderation_unavailable' =>
+        const ModeracionNoDisponibleFailure(),
+      _ => const ServicioNoDisponibleFailure(),
+    };
   }
 
   static int _entero(Object? valor) {

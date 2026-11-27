@@ -4880,6 +4880,18 @@ abstract class AppLocalizations {
   /// **'Enviamos tu propuesta. Falta que el cliente la apruebe.'**
   String get precioAjusteEnviado;
 
+  /// No description provided for @precioAjusteMotivoRechazado.
+  ///
+  /// In es, this message translates to:
+  /// **'El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.'**
+  String get precioAjusteMotivoRechazado;
+
+  /// No description provided for @precioAjusteSinRevision.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.'**
+  String get precioAjusteSinRevision;
+
   /// No description provided for @precioAjusteNoPermitido.
   ///
   /// In es, this message translates to:

@@ -2819,6 +2819,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'We sent your proposal. The client still has to approve it.';
 
   @override
+  String get precioAjusteMotivoRechazado =>
+      'The reason couldn\'t be posted. Review it and remove personal data or offensive words.';
+
+  @override
+  String get precioAjusteSinRevision =>
+      'We couldn\'t review the reason right now. Try again in a few minutes.';
+
+  @override
   String get precioAjusteNoPermitido =>
       'It cannot be proposed now: the visit must be in progress with no pending change.';
 

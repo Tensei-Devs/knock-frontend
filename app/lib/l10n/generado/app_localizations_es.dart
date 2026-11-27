@@ -2828,6 +2828,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'Enviamos tu propuesta. Falta que el cliente la apruebe.';
 
   @override
+  String get precioAjusteMotivoRechazado =>
+      'El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.';
+
+  @override
+  String get precioAjusteSinRevision =>
+      'No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.';
+
+  @override
   String get precioAjusteNoPermitido =>
       'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.';
 

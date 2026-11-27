@@ -1445,6 +1445,8 @@
   "precioAjusteMotivoAyuda": "10 to 300 characters.",
   "precioAjusteEnviar": "Propose to the client",
   "precioAjusteEnviado": "We sent your proposal. The client still has to approve it.",
+  "precioAjusteMotivoRechazado": "The reason couldn't be posted. Review it and remove personal data or offensive words.",
+  "precioAjusteSinRevision": "We couldn't review the reason right now. Try again in a few minutes.",
   "precioAjusteNoPermitido": "It cannot be proposed now: the visit must be in progress with no pending change.",
   "visitaPermisoFotosTitulo": "Photos of the job",
   "visitaPermisoFotosCasilla": "Allow these photos to be shown on the technician’s profile and in Explore",

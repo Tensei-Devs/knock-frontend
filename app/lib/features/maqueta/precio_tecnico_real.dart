@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/features/maqueta/envio_de_visita.dart';
 import 'package:app/features/maqueta/estado.dart' show maq;
 import 'package:app/features/maqueta/ui.dart';
@@ -144,6 +145,11 @@ class _AjusteState extends ConsumerState<_HojaAjuste> with EnvioDeVisita {
             montoNuevo: monto,
             motivo: _motivo.text.trim(),
           ),
+      propio: (falla) => switch (falla) {
+        ContenidoRechazadoFailure() => textos.precioAjusteMotivoRechazado,
+        ModeracionNoDisponibleFailure() => textos.precioAjusteSinRevision,
+        _ => null,
+      },
     );
     if (!bien || !mounted) return;
     Navigator.pop(context);

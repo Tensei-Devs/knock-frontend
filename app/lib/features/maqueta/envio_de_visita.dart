@@ -12,11 +12,13 @@ mixin EnvioDeVisita<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   String? errorDeEnvio;
 
   /// `true` si [accion] terminó bien y la pantalla sigue montada.
-  /// [conflicto] es el mensaje del 409 de esa ruta.
+  /// [conflicto] es el mensaje del 409 de esa ruta; [propio] da el texto de
+  /// las fallas que esa acción explica a su manera.
   Future<bool> enviarUnaVez(
     String conflicto,
-    Future<void> Function() accion,
-  ) async {
+    Future<void> Function() accion, {
+    String? Function(Failure falla)? propio,
+  }) async {
     if (enviando) return false;
     final textos = AppLocalizations.of(context);
     setState(() {
@@ -29,11 +31,13 @@ mixin EnvioDeVisita<W extends ConsumerStatefulWidget> on ConsumerState<W> {
       if (!mounted) return false;
       setState(() {
         enviando = false;
-        errorDeEnvio = switch (falla) {
-          ConflictoFailure() => conflicto,
-          NoEncontradoFailure() => textos.visitaNoDisponible,
-          _ => mensajeDeError(textos, falla),
-        };
+        errorDeEnvio =
+            propio?.call(falla) ??
+            switch (falla) {
+              ConflictoFailure() => conflicto,
+              NoEncontradoFailure() => textos.visitaNoDisponible,
+              _ => mensajeDeError(textos, falla),
+            };
       });
       return false;
     }

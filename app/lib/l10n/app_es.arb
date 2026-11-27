@@ -2788,6 +2788,8 @@
   "precioAjusteMotivoAyuda": "De 10 a 300 caracteres.",
   "precioAjusteEnviar": "Proponer al cliente",
   "precioAjusteEnviado": "Enviamos tu propuesta. Falta que el cliente la apruebe.",
+  "precioAjusteMotivoRechazado": "El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.",
+  "precioAjusteSinRevision": "No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.",
   "precioAjusteNoPermitido": "Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.",
   "visitaPermisoFotosTitulo": "Fotos del trabajo",
   "visitaPermisoFotosCasilla": "Permitir que estas fotos se muestren en el perfil del técnico y en Explorar",

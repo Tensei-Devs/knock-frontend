@@ -162,6 +162,26 @@ void main() {
     });
   }
 
+  for (final (estado, codigo, texto) in [
+    (422, 'content_rejected', 'El motivo no se pudo publicar.'),
+    (503, 'moderation_unavailable', 'No pudimos revisar el motivo'),
+  ]) {
+    testWidgets('CA_039_09 $codigo se explica sobre el motivo', (tester) async {
+      final api = ApiFalsa(
+        (p) => p.metodo == 'GET'
+            ? _trabajo()
+            : jsonOk({'code': codigo}, estado: estado),
+      );
+      await _montar(tester, api, 'Proponer otro precio');
+      await _llenar(tester, '700', 'Falta una refacción');
+      await _tocar(tester, 'Proponer al cliente');
+      await tester.pumpAndSettle();
+      expect(_aviso(texto), findsOneWidget);
+      expect(find.text('Falta una refacción'), findsOneWidget);
+      expect(_escrituras(api), hasLength(1));
+    });
+  }
+
   testWidgets('CA_039_17 sin cotización aceptada lo dice', (tester) async {
     final api = ApiFalsa(
       (_) => jsonOk({

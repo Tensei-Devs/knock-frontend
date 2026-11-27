@@ -47,6 +47,29 @@ void main() {
     await repo.proponerAjuste('c1', montoNuevo: 600, motivo: 'Pieza adicional');
   });
 
+  test('el 422 y el 503 se distinguen por su code', () async {
+    for (final (estado, cuerpo, esperado) in [
+      (422, '{"code":"content_rejected"}', isA<ContenidoRechazadoFailure>()),
+      (422, '{"code":"validation_failed"}', isA<DatosRechazadosFailure>()),
+      (
+        503,
+        '{"code":"moderation_unavailable"}',
+        isA<ModeracionNoDisponibleFailure>(),
+      ),
+      (503, '', isA<ServicioNoDisponibleFailure>()),
+    ]) {
+      final repo = PrecioTecnicoRepositoryApi(
+        transporte: MockClient((_) async => http.Response(cuerpo, estado)),
+        url: 'https://example.test',
+      );
+      await expectLater(
+        repo.proponerAjuste('c1', montoNuevo: 600, motivo: 'Pieza adicional'),
+        throwsA(esperado),
+        reason: '$estado $cuerpo',
+      );
+    }
+  });
+
   test('rechaza una confirmación para otra visita', () async {
     final cliente = MockClient(
       (_) async => http.Response(
