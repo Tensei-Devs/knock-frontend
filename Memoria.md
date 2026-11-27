@@ -1,5 +1,89 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Mapa real y filtros de técnicos (KNOCK-55, spec 036)
+- **Cambio:** el mapa de Inicio pide `GET /mapa/tecnicos` con los límites y el zoom de la cámara y pinta los grupos; un grupo de varios acerca y uno solo abre su perfil. La lista suma orden y, con ubicación, distancia y radio.
+- **Pendiente:** filtro por colonia, copia sin conexión del mapa (CA-16), accesibilidad de los pines, dispositivo y backend desplegado.
+## 2026-11-26 — «Trabajo», cliente ausente y terminar servicio (KNOCK-118, KNOCK-266, spec 040)
+- **Cambio:** con sesión y API, «Trabajo» muestra la agenda real sin datos de ejemplo; la visita confirmada ofrece «El cliente no estaba» y la visita en curso «Terminar servicio». Las fotos se suben con propósito `trabajo` tras el interruptor `SUBIDA_DE_FOTOS` (apagado: no se puede terminar).
+- **Pendiente:** solicitudes nuevas, enviadas y terminadas (spec 019, PR #101 y #102); reprogramar y cancelar del lado del técnico; llegada (KNOCK-85); dispositivo y backend desplegado.
+
+## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
+- **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
+- **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
+## 2026-11-26 — Lista real de técnicos en Inicio (KNOCK-55, spec 036)
+- **Cambio:** con sesión y API, Inicio consulta `GET /tecnicos` y muestra la lista paginada con filtros por oficio, disponibilidad y verificación, estados de carga, vacío y error con reintento; una tarjeta abre el perfil real mediante el puente existente de Explorar.
+- **Mapa:** se ocultan los pines de ejemplo en ese modo y se avisa que el mapa de expertos aún no está disponible. No se fabrican coordenadas; faltan límites reales de cámara y conectar `GET /mapa/tecnicos`.
+- **Reutilización:** se usaron el repositorio ya existente, `PaginasPorCursor`, `provDeTecnico` y la pantalla de perfil real; el controlador y el widget nuevos son necesarios para conectar la lista de Inicio.
+- **Pendiente:** filtros adicionales del contrato, prueba en dispositivo y backend desplegado, estados y accesibilidad completos, y mapa real.
+
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
+## 2026-11-26 — Estados de Mi reputación (KNOCK-94)
+- **Verificación adicional:** pruebas de widget comprueban carga, cero opiniones sin promedio inventado y copia fechada ante pérdida de conexión, además del error y reintento que ya se probaban.
+- **Pendiente:** 401 hasta la navegación de entrada, accesibilidad ampliada, ejecución en dispositivo y backend desplegado. El linter de trazabilidad no sustituye esas pruebas.
+
+## 2026-11-26 — Reputación propia (KNOCK-94, spec 036)
+- **Cambio:** la pantalla «Mi reputación» consulta `GET /tecnicos/me/reputacion` con el transporte autenticado y muestra el promedio, total, distribución y nivel del servidor. No usa el id de persona ni intenta consultar opiniones propias sin id de técnico. Sin sesión o API se conserva la pantalla de ejemplo existente.
+- **Copia:** la última respuesta se conserva solo en memoria para el aviso sin conexión y se descarta al cambiar o cerrar sesión. No se muestran opiniones inventadas junto con datos reales.
+- **Reutilización:** se usa `PantallaSegunSesion`, los textos de opiniones y el transporte de `core/red`; se agregó un repositorio específico porque el existente requiere un id de técnico.
+- **Pendiente:** verificar en dispositivo y contra el backend desplegado; las opiniones propias y respuestas necesitan el id de técnico.
+
+## 2026-11-26 — Suite de humo en teléfono con API falsa (KNOCK-293)
+- **Qué cambió:** `integration_test/` arranca con `soporte/arranque_e2e.dart` (API siempre falsa, entrada ficticia, sesión y preferencias limpias); suma recorridos de cotizaciones y visita con datos de ejemplo y, con sesión y API falsa, elegir cotización, Reintentar y cerrar sesión. Las pruebas de pestañas y configuración apagan la maqueta desde el código y la medición del mapa se omite fuera de *profile*. El comando está en `app/README.md`.
+- **Por qué:** `flutter test integration_test` fallaba: la maqueta viene encendida y dos pruebas esperaban la app normal sin `--dart-define`; la del mapa solo corre con `flutter drive --profile`.
+- **Pendiente:** no prueba SMS, backend desplegado, cámara, ubicación ni notificaciones.
+- **A evitar:** correr la suite en un teléfono con una sesión de Knock que se quiera conservar; en la prueba de cierre de sesión, leer el Keystore sin esperar el borrado nativo.
+
+## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
+- **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
+- **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
+## 2026-11-26 — Lista y mapa de técnicos, avance parcial (KNOCK-55, spec 036)
+- **Avance:** repositorio inicial para `GET /tecnicos` y `GET /mapa/tecnicos`, con pruebas HTTP simuladas. Los grupos son celdas agregadas, nunca se interpretan como ubicación personal.
+- **Pendiente:** conectar a Inicio y al mapa, completar filtros, límites, paginación y estados; evaluar su compatibilidad con `BusquedaReal`. El repositorio aún no está cableado a producción y no se declara la integración terminada.
+## 2026-11-26 — Estados de agenda (KNOCK-118)
+- **Verificación adicional:** la interfaz prueba error con reintento, lista vacía y carga de una segunda página con cursor. Las acciones de finalizar y ausencia siguen sin pantalla real conectada.
+
+## 2026-11-26 — Acciones del técnico, avance de datos (KNOCK-266, spec 040)
+- **Avance:** el repositorio existente agrega cliente ausente y terminar con fotos como identificadores de archivo; dos pruebas HTTP simuladas verifican cuerpo y rutas. Confirma que la respuesta corresponde a la visita.
+- **Pendiente:** no se conectó a la interfaz ni al proveedor de producción; terminar necesita fotos privadas subidas y confirmadas, no las rutas locales del selector. No declarar estas acciones integradas.
+
+## 2026-11-26 — Agenda real en Inicio (KNOCK-118, spec 040)
+- **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
+- **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
+- **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+
+## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
+- **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
+- **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
+## 2026-11-26 — Spec 038: «Pedir también a otros» (KNOCK-266)
+- **Decisión:** una solicitud real sin cotizaciones ofrece «Pedir también a otros» (`POST /solicitudes/{id}/ampliar`) en su tarjeta de Actividad. Cuándo se puede ampliar lo decide el servidor (409 `request_not_extendable`).
+- **Pendiente:** referencia del mercado y «Cotizaciones enviadas» (pantallas del técnico que dependen de la pestaña Trabajo, spec 019). Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 035: detalle de un oficio y pedido de uno nuevo (KNOCK-266)
+- **Decisión:** con sesión y API, el paso 2 de «Pedir cotización» muestra las frases de `GET /oficios/{clave}` (con la última copia en memoria si no hay conexión) y el alta de técnico con «Otro oficio» manda además `POST /oficios-pedidos`. Ese pedido no bloquea el alta: si falla, se avisa y se puede reintentar.
+- **Pendiente:** sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 034: contador de avisos sin leer (KNOCK-266)
+- **Decisión:** con sesión y API, la campana de Inicio y la fila «Avisos» de Mi cuenta usan `GET /avisos/no-leidos/contador`. Mientras carga o si falla no se marca nada: es un adorno, no una pantalla. Marcar leídos vuelve a pedir el contador.
+- **Pendiente:** sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 037: servicios del técnico contra el backend 047 (KNOCK-266)
+- **Decisión:** `features/tecnico/` suma los repositorios y controladores de servicios. El perfil de un técnico real los muestra y «Tu perfil público» los agrega, edita y quita. Ante `not_a_technician` ofrece crear el perfil.
+- **Límite:** el contrato no deja leer el id de técnico propio; solo se conoce al crear el perfil. Sin él no se listan los servicios ya guardados.
+- **Registro:** al crear el perfil, la pantalla permite agregar servicios con el id devuelto. Los textos nuevos salen del ARB (es y en).
+- **Pendiente:** falta una operación para leer el id de técnico propio. Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 039, lado cliente: cotización final y ajustes de precio (KNOCK-266)
+- **Decisión:** con sesión y API, la visita y la cita muestran la cotización final y los ajustes pendientes (`PrecioDeVisitaReal`) con Aprobar y Rechazar. Las dos lecturas son las del backend 063; las decisiones, las de la spec 039.
+- **Pendiente:** el lado del técnico (enviar la cotización final y proponer el ajuste), y decidir desde Mensajes. Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 033: reportes conectados al backend 043 (KNOCK-266)
+- **Decisión:** `features/reportes/` tiene los repositorios de reportes y bloqueos. Con una visita real, «Reportar un problema» envía el reporte; «Centro de ayuda» muestra «Mis reportes» con apelación.
+- **Motivos:** ni la spec ni el contrato listan los valores; se tomaron de `ReportRules.Reasons` del backend. Falta que el equipo los confirme.
+- **Bloqueos:** se bloquea desde el detalle de una visita real o el menú del chat con esa visita; «Centro de ayuda» lista a las personas bloqueadas y permite desbloquear.
+- **Pendiente:** no se envían fotos de evidencia. Sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
 - **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
 - **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.
@@ -769,3 +853,19 @@
 - **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
 - **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
 - **A evitar:** aceptar una propuesta sin ver la fecha.
+
+## 2026-11-26 — Perfil público del técnico contra la API (KNOCK-90)
+- **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.
+
+## 2026-11-26 — Evaluación de la parte móvil actualizada (KNOCK-181)
+- **Qué cambió:** `docs/EVALUACION.md` responde la parte móvil y la suite en dispositivo físico en tablas con evidencia y estado, sobre `sprint-05` en `73a0f7a`: 78 operaciones de la API con llamada en el código.
+- **Por qué:** la versión del 17-nov ya no correspondía al código (modo maqueta, endpoints, agentes, skills, CodeQL, eliminar cuenta y cifras de pruebas).
+- **Pendiente:** corrida en teléfono físico y pruebas contra el backend real; `docs/QA_DEVSECOPS.md` no se revisó en este cambio.
+- **A evitar:** contar como consumida una operación sin decir si está tras un interruptor apagado o sin pantalla que la llame.
+
+## 2026-11-26 — Propuesta de excepción temporal al cliente generado (KNOCK-266)
+- **Qué cambió:** se agrega ADR-007, sin firma.
+- **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
+- **A evitar:** darla por aprobada sin las dos firmas.

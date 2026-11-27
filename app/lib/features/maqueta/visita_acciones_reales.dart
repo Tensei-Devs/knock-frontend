@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:app/core/errores/failure.dart';
-import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/maqueta/envio_de_visita.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/visita/visita.dart';
@@ -64,6 +63,29 @@ class BotonNoTerminadoReal extends StatelessWidget {
     kind: Bk.ghost,
     sm: true,
     icon: 'flag',
+  );
+}
+
+/// «El cliente no estaba» (VIS-07): el técnico confirma y el servidor decide si
+/// está dentro de la ventana de la cita.
+void hojaClienteAusente(BuildContext context, String visitaId) {
+  final textos = AppLocalizations.of(context);
+  _abrir(
+    context,
+    _HojaDeEnvio(
+      titulo: textos.visitaAusenteBoton,
+      boton: textos.visitaAusenteConfirmar,
+      conflicto: textos.visitaAusenteFueraDeVentana,
+      listo: (_) => true,
+      contenido: (_, _) => [sMut(textos.visitaAusenteExplicacion)],
+      enviar: (ref, _) async {
+        await ref
+            .read(accionesVisitaRepositoryProvider)
+            .clienteAusente(visitaId);
+        ref.invalidate(agendaControllerProvider);
+        return textos.visitaAusenteRegistrada;
+      },
+    ),
   );
 }
 
@@ -220,10 +242,8 @@ class _HojaDeEnvio extends ConsumerStatefulWidget {
   ConsumerState<_HojaDeEnvio> createState() => _HojaDeEnvioState();
 }
 
-class _HojaDeEnvioState extends ConsumerState<_HojaDeEnvio> {
+class _HojaDeEnvioState extends ConsumerState<_HojaDeEnvio> with EnvioDeVisita {
   final _campo = TextEditingController();
-  bool _enviando = false;
-  String? _error;
 
   @override
   void dispose() {
@@ -232,28 +252,12 @@ class _HojaDeEnvioState extends ConsumerState<_HojaDeEnvio> {
   }
 
   Future<void> _enviar() async {
-    if (_enviando) return;
-    final textos = AppLocalizations.of(context);
-    setState(() {
-      _enviando = true;
-      _error = null;
-    });
-    final String aviso;
-    try {
-      aviso = await widget.enviar(ref, _campo);
-    } on Failure catch (falla) {
-      if (!mounted) return;
-      setState(() {
-        _enviando = false;
-        _error = switch (falla) {
-          ConflictoFailure() => widget.conflicto,
-          NoEncontradoFailure() => textos.visitaNoDisponible,
-          _ => mensajeDeError(textos, falla),
-        };
-      });
-      return;
-    }
-    if (!mounted) return;
+    var aviso = '';
+    final bien = await enviarUnaVez(
+      widget.conflicto,
+      () async => aviso = await widget.enviar(ref, _campo),
+    );
+    if (!bien || !mounted) return;
     Navigator.pop(context);
     maq.reintentarSolicitudes?.call();
     widget.despues?.call();
@@ -264,10 +268,10 @@ class _HojaDeEnvioState extends ConsumerState<_HojaDeEnvio> {
   Widget build(BuildContext context) => stack([
     sheetH(context, widget.titulo),
     ...widget.contenido(_campo, setState),
-    if (_error case final error?) NoteK('red', 'help', error),
+    if (errorDeEnvio case final error?) NoteK('red', 'help', error),
     BtnK(
-      _enviando ? AppLocalizations.of(context).visitaEnviando : widget.boton,
-      !_enviando && widget.listo(_campo) ? _enviar : null,
+      enviando ? AppLocalizations.of(context).visitaEnviando : widget.boton,
+      !enviando && widget.listo(_campo) ? _enviar : null,
       kind: widget.tipo,
     ),
   ]);

@@ -1,8 +1,10 @@
 import 'package:app/core/cache/revalidador_etag.dart';
 import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/red/configuracion_api.dart';
+import 'package:app/features/oficios/data/detalle_oficio_repository_api.dart';
 import 'package:app/features/oficios/data/oficios_repository_api.dart';
 import 'package:app/features/oficios/data/oficios_repository_de_prueba.dart';
+import 'package:app/features/oficios/domain/detalle_oficio.dart';
 import 'package:app/features/oficios/domain/oficios_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,3 +21,12 @@ final oficiosRepositoryProvider = Provider<OficiosRepository>((ref) {
     url: Uri.parse('$base/api/v$versionApi/oficios'),
   );
 });
+
+/// Detalle y pedido de oficios (spec 035). La maqueta lo usa solo con sesión y
+/// API.
+final detalleOficioRepositoryProvider = Provider<DetalleOficioRepository>(
+  (ref) => DetalleOficioRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);

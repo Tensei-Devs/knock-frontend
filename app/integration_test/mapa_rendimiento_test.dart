@@ -1,4 +1,5 @@
 import 'package:app/main_spike_mapa.dart' as spike;
+import 'package:flutter/foundation.dart' show kProfileMode;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:integration_test/integration_test.dart';
@@ -12,6 +13,9 @@ import 'package:integration_test/integration_test.dart';
 /// flutter drive --profile --driver=test_driver/perf_driver.dart \
 ///   --target=integration_test/mapa_rendimiento_test.dart
 /// ```
+///
+/// Con `flutter test` (modo *debug*) se marca como omitida: la traza necesita
+/// `flutter drive --profile`.
 ///
 /// El resumen queda en `build/mapa_rendimiento.timeline_summary.json`.
 void main() {
@@ -52,7 +56,7 @@ void main() {
       await _pellizcar(tester, mapa, separar: false);
       await tester.pump(const Duration(seconds: 1));
     }, reportKey: 'mapa_rendimiento');
-  });
+  }, skip: !kProfileMode);
 }
 
 /// Gesto de dos dedos: [separar] acerca el zoom; si no, lo aleja.

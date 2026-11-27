@@ -33,6 +33,8 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     AvisoNoPermitidoFailure() => textos.avisoNoPermitido,
     OpinionNoPermitidaFailure() => textos.opinionesErrorNoPermitida,
     OpinionYaRespondidaFailure() => textos.opinionesErrorYaRespondida,
+    YaBloqueadoFailure() => textos.bloqueosErrorYaBloqueado,
+    ApelacionNoPermitidaFailure() => textos.bloqueosErrorApelacion,
     EleccionRechazadaFailure(:final motivo) => switch (motivo) {
       MotivoEleccionRechazada.yaElegida => textos.cotizacionYaElegida,
       MotivoEleccionRechazada.cotizacionNoDisponible =>

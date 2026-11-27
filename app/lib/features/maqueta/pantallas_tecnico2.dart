@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/horarios_reales.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
+import 'package:app/features/maqueta/reputacion_real.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
@@ -1105,19 +1108,21 @@ class _PerfilEditarState extends State<PerfilEditarScreen> {
           help: '${about.text.length}/300',
           onChanged: (_) => setState(() {}),
         ),
-        CardK(
-          child: stack([
-            h3('Servicios y precio de referencia'),
-            if (svcs.isEmpty) mutT('Aún no agregas servicios.'),
-            serviciosEditor(
-              context,
-              svcs,
-              E,
-              () => setState(() {}),
-              () => setState(() => svcs.add(Servicio('', ''))),
-              (i) => setState(() => svcs.removeAt(i).dispose()),
-            ),
-          ], gap: 12),
+        MisServiciosSegunSesion(
+          ejemplo: CardK(
+            child: stack([
+              h3('Servicios y precio de referencia'),
+              if (svcs.isEmpty) mutT('Aún no agregas servicios.'),
+              serviciosEditor(
+                context,
+                svcs,
+                E,
+                () => setState(() {}),
+                () => setState(() => svcs.add(Servicio('', ''))),
+                (i) => setState(() => svcs.removeAt(i).dispose()),
+              ),
+            ], gap: 12),
+          ),
         ),
         HorariosSegunSesion(
           ejemplo: GroupK([
@@ -1194,7 +1199,13 @@ class _ReputacionState extends State<ReputacionScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mi reputación',
+    real: const ReputacionReal(),
+    ejemplo: _ejemplo,
+  );
+
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final s = pv.stats;
     final lv = repLevel(s.done);

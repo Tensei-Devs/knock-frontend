@@ -94,7 +94,7 @@ pyftsubset app/assets/fonts/nunito/Nunito-Bold.ttf --unicodes="U+0020-007E,U+00A
 La versión vive en el pie de `index.html` como `landing-vX.Y.Z` (hoy `landing-v1.0.0`, valor inicial). La regla de puntos y la etiqueta de Git `landing-vX.Y.Z` las rige la spec 011 y `docs/VERSIONAMIENTO.md`; aquí no se define otra regla.
 
 ## CI (spec 004, R-04 y CA-03)
-El job `landing` de `.github/workflows/ci-pr.yml` corre en cada PR: pruebas de `landing/tests`, `python landing/tests/check_links.py landing` (falla con un enlace roto, un ancla inexistente o un enlace externo que no sea la URL de Google Play) y Gitleaks sobre `landing/` (CLI fijada por versión y suma de verificación). Local: `python landing/tests/check_links.py landing`.
+El job `landing` de `.github/workflows/ci-pr.yml` corre en cada PR: pruebas de `landing/tests`, `python landing/tests/check_links.py landing` (falla con un enlace roto, un ancla inexistente o un enlace externo fuera de la lista permitida: Google Play y redes sociales) y Gitleaks sobre `landing/` (CLI fijada por versión y suma de verificación). Local: `python landing/tests/check_links.py landing`.
 
 ## Railway (lo configura el líder)
 - Servicio en el proyecto del líder conectado a `knock-frontend` con la app de GitHub de Railway limitada a ese repositorio y de solo lectura; sin tokens, deploy keys ni secretos.

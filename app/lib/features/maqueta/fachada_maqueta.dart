@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/maqueta/terminar_servicio_real.dart';
+import 'package:app/features/maqueta/trabajo_real.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
+import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
@@ -40,7 +44,7 @@ abstract final class PantallasMaqueta {
   static Widget inicio() => const InicioMaqueta(conCuenta: true);
   static Widget explorar() => const ExplorarMaqueta();
   static Widget actividad() => const ActividadMaqueta();
-  static Widget trabajo() => const TrabajoMaqueta();
+  static Widget trabajo() => const TrabajoSegunSesion();
   static Widget cuenta() => const CuentaMaqueta();
   static Widget configuracion() => const ConfigMaqueta();
 }
@@ -110,6 +114,10 @@ GoRoute rutaMaqueta() => GoRoute(
       path: 'compartir/:id',
       builder: (c, s) => CompartirScreen(id: s.pathParameters['id']!),
     ),
+    GoRoute(
+      path: 'bloquear/:id',
+      builder: (c, s) => BloquearScreen(id: s.pathParameters['id']!),
+    ),
     GoRoute(path: 'mensajes', builder: (c, s) => const MensajesScreen()),
     GoRoute(
       path: 'chat/:id',
@@ -150,7 +158,14 @@ GoRoute rutaMaqueta() => GoRoute(
           state.uri.path == '/m/tecnico' ? Rutas.inicio : null,
       routes: [
         GoRoute(path: 'registro', builder: (c, s) => const TecRegistroScreen()),
-        GoRoute(path: 'verificacion', builder: (c, s) => const VerifScreen()),
+        GoRoute(
+          path: 'verificacion',
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Verificación',
+            real: const EstadoDeVerificacionReal(),
+            ejemplo: (_) => const VerifScreen(),
+          ),
+        ),
         GoRoute(path: 'pendiente', builder: (c, s) => const PendienteScreen()),
         GoRoute(
           path: 'verificado',
@@ -175,7 +190,11 @@ GoRoute rutaMaqueta() => GoRoute(
         ),
         GoRoute(
           path: 'cerrar/:vid',
-          builder: (c, s) => CerrarScreen(vid: s.pathParameters['vid']!),
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Terminar servicio',
+            real: TerminarServicioReal(visitaId: s.pathParameters['vid']!),
+            ejemplo: (_) => CerrarScreen(vid: s.pathParameters['vid']!),
+          ),
         ),
         GoRoute(path: 'perfil', builder: (c, s) => const PerfilEditarScreen()),
         GoRoute(

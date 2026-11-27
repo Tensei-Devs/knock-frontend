@@ -38,5 +38,17 @@ abstract interface class AccionesVisitaRepository {
 
   Future<PropuestaDeFecha> reprogramar(String visitaId, DateTime fechaHora);
 
+  /// El técnico registra que el cliente no estaba (VIS-07). Devuelve el estado.
+  Future<String> clienteAusente(String visitaId);
+
+  /// El técnico termina la visita en curso (VIS-09) con los `archivoId` de sus
+  /// fotos. Devuelve el estado.
+  Future<String> terminar(
+    String visitaId, {
+    required String descripcion,
+    required List<String> fotos,
+    String? recomendacion,
+  });
+
   Future<void> reportarNoTerminado(String visitaId, String texto);
 }
