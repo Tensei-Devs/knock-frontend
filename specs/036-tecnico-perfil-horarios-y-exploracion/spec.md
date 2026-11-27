@@ -183,7 +183,20 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-27, lectura del perfil propio del técnico)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (perfil propio)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** la app no puede precargar «Mi perfil público» ni conocer su identificador de técnico después del registro.
+- **Depende de una enmienda del backend (spec 046, «lectura del perfil propio», R-54 a R-58), hoy sin firma y sin implementar.** Nada de esta nota se programa antes de que la ruta exista; los nombres se confirman al firmarla.
+- **Contrato esperado:** `GET /api/v1/tecnicos/me` → `200` con `id, nombre, oficios, otroOficio, atencion, radioKm, coloniaId, nombreNegocio, descripcion, anios, estado, verificacion, disponibleHoy, creadoEn, fotoUrl, direccionTaller`; `401`, `404` (sin perfil de técnico), `429`.
+- La edición se abre precargada con esa respuesta y `PUT /api/v1/tecnicos/me` envía solo lo que cambió. Si la lectura falla, no se ofrece editar: así no se pisan datos que la app no ve.
+- Nada de la respuesta se guarda en disco ni en caché; `direccionTaller` tampoco aparece en registros.
+- El `id` sirve en memoria para «Mis servicios» y para listar las opiniones propias y responderlas (spec 041).
+- **CA-G01:** Dado un técnico, cuando abre la edición, entonces ve sus datos precargados y, al guardar, el cuerpo del `PUT` lleva solo los campos cambiados. · Verificación: prueba de widget con repositorio falso.
+- **CA-G02:** Dado un `404` o una falla en la lectura, cuando llega, entonces no hay formulario de edición y se muestra el mensaje del catálogo. · Verificación: prueba de widget.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-27 (perfil propio) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

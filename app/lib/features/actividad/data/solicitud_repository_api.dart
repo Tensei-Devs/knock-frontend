@@ -1,32 +1,44 @@
+import 'dart:convert';
+
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/enviar_json.dart';
+import 'package:app/core/red/errores_api.dart';
 import 'package:app/features/actividad/data/contrato_json.dart';
 import 'package:app/features/actividad/data/solicitud_contrato_mapper.dart';
 import 'package:app/features/actividad/data/solicitud_mapper.dart';
+import 'package:app/features/actividad/data/subida_de_fotos_api.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:knock_api/api.dart' as api;
 
 /// REAL: las rutas de `/api/v1/solicitudes` (backend 020 y 021). Todas piden
 /// sesión (Bearer, por el transporte con sesión de la spec 026).
 ///
-/// Las fotos suben por el módulo de archivos (spec 013), que el backend aún no
-/// tiene: [subirFoto] falla con [ServicioNoDisponibleFailure] y [crear] solo
-/// sale adelante cuando el servidor acepta la solicitud (hoy responde 503 por
-/// la moderación). Una escritura nunca se reintenta aquí (spec 026, R-13).
+/// Las fotos suben con [fotos] (backend 062). Sin ella, [subirFoto] falla con
+/// [ServicioNoDisponibleFailure]. Una escritura nunca se reintenta aquí (spec
+/// 026, R-13).
 class SolicitudRepositoryApi implements SolicitudRepository {
-  const SolicitudRepositoryApi({required this.transporte, required this.url});
+  const SolicitudRepositoryApi({
+    required this.transporte,
+    required this.url,
+    this.fotos,
+  });
 
   final http.Client transporte;
   final String url;
+  final SubidaDeFotosApi? fotos;
 
   /// Páginas que se piden como máximo al listar (50 solicitudes por página).
   static const _maxPaginas = 4;
 
   @override
-  Future<String> subirFoto(String rutaLocal) async =>
-      throw const ServicioNoDisponibleFailure();
+  Future<String> subirFoto(String rutaLocal) async {
+    final subida = fotos;
+    if (subida == null) throw const ServicioNoDisponibleFailure();
+    return subida.subir(rutaLocal);
+  }
 
   @override
   Future<Solicitud> crear(NuevaSolicitud solicitud) async {
@@ -91,33 +103,72 @@ class SolicitudRepositoryApi implements SolicitudRepository {
     String solicitudId, {
     OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
   }) async {
-    return SolicitudContratoMapper.comparacion(
-      await obtenerJsonONoEncontrado(
-        transporte,
-        url,
-        'solicitudes/${Uri.encodeComponent(solicitudId)}/cotizaciones',
-        consulta: {'orden': orden.valor},
-      ),
-    );
+    final cliente = api.ApiClient(basePath: url)..client = transporte;
+    final http.Response respuesta;
+    try {
+      respuesta = await api.QuoteComparisonApi(cliente)
+          .apiVversionSolicitudesIdCotizacionesGetWithHttpInfo(
+            Uri.encodeComponent(solicitudId),
+            '1',
+            orden: orden.valor,
+          );
+    } on Failure {
+      rethrow;
+    } on Exception {
+      throw const ServicioNoDisponibleFailure();
+    }
+    if (respuesta.statusCode == 404) throw const NoEncontradoFailure();
+    if (respuesta.statusCode < 200 || respuesta.statusCode >= 300) {
+      throw mapearErrorApi(
+        api.ApiException(respuesta.statusCode, respuesta.body),
+      );
+    }
+    final Object? json;
+    try {
+      json = jsonDecode(utf8.decode(respuesta.bodyBytes));
+    } on FormatException {
+      throw const DatosInvalidosFailure();
+    }
+    if (mapaDelContrato(json)['solicitudId'] != solicitudId) {
+      throw const DatosInvalidosFailure();
+    }
+    return SolicitudContratoMapper.comparacion(json);
   }
 
   @override
   Future<CitaConfirmada> elegir(String solicitudId, String cotizacionId) async {
-    final r = await enviarJson(
-      transporte,
-      url,
-      'POST',
-      'solicitudes/${Uri.encodeComponent(solicitudId)}/elegir',
-      cuerpo: {'cotizacionId': cotizacionId},
-      aceptar: const {404, 409, 422},
-    );
-    switch (r.estado) {
+    final cliente = api.ApiClient(basePath: url)..client = transporte;
+    final http.Response respuesta;
+    try {
+      respuesta = await api.ChooseQuoteApi(cliente)
+          .apiVversionSolicitudesIdElegirPostWithHttpInfo(
+            Uri.encodeComponent(solicitudId),
+            '1',
+            api.ChooseQuoteBody(cotizacionId: cotizacionId),
+          );
+    } on Failure {
+      rethrow;
+    } on api.ApiException catch (error) {
+      throw mapearErrorApi(error);
+    } on Exception {
+      throw const ServicioNoDisponibleFailure();
+    }
+    Object? json;
+    try {
+      json = jsonDecode(utf8.decode(respuesta.bodyBytes));
+    } on FormatException {
+      if (respuesta.statusCode >= 200 && respuesta.statusCode < 300) {
+        throw const DatosInvalidosFailure();
+      }
+    }
+    switch (respuesta.statusCode) {
       case 404:
         throw const NoEncontradoFailure();
       case 422:
         throw const DatosRechazadosFailure();
       case 409:
-        final motivo = switch (_codigo(r)) {
+        final codigo = json is Map ? json['code'] : null;
+        final motivo = switch (codigo) {
           'request_already_chosen' => MotivoEleccionRechazada.yaElegida,
           'quote_unavailable' => MotivoEleccionRechazada.cotizacionNoDisponible,
           'request_expired' => MotivoEleccionRechazada.vencida,
@@ -129,7 +180,14 @@ class SolicitudRepositoryApi implements SolicitudRepository {
             ? const ConflictoFailure()
             : EleccionRechazadaFailure(motivo);
     }
-    return SolicitudContratoMapper.cita(r.json);
+    if (respuesta.statusCode != 200) {
+      throw mapearErrorApi(api.ApiException(respuesta.statusCode, ''));
+    }
+    final cita = SolicitudContratoMapper.cita(json);
+    if (cita.solicitudId != solicitudId || cita.cotizacionId != cotizacionId) {
+      throw const DatosInvalidosFailure();
+    }
+    return cita;
   }
 
   /// El `code` de un error del servidor (ProblemDetails), si lo trae.

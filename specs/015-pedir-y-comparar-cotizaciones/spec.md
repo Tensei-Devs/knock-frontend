@@ -353,8 +353,26 @@ Se respeta la arquitectura de la spec 001: `domain` en Dart puro, `presentation`
 - **Pendiente de validar:** backend 020 no publica el catálogo de oficios con su `modalidad` en esta spec; la app usa el catálogo ya desplegado (spec 002) y se confirma al vendorizar.
 - **`Idempotency-Key` retirada por ahora (decisión del 2026-11-10).** La spec 010 §5 ya decía que la app no la usa en esta etapa y backend 020 y 021 la quitaron. Sin ella, un doble toque o un reintento de red puede crear dos solicitudes (el botón deshabilitado y el límite de 10 por hora del servidor lo acotan); en la elección, el reintento recibe 409 `request_already_chosen` y la app consulta la solicitud. HU-024 CA4 y HU-033 CA3 la exigían como criterio de aceptación y se relajaron en `docs/backlog/` (decisión del 2026-11-10).
 
+## Nota de enmienda (2026-11-26, rutas reales de subida de fotos)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). La app ya las consume en `app/lib/features/actividad/data/subida_de_fotos_api.dart` (commit `8507e11`, 2026-11-25), **antes** de esta enmienda.
+- **Reemplaza** en R-03 y §4 las filas `POST /api/v1/archivos/subidas` y `POST /api/v1/archivos/{id}/confirmar`, y la nota que dejaba sus nombres por confirmar. El texto original no se borra. Fuente: backend 032 y 062.
+
+| Método y ruta | Cuerpo | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/imagenes/subidas` | `{ proposito: "solicitud", tipoContenido, tamanoBytes (1 a 5 242 880) }` | `201` `{ id, urlSubida, metodo, encabezados, venceEn, confirmarAntesDe }` | `400`, `401`, `422`, `429 limit_exceeded`, `503` |
+| `PUT {urlSubida}` | bytes de la foto con los `encabezados` recibidos, sin el token de la sesión | éxito `2xx` del almacenamiento | error del almacenamiento |
+| `POST /api/v1/imagenes/subidas/{id}/confirmar` | sin cuerpo | `200` `{ id, ancho, alto, bytes }` (sin `url` para `solicitud`) | `400`, `401`, `404 upload_not_found`, `409 upload_expired` o `file_not_uploaded`, `422`, `429`, `503 moderation_unavailable` o `storage_unavailable` |
+
+- La respuesta de confirmar **no** trae `estado`. El `id` es el `archivoId` que va en `fotos[]`.
+- **CA-E01:** Dada una foto válida, cuando se sube, entonces la app usa las dos rutas de esta tabla y el `PUT` lleva los `encabezados` del servidor y no lleva el token de la sesión. · Verificación: prueba unitaria de `SubidaDeFotosApi`.
+- La duda de §13 sobre los encabezados del `PUT` queda resuelta por el campo `encabezados`.
+- **Decisión pendiente:** el backend admite también `image/webp`; R-03 dice JPG o PNG. Propuesta: la app se queda en JPG y PNG.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

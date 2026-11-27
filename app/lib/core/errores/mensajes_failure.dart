@@ -35,6 +35,14 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
   FotoNoValidaFailure() =>
     'Esa foto es muy pesada o no es JPG ni PNG. Elige otra.',
   AvisoNoPermitidoFailure() => 'Esta visita ya no permite avisos.',
+  OpinionNoPermitidaFailure() => 'Esta visita ya no se puede calificar.',
+  OpinionYaRespondidaFailure() => 'Esta opinión ya tiene respuesta.',
+  YaBloqueadoFailure() => 'Ya habías bloqueado a esta persona.',
+  ApelacionNoPermitidaFailure() => 'Este reporte ya no se puede apelar.',
+  SinPerfilTecnicoFailure() => 'Necesitas un perfil de técnico para ver esto.',
+  CotizacionNoPermitidaFailure() =>
+    'Esta solicitud ya no admite tu cotización.',
+  AsistenteNoDisponibleFailure() => 'El asistente no está disponible.',
   EleccionRechazadaFailure() =>
     'No se pudo confirmar esa cotización. Revisa la lista.',
 };

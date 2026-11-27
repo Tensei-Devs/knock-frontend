@@ -1,9 +1,188 @@
 {
   "@@locale": "es",
+  "tecnicoCargando": "Cargando…",
+  "tecnicoReintentar": "Reintentar",
+  "tecnicoNoDisponible": "Ese técnico ya no está disponible.",
+  "tecnicoCopia": "Sin conexión. Es la copia del {fecha}; puede estar desactualizada.",
+  "@tecnicoCopia": {
+    "placeholders": {
+      "fecha": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "tecnicoCalificacion": "★ {calificacion}",
+  "@tecnicoCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoAnios": "{n} años de experiencia",
+  "@tecnicoAnios": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicoAtiendeTaller": "Atiende en su taller",
+  "tecnicoAtiendeDomicilio": "Va a domicilio",
+  "tecnicoAtiendeAmbos": "En taller y a domicilio",
+  "tecnicoRadio": "hasta {km} km",
+  "@tecnicoRadio": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicoDisponibleHoy": "Disponible hoy",
+  "tecnicoSinColonia": "Elige tu colonia para saber si llega hasta ti.",
+  "tecnicoLlega": "Sí atiende {colonia}",
+  "@tecnicoLlega": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoNoLlega": "No atiende {colonia}",
+  "@tecnicoNoLlega": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoServicios": "Servicios y precios",
+  "tecnicoSinServicios": "Todavía no publica servicios.",
+  "tecnicoDesde": "desde {precio}",
+  "@tecnicoDesde": {
+    "placeholders": {
+      "precio": {
+        "type": "String"
+      }
+    }
+  },
+  "tecnicoPreciosDeReferencia": "Son precios de referencia. El precio final lo acuerdas con el técnico.",
+  "tecnicoFotos": "Fotos de sus trabajos",
+  "tecnicoSinFotos": "Todavía no hay fotos de sus trabajos.",
+  "tecnicoFotoEtiqueta": "Foto de un trabajo terminado",
+  "tecnicoVerMasFotos": "Ver más fotos",
+  "citaExistente": "Cita existente",
+  "visitaRecuperacionFallida": "No pudimos recuperar la visita. Consulta tu actividad.",
+  "citaMonto": "Cotización: {monto}",
+  "@citaMonto": {
+    "placeholders": {
+      "monto": {
+        "type": "String"
+      }
+    }
+  },
+  "citaTope": "Máximo: {monto}",
+  "@citaTope": {
+    "placeholders": {
+      "monto": {
+        "type": "String"
+      }
+    }
+  },
   "appTitle": "Knock",
   "@appTitle": {
     "description": "Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce."
   },
+  "busquedaTitulo": "Buscar",
+  "busquedaEtiqueta": "¿Qué necesitas?",
+  "busquedaPlaceholder": "Ej.: boiler, frenos, un contacto",
+  "busquedaMinimo": "Escribe al menos 2 letras",
+  "busquedaContador": "{n}/80",
+  "@busquedaContador": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "busquedaCargando": "Buscando…",
+  "busquedaSugerencias": "Sugerencias",
+  "busquedaSoloVerificados": "Solo verificados",
+  "busquedaSoloVerificadosActivo": "Solo verificados, seleccionado",
+  "busquedaBuscamos": "Buscamos: {oficio}",
+  "@busquedaBuscamos": {
+    "placeholders": {
+      "oficio": {
+        "type": "String"
+      }
+    }
+  },
+  "busquedaAmbiguo": "¿Cuál de estos buscas?",
+  "busquedaNoEntendimos": "No entendimos qué necesitas",
+  "busquedaElegirCategoria": "Elige una categoría",
+  "busquedaSinResultados": "No encontramos expertos con esa búsqueda.",
+  "busquedaSinResultadosOficio": "Todavía no hay expertos de {oficio} en tu colonia",
+  "@busquedaSinResultadosOficio": {
+    "placeholders": {
+      "oficio": {
+        "type": "String"
+      }
+    }
+  },
+  "busquedaPedirCotizacion": "Pedir cotización de todos modos",
+  "busquedaSinZona": "Elige tu zona para buscar expertos cerca",
+  "busquedaElegirZona": "Elegir mi zona",
+  "busquedaCargarMas": "Ver más",
+  "busquedaTope": "Mostramos los primeros 100. Agrega más palabras para afinar.",
+  "busquedaTotal": "{n} resultados",
+  "@busquedaTotal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "busquedaReintentar": "Reintentar",
+  "busquedaSinConexion": "Sin conexión",
+  "busquedaNoDisponible": "La búsqueda no está disponible en este momento. Intenta de nuevo.",
+  "busquedaOtrasPalabras": "Prueba con otras palabras",
+  "busquedaEspera": "Hiciste muchas búsquedas seguidas. Espera {segundos} segundos.",
+  "@busquedaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "busquedaCalificacion": "{calificacion} estrellas, {n} reseñas",
+  "@busquedaCalificacion": {
+    "placeholders": {
+      "calificacion": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "busquedaDistancia": "a unos {km} km",
+  "@busquedaDistancia": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "busquedaVerificado": "Verificado: {nivel}",
+  "@busquedaVerificado": {
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "busquedaNoAtiende": "No atiende tu colonia",
   "tabInicio": "Inicio",
   "@tabInicio": {
     "description": "Pestaña de la barra inferior y título de la pantalla de inicio."
@@ -1367,5 +1546,1333 @@
   "avisoCerrar": "Cerrar",
   "@avisoCerrar": {
     "description": "Cerrar la hoja del aviso."
+  },
+  "cuentaDescargarTitulo": "Descargar mis datos",
+  "cuentaDescargarNoDisponible": "La descarga de tus datos todavía no está disponible en esta versión.",
+  "cuentaDescargarCargando": "Revisando tu archivo…",
+  "cuentaDescargarSinPedir": "Aún no has pedido tu archivo. Lo preparamos en un máximo de 48 horas.",
+  "cuentaDescargarEnPreparacion": "Estamos preparando tu archivo. Puede tardar hasta 48 horas.",
+  "cuentaDescargarLista": "Tu archivo está listo. El enlace vence el {fecha}.",
+  "@cuentaDescargarLista": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cuentaDescargarVencida": "Tu archivo anterior venció. Puedes pedirlo otra vez.",
+  "cuentaDescargarPedir": "Pedir mi archivo",
+  "cuentaActualizar": "Actualizar",
+  "cuentaDescargarAbrir": "Descargar",
+  "cuentaDescargarPedida": "Pedimos tu archivo. Puede tardar hasta 48 horas.",
+  "cuentaDescargarYaEnCurso": "Ya estamos preparando tu archivo.",
+  "cuentaDescargarNoAbrio": "No pudimos abrir el enlace.",
+  "cuentaReintentar": "Reintentar",
+  "cuentaConsentimientosCargando": "Cargando tus consentimientos…",
+  "cuentaConsentimientosVacio": "No hay consentimientos para mostrar.",
+  "cuentaConsentimientoPromociones": "Promociones y novedades",
+  "cuentaConsentimientoPromocionesDetalle": "Ofertas de expertos y noticias de Knock",
+  "cuentaConsentimientoEncuestas": "Encuestas para mejorar Knock",
+  "cuentaConsentimientoEncuestasDetalle": "Preguntas cortas después de un servicio",
+  "cuentaConsentimientoRecomendaciones": "Recomendaciones personalizadas",
+  "cuentaConsentimientoRecomendacionesDetalle": "Sugerencias según tu casa y tu auto",
+  "cuentaConsentimientoAviso": "Aviso de privacidad",
+  "cuentaConsentimientoTerminos": "Términos y condiciones",
+  "cuentaConsentimientoOtro": "Otro consentimiento",
+  "cuentaConsentimientoObligatorio": "Obligatorio: no se puede apagar",
+  "cuentaConsentimientoRegistro": "Versión {version} · {fecha}",
+  "@cuentaConsentimientoRegistro": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesTitulo": "Opiniones",
+  "@opinionesTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "conversacionesSinConexion": "Sin conexión",
+  "conversacionesGlobo": "Mensajes",
+  "conversacionesGloboConTotal": "Mensajes, {total}",
+  "@conversacionesGloboConTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "conversacionesCargando": "Cargando conversaciones…",
+  "conversacionesVacias": "Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.",
+  "conversacionesAbrirPendiente": "Abrir conversaciones aún no está disponible.",
+  "conversacionesNoLeidos": "{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}",
+  "@conversacionesNoLeidos": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "reputacionNivel": "Nivel: {nivel}",
+  "reputacionNuevo": "Nuevo",
+  "reputacionConfiable": "Confiable",
+  "reputacionDestacado": "Destacado",
+  "@reputacionNivel": {
+    "description": "Nivel de reputación enviado por el servidor",
+    "placeholders": {
+      "nivel": {
+        "type": "String"
+      }
+    }
+  },
+  "trabajoProximasVisitas": "Próximas visitas",
+  "trabajoPendiente": "Los trabajos terminados todavía no se muestran aquí.",
+  "trabajoVerificacion": "Mi verificación",
+  "trabajoReputacion": "Mi reputación",
+  "trabajoDisponibleHoy": "Disponible hoy",
+  "trabajoDisponibleDetalle": "Enciéndelo si hoy puedes atender solicitudes. Se apaga solo al terminar el día.",
+  "trabajoDisponibleCargando": "Cargando tu disponibilidad…",
+  "visitaAusenteBoton": "El cliente no estaba",
+  "visitaAusenteExplicacion": "Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.",
+  "visitaAusenteConfirmar": "Registrar que no estaba",
+  "visitaAusenteRegistrada": "Registramos que el cliente no estaba.",
+  "visitaAusenteFueraDeVentana": "Ahora no se puede registrar: solo dentro de la ventana de la cita.",
+  "visitaTecnicoAusenteBoton": "El técnico no se presentó",
+  "visitaTecnicoAusenteExplicacion": "Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita.",
+  "visitaTecnicoAusenteConfirmar": "Registrar que no llegó",
+  "visitaTecnicoAusenteRegistrada": "Registraste que el técnico no se presentó.",
+  "visitaTerminarBoton": "Terminar servicio",
+  "visitaTerminarFotos": "Fotos del trabajo terminado (de 1 a 5)",
+  "visitaTerminarDescripcion": "¿Qué hiciste?",
+  "visitaTerminarDescripcionAyuda": "De 8 a 500 caracteres.",
+  "visitaTerminarRecomendacion": "Recomendación para el cliente (opcional)",
+  "visitaTerminarSinSubida": "La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.",
+  "visitaTerminarNoEnCurso": "Esta visita no está en curso: no se puede terminar.",
+  "visitaTerminarHecho": "Servicio terminado.",
+  "llegadaTitulo": "Confirmar llegada",
+  "llegadaCargando": "Cargando tu visita…",
+  "llegadaInstruccion": "Pide en la puerta el código de 4 dígitos y escríbelo aquí.",
+  "llegadaCodigo": "Código de 4 dígitos",
+  "llegadaConfirmar": "Ya llegué",
+  "llegadaConfirmando": "Confirmando…",
+  "llegadaConfirmada": "Llegada confirmada. La visita está en curso.",
+  "llegadaHora": "Hora de llegada: {hora}",
+  "@llegadaHora": {
+    "placeholders": {
+      "hora": {
+        "type": "String"
+      }
+    }
+  },
+  "llegadaIncorrecto": "El código no coincide. Confirma que estás en la dirección correcta.",
+  "llegadaIntentos": "{n, plural, =1{Te queda 1 intento} other{Te quedan {n} intentos}}",
+  "@llegadaIntentos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "llegadaCuatroDigitos": "Escribe los 4 dígitos.",
+  "llegadaBloqueada": "Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.",
+  "llegadaYaUsado": "Este código ya se usó.",
+  "llegadaVencido": "El código de esta visita ya venció.",
+  "llegadaCancelada": "Esta visita se canceló.",
+  "errorFueraDeVentana": "Podrás confirmar la llegada el día de la cita, desde las 00:00.",
+  "errorVisitaNoVigente": "Esta visita ya no está vigente.",
+  "llegadaTaller": "Esta cita es en el taller y no necesita código.",
+  "llegadaNoTecnico": "Solo el técnico de la visita puede confirmar la llegada.",
+  "llegadaNoDisponible": "Esta visita ya no está disponible.",
+  "llegadaAunNo": "Podrás confirmar tu llegada el día de la cita.",
+  "llegadaReintentoCuenta": "Si el código era incorrecto, este reintento cuenta como intento.",
+  "llegadaEspera": "Hiciste muchos intentos. Espera {segundos} segundos.",
+  "@llegadaEspera": {
+    "placeholders": {
+      "segundos": {
+        "type": "int"
+      }
+    }
+  },
+  "agendaCargando": "Cargando tu agenda…",
+  "agendaError": "No pudimos cargar tu agenda.",
+  "agendaVacia": "No tienes visitas próximas.",
+  "agendaSinMapa": "La ubicación de las visitas no está disponible en el mapa.",
+  "agendaVerMas": "Ver más visitas",
+  "agendaEstado": "{estado, select, confirmada{Confirmada} en_curso{En curso} terminada{Terminada} cancelada{Cancelada} no_presentado{No se presentó} other{Estado no disponible}}",
+  "@agendaEstado": {
+    "placeholders": {
+      "estado": {
+        "type": "String"
+      }
+    }
+  },
+  "agendaModalidad": "{modalidad, select, domicilio{A domicilio} taller{En taller} other{Modalidad no disponible}}",
+  "@agendaModalidad": {
+    "placeholders": {
+      "modalidad": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesCargando": "Cargando las opiniones…",
+  "@opinionesCargando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesError": "No pudimos cargar las opiniones.",
+  "@opinionesError": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesNoDisponible": "Ese técnico ya no está disponible.",
+  "@opinionesNoDisponible": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesReintentar": "Reintentar",
+  "@opinionesReintentar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVacio": "Aún sin opiniones. Las primeras llegan después de su primer servicio por Knock.",
+  "@opinionesVacio": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCopia": "Sin conexión. Es lo que viste el {fecha}; puede estar desactualizado.",
+  "@opinionesCopia": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPromedio": "★ {promedio} de 5",
+  "@opinionesPromedio": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "promedio": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesTotal": "{total, plural, =1{1 opinión} other{{total} opiniones}}",
+  "@opinionesTotal": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesEstrellas": "{estrellas} estrellas: {total}",
+  "@opinionesEstrellas": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrellas": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesVerTodas": "Ver las opiniones",
+  "@opinionesVerTodas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVerMas": "Ver más",
+  "@opinionesVerMas": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesServicioVerificado": "Servicio verificado",
+  "@opinionesServicioVerificado": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesAnonima": "Usuario eliminado",
+  "@opinionesAnonima": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesRespuesta": "Respuesta del técnico: {texto}",
+  "@opinionesRespuesta": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "texto": {
+        "type": "String"
+      }
+    }
+  },
+  "opinionesPuntualidad": "Puntualidad",
+  "@opinionesPuntualidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalidad": "Calidad",
+  "@opinionesCalidad": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPrecioJusto": "Precio justo",
+  "@opinionesPrecioJusto": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesTrato": "Trato",
+  "@opinionesTrato": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarTitulo": "Califica el servicio",
+  "@opinionesCalificarTitulo": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarPregunta": "¿Cómo te fue?",
+  "@opinionesCalificarPregunta": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesCalificarBoton": "Calificar el servicio",
+  "@opinionesCalificarBoton": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEstrellaBoton": "{estrella} de 5 estrellas",
+  "@opinionesEstrellaBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesParteBoton": "{parte}: {estrella} de 5 estrellas",
+  "@opinionesParteBoton": {
+    "description": "Opiniones (spec 041).",
+    "placeholders": {
+      "parte": {
+        "type": "String"
+      },
+      "estrella": {
+        "type": "int"
+      }
+    }
+  },
+  "opinionesPorPartes": "Por partes (opcional)",
+  "@opinionesPorPartes": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesComentario": "Cuéntale a otros cómo fue",
+  "@opinionesComentario": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesGuardarConfianza": "Guardar en mis técnicos de confianza",
+  "@opinionesGuardarConfianza": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicar": "Publicar opinión",
+  "@opinionesPublicar": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesPublicando": "Publicando…",
+  "@opinionesPublicando": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesElige": "Elige cuántas estrellas para continuar",
+  "@opinionesElige": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesEnviada": "Recibimos tu opinión. ¡Gracias!",
+  "@opinionesEnviada": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorNoPermitida": "Esta visita ya no se puede calificar: ya opinaste o pasaron los 30 días.",
+  "@opinionesErrorNoPermitida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesErrorYaRespondida": "Esta opinión ya tiene respuesta.",
+  "@opinionesErrorYaRespondida": {
+    "description": "Opiniones (spec 041)."
+  },
+  "opinionesVisitaNoDisponible": "Esa visita ya no está disponible.",
+  "@opinionesVisitaNoDisponible": {
+    "description": "Opiniones (spec 041)."
+  },
+  "cuentaPendientesCargando": "Revisando lo que tienes pendiente…",
+  "cuentaPendientesVacio": "No tienes citas ni cotizaciones abiertas.",
+  "cuentaPendientesTitulo": "Lo que tienes pendiente",
+  "cuentaPendientesCitas": "Citas abiertas: {total}",
+  "@cuentaPendientesCitas": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cuentaPendientesCotizaciones": "Cotizaciones abiertas: {total}",
+  "@cuentaPendientesCotizaciones": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cuentaPendientesNota": "Al programar la eliminación se cancelan tus solicitudes abiertas y las cotizaciones pendientes, y avisamos a las personas involucradas.",
+  "cuentaEliminarTitulo": "Eliminar cuenta",
+  "cuentaEliminarPregunta": "¿Seguro que quieres eliminar tu cuenta?",
+  "cuentaEliminarGracia": "Tu cuenta quedará programada para eliminarse en 7 días y puedes cancelarlo antes.",
+  "cuentaEliminarEscribe": "Escribe ELIMINAR para confirmar",
+  "cuentaEliminarVerifica": "Por seguridad, confirma tu celular con un código por SMS.",
+  "cuentaEliminarCelular": "Tu celular (10 dígitos)",
+  "cuentaEliminarEnviarCodigo": "Enviarme el código",
+  "cuentaEliminarCodigo": "Código de 6 dígitos",
+  "cuentaEliminarVerificacionRechazada": "No pudimos confirmar tu identidad con ese número. Usa el celular de esta cuenta y pide otro código.",
+  "cuentaEliminarNoPermitida": "No se puede eliminar ahora: ya está programada o tienes una visita en curso.",
+  "cuentaEliminarEnviando": "Un momento…",
+  "cuentaEliminarBoton": "Eliminar mi cuenta",
+  "cuentaEliminarMejorNo": "Mejor no",
+  "cuentaEliminacionProgramada": "Tu cuenta está programada para eliminarse",
+  "cuentaEliminacionProgramadaEl": "Tu cuenta se eliminará el {fecha}",
+  "@cuentaEliminacionProgramadaEl": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cuentaEliminacionDetalle": "Tienes 7 días para arrepentirte: antes de que termine el plazo puedes cancelar la eliminación.",
+  "cuentaEliminacionCargando": "Revisando tu cuenta…",
+  "cuentaEliminacionNinguna": "No tienes una eliminación programada",
+  "cuentaEliminacionCancelar": "Cancelar la eliminación",
+  "cuentaEliminacionCancelada": "Cancelaste la eliminación de tu cuenta",
+  "cuentaEliminacionNadaQueCancelar": "No hay una eliminación programada que cancelar.",
+  "cuentaEliminacionIrACuenta": "Ir a Mi cuenta",
+  "cuentaEliminacionSalir": "Salir",
+  "bloqueosMotivoAcoso": "Acoso",
+  "bloqueosMotivoFraude": "Fraude",
+  "bloqueosMotivoMalServicio": "Mal servicio",
+  "bloqueosMotivoComportamiento": "Comportamiento inapropiado",
+  "bloqueosMotivoPeligro": "Peligro",
+  "bloqueosMotivoOtro": "Otra cosa",
+  "bloqueosTitulo": "Reportar un problema",
+  "bloqueosCargando": "Cargando…",
+  "bloqueosNoDisponible": "No es posible reportar desde esta visita.",
+  "bloqueosReintentar": "Reintentar",
+  "bloqueosAviso911": "Si estás en peligro, llama al 911.",
+  "bloqueosRecibido": "Recibimos tu reporte",
+  "bloqueosVolver": "Volver",
+  "bloqueosQuePaso": "¿Qué pasó?",
+  "bloqueosDescripcion": "Cuéntanos qué pasó (de 8 a 500 caracteres)",
+  "bloqueosEnviando": "Enviando…",
+  "bloqueosEnviar": "Enviar reporte",
+  "bloqueosFalta": "Elige qué pasó y escribe al menos 8 caracteres",
+  "bloqueosMios": "Mis reportes",
+  "bloqueosCargandoLista": "Cargando tus reportes…",
+  "bloqueosErrorLista": "No pudimos cargar tus reportes.",
+  "bloqueosVacio": "No has hecho reportes.",
+  "bloqueosVerMas": "Ver más",
+  "bloqueosApelacionEnviada": "Enviamos tu apelación",
+  "bloqueosEstadoAbierto": "En revisión",
+  "bloqueosEstadoDecidido": "Decidido",
+  "bloqueosEstadoEnApelacion": "En apelación",
+  "bloqueosEstadoOtro": "Estado no disponible",
+  "bloqueosApelar": "Apelar la decisión",
+  "bloqueosApelacionTexto": "Explica por qué apelas (de 8 a 500 caracteres)",
+  "bloqueosEnviarApelacion": "Enviar apelación",
+  "bloqueosErrorYaBloqueado": "Ya habías bloqueado a esta persona.",
+  "bloqueosErrorApelacion": "Este reporte ya no se puede apelar.",
+  "bloqueosPantallaBloquear": "Bloquear a una persona",
+  "bloqueosPersonasTitulo": "Personas bloqueadas",
+  "bloqueosPersonasCargando": "Cargando a quién bloqueaste…",
+  "bloqueosPersonasError": "No pudimos cargar tus bloqueos.",
+  "bloqueosPersonasVacio": "No has bloqueado a nadie.",
+  "bloqueosBloqueadaEl": "Bloqueada el",
+  "bloqueosDesbloquear": "Desbloquear",
+  "bloqueosDesbloqueando": "Desbloqueando…",
+  "bloqueosDesbloqueada": "Desbloqueaste a esta persona.",
+  "bloqueosBloquear": "Bloquear a esta persona",
+  "bloqueosBloqueando": "Bloqueando…",
+  "bloqueosBloqueada": "Bloqueaste a esta persona.",
+  "bloqueosBloquearAviso": "Ya no podrá escribirte ni verte en las búsquedas.",
+  "bloqueosConfirmarBloqueoTitulo": "¿Bloquear a esta persona?",
+  "bloqueosConfirmarBloqueo": "Sí, bloquear",
+  "bloqueosCancelar": "Cancelar",
+  "bloqueosDeshacer": "Deshacer",
+  "bloqueosNoEncontrada": "Esa persona ya no está disponible.",
+  "bloqueosErrorYaNoBloqueada": "Esa persona ya no estaba bloqueada.",
+  "bloqueosErrorNoBloquearse": "No puedes bloquearte a ti mismo.",
+  "direccionesTitulo": "Mis direcciones",
+  "direccionesCargando": "Cargando tus direcciones…",
+  "direccionesError": "No pudimos cargar tus direcciones.",
+  "direccionesReintentar": "Reintentar",
+  "direccionesVacio": "Aún no tienes direcciones guardadas.",
+  "direccionesAgregar": "Agregar dirección",
+  "direccionesEditar": "Editar",
+  "direccionesEliminar": "Eliminar",
+  "direccionesPrincipal": "Principal",
+  "direccionesSinReferencias": "Sin referencias",
+  "direccionesNueva": "Nueva dirección",
+  "direccionesEditarTitulo": "Editar dirección",
+  "direccionesCalle": "Calle y número",
+  "direccionesReferencias": "Referencias (opcional)",
+  "direccionesColonia": "Colonia: {colonia}",
+  "@direccionesColonia": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "direccionesCambiarColonia": "Usar mi colonia actual: {colonia}",
+  "@direccionesCambiarColonia": {
+    "placeholders": {
+      "colonia": {
+        "type": "String"
+      }
+    }
+  },
+  "direccionesMarcarPrincipal": "Usar como principal",
+  "direccionesGuardar": "Guardar dirección",
+  "direccionesGuardando": "Guardando…",
+  "direccionesCancelar": "Cancelar",
+  "direccionesConfirmarEliminar": "¿Eliminar esta dirección?",
+  "direccionesNoDisponible": "Esa dirección ya no está disponible.",
+  "visitaReprogramar": "Reprogramar la cita",
+  "visitaCancelar": "Cancelar el servicio",
+  "visitaCambioPendiente": "Hay un cambio de fecha esperando respuesta. Mientras tanto, la cita actual sigue en pie.",
+  "visitaCancelarTitulo": "¿Cancelar el servicio?",
+  "visitaCancelarConfirmar": "Sí, cancelar",
+  "visitaCancelarAviso": "Con más de 24 h de anticipación es sin costo. Con menos, queda como cancelación tardía y avisamos de inmediato.",
+  "visitaCancelarMotivo": "¿Por qué cancelas?",
+  "visitaMotivoResuelto": "Ya lo resolví",
+  "visitaMotivoPlanes": "Cambié de planes",
+  "visitaMotivoOtraOpcion": "Encontré otra opción",
+  "visitaMotivoOtro": "Otro motivo",
+  "visitaCancelada": "Cancelaste el servicio",
+  "visitaCanceladaTardia": "Cancelaste el servicio. Quedó como cancelación tardía.",
+  "visitaYaCerrada": "Esta visita ya terminó o ya estaba cancelada.",
+  "visitaReprogramarEnviar": "Enviar cambio",
+  "visitaReprogramarExplicacion": "Elige otro día y hora. La otra parte tiene que confirmarlo; mientras tanto la cita actual sigue en pie.",
+  "visitaDia": "Día",
+  "visitaHora": "Hora",
+  "visitaFechaMuyCercana": "Elige una hora con al menos 2 horas de anticipación.",
+  "visitaReprogramacionEnviada": "Enviaste el cambio de fecha. Falta que lo confirmen.",
+  "visitaNoReprogramable": "Esta cita ya no se puede reprogramar: ya empezó o terminó, hay un cambio pendiente o ya se cambió dos veces.",
+  "visitaNoTerminadoBoton": "No se terminó el trabajo",
+  "visitaNoTerminadoTitulo": "¿No se terminó el trabajo?",
+  "visitaNoTerminadoCampo": "¿Qué quedó pendiente?",
+  "visitaNoTerminadoAyuda": "Escribe al menos 8 caracteres. Puedes reportarlo una sola vez, hasta 7 días después.",
+  "visitaNoTerminadoEnviar": "Enviar reporte",
+  "visitaNoTerminadoEnviado": "Enviaste tu reporte. Pasa a revisión.",
+  "visitaReporteCerrado": "Ya no se puede reportar: pasaron más de 7 días o ya lo reportaste.",
+  "visitaEnviando": "Enviando…",
+  "cotizacionFinalTitulo": "Cotización final",
+  "@cotizacionFinalTitulo": {
+    "description": "Texto de la app: cotizacionFinalTitulo"
+  },
+  "cotizacionFinalExplicacion": "Si la apruebas, el trabajo sigue con este precio. Si la rechazas, pagas solo la visita.",
+  "@cotizacionFinalExplicacion": {
+    "description": "Texto de la app: cotizacionFinalExplicacion"
+  },
+  "cotizacionFinalAprobada": "Aprobaste la cotización final.",
+  "@cotizacionFinalAprobada": {
+    "description": "Texto de la app: cotizacionFinalAprobada"
+  },
+  "cotizacionFinalRechazada": "Rechazaste la cotización final: pagas solo la visita.",
+  "@cotizacionFinalRechazada": {
+    "description": "Texto de la app: cotizacionFinalRechazada"
+  },
+  "cotizacionFinalVencida": "La cotización final venció sin respuesta.",
+  "@cotizacionFinalVencida": {
+    "description": "Texto de la app: cotizacionFinalVencida"
+  },
+  "cotizacionFinalYaDecidida": "Esta cotización final ya se decidió o venció.",
+  "@cotizacionFinalYaDecidida": {
+    "description": "Texto de la app: cotizacionFinalYaDecidida"
+  },
+  "cotizacionAjusteTitulo": "Cambio de precio por aprobar",
+  "@cotizacionAjusteTitulo": {
+    "description": "Texto de la app: cotizacionAjusteTitulo"
+  },
+  "cotizacionAjusteExplicacion": "Si lo rechazas, el precio se queda en el tope que ya aprobaste.",
+  "@cotizacionAjusteExplicacion": {
+    "description": "Texto de la app: cotizacionAjusteExplicacion"
+  },
+  "cotizacionAjusteAprobado": "Aprobaste el nuevo precio.",
+  "@cotizacionAjusteAprobado": {
+    "description": "Texto de la app: cotizacionAjusteAprobado"
+  },
+  "cotizacionAjusteRechazado": "Rechazaste el cambio de precio.",
+  "@cotizacionAjusteRechazado": {
+    "description": "Texto de la app: cotizacionAjusteRechazado"
+  },
+  "cotizacionAjusteYaDecidido": "Este cambio de precio ya se decidió o venció.",
+  "@cotizacionAjusteYaDecidido": {
+    "description": "Texto de la app: cotizacionAjusteYaDecidido"
+  },
+  "cotizacionRespondeAntes": "Responde antes del {fecha}",
+  "@cotizacionRespondeAntes": {
+    "description": "Texto de la app: cotizacionRespondeAntes",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizacionAprobar": "Aprobar",
+  "@cotizacionAprobar": {
+    "description": "Texto de la app: cotizacionAprobar"
+  },
+  "cotizacionRechazar": "Rechazar",
+  "@cotizacionRechazar": {
+    "description": "Texto de la app: cotizacionRechazar"
+  },
+  "cotizacionActualizar": "Actualizar",
+  "@cotizacionActualizar": {
+    "description": "Texto de la app: cotizacionActualizar"
+  },
+  "cotizacionCargandoPrecio": "Revisando si hay un precio por aprobar…",
+  "@cotizacionCargandoPrecio": {
+    "description": "Texto de la app: cotizacionCargandoPrecio"
+  },
+  "cotizacionFinalNoDisponible": "La cotización final no está disponible.",
+  "cotizacionSinAjustes": "No hay cambios de precio pendientes.",
+  "serviciosPrecioDesde": "Desde ${precio}",
+  "@serviciosPrecioDesde": {
+    "placeholders": {
+      "precio": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosSinPerfil": "Todavía no tienes perfil de técnico.",
+  "serviciosNoExiste": "Ese servicio ya no existe.",
+  "serviciosLimite": "Ya tienes el máximo de 50 servicios. Quita uno para agregar otro.",
+  "serviciosOficioNoValido": "Ese oficio no es uno de los tuyos.",
+  "serviciosOficioMecanica": "Mecánica",
+  "serviciosOficioPlomeria": "Plomería",
+  "serviciosOficioElectricidad": "Electricidad",
+  "serviciosTituloPropio": "Servicios y precio de referencia",
+  "serviciosCrearPerfil": "Crear mi perfil de técnico",
+  "serviciosCargandoPropios": "Cargando tus servicios…",
+  "serviciosErrorPropios": "No pudimos cargar tus servicios.",
+  "serviciosReintentar": "Reintentar",
+  "serviciosListaParcial": "Por ahora no podemos consultar los servicios que ya tienes guardados. Aquí ves los cambios que hagas ahora.",
+  "serviciosVacioPropios": "Aún no agregas servicios.",
+  "serviciosEditar": "Editar",
+  "serviciosQuitar": "Quitar",
+  "serviciosAgregar": "Agregar servicio",
+  "serviciosErrorNombre": "Escribe el nombre del servicio",
+  "serviciosErrorNombreMax": "El nombre admite hasta {maximo} caracteres",
+  "@serviciosErrorNombreMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorDetalleMax": "El detalle admite hasta {maximo} caracteres",
+  "@serviciosErrorDetalleMax": {
+    "placeholders": {
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "serviciosErrorPrecio": "Escribe un precio en pesos, sin decimales y mayor que cero",
+  "serviciosErrorOficio": "Elige el oficio",
+  "serviciosNombre": "Nombre del servicio",
+  "serviciosNombreEjemplo": "Ej. Cambio de llave",
+  "serviciosDetalle": "Detalle",
+  "serviciosPrecio": "Precio de referencia (pesos)",
+  "serviciosOficioPregunta": "¿De qué oficio es?",
+  "serviciosGuardar": "Guardar servicio",
+  "serviciosCancelar": "Cancelar",
+  "serviciosTituloPublico": "Servicios y precios",
+  "serviciosCargandoPublicos": "Cargando sus servicios…",
+  "serviciosNoDisponible": "Ese técnico ya no está disponible.",
+  "serviciosErrorPublicos": "No pudimos cargar sus servicios.",
+  "serviciosCopia": "Sin conexión. Es la copia del {fecha} y puede estar desactualizada.",
+  "@serviciosCopia": {
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "serviciosVacioPublico": "Todavía no publica servicios.",
+  "serviciosReferencia": "Precios de referencia: no son una cotización.",
+  "pedirCargandoOpciones": "Cargando opciones…",
+  "@pedirCargandoOpciones": {
+    "description": "Texto de la app: pedirCargandoOpciones"
+  },
+  "pedirOficioNoDisponible": "Este oficio ya no está disponible. Puedes escribir lo que pasa.",
+  "@pedirOficioNoDisponible": {
+    "description": "Texto de la app: pedirOficioNoDisponible"
+  },
+  "pedirSinOpciones": "No pudimos cargar las opciones. Puedes escribir lo que pasa.",
+  "@pedirSinOpciones": {
+    "description": "Texto de la app: pedirSinOpciones"
+  },
+  "pedirOpcionesVacias": "No hay opciones sugeridas: escribe lo que pasa.",
+  "@pedirOpcionesVacias": {
+    "description": "Texto de la app: pedirOpcionesVacias"
+  },
+  "pedirReintentar": "Reintentar",
+  "@pedirReintentar": {
+    "description": "Texto de la app: pedirReintentar"
+  },
+  "pedirCopiaGuardada": "Sin conexión: opciones guardadas el {fecha}, pueden estar desactualizadas.",
+  "@pedirCopiaGuardada": {
+    "description": "Texto de la app: pedirCopiaGuardada",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "pedirOficioNuevoFallo": "Tu oficio quedó en tu perfil, pero no pudimos avisar a Knock. {motivo}",
+  "@pedirOficioNuevoFallo": {
+    "description": "Texto de la app: pedirOficioNuevoFallo",
+    "placeholders": {
+      "motivo": {
+        "type": "String"
+      }
+    }
+  },
+  "solicitudesAmpliar": "Pedir también a otros",
+  "@solicitudesAmpliar": {
+    "description": "Texto de la app: solicitudesAmpliar"
+  },
+  "solicitudesAmpliarExplicacion": "Puedes seguir esperando o pedir también a otros expertos cerca.",
+  "@solicitudesAmpliarExplicacion": {
+    "description": "Texto de la app: solicitudesAmpliarExplicacion"
+  },
+  "solicitudesAmpliada": "Listo: pedimos cotización a más expertos.",
+  "@solicitudesAmpliada": {
+    "description": "Texto de la app: solicitudesAmpliada"
+  },
+  "solicitudesNoAmpliable": "Esta solicitud ya no se puede ampliar.",
+  "@solicitudesNoAmpliable": {
+    "description": "Texto de la app: solicitudesNoAmpliable"
+  },
+  "solicitudesNoDisponible": "Esta solicitud ya no está disponible.",
+  "@solicitudesNoDisponible": {
+    "description": "Texto de la app: solicitudesNoDisponible"
+  },
+  "cuentaNumeroTitulo": "Cambiar mi número",
+  "@cuentaNumeroTitulo": {
+    "description": "Texto de la app: cuentaNumeroTitulo"
+  },
+  "cuentaRecuperarTitulo": "Recuperar mi cuenta",
+  "@cuentaRecuperarTitulo": {
+    "description": "Texto de la app: cuentaRecuperarTitulo"
+  },
+  "cuentaNumeroExplicacion": "Te mandaremos un código por SMS al número nuevo. Tu cuenta, tus trabajos y tus mensajes se quedan igual.",
+  "@cuentaNumeroExplicacion": {
+    "description": "Texto de la app: cuentaNumeroExplicacion"
+  },
+  "cuentaRecuperarExplicacion": "Escribe tu número anterior, qué cuenta es y tu número nuevo. Te mandaremos un código al número nuevo.",
+  "@cuentaRecuperarExplicacion": {
+    "description": "Texto de la app: cuentaRecuperarExplicacion"
+  },
+  "cuentaNumeroAnterior": "Tu número anterior (10 dígitos)",
+  "@cuentaNumeroAnterior": {
+    "description": "Texto de la app: cuentaNumeroAnterior"
+  },
+  "cuentaNumeroNuevo": "Número nuevo (10 dígitos)",
+  "@cuentaNumeroNuevo": {
+    "description": "Texto de la app: cuentaNumeroNuevo"
+  },
+  "cuentaTipoCliente": "Soy cliente",
+  "@cuentaTipoCliente": {
+    "description": "Texto de la app: cuentaTipoCliente"
+  },
+  "cuentaTipoTecnico": "Soy técnico",
+  "@cuentaTipoTecnico": {
+    "description": "Texto de la app: cuentaTipoTecnico"
+  },
+  "cuentaNumeroCodigo": "Código de 6 números",
+  "@cuentaNumeroCodigo": {
+    "description": "Texto de la app: cuentaNumeroCodigo"
+  },
+  "cuentaNumeroEnviarCodigo": "Enviarme el código",
+  "@cuentaNumeroEnviarCodigo": {
+    "description": "Texto de la app: cuentaNumeroEnviarCodigo"
+  },
+  "cuentaNumeroConfirmar": "Confirmar",
+  "@cuentaNumeroConfirmar": {
+    "description": "Texto de la app: cuentaNumeroConfirmar"
+  },
+  "cuentaNumeroEntendido": "Entendido",
+  "@cuentaNumeroEntendido": {
+    "description": "Texto de la app: cuentaNumeroEntendido"
+  },
+  "cuentaNumeroOtro": "Usar otro número",
+  "@cuentaNumeroOtro": {
+    "description": "Texto de la app: cuentaNumeroOtro"
+  },
+  "cuentaNumeroEnUso": "Ese número ya pertenece a otra cuenta.",
+  "@cuentaNumeroEnUso": {
+    "description": "Texto de la app: cuentaNumeroEnUso"
+  },
+  "cuentaNumeroCambiado": "Tu número cambió.",
+  "@cuentaNumeroCambiado": {
+    "description": "Texto de la app: cuentaNumeroCambiado"
+  },
+  "cuentaRecuperarRecibida": "Recibimos tu solicitud. Una persona del equipo la revisará.",
+  "@cuentaRecuperarRecibida": {
+    "description": "Texto de la app: cuentaRecuperarRecibida"
+  },
+  "verificacionCargando": "Cargando tu verificación…",
+  "@verificacionCargando": {
+    "description": "Texto de la app: verificacionCargando"
+  },
+  "verificacionReintentar": "Reintentar",
+  "@verificacionReintentar": {
+    "description": "Texto de la app: verificacionReintentar"
+  },
+  "verificacionSinVerificar": "Sin verificar",
+  "@verificacionSinVerificar": {
+    "description": "Texto de la app: verificacionSinVerificar"
+  },
+  "verificacionSinVerificarDetalle": "La verificación es opcional y le da más confianza a tus clientes.",
+  "@verificacionSinVerificarDetalle": {
+    "description": "Texto de la app: verificacionSinVerificarDetalle"
+  },
+  "verificacionFotosBorradas": "Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.",
+  "@verificacionFotosBorradas": {
+    "description": "Texto de la app: verificacionFotosBorradas"
+  },
+  "verificacionEnRevision": "En revisión",
+  "@verificacionEnRevision": {
+    "description": "Texto de la app: verificacionEnRevision"
+  },
+  "verificacionEnRevisionDetalle": "Revisamos en menos de 24 h",
+  "@verificacionEnRevisionDetalle": {
+    "description": "Texto de la app: verificacionEnRevisionDetalle"
+  },
+  "verificacionVerificadoBasico": "Verificado: básica",
+  "@verificacionVerificadoBasico": {
+    "description": "Texto de la app: verificacionVerificadoBasico"
+  },
+  "verificacionVerificadoCompleto": "Verificado: completa",
+  "@verificacionVerificadoCompleto": {
+    "description": "Texto de la app: verificacionVerificadoCompleto"
+  },
+  "verificacionVerificadoDetalle": "Tu perfil muestra la insignia de verificado.",
+  "@verificacionVerificadoDetalle": {
+    "description": "Texto de la app: verificacionVerificadoDetalle"
+  },
+  "verificacionNoVerificado": "No se pudo verificar",
+  "@verificacionNoVerificado": {
+    "description": "Texto de la app: verificacionNoVerificado"
+  },
+  "verificacionSinMotivo": "No se indicó el motivo.",
+  "@verificacionSinMotivo": {
+    "description": "Texto de la app: verificacionSinMotivo"
+  },
+  "verificacionEnviadaEl": "Enviada el {fecha}",
+  "@verificacionEnviadaEl": {
+    "description": "Texto de la app: verificacionEnviadaEl",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "verificacionEnvioNoDisponible": "Enviar tus fotos desde la app todavía no está disponible.",
+  "@verificacionEnvioNoDisponible": {
+    "description": "Texto de la app: verificacionEnvioNoDisponible"
+  },
+  "tecnicosMapaCargando": "Cargando expertos en el mapa…",
+  "tecnicosMapaError": "No pudimos cargar los expertos del mapa.",
+  "tecnicosMapaVacio": "No hay expertos en esta zona del mapa.",
+  "tecnicosOrdenRecomendados": "Recomendados",
+  "tecnicosOrdenCalificacion": "Mejor calificados",
+  "tecnicosOrdenDistancia": "Más cercanos",
+  "tecnicosRadio": "Hasta {km} km",
+  "@tecnicosRadio": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicosListadoTitulo": "Expertos",
+  "asistenteNoDisponible": "El asistente de IA no está disponible. Puedes seguir sin él.",
+  "@asistenteNoDisponible": {
+    "description": "Asistente de IA (spec 042): asistenteNoDisponible"
+  },
+  "asistenteEjemplo": "Esto es un ejemplo: no lo generó una IA.",
+  "@asistenteEjemplo": {
+    "description": "Asistente de IA (spec 042): asistenteEjemplo"
+  },
+  "asistenteLimite": "Llegaste al límite de uso del asistente. Inténtalo más tarde.",
+  "@asistenteLimite": {
+    "description": "Asistente de IA (spec 042): asistenteLimite"
+  },
+  "asistenteCargando": "Consultando al asistente…",
+  "@asistenteCargando": {
+    "description": "Asistente de IA (spec 042): asistenteCargando"
+  },
+  "asistenteReintentar": "Reintentar",
+  "@asistenteReintentar": {
+    "description": "Asistente de IA (spec 042): asistenteReintentar"
+  },
+  "asistenteGeneradoPorIa": "Generado por IA. Revísalo antes de usarlo.",
+  "@asistenteGeneradoPorIa": {
+    "description": "Asistente de IA (spec 042): asistenteGeneradoPorIa"
+  },
+  "asistenteDePlantilla": "Respuesta automática de plantilla: no la generó una IA.",
+  "@asistenteDePlantilla": {
+    "description": "Asistente de IA (spec 042): asistenteDePlantilla"
+  },
+  "asistenteTitulo": "Asistente Knock",
+  "@asistenteTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteTitulo"
+  },
+  "asistenteEscribe": "¿Qué necesitas arreglar?",
+  "@asistenteEscribe": {
+    "description": "Asistente de IA (spec 042): asistenteEscribe"
+  },
+  "asistenteSinTurno": "Cuéntale tu problema al asistente.",
+  "@asistenteSinTurno": {
+    "description": "Asistente de IA (spec 042): asistenteSinTurno"
+  },
+  "asistenteEnviar": "Enviar",
+  "@asistenteEnviar": {
+    "description": "Asistente de IA (spec 042): asistenteEnviar"
+  },
+  "asistentePideFoto": "Agrega una foto al armar tu solicitud.",
+  "@asistentePideFoto": {
+    "description": "Asistente de IA (spec 042): asistentePideFoto"
+  },
+  "asistenteArmarSolicitud": "Revisar y editar mi solicitud",
+  "@asistenteArmarSolicitud": {
+    "description": "Asistente de IA (spec 042): asistenteArmarSolicitud"
+  },
+  "asistenteResumenTitulo": "Resumen de la conversación",
+  "@asistenteResumenTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteResumenTitulo"
+  },
+  "asistenteResumenVacio": "Todavía no hay nada que resumir.",
+  "@asistenteResumenVacio": {
+    "description": "Asistente de IA (spec 042): asistenteResumenVacio"
+  },
+  "asistenteSabe": "Lo que sabes",
+  "@asistenteSabe": {
+    "description": "Asistente de IA (spec 042): asistenteSabe"
+  },
+  "asistentePorConfirmar": "Por confirmar",
+  "@asistentePorConfirmar": {
+    "description": "Asistente de IA (spec 042): asistentePorConfirmar"
+  },
+  "asistenteQueLlevar": "Qué llevar",
+  "@asistenteQueLlevar": {
+    "description": "Asistente de IA (spec 042): asistenteQueLlevar"
+  },
+  "asistenteBorradorTitulo": "Borrador de cotización",
+  "@asistenteBorradorTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteBorradorTitulo"
+  },
+  "asistentePrecio": "Precio sugerido (MXN)",
+  "@asistentePrecio": {
+    "description": "Asistente de IA (spec 042): asistentePrecio"
+  },
+  "asistenteTiempo": "Tiempo estimado",
+  "@asistenteTiempo": {
+    "description": "Asistente de IA (spec 042): asistenteTiempo"
+  },
+  "asistenteDia": "Día",
+  "@asistenteDia": {
+    "description": "Asistente de IA (spec 042): asistenteDia"
+  },
+  "asistenteNota": "Nota para el cliente",
+  "@asistenteNota": {
+    "description": "Asistente de IA (spec 042): asistenteNota"
+  },
+  "asistenteNadaSeEnvia": "Es un borrador: nada se envía desde aquí.",
+  "@asistenteNadaSeEnvia": {
+    "description": "Asistente de IA (spec 042): asistenteNadaSeEnvia"
+  },
+  "asistenteRangoTitulo": "Rango de precio",
+  "@asistenteRangoTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteRangoTitulo"
+  },
+  "asistenteRangoVacio": "Todavía no hay referencia de precio para este trabajo.",
+  "@asistenteRangoVacio": {
+    "description": "Asistente de IA (spec 042): asistenteRangoVacio"
+  },
+  "asistenteBitacoraTitulo": "Bitácora del trabajo",
+  "@asistenteBitacoraTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteBitacoraTitulo"
+  },
+  "asistenteBitacoraVacia": "Aún no guardas bitácora para este trabajo.",
+  "@asistenteBitacoraVacia": {
+    "description": "Asistente de IA (spec 042): asistenteBitacoraVacia"
+  },
+  "asistenteUnoPorLinea": "Un elemento por línea, hasta 10 de 200 caracteres.",
+  "@asistenteUnoPorLinea": {
+    "description": "Asistente de IA (spec 042): asistenteUnoPorLinea"
+  },
+  "asistenteGuardar": "Guardar en bitácora",
+  "@asistenteGuardar": {
+    "description": "Asistente de IA (spec 042): asistenteGuardar"
+  },
+  "asistenteGuardada": "Bitácora guardada.",
+  "@asistenteGuardada": {
+    "description": "Asistente de IA (spec 042): asistenteGuardada"
+  },
+  "asistenteRango": "De {minimo} a {maximo} MXN",
+  "@asistenteRango": {
+    "description": "Asistente de IA (spec 042): asistenteRango",
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "asistenteMuestras": "Muestras: {n}. Fuente: {fuente}.",
+  "@asistenteMuestras": {
+    "description": "Asistente de IA (spec 042): asistenteMuestras",
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "fuente": {
+        "type": "String"
+      }
+    }
+  },
+  "asistenteCopia": "Sin conexión. Esta es la copia del {fecha}; puede estar desactualizada.",
+  "@asistenteCopia": {
+    "description": "Asistente de IA (spec 042): asistenteCopia",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarSinPerfil": "Necesitas un perfil de técnico para ver esto.",
+  "@cotizarSinPerfil": {
+    "description": "Texto de la app: cotizarSinPerfil"
+  },
+  "cotizarYaNoSeCotiza": "Esta solicitud ya no admite cotizaciones.",
+  "@cotizarYaNoSeCotiza": {
+    "description": "Texto de la app: cotizarYaNoSeCotiza"
+  },
+  "cotizarYaCotizada": "Ya enviaste una cotización para esta solicitud.",
+  "@cotizarYaCotizada": {
+    "description": "Texto de la app: cotizarYaCotizada"
+  },
+  "cotizarCupoLleno": "Esta solicitud ya tiene el máximo de cotizaciones.",
+  "@cotizarCupoLleno": {
+    "description": "Texto de la app: cotizarCupoLleno"
+  },
+  "cotizarTitulo": "Cotizar",
+  "@cotizarTitulo": {
+    "description": "Texto de la app: cotizarTitulo"
+  },
+  "cotizarNuevas": "Solicitudes nuevas",
+  "@cotizarNuevas": {
+    "description": "Texto de la app: cotizarNuevas"
+  },
+  "cotizarNuevasVacio": "No tienes solicitudes nuevas.",
+  "@cotizarNuevasVacio": {
+    "description": "Texto de la app: cotizarNuevasVacio"
+  },
+  "cotizarVer": "Ver y cotizar",
+  "@cotizarVer": {
+    "description": "Texto de la app: cotizarVer"
+  },
+  "cotizarVerPropia": "Ver mi cotización",
+  "@cotizarVerPropia": {
+    "description": "Texto de la app: cotizarVerPropia"
+  },
+  "cotizarEnviadas": "Cotizaciones enviadas",
+  "@cotizarEnviadas": {
+    "description": "Texto de la app: cotizarEnviadas"
+  },
+  "cotizarEnviadasVacio": "Todavía no has enviado cotizaciones.",
+  "@cotizarEnviadasVacio": {
+    "description": "Texto de la app: cotizarEnviadasVacio"
+  },
+  "cotizarCargando": "Cargando…",
+  "@cotizarCargando": {
+    "description": "Texto de la app: cotizarCargando"
+  },
+  "cotizarTipoLabel": "Tipo de precio",
+  "@cotizarTipoLabel": {
+    "description": "Texto de la app: cotizarTipoLabel"
+  },
+  "cotizarPrecio": "Precio en pesos",
+  "@cotizarPrecio": {
+    "description": "Texto de la app: cotizarPrecio"
+  },
+  "cotizarPrecioVisita": "Precio de la visita en pesos",
+  "@cotizarPrecioVisita": {
+    "description": "Texto de la app: cotizarPrecioVisita"
+  },
+  "cotizarPrecioMin": "Mínimo en pesos",
+  "@cotizarPrecioMin": {
+    "description": "Texto de la app: cotizarPrecioMin"
+  },
+  "cotizarPrecioMax": "Máximo en pesos",
+  "@cotizarPrecioMax": {
+    "description": "Texto de la app: cotizarPrecioMax"
+  },
+  "cotizarDia": "Día de la visita",
+  "@cotizarDia": {
+    "description": "Texto de la app: cotizarDia"
+  },
+  "cotizarHora": "Hora (HH:mm)",
+  "@cotizarHora": {
+    "description": "Texto de la app: cotizarHora"
+  },
+  "cotizarPrecioVisitaRango": "De {minimo} a {maximo} pesos.",
+  "@cotizarPrecioVisitaRango": {
+    "description": "Texto de la app: cotizarPrecioVisitaRango",
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarErrorMontoVisita": "Escribe un número entero de {minimo} a {maximo}.",
+  "@cotizarErrorMontoVisita": {
+    "description": "Texto de la app: cotizarErrorMontoVisita",
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarSinDias": "Ya no quedan días disponibles para esta solicitud.",
+  "@cotizarSinDias": {
+    "description": "Texto de la app: cotizarSinDias"
+  },
+  "cotizarErrorMonto": "Escribe un número entero de 1 a 200 000.",
+  "@cotizarErrorMonto": {
+    "description": "Texto de la app: cotizarErrorMonto"
+  },
+  "cotizarErrorMaximo": "El máximo debe ser un entero mayor que el mínimo, hasta 200 000.",
+  "@cotizarErrorMaximo": {
+    "description": "Texto de la app: cotizarErrorMaximo"
+  },
+  "cotizarErrorDia": "Elige un día.",
+  "@cotizarErrorDia": {
+    "description": "Texto de la app: cotizarErrorDia"
+  },
+  "cotizarErrorHora": "Escribe la hora como 09:30.",
+  "@cotizarErrorHora": {
+    "description": "Texto de la app: cotizarErrorHora"
+  },
+  "cotizarEnviar": "Enviar cotización",
+  "@cotizarEnviar": {
+    "description": "Texto de la app: cotizarEnviar"
+  },
+  "cotizarEnviada": "Cotización enviada",
+  "@cotizarEnviada": {
+    "description": "Texto de la app: cotizarEnviada"
+  },
+  "cotizarRequiereAprobacion": "El cliente tendrá que aprobar el precio final.",
+  "@cotizarRequiereAprobacion": {
+    "description": "Texto de la app: cotizarRequiereAprobacion"
+  },
+  "cotizarSinAprobacion": "No requiere otra aprobación del cliente.",
+  "@cotizarSinAprobacion": {
+    "description": "Texto de la app: cotizarSinAprobacion"
+  },
+  "cotizarFotoDe": "Foto {numero} de la solicitud",
+  "@cotizarFotoDe": {
+    "description": "Texto de la app: cotizarFotoDe",
+    "placeholders": {
+      "numero": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarTope": "Tope: ${monto}",
+  "@cotizarTope": {
+    "description": "Texto de la app: cotizarTope",
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarMonto": "${monto}",
+  "@cotizarMonto": {
+    "description": "Texto de la app: cotizarMonto",
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarRango": "${min} a ${max}",
+  "@cotizarRango": {
+    "description": "Texto de la app: cotizarRango",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarCuando": "{dia} · {franja}",
+  "@cotizarCuando": {
+    "description": "Texto de la app: cotizarCuando",
+    "placeholders": {
+      "dia": {
+        "type": "String"
+      },
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarTipo": "{tipo, select, fijo{Precio fijo} rango{Rango} visita{Por visita} other{{tipo}}}",
+  "@cotizarTipo": {
+    "description": "Texto de la app: cotizarTipo",
+    "placeholders": {
+      "tipo": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarFranja": "{franja, select, manana{Mañana} tarde{Tarde} noche{Noche} other{{franja}}}",
+  "@cotizarFranja": {
+    "description": "Texto de la app: cotizarFranja",
+    "placeholders": {
+      "franja": {
+        "type": "String"
+      }
+    }
+  },
+  "cotizarEstado": "{estado, select, enviada{Esperando respuesta} aceptada{Aceptada} rechazada{Rechazada} retirada{Retirada} other{{estado}}}",
+  "@cotizarEstado": {
+    "description": "Texto de la app: cotizarEstado",
+    "placeholders": {
+      "estado": {
+        "type": "String"
+      }
+    }
+  },
+  "precioFinalBoton": "Enviar cotización final",
+  "precioAjusteBoton": "Proponer otro precio",
+  "precioFinalExplicacion": "Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.",
+  "precioFinalMonto": "Precio final en pesos",
+  "precioFinalDescripcion": "¿Qué incluye?",
+  "precioDescripcionAyuda": "De 8 a 500 caracteres.",
+  "precioMontoAyuda": "Pesos sin centavos, mayor que cero.",
+  "precioFinalEnviar": "Enviar al cliente",
+  "precioFinalEnviada": "Enviamos tu cotización final. Falta que el cliente la apruebe.",
+  "precioFinalNoPermitida": "Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.",
+  "precioAjusteCargando": "Buscando tu cotización aceptada…",
+  "precioAjusteSinCotizacion": "No encontramos la cotización aceptada de esta visita.",
+  "precioAjusteMonto": "Nuevo precio total en pesos",
+  "precioAjusteMinimo": "Mínimo {monto} pesos.",
+  "@precioAjusteMinimo": {
+    "placeholders": {
+      "monto": {
+        "type": "int"
+      }
+    }
+  },
+  "precioAjusteMotivo": "¿Por qué cambia el precio?",
+  "precioAjusteMotivoAyuda": "De 10 a 300 caracteres.",
+  "precioAjusteEnviar": "Proponer al cliente",
+  "precioAjusteEnviado": "Enviamos tu propuesta. Falta que el cliente la apruebe.",
+  "precioAjusteMotivoRechazado": "El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.",
+  "precioAjusteSinRevision": "No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.",
+  "precioAjusteNoPermitido": "Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.",
+  "visitaPermisoFotosTitulo": "Fotos del trabajo",
+  "visitaPermisoFotosCasilla": "Permitir que estas fotos se muestren en el perfil del técnico y en Explorar",
+  "visitaPermisoFotosDetalle": "Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.",
+  "visitaPermisoFotosGuardado": "Guardamos tu respuesta.",
+  "visitaPermisoFotosCargando": "Cargando tu respuesta…",
+  "suspensionApelar": "Apelar la suspensión",
+  "@suspensionApelar": {
+    "description": "Texto de la app: suspensionApelar"
+  },
+  "suspensionTitulo": "Tu apelación",
+  "@suspensionTitulo": {
+    "description": "Texto de la app: suspensionTitulo"
+  },
+  "suspensionDetalle": "Verifica tu número con un código por SMS. Esto no inicia sesión.",
+  "@suspensionDetalle": {
+    "description": "Texto de la app: suspensionDetalle"
+  },
+  "suspensionEnviarCodigo": "Enviarme el código",
+  "@suspensionEnviarCodigo": {
+    "description": "Texto de la app: suspensionEnviarCodigo"
+  },
+  "suspensionVerificar": "Verificar",
+  "@suspensionVerificar": {
+    "description": "Texto de la app: suspensionVerificar"
+  },
+  "suspensionSinConsulta": "No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.",
+  "@suspensionSinConsulta": {
+    "description": "Texto de la app: suspensionSinConsulta"
+  },
+  "suspensionTexto": "Tus motivos",
+  "@suspensionTexto": {
+    "description": "Texto de la app: suspensionTexto"
+  },
+  "suspensionTextoAyuda": "Escribe entre 8 y 500 caracteres.",
+  "@suspensionTextoAyuda": {
+    "description": "Texto de la app: suspensionTextoAyuda"
+  },
+  "suspensionPresentar": "Enviar apelación",
+  "@suspensionPresentar": {
+    "description": "Texto de la app: suspensionPresentar"
+  },
+  "suspensionNoDisponible": "No hay una apelación disponible.",
+  "@suspensionNoDisponible": {
+    "description": "Texto de la app: suspensionNoDisponible"
+  },
+  "suspensionNoPermitida": "No se puede presentar otra apelación.",
+  "@suspensionNoPermitida": {
+    "description": "Texto de la app: suspensionNoPermitida"
+  },
+  "suspensionVerificarOtraVez": "Verifica tu número otra vez con un código por SMS.",
+  "@suspensionVerificarOtraVez": {
+    "description": "Texto de la app: suspensionVerificarOtraVez"
+  },
+  "suspensionVolver": "Volver",
+  "@suspensionVolver": {
+    "description": "Texto de la app: suspensionVolver"
+  },
+  "suspensionEstado": "{estado, select, pendiente{Tu apelación está en revisión.} aceptada{Tu apelación fue aceptada.} rechazada{Tu apelación fue rechazada.} other{Estado de tu apelación: {estado}}}",
+  "@suspensionEstado": {
+    "description": "Texto de la app: suspensionEstado",
+    "placeholders": {
+      "estado": {
+        "type": "String"
+      }
+    }
+  },
+  "suspensionPresentadaEl": "Presentada el {fecha}",
+  "@suspensionPresentadaEl": {
+    "description": "Texto de la app: suspensionPresentadaEl",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "suspensionResueltaEl": "Resuelta el {fecha}",
+  "@suspensionResueltaEl": {
+    "description": "Texto de la app: suspensionResueltaEl",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
   }
 }

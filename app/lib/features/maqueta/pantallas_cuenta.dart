@@ -1,13 +1,29 @@
+import 'package:app/core/red/configuracion_api.dart';
+import 'package:app/core/red/cliente_api_provider.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
+import 'package:app/features/cuenta/cuenta.dart';
+import 'package:app/features/maqueta/numero_real.dart';
+import 'package:app/features/maqueta/avisos_reales.dart';
+import 'package:app/features/maqueta/bloqueos_reales.dart';
+import 'package:app/features/maqueta/confianza_real.dart';
+import 'package:app/features/maqueta/eliminar_real.dart';
+import 'package:app/features/maqueta/privacidad_real.dart';
+import 'package:app/features/maqueta/reportes_reales.dart';
+import 'package:app/features/tecnicos_confianza/tecnicos_confianza.dart';
+
 import 'dart:async';
 
 import 'package:app/core/preferencias/preferencias_provider.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
-import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/datos.dart';
+import 'package:app/features/maqueta/direcciones_reales.dart';
+import 'package:app/features/maqueta/casa_y_auto_real.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/sesiones_reales.dart';
@@ -34,8 +50,12 @@ class CuentaMaqueta extends ConsumerWidget {
         ),
         BtnK('Cerrar sesión', () async {
           Navigator.pop(ctx);
-          await ref.read(perfilControllerProvider.notifier).cerrarSesion();
-          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
+          // Al cerrar la sesión el router quita esta pantalla: `ref` ya no
+          // sirve después del primer `await`.
+          final perfil = ref.read(perfilControllerProvider.notifier);
+          final almacen = ref.read(almacenSeguroProvider);
+          await perfil.cerrarSesion();
+          await maq.olvidarTelefono(almacen);
           maq.toast('Cerraste sesión');
         }, kind: Bk.dark),
         BtnK('Cancelar', () => Navigator.pop(ctx), kind: Bk.ghost),
@@ -54,14 +74,24 @@ class CuentaMaqueta extends ConsumerWidget {
     }
     final esTecnico = ref.watch(esTecnicoProvider);
     unawaited(maq.cargarTelefono(ref.read(almacenSeguroProvider)));
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final eliminacionReal = real && ref.watch(eliminacionEnCursoProvider);
     return MaqBuilder((context) {
       final u = maq.user;
       final k = kc(context);
-      final nsaved = maq.saved.values.where((v) => v).length;
+      final nsaved = ref.watch(solicitudesRealesActivasProvider)
+          ? ref
+                    .watch(tecnicosConfianzaControllerProvider)
+                    .value
+                    ?.items
+                    .length ??
+                0
+          : maq.saved.values.where((v) => v).length;
       return PgTab(
         title: 'Mi cuenta',
         body: stack([
-          if (maq.delAt != null)
+          if (eliminacionReal) const AvisoDeEliminacionReal(),
+          if (!real && maq.delAt != null)
             CardK(
               outline: k.amber,
               child: stack([
@@ -113,6 +143,9 @@ class CuentaMaqueta extends ConsumerWidget {
               'bell',
               'Avisos',
               sub: 'Lo último que pasó',
+              extra: ContadorDeAvisos(
+                marca: (sinLeer) => Pill(sinLeer.texto, kind: 'amber'),
+              ),
               onTap: () => context.push(RM.avisos),
             ),
           ]),
@@ -362,6 +395,11 @@ class _Gl extends StatelessWidget {
 
 void editarDatos(BuildContext context) {
   final u = maq.user;
+  // Con sesión y API, las direcciones son las del servidor (spec 030).
+  final conServidor = ProviderScope.containerOf(
+    context,
+    listen: false,
+  ).read(solicitudesRealesActivasProvider);
   final name = TextEditingController(text: u.name);
   final addr = TextEditingController(text: u.addr);
   var col = u.col;
@@ -417,15 +455,18 @@ void editarDatos(BuildContext context) {
           err: err && !okN ? 'Escribe tu nombre (solo letras)' : null,
           onChanged: (_) => set(() {}),
         ),
-        FieldK(
-          label: 'Calle y número',
-          opt: true,
-          c: addr,
-          hint: 'Ej.: Calle Jacarandas 45',
-          err: err && !okA ? 'Escribe calle y número' : null,
-          help: 'Se pide al pedir un servicio a domicilio. Solo la ve el experto que elijas.',
-          onChanged: (_) => set(() {}),
-        ),
+        if (conServidor)
+          const DireccionesReales()
+        else
+          FieldK(
+            label: 'Calle y número',
+            opt: true,
+            c: addr,
+            hint: 'Ej.: Calle Jacarandas 45',
+            err: err && !okA ? 'Escribe calle y número' : null,
+            help: 'Se pide al pedir un servicio a domicilio. Solo la ve el experto que elijas.',
+            onChanged: (_) => set(() {}),
+          ),
         stack([
           labT('Colonia'),
           chipsWrap([
@@ -450,7 +491,10 @@ void editarDatos(BuildContext context) {
           }
           u.name = nm;
           u.first = nm.split(' ').first;
-          u.addr = addr.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+          // Con servidor la dirección vive en `me/direcciones` (spec 030).
+          if (!conServidor) {
+            u.addr = addr.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+          }
           u.col = col;
           u.photoPath = photo;
           Navigator.pop(ctx);
@@ -467,7 +511,22 @@ void editarDatos(BuildContext context) {
 
 // ------------------------------------------------------------ Cambiar número / recuperar acceso
 
+/// Con API y Firebase sin sesión se puede pedir la recuperación; para cambiar
+/// el número hace falta además la sesión.
+bool _numeroConServidor(BuildContext context, {required bool recuperar}) {
+  final contenedor = ProviderScope.containerOf(context, listen: false);
+  return recuperar
+      ? normalizarUrlApi(contenedor.read(urlApiProvider)) != null
+      : contenedor.read(solicitudesRealesActivasProvider);
+}
+
 void cambiarNumero(BuildContext context, {required bool recuperar}) {
+  if (_numeroConServidor(context, recuperar: recuperar)) {
+    unawaited(
+      hoja<void>(context, (_, _) => HojaDeNumeroReal(recuperar: recuperar)),
+    );
+    return;
+  }
   var step = recuperar ? 'old' : 'new';
   var old = '', nphone = '', note = '', err = '';
   var selfie = false, failed = false;
@@ -819,87 +878,9 @@ void _aplicarNumero(
 class MiCasaScreen extends StatelessWidget {
   const MiCasaScreen({super.key});
 
-  void _addCar(BuildContext context) {
-    final m = TextEditingController();
-    final y = TextEditingController();
-    unawaited(
-      hoja<void>(context, (ctx, set) {
-        final ok =
-            m.text.trim().length >= 2 &&
-            RegExp(r'^(19|20)\d\d$').hasMatch(y.text.trim());
-        return stack([
-          sheetH(ctx, 'Agregar mi auto'),
-          FieldK(
-            label: 'Marca y modelo',
-            c: m,
-            hint: 'Ej.: Nissan Versa',
-            onChanged: (_) => set(() {}),
-          ),
-          FieldK(
-            label: 'Año',
-            c: y,
-            hint: 'Ej.: 2018',
-            keyboard: TextInputType.number,
-            maxLen: 4,
-            onChanged: (_) => set(() {}),
-          ),
-          BtnK(
-            'Guardar',
-            ok
-                ? () {
-                    maq.car = (m: m.text.trim(), y: y.text.trim());
-                    Navigator.pop(ctx);
-                    maq.refresh();
-                    maq.toast('Auto guardado');
-                  }
-                : null,
-          ),
-        ]);
-      }).whenComplete(() {
-        m.dispose();
-        y.dispose();
-      }),
-    );
-  }
-
-  void _addHome(BuildContext context) {
-    final t = TextEditingController();
-    unawaited(
-      hoja<void>(
-        context,
-        (ctx, set) => stack([
-          sheetH(ctx, 'Agregar a Mi casa'),
-          FieldK(
-            label: '¿Qué quieres recordar?',
-            c: t,
-            hint: 'Ej.: Bomba de agua',
-            onChanged: (_) => set(() {}),
-          ),
-          BtnK(
-            'Guardar',
-            t.text.trim().isEmpty
-                ? null
-                : () {
-                    maq.home.add(
-                      Casa(t.text.trim(), 'Agregado hoy', 'Al día', 'green'),
-                    );
-                    Navigator.pop(ctx);
-                    maq.refresh();
-                    maq.toast('Agregado a Mi casa');
-                  },
-          ),
-        ]),
-      ).whenComplete(t.dispose),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
-    final cj = maq.jobs
-        .where((j) => j.cat == 'mec' && j.status != 'enviada')
-        .toList();
-    final c = maq.car;
     return Pg(
       title: 'Mi casa y mi auto',
       body: stack([
@@ -948,129 +929,8 @@ class MiCasaScreen extends StatelessWidget {
               ),
             ], gap: 12),
           ),
-        FoldK(
-          k: 'mc-casa',
-          title: 'Mi casa',
-          summary:
-              '${maq.user.addr.isEmpty ? 'Sin dirección guardada' : maq.user.addr} · ${maq.home.isNotEmpty ? '${maq.home.length} ${maq.home.length > 1 ? 'cosas registradas' : 'cosa registrada'}' : 'nada registrado aún'}',
-          icon: 'house',
-          open0: true,
-          child: maq.home.isNotEmpty
-              ? GroupK([
-                  for (final h in maq.home)
-                    Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Row(
-                        spacing: 14,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: k.navySoft,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(icn('house'), color: k.navy),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                T(h.t, w: FontWeight.w800),
-                                sMut(h.d, size: 13.5),
-                              ],
-                            ),
-                          ),
-                          Pill(h.tag, kind: h.c),
-                        ],
-                      ),
-                    ),
-                ])
-              : sMut(
-                  'Agrega el tinaco, el boiler o lo que quieras recordar para darle mantenimiento a tiempo.',
-                ),
-        ),
-        FoldK(
-          k: 'mc-auto',
-          title: 'Mi auto',
-          summary: c != null
-              ? '${c.m} ${c.y} · ${cj.length} ${cj.length == 1 ? 'servicio' : 'servicios'}'
-              : 'Sin auto registrado',
-          icon: 'car',
-          open0: c == null,
-          child: c != null
-              ? (cj.isNotEmpty
-                    ? Column(
-                        children: [
-                          for (final j in cj)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 14,
-                                children: [
-                                  Container(
-                                    width: 32,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                      color: j.status == 'terminado'
-                                          ? k.green
-                                          : k.amber,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      j.status == 'terminado'
-                                          ? Icons.check
-                                          : Icons.schedule,
-                                      size: 16,
-                                      color: j.status == 'terminado'
-                                          ? Colors.white
-                                          : const Color(0xFF231A15),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        bT(j.title),
-                                        sMut(
-                                          '${j.status == 'terminado'
-                                              ? (j.date.isEmpty ? 'Terminado' : j.date)
-                                              : j.status == 'cotizando'
-                                              ? 'Cotizando'
-                                              : (j.when.isEmpty ? 'En curso' : j.when)}${j.pid != null ? ' · ${provs[j.pid]!.name}' : ''}',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ],
-                      )
-                    : sMut(
-                        'Cuando pidas un servicio para tu auto, aquí queda el historial.',
-                      ))
-              : stack([
-                  sMut(
-                    'Registra tu auto para llevar su historial de servicios.',
-                  ),
-                  BtnK(
-                    'Agregar mi auto',
-                    () => _addCar(context),
-                    kind: Bk.sec,
-                    sm: true,
-                    icon: 'plus',
-                  ),
-                ], gap: 10),
-        ),
-        BtnK(
-          'Agregar algo de tu casa',
-          () => _addHome(context),
-          kind: Bk.sec,
-          icon: 'plus',
-        ),
+        // Spec 031: los elementos reales de la persona (backend 041).
+        const CasaYAutoReal(),
       ]),
     );
   });
@@ -1081,7 +941,14 @@ class MiCasaScreen extends StatelessWidget {
 class ConfianzaScreen extends StatelessWidget {
   const ConfianzaScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mis técnicos de confianza',
+    real: const ConfianzaReal(),
+    ejemplo: _ejemplo,
+  );
+
+  /// La lista con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final ids = maq.saved.entries
         .where((e) => e.value)
@@ -1293,7 +1160,14 @@ class ConfigMaqueta extends ConsumerWidget {
 class AvisosConfigScreen extends StatelessWidget {
   const AvisosConfigScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Qué avisos recibir',
+    real: const PreferenciasDeAvisosReales(),
+    ejemplo: _ejemplo,
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     const opt = [
       ('Recordatorios de mantenimiento', 'Aceite, tinaco, boiler y más'),
       ('Opiniones y respuestas', 'Cuando un experto responde tu opinión'),
@@ -1351,7 +1225,14 @@ Widget _swRow(String t, String s, bool on, VoidCallback? onTap) => Padding(
 class AvisosScreen extends StatelessWidget {
   const AvisosScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Avisos',
+    real: const AvisosReales(),
+    ejemplo: _ejemplo,
+  );
+
+  /// La pantalla con datos de ejemplo (sin sesión o sin API).
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final tec = pv.me.registered ? pv.notifs : <AvisoT>[];
     if (maq.notifs.isEmpty && tec.isEmpty) {
@@ -1650,11 +1531,16 @@ class TerminosScreen extends StatelessWidget {
 
 // ------------------------------------------------------------ privacidad y datos
 
-class PrivacidadScreen extends StatelessWidget {
+class PrivacidadScreen extends ConsumerWidget {
   const PrivacidadScreen({super.key, this.sesiones = false});
   final bool sesiones;
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    return MaqBuilder((context) => _pantalla(context, real: real));
+  }
+
+  Widget _pantalla(BuildContext context, {required bool real}) {
     final k = kc(context);
     const cons = [
       ('Promociones y novedades', 'Ofertas de expertos y noticias de Knock'),
@@ -1669,39 +1555,42 @@ class PrivacidadScreen extends StatelessWidget {
       body: stack([
         const _Gl('Tus datos'),
         GroupK([
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              spacing: 14,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: k.navySoft,
-                    borderRadius: BorderRadius.circular(12),
+          if (real)
+            const ExportacionReal()
+          else
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                spacing: 14,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: k.navySoft,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(icn('download'), color: k.navy),
                   ),
-                  child: Icon(icn('download'), color: k.navy),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const T('Descargar mis datos', w: FontWeight.w800),
-                      sMut('Te mandamos un archivo en 48 horas', size: 13.5),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const T('Descargar mis datos', w: FontWeight.w800),
+                        sMut('Te mandamos un archivo en 48 horas', size: 13.5),
+                      ],
+                    ),
                   ),
-                ),
-                BtnK(
-                  'Pedir',
-                  () => maq.toast('Te enviaremos tu archivo en 48 horas'),
-                  kind: Bk.sec,
-                  sm: true,
-                  auto: true,
-                ),
-              ],
+                  BtnK(
+                    'Pedir',
+                    () => maq.toast('Te enviaremos tu archivo en 48 horas'),
+                    kind: Bk.sec,
+                    sm: true,
+                    auto: true,
+                  ),
+                ],
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -1737,13 +1626,16 @@ class PrivacidadScreen extends StatelessWidget {
           ),
         ]),
         const _Gl('Tú decides'),
-        GroupK([
-          for (var i = 0; i < cons.length; i++)
-            _swRow(cons[i].$1, cons[i].$2, maq.cons[i], () {
-              maq.cons[i] = !maq.cons[i];
-              maq.refresh();
-            }),
-        ]),
+        if (real)
+          const ConsentimientosReales()
+        else
+          GroupK([
+            for (var i = 0; i < cons.length; i++)
+              _swRow(cons[i].$1, cons[i].$2, maq.cons[i], () {
+                maq.cons[i] = !maq.cons[i];
+                maq.refresh();
+              }),
+          ]),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
@@ -1763,18 +1655,18 @@ class PrivacidadScreen extends StatelessWidget {
         const SesionesAbiertas(),
       ]),
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ eliminar cuenta
 
-class Eliminar1Screen extends StatefulWidget {
+class Eliminar1Screen extends ConsumerStatefulWidget {
   const Eliminar1Screen({super.key});
   @override
-  State<Eliminar1Screen> createState() => _Eliminar1State();
+  ConsumerState<Eliminar1Screen> createState() => _Eliminar1State();
 }
 
-class _Eliminar1State extends State<Eliminar1Screen> {
+class _Eliminar1State extends ConsumerState<Eliminar1Screen> {
   int? o;
   @override
   Widget build(BuildContext context) {
@@ -1786,12 +1678,14 @@ class _Eliminar1State extends State<Eliminar1Screen> {
       'Me preocupa mi privacidad',
       'Otro motivo',
     ];
-    final pend = maq.pendingItems();
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final pend = real ? const <String>[] : maq.pendingItems();
     return Pg(
       title: 'Eliminar cuenta',
       body: stack([
         const Prog(1, 2),
         h1('Antes de irte, esto es lo que pasa'),
+        if (real) const PendientesReales(),
         if (pend.isNotEmpty)
           CardK(
             outline: k.amber,
@@ -1873,7 +1767,14 @@ class _Eliminar1State extends State<Eliminar1Screen> {
         ),
       ]),
       cta: ctaCol([
-        BtnK('Continuar', () => context.push(RM.eliminar2), kind: Bk.dark),
+        BtnK('Continuar', () {
+          if (real) {
+            ref.read(eliminacionControllerProvider.notifier).motivo = o == null
+                ? null
+                : ops[o!];
+          }
+          unawaited(context.push(RM.eliminar2));
+        }, kind: Bk.dark),
         BtnK('Mejor no', () => context.pop(), kind: Bk.ghost),
       ]),
     );
@@ -1897,6 +1798,9 @@ class _Eliminar2State extends ConsumerState<Eliminar2Screen> {
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(solicitudesRealesActivasProvider)) {
+      return const EliminarCuentaReal();
+    }
     final ok = sent && digits(_c.text).length == 6;
     final pend = maq.pendingItems().isNotEmpty;
     return Pg(
@@ -1952,7 +1856,19 @@ class _Eliminar2State extends ConsumerState<Eliminar2Screen> {
 class EliminadoScreen extends ConsumerWidget {
   const EliminadoScreen({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) => MaqBuilder((context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(solicitudesRealesActivasProvider)) {
+      return EliminadaReal(
+        alSalir: () async {
+          await ref.read(perfilControllerProvider.notifier).cerrarSesion();
+          await maq.olvidarTelefono(ref.read(almacenSeguroProvider));
+        },
+      );
+    }
+    return _ejemplo(ref);
+  }
+
+  Widget _ejemplo(WidgetRef ref) => MaqBuilder((context) {
     final k = kc(context);
     final pending = maq.delAt != null;
     return Pg(
@@ -2072,6 +1988,20 @@ class _AyudaState extends State<AyudaScreen> {
               ],
             ),
         ]),
+        // «Mis reportes» solo con sesión y API (spec 033, REP-02 y REP-03).
+        Consumer(
+          builder: (context, ref, _) =>
+              ref.watch(solicitudesRealesActivasProvider)
+              ? const MisReportesReales()
+              : const SizedBox.shrink(),
+        ),
+        // «Personas bloqueadas» solo con sesión y API (spec 033, BLO-03).
+        Consumer(
+          builder: (context, ref, _) =>
+              ref.watch(solicitudesRealesActivasProvider)
+              ? const PersonasBloqueadasReales()
+              : const SizedBox.shrink(),
+        ),
         sMut('¿No encontraste tu respuesta?', a: TextAlign.center),
       ]),
       cta: ctaCol([

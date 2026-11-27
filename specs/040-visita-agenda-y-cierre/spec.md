@@ -149,7 +149,90 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 - Los estados de la visita son los de la spec 021 y se reflejan en la spec 016.
 
+## Nota de enmienda (2026-11-26, persona ajena a la visita e id mal formado)
+
+- **Estado de esta enmienda:** propuesta; vale desde que se firma la línea «Enmienda 2026-11-26» de la sección Aprobación. La aprobación original se conserva.
+- En reprogramar, responder la reprogramación, cancelar, «no terminado» y permiso de fotos, una persona ajena a la visita recibe **404**, igual que una visita inexistente (backend 050, CA-08, 14, 20, 37 y 43). La app lo muestra como «no disponible». El 403 queda para las rutas que exigen perfil de técnico.
+- Un id de visita mal formado o un `permiso` que no es booleano responden **400**.
+
+## Nota de enmienda (2026-11-26, el técnico no se presentó)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 064 y su enmienda firmada del 2026-11-24.
+
+| Método y ruta | Cuerpo | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/visitas/{id}/tecnico-ausente` | sin cuerpo; solo el cliente dueño | `200` `{ visitaId, estado: "no_presentado", quienFalto: "tecnico" }`; repetir da `200` | `400`, `401`, `404`, `409 outside_arrival_window`, `429` |
+
+- La ventana es la misma de «cliente ausente»: desde 15 minutos hasta 2 horas después de la hora de la cita, con la visita `confirmada`. La decide el servidor.
+- El OpenAPI publicado lista además `403`, `413` y `422`; backend 064 no los describe. La app los trata con el error genérico.
+- **CA-E01:** Dado el cliente dueño, cuando confirma que el técnico no llegó y recibe `200`, entonces la app muestra la visita como no presentada por el técnico. El técnico no ve esta acción. · Verificación: prueba de widget por rol.
+- **CA-E02:** Dado un `409 outside_arrival_window` o un `404`, cuando llega, entonces la app muestra el mensaje del catálogo y vuelve a leer la visita. · Verificación: prueba de widget por código.
+- **Decisión pendiente:** si el botón se oculta fuera de la ventana o se muestra en toda visita `confirmada` y decide el servidor; y su texto de confirmación.
+
+## Nota de enmienda (2026-11-27, permiso de fotos y su texto)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (permiso de fotos)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** D-03 remite a «el texto de consentimiento de la spec 012», que no existe en esa spec. Esta enmienda reemplaza esa referencia.
+- **Fuentes del texto:** `docs/descripcion-del-proyecto.md` («Las fotos del trabajo pasan al perfil del técnico y a Explorar solo con permiso del cliente») y backend 050, R-30 (por omisión, no; solo con permiso y moderación; el permiso se puede revocar). **La redacción exacta de la tabla es PROPUESTA** de quien redactó esta enmienda.
+- **Dónde:** en la visita o cita del cliente, solo cuando su `estado` es `terminada`. El técnico no la ve.
+- **Control:** un interruptor apagado cuando `permisoFotos` es `false` o no viene. Nunca se enciende solo, no bloquea calificar y no es requisito de ninguna otra acción.
+- **Contrato:** `PUT /api/v1/visitas/{id}/permiso-fotos` con `{ permiso: true|false }`; `200` `{ visitaId, permiso }`; `400`, `401`, `404`, `409 visit_not_in_progress`, `422`, `429`. El valor actual llega en `permisoFotos` de `GET /api/v1/visitas/{id}`.
+
+| Clave ARB | Español (propuesta) | Inglés (propuesta) |
+|---|---|---|
+| `visitaPermisoFotosTitulo` | Fotos del trabajo | Photos of the job |
+| `visitaPermisoFotosCasilla` | Permitir que estas fotos se muestren en el perfil del técnico y en Explorar | Allow these photos to be shown on the technician’s profile and in Explore |
+| `visitaPermisoFotosDetalle` | Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta. | This is optional. They are shown only with your permission and after a content review. You can change your answer. |
+| `visitaPermisoFotosGuardado` | Guardamos tu respuesta. | Your answer was saved. |
+
+- **CA-P01:** Dada una visita `terminada` sin `permisoFotos`, cuando el cliente la abre, entonces ve el interruptor apagado con estos textos; el técnico no lo ve y en otro estado no aparece. · Verificación: prueba de widget por rol y estado.
+- **CA-P02:** Dado un cambio del interruptor, cuando el servidor responde `200`, entonces la app muestra el valor devuelto; ante cualquier error el interruptor vuelve al valor anterior, muestra el mensaje del catálogo y no reintenta sola. · Verificación: prueba de widget por código.
+- **Riesgo abierto:** en `origin/develop` de knock-backend el permiso se guarda y emite `PermisoFotosCambiado`, pero no se encontró quién publique o retire las fotos (`docs/events.md`: consumidor pendiente). Por eso el texto no promete plazos ni retiro de fotos ya publicadas.
+
+## Nota de enmienda (2026-11-27, responder una reprogramación)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (responder reprogramación)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** la app no puede mostrar qué fecha se propone ni quién la propone: `GET /api/v1/visitas/{id}` solo trae `reprogramacionPendiente`.
+- **Depende de una enmienda del backend (spec 050, «propuesta visible»), hoy sin firma y sin implementar:** agregar `propuestaReprogramacion { fechaHora, propuestaPor, venceEn }` a la vista de la visita. Los nombres se confirman al firmarla.
+- Mientras el campo no venga, la app **no** ofrece aceptar ni rechazar: conserva el aviso actual. Nadie responde a ciegas.
+- Con el campo: si `propuestaPor` es distinto del `rol`, muestra «Proponen mover la cita al {fecha} a las {hora}» (zona de la ciudad) con «Aceptar» y «Rechazar»; si es igual, muestra la fecha propuesta y «Esperando respuesta».
+- **Contrato:** `POST /api/v1/visitas/{id}/reprogramar/respuesta` con `{ acepta }`; `200` `{ visitaId, aceptada, fechaHora, reprogramaciones }`; `400`, `401`, `404`, `409 no_pending_proposal`, `422`, `429`.
+
+| Clave ARB | Español (propuesta) | Inglés (propuesta) |
+|---|---|---|
+| `visitaPropuestaRecibida` | Proponen mover la cita al {fecha} a las {hora}. | They propose moving the appointment to {fecha} at {hora}. |
+| `visitaPropuestaAceptar` | Aceptar | Accept |
+| `visitaPropuestaRechazar` | Rechazar | Decline |
+| `visitaPropuestaCerrada` | Esa propuesta ya no está vigente. | That proposal is no longer open. |
+
+- **CA-R01:** Dada una visita con `reprogramacionPendiente` y sin `propuestaReprogramacion`, cuando se abre, entonces se ve el aviso actual y no hay botones para responder. · Verificación: prueba de widget.
+- **CA-R02:** Dada una propuesta de la otra parte, cuando la persona acepta o rechaza, entonces sale una sola petición y, con `200`, la app vuelve a leer la visita; con `409 no_pending_proposal` muestra `visitaPropuestaCerrada` y vuelve a leerla. · Verificación: prueba de widget por rol y código.
+
+## Nota de enmienda (2026-11-27, botón y confirmación de técnico ausente)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (técnico ausente)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Resuelve** la decisión pendiente de la nota «el técnico no se presentó».
+- El botón se muestra al cliente en toda visita `confirmada`; la ventana la decide el servidor (`409 outside_arrival_window`). La app no la calcula.
+- Antes de enviar hay una hoja de confirmación.
+
+| Clave ARB | Español | Inglés |
+|---|---|---|
+| `visitaTecnicoAusenteBoton` | El técnico no se presentó | The technician didn’t show up |
+| `visitaTecnicoAusenteExplicacion` | Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita. | Confirm only if the technician didn’t arrive. You can record it from 15 minutes up to 2 hours after the appointment time. |
+| `visitaTecnicoAusenteConfirmar` | Registrar que no llegó | Record that they didn’t arrive |
+| `visitaTecnicoAusenteRegistrada` | Registraste que el técnico no se presentó. | You recorded that the technician didn’t show up. |
+| `visitaAusenteFueraDeVentana` | Ahora no se puede registrar: solo dentro de la ventana de la cita. | This cannot be recorded now: only within the appointment window. |
+
+- **CA-T01:** Dado el cliente en una visita `confirmada`, cuando toca el botón, entonces ve la confirmación y solo al confirmar se envía la petición; el técnico y los demás estados no ven el botón. · Verificación: prueba de widget por rol y estado.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 — nombre: José Julián Hernández Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-27 (permiso de fotos) — nombre: Julián Hernández fecha: 2026-11-27
+- [x] Enmienda 2026-11-27 (responder reprogramación) — nombre: Julián Hernández fecha: 2026-11-27
+- [x] Enmienda 2026-11-27 (técnico ausente) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

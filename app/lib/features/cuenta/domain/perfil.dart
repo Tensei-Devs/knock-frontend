@@ -10,6 +10,9 @@ final class Perfil {
     this.perfilCompleto = false,
   });
 
+  /// [estado] mientras corren los 7 días de gracia de la eliminación.
+  static const estadoEliminacionProgramada = 'eliminacion_programada';
+
   /// Cuenta recién creada: aún sin nombre.
   static const nuevo = Perfil();
 

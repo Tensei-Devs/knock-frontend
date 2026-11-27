@@ -6,6 +6,7 @@
 1. Corre solo sobre `main`, cuando `ci-pr` terminó en verde para ese commit (o a mano, desde `main`).
 2. Calcula la versión de `app/pubspec.yaml` (`X.Y.Z`), el número de subida `n` (cuántas etiquetas `app-vX.Y.Z-nK` existen) y el `versionCode` = `X × 1 000 000 + Y × 10 000 + Z × 100 + n` (`scripts/ci/publish_info.py`).
 3. Construye el paquete (AAB) firmado con la llave de subida y comprueba que **no** quedó firmado con la llave de depuración.
+   La compilación ofusca el código Dart (`--obfuscate --split-debug-info`) y deja los símbolos cifrados como artefacto de la corrida (§6).
 4. Lo sube a la pista **interna** de Google Play con la API oficial (acción `r0adkll/upload-google-play`, fijada por SHA).
 5. Crea la etiqueta `app-vX.Y.Z-nN`; así la siguiente subida de esa versión lleva un `versionCode` mayor (Google Play rechaza uno repetido).
 
@@ -42,11 +43,26 @@ El workflow no promueve de una pista a otra a propósito: Google Play exige la p
 ## 4. Checks obligatorios del CI (T-05)
 El check requerido en la protección de rama es **`gate`** (`docs/BRANCH_PROTECTION.md`). Pasa solo si cada job de la lista terminó en `success` o `skipped` (no aplicaba), y un job fallido lo hace fallar (CA-01):
 
-`detect` · `pr-meta` · `pr-points` · `governance` · `contract` · `app` · `panel` · `sast` · `sca` · `secrets` · `landing`
+`detect` · `pr-meta` · `pr-points` · `governance` · `contract` · `app` · `e2e-android` · `panel` · `sast` · `sca` · `secrets` · `landing` · `dast`
 
-- `app` solo corre si el PR toca `app/` o `contracts/`; `panel`, si toca `panel/` o `contracts/` (`scripts/ci/detect_changes.py`, CA-02).
+- `dast` (ZAP baseline contra la landing y el panel levantados en el runner) corre en todos los PR.
+- `app` y `e2e-android` solo corren si el PR toca `app/` o `contracts/`; `panel`, si toca `panel/` o `contracts/` (`scripts/ci/detect_changes.py`, CA-02).
 - `secrets` (Gitleaks) y `sca` (revisión de dependencias, licencias y OSV-Scanner) corren en todos los PR (R-03).
 - Las acciones de terceros van fijadas por SHA y cada job declara sus permisos (R-04); `governance` lo comprueba con `scripts/ci/pin_actions.py --check`.
 
 ## 5. Primera publicación (humo, CA-03)
 Cuando existan la cuenta de Google Play y los secretos: **Actions → publish-android → Run workflow** sobre `main`. Debe terminar en verde y la versión debe aparecer en **Play Console → Pruebas → Pruebas internas**. Anota la fila en `docs/VERSIONES_PUBLICADAS.md`. La app tiene que estar creada en Play Console con el nombre de paquete `app.knock.mobile`; si todavía está en borrador, la subida a la pista interna puede exigir `status: draft` en el workflow.
+
+## 6. Símbolos de la ofuscación
+Sin los símbolos no se pueden leer las trazas de error de una versión publicada. Cada corrida deja el artefacto `app-symbols-cifrados-<versionCode>`, cifrado con el certificado de la llave de subida porque el repositorio es público. GitHub lo borra a más tardar a los **90 días**: quien publica lo descarga y lo guarda fuera del repositorio mientras la versión siga instalada. Si se pierde el `.jks` o se cambia la llave de subida, los artefactos anteriores solo se abren con la llave vieja.
+
+Para abrirlo, en la máquina que tiene el `.jks` (los comandos piden las contraseñas; borra los archivos `.p12` y `.pem` al terminar y no los compartas):
+
+```bash
+keytool -importkeystore -srckeystore knock-upload.jks -srcalias knock -destkeystore tmp.p12 -deststoretype PKCS12
+openssl pkcs12 -in tmp.p12 -nocerts -nodes -out tmp-key.pem
+openssl cms -decrypt -binary -inform DER -in app-symbols.tar.gz.cms -inkey tmp-key.pem -out app-symbols.tar.gz
+rm tmp.p12 tmp-key.pem
+```
+
+Después: `flutter symbolize -i traza.txt -d app.android-arm64.symbols`.

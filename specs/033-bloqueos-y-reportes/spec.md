@@ -131,7 +131,57 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-26, apelación de una cuenta suspendida)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 060. Es distinta de `POST /api/v1/reportes/{id}/apelacion`, que exige sesión y no cambia.
+- Las dos rutas **no usan la sesión de Knock**: llevan `Authorization: Bearer <idToken de Firebase>` de un inicio de sesión por SMS de hace 10 minutos como máximo. No emiten sesión. Una cuenta suspendida recibe `403 account_suspended` en `POST /api/v1/auth/firebase`.
+
+| Método y ruta | Cuerpo | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/suspension/apelacion` | `{ texto }` (8 a 500 caracteres) | `200` `{ estado, presentadaEn, resueltaEn? }` | `400`, `401`, `404 not_found`, `409 appeal_not_allowed`, `413`, `422` (`errors.texto`), `429 rate_limited` |
+| `GET /api/v1/suspension/apelacion` | — | `200` `{ estado (pendiente, aceptada o rechazada), presentadaEn, resueltaEn? }` | `401`, `404 not_found`, `429` |
+
+- **CA-E01:** Dada una persona suspendida, cuando la app consulta o envía la apelación, entonces usa el `idToken` de Firebase, no el token de Knock, y no guarda el `idToken` ni el texto. · Verificación: prueba unitaria del repositorio.
+- **CA-E02:** Dado un `401`, cuando llega en estas rutas, entonces la app pide verificar el número otra vez por SMS (no hay sesión de Knock que cerrar). · Verificación: prueba de widget.
+- **CA-E03:** Dado un `404 not_found`, cuando llega, entonces la app muestra que no hay una apelación disponible, sin afirmar si la cuenta existe o está suspendida. · Verificación: prueba de widget.
+- **Decisión pendiente:** desde dónde se llega (propuesta: aviso tras el `403 account_suspended` de la entrada), y los textos y estados de la pantalla en español e inglés.
+- **Decisión pendiente:** confirmar en backend qué responde `GET` a una persona suspendida que aún no ha apelado, para saber cuándo mostrar el formulario.
+
+## Nota de enmienda (2026-11-27, pantalla de apelación de una cuenta suspendida)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (pantalla de apelación)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Resuelve** las dos decisiones pendientes de la nota «apelación de una cuenta suspendida».
+- **Entrada:** cuando `POST /api/v1/auth/firebase` responde `403 account_suspended`, la pantalla del código muestra «Apelar la suspensión». No hay otra entrada.
+- **Pasos:** celular, código por SMS, consulta, y después estado o formulario. El `idToken` vive solo en memoria mientras la pantalla está abierta; la sesión de Firebase se cierra al obtenerlo y no se crea sesión de Knock.
+- **Confirmado en backend** (`origin/develop`, spec 060): `GET` de una persona suspendida que aún no apeló responde `404 not_found`. Por eso un `404` en la consulta muestra el formulario con un texto neutro. Un `404` al enviar muestra «no hay una apelación disponible».
+- `409 appeal_not_allowed`: no se puede presentar otra. `401`: volver a verificar el número. `422`, `429` y fallas de red: mensaje del catálogo y se conserva el texto.
+
+| Clave ARB | Español | Inglés |
+|---|---|---|
+| `suspensionApelar` | Apelar la suspensión | Appeal the suspension |
+| `suspensionTitulo` | Tu apelación | Your appeal |
+| `suspensionDetalle` | Verifica tu número con un código por SMS. Esto no inicia sesión. | Verify your number with an SMS code. This doesn’t sign you in. |
+| `suspensionEnviarCodigo` | Enviarme el código | Send me the code |
+| `suspensionVerificar` | Verificar | Verify |
+| `suspensionSinConsulta` | No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos. | There’s no appeal available to check. If you want to appeal, write your reasons. |
+| `suspensionTexto` | Tus motivos | Your reasons |
+| `suspensionTextoAyuda` | Escribe entre 8 y 500 caracteres. | Write between 8 and 500 characters. |
+| `suspensionPresentar` | Enviar apelación | Send appeal |
+| `suspensionNoDisponible` | No hay una apelación disponible. | There’s no appeal available. |
+| `suspensionNoPermitida` | No se puede presentar otra apelación. | You can’t send another appeal. |
+| `suspensionVerificarOtraVez` | Verifica tu número otra vez con un código por SMS. | Verify your number again with an SMS code. |
+| `suspensionVolver` | Volver | Back |
+| `suspensionEstado` | Tu apelación está en revisión. / fue aceptada. / fue rechazada. | Your appeal is under review. / was accepted. / was rejected. |
+| `suspensionPresentadaEl`, `suspensionResueltaEl` | Presentada el {fecha} · Resuelta el {fecha} | Sent on {fecha} · Resolved on {fecha} |
+
+- **CA-A01:** Dado un `403 account_suspended` en la entrada, cuando se muestra el error, entonces aparece «Apelar la suspensión» y abre la pantalla sin sesión. · Verificación: prueba de widget.
+- **CA-A02:** Dados los estados `pendiente`, `aceptada` y `rechazada`, y los casos `404` al consultar y al enviar, cuando llegan, entonces se muestra el texto de esta tabla que corresponde. · Verificación: prueba de widget por caso.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-27 (pantalla de apelación) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
