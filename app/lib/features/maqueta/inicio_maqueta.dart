@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/sesion/es_tecnico_provider.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
 import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
@@ -15,6 +17,8 @@ import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/mapa_google.dart';
+import 'package:app/features/maqueta/lista_tecnicos_reales.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/previa/presentation/panel_expertos.dart'
     show TamanosPanel;
 import 'package:flutter/material.dart';
@@ -244,6 +248,7 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
   @override
   Widget build(BuildContext context) {
     final esTecnico = ref.watch(esTecnicoProvider);
+    final datosReales = ref.watch(solicitudesRealesActivasProvider);
     if (_pendienteUbic != null && TickerMode.valuesOf(context).enabled) {
       final p = _pendienteUbic!;
       _pendienteUbic = null;
@@ -378,7 +383,7 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                               valueListenable: _ext,
                               builder: (context, e, _) => MapaGoogleKnock(
                                 control: _mapa,
-                                expertos: list,
+                                expertos: datosReales ? const [] : list,
                                 seleccionado: _sel,
                                 agenda: _agenda(),
                                 padInferior:
@@ -486,7 +491,10 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             h3(
-                                              '${list.length} ${c?.people ?? 'expertos'} cerca de ti',
+                                              datosReales
+                                                  ? AppLocalizations.of(context)
+                                                        .tecnicosListadoTitulo
+                                                  : '${list.length} ${c?.people ?? 'expertos'} cerca de ti',
                                             ),
                                             InkWell(
                                               onTap: _colonia,
@@ -671,69 +679,79 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                                       sm: true,
                                       icon: 'send',
                                     ),
-                                  for (final o in list)
-                                    InkWell(
-                                      borderRadius: BorderRadius.circular(16),
-                                      onTap: () =>
-                                          context.push(RM.experto(o.id)),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: k.surface,
-                                          borderRadius: BorderRadius.circular(
-                                            16,
+                                  if (datosReales) ...[
+                                    sMut(
+                                      AppLocalizations.of(context)
+                                          .tecnicosMapaPendiente,
+                                    ),
+                                    ListaTecnicosReales(oficio: c?.id),
+                                  ] else
+                                    for (final o in list)
+                                      InkWell(
+                                        borderRadius: BorderRadius.circular(16),
+                                        onTap: () =>
+                                            context.push(RM.experto(o.id)),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: k.surface,
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                            border: Border.all(color: k.line2),
                                           ),
-                                          border: Border.all(color: k.line2),
-                                        ),
-                                        child: Row(
-                                          spacing: 12,
-                                          children: [
-                                            Av.prov(o, size: 46),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  T(o.name, w: FontWeight.w900),
-                                                  sMut(
-                                                    '${cats[o.cat]!.short} · ${whereTxt(o)}',
-                                                    size: 13.5,
-                                                  ),
-                                                  Wrap(
-                                                    spacing: 6,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    children: [
-                                                      rateW(o, size: 13.5),
-                                                      sMut(
-                                                        '(${o.n})',
-                                                        size: 13.5,
-                                                      ),
-                                                      sMut(
-                                                        '· ${o.km} km',
-                                                        size: 13.5,
-                                                      ),
-                                                      if (o.today)
-                                                        T(
-                                                          '· Hoy',
+                                          child: Row(
+                                            spacing: 12,
+                                            children: [
+                                              Av.prov(o, size: 46),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    T(
+                                                      o.name,
+                                                      w: FontWeight.w900,
+                                                    ),
+                                                    sMut(
+                                                      '${cats[o.cat]!.short} · ${whereTxt(o)}',
+                                                      size: 13.5,
+                                                    ),
+                                                    Wrap(
+                                                      spacing: 6,
+                                                      crossAxisAlignment:
+                                                          WrapCrossAlignment
+                                                              .center,
+                                                      children: [
+                                                        rateW(o, size: 13.5),
+                                                        sMut(
+                                                          '(${o.n})',
                                                           size: 13.5,
-                                                          w: FontWeight.w700,
-                                                          color: k.greenInk,
                                                         ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                        sMut(
+                                                          '· ${o.km} km',
+                                                          size: 13.5,
+                                                        ),
+                                                        if (o.today)
+                                                          T(
+                                                            '· Hoy',
+                                                            size: 13.5,
+                                                            w: FontWeight.w700,
+                                                            color: k.greenInk,
+                                                          ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            Icon(
-                                              Icons.chevron_right,
-                                              color: k.mut,
-                                            ),
-                                          ],
+                                              Icon(
+                                                Icons.chevron_right,
+                                                color: k.mut,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
                                   if (widget.conCuenta && maq.remind)
                                     GroupK([
                                       LiK(

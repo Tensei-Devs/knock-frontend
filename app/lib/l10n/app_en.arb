@@ -913,6 +913,8 @@
   "reputacionNuevo": "New",
   "reputacionConfiable": "Trusted",
   "reputacionDestacado": "Outstanding",
+  "tecnicosListadoTitulo": "Experts",
+  "tecnicosMapaPendiente": "Experts are not available on the map yet.",
   "opinionesCargando": "Loading reviews…",
   "opinionesError": "We could not load the reviews.",
   "opinionesNoDisponible": "That technician is no longer available.",

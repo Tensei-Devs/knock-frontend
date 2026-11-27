@@ -1344,6 +1344,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reputacionDestacado => 'Destacado';
 
   @override
+  String get tecnicosListadoTitulo => 'Expertos';
+
+  @override
+  String get tecnicosMapaPendiente =>
+      'Los expertos aún no están disponibles en el mapa.';
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override

@@ -1605,6 +1605,8 @@
       "nivel": {"type": "String"}
     }
   },
+  "tecnicosListadoTitulo": "Expertos",
+  "tecnicosMapaPendiente": "Los expertos aún no están disponibles en el mapa.",
   "opinionesCargando": "Cargando las opiniones…",
   "@opinionesCargando": {
     "description": "Opiniones (spec 041)."

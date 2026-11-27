@@ -2348,6 +2348,18 @@ abstract class AppLocalizations {
   /// **'Destacado'**
   String get reputacionDestacado;
 
+  /// No description provided for @tecnicosListadoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Expertos'**
+  String get tecnicosListadoTitulo;
+
+  /// No description provided for @tecnicosMapaPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Los expertos aún no están disponibles en el mapa.'**
+  String get tecnicosMapaPendiente;
+
   /// Opiniones (spec 041).
   ///
   /// In es, this message translates to:
