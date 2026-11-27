@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T11:59:50Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -22,9 +22,9 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 175 |
+| `l10n` | - | 3 | 4 | 181 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 58 | 291 | 549 |
+| `maqueta` | - | 59 | 293 | 552 |
 | `mensajes` | -, data, domain, presentation | 9 | 13 | 15 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
@@ -42,7 +42,7 @@
 | `tecnico` | -, data, domain, presentation | 20 | 45 | 41 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
-| `trabajo` | presentation | 1 | 1 | 1 |
+| `trabajo` | -, data, domain, presentation | 6 | 11 | 6 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
 | `visita` | -, data, domain, presentation | 10 | 16 | 16 |
 | `widgets` | core | 5 | 6 | 6 |
@@ -498,7 +498,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4361, `isSupported()`:4366, `shouldReload()`:4370, `lookupAppLocalizations()`:4373
+  - `of()`:70, `load()`:4499, `isSupported()`:4504, `shouldReload()`:4508, `lookupAppLocalizations()`:4511
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -559,7 +559,7 @@
 - `app/lib/features/maqueta/explorar_real.dart` — class `ExplorarReal`, class `_Aviso`, class `_Seccion`, class `_Fila`, class `_Servicio`, class `_Fotos`, class `_Tecnico`
   - `iconoDeOficio()`:14, `fechaDeCopia()`:21, `dos()`:22, `build()`:41, `reintentar()`:44, `build()`:112, `build()`:131, `build()`:151, `build()`:169, `build()`:220, `foto()`:221, `build()`:280
 - `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
-  - `previa()`:44, `entrada()`:45, `inicio()`:46, `explorar()`:47, `actividad()`:48, `trabajo()`:49, `cuenta()`:50, `configuracion()`:51, `rutaMaqueta()`:55, `Consumer()`:79, `build()`:244, `preparar()`:260, `conTransiciones()`:267, `envolver()`:275, `initState()`:298, `dispose()`:376, `build()`:384
+  - `previa()`:45, `entrada()`:46, `inicio()`:47, `explorar()`:48, `actividad()`:49, `trabajo()`:50, `cuenta()`:51, `configuracion()`:52, `rutaMaqueta()`:56, `Consumer()`:80, `build()`:249, `preparar()`:265, `conTransiciones()`:272, `envolver()`:280, `initState()`:303, `dispose()`:381, `build()`:389
 - `app/lib/features/maqueta/globo_real.dart` — class `GloboReal`, class `AvisoCanalCaido`
   - `build()`:23, `GloboConversaciones()`:28, `build()`:49
 - `app/lib/features/maqueta/horarios_reales.dart` — class `HorariosSegunSesion`, class `HorariosReales`
@@ -570,6 +570,8 @@
   - `build()`:23
 - `app/lib/features/maqueta/lista_tecnicos_reales.dart` — class `ListaTecnicosReales`, class `_ListaTecnicosRealesState`
   - `build()`:37
+- `app/lib/features/maqueta/llegada_real.dart` — class `LlegadaReal`, class `_LlegadaRealState`
+  - `initState()`:31, `dispose()`:39, `build()`:46
 - `app/lib/features/maqueta/mapa_google.dart` — class `MarcadorAgenda`, class `ControlMapaGoogle`, class `MapaGoogleKnock`, class `_MapaGoogleState`, class `ControlesMapaGoogle`
   - `posicionDeMundo()`:36, `posicionDeExperto()`:46, `vista()`:81, `acercar()`:87, `alejar()`:88, `moverA()`:91, `ir()`:98, `ajustar()`:101, `consultaDeVista()`:120, `grados()`:125, `dibujarPin()`:177, `initState()`:318, `dispose()`:331, `didUpdateWidget()`:380, `build()`:498, `build()`:549, `b()`:569, `ListenableBuilder()`:586
 - `app/lib/features/maqueta/mapa_tecnicos_real.dart` — class `EstadoDelMapaReal`
@@ -1021,8 +1023,25 @@
 
 ### trabajo
 
+**-**
+
+- `app/lib/features/trabajo/llegada_providers.dart` — —
+- `app/lib/features/trabajo/trabajo.dart` — —
+
+**data**
+
+- `app/lib/features/trabajo/data/llegada_repository_api.dart` — class `LlegadaRepositoryApi`
+  - `obtener()`:27, `confirmar()`:38
+
+**domain**
+
+- `app/lib/features/trabajo/domain/llegada.dart` — class `VisitaDelTecnico`, enum `MotivoLlegada`, class `ResultadoLlegada`, class `LlegadaConfirmada`, class `LlegadaRechazada`, class `ReglasDeLlegada`, class `LlegadaRepository`
+  - `codigoValido()`:79
+
 **presentation**
 
+- `app/lib/features/trabajo/presentation/llegada_controller.dart` — class `EstadoLlegada`, class `LlegadaController`
+  - `build()`:46, `confirmar()`:51
 - `app/lib/features/trabajo/presentation/trabajo_screen.dart` — class `TrabajoScreen`
   - `build()`:11
 

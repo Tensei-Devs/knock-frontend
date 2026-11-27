@@ -1426,6 +1426,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String get visitaTerminarHecho => 'Job finished.';
 
   @override
+  String get llegadaTitulo => 'Confirm arrival';
+
+  @override
+  String get llegadaCargando => 'Loading your visit…';
+
+  @override
+  String get llegadaInstruccion =>
+      'Ask for the 4-digit code at the door and type it here.';
+
+  @override
+  String get llegadaCodigo => '4-digit code';
+
+  @override
+  String get llegadaConfirmar => 'I have arrived';
+
+  @override
+  String get llegadaConfirmando => 'Confirming…';
+
+  @override
+  String get llegadaConfirmada =>
+      'Arrival confirmed. The visit is in progress.';
+
+  @override
+  String llegadaHora(String hora) {
+    return 'Arrival time: $hora';
+  }
+
+  @override
+  String get llegadaIncorrecto =>
+      'The code does not match. Make sure you are at the right address.';
+
+  @override
+  String llegadaIntentos(int n) {
+    return 'Attempts left: $n';
+  }
+
+  @override
+  String get llegadaCuatroDigitos => 'Type the 4 digits.';
+
+  @override
+  String get llegadaBloqueada =>
+      'This visit was locked for safety. The Knock team will review it.';
+
+  @override
+  String get llegadaYaUsado => 'This code has already been used.';
+
+  @override
+  String get llegadaVencido => 'The code for this visit has expired.';
+
+  @override
+  String get llegadaCancelada => 'This visit was cancelled.';
+
+  @override
+  String get errorFueraDeVentana =>
+      'You can confirm arrival on the day of the appointment, from 00:00.';
+
+  @override
+  String get errorVisitaNoVigente => 'This visit is no longer active.';
+
+  @override
+  String get llegadaTaller =>
+      'This appointment is at the workshop and needs no code.';
+
+  @override
+  String get llegadaNoTecnico =>
+      'Only the technician of this visit can confirm arrival.';
+
+  @override
+  String get llegadaNoDisponible => 'This visit is no longer available.';
+
+  @override
+  String get llegadaAunNo =>
+      'You can confirm your arrival on the day of the appointment.';
+
+  @override
+  String get llegadaReintentoCuenta =>
+      'If the code was wrong, this retry counts as an attempt.';
+
+  @override
+  String llegadaEspera(int segundos) {
+    return 'Too many attempts. Wait $segundos seconds.';
+  }
+
+  @override
   String get agendaCargando => 'Loading your schedule…';
 
   @override

@@ -2492,6 +2492,144 @@ abstract class AppLocalizations {
   /// **'Servicio terminado.'**
   String get visitaTerminarHecho;
 
+  /// No description provided for @llegadaTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar llegada'**
+  String get llegadaTitulo;
+
+  /// No description provided for @llegadaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu visita…'**
+  String get llegadaCargando;
+
+  /// No description provided for @llegadaInstruccion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pide en la puerta el código de 4 dígitos y escríbelo aquí.'**
+  String get llegadaInstruccion;
+
+  /// No description provided for @llegadaCodigo.
+  ///
+  /// In es, this message translates to:
+  /// **'Código de 4 dígitos'**
+  String get llegadaCodigo;
+
+  /// No description provided for @llegadaConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya llegué'**
+  String get llegadaConfirmar;
+
+  /// No description provided for @llegadaConfirmando.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmando…'**
+  String get llegadaConfirmando;
+
+  /// No description provided for @llegadaConfirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Llegada confirmada. La visita está en curso.'**
+  String get llegadaConfirmada;
+
+  /// No description provided for @llegadaHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Hora de llegada: {hora}'**
+  String llegadaHora(String hora);
+
+  /// No description provided for @llegadaIncorrecto.
+  ///
+  /// In es, this message translates to:
+  /// **'El código no coincide. Confirma que estás en la dirección correcta.'**
+  String get llegadaIncorrecto;
+
+  /// No description provided for @llegadaIntentos.
+  ///
+  /// In es, this message translates to:
+  /// **'Te quedan {n} intentos'**
+  String llegadaIntentos(int n);
+
+  /// No description provided for @llegadaCuatroDigitos.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe los 4 dígitos.'**
+  String get llegadaCuatroDigitos;
+
+  /// No description provided for @llegadaBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.'**
+  String get llegadaBloqueada;
+
+  /// No description provided for @llegadaYaUsado.
+  ///
+  /// In es, this message translates to:
+  /// **'Este código ya se usó.'**
+  String get llegadaYaUsado;
+
+  /// No description provided for @llegadaVencido.
+  ///
+  /// In es, this message translates to:
+  /// **'El código de esta visita ya venció.'**
+  String get llegadaVencido;
+
+  /// No description provided for @llegadaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita se canceló.'**
+  String get llegadaCancelada;
+
+  /// No description provided for @errorFueraDeVentana.
+  ///
+  /// In es, this message translates to:
+  /// **'Podrás confirmar la llegada el día de la cita, desde las 00:00.'**
+  String get errorFueraDeVentana;
+
+  /// No description provided for @errorVisitaNoVigente.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está vigente.'**
+  String get errorVisitaNoVigente;
+
+  /// No description provided for @llegadaTaller.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita es en el taller y no necesita código.'**
+  String get llegadaTaller;
+
+  /// No description provided for @llegadaNoTecnico.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo el técnico de la visita puede confirmar la llegada.'**
+  String get llegadaNoTecnico;
+
+  /// No description provided for @llegadaNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está disponible.'**
+  String get llegadaNoDisponible;
+
+  /// No description provided for @llegadaAunNo.
+  ///
+  /// In es, this message translates to:
+  /// **'Podrás confirmar tu llegada el día de la cita.'**
+  String get llegadaAunNo;
+
+  /// No description provided for @llegadaReintentoCuenta.
+  ///
+  /// In es, this message translates to:
+  /// **'Si el código era incorrecto, este reintento cuenta como intento.'**
+  String get llegadaReintentoCuenta;
+
+  /// No description provided for @llegadaEspera.
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchos intentos. Espera {segundos} segundos.'**
+  String llegadaEspera(int segundos);
+
   /// No description provided for @agendaCargando.
   ///
   /// In es, this message translates to:
