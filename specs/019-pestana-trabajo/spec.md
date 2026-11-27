@@ -262,9 +262,20 @@ Se respeta la spec 001: `domain` en Dart puro, `presentation` sin `data/`, un `t
 - `GET /api/v1/tecnicos/me/solicitudes` ya está cubierto por esta spec (§4) y no cambia.
 - La exclusión de §3 y D-02 (el botón de cotizar no se muestra) deja de aplicar **solo** cuando estén firmadas esta enmienda y la spec 046, que define el detalle para el técnico y el envío. El chat sigue fuera.
 
+## Nota de enmienda (2026-11-27, interruptor «Disponible hoy»)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (disponible hoy)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** esta spec deja «Disponible hoy» como solo lectura (§3 y D-03), pero la spec 036, aprobada, pide `PUT /api/v1/tecnicos/me/disponibilidad` desde Trabajo (CA-33 a CA-35), y sin él un técnico no puede encenderlo desde la app.
+- **Cambio:** la cabecera de Trabajo tiene el interruptor. Reemplaza la exclusión de §3 y D-03.
+- **Contrato:** `PUT /api/v1/tecnicos/me/disponibilidad` con `{ disponibleHoy }`; `200` `{ disponibleHoy, disponibleHasta }`; errores `401`, `403` (spec 036) y el catálogo para el resto. El valor inicial es `disponibleHoy` de `GET /api/v1/tecnicos/me/trabajo`.
+- La pantalla solo cambia con la respuesta del servidor; la app no calcula la hora en que vence.
+- **CA-D01:** Dado un técnico en Trabajo, cuando cambia el interruptor, entonces se deshabilita durante el envío y muestra el valor del `200`; ante un error conserva el valor anterior y muestra el mensaje del catálogo. · Verificación: prueba de widget con repositorio falso.
+- **Cómo se construye (no cambia el comportamiento):** mientras venza el ADR-007 (2026-12-15), bandeja, descarte, resumen y disponibilidad se pueden escribir a mano con sus condiciones, reutilizando el dominio del PR #102.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
 - [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-27 (disponible hoy) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)
