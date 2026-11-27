@@ -2318,4 +2318,30 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get verificacionEnvioNoDisponible =>
       'Enviar tus fotos desde la app todavía no está disponible.';
+
+  @override
+  String get tecnicosMapaCargando => 'Cargando expertos en el mapa…';
+
+  @override
+  String get tecnicosMapaError => 'No pudimos cargar los expertos del mapa.';
+
+  @override
+  String get tecnicosMapaVacio => 'No hay expertos en esta zona del mapa.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recomendados';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Mejor calificados';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Más cercanos';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Hasta $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Expertos';
 }

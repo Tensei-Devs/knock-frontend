@@ -1225,5 +1225,20 @@
   "verificacionNoVerificado": "We could not verify you",
   "verificacionSinMotivo": "No reason was given.",
   "verificacionEnviadaEl": "Sent on {fecha}",
-  "verificacionEnvioNoDisponible": "Sending your photos from the app is not available yet."
+  "verificacionEnvioNoDisponible": "Sending your photos from the app is not available yet.",
+  "tecnicosMapaCargando": "Loading experts on the map…",
+  "tecnicosMapaError": "We could not load the experts on the map.",
+  "tecnicosMapaVacio": "There are no experts in this area of the map.",
+  "tecnicosOrdenRecomendados": "Recommended",
+  "tecnicosOrdenCalificacion": "Top rated",
+  "tecnicosOrdenDistancia": "Nearest",
+  "tecnicosRadio": "Within {km} km",
+  "@tecnicosRadio": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "tecnicosListadoTitulo": "Experts"
 }

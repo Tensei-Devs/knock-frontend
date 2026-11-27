@@ -2309,4 +2309,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get verificacionEnvioNoDisponible =>
       'Sending your photos from the app is not available yet.';
+
+  @override
+  String get tecnicosMapaCargando => 'Loading experts on the map…';
+
+  @override
+  String get tecnicosMapaError => 'We could not load the experts on the map.';
+
+  @override
+  String get tecnicosMapaVacio =>
+      'There are no experts in this area of the map.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recommended';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Top rated';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Nearest';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Within $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Experts';
 }
