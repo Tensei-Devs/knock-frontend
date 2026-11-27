@@ -1413,5 +1413,10 @@
   "precioAjusteMotivoAyuda": "10 to 300 characters.",
   "precioAjusteEnviar": "Propose to the client",
   "precioAjusteEnviado": "We sent your proposal. The client still has to approve it.",
-  "precioAjusteNoPermitido": "It cannot be proposed now: the visit must be in progress with no pending change."
+  "precioAjusteNoPermitido": "It cannot be proposed now: the visit must be in progress with no pending change.",
+  "visitaPermisoFotosTitulo": "Photos of the job",
+  "visitaPermisoFotosCasilla": "Allow these photos to be shown on the technician’s profile and in Explore",
+  "visitaPermisoFotosDetalle": "This is optional. They are shown only with your permission and after a content review. You can change your answer.",
+  "visitaPermisoFotosGuardado": "Your answer was saved.",
+  "visitaPermisoFotosCargando": "Loading your answer…"
 }

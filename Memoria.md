@@ -914,3 +914,7 @@
 - **Qué cambió:** en «Terminar servicio» de una visita en curso, el técnico envía la cotización final y propone otro precio (`POST /visitas/{id}/cotizacion-final` y `POST /cotizaciones/{id}/ajuste-precio`). La cotización aceptada y su tope salen de `GET /tecnicos/me/trabajo`. Parte del repositorio de Alexis. HTTP a mano por ADR-007.
 - **Pendiente:** cuenta regresiva de la vigencia (D-03), error 422 por campo (hoy hay límites en el teléfono y un mensaje general), referencia de mercado (spec 038, espera la pantalla de cotizar). Sin probar contra el backend desplegado ni en teléfono.
 - **A evitar:** ofrecer la cotización final como si aplicara a toda visita: el backend solo la acepta en visitas de diagnóstico en curso.
+## 2026-11-27 — Permiso de fotos del trabajo (KNOCK-266, spec 040)
+- **Qué cambió:** en una visita terminada, el cliente abre «Fotos del trabajo» y enciende o apaga el permiso (`PUT /visitas/{id}/permiso-fotos`). El valor actual sale de `GET /visitas/{id}` (`permisoFotos`). Textos de la enmienda del 2026-11-27, firmada en el PR #148 (todavía sin fusionar). HTTP a mano por ADR-007.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; el backend aún no tiene quién publique o retire las fotos.
+- **A evitar:** prometer plazos o retiro de fotos ya publicadas.

@@ -2751,5 +2751,10 @@
   "precioAjusteMotivoAyuda": "De 10 a 300 caracteres.",
   "precioAjusteEnviar": "Proponer al cliente",
   "precioAjusteEnviado": "Enviamos tu propuesta. Falta que el cliente la apruebe.",
-  "precioAjusteNoPermitido": "Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente."
+  "precioAjusteNoPermitido": "Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.",
+  "visitaPermisoFotosTitulo": "Fotos del trabajo",
+  "visitaPermisoFotosCasilla": "Permitir que estas fotos se muestren en el perfil del técnico y en Explorar",
+  "visitaPermisoFotosDetalle": "Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.",
+  "visitaPermisoFotosGuardado": "Guardamos tu respuesta.",
+  "visitaPermisoFotosCargando": "Cargando tu respuesta…"
 }
