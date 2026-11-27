@@ -869,3 +869,7 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — Lecturas de la cotización final y los ajustes (KNOCK-266, spec 039)
+- **Qué cambió:** al revisar la enmienda, un 404 de la cotización final y una lista vacía de ajustes ahora se dicen en pantalla en vez de ocultar la sección.
+- **Pendiente:** teléfono y backend desplegado.

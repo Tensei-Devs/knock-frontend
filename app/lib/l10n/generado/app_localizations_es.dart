@@ -2054,6 +2054,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Revisando si hay un precio por aprobar…';
 
   @override
+  String get cotizacionFinalNoDisponible =>
+      'La cotización final no está disponible.';
+
+  @override
+  String get cotizacionSinAjustes => 'No hay cambios de precio pendientes.';
+
+  @override
   String serviciosPrecioDesde(int precio) {
     return 'Desde \$$precio';
   }

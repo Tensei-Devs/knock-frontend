@@ -1119,6 +1119,8 @@
   "cotizacionRechazar": "Reject",
   "cotizacionActualizar": "Refresh",
   "cotizacionCargandoPrecio": "Checking for a price to approve…",
+  "cotizacionFinalNoDisponible": "The final quote isn’t available.",
+  "cotizacionSinAjustes": "There are no pending price changes.",
   "serviciosPrecioDesde": "From ${precio}",
   "@serviciosPrecioDesde": {
     "placeholders": {
