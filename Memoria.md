@@ -897,3 +897,10 @@
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Enviar mensajes en una conversación (KNOCK-72, spec 020 enmienda 2026-11-26)
+- **Qué cambió:** `ConversacionesRepositoryApi.enviar` (`POST /api/v1/conversaciones/{id}/mensajes`, puerto `EnvioDeMensajes`, `envioDeMensajesProvider`); regla del texto en dominio (`TextoDeMensaje`: 1 a 1000 unidades UTF-16, 4096 bytes, sin control salvo `\n`) que se revisa antes de salir a la red; `EnvioMensajesController` optimista (pendiente, fallido, enviado; un envío a la vez; reintento solo manual; 409 cierra) y `CampoEnvioMensaje` con textos en ARB.
+- **Por qué:** el envío no es idempotente (CA-E02); el hub solo recibe.
+- **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
+- **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
+- **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.

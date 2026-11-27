@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T17:45:55Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -22,10 +22,10 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 175 |
+| `l10n` | - | 3 | 4 | 177 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 58 | 291 | 549 |
-| `mensajes` | -, data, domain, presentation | 9 | 13 | 15 |
+| `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -498,7 +498,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4361, `isSupported()`:4366, `shouldReload()`:4370, `lookupAppLocalizations()`:4373
+  - `of()`:70, `load()`:4445, `isSupported()`:4450, `shouldReload()`:4454, `lookupAppLocalizations()`:4457
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -641,18 +641,25 @@
 - `app/lib/features/mensajes/data/canal_mensajes_signalr.dart` — class `CanalMensajesSignalR`
   - `cerrar()`:54, `totalDeNoLeidos()`:67
 - `app/lib/features/mensajes/data/conversaciones_repository_api.dart` — class `ConversacionesRepositoryApi`
-  - `consultar()`:17, `contador()`:37, `marcarLeido()`:47
+  - `consultar()`:20, `contador()`:40, `marcarLeido()`:50, `enviar()`:71
 
 **domain**
 
 - `app/lib/features/mensajes/domain/canal_mensajes.dart` — class `CanalMensajes`
 - `app/lib/features/mensajes/domain/conversacion.dart` — class `Conversacion`, class `ContraparteConversacion`, class `UltimoMensaje`, class `ContadorDeNoLeidos`, class `ResumenConversaciones`
 - `app/lib/features/mensajes/domain/conversaciones_repository.dart` — class `ConversacionesRepository`
+- `app/lib/features/mensajes/domain/envio_de_mensajes.dart` — class `EnvioDeMensajes`
+- `app/lib/features/mensajes/domain/mensaje.dart` — class `Mensaje`, enum `MotivoTextoInvalido`, class `TextoDeMensaje`
+  - `preparar()`:46, `validar()`:49
 
 **presentation**
 
+- `app/lib/features/mensajes/presentation/campo_envio_mensaje.dart` — class `CampoEnvioMensaje`, class `_CampoEnvioMensajeState`, class `_MensajePropioVista`
+  - `textoDeFallaDeEnvio()`:12, `initState()`:56, `didUpdateWidget()`:63, `dispose()`:90, `build()`:97, `build()`:153
 - `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
   - `reintentar()`:33, `cargarMas()`:71, `canalConectado()`:118, `canalDesconectado()`:122, `actualizarTotalDesdeServidor()`:135, `limpiar()`:148, `dispose()`:161
+- `app/lib/features/mensajes/presentation/envio_mensajes_controller.dart` — enum `EstadoDeEnvio`, class `MensajePropio`, class `EstadoEnvioMensajes`, class `EnvioMensajesController`
+  - `enviar()`:82, `reintentar()`:97, `descartar()`:111, `marcarCerrada()`:123, `dispose()`:197
 - `app/lib/features/mensajes/presentation/globo_controller.dart` — class `EstadoGlobo`, class `GloboController`
   - `build()`:44, `reintentar()`:58, `actualizar()`:64
 
