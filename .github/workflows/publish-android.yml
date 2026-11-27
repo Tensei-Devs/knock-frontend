@@ -108,7 +108,8 @@ jobs:
           API_URL: ${{ vars.KNOCK_API_URL }}
           BUILD_NAME: ${{ steps.info.outputs.version }}
           BUILD_NUMBER: ${{ steps.info.outputs.version_code }}
-        run: flutter build appbundle --release --build-name "$BUILD_NAME" --build-number "$BUILD_NUMBER" --dart-define=KNOCK_API_URL="$API_URL"
+          SYMBOLS_DIR: ${{ runner.temp }}/symbols
+        run: flutter build appbundle --release --obfuscate --split-debug-info="$SYMBOLS_DIR" --build-name "$BUILD_NAME" --build-number "$BUILD_NUMBER" --dart-define=KNOCK_API_URL="$API_URL"
       - name: El AAB no está firmado con la llave de depuración
         run: |
           out=$(keytool -printcert -jarfile app/build/app/outputs/bundle/release/app-release.aab)
@@ -116,6 +117,24 @@ jobs:
             echo "::error::El AAB quedó firmado con la llave de depuración: no se publica."
             exit 1
           fi
+      # El repositorio es público: cualquier cuenta de GitHub puede descargar los artefactos de una corrida. Los símbolos
+      # se suben cifrados con el certificado de la llave de subida; solo quien tiene el .jks puede abrirlos (docs/PUBLICACION_ANDROID.md).
+      - name: Cifrar los símbolos de la ofuscación
+        env:
+          KEYSTORE_FILE: ${{ runner.temp }}/knock-upload.jks
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          SYMBOLS_DIR: ${{ runner.temp }}/symbols
+          CERT_FILE: ${{ runner.temp }}/knock-upload-cert.pem
+          SYMBOLS_ENC: ${{ runner.temp }}/app-symbols.tar.gz.cms
+        run: |
+          set -o pipefail
+          if ! ls "$SYMBOLS_DIR"/*.symbols >/dev/null 2>&1; then
+            echo "::error::La compilación no dejó símbolos: sin ellos no se pueden leer los errores de esta versión."
+            exit 1
+          fi
+          keytool -exportcert -rfc -keystore "$KEYSTORE_FILE" -storepass:env KEYSTORE_PASSWORD -alias "$KEY_ALIAS" -file "$CERT_FILE"
+          tar -czf - -C "$SYMBOLS_DIR" . | openssl cms -encrypt -binary -aes-256-cbc -outform DER -out "$SYMBOLS_ENC" "$CERT_FILE"
       - name: Borrar la llave y la configuración de Firebase de la máquina
         if: always()
         env:
@@ -126,6 +145,12 @@ jobs:
           name: app-release-aab
           path: app/build/app/outputs/bundle/release/app-release.aab
           retention-days: 7
+          if-no-files-found: error
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: app-symbols-cifrados-${{ steps.info.outputs.version_code }}
+          path: ${{ runner.temp }}/app-symbols.tar.gz.cms
+          retention-days: 90
           if-no-files-found: error
 
   publish:
