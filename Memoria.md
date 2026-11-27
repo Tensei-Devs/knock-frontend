@@ -932,3 +932,7 @@
 - **Qué cambió:** la cabecera de Trabajo tiene el interruptor. El valor inicial sale de `GET /tecnicos/me/trabajo` y el cambio usa `PUT /tecnicos/me/disponibilidad` (repositorio que ya existía sin pantalla). Enmienda del 2026-11-27 firmada en el PR #148, todavía sin fusionar.
 - **Pendiente:** resumen, solicitudes nuevas y descartar de Trabajo; sin probar contra el backend desplegado ni en teléfono.
 - **A evitar:** calcular en el teléfono cuándo se apaga: lo decide el servidor.
+
+## 2026-11-27 — KNOCK-266: licencias de los paquetes del chat en EXC-002
+- Se agregan 9 paquetes de pub a la lista de exención de `dependency-review` (MIT y BSD, revisadas en su LICENSE), autorizado por José. El control sigue activo para el resto.
+- A evitar: fusionar dependencias nuevas hacia `sprint-05` sin revisar su licencia; el fallo aparece recién al promover a `develop`.
