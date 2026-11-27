@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/envio_de_visita.dart';
@@ -22,12 +23,23 @@ class AccionesVisitaReal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final v = ref.watch(act.visitaRealProvider(visitaId)).value;
+    final textos = AppLocalizations.of(context);
+    if (ref.watch(tecnicoAusenteProvider).contains(visitaId)) {
+      return NoteK('amber', 'clock', textos.visitaTecnicoAusenteRegistrada);
+    }
     final confirmada = v?.estado == act.EstadoVisita.confirmada;
     if (v == null || !(confirmada || v.estado == act.EstadoVisita.enCurso)) {
       return const SizedBox.shrink();
     }
-    final textos = AppLocalizations.of(context);
     return stack([
+      if (confirmada)
+        BtnK(
+          textos.visitaTecnicoAusenteBoton,
+          () => _hojaTecnicoAusente(context, visitaId),
+          kind: Bk.ghost,
+          sm: true,
+          icon: 'flag',
+        ),
       if (v.reprogramacionPendiente)
         NoteK('amber', 'clock', textos.visitaCambioPendiente)
       else if (confirmada)
@@ -84,6 +96,42 @@ void hojaClienteAusente(BuildContext context, String visitaId) {
             .clienteAusente(visitaId);
         ref.invalidate(agendaControllerProvider);
         return textos.visitaAusenteRegistrada;
+      },
+    ),
+  );
+}
+
+/// «El técnico no se presentó»: el cliente confirma y el servidor decide si está
+/// dentro de la ventana de la cita. Tras un rechazo se vuelve a leer la visita.
+void _hojaTecnicoAusente(BuildContext context, String visitaId) {
+  final textos = AppLocalizations.of(context);
+  _abrir(
+    context,
+    _HojaDeEnvio(
+      titulo: textos.visitaTecnicoAusenteBoton,
+      boton: textos.visitaTecnicoAusenteConfirmar,
+      conflicto: textos.visitaAusenteFueraDeVentana,
+      listo: (_) => true,
+      contenido: (_, _) => [sMut(textos.visitaTecnicoAusenteExplicacion)],
+      enviar: (ref, _) async {
+        final contenedor = ProviderScope.containerOf(
+          ref.context,
+          listen: false,
+        );
+        try {
+          await ref
+              .read(accionesVisitaRepositoryProvider)
+              .tecnicoAusente(visitaId);
+          contenedor.read(tecnicoAusenteProvider.notifier).anotar(visitaId);
+        } on ConflictoFailure {
+          contenedor.invalidate(act.visitaRealProvider(visitaId));
+          rethrow;
+        } on NoEncontradoFailure {
+          contenedor.invalidate(act.visitaRealProvider(visitaId));
+          rethrow;
+        }
+        contenedor.invalidate(act.visitaRealProvider(visitaId));
+        return textos.visitaTecnicoAusenteRegistrada;
       },
     ),
   );

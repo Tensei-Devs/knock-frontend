@@ -56,6 +56,21 @@ void main() {
     expect(p.json, {'texto': 'Sigue goteando'});
   });
 
+  test('CA_040_E01 tecnico-ausente va sin cuerpo y con sesión', () async {
+    final api = ApiFalsa(
+      (_) => jsonOk({
+        'visitaId': _id,
+        'estado': 'no_presentado',
+        'quienFalto': 'tecnico',
+      }),
+    );
+    expect(await _repo(api).tecnicoAusente(_id), 'no_presentado');
+    final p = api.peticiones.single;
+    expect(p.llamadaCompleta, 'POST /api/v1/visitas/$_id/tecnico-ausente');
+    expect(p.cuerpo, isEmpty);
+    expect(p.autorizacion, 'Bearer ${tokensA.accessToken}');
+  });
+
   for (final (estado, falla) in [
     (403, isA<AccesoDenegadoFailure>()),
     (404, isA<NoEncontradoFailure>()),

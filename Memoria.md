@@ -898,6 +898,9 @@
 ## 2026-11-26 — El técnico ve una solicitud y envía su cotización (KNOCK-74, spec 046)
 - **Qué cambió:** con sesión y API, «Trabajo» muestra solicitudes nuevas y cotizaciones enviadas; «Cotizar» lee el detalle y envía la cotización, sin campo de nota (046 §13).
 - **Pendiente:** descartar y el resumen de «Trabajo» (#101, #102), teléfono y backend desplegado.
+## 2026-11-26 — «El técnico no se presentó» (KNOCK-266, spec 040)
+- **Qué cambió:** el cliente puede registrarlo en una visita confirmada (`POST /visitas/{id}/tecnico-ausente`); la ventana la decide el servidor y un 409 o 404 vuelve a leer la visita.
+- **Pendiente:** teléfono y backend desplegado.
 ## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
 - **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
 - **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.

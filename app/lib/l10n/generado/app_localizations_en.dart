@@ -1408,6 +1408,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'This cannot be recorded now: only within the appointment window.';
 
   @override
+  String get visitaTecnicoAusenteBoton => 'The technician didn’t show up';
+
+  @override
+  String get visitaTecnicoAusenteExplicacion =>
+      'Confirm only if the technician didn’t arrive. You can record it from 15 minutes up to 2 hours after the appointment time.';
+
+  @override
+  String get visitaTecnicoAusenteConfirmar => 'Record that they didn’t arrive';
+
+  @override
+  String get visitaTecnicoAusenteRegistrada =>
+      'You recorded that the technician didn’t show up.';
+
+  @override
   String get visitaTerminarBoton => 'Finish job';
 
   @override

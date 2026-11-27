@@ -3,6 +3,7 @@
 library;
 
 export 'package:app/features/visita/presentation/agenda_controller.dart';
+export 'package:app/features/visita/presentation/tecnico_ausente_controller.dart';
 
 export 'package:app/features/visita/domain/acciones_visita.dart';
 export 'package:app/features/visita/domain/permiso_fotos.dart';
