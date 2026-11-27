@@ -1335,11 +1335,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reputacionDestacado => 'Outstanding';
 
   @override
-  String get tecnicosListadoTitulo => 'Experts';
+  String get tecnicosMapaCargando => 'Loading experts on the map…';
 
   @override
-  String get tecnicosMapaPendiente =>
-      'Experts are not available on the map yet.';
+  String get tecnicosMapaError => 'We could not load the experts on the map.';
+
+  @override
+  String get tecnicosMapaVacio =>
+      'There are no experts in this area of the map.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recommended';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Top rated';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Nearest';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Within $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Experts';
 
   @override
   String get opinionesCargando => 'Loading reviews…';

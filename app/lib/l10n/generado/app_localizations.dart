@@ -2348,17 +2348,53 @@ abstract class AppLocalizations {
   /// **'Destacado'**
   String get reputacionDestacado;
 
+  /// No description provided for @tecnicosMapaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando expertos en el mapa…'**
+  String get tecnicosMapaCargando;
+
+  /// No description provided for @tecnicosMapaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar los expertos del mapa.'**
+  String get tecnicosMapaError;
+
+  /// No description provided for @tecnicosMapaVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay expertos en esta zona del mapa.'**
+  String get tecnicosMapaVacio;
+
+  /// No description provided for @tecnicosOrdenRecomendados.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendados'**
+  String get tecnicosOrdenRecomendados;
+
+  /// No description provided for @tecnicosOrdenCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor calificados'**
+  String get tecnicosOrdenCalificacion;
+
+  /// No description provided for @tecnicosOrdenDistancia.
+  ///
+  /// In es, this message translates to:
+  /// **'Más cercanos'**
+  String get tecnicosOrdenDistancia;
+
+  /// No description provided for @tecnicosRadio.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {km} km'**
+  String tecnicosRadio(int km);
+
   /// No description provided for @tecnicosListadoTitulo.
   ///
   /// In es, this message translates to:
   /// **'Expertos'**
   String get tecnicosListadoTitulo;
-
-  /// No description provided for @tecnicosMapaPendiente.
-  ///
-  /// In es, this message translates to:
-  /// **'Los expertos aún no están disponibles en el mapa.'**
-  String get tecnicosMapaPendiente;
 
   /// Opiniones (spec 041).
   ///

@@ -32,3 +32,14 @@ final class GrupoMapa {
   final int cantidad;
   final String? tecnicoId;
 }
+
+/// La zona visible del mapa que se pide en `GET /mapa/tecnicos` (TEC-04). Los
+/// límites no se guardan ni se registran (backend 046, R-40).
+typedef ConsultaMapa = ({
+  String norte,
+  String sur,
+  String este,
+  String oeste,
+  String zoom,
+  String? oficio,
+});

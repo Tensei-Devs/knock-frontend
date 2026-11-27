@@ -135,10 +135,7 @@ void main() {
       tester.widget<MapaGoogleKnock>(find.byType(MapaGoogleKnock)).expertos,
       isEmpty,
     );
-    expect(
-      find.text('Los expertos aún no están disponibles en el mapa.'),
-      findsOneWidget,
-    );
+    expect(find.text('Cargando expertos en el mapa…'), findsOneWidget);
   });
 
   testWidgets('una tarjeta abre el perfil con el id real', (tester) async {

@@ -8,6 +8,15 @@ typedef FiltrosTecnicos = ({
   String? oficio,
   bool verificados,
   bool disponibles,
+
+  /// `distancia`, `calificacion` o `recomendadas`; `null` es el orden del
+  /// servidor.
+  String? orden,
+
+  /// 3, 5, 8 o 12 km alrededor de [lat] y [lng].
+  int? radioKm,
+  String? lat,
+  String? lng,
 });
 
 class ListaTecnicosController extends AsyncNotifier<PaginaTecnicos>
@@ -17,7 +26,7 @@ class ListaTecnicosController extends AsyncNotifier<PaginaTecnicos>
 
   @override
   Future<PaginaTecnicos> build() {
-    ref.watch(sesionProvider);
+    ref.watch(sesionProvider.select((t) => t != null));
     return _pedir();
   }
 
@@ -27,6 +36,10 @@ class ListaTecnicosController extends AsyncNotifier<PaginaTecnicos>
         oficio: filtros.oficio,
         soloVerificados: filtros.verificados ? true : null,
         disponibleHoy: filtros.disponibles ? true : null,
+        orden: filtros.orden,
+        radioKm: filtros.radioKm?.toString(),
+        lat: filtros.lat,
+        lng: filtros.lng,
         cursor: cursor,
       );
 

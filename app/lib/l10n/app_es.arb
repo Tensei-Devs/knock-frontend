@@ -1605,8 +1605,15 @@
       "nivel": {"type": "String"}
     }
   },
+  "tecnicosMapaCargando": "Cargando expertos en el mapa…",
+  "tecnicosMapaError": "No pudimos cargar los expertos del mapa.",
+  "tecnicosMapaVacio": "No hay expertos en esta zona del mapa.",
+  "tecnicosOrdenRecomendados": "Recomendados",
+  "tecnicosOrdenCalificacion": "Mejor calificados",
+  "tecnicosOrdenDistancia": "Más cercanos",
+  "tecnicosRadio": "Hasta {km} km",
+  "@tecnicosRadio": {"placeholders": {"km": {"type": "int"}}},
   "tecnicosListadoTitulo": "Expertos",
-  "tecnicosMapaPendiente": "Los expertos aún no están disponibles en el mapa.",
   "opinionesCargando": "Cargando las opiniones…",
   "@opinionesCargando": {
     "description": "Opiniones (spec 041)."

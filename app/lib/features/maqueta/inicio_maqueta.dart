@@ -17,12 +17,15 @@ import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/cobertura.dart';
 import 'package:app/features/maqueta/mapa_google.dart';
+import 'package:app/features/maqueta/mapa_tecnicos_real.dart';
+import 'package:app/features/tecnico/tecnico.dart';
 import 'package:app/features/maqueta/lista_tecnicos_reales.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/previa/presentation/panel_expertos.dart'
     show TamanosPanel;
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
+import 'package:google_maps_flutter/google_maps_flutter.dart'
+    show LatLng, LatLngBounds;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -111,6 +114,28 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
   LatLng? _pendienteUbic;
   LatLng? _zonaElegida;
 
+  /// Mapa real: lo que muestra la cámara, los últimos grupos recibidos (para
+  /// que los pines no parpadeen al mover) y la ubicación de la persona.
+  (LatLngBounds, double)? _vista;
+  List<GrupoMapa> _grupos = const [];
+  String? _oficioDeGrupos;
+  ({double lat, double lng})? _ubicacion;
+
+  void _alMoverCamara(LatLngBounds limites, double zoom) {
+    if (!mounted) return;
+    setState(() => _vista = (limites, zoom));
+  }
+
+  void _alTocarGrupo(GrupoMapa grupo) {
+    final id = grupo.tecnicoId;
+    if (id != null) {
+      unawaited(abrirTecnicoDelMapa(context, ref, id));
+      return;
+    }
+    final zoom = (_vista?.$2 ?? 13.5) + 2;
+    unawaited(_mapa.ir(LatLng(grupo.latitud, grupo.longitud), zoom: zoom));
+  }
+
   void _irAZona(ZonaKnock z) {
     final p = LatLng(z.lat, z.lng);
     setState(() => _zonaElegida = p);
@@ -129,6 +154,7 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
     if (_ultimaEvaluada == clave) return;
     _ultimaEvaluada = clave;
     _zonaElegida = null;
+    setState(() => _ubicacion = (lat: p.latitude, lng: p.longitude));
     // La cobertura la decide el servidor (`GET /colonias/en-punto`, spec 017,
     // R-05); las coordenadas solo salen en esta petición y se descartan (R-03).
     final ResultadoColonia r;
@@ -255,6 +281,22 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) unawaited(_alUbicar(p));
       });
+    }
+    final vista = _vista;
+    final consulta = datosReales && vista != null
+        ? consultaDeVista(vista.$1, vista.$2, _cat)
+        : null;
+    if (_oficioDeGrupos != _cat || !datosReales) {
+      _oficioDeGrupos = _cat;
+      _grupos = const [];
+    }
+    if (consulta != null) {
+      final mapa = ref.watch(mapaTecnicosControllerProvider(consulta));
+      if (mapa.hasError) {
+        _grupos = const [];
+      } else if (mapa.value case final grupos?) {
+        _grupos = grupos;
+      }
     }
     return MaqBuilder((context) {
       final k = kc(context);
@@ -384,6 +426,9 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                               builder: (context, e, _) => MapaGoogleKnock(
                                 control: _mapa,
                                 expertos: datosReales ? const [] : list,
+                                grupos: _grupos,
+                                alTocarGrupo: _alTocarGrupo,
+                                alMoverCamara: _alMoverCamara,
                                 seleccionado: _sel,
                                 agenda: _agenda(),
                                 padInferior:
@@ -680,11 +725,11 @@ class _InicioMaquetaState extends ConsumerState<InicioMaqueta> {
                                       icon: 'send',
                                     ),
                                   if (datosReales) ...[
-                                    sMut(
-                                      AppLocalizations.of(context)
-                                          .tecnicosMapaPendiente,
+                                    EstadoDelMapaReal(consulta: consulta),
+                                    ListaTecnicosReales(
+                                      oficio: c?.id,
+                                      ubicacion: _ubicacion,
                                     ),
-                                    ListaTecnicosReales(oficio: c?.id),
                                   ] else
                                     for (final o in list)
                                       InkWell(

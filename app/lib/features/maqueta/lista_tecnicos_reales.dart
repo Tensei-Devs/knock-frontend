@@ -15,8 +15,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class ListaTecnicosReales extends ConsumerStatefulWidget {
-  const ListaTecnicosReales({super.key, this.oficio});
+  const ListaTecnicosReales({super.key, this.oficio, this.ubicacion});
   final String? oficio;
+
+  /// La ubicación de la persona, si la dio: habilita distancia y radio. Solo
+  /// sale en la petición (backend 046, R-40).
+  final ({double lat, double lng})? ubicacion;
 
   @override
   ConsumerState<ListaTecnicosReales> createState() =>
@@ -26,14 +30,24 @@ class ListaTecnicosReales extends ConsumerStatefulWidget {
 class _ListaTecnicosRealesState extends ConsumerState<ListaTecnicosReales> {
   bool _verificados = false;
   bool _disponibles = false;
+  String? _orden;
+  int? _radio;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final aqui = widget.ubicacion;
+    final orden = aqui == null && _orden == 'distancia' ? null : _orden;
+    final radio = aqui == null ? null : _radio;
+    final conUbicacion = radio != null || orden == 'distancia';
     final filtros = (
       oficio: widget.oficio,
       verificados: _verificados,
       disponibles: _disponibles,
+      orden: orden,
+      radioKm: radio,
+      lat: conUbicacion ? aqui?.lat.toString() : null,
+      lng: conUbicacion ? aqui?.lng.toString() : null,
     );
     final provider = listaTecnicosControllerProvider(filtros);
     final controlador = ref.read(provider.notifier);
@@ -51,6 +65,23 @@ class _ListaTecnicosRealesState extends ConsumerState<ListaTecnicosReales> {
             selected: _disponibles,
             onSelected: (v) => setState(() => _disponibles = v),
           ),
+          for (final (valor, texto) in [
+            ('recomendadas', t.tecnicosOrdenRecomendados),
+            ('calificacion', t.tecnicosOrdenCalificacion),
+            if (aqui != null) ('distancia', t.tecnicosOrdenDistancia),
+          ])
+            FilterChip(
+              label: Text(texto),
+              selected: orden == valor,
+              onSelected: (v) => setState(() => _orden = v ? valor : null),
+            ),
+          if (aqui != null)
+            for (final km in const [3, 5, 8, 12])
+              FilterChip(
+                label: Text(t.tecnicosRadio(km)),
+                selected: radio == km,
+                onSelected: (v) => setState(() => _radio = v ? km : null),
+              ),
         ],
       ),
       ref
