@@ -5,7 +5,7 @@ Knock conecta a personas con técnicos de confianza (mecánica, plomería, elect
 Este repositorio se construye con **Spec Driven Development (SDD)**: cada cambio parte de una spec aprobada. Contiene la app Flutter (`app/`), el panel Angular (`panel/`), la landing (`landing/`) y las specs (`specs/`). Cómo contribuir: [`CONTRIBUTING.md`](CONTRIBUTING.md); vulnerabilidades: [`SECURITY.md`](SECURITY.md).
 
 ## Cómo compilar y probar
-Requisitos: Flutter 3.47.7 (stable) para la app, Node con npm 10 para el panel y Python 3.11 o superior para los scripts de `scripts/`.
+Requisitos: Flutter 3.47.7 (stable) o superior para la app (el CI usa 3.47.9), Node con npm 10 para el panel y Python 3.11 o superior para los scripts de `scripts/`.
 ```bash
 # App móvil (Flutter): ejecutar en un emulador Android encendido y probar
 cd app && flutter pub get && flutter run
@@ -30,20 +30,22 @@ Más detalle en `app/README.md`, `panel/README.md` y `landing/README.md`.
 - `specs/`: una carpeta por spec con `spec.md`, `plan.md` y `task.md`.
 
 ## Specs de la base
+En `specs/` hay además specs posteriores (de la 013 en adelante).
+
 | Spec | Tema | Estado |
 |---|---|---|
-| [001-arquitectura-de-la-app-movil](specs/001-arquitectura-de-la-app-movil/spec.md) | Arquitectura de la app móvil | Borrador |
-| [002-piezas-comunes-de-la-app](specs/002-piezas-comunes-de-la-app/spec.md) | Piezas comunes de la app | Borrador |
-| [003-arquitectura-del-panel-web](specs/003-arquitectura-del-panel-web/spec.md) | Arquitectura del panel web | Borrador |
-| [004-landing-page-estructura-y-publicacion](specs/004-landing-page-estructura-y-publicacion/spec.md) | Landing page: estructura y publicación | Borrador |
-| [005-estructura-del-repositorio-y-flujo-de-trabajo](specs/005-estructura-del-repositorio-y-flujo-de-trabajo/spec.md) | Estructura del repositorio y flujo de trabajo | Borrador |
-| [006-contrato-de-la-api-y-cliente-generado](specs/006-contrato-de-la-api-y-cliente-generado/spec.md) | Contrato de la API y cliente generado | Borrador |
-| [007-integracion-continua-y-publicacion](specs/007-integracion-continua-y-publicacion/spec.md) | Integración continua y publicación | Borrador |
-| [008-calidad-pruebas-y-estandares](specs/008-calidad-pruebas-y-estandares/spec.md) | Calidad, pruebas y estándares | Borrador |
-| [009-seguridad-y-configuracion-del-cliente](specs/009-seguridad-y-configuracion-del-cliente/spec.md) | Seguridad y configuración del cliente | Borrador |
-| [010-cache-y-trabajo-sin-conexion](specs/010-cache-y-trabajo-sin-conexion/spec.md) | Caché y trabajo sin conexión | Borrador |
-| [011-versionamiento-por-puntos](specs/011-versionamiento-por-puntos/spec.md) | Versionamiento por puntos | Borrador |
-| [012-notificaciones-push-y-permisos-del-telefono](specs/012-notificaciones-push-y-permisos-del-telefono/spec.md) | Notificaciones push y permisos del teléfono | Borrador |
+| [001-arquitectura-de-la-app-movil](specs/001-arquitectura-de-la-app-movil/spec.md) | Arquitectura de la app móvil | Aprobada |
+| [002-piezas-comunes-de-la-app](specs/002-piezas-comunes-de-la-app/spec.md) | Piezas comunes de la app | Aprobada |
+| [003-arquitectura-del-panel-web](specs/003-arquitectura-del-panel-web/spec.md) | Arquitectura del panel web | Aprobada |
+| [004-landing-page-estructura-y-publicacion](specs/004-landing-page-estructura-y-publicacion/spec.md) | Landing page: estructura y publicación | Aprobada |
+| [005-estructura-del-repositorio-y-flujo-de-trabajo](specs/005-estructura-del-repositorio-y-flujo-de-trabajo/spec.md) | Estructura del repositorio y flujo de trabajo | Aprobada |
+| [006-contrato-de-la-api-y-cliente-generado](specs/006-contrato-de-la-api-y-cliente-generado/spec.md) | Contrato de la API y cliente generado | Aprobada |
+| [007-integracion-continua-y-publicacion](specs/007-integracion-continua-y-publicacion/spec.md) | Integración continua y publicación | Aprobada |
+| [008-calidad-pruebas-y-estandares](specs/008-calidad-pruebas-y-estandares/spec.md) | Calidad, pruebas y estándares | Aprobada |
+| [009-seguridad-y-configuracion-del-cliente](specs/009-seguridad-y-configuracion-del-cliente/spec.md) | Seguridad y configuración del cliente | Aprobada |
+| [010-cache-y-trabajo-sin-conexion](specs/010-cache-y-trabajo-sin-conexion/spec.md) | Caché y trabajo sin conexión | Aprobada |
+| [011-versionamiento-por-puntos](specs/011-versionamiento-por-puntos/spec.md) | Versionamiento por puntos | Aprobada |
+| [012-notificaciones-push-y-permisos-del-telefono](specs/012-notificaciones-push-y-permisos-del-telefono/spec.md) | Notificaciones push y permisos del teléfono | Aprobada |
 
 ## Cómo usarlo con opencode
 ```bash

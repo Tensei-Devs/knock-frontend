@@ -10,7 +10,8 @@ export 'package:app/features/actividad/actividad_providers.dart'
     show
         ampliarSolicitudApiProvider,
         coloniaGuardadaProvider,
-        solicitudesRealesRepositoryProvider;
+        solicitudesRealesRepositoryProvider,
+        subidaDeFotoDeTrabajoProvider;
 export 'package:app/features/actividad/domain/franja.dart' show Franja;
 export 'package:app/features/actividad/domain/solicitud.dart'
     show EstadoSolicitud, NuevaSolicitud, Solicitud;

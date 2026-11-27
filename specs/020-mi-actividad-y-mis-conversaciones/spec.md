@@ -244,8 +244,28 @@ Reglas de pantalla:
 - **Duda abierta (para José):** ¿el globo es para técnicos también? HU-030 dice «cliente o técnico»; esta spec lo permite, pero el técnico no tiene Actividad.
 - **Duda abierta (para el equipo):** ¿las conversaciones nacen al recibir una cotización (HU-029) o solo al elegir? Backend 026 solo permite chat en una visita confirmada, así que antes de elegir no hay conversación.
 
+## Nota de enmienda (2026-11-26, abrir conversación, leer y enviar mensajes)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 030 (R-02 a R-16). El gateway publica `/api/v1/conversaciones/**`. `POST /api/v1/conversaciones` está en `docs/openapi.messaging.v1.json` y no en `openapi.publico.v1.json`.
+
+| Método y ruta | Cuerpo / consulta | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/conversaciones` | `{ solicitudId, tecnicoId? }` (`tecnicoId` obligatorio para el cliente; el técnico lo omite) | `201` nueva o `200` existente: `{ conversacionId, solicitudId, visitaId?, rol, contraparte{nombre, fotoUrl}, servicio, estado, motivoCierre?, contactoVisible, avisoSeguridad, noLeidos }` | `400`, `401`, `404`, `409 conversation_closed`, `422`, `429`, `503` |
+| `GET /api/v1/conversaciones/{id}/mensajes` | `cursor?`, `limit?` (1–50, 30 por omisión) | `200` `{ items[{ mensajeId, autorRol, texto, contactoOculto, enviadoEn }], nextCursor }`, del más reciente al más antiguo | `400`, `401`, `404`, `422`, `429` |
+| `POST /api/v1/conversaciones/{id}/mensajes` | `{ texto }` (1 a 1 000 caracteres) | `201` `{ mensajeId, autorRol, texto, contactoOculto, enviadoEn }` | `400`, `401`, `404`, `409 conversation_closed`, `422` (`errors.texto` o `content_rejected`), `429 message_limit` o `moderation_limit`, `503 moderation_unavailable` o `market_unavailable` |
+
+- `GET /api/v1/solicitudes/{id}/conversacion` es la consulta de permiso **interna** que Mensajería hace a Mercado: el gateway no la publica y **la app no la llama**. Se nombra solo para dejarlo escrito.
+- **CA-E01:** Dada una conversación que se abre desde la app, cuando se crea, entonces la app acepta `200` y `201` igual y nunca llama a `GET /api/v1/solicitudes/{id}/conversacion`. · Verificación: prueba unitaria del repositorio.
+- **CA-E02:** Dado un envío que falla, cuando la app muestra el error por `code`, entonces conserva el texto escrito y no reintenta sola (el envío no es idempotente). · Verificación: prueba de widget por código.
+- **CA-E03:** Dados mensajes y errores del chat, cuando se revisan registros y almacenamiento de respuestas, entonces no contienen el texto de los mensajes. · Verificación: prueba de seguridad del cliente.
+- Esta enmienda fija solo el consumo de las rutas. La spec 020 no describe la pantalla del chat.
+- **Decisión pendiente:** si la pantalla del chat (diseño, estados, textos, tiempo real) entra en esta spec con otra enmienda o en una spec nueva. Sin esa decisión, estos casos no habilitan pantalla.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

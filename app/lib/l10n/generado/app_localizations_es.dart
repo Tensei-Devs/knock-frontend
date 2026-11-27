@@ -1334,6 +1334,149 @@ class AppLocalizationsEs extends AppLocalizations {
   String get opinionesTitulo => 'Opiniones';
 
   @override
+  String get conversacionesSinConexion => 'Sin conexión';
+
+  @override
+  String get conversacionesGlobo => 'Mensajes';
+
+  @override
+  String conversacionesGloboConTotal(String total) {
+    return 'Mensajes, $total';
+  }
+
+  @override
+  String get conversacionesCargando => 'Cargando conversaciones…';
+
+  @override
+  String get conversacionesVacias =>
+      'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.';
+
+  @override
+  String get conversacionesAbrirPendiente =>
+      'Abrir conversaciones aún no está disponible.';
+
+  @override
+  String conversacionesNoLeidos(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total mensajes sin leer',
+      one: '1 mensaje sin leer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reputacionNivel(String nivel) {
+    return 'Nivel: $nivel';
+  }
+
+  @override
+  String get reputacionNuevo => 'Nuevo';
+
+  @override
+  String get reputacionConfiable => 'Confiable';
+
+  @override
+  String get reputacionDestacado => 'Destacado';
+
+  @override
+  String get trabajoProximasVisitas => 'Próximas visitas';
+
+  @override
+  String get trabajoPendiente =>
+      'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.';
+
+  @override
+  String get trabajoVerificacion => 'Mi verificación';
+
+  @override
+  String get trabajoReputacion => 'Mi reputación';
+
+  @override
+  String get visitaAusenteBoton => 'El cliente no estaba';
+
+  @override
+  String get visitaAusenteExplicacion =>
+      'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.';
+
+  @override
+  String get visitaAusenteConfirmar => 'Registrar que no estaba';
+
+  @override
+  String get visitaAusenteRegistrada => 'Registramos que el cliente no estaba.';
+
+  @override
+  String get visitaAusenteFueraDeVentana =>
+      'Ahora no se puede registrar: solo dentro de la ventana de la cita.';
+
+  @override
+  String get visitaTerminarBoton => 'Terminar servicio';
+
+  @override
+  String get visitaTerminarFotos => 'Fotos del trabajo terminado (de 1 a 5)';
+
+  @override
+  String get visitaTerminarDescripcion => '¿Qué hiciste?';
+
+  @override
+  String get visitaTerminarDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get visitaTerminarRecomendacion =>
+      'Recomendación para el cliente (opcional)';
+
+  @override
+  String get visitaTerminarSinSubida =>
+      'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.';
+
+  @override
+  String get visitaTerminarNoEnCurso =>
+      'Esta visita no está en curso: no se puede terminar.';
+
+  @override
+  String get visitaTerminarHecho => 'Servicio terminado.';
+
+  @override
+  String get agendaCargando => 'Cargando tu agenda…';
+
+  @override
+  String get agendaError => 'No pudimos cargar tu agenda.';
+
+  @override
+  String get agendaVacia => 'No tienes visitas próximas.';
+
+  @override
+  String get agendaSinMapa =>
+      'La ubicación de las visitas no está disponible en el mapa.';
+
+  @override
+  String get agendaVerMas => 'Ver más visitas';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmada',
+      'en_curso': 'En curso',
+      'terminada': 'Terminada',
+      'cancelada': 'Cancelada',
+      'no_presentado': 'No se presentó',
+      'other': 'Estado no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'A domicilio',
+      'taller': 'En taller',
+      'other': 'Modalidad no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override
@@ -2164,4 +2307,194 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get cuentaRecuperarRecibida =>
       'Recibimos tu solicitud. Una persona del equipo la revisará.';
+
+  @override
+  String get verificacionCargando => 'Cargando tu verificación…';
+
+  @override
+  String get verificacionReintentar => 'Reintentar';
+
+  @override
+  String get verificacionSinVerificar => 'Sin verificar';
+
+  @override
+  String get verificacionSinVerificarDetalle =>
+      'La verificación es opcional y le da más confianza a tus clientes.';
+
+  @override
+  String get verificacionFotosBorradas =>
+      'Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.';
+
+  @override
+  String get verificacionEnRevision => 'En revisión';
+
+  @override
+  String get verificacionEnRevisionDetalle => 'Revisamos en menos de 24 h';
+
+  @override
+  String get verificacionVerificadoBasico => 'Verificado: básica';
+
+  @override
+  String get verificacionVerificadoCompleto => 'Verificado: completa';
+
+  @override
+  String get verificacionVerificadoDetalle =>
+      'Tu perfil muestra la insignia de verificado.';
+
+  @override
+  String get verificacionNoVerificado => 'No se pudo verificar';
+
+  @override
+  String get verificacionSinMotivo => 'No se indicó el motivo.';
+
+  @override
+  String verificacionEnviadaEl(String fecha) {
+    return 'Enviada el $fecha';
+  }
+
+  @override
+  String get verificacionEnvioNoDisponible =>
+      'Enviar tus fotos desde la app todavía no está disponible.';
+
+  @override
+  String get tecnicosMapaCargando => 'Cargando expertos en el mapa…';
+
+  @override
+  String get tecnicosMapaError => 'No pudimos cargar los expertos del mapa.';
+
+  @override
+  String get tecnicosMapaVacio => 'No hay expertos en esta zona del mapa.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recomendados';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Mejor calificados';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Más cercanos';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Hasta $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Expertos';
+
+  @override
+  String get asistenteNoDisponible =>
+      'El asistente de IA no está disponible. Puedes seguir sin él.';
+
+  @override
+  String get asistenteEjemplo => 'Esto es un ejemplo: no lo generó una IA.';
+
+  @override
+  String get asistenteLimite =>
+      'Llegaste al límite de uso del asistente. Inténtalo más tarde.';
+
+  @override
+  String get asistenteCargando => 'Consultando al asistente…';
+
+  @override
+  String get asistenteReintentar => 'Reintentar';
+
+  @override
+  String get asistenteGeneradoPorIa =>
+      'Generado por IA. Revísalo antes de usarlo.';
+
+  @override
+  String get asistenteDePlantilla =>
+      'Respuesta automática de plantilla: no la generó una IA.';
+
+  @override
+  String get asistenteTitulo => 'Asistente Knock';
+
+  @override
+  String get asistenteEscribe => '¿Qué necesitas arreglar?';
+
+  @override
+  String get asistenteSinTurno => 'Cuéntale tu problema al asistente.';
+
+  @override
+  String get asistenteEnviar => 'Enviar';
+
+  @override
+  String get asistentePideFoto => 'Agrega una foto al armar tu solicitud.';
+
+  @override
+  String get asistenteArmarSolicitud => 'Revisar y editar mi solicitud';
+
+  @override
+  String get asistenteResumenTitulo => 'Resumen de la conversación';
+
+  @override
+  String get asistenteResumenVacio => 'Todavía no hay nada que resumir.';
+
+  @override
+  String get asistenteSabe => 'Lo que sabes';
+
+  @override
+  String get asistentePorConfirmar => 'Por confirmar';
+
+  @override
+  String get asistenteQueLlevar => 'Qué llevar';
+
+  @override
+  String get asistenteBorradorTitulo => 'Borrador de cotización';
+
+  @override
+  String get asistentePrecio => 'Precio sugerido (MXN)';
+
+  @override
+  String get asistenteTiempo => 'Tiempo estimado';
+
+  @override
+  String get asistenteDia => 'Día';
+
+  @override
+  String get asistenteNota => 'Nota para el cliente';
+
+  @override
+  String get asistenteNadaSeEnvia =>
+      'Es un borrador: nada se envía desde aquí.';
+
+  @override
+  String get asistenteRangoTitulo => 'Rango de precio';
+
+  @override
+  String get asistenteRangoVacio =>
+      'Todavía no hay referencia de precio para este trabajo.';
+
+  @override
+  String get asistenteBitacoraTitulo => 'Bitácora del trabajo';
+
+  @override
+  String get asistenteBitacoraVacia =>
+      'Aún no guardas bitácora para este trabajo.';
+
+  @override
+  String get asistenteUnoPorLinea =>
+      'Un elemento por línea, hasta 10 de 200 caracteres.';
+
+  @override
+  String get asistenteGuardar => 'Guardar en bitácora';
+
+  @override
+  String get asistenteGuardada => 'Bitácora guardada.';
+
+  @override
+  String asistenteRango(String minimo, String maximo) {
+    return 'De $minimo a $maximo MXN';
+  }
+
+  @override
+  String asistenteMuestras(String n, String fuente) {
+    return 'Muestras: $n. Fuente: $fuente.';
+  }
+
+  @override
+  String asistenteCopia(String fecha) {
+    return 'Sin conexión. Esta es la copia del $fecha; puede estar desactualizada.';
+  }
 }

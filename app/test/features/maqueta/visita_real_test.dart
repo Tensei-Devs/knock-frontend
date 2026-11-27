@@ -82,6 +82,17 @@ class _AccionesFalsas implements AccionesVisitaRepository {
   }
 
   @override
+  Future<String> clienteAusente(String visitaId) => throw UnimplementedError();
+
+  @override
+  Future<String> terminar(
+    String visitaId, {
+    required String descripcion,
+    required List<String> fotos,
+    String? recomendacion,
+  }) => throw UnimplementedError();
+
+  @override
   Future<void> reportarNoTerminado(String visitaId, String texto) async =>
       _anotar('no-terminado $texto');
 }
