@@ -1344,6 +1344,63 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reputacionDestacado => 'Destacado';
 
   @override
+  String get trabajoProximasVisitas => 'Próximas visitas';
+
+  @override
+  String get trabajoPendiente =>
+      'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.';
+
+  @override
+  String get trabajoVerificacion => 'Mi verificación';
+
+  @override
+  String get trabajoReputacion => 'Mi reputación';
+
+  @override
+  String get visitaAusenteBoton => 'El cliente no estaba';
+
+  @override
+  String get visitaAusenteExplicacion =>
+      'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.';
+
+  @override
+  String get visitaAusenteConfirmar => 'Registrar que no estaba';
+
+  @override
+  String get visitaAusenteRegistrada => 'Registramos que el cliente no estaba.';
+
+  @override
+  String get visitaAusenteFueraDeVentana =>
+      'Ahora no se puede registrar: solo dentro de la ventana de la cita.';
+
+  @override
+  String get visitaTerminarBoton => 'Terminar servicio';
+
+  @override
+  String get visitaTerminarFotos => 'Fotos del trabajo terminado (de 1 a 5)';
+
+  @override
+  String get visitaTerminarDescripcion => '¿Qué hiciste?';
+
+  @override
+  String get visitaTerminarDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get visitaTerminarRecomendacion =>
+      'Recomendación para el cliente (opcional)';
+
+  @override
+  String get visitaTerminarSinSubida =>
+      'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.';
+
+  @override
+  String get visitaTerminarNoEnCurso =>
+      'Esta visita no está en curso: no se puede terminar.';
+
+  @override
+  String get visitaTerminarHecho => 'Servicio terminado.';
+
+  @override
   String get agendaCargando => 'Cargando tu agenda…';
 
   @override
@@ -1366,6 +1423,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'en_curso': 'En curso',
       'terminada': 'Terminada',
       'cancelada': 'Cancelada',
+      'no_presentado': 'No se presentó',
       'other': 'Estado no disponible',
     });
     return '$_temp0';

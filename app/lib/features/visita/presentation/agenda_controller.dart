@@ -8,7 +8,7 @@ class AgendaController extends AsyncNotifier<PaginaAgenda>
     with PaginasPorCursor<PaginaAgenda> {
   @override
   Future<PaginaAgenda> build() {
-    ref.watch(sesionProvider);
+    ref.watch(sesionProvider.select((t) => t != null));
     return ref.watch(agendaRepositoryProvider).listar();
   }
 

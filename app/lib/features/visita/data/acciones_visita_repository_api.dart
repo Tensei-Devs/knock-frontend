@@ -3,8 +3,8 @@ import 'package:app/core/red/contrato_json.dart';
 import 'package:app/features/visita/domain/acciones_visita.dart';
 import 'package:http/http.dart' as http;
 
-/// REAL: `POST /api/v1/visitas/{id}/cancelar`, `/reprogramar` y
-/// `/no-terminado` (backend 050). Con sesión, por el transporte de la spec 026.
+/// REAL: `POST /api/v1/visitas/{id}/cancelar`, `/reprogramar`,
+/// `/cliente-ausente`, `/terminar` y `/no-terminado` (backend 050). Con sesión, por el transporte de la spec 026.
 /// El motivo y el texto de la persona no se registran (CA-37).
 class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   const AccionesVisitaRepositoryApi({
@@ -60,6 +60,7 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
     textoObligatorio(m['estado']);
   }
 
+  @override
   Future<String> clienteAusente(String visitaId) async {
     final m = await _enviar(visitaId, 'cliente-ausente', null);
     _verificarVisita(m, visitaId);
@@ -67,6 +68,7 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
     return textoObligatorio(m['estado']);
   }
 
+  @override
   Future<String> terminar(
     String visitaId, {
     required String descripcion,
