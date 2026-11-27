@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — «Trabajo», cliente ausente y terminar servicio (KNOCK-118, KNOCK-266, spec 040)
+- **Cambio:** con sesión y API, «Trabajo» muestra la agenda real sin datos de ejemplo; la visita confirmada ofrece «El cliente no estaba» y la visita en curso «Terminar servicio». Las fotos se suben con propósito `trabajo` tras el interruptor `SUBIDA_DE_FOTOS` (apagado: no se puede terminar).
+- **Pendiente:** solicitudes nuevas, enviadas y terminadas (spec 019, PR #101 y #102); reprogramar y cancelar del lado del técnico; llegada (KNOCK-85); dispositivo y backend desplegado.
+
 ## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
 - **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
 - **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
+import 'package:app/features/maqueta/terminar_servicio_real.dart';
+import 'package:app/features/maqueta/trabajo_real.dart';
 import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/maqueta/anim_k.dart';
@@ -42,7 +44,7 @@ abstract final class PantallasMaqueta {
   static Widget inicio() => const InicioMaqueta(conCuenta: true);
   static Widget explorar() => const ExplorarMaqueta();
   static Widget actividad() => const ActividadMaqueta();
-  static Widget trabajo() => const TrabajoMaqueta();
+  static Widget trabajo() => const TrabajoSegunSesion();
   static Widget cuenta() => const CuentaMaqueta();
   static Widget configuracion() => const ConfigMaqueta();
 }
@@ -188,7 +190,11 @@ GoRoute rutaMaqueta() => GoRoute(
         ),
         GoRoute(
           path: 'cerrar/:vid',
-          builder: (c, s) => CerrarScreen(vid: s.pathParameters['vid']!),
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Terminar servicio',
+            real: TerminarServicioReal(visitaId: s.pathParameters['vid']!),
+            ejemplo: (_) => CerrarScreen(vid: s.pathParameters['vid']!),
+          ),
         ),
         GoRoute(path: 'perfil', builder: (c, s) => const PerfilEditarScreen()),
         GoRoute(
