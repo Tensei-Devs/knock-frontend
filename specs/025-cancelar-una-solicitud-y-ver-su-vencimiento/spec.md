@@ -285,8 +285,17 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 - **Riesgo:** si la tarea `VencerSolicitud` se pierde, el barrido de respaldo tarda hasta 10 minutos y el cliente verá «Cerrando tu solicitud…» ese tiempo; se mitiga con un solo reintento y el refresco manual.
 - **Resuelto:** backend 029 avisa a los técnicos que cotizaron cuando la solicitud vence (`tecnicosAvisar` de `SolicitudVencida`); la spec 024 lo entrega como `cotizacion_vencida`.
 
+## Nota de enmienda (2026-11-27, valor del motivo «Otro»)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (motivo de cancelación)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** §4 dice `otro`; el backend acepta `no_longer_needed`, `solved_elsewhere`, `takes_too_long` y `other` (`origin/develop`, backend 029).
+- **Cambio:** en §4 y en las pruebas, el cuarto valor de `motivo` es `other`. El texto en pantalla («Otro motivo») no cambia.
+- **CA-M01:** Dado «Otro motivo» elegido, cuando se confirma la cancelación, entonces el cuerpo es `{ "motivo": "other" }`. · Verificación: prueba unitaria del repositorio.
+- **Cómo se construye:** mientras venza el ADR-007 (2026-12-15), la cancelación se puede escribir a mano con sus condiciones, reutilizando el dominio de los PR #100 y #101.
+
 ## Aprobación
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-27 (motivo de cancelación) — nombre: ______ fecha: ______
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

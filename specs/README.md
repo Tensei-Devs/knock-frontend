@@ -49,4 +49,5 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 043 | Panel web: revisión de verificaciones y reportes | Aprobada | [`043-panel-revision-de-verificaciones-y-reportes`](043-panel-revision-de-verificaciones-y-reportes/spec.md) |
 | 044 | Panel web: catálogo de oficios, oficios pedidos y lista de espera | Aprobada | [`044-panel-catalogo-de-oficios`](044-panel-catalogo-de-oficios/spec.md) |
 | 045 | Maqueta base de la app (reconstrucción visual simulada) | Aprobada | [`045-maqueta-base-de-la-app`](045-maqueta-base-de-la-app/spec.md) |
-| 046 | El técnico ve una solicitud y envía su cotización (pantallas) | Borrador | [`046-tecnico-envia-cotizaciones`](046-tecnico-envia-cotizaciones/spec.md) |
+| 046 | El técnico ve una solicitud y envía su cotización (pantallas) | Aprobada | [`046-tecnico-envia-cotizaciones`](046-tecnico-envia-cotizaciones/spec.md) |
+| 047 | Pantalla del chat (abrir, leer y enviar mensajes) | Borrador | [`047-pantalla-del-chat`](047-pantalla-del-chat/spec.md) |

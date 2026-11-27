@@ -77,8 +77,18 @@ Consume el endpoint de registro de dispositivos del backend y fija el formato de
 - **Decisión pendiente:** si el borrado falla (`401`, `429`, `503` o sin red), ¿se cierra la sesión local de todos modos? Propuesta: sí, sin reintento, por el borrado del servidor.
 - **Decisión pendiente:** dónde se guarda el `id` entre arranques (esta spec no lo fija).
 
+## Nota de enmienda (2026-11-27, baja del dispositivo: fallas y dónde vive el identificador)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (baja del dispositivo)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Resuelve** las dos decisiones pendientes de la nota «baja del dispositivo».
+- Si `DELETE /api/v1/dispositivos/{id}` falla (`401`, `429`, `503`, sin red o tiempo agotado), la sesión local se cierra de todos modos, sin reintento y sin mostrar error: el backend borra el dispositivo cuando termina la sesión (backend 037, R-02).
+- El `id` que devuelve `POST /api/v1/dispositivos` se guarda en el almacén seguro, junto a la sesión, y se borra al cerrarla. Nunca en `shared_preferences` ni en registros.
+- **CA-B01:** Dado un borrado que falla, cuando la persona cierra sesión, entonces la sesión local se cierra y no queda el `id` guardado. · Verificación: prueba unitaria del controlador.
+- **CA-B02:** Dado un registro exitoso, cuando la app se reinicia con la sesión, entonces el `id` sigue disponible desde el almacén seguro. · Verificación: prueba unitaria.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-04
 - [x] Sin conflicto con la constitución
 - [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
+- [ ] Enmienda 2026-11-27 (baja del dispositivo) — nombre: ______ fecha: ______
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

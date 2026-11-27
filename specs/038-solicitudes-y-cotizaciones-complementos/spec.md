@@ -111,7 +111,21 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-27, referencia de mercado: campos y presentación)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (referencia de mercado)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Motivo:** §4 no describe la respuesta ni los valores de la consulta. Se toman del backend `origin/develop` (spec 048).
+- **Contrato:** `GET /api/v1/cotizaciones/referencia-mercado?oficio={clave}&tipoTrabajo={fijo|rango|visita}` (`tipoTrabajo` opcional: es el tipo de precio elegido). `200` `{ origen: "mercado"|"categoria"|"sin_datos", p25?, mediana?, p75? }` en pesos enteros. Errores: `401`, `403` (sin perfil de técnico), `422`, `429`.
+- **Presentación (tarjeta del formulario de cotizar, D-03):** con `mercado`, «Otros técnicos cobran de {p25} a {p75}. Lo más común: {mediana}.»; con `categoria`, el mismo texto precedido por «Referencia general del oficio.»; con `sin_datos`, «Todavía no hay suficientes datos para darte una referencia.».
+- «Usar este rango» solo aparece si hay `p25` y `p75` y `p25 < p75`: cambia el formulario a `rango` con esos montos. No envía nada.
+- El servidor no devuelve de cuántas cotizaciones sale: la app no lo muestra.
+- Los textos van en ARB `cotizar*`, en español e inglés (inglés: «Other technicians charge {p25} to {p75}. Most common: {mediana}.», «General reference for this trade.», «There isn’t enough data for a reference yet.», «Use this range»).
+- Una falla de la referencia nunca impide cotizar.
+- **CA-F01:** Dados los tres valores de `origen`, cuando llegan, entonces la tarjeta muestra el texto que corresponde y «Usar este rango» solo cuando aplica. · Verificación: prueba de widget por caso.
+- **CA-F02:** Dado un error de la referencia, cuando llega, entonces el formulario se puede enviar igual. · Verificación: prueba de widget.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [ ] Enmienda 2026-11-27 (referencia de mercado) — nombre: ______ fecha: ______
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
