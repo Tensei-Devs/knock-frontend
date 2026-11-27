@@ -10,6 +10,7 @@ import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_maqueta.dart';
+import 'package:app/features/maqueta/globo_real.dart';
 import 'package:app/features/maqueta/inicio_maqueta.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
@@ -231,8 +232,11 @@ class ShellMaqueta extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: maq,
-    builder: (context, _) =>
-        AppShell(navigationShell: navigationShell, iconoDe: _icono),
+    builder: (context, _) => AppShell(
+      navigationShell: navigationShell,
+      iconoDe: _icono,
+      globo: GloboReal(tecnico: navigationShell.currentIndex == ramaTrabajo),
+    ),
   );
 }
 

@@ -852,3 +852,10 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
+- **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
+- **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.
+- **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
+- **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
+- **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.

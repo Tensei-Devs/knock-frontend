@@ -25,7 +25,26 @@ class _ConversacionesRealesState extends ConsumerState<ConversacionesReales> {
       ref.read(conversacionesRepositoryProvider),
     );
     _controller.addListener(_actualizar);
+    if (ref.read(globoProvider).conectado) _controller.canalConectado();
     unawaited(_controller.reintentar());
+  }
+
+  /// El canal manda: al cambiar el contador se vuelve a pedir la lista y al
+  /// caerse se marca sin conexión; nada se calcula en el teléfono.
+  void _alCambiarCanal(EstadoGlobo? anterior, EstadoGlobo actual) {
+    if (!actual.conectado) {
+      if (actual.sinConexion) _controller.canalDesconectado();
+      return;
+    }
+    if (anterior?.conectado != true || anterior?.total != actual.total) {
+      _controller.canalConectado();
+      unawaited(_controller.reintentar());
+    }
+  }
+
+  Future<void> _reintentar() async {
+    unawaited(ref.read(globoProvider.notifier).reintentar());
+    await _controller.reintentar();
   }
 
   void _actualizar() {
@@ -41,35 +60,34 @@ class _ConversacionesRealesState extends ConsumerState<ConversacionesReales> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(sesionProvider, (anterior, actual) {
-      if (anterior == actual) return;
+    ref.listen(globoProvider, _alCambiarCanal);
+    ref.listen(sesionProvider.select((t) => t != null), (_, conSesion) {
       _controller.limpiar();
-      if (actual != null) unawaited(_controller.reintentar());
+      if (conSesion) unawaited(_controller.reintentar());
     });
     final t = AppLocalizations.of(context);
     final estado = _controller.estado;
     return stack([
       if (estado.sinConexion) ...[
         sMut(t.conversacionesSinConexion),
-        BtnK(t.busquedaReintentar, _controller.reintentar, kind: Bk.sec),
+        BtnK(t.busquedaReintentar, _reintentar, kind: Bk.sec),
       ],
       if (estado.cargando) sMut(t.conversacionesCargando),
-      if (!estado.cargando &&
-          estado.conversaciones.isEmpty &&
-          !estado.sinConexion)
-        sMut(t.conversacionesVacias),
       if (!estado.cargando &&
           estado.conversaciones.isEmpty &&
           estado.totalNoLeidos != null)
         sMut(t.conversacionesVacias),
       for (final c in estado.conversaciones)
-        CardK(
-          child: stack([
-            T(c.contraparte.nombre, w: FontWeight.w800),
-            T(c.servicio),
-            if (c.ultimoMensaje case final ultimo?) sMut(ultimo.texto),
-            if (c.noLeidos > 0) sMut(t.conversacionesNoLeidos(c.noLeidos)),
-          ], gap: 4),
+        // Cada conversación se lee como un solo bloque (CA-17).
+        MergeSemantics(
+          child: CardK(
+            child: stack([
+              T(c.contraparte.nombre, w: FontWeight.w800),
+              T(c.servicio),
+              if (c.ultimoMensaje case final ultimo?) sMut(ultimo.texto),
+              if (c.noLeidos > 0) sMut(t.conversacionesNoLeidos(c.noLeidos)),
+            ], gap: 4),
+          ),
         ),
       if (estado.conversaciones.isNotEmpty)
         sMut(t.conversacionesAbrirPendiente),

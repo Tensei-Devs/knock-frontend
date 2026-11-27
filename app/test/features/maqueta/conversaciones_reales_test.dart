@@ -2,7 +2,7 @@ import 'package:app/features/maqueta/conversaciones_reales.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/pantallas_actividad.dart'
-    show MensajesScreen, msgFab;
+    show MensajesScreen;
 import 'package:app/features/maqueta/pantallas_tecnico.dart'
     show TecMensajesScreen;
 import 'package:app/features/mensajes/domain/conversacion.dart';
@@ -39,33 +39,6 @@ class _Repositorio implements ConversacionesRepository {
 }
 
 void main() {
-  testWidgets('globo muestra contador confirmado con tope y etiqueta', (
-    tester,
-  ) async {
-    final semantica = tester.ensureSemantics();
-    final repo = _Repositorio();
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          conversacionesRepositoryProvider.overrideWithValue(repo),
-          solicitudesRealesActivasProvider.overrideWithValue(true),
-        ],
-        child: const MaterialApp(
-          locale: Locale('es'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(body: _GloboPrueba()),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('9+'), findsOneWidget);
-    expect(
-      find.bySemanticsLabel('Mensajes, 12 mensajes sin leer'),
-      findsOneWidget,
-    );
-    semantica.dispose();
-  });
   testWidgets('lista datos y pagina sin abrir ni marcar mensajes', (
     tester,
   ) async {
@@ -119,10 +92,4 @@ void main() {
       expect(find.text('Plomería'), findsOneWidget);
     }
   });
-}
-
-class _GloboPrueba extends StatelessWidget {
-  const _GloboPrueba();
-  @override
-  Widget build(BuildContext context) => Stack(children: [msgFab(context)]);
 }

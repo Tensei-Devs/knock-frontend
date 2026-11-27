@@ -1878,7 +1878,10 @@ Widget reqCard(BuildContext context, Req r) {
 }
 
 Widget? workFab(BuildContext context) {
-  if (pv.th.isEmpty) return null;
+  // Con sesión y API manda el globo real de todas las pestañas.
+  final real = ProviderScope.containerOf(context)
+      .read(solicitudesRealesActivasProvider);
+  if (real || pv.th.isEmpty) return null;
   final k = kc(context);
   final u = pv.unreadN;
   return Positioned(

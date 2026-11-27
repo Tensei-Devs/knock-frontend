@@ -20,7 +20,8 @@ import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/visita_acciones_reales.dart';
 import 'package:app/features/maqueta/visita_real.dart';
-import 'package:app/features/mensajes/mensajes.dart';
+import 'package:app/core/widgets/globo_conversaciones.dart';
+import 'package:app/features/maqueta/globo_real.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -181,6 +182,7 @@ class ActividadMaqueta extends StatelessWidget {
     final cargando = carga == CargaReal.cargando && jobs.isEmpty;
     return PgTab(
       title: 'Actividad',
+      top: const AvisoCanalCaido(),
       fab: msgFab(context),
       body: cargando
           ? const EsqueletoLista(n: 3)
@@ -236,93 +238,28 @@ Widget _errorDeSolicitudes(BuildContext context) => CardK(
   ),
 );
 
-/// Globo flotante de mensajes (abajo a la derecha, con contador).
+/// Globo de ejemplo (abajo a la derecha, con contador). Con sesión y API lo
+/// reemplaza el globo real de todas las pestañas (`GloboReal`).
 Widget msgFab(BuildContext context) {
   return Positioned(
     right: 16,
     bottom: 16,
     child: Consumer(
       builder: (context, ref, _) {
-        final real = ref.watch(act.solicitudesRealesActivasProvider);
-        if (!real && maq.convIds().isEmpty) return const SizedBox.shrink();
-        final total = real
-            ? ref.watch(contadorConversacionesProvider).value
-            : maq.unreadCount;
-        return _botonMensajes(context, total, () async {
-          await context.push(RM.mensajes);
-          if (real && context.mounted) {
-            ref.invalidate(contadorConversacionesProvider);
-          }
-        });
+        if (ref.watch(act.solicitudesRealesActivasProvider) ||
+            maq.convIds().isEmpty) {
+          return const SizedBox.shrink();
+        }
+        final k = kc(context);
+        return GloboConversaciones(
+          total: maq.unreadCount,
+          fondo: k.navyBg,
+          insignia: k.red,
+          borde: k.surface,
+          trazo: Colors.white,
+          alTocar: () => context.push(RM.mensajes),
+        );
       },
-    ),
-  );
-}
-
-Widget _botonMensajes(BuildContext context, int? total, VoidCallback alTocar) {
-  final k = kc(context);
-  final u = total ?? 0;
-  final textos = AppLocalizations.of(context);
-  return Semantics(
-    container: true,
-    excludeSemantics: true,
-    onTap: alTocar,
-    label: u > 0
-        ? textos.conversacionesGloboConTotal(textos.conversacionesNoLeidos(u))
-        : textos.conversacionesGlobo,
-    button: true,
-    child: GestureDetector(
-      onTap: alTocar,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: 58,
-            height: 58,
-            decoration: BoxDecoration(
-              color: k.navyBg,
-              shape: BoxShape.circle,
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x520F1E32),
-                  blurRadius: 20,
-                  offset: Offset(0, 6),
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.chat_bubble_outline,
-              color: Colors.white,
-              size: 26,
-            ),
-          ),
-          if (u > 0)
-            Positioned(
-              top: -4,
-              right: -4,
-              child: Container(
-                constraints: const BoxConstraints(minWidth: 22),
-                height: 22,
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: k.red,
-                  borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: k.surface, width: 2),
-                ),
-                child: Text(
-                  u > 9 ? '9+' : '$u',
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
     ),
   );
 }
