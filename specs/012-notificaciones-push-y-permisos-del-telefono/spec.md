@@ -90,5 +90,5 @@ Consume el endpoint de registro de dispositivos del backend y fija el formato de
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-04
 - [x] Sin conflicto con la constitución
 - [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
-- [ ] Enmienda 2026-11-27 (baja del dispositivo) — nombre: ______ fecha: ______
+- [x] Enmienda 2026-11-27 (baja del dispositivo) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

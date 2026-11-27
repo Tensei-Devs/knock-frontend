@@ -232,7 +232,7 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - [x] Sin conflicto con la constitución
 - [x] Enmienda 2026-11-26 — nombre: José Julián Hernández Hernández fecha: 2026-11-26
 - [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
-- [ ] Enmienda 2026-11-27 (permiso de fotos) — nombre: ______ fecha: ______
-- [ ] Enmienda 2026-11-27 (responder reprogramación) — nombre: ______ fecha: ______
-- [ ] Enmienda 2026-11-27 (técnico ausente) — nombre: ______ fecha: ______
+- [x] Enmienda 2026-11-27 (permiso de fotos) — nombre: Julián Hernández fecha: 2026-11-27
+- [x] Enmienda 2026-11-27 (responder reprogramación) — nombre: Julián Hernández fecha: 2026-11-27
+- [x] Enmienda 2026-11-27 (técnico ausente) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

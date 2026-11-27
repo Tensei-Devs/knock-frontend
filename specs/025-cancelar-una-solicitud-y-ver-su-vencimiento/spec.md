@@ -297,5 +297,5 @@ Errores comunes: se reutilizan `errorSinConexion`, `errorServicio`, `errorDemasi
 
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-11
 - [x] Sin conflicto con la constitución
-- [ ] Enmienda 2026-11-27 (motivo de cancelación) — nombre: ______ fecha: ______
+- [x] Enmienda 2026-11-27 (motivo de cancelación) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador (agente) → Aprobada (persona; habilita el código) → Implementada (tras el merge)

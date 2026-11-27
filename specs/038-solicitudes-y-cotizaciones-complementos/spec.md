@@ -127,5 +127,5 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
-- [ ] Enmienda 2026-11-27 (referencia de mercado) — nombre: ______ fecha: ______
+- [x] Enmienda 2026-11-27 (referencia de mercado) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

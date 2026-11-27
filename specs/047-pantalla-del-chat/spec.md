@@ -1,6 +1,6 @@
 # Spec 047 — Pantalla del chat (abrir, leer y enviar mensajes)
 
-> **Estado:** Borrador · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
+> **Estado:** Aprobada · **Repositorio:** knock-frontend · **Rector:** `constitution.md`
 > **Redacción:** 2026-11-27, **después** de que las rutas existen en el backend. En `sprint-05` la app tiene lista, globo y contador (spec 020) y no tiene conversación; las pantallas `ChatScreen` y `TecChatScreen` de la maqueta son simuladas.
 > **Claves de trabajo:** KNOCK-72 (HU-029) · **Sprint:** 5 · **Prioridad:** por definir
 > **Otra parte en:** knock-backend (specs 026, 030 y 031). **Skills:** `flutter-clean-architecture`, `api-client-contract`, `testing-strategy-frontend`, `security-core`
@@ -118,6 +118,6 @@ CA-01 a CA-17 con pruebas en verde, CI en verde, revisión de una persona, `Memo
 - Sin probar contra el backend desplegado; confirmar que dev tiene el hub de la spec 030 y la moderación encendida (sin ella, enviar responde `503`).
 
 ## Aprobación
-- [ ] Revisor 1 — nombre: ______ fecha: ______
-- [ ] Sin conflicto con la constitución
+- [x] Revisor 1 — nombre: Julián Hernández fecha: 2026-11-27
+- [x] Sin conflicto con la constitución
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
