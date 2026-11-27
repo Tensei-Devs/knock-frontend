@@ -2348,53 +2348,149 @@ abstract class AppLocalizations {
   /// **'Destacado'**
   String get reputacionDestacado;
 
-  /// No description provided for @tecnicosMapaCargando.
+  /// No description provided for @trabajoProximasVisitas.
   ///
   /// In es, this message translates to:
-  /// **'Cargando expertos en el mapa…'**
-  String get tecnicosMapaCargando;
+  /// **'Próximas visitas'**
+  String get trabajoProximasVisitas;
 
-  /// No description provided for @tecnicosMapaError.
+  /// No description provided for @trabajoPendiente.
   ///
   /// In es, this message translates to:
-  /// **'No pudimos cargar los expertos del mapa.'**
-  String get tecnicosMapaError;
+  /// **'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.'**
+  String get trabajoPendiente;
 
-  /// No description provided for @tecnicosMapaVacio.
+  /// No description provided for @trabajoVerificacion.
   ///
   /// In es, this message translates to:
-  /// **'No hay expertos en esta zona del mapa.'**
-  String get tecnicosMapaVacio;
+  /// **'Mi verificación'**
+  String get trabajoVerificacion;
 
-  /// No description provided for @tecnicosOrdenRecomendados.
+  /// No description provided for @trabajoReputacion.
   ///
   /// In es, this message translates to:
-  /// **'Recomendados'**
-  String get tecnicosOrdenRecomendados;
+  /// **'Mi reputación'**
+  String get trabajoReputacion;
 
-  /// No description provided for @tecnicosOrdenCalificacion.
+  /// No description provided for @visitaAusenteBoton.
   ///
   /// In es, this message translates to:
-  /// **'Mejor calificados'**
-  String get tecnicosOrdenCalificacion;
+  /// **'El cliente no estaba'**
+  String get visitaAusenteBoton;
 
-  /// No description provided for @tecnicosOrdenDistancia.
+  /// No description provided for @visitaAusenteExplicacion.
   ///
   /// In es, this message translates to:
-  /// **'Más cercanos'**
-  String get tecnicosOrdenDistancia;
+  /// **'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.'**
+  String get visitaAusenteExplicacion;
 
-  /// No description provided for @tecnicosRadio.
+  /// No description provided for @visitaAusenteConfirmar.
   ///
   /// In es, this message translates to:
-  /// **'Hasta {km} km'**
-  String tecnicosRadio(int km);
+  /// **'Registrar que no estaba'**
+  String get visitaAusenteConfirmar;
 
-  /// No description provided for @tecnicosListadoTitulo.
+  /// No description provided for @visitaAusenteRegistrada.
   ///
   /// In es, this message translates to:
-  /// **'Expertos'**
-  String get tecnicosListadoTitulo;
+  /// **'Registramos que el cliente no estaba.'**
+  String get visitaAusenteRegistrada;
+
+  /// No description provided for @visitaAusenteFueraDeVentana.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede registrar: solo dentro de la ventana de la cita.'**
+  String get visitaAusenteFueraDeVentana;
+
+  /// No description provided for @visitaTerminarBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminar servicio'**
+  String get visitaTerminarBoton;
+
+  /// No description provided for @visitaTerminarFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos del trabajo terminado (de 1 a 5)'**
+  String get visitaTerminarFotos;
+
+  /// No description provided for @visitaTerminarDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué hiciste?'**
+  String get visitaTerminarDescripcion;
+
+  /// No description provided for @visitaTerminarDescripcionAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 8 a 500 caracteres.'**
+  String get visitaTerminarDescripcionAyuda;
+
+  /// No description provided for @visitaTerminarRecomendacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendación para el cliente (opcional)'**
+  String get visitaTerminarRecomendacion;
+
+  /// No description provided for @visitaTerminarSinSubida.
+  ///
+  /// In es, this message translates to:
+  /// **'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.'**
+  String get visitaTerminarSinSubida;
+
+  /// No description provided for @visitaTerminarNoEnCurso.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita no está en curso: no se puede terminar.'**
+  String get visitaTerminarNoEnCurso;
+
+  /// No description provided for @visitaTerminarHecho.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicio terminado.'**
+  String get visitaTerminarHecho;
+
+  /// No description provided for @agendaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu agenda…'**
+  String get agendaCargando;
+
+  /// No description provided for @agendaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tu agenda.'**
+  String get agendaError;
+
+  /// No description provided for @agendaVacia.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes visitas próximas.'**
+  String get agendaVacia;
+
+  /// No description provided for @agendaSinMapa.
+  ///
+  /// In es, this message translates to:
+  /// **'La ubicación de las visitas no está disponible en el mapa.'**
+  String get agendaSinMapa;
+
+  /// No description provided for @agendaVerMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más visitas'**
+  String get agendaVerMas;
+
+  /// No description provided for @agendaEstado.
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, confirmada{Confirmada} en_curso{En curso} terminada{Terminada} cancelada{Cancelada} no_presentado{No se presentó} other{Estado no disponible}}'**
+  String agendaEstado(String estado);
+
+  /// No description provided for @agendaModalidad.
+  ///
+  /// In es, this message translates to:
+  /// **'{modalidad, select, domicilio{A domicilio} taller{En taller} other{Modalidad no disponible}}'**
+  String agendaModalidad(String modalidad);
 
   /// Opiniones (spec 041).
   ///
@@ -3961,6 +4057,54 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Enviar tus fotos desde la app todavía no está disponible.'**
   String get verificacionEnvioNoDisponible;
+
+  /// No description provided for @tecnicosMapaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando expertos en el mapa…'**
+  String get tecnicosMapaCargando;
+
+  /// No description provided for @tecnicosMapaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar los expertos del mapa.'**
+  String get tecnicosMapaError;
+
+  /// No description provided for @tecnicosMapaVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay expertos en esta zona del mapa.'**
+  String get tecnicosMapaVacio;
+
+  /// No description provided for @tecnicosOrdenRecomendados.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendados'**
+  String get tecnicosOrdenRecomendados;
+
+  /// No description provided for @tecnicosOrdenCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor calificados'**
+  String get tecnicosOrdenCalificacion;
+
+  /// No description provided for @tecnicosOrdenDistancia.
+  ///
+  /// In es, this message translates to:
+  /// **'Más cercanos'**
+  String get tecnicosOrdenDistancia;
+
+  /// No description provided for @tecnicosRadio.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {km} km'**
+  String tecnicosRadio(int km);
+
+  /// No description provided for @tecnicosListadoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Expertos'**
+  String get tecnicosListadoTitulo;
 }
 
 class _AppLocalizationsDelegate

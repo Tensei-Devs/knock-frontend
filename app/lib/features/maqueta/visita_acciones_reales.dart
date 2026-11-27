@@ -66,6 +66,29 @@ class BotonNoTerminadoReal extends StatelessWidget {
   );
 }
 
+/// «El cliente no estaba» (VIS-07): el técnico confirma y el servidor decide si
+/// está dentro de la ventana de la cita.
+void hojaClienteAusente(BuildContext context, String visitaId) {
+  final textos = AppLocalizations.of(context);
+  _abrir(
+    context,
+    _HojaDeEnvio(
+      titulo: textos.visitaAusenteBoton,
+      boton: textos.visitaAusenteConfirmar,
+      conflicto: textos.visitaAusenteFueraDeVentana,
+      listo: (_) => true,
+      contenido: (_, _) => [sMut(textos.visitaAusenteExplicacion)],
+      enviar: (ref, _) async {
+        await ref
+            .read(accionesVisitaRepositoryProvider)
+            .clienteAusente(visitaId);
+        ref.invalidate(agendaControllerProvider);
+        return textos.visitaAusenteRegistrada;
+      },
+    ),
+  );
+}
+
 void _hojaCancelar(BuildContext context, String visitaId) {
   final textos = AppLocalizations.of(context);
   final router = GoRouter.of(context);
