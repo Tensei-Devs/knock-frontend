@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — «Trabajo», cliente ausente y terminar servicio (KNOCK-118, KNOCK-266, spec 040)
+- **Cambio:** con sesión y API, «Trabajo» muestra la agenda real sin datos de ejemplo; la visita confirmada ofrece «El cliente no estaba» y la visita en curso «Terminar servicio». Las fotos se suben con propósito `trabajo` tras el interruptor `SUBIDA_DE_FOTOS` (apagado: no se puede terminar).
+- **Pendiente:** solicitudes nuevas, enviadas y terminadas (spec 019, PR #101 y #102); reprogramar y cancelar del lado del técnico; llegada (KNOCK-85); dispositivo y backend desplegado.
+
 ## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
 - **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
 - **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
@@ -23,6 +27,18 @@
 ## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
 - **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
 - **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
+## 2026-11-26 — Estados de agenda (KNOCK-118)
+- **Verificación adicional:** la interfaz prueba error con reintento, lista vacía y carga de una segunda página con cursor. Las acciones de finalizar y ausencia siguen sin pantalla real conectada.
+
+## 2026-11-26 — Acciones del técnico, avance de datos (KNOCK-266, spec 040)
+- **Avance:** el repositorio existente agrega cliente ausente y terminar con fotos como identificadores de archivo; dos pruebas HTTP simuladas verifican cuerpo y rutas. Confirma que la respuesta corresponde a la visita.
+- **Pendiente:** no se conectó a la interfaz ni al proveedor de producción; terminar necesita fotos privadas subidas y confirmadas, no las rutas locales del selector. No declarar estas acciones integradas.
+
+## 2026-11-26 — Agenda real en Inicio (KNOCK-118, spec 040)
+- **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
+- **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
+- **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+
 ## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
 - **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
 - **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.

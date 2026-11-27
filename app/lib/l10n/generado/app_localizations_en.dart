@@ -1335,6 +1335,102 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reputacionDestacado => 'Outstanding';
 
   @override
+  String get trabajoProximasVisitas => 'Upcoming visits';
+
+  @override
+  String get trabajoPendiente =>
+      'New requests, sent quotes and finished jobs are not shown here yet.';
+
+  @override
+  String get trabajoVerificacion => 'My verification';
+
+  @override
+  String get trabajoReputacion => 'My reputation';
+
+  @override
+  String get visitaAusenteBoton => 'The client was not there';
+
+  @override
+  String get visitaAusenteExplicacion =>
+      'We record that the client was not there. You are not penalized. Only possible within the appointment window.';
+
+  @override
+  String get visitaAusenteConfirmar => 'Record that they were not there';
+
+  @override
+  String get visitaAusenteRegistrada =>
+      'We recorded that the client was not there.';
+
+  @override
+  String get visitaAusenteFueraDeVentana =>
+      'This cannot be recorded now: only within the appointment window.';
+
+  @override
+  String get visitaTerminarBoton => 'Finish job';
+
+  @override
+  String get visitaTerminarFotos => 'Photos of the finished job (1 to 5)';
+
+  @override
+  String get visitaTerminarDescripcion => 'What did you do?';
+
+  @override
+  String get visitaTerminarDescripcionAyuda => '8 to 500 characters.';
+
+  @override
+  String get visitaTerminarRecomendacion =>
+      'Recommendation for the client (optional)';
+
+  @override
+  String get visitaTerminarSinSubida =>
+      'Photo upload is not available yet, so you cannot finish the job from the app.';
+
+  @override
+  String get visitaTerminarNoEnCurso =>
+      'This visit is not in progress: it cannot be finished.';
+
+  @override
+  String get visitaTerminarHecho => 'Job finished.';
+
+  @override
+  String get agendaCargando => 'Loading your schedule…';
+
+  @override
+  String get agendaError => 'We could not load your schedule.';
+
+  @override
+  String get agendaVacia => 'You have no upcoming visits.';
+
+  @override
+  String get agendaSinMapa => 'Visit locations are not available on the map.';
+
+  @override
+  String get agendaVerMas => 'See more visits';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmed',
+      'en_curso': 'In progress',
+      'terminada': 'Finished',
+      'cancelada': 'Cancelled',
+      'no_presentado': 'No-show',
+      'other': 'Status unavailable',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'At home',
+      'taller': 'At workshop',
+      'other': 'Mode unavailable',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Loading reviews…';
 
   @override

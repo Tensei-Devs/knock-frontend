@@ -22,6 +22,7 @@ class SubidaDeFotosApi {
     required this.transporte,
     required this.url,
     required this.almacenamiento,
+    this.proposito = 'solicitud',
     this.leer = _leerArchivo,
     this.preparar = prepararFotoEnSegundoPlano,
   });
@@ -35,6 +36,9 @@ class SubidaDeFotosApi {
 
   final Future<Uint8List> Function(String ruta) leer;
   final Future<ResultadoFoto> Function(Uint8List bytes) preparar;
+
+  /// `solicitud` o `trabajo` (las fotos del trabajo terminado, backend 050).
+  final String proposito;
 
   /// Sube la foto de [rutaLocal] y devuelve su `archivoId`.
   Future<String> subir(String rutaLocal) async {
@@ -66,7 +70,7 @@ class SubidaDeFotosApi {
       'POST',
       'imagenes/subidas',
       cuerpo: {
-        'proposito': 'solicitud',
+        'proposito': proposito,
         'tipoContenido': foto.tipoContenido,
         'tamanoBytes': foto.bytes.length,
       },
