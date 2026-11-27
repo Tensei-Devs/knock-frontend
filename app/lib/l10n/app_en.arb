@@ -1381,6 +1381,29 @@
   "cotizarPrecioMax": "Maximum in pesos",
   "cotizarDia": "Visit day",
   "cotizarHora": "Time (HH:mm)",
+  "cotizarPrecioVisitaRango": "From {minimo} to {maximo} pesos.",
+  "@cotizarPrecioVisitaRango": {
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarErrorMontoVisita": "Enter a whole number from {minimo} to {maximo}.",
+  "@cotizarErrorMontoVisita": {
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarSinDias": "There are no days left for this request.",
   "cotizarErrorMonto": "Enter a whole number from 1 to 200,000.",
   "cotizarErrorMaximo": "The maximum must be a whole number above the minimum, up to 200,000.",
   "cotizarErrorDia": "Pick a day.",

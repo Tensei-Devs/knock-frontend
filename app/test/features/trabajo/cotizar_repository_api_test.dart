@@ -42,7 +42,7 @@ void main() {
       final rango = revisar(TipoPrecio.rango, precio: 'x', min: '1', max: '2');
       expect(rango.cotizacion!.precio, isNull);
       expect(rango.cotizacion!.precioMax, 2);
-      expect(revisar(TipoPrecio.visita, precio: '200000').errores, isEmpty);
+      expect(revisar(TipoPrecio.visita, precio: '150').errores, isEmpty);
     });
 
     test('CA_046_03 rechaza montos, rango, día y hora no válidos', () {
@@ -60,11 +60,29 @@ void main() {
       );
     });
 
-    test('CA_046_03 los días van de la solicitud a 7 días después', () {
-      final dias = diasParaCotizar(DateTime(2026, 11, 28, 10));
+    test('el precio de la visita va de 100 a 250', () {
+      for (final bueno in ['100', '250']) {
+        expect(revisar(TipoPrecio.visita, precio: bueno).errores, isEmpty);
+      }
+      for (final malo in ['99', '251', '200000']) {
+        expect(revisar(TipoPrecio.visita, precio: malo).errores, {
+          CampoCotizacion.precio,
+        }, reason: malo);
+      }
+    });
+
+    test('CA_046_03 los días van del día de la solicitud a 7 después', () {
+      final dias = diasParaCotizar('2026-11-28', DateTime(2026, 11, 20));
       expect(dias, hasLength(8));
       expect(dias.first, '2026-11-28');
       expect(dias.last, '2026-12-05');
+    });
+
+    test('los días que ya pasaron no se ofrecen', () {
+      final dias = diasParaCotizar('2026-11-28', DateTime(2026, 12, 3, 23, 59));
+      expect(dias, ['2026-12-03', '2026-12-04', '2026-12-05']);
+      expect(diasParaCotizar('2026-11-28', DateTime(2026, 12, 6)), isEmpty);
+      expect(diasParaCotizar('sin fecha', DateTime(2026, 11, 28)), isEmpty);
     });
   });
 

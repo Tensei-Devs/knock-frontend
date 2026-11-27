@@ -130,16 +130,23 @@ class _EnvioState extends ConsumerState<_Envio> {
       final enviada = await ref
           .read(cotizarRepositoryProvider)
           .enviar(widget.solicitud.id, nueva);
-      contenedor
-        ..invalidate(solicitudesRecibidasProvider)
-        ..invalidate(cotizacionesEnviadasProvider);
+      _refrescarListas(contenedor);
       if (mounted) setState(() => _enviada = enviada);
     } on Failure catch (falla) {
+      // El servidor dice que las listas que se ven ya no son ciertas.
+      if (falla is CotizacionNoPermitidaFailure ||
+          falla is NoEncontradoFailure) {
+        _refrescarListas(contenedor);
+      }
       if (mounted) setState(() => _falla = falla);
     } finally {
       if (mounted) setState(() => _enviando = false);
     }
   }
+
+  void _refrescarListas(ProviderContainer contenedor) => contenedor
+    ..invalidate(solicitudesRecibidasProvider)
+    ..invalidate(cotizacionesEnviadasProvider);
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +180,11 @@ class _EnvioState extends ConsumerState<_Envio> {
       return NoteK('red', 'help', mensajeDeError(t, falla!));
     }
     final rango = _tipo == TipoPrecio.rango;
+    final visita = _tipo == TipoPrecio.visita;
+    final dias = diasParaCotizar(
+      widget.solicitud.dia,
+      ref.watch(relojCotizarProvider)(),
+    );
     return stack([
       labT(t.cotizarTipoLabel),
       _opciones([
@@ -181,10 +193,15 @@ class _EnvioState extends ConsumerState<_Envio> {
       ]),
       if (!rango)
         _monto(
-          _tipo == TipoPrecio.visita ? t.cotizarPrecioVisita : t.cotizarPrecio,
+          visita ? t.cotizarPrecioVisita : t.cotizarPrecio,
           _precio,
           CampoCotizacion.precio,
-          t.cotizarErrorMonto,
+          visita
+              ? t.cotizarErrorMontoVisita(visitaMinima, visitaMaxima)
+              : t.cotizarErrorMonto,
+          ayuda: visita
+              ? t.cotizarPrecioVisitaRango(visitaMinima, visitaMaxima)
+              : null,
         ),
       if (rango) ...[
         _monto(
@@ -201,10 +218,8 @@ class _EnvioState extends ConsumerState<_Envio> {
         ),
       ],
       labT(t.cotizarDia),
-      _opciones([
-        for (final dia in diasParaCotizar(widget.solicitud.creadoEn))
-          (dia, _dia == dia, () => _dia = dia),
-      ]),
+      if (dias.isEmpty) sMut(t.cotizarSinDias),
+      _opciones([for (final dia in dias) (dia, _dia == dia, () => _dia = dia)]),
       if (_errores.contains(CampoCotizacion.dia)) sMut(t.cotizarErrorDia),
       FieldK(
         label: t.cotizarHora,
@@ -237,10 +252,12 @@ class _EnvioState extends ConsumerState<_Envio> {
     String etiqueta,
     TextEditingController c,
     CampoCotizacion campo,
-    String error,
-  ) => FieldK(
+    String error, {
+    String? ayuda,
+  }) => FieldK(
     key: ValueKey(campo),
     label: etiqueta,
+    help: ayuda,
     c: c,
     keyboard: TextInputType.number,
     maxLen: 6,

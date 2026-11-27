@@ -2668,6 +2668,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cotizarHora => 'Hora (HH:mm)';
 
   @override
+  String cotizarPrecioVisitaRango(int minimo, int maximo) {
+    return 'De $minimo a $maximo pesos.';
+  }
+
+  @override
+  String cotizarErrorMontoVisita(int minimo, int maximo) {
+    return 'Escribe un número entero de $minimo a $maximo.';
+  }
+
+  @override
+  String get cotizarSinDias =>
+      'Ya no quedan días disponibles para esta solicitud.';
+
+  @override
   String get cotizarErrorMonto => 'Escribe un número entero de 1 a 200 000.';
 
   @override

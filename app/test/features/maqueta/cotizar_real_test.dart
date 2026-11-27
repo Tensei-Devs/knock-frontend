@@ -55,6 +55,7 @@ Future<void> _montar(
       overrides: [
         conSesion(),
         tokensInicialesProvider.overrideWithValue(tokensA),
+        relojCotizarProvider.overrideWithValue(() => DateTime(2026, 11, 26)),
         cotizarRepositoryProvider.overrideWithValue(
           CotizarRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
         ),
@@ -140,6 +141,51 @@ void main() {
       expect(find.text('Enviar cotización'), findsNothing);
     });
   }
+
+  for (final (estado, codigo) in [(404, null), (409, 'quote_quota_full')]) {
+    testWidgets('un $estado al enviar vuelve a leer las dos listas', (
+      tester,
+    ) async {
+      final api = _api(envio: () => jsonOk({'code': ?codigo}, estado: estado));
+      await _montar(
+        tester,
+        api,
+        const Column(children: [_pantalla, SolicitudesNuevasReal()]),
+      );
+      await _llenar(tester);
+      await _enviar(tester);
+      for (final ruta in ['cotizaciones', 'solicitudes']) {
+        expect(
+          api.llamadas.where((l) => l == 'GET tecnicos/me/$ruta'),
+          hasLength(2),
+          reason: ruta,
+        );
+      }
+    });
+  }
+
+  testWidgets('el precio de la visita muestra y valida el rango', (
+    tester,
+  ) async {
+    final api = _api();
+    await _montar(tester, api, _pantalla);
+    await tester.tap(find.text('Por visita'));
+    await tester.pump();
+    expect(find.textContaining('De 100 a 250 pesos.'), findsOneWidget);
+    await _llenar(tester);
+    await _enviar(tester);
+    expect(
+      find.textContaining('Escribe un número entero de 100 a 250.'),
+      findsOneWidget,
+    );
+    expect(_envios(api), 0);
+  });
+
+  testWidgets('los días salen del día de la solicitud', (tester) async {
+    await _montar(tester, _api(), _pantalla);
+    // 3 tipos de precio y 8 días desde el 27, no desde la creación (26).
+    expect(find.byType(ChoiceChip), findsNWidgets(3 + 8));
+  });
 
   for (final (estado, codigo) in [
     (400, null),

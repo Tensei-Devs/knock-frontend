@@ -2659,6 +2659,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cotizarHora => 'Time (HH:mm)';
 
   @override
+  String cotizarPrecioVisitaRango(int minimo, int maximo) {
+    return 'From $minimo to $maximo pesos.';
+  }
+
+  @override
+  String cotizarErrorMontoVisita(int minimo, int maximo) {
+    return 'Enter a whole number from $minimo to $maximo.';
+  }
+
+  @override
+  String get cotizarSinDias => 'There are no days left for this request.';
+
+  @override
   String get cotizarErrorMonto => 'Enter a whole number from 1 to 200,000.';
 
   @override

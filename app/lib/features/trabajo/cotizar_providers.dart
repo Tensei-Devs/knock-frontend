@@ -10,3 +10,8 @@ final cotizarRepositoryProvider = Provider<CotizarRepository>(
     url: ref.watch(urlApiProvider),
   ),
 );
+
+/// La hora actual, para saber qué días ya pasaron; las pruebas la fijan.
+final relojCotizarProvider = Provider<DateTime Function()>(
+  (ref) => DateTime.now,
+);

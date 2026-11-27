@@ -2625,6 +2625,34 @@
   "@cotizarHora": {
     "description": "Texto de la app: cotizarHora"
   },
+  "cotizarPrecioVisitaRango": "De {minimo} a {maximo} pesos.",
+  "@cotizarPrecioVisitaRango": {
+    "description": "Texto de la app: cotizarPrecioVisitaRango",
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarErrorMontoVisita": "Escribe un número entero de {minimo} a {maximo}.",
+  "@cotizarErrorMontoVisita": {
+    "description": "Texto de la app: cotizarErrorMontoVisita",
+    "placeholders": {
+      "minimo": {
+        "type": "int"
+      },
+      "maximo": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarSinDias": "Ya no quedan días disponibles para esta solicitud.",
+  "@cotizarSinDias": {
+    "description": "Texto de la app: cotizarSinDias"
+  },
   "cotizarErrorMonto": "Escribe un número entero de 1 a 200 000.",
   "@cotizarErrorMonto": {
     "description": "Texto de la app: cotizarErrorMonto"

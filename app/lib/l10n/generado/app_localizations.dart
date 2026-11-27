@@ -4658,6 +4658,24 @@ abstract class AppLocalizations {
   /// **'Hora (HH:mm)'**
   String get cotizarHora;
 
+  /// Texto de la app: cotizarPrecioVisitaRango
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo} pesos.'**
+  String cotizarPrecioVisitaRango(int minimo, int maximo);
+
+  /// Texto de la app: cotizarErrorMontoVisita
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un número entero de {minimo} a {maximo}.'**
+  String cotizarErrorMontoVisita(int minimo, int maximo);
+
+  /// Texto de la app: cotizarSinDias
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no quedan días disponibles para esta solicitud.'**
+  String get cotizarSinDias;
+
   /// Texto de la app: cotizarErrorMonto
   ///
   /// In es, this message translates to:

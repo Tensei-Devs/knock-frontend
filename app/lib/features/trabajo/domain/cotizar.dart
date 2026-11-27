@@ -131,6 +131,11 @@ final class CotizacionNueva {
 const montoMinimo = 1;
 const montoMaximo = 200000;
 
+/// El precio de la visita que acepta el backend con su configuración por
+/// omisión. El servidor lo vuelve a revisar.
+const visitaMinima = 100;
+const visitaMaxima = 250;
+
 /// El monto escrito, o `null` si no es un entero de 1 a 200 000.
 int? montoValido(String texto) {
   final limpio = texto.trim();
@@ -142,16 +147,18 @@ int? montoValido(String texto) {
 bool horaValida(String texto) =>
     RegExp(r'^([01]\d|2[0-3]):[0-5]\d$').hasMatch(texto);
 
-/// Los días que se pueden proponer: la fecha de la solicitud y los 7 siguientes.
-List<String> diasParaCotizar(DateTime creadoEn) {
-  final base = creadoEn.toLocal();
+/// Los días que se pueden proponer: el [dia] de la solicitud (`AAAA-MM-DD`) y
+/// los 7 siguientes, sin los anteriores a [hoy]. El servidor valida contra ese
+/// mismo día. Un [dia] ilegible no ofrece ninguno.
+List<String> diasParaCotizar(String dia, DateTime hoy) {
+  final base = DateTime.tryParse(dia);
+  if (base == null) return const [];
+  final desde = DateTime.utc(hoy.year, hoy.month, hoy.day);
   return [
     for (var i = 0; i <= 7; i++)
-      DateTime.utc(
-        base.year,
-        base.month,
-        base.day + i,
-      ).toIso8601String().substring(0, 10),
+      if (DateTime.utc(base.year, base.month, base.day + i) case final fecha
+          when !fecha.isBefore(desde))
+        fecha.toIso8601String().substring(0, 10),
   ];
 }
 
@@ -174,7 +181,12 @@ RevisionDeCotizacion revisarCotizacion({
   required String hora,
 }) {
   final rango = tipo == TipoPrecio.rango;
-  final unico = rango ? null : montoValido(precio);
+  var unico = rango ? null : montoValido(precio);
+  if (tipo == TipoPrecio.visita &&
+      unico != null &&
+      (unico < visitaMinima || unico > visitaMaxima)) {
+    unico = null;
+  }
   final min = rango ? montoValido(precioMin) : null;
   final max = rango ? montoValido(precioMax) : null;
   final errores = <CampoCotizacion>{
