@@ -18,6 +18,19 @@
 - **Tiempo real bloqueado:** el `ChatHub` de `origin/develop` del backend consultado solo une salas de visita y no implementa `noLeidos` ni `UnirseAConversacion`. La spec 030 del backend está aprobada y el contrato de #110 incluye las rutas REST; la lectura de mensajes y su pantalla dependen de la enmienda sin firma del #131.
 - **SignalR:** la evaluación preliminar de `signalr_netcore` 1.4.4 indica licencia MIT y sin avisos OSV en la consulta del 2026-11-26; faltan revisión transitiva e interoperabilidad. No se agregó ninguna dependencia.
 - **Pendiente:** repositorio, interfaz, integración de sesión, protocolo real y pruebas completas de CA-13 y CA-14. No presentar el controlador aislado como integración terminada.
+## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
+- **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
+- **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
+
+## 2026-11-26 — Estados de Mi reputación (KNOCK-94)
+- **Verificación adicional:** pruebas de widget comprueban carga, cero opiniones sin promedio inventado y copia fechada ante pérdida de conexión, además del error y reintento que ya se probaban.
+- **Pendiente:** 401 hasta la navegación de entrada, accesibilidad ampliada, ejecución en dispositivo y backend desplegado. El linter de trazabilidad no sustituye esas pruebas.
+
+## 2026-11-26 — Reputación propia (KNOCK-94, spec 036)
+- **Cambio:** la pantalla «Mi reputación» consulta `GET /tecnicos/me/reputacion` con el transporte autenticado y muestra el promedio, total, distribución y nivel del servidor. No usa el id de persona ni intenta consultar opiniones propias sin id de técnico. Sin sesión o API se conserva la pantalla de ejemplo existente.
+- **Copia:** la última respuesta se conserva solo en memoria para el aviso sin conexión y se descarta al cambiar o cerrar sesión. No se muestran opiniones inventadas junto con datos reales.
+- **Reutilización:** se usa `PantallaSegunSesion`, los textos de opiniones y el transporte de `core/red`; se agregó un repositorio específico porque el existente requiere un id de técnico.
+- **Pendiente:** verificar en dispositivo y contra el backend desplegado; las opiniones propias y respuestas necesitan el id de técnico.
 
 ## 2026-11-26 — Suite de humo en teléfono con API falsa (KNOCK-293)
 - **Qué cambió:** `integration_test/` arranca con `soporte/arranque_e2e.dart` (API siempre falsa, entrada ficticia, sesión y preferencias limpias); suma recorridos de cotizaciones y visita con datos de ejemplo y, con sesión y API falsa, elegir cotización, Reintentar y cerrar sesión. Las pruebas de pestañas y configuración apagan la maqueta desde el código y la medición del mapa se omite fuera de *profile*. El comando está en `app/README.md`.

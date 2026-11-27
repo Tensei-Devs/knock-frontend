@@ -1600,10 +1600,20 @@
   "conversacionesGloboConTotal": "Mensajes, {total}",
   "@conversacionesGloboConTotal": {"placeholders": {"total": {"type": "String"}}},
   "conversacionesCargando": "Cargando conversaciones…",
-  "conversacionesVacias": "Aún no tienes conversaciones.",
+  "conversacionesVacias": "Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.",
   "conversacionesAbrirPendiente": "Abrir conversaciones aún no está disponible.",
   "conversacionesNoLeidos": "{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}",
   "@conversacionesNoLeidos": {"placeholders": {"total": {"type": "int"}}},
+  "reputacionNivel": "Nivel: {nivel}",
+  "reputacionNuevo": "Nuevo",
+  "reputacionConfiable": "Confiable",
+  "reputacionDestacado": "Destacado",
+  "@reputacionNivel": {
+    "description": "Nivel de reputación enviado por el servidor",
+    "placeholders": {
+      "nivel": {"type": "String"}
+    }
+  },
   "opinionesCargando": "Cargando las opiniones…",
   "@opinionesCargando": {
     "description": "Opiniones (spec 041)."

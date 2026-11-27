@@ -1335,7 +1335,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get conversacionesCargando => 'Loading conversations…';
 
   @override
-  String get conversacionesVacias => 'You have no conversations yet.';
+  String get conversacionesVacias =>
+      'You have no conversations yet. Chat opens when you receive quotes.';
 
   @override
   String get conversacionesAbrirPendiente =>
@@ -1351,6 +1352,20 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String reputacionNivel(String nivel) {
+    return 'Level: $nivel';
+  }
+
+  @override
+  String get reputacionNuevo => 'New';
+
+  @override
+  String get reputacionConfiable => 'Trusted';
+
+  @override
+  String get reputacionDestacado => 'Outstanding';
 
   @override
   String get opinionesCargando => 'Loading reviews…';
