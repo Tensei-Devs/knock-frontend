@@ -3,7 +3,7 @@
 App de Knock para clientes y técnicos. Base creada en TT-MOB-01 (KNOCK-24): Clean Architecture por función, Riverpod, go_router y la barra inferior de la maqueta. Tema claro y oscuro con la paleta de la maqueta y textos en español e inglés desde TT-MOB-02 (KNOCK-25).
 
 ## Requisitos
-- **Flutter 3.47.7 (canal stable) · Dart 3.13.5.** Es la versión con la que se creó el proyecto; el CI (TT-CI-01) usa la misma.
+- **Flutter 3.47.7 (canal stable) · Dart 3.13.5.** Es la versión mínima (`pubspec.yaml`); el CI y la publicación usan Flutter 3.47.9.
 - Android SDK con un emulador (la verificación de TT-MOB-01 es en Android). iOS se genera, pero compilarlo requiere macOS.
 - Para llamar a la API: `--dart-define=KNOCK_API_URL=...` (ver «API y cliente generado»). Java 11+ solo si regeneras el cliente.
 
@@ -14,17 +14,17 @@ flutter pub get
 flutter emulators --launch <id_del_emulador>   # o abre uno desde Android Studio
 flutter run
 ```
-La cuenta empieza como cliente (4 pestañas), en español y con el tema del sistema (Automático). En **Mi cuenta → Configuración** (`/cuenta/configuracion`, HU-052) se eligen el idioma (Español · English) y el tema (Automático · Claro · Oscuro); el cambio se ve al momento y se conserva al cerrar y abrir la app. Fuera de release (`!kReleaseMode`), Mi cuenta muestra además el interruptor «Modo técnico (prueba)», que agrega la pestaña **Trabajo** hasta que el rol llegue con la sesión real.
+Por omisión la app se compila en modo maqueta (`MODO_MAQUETA`, spec 045), con la interfaz de la maqueta; lo que sigue describe la app con `--dart-define=MODO_MAQUETA=false`. La cuenta empieza como cliente (4 pestañas), en español y con el tema del sistema (Automático). En **Mi cuenta → Configuración** (`/cuenta/configuracion`, HU-052) se eligen el idioma (Español · English) y el tema (Automático · Claro · Oscuro); el cambio se ve al momento y se conserva al cerrar y abrir la app. Fuera de release (`!kReleaseMode`), Mi cuenta muestra además el interruptor «Modo técnico (prueba)», que agrega la pestaña **Trabajo** hasta que el rol llegue con la sesión real.
 
 ## Tema
 - `lib/core/tema/colores.dart`: tokens de la maqueta (`css/knock.css`) en claro y oscuro, y los `ColorScheme` completos.
 - `lib/core/tema/tema.dart`: `temaClaro` y `temaOscuro` (Material 3, fuente Nunito).
 - `lib/core/tema/contraste.dart`: relación de contraste WCAG 2.x; `test/core/tema/contraste_test.dart` exige ≥ 4.5:1 en cada par `onX`/`X`.
 - **Regla de contraste:** estos pares no llegan a 4.5:1 y **no** se usan para texto ni para botones: en claro, `amber` (#E9682D) como texto sobre crema o blanco, y blanco sobre `amber`; en oscuro, `mut`, `navy` o `amber` sobre `navybg`, y `amber` sobre `navy-soft`. Para texto naranja usa `ColoresClaro.amberInk`; sobre `amber` va tinta (`onPrimary`). Usa siempre los colores de `Theme.of(context).colorScheme`, no colores sueltos.
-- **Fuente:** Nunito 400, 500, 600 y 700 empaquetada en `assets/fonts/nunito/` con su licencia (`OFL.txt`, SIL Open Font License 1.1). No se usa `google_fonts` ni se descarga nada en tiempo de ejecución.
+- **Fuente:** Nunito 400 a 900 empaquetada en `assets/fonts/nunito/` con su licencia (`OFL.txt`, SIL Open Font License 1.1). No se usa `google_fonts` ni se descarga nada en tiempo de ejecución.
 
 ## Preferencias guardadas (HU-052)
-- `lib/core/preferencias/`: `preferenciasProvider` (estado) y `AlmacenPreferencias` (dónde se guarda). En el dispositivo se guardan **solo** `knock.preferencias.tema` (`automatico`, `claro`, `oscuro`) y `knock.preferencias.idioma` (`es`, `en`) con `shared_preferences`, que **no está cifrado**: nunca guardes ahí tokens ni datos de la cuenta (van en almacenamiento seguro). `test/core/preferencias/arquitectura_preferencias_test.dart` falla si otra carpeta de `lib/` importa `shared_preferences`.
+- `lib/core/preferencias/`: `preferenciasProvider` (estado) y `AlmacenPreferencias` (dónde se guarda). Tema e idioma se guardan en `knock.preferencias.tema` (`automatico`, `claro`, `oscuro`) y `knock.preferencias.idioma` (`es`, `en`) con `shared_preferences`, que **no está cifrado**: nunca guardes ahí tokens ni datos de la cuenta (van en almacenamiento seguro). `test/core/preferencias/arquitectura_preferencias_test.dart` falla si una carpeta de `lib/` distinta de `core/preferencias/` y `core/cache/` (spec 010) importa `shared_preferences`.
 - `main()` espera `crearAlmacenDeArranque()` antes de `runApp` para que el primer cuadro ya tenga lo guardado. Un valor guardado inválido usa el valor por defecto (español, Automático) y un fallo del almacenamiento no rompe la app ni se registra.
 - En pruebas: `SharedPreferences.setMockInitialValues({...})` en cada prueba. Sin override, `almacenPreferenciasProvider` es un almacén en memoria.
 
@@ -76,7 +76,7 @@ Debe terminar con `All tests passed!`: 7 pruebas aprobadas y 1 omitida (`~1`), l
 La API falsa (`test/soporte/api_falsa.dart`) y la entrada ficticia sustituyen a la red de la app y a Firebase Phone Auth: la suite no escribe en dev. No prueba el SMS real, el backend desplegado, la cámara, la ubicación ni las notificaciones.
 
 ## API y cliente generado (spec 006)
-- El contrato vive en `../contracts/openapi.v1.json` (copiado de knock-backend, hoy el de Identity) y el cliente Dart en `packages/knock_api/`. **Ninguno se edita a mano.**
+- El contrato vive en `../contracts/openapi.v1.json` (copiado de knock-backend) y el cliente Dart en `packages/knock_api/`. **Ninguno se edita a mano.**
 - Regenerar tras actualizar el contrato (desde la raíz del repositorio; Python 3.11+ y Java 11+):
   ```bash
   python app/tool/generar_cliente_api.py          # escribe app/packages/knock_api/
@@ -136,12 +136,12 @@ lib/
     errores/           Failure tipados (incluye los errores de la API)
     red/               cliente generado, URL base y mapeo de errores (spec 006)
   l10n/                ARB es/en y generado/ (salida de gen-l10n)
-  features/<función>/  inicio · explorar · actividad · trabajo · cuenta
-    presentation/      pantallas (hoy vacías, con su título)
+  features/<función>/  inicio, explorar, actividad, trabajo, cuenta, entrada, visita y las demás
+    presentation/      pantallas y controladores
     domain/            Dart puro (entidades, casos de uso, interfaces)
     data/              repositorios con el cliente generado
-assets/fonts/nunito/   Nunito 400-700 y OFL.txt
+assets/fonts/nunito/   Nunito 400-900 y OFL.txt
 test/                  pruebas unitarias y de widget (soporte/: arnés compartido)
-integration_test/      recorrido E2E en emulador
+integration_test/      recorridos en dispositivo (el CI no los ejecuta)
 ```
 Reglas de capas y convenciones: `AGENTS.md` y la skill `flutter-clean-architecture`. Una feature no importa `data/` ni `domain/` de otra; lo compartido va a `core/`.

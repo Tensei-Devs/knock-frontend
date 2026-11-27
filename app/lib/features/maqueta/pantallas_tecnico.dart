@@ -3,6 +3,7 @@ import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/asistente_real.dart';
 import 'package:app/features/maqueta/detalle_oficio_real.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart'
     show coloniaIdDeLaPersona;
@@ -2546,6 +2547,7 @@ class _TecChatState extends State<TecChatScreen> {
           ],
         ),
         sMut('La IA puede equivocarse: revísalo antes de guardarlo.'),
+        const NotaIaDeEjemplo(),
         Wrap(
           spacing: 8,
           runSpacing: 8,
@@ -2728,6 +2730,7 @@ class _TecChatState extends State<TecChatScreen> {
                   'La IA usa esta conversación para proponerte el precio y la nota.',
                 ),
                 _sumBtn(r),
+                const NotaIaDeEjemplo(),
               ], gap: 8)
             : stack([
                 const BtnK(

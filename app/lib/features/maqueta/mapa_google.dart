@@ -10,6 +10,7 @@ import 'package:app/features/inicio/presentation/mapa/mi_ubicacion_controller.da
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/tecnico/tecnico.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,6 +77,13 @@ class ControlMapaGoogle extends ChangeNotifier implements CamaraMapa {
     notifyListeners();
   }
 
+  /// Los límites y el acercamiento de lo que se ve, para pedir esa zona.
+  Future<(LatLngBounds, double)?> vista() async {
+    final c = _c;
+    if (c == null) return null;
+    return (await c.getVisibleRegion(), await c.getZoomLevel());
+  }
+
   Future<void> acercar() async => _c?.animateCamera(CameraUpdate.zoomIn());
   Future<void> alejar() async => _c?.animateCamera(CameraUpdate.zoomOut());
 
@@ -105,6 +113,24 @@ class ControlMapaGoogle extends ChangeNotifier implements CamaraMapa {
       ),
     );
   }
+}
+
+/// La consulta de `GET /mapa/tecnicos` para lo que muestra la cámara. Cuatro
+/// decimales (unos 11 m) y el zoom entre 1 y 20, como pide el contrato.
+ConsultaMapa consultaDeVista(
+  LatLngBounds limites,
+  double zoom,
+  String? oficio,
+) {
+  String grados(double v) => v.toStringAsFixed(4);
+  return (
+    norte: grados(limites.northeast.latitude),
+    sur: grados(limites.southwest.latitude),
+    este: grados(limites.northeast.longitude),
+    oeste: grados(limites.southwest.longitude),
+    zoom: '${zoom.round().clamp(1, 20)}',
+    oficio: oficio,
+  );
 }
 
 /// En pruebas de widgets la vista nativa de Google no existe: se pone en
@@ -245,8 +271,18 @@ class MapaGoogleKnock extends ConsumerStatefulWidget {
     this.simulada,
     this.alUbicar,
     this.centroForzado,
+    this.grupos = const [],
+    this.alTocarGrupo,
+    this.alMoverCamara,
   });
   final LatLng? centroForzado;
+
+  /// Grupos reales de `GET /mapa/tecnicos`: centro de celda y cuántos hay.
+  final List<GrupoMapa> grupos;
+  final ValueChanged<GrupoMapa>? alTocarGrupo;
+
+  /// Se llama cuando la cámara se detiene, con lo que quedó a la vista.
+  final void Function(LatLngBounds limites, double zoom)? alMoverCamara;
   final List<Prov> expertos;
   final ValueChanged<Prov> alTocarExperto;
   final ControlMapaGoogle control;
@@ -390,6 +426,32 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
         ),
       );
     }
+    for (final g in widget.grupos) {
+      final uno = g.cantidad == 1;
+      final clave = 'g:${g.cantidad}';
+      unawaited(
+        _pedirIcono(
+          clave,
+          () => dibujarPin(
+            texto: uno ? '' : '${g.cantidad}',
+            color: const Color(0xFF1C3A4C),
+            icono: uno ? Icons.person : null,
+          ),
+        ),
+      );
+      final icono = _iconos[clave];
+      if (icono == null) continue;
+      out.add(
+        Marker(
+          markerId: MarkerId('grupo_${g.latitud}_${g.longitud}'),
+          position: LatLng(g.latitud, g.longitud),
+          icon: icono,
+          anchor: const Offset(.5, 1),
+          zIndexInt: 2,
+          onTap: () => widget.alTocarGrupo?.call(g),
+        ),
+      );
+    }
     for (final a in widget.agenda) {
       final clave =
           'a:${a.id}:${a.texto}:${a.seleccionado}:${a.icono?.codePoint}';
@@ -424,6 +486,12 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
       );
     }
     return out;
+  }
+
+  Future<void> _avisarVista() async {
+    final vista = await widget.control.vista();
+    if (!mounted || vista == null) return;
+    widget.alMoverCamara?.call(vista.$1, vista.$2);
   }
 
   @override
@@ -463,6 +531,7 @@ class _MapaGoogleState extends ConsumerState<MapaGoogleKnock> {
       mapToolbarEnabled: false,
       padding: EdgeInsets.only(bottom: widget.padInferior),
       onTap: (_) => widget.alTocarFondo?.call(),
+      onCameraIdle: () => unawaited(_avisarVista()),
       onMapCreated: (c) {
         widget.control._asignar(c);
         widget.centroAlCrear?.call(_centro);
