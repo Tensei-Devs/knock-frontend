@@ -1354,6 +1354,55 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get chatEnvioCampo => 'Write a message';
+
+  @override
+  String get chatEnvioEnviar => 'Send';
+
+  @override
+  String get chatEnvioPendiente => 'Sending…';
+
+  @override
+  String get chatEnvioFallido => 'Not sent';
+
+  @override
+  String get chatEnvioReintentar => 'Retry';
+
+  @override
+  String get chatEnvioDescartar => 'Discard';
+
+  @override
+  String get chatEnvioMuyLargo => 'Messages can have up to 1000 characters.';
+
+  @override
+  String get chatEnvioCaracterNoPermitido =>
+      'The message has characters that can’t be sent.';
+
+  @override
+  String get chatEnvioErrorContenido =>
+      'We couldn’t send that message. Check what you wrote.';
+
+  @override
+  String chatEnvioErrorLimite(int segundos) {
+    return 'You sent many messages. Wait $segundos seconds.';
+  }
+
+  @override
+  String get chatEnvioErrorNoDisponible =>
+      'We couldn’t send the message. Try again shortly.';
+
+  @override
+  String get chatEnvioConversacionNoDisponible =>
+      'This chat is no longer available.';
+
+  @override
+  String get chatEnvioCerrada => 'This chat is closed.';
+
+  @override
+  String get chatContactoOculto =>
+      'The number is shared once a quote is chosen; we suggest not sharing it before.';
+
+  @override
   String reputacionNivel(String nivel) {
     return 'Level: $nivel';
   }

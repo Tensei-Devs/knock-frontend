@@ -2366,6 +2366,90 @@ abstract class AppLocalizations {
   /// **'{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}'**
   String conversacionesNoLeidos(int total);
 
+  /// No description provided for @chatEnvioCampo.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un mensaje'**
+  String get chatEnvioCampo;
+
+  /// No description provided for @chatEnvioEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar'**
+  String get chatEnvioEnviar;
+
+  /// No description provided for @chatEnvioPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get chatEnvioPendiente;
+
+  /// No description provided for @chatEnvioFallido.
+  ///
+  /// In es, this message translates to:
+  /// **'No se envió'**
+  String get chatEnvioFallido;
+
+  /// No description provided for @chatEnvioReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get chatEnvioReintentar;
+
+  /// No description provided for @chatEnvioDescartar.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar'**
+  String get chatEnvioDescartar;
+
+  /// No description provided for @chatEnvioMuyLargo.
+  ///
+  /// In es, this message translates to:
+  /// **'El mensaje admite hasta 1000 caracteres.'**
+  String get chatEnvioMuyLargo;
+
+  /// No description provided for @chatEnvioCaracterNoPermitido.
+  ///
+  /// In es, this message translates to:
+  /// **'El mensaje tiene caracteres que no se pueden enviar.'**
+  String get chatEnvioCaracterNoPermitido;
+
+  /// No description provided for @chatEnvioErrorContenido.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos enviar ese mensaje. Revisa lo que escribiste.'**
+  String get chatEnvioErrorContenido;
+
+  /// No description provided for @chatEnvioErrorLimite.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste muchos mensajes. Espera {segundos} segundos.'**
+  String chatEnvioErrorLimite(int segundos);
+
+  /// No description provided for @chatEnvioErrorNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos enviar el mensaje. Intenta de nuevo en un momento.'**
+  String get chatEnvioErrorNoDisponible;
+
+  /// No description provided for @chatEnvioConversacionNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta conversación ya no está disponible.'**
+  String get chatEnvioConversacionNoDisponible;
+
+  /// No description provided for @chatEnvioCerrada.
+  ///
+  /// In es, this message translates to:
+  /// **'La conversación está cerrada.'**
+  String get chatEnvioCerrada;
+
+  /// No description provided for @chatContactoOculto.
+  ///
+  /// In es, this message translates to:
+  /// **'El número se comparte al elegir una cotización; te sugerimos no compartirlo antes.'**
+  String get chatContactoOculto;
+
   /// Nivel de reputación enviado por el servidor
   ///
   /// In es, this message translates to:
