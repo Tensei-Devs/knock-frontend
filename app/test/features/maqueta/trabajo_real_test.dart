@@ -133,6 +133,17 @@ void main() {
     expect(find.text('cerrar v2'), findsOneWidget);
   });
 
+  testWidgets('CA_040_E01 el técnico no ve «El técnico no llegó» en su '
+      'visita confirmada', (tester) async {
+    await _montar(
+      tester,
+      const TrabajoSegunSesion(),
+      overrides: _Api().overrides,
+    );
+    expect(find.text('El cliente no estaba'), findsOneWidget);
+    expect(find.text('El técnico no llegó'), findsNothing);
+  });
+
   testWidgets('CA_040_16 fuera de la ventana lo explica y no cierra la hoja', (
     tester,
   ) async {

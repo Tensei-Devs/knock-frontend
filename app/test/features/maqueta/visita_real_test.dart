@@ -85,6 +85,12 @@ class _AccionesFalsas implements AccionesVisitaRepository {
   Future<String> clienteAusente(String visitaId) => throw UnimplementedError();
 
   @override
+  Future<String> tecnicoAusente(String visitaId) async {
+    _anotar('tecnico-ausente $visitaId');
+    return 'no_presentado';
+  }
+
+  @override
   Future<String> terminar(
     String visitaId, {
     required String descripcion,
@@ -439,6 +445,80 @@ void main() {
       );
       expect(find.textContaining('Ya no se puede reportar'), findsOneWidget);
       expect(find.text('La llave sigue goteando'), findsOneWidget);
+    });
+  });
+
+  group('el técnico no llegó (enmienda 2026-11-26)', () {
+    const boton = 'El técnico no llegó';
+    const confirmar = 'Sí, el técnico no llegó';
+
+    testWidgets('CA_040_E01 el cliente dueño confirma y la visita queda como '
+        'no presentada por el técnico', (tester) async {
+      final visitas = _VisitasFalsas([
+        _visita(),
+        _visita(estado: EstadoVisita.noPresentado),
+      ]);
+      final acciones = _AccionesFalsas();
+      await _abrir(tester, visitas, acciones: acciones);
+      await _tocar(tester, boton);
+      expect(
+        find.textContaining('Úsalo solo si el técnico no llegó'),
+        findsOneWidget,
+      );
+      expect(acciones.llamadas, isEmpty, reason: 'pide confirmación');
+      await _tocar(tester, confirmar);
+      expect(acciones.llamadas, ['tecnico-ausente $_visitaId']);
+      expect(
+        find.text('Registramos que el técnico no se presentó.'),
+        findsOneWidget,
+      );
+      expect(visitas.visitasPedidas, 2, reason: 'se vuelve a leer la visita');
+      expect(
+        find.text('Esta visita quedó como no presentada.'),
+        findsOneWidget,
+      );
+      expect(find.text(boton), findsNothing);
+    });
+
+    for (final estado in [EstadoVisita.enCurso, EstadoVisita.cancelada]) {
+      testWidgets('CA_040_E01 con la visita ${estado.name} no se ofrece', (
+        tester,
+      ) async {
+        await _abrir(tester, _VisitasFalsas([_visita(estado: estado)]));
+        expect(find.text(boton), findsNothing);
+      });
+    }
+
+    for (final (falla, texto) in <(Failure, String)>[
+      (
+        const ConflictoFailure(),
+        'Ahora no se puede registrar: solo dentro de la ventana de la cita.',
+      ),
+      (const NoEncontradoFailure(), 'Esta visita ya no está disponible.'),
+    ]) {
+      testWidgets('CA_040_E02 $falla: mensaje del catálogo y se vuelve a '
+          'leer la visita', (tester) async {
+        final visitas = _VisitasFalsas([_visita()]);
+        final acciones = _AccionesFalsas()..falla = falla;
+        await _abrir(tester, visitas, acciones: acciones);
+        await _tocar(tester, boton);
+        await _tocar(tester, confirmar);
+        expect(find.text(texto), findsOneWidget);
+        expect(visitas.visitasPedidas, 2);
+        expect(acciones.llamadas, hasLength(1));
+      });
+    }
+
+    testWidgets('CA_040_E02 un 429 usa el mensaje genérico y no vuelve a '
+        'leer', (tester) async {
+      final visitas = _VisitasFalsas([_visita()]);
+      final acciones = _AccionesFalsas()
+        ..falla = const DemasiadosIntentosFailure();
+      await _abrir(tester, visitas, acciones: acciones);
+      await _tocar(tester, boton);
+      await _tocar(tester, confirmar);
+      expect(find.text(confirmar), findsOneWidget, reason: 'la hoja sigue');
+      expect(visitas.visitasPedidas, 1);
     });
   });
 

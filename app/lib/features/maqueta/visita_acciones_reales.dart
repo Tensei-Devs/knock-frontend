@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/errores/failure.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/envio_de_visita.dart';
@@ -11,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// «Reprogramar» y «Cancelar» de una visita o cita real (spec 040). Solo se
-/// ofrecen en los estados que el servidor acepta; con una propuesta de fecha
-/// pendiente no se puede proponer otra.
+/// «Reprogramar», «El técnico no llegó» y «Cancelar» de una visita o cita real
+/// (spec 040). Solo se ofrecen en los estados que el servidor acepta; con una
+/// propuesta de fecha pendiente no se puede proponer otra.
 class AccionesVisitaReal extends ConsumerWidget {
   const AccionesVisitaReal({super.key, required this.visitaId});
 
@@ -22,11 +23,14 @@ class AccionesVisitaReal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final v = ref.watch(act.visitaRealProvider(visitaId)).value;
+    final textos = AppLocalizations.of(context);
+    if (v?.estado == act.EstadoVisita.noPresentado) {
+      return NoteK('amber', 'x', textos.visitaNoPresentada);
+    }
     final confirmada = v?.estado == act.EstadoVisita.confirmada;
     if (v == null || !(confirmada || v.estado == act.EstadoVisita.enCurso)) {
       return const SizedBox.shrink();
     }
-    final textos = AppLocalizations.of(context);
     return stack([
       if (v.reprogramacionPendiente)
         NoteK('amber', 'clock', textos.visitaCambioPendiente)
@@ -37,6 +41,16 @@ class AccionesVisitaReal extends ConsumerWidget {
           kind: Bk.sec,
           sm: true,
           icon: 'cal',
+        ),
+      // La ventana (de 15 minutos a 2 horas tras la hora) la decide el
+      // servidor: el botón sale en toda visita confirmada (spec 040, E-01).
+      if (confirmada)
+        BtnK(
+          textos.visitaTecnicoAusenteBoton,
+          () => _hojaTecnicoAusente(context, visitaId),
+          kind: Bk.ghost,
+          sm: true,
+          icon: 'clock',
         ),
       BtnK(
         textos.visitaCancelar,
@@ -84,6 +98,37 @@ void hojaClienteAusente(BuildContext context, String visitaId) {
             .clienteAusente(visitaId);
         ref.invalidate(agendaControllerProvider);
         return textos.visitaAusenteRegistrada;
+      },
+    ),
+  );
+}
+
+/// «El técnico no llegó» (VIS-12, backend 064): solo el cliente dueño. Con un
+/// 404 o un 409 (fuera de la ventana) la visita se vuelve a leer.
+void _hojaTecnicoAusente(BuildContext context, String visitaId) {
+  final textos = AppLocalizations.of(context);
+  _abrir(
+    context,
+    _HojaDeEnvio(
+      titulo: textos.visitaTecnicoAusenteBoton,
+      boton: textos.visitaTecnicoAusenteConfirmar,
+      tipo: Bk.danger,
+      conflicto: textos.visitaAusenteFueraDeVentana,
+      listo: (_) => true,
+      contenido: (_, _) => [sMut(textos.visitaTecnicoAusenteExplicacion)],
+      enviar: (ref, _) async {
+        try {
+          await ref
+              .read(accionesVisitaRepositoryProvider)
+              .tecnicoAusente(visitaId);
+        } on Failure catch (falla) {
+          if (falla is ConflictoFailure || falla is NoEncontradoFailure) {
+            ref.invalidate(act.visitaRealProvider(visitaId));
+          }
+          rethrow;
+        }
+        ref.invalidate(act.visitaRealProvider(visitaId));
+        return textos.visitaTecnicoAusenteRegistrada;
       },
     ),
   );
