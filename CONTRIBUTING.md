@@ -24,14 +24,14 @@ El hook `commit-msg` rechaza el commit si el mensaje no cumple el formato de la 
 ## 2. Ramas
 | Rama | Rol | Recibe PR de |
 |---|---|---|
-| `main` | Producción. release-please crea tag, CHANGELOG y release; `deploy.yml` despliega con aprobación | `release`, `hotfix/*`, `release-please--*` |
-| `release` | QA en Staging (`deploy-staging.yml`) | `develop`, `main` (back-merge) |
-| `develop` | Integración (rama por defecto) | `sprint-XX`, `hotfix/*`, `dependabot/*`, `contract/api-*` (solo frontend) |
-| `sprint-XX` | Una por sprint semanal (`sprint-00` … `sprint-07`); nadie hace commit directo | ramas personales |
+| `main` | Producción (rama por defecto). Con `ci-pr` en verde, `publish-android.yml` sube la app a la pista interna de Google Play | `release`, `hotfix/*`, `release-please--*` |
+| `release` | QA; no hay entorno de Staging desplegado | `develop`, `main` (back-merge) |
+| `develop` | Integración | `sprint-XX`, `hotfix/*`, `dependabot/*`, `contract/api-*` (solo frontend) |
+| `sprint-XX` | Una por sprint semanal; nadie hace commit directo | ramas personales |
 | `<tipo>/KNOCK-<N>-<english-kebab-description>` | Personal, una por issue de Jira (`feature`, `fix`, `docs`, `refactor`, `test`, `chore`); descripción en inglés y kebab-case, p. ej. `chore/KNOCK-20-aspnet-core-project`; sale del `sprint-XX` actual y se borra al fusionar | — |
 | `hotfix/KNOCK-<N>-<english-kebab-description>` | Arreglo urgente: PR a `main` y la misma rama a `develop`; luego back-merge `main → release` | — |
 
-El job `pr-meta` del CI rechaza nombres y combinaciones fuera de este esquema.
+Este esquema lo comprueban `scripts/ci/branch_rules.py` y los git hooks. El job `pr-meta` del CI lo revisa solo con la variable del repositorio `ENFORCE_BRANCH_RULES=true`.
 
 ## 3. Commits y PR
 - Commit: mensaje **en inglés**, Conventional Commits: `type(scope): description in english, imperative, lowercase (KNOCK-N)`.
@@ -41,9 +41,9 @@ El job `pr-meta` del CI rechaza nombres y combinaciones fuera de este esquema.
   - La clave `(KNOCK-N)` es obligatoria, va al final y debe coincidir con la de la rama.
   - Descripción en imperativo, empieza en minúscula, sin punto final; encabezado de hasta 100 caracteres.
   - **Prohibida** la atribución a IA en commits y PR: trailers `Co-Authored-By` de agentes (Claude, Copilot, Codex, Gemini, Cursor, opencode, `noreply@anthropic.com`) y líneas «Generated with…». El uso de IA se declara solo en la sección «Uso de IA» de la plantilla del PR. Un `Co-Authored-By` de una persona del equipo (trabajo en parejas) sí se permite.
-  - Excepción para bots (sin clave KNOCK-N): release-please (`chore(main|release)`), Dependabot (`build(deps)`) y el commit automático del contrato de la API (`chore(deps): update api contract to <sha>`).
+  - Excepción sin clave KNOCK-N para commits automáticos: `chore(main|release|deps)` (incluido el del contrato de la API, `chore(deps): update api contract to <sha>`) y `build(deps)`.
 - PR: título `KNOCK-N · [<ID> ]<título>` (el ID de la spec es opcional: HU-NNN, TT-…, BUG-NNN, B-NNN o F-NNN; p. ej. «KNOCK-219 · F-005 Estructura del repositorio») y la plantilla completa (criterios, pruebas, amenazas, riesgos, **Uso de IA**, evidencia). Sin atribución a IA en la descripción salvo en esa sección.
-- **Revisión de pares obligatoria:** antes de la aprobación final, al menos otra persona (distinta de quien escribió el PR) deja su revisión como comentario en el PR (quién revisa a quién: `docs/FLUJO_EQUIPO.md` §3). **La aprobación final y el merge los hace el Tech Lead (`@JulianH2`)**; ninguna otra persona fusiona. Requisitos: check `gate` en verde y, en zonas sensibles, el Code Owner. La revisión de otra persona es **una** y obligatoria; una segunda es opcional. Si el PR es del Tech Lead, él mismo lo puede aprobar y, cuando el cambio es urgente o no hay nadie disponible, la revisión de par es opcional: en ese caso anota el motivo en «Riesgos y pendientes» del PR (spec 005, R-04 y CA-06). Los rulesets de GitHub (`.github/rulesets/`) **no se hacen cumplir** en una organización gratuita con repositorios privados (CA-02 queda pendiente por el plan): hoy la regla se sostiene por acuerdo del equipo y por el CI.
+- **Revisión de pares obligatoria:** antes de la aprobación final, al menos otra persona (distinta de quien escribió el PR) deja su revisión como comentario en el PR (quién revisa a quién: `docs/FLUJO_EQUIPO.md` §3). **La aprobación final y el merge los hace el Tech Lead (`@JulianH2`)**; ninguna otra persona fusiona. Requisitos: check `gate` en verde y, en zonas sensibles, el Code Owner. La revisión de otra persona es **una** y obligatoria; una segunda es opcional. Si el PR es del Tech Lead, él mismo lo puede aprobar y, cuando el cambio es urgente o no hay nadie disponible, la revisión de par es opcional: en ese caso anota el motivo en «Riesgos y pendientes» del PR (spec 005, R-04 y CA-06). En GitHub, `main` tiene un ruleset activo que exige el check `gate` (ver `.github/rulesets/README.md`); la revisión de pares y quién fusiona se sostienen por acuerdo del equipo.
 
 ## 4. Definición de terminado
 Criterios de la spec cumplidos · pruebas del plan en verde (resultados reales) · PR revisado · CI en verde · «Uso de IA» completo · `Memoria.md` al día · spec firmada tras el merge.
@@ -67,7 +67,7 @@ Para activarlo, en **cada repositorio** (knock-backend y knock-frontend), en Git
 
 La llave nunca va en el código, un issue, un PR ni un chat. Los PR de forks y los borradores no se revisan. Solo sale hacia el proveedor el **diff público** del PR, sin lockfiles, archivos generados, binarios ni archivos con aspecto de secreto, y con patrones de llaves enmascarados. Cuesta menos de un centavo de dólar por revisión.
 
-Si el repositorio es privado y no tiene GitHub Advanced Security, la revisión de dependencias y la subida de SARIF se omiten; para activarlas, crea la variable `GHAS_ENABLED=true`.
+El repositorio es público, así que la revisión de dependencias y la subida de SARIF corren sin configuración adicional (en un repositorio privado harían falta GitHub Advanced Security y la variable `GHAS_ENABLED=true`).
 
 ## 9. Versionamiento por puntos (spec 011)
 La app (`app`), el panel (`panel`) y la landing (`landing`) llevan cada uno su propia versión `X.Y.Z`; la primera publicada es `1.0.0`. Un cambio en la landing no cambia el número de la app. Cada PR declara cuántos puntos suma a cada componente que toca con una etiqueta `puntos-<componente>-N` (p. ej. `puntos-app-4`); si no suma, `puntos-<componente>-0`. Sin etiqueta válida, el job `pr-points` del CI falla (lo exentan las ramas `release-please--*` y `dependabot/*`). Una persona del equipo con permiso la crea en GitHub la primera vez que la usa.
