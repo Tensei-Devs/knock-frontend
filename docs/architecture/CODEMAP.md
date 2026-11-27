@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T12:05:57Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T12:53:31Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -601,7 +601,7 @@
 - `app/lib/features/maqueta/precio_de_visita_real.dart` — class `PrecioDeVisitaReal`, class `_TarjetaPorDecidir`, class `_TarjetaPorDecidirState`
   - `build()`:21, `NoteK()`:76, `build()`:157
 - `app/lib/features/maqueta/precio_tecnico_real.dart` — class `PrecioTecnicoReal`, class `_HojaCotizacionFinal`, class `_FinalState`, class `_HojaAjuste`, class `_AjusteState`
-  - `build()`:21, `stack()`:23, `dispose()`:59, `build()`:83, `dispose()`:135, `build()`:159
+  - `build()`:21, `stack()`:23, `dispose()`:59, `build()`:83, `dispose()`:132, `build()`:156
 - `app/lib/features/maqueta/privacidad_real.dart` — class `ExportacionReal`, class `ConsentimientosReales`, class `_FilaConsentimiento`
   - `build()`:20, `pedir()`:49, `fechaDeCuenta()`:81, `build()`:112, `build()`:156
 - `app/lib/features/maqueta/reportes_reales.dart` — class `ReportarReal`, class `_Formulario`, class `_FormularioState`, class `MisReportesReales`, class `_TarjetaDeReporte`, class `_TarjetaDeReporteState`
