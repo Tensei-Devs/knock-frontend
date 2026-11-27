@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:app/core/errores/failure.dart';
-import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/maqueta/envio_de_visita.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/visita/visita.dart';
@@ -81,20 +79,10 @@ class _PermisoFotosState extends ConsumerState<PermisoFotosReal>
         .when(
           skipLoadingOnRefresh: false,
           loading: () => sMut(textos.visitaPermisoFotosCargando),
-          error: (error, _) => stack([
-            NoteK(
-              'red',
-              'help',
-              error is NoEncontradoFailure
-                  ? textos.visitaNoDisponible
-                  : mensajeDeError(textos, error),
-            ),
-            BtnK(
-              textos.opinionesReintentar,
-              () => ref.invalidate(proveedor),
-              kind: Bk.sec,
-            ),
-          ], gap: 12),
+          error: (error, _) => ErrorDeCargaDeVisita(
+            error: error,
+            alReintentar: () => ref.invalidate(proveedor),
+          ),
           data: (actual) {
             if (!actual.terminada) {
               return NoteK('amber', 'help', textos.visitaNoDisponible);
