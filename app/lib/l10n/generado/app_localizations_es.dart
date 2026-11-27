@@ -2751,4 +2751,149 @@ class AppLocalizationsEs extends AppLocalizations {
     });
     return '$_temp0';
   }
+
+  @override
+  String get precioFinalBoton => 'Enviar cotización final';
+
+  @override
+  String get precioAjusteBoton => 'Proponer otro precio';
+
+  @override
+  String get precioFinalExplicacion =>
+      'Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.';
+
+  @override
+  String get precioFinalMonto => 'Precio final en pesos';
+
+  @override
+  String get precioFinalDescripcion => '¿Qué incluye?';
+
+  @override
+  String get precioDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get precioMontoAyuda => 'Pesos sin centavos, mayor que cero.';
+
+  @override
+  String get precioFinalEnviar => 'Enviar al cliente';
+
+  @override
+  String get precioFinalEnviada =>
+      'Enviamos tu cotización final. Falta que el cliente la apruebe.';
+
+  @override
+  String get precioFinalNoPermitida =>
+      'Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.';
+
+  @override
+  String get precioAjusteCargando => 'Buscando tu cotización aceptada…';
+
+  @override
+  String get precioAjusteSinCotizacion =>
+      'No encontramos la cotización aceptada de esta visita.';
+
+  @override
+  String get precioAjusteMonto => 'Nuevo precio total en pesos';
+
+  @override
+  String precioAjusteMinimo(int monto) {
+    return 'Mínimo $monto pesos.';
+  }
+
+  @override
+  String get precioAjusteMotivo => '¿Por qué cambia el precio?';
+
+  @override
+  String get precioAjusteMotivoAyuda => 'De 10 a 300 caracteres.';
+
+  @override
+  String get precioAjusteEnviar => 'Proponer al cliente';
+
+  @override
+  String get precioAjusteEnviado =>
+      'Enviamos tu propuesta. Falta que el cliente la apruebe.';
+
+  @override
+  String get precioAjusteNoPermitido =>
+      'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.';
+
+  @override
+  String get visitaPermisoFotosTitulo => 'Fotos del trabajo';
+
+  @override
+  String get visitaPermisoFotosCasilla =>
+      'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar';
+
+  @override
+  String get visitaPermisoFotosDetalle =>
+      'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosGuardado => 'Guardamos tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosCargando => 'Cargando tu respuesta…';
+
+  @override
+  String get suspensionApelar => 'Apelar la suspensión';
+
+  @override
+  String get suspensionTitulo => 'Tu apelación';
+
+  @override
+  String get suspensionDetalle =>
+      'Verifica tu número con un código por SMS. Esto no inicia sesión.';
+
+  @override
+  String get suspensionEnviarCodigo => 'Enviarme el código';
+
+  @override
+  String get suspensionVerificar => 'Verificar';
+
+  @override
+  String get suspensionSinConsulta =>
+      'No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.';
+
+  @override
+  String get suspensionTexto => 'Tus motivos';
+
+  @override
+  String get suspensionTextoAyuda => 'Escribe entre 8 y 500 caracteres.';
+
+  @override
+  String get suspensionPresentar => 'Enviar apelación';
+
+  @override
+  String get suspensionNoDisponible => 'No hay una apelación disponible.';
+
+  @override
+  String get suspensionNoPermitida => 'No se puede presentar otra apelación.';
+
+  @override
+  String get suspensionVerificarOtraVez =>
+      'Verifica tu número otra vez con un código por SMS.';
+
+  @override
+  String get suspensionVolver => 'Volver';
+
+  @override
+  String suspensionEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'pendiente': 'Tu apelación está en revisión.',
+      'aceptada': 'Tu apelación fue aceptada.',
+      'rechazada': 'Tu apelación fue rechazada.',
+      'other': 'Estado de tu apelación: $estado',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String suspensionPresentadaEl(String fecha) {
+    return 'Presentada el $fecha';
+  }
+
+  @override
+  String suspensionResueltaEl(String fecha) {
+    return 'Resuelta el $fecha';
+  }
 }

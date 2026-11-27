@@ -4753,6 +4753,246 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'{estado, select, enviada{Esperando respuesta} aceptada{Aceptada} rechazada{Rechazada} retirada{Retirada} other{{estado}}}'**
   String cotizarEstado(String estado);
+
+  /// No description provided for @precioFinalBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cotización final'**
+  String get precioFinalBoton;
+
+  /// No description provided for @precioAjusteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer otro precio'**
+  String get precioAjusteBoton;
+
+  /// No description provided for @precioFinalExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.'**
+  String get precioFinalExplicacion;
+
+  /// No description provided for @precioFinalMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio final en pesos'**
+  String get precioFinalMonto;
+
+  /// No description provided for @precioFinalDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué incluye?'**
+  String get precioFinalDescripcion;
+
+  /// No description provided for @precioDescripcionAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 8 a 500 caracteres.'**
+  String get precioDescripcionAyuda;
+
+  /// No description provided for @precioMontoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'Pesos sin centavos, mayor que cero.'**
+  String get precioMontoAyuda;
+
+  /// No description provided for @precioFinalEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar al cliente'**
+  String get precioFinalEnviar;
+
+  /// No description provided for @precioFinalEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu cotización final. Falta que el cliente la apruebe.'**
+  String get precioFinalEnviada;
+
+  /// No description provided for @precioFinalNoPermitida.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.'**
+  String get precioFinalNoPermitida;
+
+  /// No description provided for @precioAjusteCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando tu cotización aceptada…'**
+  String get precioAjusteCargando;
+
+  /// No description provided for @precioAjusteSinCotizacion.
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos la cotización aceptada de esta visita.'**
+  String get precioAjusteSinCotizacion;
+
+  /// No description provided for @precioAjusteMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo precio total en pesos'**
+  String get precioAjusteMonto;
+
+  /// No description provided for @precioAjusteMinimo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo {monto} pesos.'**
+  String precioAjusteMinimo(int monto);
+
+  /// No description provided for @precioAjusteMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cambia el precio?'**
+  String get precioAjusteMotivo;
+
+  /// No description provided for @precioAjusteMotivoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 10 a 300 caracteres.'**
+  String get precioAjusteMotivoAyuda;
+
+  /// No description provided for @precioAjusteEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer al cliente'**
+  String get precioAjusteEnviar;
+
+  /// No description provided for @precioAjusteEnviado.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu propuesta. Falta que el cliente la apruebe.'**
+  String get precioAjusteEnviado;
+
+  /// No description provided for @precioAjusteNoPermitido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.'**
+  String get precioAjusteNoPermitido;
+
+  /// No description provided for @visitaPermisoFotosTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos del trabajo'**
+  String get visitaPermisoFotosTitulo;
+
+  /// No description provided for @visitaPermisoFotosCasilla.
+  ///
+  /// In es, this message translates to:
+  /// **'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar'**
+  String get visitaPermisoFotosCasilla;
+
+  /// No description provided for @visitaPermisoFotosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.'**
+  String get visitaPermisoFotosDetalle;
+
+  /// No description provided for @visitaPermisoFotosGuardado.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardamos tu respuesta.'**
+  String get visitaPermisoFotosGuardado;
+
+  /// No description provided for @visitaPermisoFotosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu respuesta…'**
+  String get visitaPermisoFotosCargando;
+
+  /// Texto de la app: suspensionApelar
+  ///
+  /// In es, this message translates to:
+  /// **'Apelar la suspensión'**
+  String get suspensionApelar;
+
+  /// Texto de la app: suspensionTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Tu apelación'**
+  String get suspensionTitulo;
+
+  /// Texto de la app: suspensionDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número con un código por SMS. Esto no inicia sesión.'**
+  String get suspensionDetalle;
+
+  /// Texto de la app: suspensionEnviarCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get suspensionEnviarCodigo;
+
+  /// Texto de la app: suspensionVerificar
+  ///
+  /// In es, this message translates to:
+  /// **'Verificar'**
+  String get suspensionVerificar;
+
+  /// Texto de la app: suspensionSinConsulta
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.'**
+  String get suspensionSinConsulta;
+
+  /// Texto de la app: suspensionTexto
+  ///
+  /// In es, this message translates to:
+  /// **'Tus motivos'**
+  String get suspensionTexto;
+
+  /// Texto de la app: suspensionTextoAyuda
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe entre 8 y 500 caracteres.'**
+  String get suspensionTextoAyuda;
+
+  /// Texto de la app: suspensionPresentar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar apelación'**
+  String get suspensionPresentar;
+
+  /// Texto de la app: suspensionNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible.'**
+  String get suspensionNoDisponible;
+
+  /// Texto de la app: suspensionNoPermitida
+  ///
+  /// In es, this message translates to:
+  /// **'No se puede presentar otra apelación.'**
+  String get suspensionNoPermitida;
+
+  /// Texto de la app: suspensionVerificarOtraVez
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número otra vez con un código por SMS.'**
+  String get suspensionVerificarOtraVez;
+
+  /// Texto de la app: suspensionVolver
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get suspensionVolver;
+
+  /// Texto de la app: suspensionEstado
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, pendiente{Tu apelación está en revisión.} aceptada{Tu apelación fue aceptada.} rechazada{Tu apelación fue rechazada.} other{Estado de tu apelación: {estado}}}'**
+  String suspensionEstado(String estado);
+
+  /// Texto de la app: suspensionPresentadaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Presentada el {fecha}'**
+  String suspensionPresentadaEl(String fecha);
+
+  /// Texto de la app: suspensionResueltaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Resuelta el {fecha}'**
+  String suspensionResueltaEl(String fecha);
 }
 
 class _AppLocalizationsDelegate
