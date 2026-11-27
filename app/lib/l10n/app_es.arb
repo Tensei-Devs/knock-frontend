@@ -2197,5 +2197,162 @@
   "verificacionEnviadaEl": "Enviada el {fecha}",
   "@verificacionEnviadaEl": {"description": "Texto de la app: verificacionEnviadaEl", "placeholders": {"fecha": {"type": "String"}}},
   "verificacionEnvioNoDisponible": "Enviar tus fotos desde la app todavía no está disponible.",
-  "@verificacionEnvioNoDisponible": {"description": "Texto de la app: verificacionEnvioNoDisponible"}
+  "@verificacionEnvioNoDisponible": {"description": "Texto de la app: verificacionEnvioNoDisponible"},
+  "asistenteNoDisponible": "El asistente de IA no está disponible. Puedes seguir sin él.",
+  "@asistenteNoDisponible": {
+    "description": "Asistente de IA (spec 042): asistenteNoDisponible"
+  },
+  "asistenteEjemplo": "Esto es un ejemplo: no lo generó una IA.",
+  "@asistenteEjemplo": {
+    "description": "Asistente de IA (spec 042): asistenteEjemplo"
+  },
+  "asistenteLimite": "Llegaste al límite de uso del asistente. Inténtalo más tarde.",
+  "@asistenteLimite": {
+    "description": "Asistente de IA (spec 042): asistenteLimite"
+  },
+  "asistenteCargando": "Consultando al asistente…",
+  "@asistenteCargando": {
+    "description": "Asistente de IA (spec 042): asistenteCargando"
+  },
+  "asistenteReintentar": "Reintentar",
+  "@asistenteReintentar": {
+    "description": "Asistente de IA (spec 042): asistenteReintentar"
+  },
+  "asistenteGeneradoPorIa": "Generado por IA. Revísalo antes de usarlo.",
+  "@asistenteGeneradoPorIa": {
+    "description": "Asistente de IA (spec 042): asistenteGeneradoPorIa"
+  },
+  "asistenteDePlantilla": "Respuesta automática de plantilla: no la generó una IA.",
+  "@asistenteDePlantilla": {
+    "description": "Asistente de IA (spec 042): asistenteDePlantilla"
+  },
+  "asistenteTitulo": "Asistente Knock",
+  "@asistenteTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteTitulo"
+  },
+  "asistenteEscribe": "¿Qué necesitas arreglar?",
+  "@asistenteEscribe": {
+    "description": "Asistente de IA (spec 042): asistenteEscribe"
+  },
+  "asistenteSinTurno": "Cuéntale tu problema al asistente.",
+  "@asistenteSinTurno": {
+    "description": "Asistente de IA (spec 042): asistenteSinTurno"
+  },
+  "asistenteEnviar": "Enviar",
+  "@asistenteEnviar": {
+    "description": "Asistente de IA (spec 042): asistenteEnviar"
+  },
+  "asistentePideFoto": "Agrega una foto al armar tu solicitud.",
+  "@asistentePideFoto": {
+    "description": "Asistente de IA (spec 042): asistentePideFoto"
+  },
+  "asistenteArmarSolicitud": "Revisar y editar mi solicitud",
+  "@asistenteArmarSolicitud": {
+    "description": "Asistente de IA (spec 042): asistenteArmarSolicitud"
+  },
+  "asistenteResumenTitulo": "Resumen de la conversación",
+  "@asistenteResumenTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteResumenTitulo"
+  },
+  "asistenteResumenVacio": "Todavía no hay nada que resumir.",
+  "@asistenteResumenVacio": {
+    "description": "Asistente de IA (spec 042): asistenteResumenVacio"
+  },
+  "asistenteSabe": "Lo que sabes",
+  "@asistenteSabe": {
+    "description": "Asistente de IA (spec 042): asistenteSabe"
+  },
+  "asistentePorConfirmar": "Por confirmar",
+  "@asistentePorConfirmar": {
+    "description": "Asistente de IA (spec 042): asistentePorConfirmar"
+  },
+  "asistenteQueLlevar": "Qué llevar",
+  "@asistenteQueLlevar": {
+    "description": "Asistente de IA (spec 042): asistenteQueLlevar"
+  },
+  "asistenteBorradorTitulo": "Borrador de cotización",
+  "@asistenteBorradorTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteBorradorTitulo"
+  },
+  "asistentePrecio": "Precio sugerido (MXN)",
+  "@asistentePrecio": {
+    "description": "Asistente de IA (spec 042): asistentePrecio"
+  },
+  "asistenteTiempo": "Tiempo estimado",
+  "@asistenteTiempo": {
+    "description": "Asistente de IA (spec 042): asistenteTiempo"
+  },
+  "asistenteDia": "Día",
+  "@asistenteDia": {
+    "description": "Asistente de IA (spec 042): asistenteDia"
+  },
+  "asistenteNota": "Nota para el cliente",
+  "@asistenteNota": {
+    "description": "Asistente de IA (spec 042): asistenteNota"
+  },
+  "asistenteNadaSeEnvia": "Es un borrador: nada se envía desde aquí.",
+  "@asistenteNadaSeEnvia": {
+    "description": "Asistente de IA (spec 042): asistenteNadaSeEnvia"
+  },
+  "asistenteRangoTitulo": "Rango de precio",
+  "@asistenteRangoTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteRangoTitulo"
+  },
+  "asistenteRangoVacio": "Todavía no hay referencia de precio para este trabajo.",
+  "@asistenteRangoVacio": {
+    "description": "Asistente de IA (spec 042): asistenteRangoVacio"
+  },
+  "asistenteBitacoraTitulo": "Bitácora del trabajo",
+  "@asistenteBitacoraTitulo": {
+    "description": "Asistente de IA (spec 042): asistenteBitacoraTitulo"
+  },
+  "asistenteBitacoraVacia": "Aún no guardas bitácora para este trabajo.",
+  "@asistenteBitacoraVacia": {
+    "description": "Asistente de IA (spec 042): asistenteBitacoraVacia"
+  },
+  "asistenteUnoPorLinea": "Un elemento por línea, hasta 10 de 200 caracteres.",
+  "@asistenteUnoPorLinea": {
+    "description": "Asistente de IA (spec 042): asistenteUnoPorLinea"
+  },
+  "asistenteGuardar": "Guardar en bitácora",
+  "@asistenteGuardar": {
+    "description": "Asistente de IA (spec 042): asistenteGuardar"
+  },
+  "asistenteGuardada": "Bitácora guardada.",
+  "@asistenteGuardada": {
+    "description": "Asistente de IA (spec 042): asistenteGuardada"
+  },
+  "asistenteRango": "De {minimo} a {maximo} MXN",
+  "@asistenteRango": {
+    "description": "Asistente de IA (spec 042): asistenteRango",
+    "placeholders": {
+      "minimo": {
+        "type": "String"
+      },
+      "maximo": {
+        "type": "String"
+      }
+    }
+  },
+  "asistenteMuestras": "Muestras: {n}. Fuente: {fuente}.",
+  "@asistenteMuestras": {
+    "description": "Asistente de IA (spec 042): asistenteMuestras",
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "fuente": {
+        "type": "String"
+      }
+    }
+  },
+  "asistenteCopia": "Sin conexión. Esta es la copia del {fecha}; puede estar desactualizada.",
+  "@asistenteCopia": {
+    "description": "Asistente de IA (spec 042): asistenteCopia",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  }
 }

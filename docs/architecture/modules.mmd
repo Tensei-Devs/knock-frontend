@@ -1,6 +1,7 @@
 graph LR
   actividad["actividad"]
   app["app"]
+  asistente["asistente"]
   bandeja_avisos["bandeja_avisos"]
   busqueda["busqueda"]
   cache["cache"]
@@ -45,7 +46,8 @@ graph LR
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|18| actividad
+  maqueta -->|19| actividad
+  maqueta -->|1| asistente
   maqueta -->|1| bandeja_avisos
   maqueta -->|1| busqueda
   maqueta -->|7| cuenta

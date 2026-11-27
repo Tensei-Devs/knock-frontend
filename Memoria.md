@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 042: asistente de IA apagado (KNOCK-266)
+- **Decisión:** interruptor de compilación `ASISTENTE_IA` (apagado por omisión). Encendido y con sesión y API, `/m/asistente` usa `POST /asistente/conversaciones`; las pantallas de resumen, borrador, rango y bitácora viven en `/m/tecnico/asistente/...`. Una respuesta con `origen` distinto de `proveedor` se rotula como plantilla. Apagado no se llama a la API y las pantallas de ejemplo dicen, con sesión, que no las generó una IA.
+- **Pendiente:** recurso de Azure OpenAI (T-00); enlazar las rutas del técnico cuando haya chat y trabajos con identificadores reales; foto en el turno del asistente; sin probar contra el backend desplegado.
+
 ## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
 - **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
 - **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
