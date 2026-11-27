@@ -5,6 +5,7 @@ import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/asistente_real.dart';
+import 'package:app/features/maqueta/cotizar_real.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
 import 'package:app/features/maqueta/estado.dart';
@@ -27,6 +28,7 @@ import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -189,7 +191,11 @@ GoRoute rutaMaqueta() => GoRoute(
         ),
         GoRoute(
           path: 'cotizar/:rid',
-          builder: (c, s) => CotizarScreen(rid: s.pathParameters['rid']!),
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: AppLocalizations.of(c).cotizarTitulo,
+            real: CotizarReal(solicitudId: s.pathParameters['rid']!),
+            ejemplo: (_) => CotizarScreen(rid: s.pathParameters['rid']!),
+          ),
         ),
         GoRoute(
           path: 'iniciar/:vid',

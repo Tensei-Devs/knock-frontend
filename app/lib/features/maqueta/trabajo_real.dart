@@ -1,6 +1,7 @@
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/agenda_real.dart';
+import 'package:app/features/maqueta/bandeja_trabajo_real.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart' show PgTab;
 import 'package:app/features/maqueta/pantallas_tecnico.dart'
     show TrabajoMaqueta;
@@ -27,6 +28,8 @@ class TrabajoSegunSesion extends ConsumerWidget {
       body: stack([
         h3(t.trabajoProximasVisitas),
         const AgendaReal(avisoDeMapa: false),
+        const SolicitudesNuevasReal(),
+        const CotizacionesEnviadasReal(),
         sMut(t.trabajoPendiente),
         GroupK([
           LiK(

@@ -31,5 +31,7 @@ String mensajeDeErrorDeEntrada(AppLocalizations textos, Failure error) =>
       OpinionYaRespondidaFailure() ||
       YaBloqueadoFailure() ||
       ApelacionNoPermitidaFailure() ||
+      SinPerfilTecnicoFailure() ||
+      CotizacionNoPermitidaFailure() ||
       EleccionRechazadaFailure() => textos.entradaErrorGenerico,
     };

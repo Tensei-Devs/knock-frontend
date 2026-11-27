@@ -2,6 +2,9 @@
 /// pueden usar sin tocar sus internos.
 library;
 
+export 'package:app/features/trabajo/cotizar_providers.dart';
+export 'package:app/features/trabajo/domain/cotizar.dart';
 export 'package:app/features/trabajo/domain/llegada.dart';
 export 'package:app/features/trabajo/llegada_providers.dart';
+export 'package:app/features/trabajo/presentation/cotizar_controller.dart';
 export 'package:app/features/trabajo/presentation/llegada_controller.dart';
