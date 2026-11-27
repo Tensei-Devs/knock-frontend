@@ -1,3 +1,4 @@
+import 'package:app/core/errores/failure.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/entrada/domain/validacion_entrada.dart';
 import 'package:app/features/entrada/presentation/cuenta_regresiva_controller.dart';
@@ -107,6 +108,11 @@ class _CodigoScreenState extends ConsumerState<CodigoScreen> {
         if (errorDeEntrada != null)
           MensajeDeErrorDeEntrada(
             mensajeDeErrorDeEntrada(textos, errorDeEntrada),
+          ),
+        if (errorDeEntrada is CuentaSuspendidaFailure)
+          TextButton(
+            onPressed: () => context.go(Rutas.apelacion),
+            child: Text(textos.suspensionApelar),
           ),
       ],
       pie: [

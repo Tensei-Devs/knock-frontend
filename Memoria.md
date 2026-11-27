@@ -901,6 +901,10 @@
 ## 2026-11-26 — «El técnico no se presentó» (KNOCK-266, spec 040)
 - **Qué cambió:** el cliente puede registrarlo en una visita confirmada (`POST /visitas/{id}/tecnico-ausente`); la ventana la decide el servidor y un 409 o 404 vuelve a leer la visita.
 - **Pendiente:** teléfono y backend desplegado.
+## 2026-11-26 — Apelación de una cuenta suspendida (KNOCK-266, spec 033)
+- **Qué cambió:** tras `account_suspended` al entrar se puede apelar en `/entrar/apelacion`: SMS nuevo, `idToken` de Firebase solo en memoria y sin sesión de Knock (`GET` y `POST /suspension/apelacion`).
+- **Pendiente:** SMS real, teléfono y backend desplegado.
+- **A evitar:** poner red en `features/entrada/`; su prueba de arquitectura lo prohíbe.
 ## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
 - **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
 - **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.

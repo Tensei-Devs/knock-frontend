@@ -8,3 +8,8 @@ export 'package:app/features/entrada/domain/validacion_entrada.dart'
         esCelularValido,
         esCodigoValido,
         formatearCelular;
+
+// La apelación de una cuenta suspendida (spec 033) reutiliza el marco y los
+// mensajes de la entrada.
+export 'package:app/features/entrada/presentation/mensaje_de_error.dart';
+export 'package:app/features/entrada/presentation/widgets/marco_de_entrada.dart';

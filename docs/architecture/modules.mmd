@@ -31,6 +31,7 @@ graph LR
   reportes["reportes"]
   router["router"]
   sesion["sesion"]
+  suspension["suspension"]
   tecnico["tecnico"]
   tecnicos_confianza["tecnicos_confianza"]
   tema["tema"]
@@ -53,7 +54,7 @@ graph LR
   maqueta -->|1| busqueda
   maqueta -->|7| cuenta
   maqueta -->|3| direcciones
-  maqueta -->|4| entrada
+  maqueta -->|3| entrada
   maqueta -->|1| explorar
   maqueta -->|8| inicio
   maqueta -->|2| mensajes
@@ -77,4 +78,6 @@ graph LR
   router -->|1| maqueta
   router -->|1| oficios
   router -->|2| previa
+  router -->|1| suspension
   router -->|1| trabajo
+  suspension -->|1| entrada
