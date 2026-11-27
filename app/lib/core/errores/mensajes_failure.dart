@@ -39,6 +39,7 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
   OpinionYaRespondidaFailure() => 'Esta opinión ya tiene respuesta.',
   YaBloqueadoFailure() => 'Ya habías bloqueado a esta persona.',
   ApelacionNoPermitidaFailure() => 'Este reporte ya no se puede apelar.',
+  AsistenteNoDisponibleFailure() => 'El asistente no está disponible.',
   EleccionRechazadaFailure() =>
     'No se pudo confirmar esa cotización. Revisa la lista.',
 };

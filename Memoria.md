@@ -1,5 +1,8 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Spec 042: asistente de IA apagado (KNOCK-266)
+- **Decisión:** interruptor de compilación `ASISTENTE_IA` (apagado por omisión). Encendido y con sesión y API, `/m/asistente` usa `POST /asistente/conversaciones`; las pantallas de resumen, borrador, rango y bitácora viven en `/m/tecnico/asistente/...`. Una respuesta con `origen` distinto de `proveedor` se rotula como plantilla. Apagado no se llama a la API y las pantallas de ejemplo dicen, con sesión, que no las generó una IA.
+- **Pendiente:** recurso de Azure OpenAI (T-00); enlazar las rutas del técnico cuando haya chat y trabajos con identificadores reales; foto en el turno del asistente; sin probar contra el backend desplegado.
 ## 2026-11-26 — Mapa real y filtros de técnicos (KNOCK-55, spec 036)
 - **Cambio:** el mapa de Inicio pide `GET /mapa/tecnicos` con los límites y el zoom de la cámara y pinta los grupos; un grupo de varios acerca y uno solo abre su perfil. La lista suma orden y, con ubicación, distancia y radio.
 - **Pendiente:** filtro por colonia, copia sin conexión del mapa (CA-16), accesibilidad de los pines, dispositivo y backend desplegado.

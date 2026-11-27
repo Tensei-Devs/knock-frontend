@@ -172,3 +172,9 @@ final class ApelacionNoPermitidaFailure extends Failure {
 final class OpinionYaRespondidaFailure extends Failure {
   const OpinionYaRespondidaFailure();
 }
+
+/// El servidor no tiene configurado el recurso de IA (503 en
+/// `/api/v1/asistente/*`, spec 042 D-04).
+final class AsistenteNoDisponibleFailure extends Failure {
+  const AsistenteNoDisponibleFailure();
+}
