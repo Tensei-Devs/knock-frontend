@@ -1330,6 +1330,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String get opinionesTitulo => 'Opiniones';
 
   @override
+  String get conversacionesSinConexion => 'Sin conexión';
+
+  @override
+  String get conversacionesGlobo => 'Mensajes';
+
+  @override
+  String conversacionesGloboConTotal(String total) {
+    return 'Mensajes, $total';
+  }
+
+  @override
+  String get conversacionesCargando => 'Cargando conversaciones…';
+
+  @override
+  String get conversacionesVacias =>
+      'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.';
+
+  @override
+  String get conversacionesAbrirPendiente =>
+      'Abrir conversaciones aún no está disponible.';
+
+  @override
+  String conversacionesNoLeidos(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total mensajes sin leer',
+      one: '1 mensaje sin leer',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String reputacionNivel(String nivel) {
     return 'Nivel: $nivel';
   }

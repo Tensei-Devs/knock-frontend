@@ -37,6 +37,9 @@ dependencies:
   flutter_secure_storage: 11.2.0
   # deviceId (UUID v4) que genera la app y guarda en almacenamiento seguro.
   uuid: 4.5.3
+  # KNOCK-73 (spec 020, D-04): canal en vivo del chat (`/hubs/chat`). Evaluada
+  # en Memoria.md.
+  signalr_netcore: 1.4.4
   # Spec 028 (KNOCK-260): abrir el aviso de privacidad en el navegador. Spec 016
   # (KNOCK-83): «Cómo llegar», llamar y WhatsApp. Solo lo importa core/enlaces.
   # Evaluada en Memoria.md.

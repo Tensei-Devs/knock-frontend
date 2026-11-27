@@ -2324,6 +2324,48 @@ abstract class AppLocalizations {
   /// **'Opiniones'**
   String get opinionesTitulo;
 
+  /// No description provided for @conversacionesSinConexion.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión'**
+  String get conversacionesSinConexion;
+
+  /// No description provided for @conversacionesGlobo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes'**
+  String get conversacionesGlobo;
+
+  /// No description provided for @conversacionesGloboConTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes, {total}'**
+  String conversacionesGloboConTotal(String total);
+
+  /// No description provided for @conversacionesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando conversaciones…'**
+  String get conversacionesCargando;
+
+  /// No description provided for @conversacionesVacias.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.'**
+  String get conversacionesVacias;
+
+  /// No description provided for @conversacionesAbrirPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Abrir conversaciones aún no está disponible.'**
+  String get conversacionesAbrirPendiente;
+
+  /// No description provided for @conversacionesNoLeidos.
+  ///
+  /// In es, this message translates to:
+  /// **'{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}'**
+  String conversacionesNoLeidos(int total);
+
   /// Nivel de reputación enviado por el servidor
   ///
   /// In es, this message translates to:

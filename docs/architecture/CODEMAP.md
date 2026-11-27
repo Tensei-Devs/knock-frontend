@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:41:21Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -22,9 +22,10 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 171 |
+| `l10n` | - | 3 | 4 | 175 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 56 | 287 | 541 |
+| `maqueta` | - | 58 | 291 | 549 |
+| `mensajes` | -, data, domain, presentation | 9 | 13 | 15 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -44,7 +45,7 @@
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
 | `visita` | -, data, domain, presentation | 10 | 16 | 16 |
-| `widgets` | core | 4 | 5 | 5 |
+| `widgets` | core | 5 | 6 | 6 |
 
 ## Tipos con el mismo nombre en varios lugares
 
@@ -497,7 +498,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4319, `isSupported()`:4324, `shouldReload()`:4328, `lookupAppLocalizations()`:4331
+  - `of()`:70, `load()`:4361, `isSupported()`:4366, `shouldReload()`:4370, `lookupAppLocalizations()`:4373
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -537,6 +538,8 @@
   - `distanciaKm()`:34, `evaluarCobertura()`:54, `build()`:104, `elegirZonaDisponible()`:182, `mostrarFueraDeCobertura()`:207, `hoja()`:211
 - `app/lib/features/maqueta/confianza_real.dart` — class `ConfianzaReal`, class `_Tarjeta`, class `GuardarTecnicoReal`, class `_GuardarTecnicoState`
   - `idDeTecnicoReal()`:15, `build()`:33, `stack()`:36, `build()`:73, `build()`:140
+- `app/lib/features/maqueta/conversaciones_reales.dart` — class `ConversacionesReales`, class `_ConversacionesRealesState`
+  - `initState()`:22, `dispose()`:55, `build()`:62
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
   - `guessCat()`:145, `longDate()`:648, `money()`:651, `nowH()`:661, `initials()`:666
 - `app/lib/features/maqueta/detalle_oficio_real.dart` — class `FrasesDelOficio`
@@ -556,7 +559,9 @@
 - `app/lib/features/maqueta/explorar_real.dart` — class `ExplorarReal`, class `_Aviso`, class `_Seccion`, class `_Fila`, class `_Servicio`, class `_Fotos`, class `_Tecnico`
   - `iconoDeOficio()`:14, `fechaDeCopia()`:21, `dos()`:22, `build()`:41, `reintentar()`:44, `build()`:112, `build()`:131, `build()`:151, `build()`:169, `build()`:220, `foto()`:221, `build()`:280
 - `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
-  - `previa()`:43, `entrada()`:44, `inicio()`:45, `explorar()`:46, `actividad()`:47, `trabajo()`:48, `cuenta()`:49, `configuracion()`:50, `rutaMaqueta()`:54, `Consumer()`:78, `build()`:243, `preparar()`:256, `conTransiciones()`:263, `envolver()`:271, `initState()`:294, `dispose()`:372, `build()`:380
+  - `previa()`:44, `entrada()`:45, `inicio()`:46, `explorar()`:47, `actividad()`:48, `trabajo()`:49, `cuenta()`:50, `configuracion()`:51, `rutaMaqueta()`:55, `Consumer()`:79, `build()`:244, `preparar()`:260, `conTransiciones()`:267, `envolver()`:275, `initState()`:298, `dispose()`:376, `build()`:384
+- `app/lib/features/maqueta/globo_real.dart` — class `GloboReal`, class `AvisoCanalCaido`
+  - `build()`:23, `GloboConversaciones()`:28, `build()`:49
 - `app/lib/features/maqueta/horarios_reales.dart` — class `HorariosSegunSesion`, class `HorariosReales`
   - `build()`:21, `build()`:51
 - `app/lib/features/maqueta/inicio_maqueta.dart` — class `InicioMaqueta`, class `_InicioMaquetaState`, class `_PuntoDeAvisos`
@@ -580,7 +585,7 @@
 - `app/lib/features/maqueta/pantalla_segun_sesion.dart` — class `PantallaSegunSesion`
   - `build()`:22
 - `app/lib/features/maqueta/pantallas_actividad.dart` — class `Marca`, class `BarraMarcaK`, class `PgTab`, class `ActividadMaqueta`, class `MensajesScreen`, class `ChatScreen`, class `_ChatScreenState`, class `VisitaMaqueta`, class `CitaScreen`, class `CalificarScreen`, class `_CalificarScreenState`, class `BloquearScreen`, class `ReportarScreen`, class `_ReportarScreenState`, class `CompartirScreen`, class `_CompartirScreenState`
-  - `build()`:37, `build()`:61, `build()`:122, `build()`:159, `msgFab()`:237, `jobCard()`:304, `jobChat()`:525, `adjustCard()`:577, `build()`:637, `InkWell()`:672, `initState()`:758, `dispose()`:773, `build()`:844, `reprogBlock()`:1280, `BtnK()`:1288, `reprogSheet()`:1297, `cancelBlock()`:1369, `cancelSheet()`:1377, `build()`:1427, `VisitaRealGate()`:1431, `build()`:1734, `VisitaRealGate()`:1738, `initState()`:1945, `dispose()`:1952, `build()`:1982 …
+  - `build()`:41, `build()`:65, `build()`:126, `build()`:163, `msgFab()`:243, `Positioned()`:244, `GloboConversaciones()`:254, `jobCard()`:267, `jobChat()`:488, `adjustCard()`:540, `build()`:600, `InkWell()`:641, `initState()`:727, `dispose()`:742, `build()`:813, `reprogBlock()`:1249, `BtnK()`:1257, `reprogSheet()`:1266, `cancelBlock()`:1338, `cancelSheet()`:1346, `build()`:1396, `VisitaRealGate()`:1400, `build()`:1703, `VisitaRealGate()`:1707, `initState()`:1914 …
 - `app/lib/features/maqueta/pantallas_buscar.dart` — class `BuscarScreen`, class `_BuscarScreenState`, class `PerfilScreen`, class `_PerfilScreenState`, class `OpinionesScreen`, class `_OpinionesScreenState`, class `AsistenteScreen`, class `_AsistenteScreenState`
   - `provCard()`:26, `CardK()`:28, `initState()`:90, `dispose()`:96, `build()`:160, `reviewW()`:397, `build()`:504, `PerfilTecnicoReal()`:509, `build()`:979, `initState()`:1163, `dispose()`:1182, `build()`:1281, `composerK()`:1519, `quickK()`:1525, `burbujaK()`:1527
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
@@ -588,7 +593,7 @@
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
   - `initState()`:65, `dispose()`:73, `build()`:130, `FieldK()`:410, `build()`:490, `step()`:496, `stateK0()`:613, `widenBlock()`:639, `initState()`:696, `build()`:1219, `CardK()`:1253
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
-  - `registrarRutasTecnico()`:45, `dispose()`:158, `clean()`:237, `advErrors()`:239, `initState()`:288, `dispose()`:295, `build()`:531, `openVerif()`:906, `privacyCard()`:927, `BtnK()`:1108, `build()`:1133, `initState()`:1265, `dispose()`:1271, `build()`:1277, `build()`:1420, `build()`:1509, `visitCard()`:1603, `BtnK()`:1671, `reqCard()`:1828, `workFab()`:1879, `Positioned()`:1883, `build()`:1945, `verifRow()`:1957, `build()`:2260, `build()`:2360 …
+  - `registrarRutasTecnico()`:47, `dispose()`:160, `clean()`:239, `advErrors()`:241, `initState()`:290, `dispose()`:297, `build()`:533, `openVerif()`:908, `privacyCard()`:929, `BtnK()`:1110, `build()`:1135, `initState()`:1267, `dispose()`:1273, `build()`:1279, `build()`:1422, `build()`:1511, `visitCard()`:1605, `BtnK()`:1673, `reqCard()`:1830, `workFab()`:1881, `Positioned()`:1888, `build()`:1950, `verifRow()`:1962, `build()`:2265, `build()`:2365 …
 - `app/lib/features/maqueta/pantallas_tecnico2.dart` — class `CotizarScreen`, class `_CotizarState`, class `IniciarScreen`, class `_IniciarState`, class `CerrarScreen`, class `_CerrarState`, class `PerfilEditarScreen`, class `_PerfilEditarState`, class `ReputacionScreen`, class `_ReputacionState`
   - `dispose()`:43, `doSend()`:58, `build()`:69, `upd()`:107, `seg()`:112, `BtnK()`:283, `FieldK()`:368, `dispose()`:475, `build()`:481, `Pg()`:485, `check()`:571, `dispose()`:666, `build()`:727, `BtnK()`:851, `initState()`:901, `dispose()`:921, `build()`:984, `dispose()`:1198, `build()`:1204
 - `app/lib/features/maqueta/perfil_publico_real.dart` — class `PerfilPublicoReal`, class `_Resumen`, class `_Colonia`, class `_ColoniaState`, class `_Servicios`, class `_Fotos`
@@ -623,6 +628,33 @@
   - `build()`:23, `build()`:60, `hojaClienteAusente()`:71, `elegida()`:133, `aTiempo()`:139, `dispose()`:249, `build()`:268
 - `app/lib/features/maqueta/visita_real.dart` — class `VisitaRealGate`
   - `build()`:29, `textoDeMotivoDeCodigo()`:75
+
+### mensajes
+
+**-**
+
+- `app/lib/features/mensajes/mensajes.dart` — —
+- `app/lib/features/mensajes/mensajes_providers.dart` — —
+
+**data**
+
+- `app/lib/features/mensajes/data/canal_mensajes_signalr.dart` — class `CanalMensajesSignalR`
+  - `cerrar()`:54, `totalDeNoLeidos()`:67
+- `app/lib/features/mensajes/data/conversaciones_repository_api.dart` — class `ConversacionesRepositoryApi`
+  - `consultar()`:17, `contador()`:37, `marcarLeido()`:47
+
+**domain**
+
+- `app/lib/features/mensajes/domain/canal_mensajes.dart` — class `CanalMensajes`
+- `app/lib/features/mensajes/domain/conversacion.dart` — class `Conversacion`, class `ContraparteConversacion`, class `UltimoMensaje`, class `ContadorDeNoLeidos`, class `ResumenConversaciones`
+- `app/lib/features/mensajes/domain/conversaciones_repository.dart` — class `ConversacionesRepository`
+
+**presentation**
+
+- `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
+  - `reintentar()`:33, `cargarMas()`:71, `canalConectado()`:118, `canalDesconectado()`:122, `actualizarTotalDesdeServidor()`:135, `limpiar()`:148, `dispose()`:161
+- `app/lib/features/mensajes/presentation/globo_controller.dart` — class `EstadoGlobo`, class `GloboController`
+  - `build()`:44, `reintentar()`:58, `actualizar()`:64
 
 ### mi
 
@@ -863,7 +895,7 @@
 
 - `app/lib/core/router/app_router.dart` — —
 - `app/lib/core/router/app_shell.dart` — class `_Destino`, class `AppShell`
-  - `ramasVisibles()`:36, `build()`:53
+  - `ramasVisibles()`:36, `build()`:62
 - `app/lib/core/router/destino_de_regreso_provider.dart` — class `DestinoDeRegreso`
   - `build()`:10, `recordar()`:13, `olvidar()`:18
 - `app/lib/core/router/rutas.dart` — class `Rutas`
@@ -1052,6 +1084,8 @@
   - `build()`:25
 - `app/lib/core/widgets/fila_knock.dart` — class `GrupoDeFilas`, class `FilaKnock`
   - `build()`:13, `build()`:59
+- `app/lib/core/widgets/globo_conversaciones.dart` — class `GloboConversaciones`
+  - `build()`:24
 - `app/lib/core/widgets/pantalla_titulada.dart` — class `PantallaTitulada`
   - `build()`:14
 - `app/lib/core/widgets/tarjeta_knock.dart` — class `TarjetaKnock`

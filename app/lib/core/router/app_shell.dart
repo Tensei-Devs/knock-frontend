@@ -41,7 +41,12 @@ List<int> ramasVisibles({required bool esTecnico}) => [
 /// Estructura con la barra inferior Inicio · Explorar · Actividad · Trabajo ·
 /// Mi cuenta (Trabajo solo si el usuario es técnico).
 class AppShell extends ConsumerWidget {
-  const AppShell({required this.navigationShell, this.iconoDe, super.key});
+  const AppShell({
+    required this.navigationShell,
+    this.iconoDe,
+    this.globo,
+    super.key,
+  });
 
   final StatefulNavigationShell navigationShell;
 
@@ -49,14 +54,26 @@ class AppShell extends ConsumerWidget {
   /// devuelve `null`, se usa el icono de la barra. Lo usa el modo maqueta.
   final Widget? Function(int rama, {required bool seleccionado})? iconoDe;
 
+  /// Globo flotante sobre la barra, en todas las pestañas (spec 020, D-05).
+  /// Se oculta con el teclado abierto (R-12).
+  final Widget? globo;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ramas = ramasVisibles(esTecnico: ref.watch(esTecnicoProvider));
     final seleccionado = ramas.indexOf(navigationShell.currentIndex);
     final textos = AppLocalizations.of(context);
+    final teclado = MediaQuery.viewInsetsOf(context).bottom > 0;
 
     return Scaffold(
-      body: navigationShell,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          navigationShell,
+          if (globo != null && !teclado)
+            Positioned(right: 16, bottom: 16, child: globo!),
+        ],
+      ),
       bottomNavigationBar: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: context.colores.linea)),

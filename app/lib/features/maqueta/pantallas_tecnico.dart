@@ -17,6 +17,8 @@ import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/carga_k.dart';
+import 'package:app/features/maqueta/conversaciones_reales.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
@@ -1877,7 +1879,10 @@ Widget reqCard(BuildContext context, Req r) {
 }
 
 Widget? workFab(BuildContext context) {
-  if (pv.th.isEmpty) return null;
+  // Con sesión y API manda el globo real de todas las pestañas.
+  final real = ProviderScope.containerOf(context)
+      .read(solicitudesRealesActivasProvider);
+  if (real || pv.th.isEmpty) return null;
   final k = kc(context);
   final u = pv.unreadN;
   return Positioned(
@@ -2357,7 +2362,13 @@ class AgendaEnMapaBloque extends StatelessWidget {
 class TecMensajesScreen extends StatelessWidget {
   const TecMensajesScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mensajes de clientes',
+    real: const ConversacionesReales(),
+    ejemplo: _ejemplo,
+  );
+
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final ids = pv.th.keys.toList();
     return Pg(
