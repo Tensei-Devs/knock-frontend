@@ -42,6 +42,7 @@ String mensajeDeFailure(Failure falla) => switch (falla) {
   SinPerfilTecnicoFailure() => 'Necesitas un perfil de técnico para ver esto.',
   CotizacionNoPermitidaFailure() =>
     'Esta solicitud ya no admite tu cotización.',
+  AsistenteNoDisponibleFailure() => 'El asistente no está disponible.',
   EleccionRechazadaFailure() =>
     'No se pudo confirmar esa cotización. Revisa la lista.',
 };

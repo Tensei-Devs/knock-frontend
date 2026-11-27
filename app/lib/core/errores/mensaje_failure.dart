@@ -41,6 +41,7 @@ String mensajeDeError(AppLocalizations textos, Object error) {
       MotivoCotizacionRechazada.yaCotizada => textos.cotizarYaCotizada,
       MotivoCotizacionRechazada.cupoLleno => textos.cotizarCupoLleno,
     },
+    AsistenteNoDisponibleFailure() => textos.asistenteNoDisponible,
     EleccionRechazadaFailure(:final motivo) => switch (motivo) {
       MotivoEleccionRechazada.yaElegida => textos.cotizacionYaElegida,
       MotivoEleccionRechazada.cotizacionNoDisponible =>

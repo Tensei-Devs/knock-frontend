@@ -3,18 +3,17 @@ import 'dart:async';
 import 'package:app/core/router/app_shell.dart';
 import 'package:app/core/router/rutas.dart';
 import 'package:app/features/actividad/actividad.dart' as act;
-import 'package:app/features/maqueta/cotizar_real.dart';
-import 'package:app/features/maqueta/terminar_servicio_real.dart';
-import 'package:app/features/maqueta/trabajo_real.dart';
-import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
-import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/maqueta/anim_k.dart';
+import 'package:app/features/maqueta/asistente_real.dart';
+import 'package:app/features/maqueta/cotizar_real.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/entrada_maqueta.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/explorar_maqueta.dart';
+import 'package:app/features/maqueta/globo_real.dart';
 import 'package:app/features/maqueta/inicio_maqueta.dart';
 import 'package:app/features/maqueta/nav.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
@@ -22,12 +21,15 @@ import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/pantallas_tecnico.dart';
 import 'package:app/features/maqueta/pantallas_tecnico2.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
+import 'package:app/features/maqueta/terminar_servicio_real.dart';
+import 'package:app/features/maqueta/trabajo_real.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 // Fachada del modo maqueta (spec 045). Es lo único de `features/maqueta/` que
@@ -74,15 +76,19 @@ GoRoute rutaMaqueta() => GoRoute(
       path: 'asistente',
       builder: (c, s) {
         final e = s.extra;
-        if (e is Map) {
-          return AsistenteScreen(
-            texto: e['texto'] as String?,
-            cat: e['cat'] as String?,
-          );
-        }
-        return AsistenteScreen(texto: e is String ? e : null);
+        final dato = e is Map ? e['texto'] : e;
+        final texto = dato is String ? dato : null;
+        return Consumer(
+          builder: (c, ref, _) => ref.watch(asistenteDisponibleProvider)
+              ? AsistenteChatReal(texto: texto)
+              : AsistenteScreen(
+                  texto: texto,
+                  cat: e is Map ? e['cat'] as String? : null,
+                ),
+        );
       },
     ),
+    ...rutasAsistente(),
     GoRoute(path: 'solicitar', builder: (c, s) => const SolicitarScreen()),
     GoRoute(
       path: 'enviada/:id',
@@ -243,8 +249,11 @@ class ShellMaqueta extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: maq,
-    builder: (context, _) =>
-        AppShell(navigationShell: navigationShell, iconoDe: _icono),
+    builder: (context, _) => AppShell(
+      navigationShell: navigationShell,
+      iconoDe: _icono,
+      globo: GloboReal(tecnico: navigationShell.currentIndex == ramaTrabajo),
+    ),
   );
 }
 

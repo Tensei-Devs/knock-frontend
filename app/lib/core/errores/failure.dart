@@ -196,3 +196,9 @@ final class CotizacionNoPermitidaFailure extends Failure {
 
   final MotivoCotizacionRechazada motivo;
 }
+
+/// El servidor no tiene configurado el recurso de IA (503 en
+/// `/api/v1/asistente/*`, spec 042 D-04).
+final class AsistenteNoDisponibleFailure extends Failure {
+  const AsistenteNoDisponibleFailure();
+}

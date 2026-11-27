@@ -1330,6 +1330,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String get opinionesTitulo => 'Opiniones';
 
   @override
+  String get conversacionesSinConexion => 'Sin conexión';
+
+  @override
+  String get conversacionesGlobo => 'Mensajes';
+
+  @override
+  String conversacionesGloboConTotal(String total) {
+    return 'Mensajes, $total';
+  }
+
+  @override
+  String get conversacionesCargando => 'Cargando conversaciones…';
+
+  @override
+  String get conversacionesVacias =>
+      'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.';
+
+  @override
+  String get conversacionesAbrirPendiente =>
+      'Abrir conversaciones aún no está disponible.';
+
+  @override
+  String conversacionesNoLeidos(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total mensajes sin leer',
+      one: '1 mensaje sin leer',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String reputacionNivel(String nivel) {
     return 'Nivel: $nivel';
   }
@@ -2344,6 +2377,122 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tecnicosListadoTitulo => 'Expertos';
+
+  @override
+  String get asistenteNoDisponible =>
+      'El asistente de IA no está disponible. Puedes seguir sin él.';
+
+  @override
+  String get asistenteEjemplo => 'Esto es un ejemplo: no lo generó una IA.';
+
+  @override
+  String get asistenteLimite =>
+      'Llegaste al límite de uso del asistente. Inténtalo más tarde.';
+
+  @override
+  String get asistenteCargando => 'Consultando al asistente…';
+
+  @override
+  String get asistenteReintentar => 'Reintentar';
+
+  @override
+  String get asistenteGeneradoPorIa =>
+      'Generado por IA. Revísalo antes de usarlo.';
+
+  @override
+  String get asistenteDePlantilla =>
+      'Respuesta automática de plantilla: no la generó una IA.';
+
+  @override
+  String get asistenteTitulo => 'Asistente Knock';
+
+  @override
+  String get asistenteEscribe => '¿Qué necesitas arreglar?';
+
+  @override
+  String get asistenteSinTurno => 'Cuéntale tu problema al asistente.';
+
+  @override
+  String get asistenteEnviar => 'Enviar';
+
+  @override
+  String get asistentePideFoto => 'Agrega una foto al armar tu solicitud.';
+
+  @override
+  String get asistenteArmarSolicitud => 'Revisar y editar mi solicitud';
+
+  @override
+  String get asistenteResumenTitulo => 'Resumen de la conversación';
+
+  @override
+  String get asistenteResumenVacio => 'Todavía no hay nada que resumir.';
+
+  @override
+  String get asistenteSabe => 'Lo que sabes';
+
+  @override
+  String get asistentePorConfirmar => 'Por confirmar';
+
+  @override
+  String get asistenteQueLlevar => 'Qué llevar';
+
+  @override
+  String get asistenteBorradorTitulo => 'Borrador de cotización';
+
+  @override
+  String get asistentePrecio => 'Precio sugerido (MXN)';
+
+  @override
+  String get asistenteTiempo => 'Tiempo estimado';
+
+  @override
+  String get asistenteDia => 'Día';
+
+  @override
+  String get asistenteNota => 'Nota para el cliente';
+
+  @override
+  String get asistenteNadaSeEnvia =>
+      'Es un borrador: nada se envía desde aquí.';
+
+  @override
+  String get asistenteRangoTitulo => 'Rango de precio';
+
+  @override
+  String get asistenteRangoVacio =>
+      'Todavía no hay referencia de precio para este trabajo.';
+
+  @override
+  String get asistenteBitacoraTitulo => 'Bitácora del trabajo';
+
+  @override
+  String get asistenteBitacoraVacia =>
+      'Aún no guardas bitácora para este trabajo.';
+
+  @override
+  String get asistenteUnoPorLinea =>
+      'Un elemento por línea, hasta 10 de 200 caracteres.';
+
+  @override
+  String get asistenteGuardar => 'Guardar en bitácora';
+
+  @override
+  String get asistenteGuardada => 'Bitácora guardada.';
+
+  @override
+  String asistenteRango(String minimo, String maximo) {
+    return 'De $minimo a $maximo MXN';
+  }
+
+  @override
+  String asistenteMuestras(String n, String fuente) {
+    return 'Muestras: $n. Fuente: $fuente.';
+  }
+
+  @override
+  String asistenteCopia(String fecha) {
+    return 'Sin conexión. Esta es la copia del $fecha; puede estar desactualizada.';
+  }
 
   @override
   String get cotizarSinPerfil =>
