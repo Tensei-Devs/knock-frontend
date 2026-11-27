@@ -897,3 +897,8 @@
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Interruptor «Disponible hoy» en Trabajo (KNOCK-266, specs 019 y 036)
+- **Qué cambió:** la cabecera de Trabajo tiene el interruptor. El valor inicial sale de `GET /tecnicos/me/trabajo` y el cambio usa `PUT /tecnicos/me/disponibilidad` (repositorio que ya existía sin pantalla). Enmienda del 2026-11-27 firmada en el PR #148, todavía sin fusionar.
+- **Pendiente:** resumen, solicitudes nuevas y descartar de Trabajo; sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** calcular en el teléfono cuándo se apaga: lo decide el servidor.

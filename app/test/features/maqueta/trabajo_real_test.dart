@@ -7,6 +7,8 @@ import 'package:app/features/actividad/actividad.dart';
 import 'package:app/features/maqueta/terminar_servicio_real.dart';
 import 'package:app/features/maqueta/trabajo_real.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/features/tecnico/data/disponible_hoy_repository_api.dart';
+import 'package:app/features/tecnico/tecnico_providers.dart';
 import 'package:app/features/visita/data/acciones_visita_repository_api.dart';
 import 'package:app/features/visita/data/agenda_repository_api.dart';
 import 'package:app/features/visita/visita_providers.dart';
@@ -33,6 +35,9 @@ class _Api {
         'items': [_visita('v1', 'confirmada'), _visita('v2', 'en_curso')],
         'nextCursor': null,
       }, 200);
+    }
+    if (ruta.endsWith('/tecnicos/me/trabajo')) {
+      return _json({'disponibleHoy': false}, 200);
     }
     if (estadoDeAccion != 200) return _json({}, estadoDeAccion);
     if (ruta.endsWith('/cliente-ausente')) {
@@ -64,6 +69,9 @@ class _Api {
 
   List<Override> get overrides => [
     solicitudesRealesActivasProvider.overrideWithValue(true),
+    disponibleHoyRepositoryProvider.overrideWithValue(
+      DisponibleHoyRepositoryApi(transporte: cliente, url: _url),
+    ),
     agendaRepositoryProvider.overrideWithValue(
       AgendaRepositoryApi(transporte: cliente, url: _url),
     ),

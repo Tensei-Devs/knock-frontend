@@ -1,6 +1,7 @@
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/maqueta/agenda_real.dart';
+import 'package:app/features/maqueta/disponible_hoy_real.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart' show PgTab;
 import 'package:app/features/maqueta/pantallas_tecnico.dart'
     show TrabajoMaqueta;
@@ -25,6 +26,7 @@ class TrabajoSegunSesion extends ConsumerWidget {
     return PgTab(
       title: 'Trabajo',
       body: stack([
+        const DisponibleHoyReal(),
         h3(t.trabajoProximasVisitas),
         const AgendaReal(avisoDeMapa: false),
         sMut(t.trabajoPendiente),
