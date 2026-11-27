@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:04:33Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T05:02:41Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -21,7 +21,7 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 165 |
+| `l10n` | - | 3 | 4 | 171 |
 | `layout` | core | 1 | 1 | 0 |
 | `maqueta` | - | 55 | 275 | 527 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
@@ -37,6 +37,7 @@
 | `reportes` | -, data, domain, presentation | 6 | 13 | 21 |
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
+| `suspension` | -, data, domain, presentation | 6 | 8 | 10 |
 | `tecnico` | -, data, domain, presentation | 20 | 45 | 41 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
@@ -347,7 +348,7 @@
 - `app/lib/features/entrada/presentation/celular_screen.dart` — class `CelularScreen`, class `_CelularScreenState`, class `_CasillaDelAviso`, class `_CasillaDelAvisoState`
   - `dispose()`:38, `build()`:62, `dispose()`:154, `build()`:172, `CheckboxListTile()`:202
 - `app/lib/features/entrada/presentation/codigo_screen.dart` — class `CodigoScreen`, class `_CodigoScreenState`
-  - `dispose()`:35, `build()`:67
+  - `dispose()`:36, `build()`:68
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
   - `build()`:18, `reiniciar()`:25
 - `app/lib/features/entrada/presentation/entrada_controller.dart` — class `EntradaUiState`, class `EntradaController`
@@ -473,7 +474,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4115, `isSupported()`:4120, `shouldReload()`:4124, `lookupAppLocalizations()`:4127
+  - `of()`:70, `load()`:4211, `isSupported()`:4216, `shouldReload()`:4220, `lookupAppLocalizations()`:4223
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -521,7 +522,7 @@
   - `build()`:22, `dispose()`:85, `build()`:157, `build()`:238, `build()`:267, `BtnK()`:303
 - `app/lib/features/maqueta/en_dict.dart` — —
 - `app/lib/features/maqueta/entrada_maqueta.dart` — class `EntradaMaqueta`, class `_EntradaState`
-  - `initState()`:66, `dispose()`:72, `build()`:312, `head()`:321
+  - `initState()`:65, `dispose()`:71, `build()`:311, `head()`:320
 - `app/lib/features/maqueta/envio_de_visita.dart` — mixin `EnvioDeVisita`
 - `app/lib/features/maqueta/estado.dart` — class `Quote`, class `Adjust`, class `Resched`, class `Job`, enum `CargaReal`, class `Msg`, class `Notif`, class `Contacto`, class `Casa`, class `Solicitud`, class `AsisMsg`, class `Asis`, class `UserData`, class `MaquetaEstado`, class `AvisoToast`
   - `qTope()`:46, `fijarOficios()`:252, `fijarSolicitudesReales()`:268, `refresh()`:276, `cargarTelefono()`:284, `guardarTelefono()`:290, `olvidarTelefono()`:296, `dispose()`:302, `after()`:309, `toast()`:320, `job()`:324, `notif()`:334, `results()`:344, `convIds()`:362, `accepted()`:366, `toggleSave()`:371, `openChat()`:376, `sendMsg()`:381, `block()`:404, `unblock()`:409, `startReq()`:415, `sendReq()`:434, `agregarSolicitudReal()`:475, `startClientQuotes()`:481, `reach()`:491 …
@@ -841,7 +842,7 @@
 - `app/lib/core/router/destino_de_regreso_provider.dart` — class `DestinoDeRegreso`
   - `build()`:10, `recordar()`:13, `olvidar()`:18
 - `app/lib/core/router/rutas.dart` — class `Rutas`
-  - `solicitud()`:25, `cotizaciones()`:29, `visita()`:33, `esRutaPublica()`:68, `redireccionPorSesion()`:91, `rutaDeEntrada()`:109, `destinoDeRegreso()`:128, `destinoValidoODescartar()`:133, `redireccionPorRol()`:161, `redireccionPorPerfil()`:171
+  - `solicitud()`:25, `cotizaciones()`:29, `visita()`:33, `esRutaPublica()`:71, `redireccionPorSesion()`:94, `rutaDeEntrada()`:112, `destinoDeRegreso()`:131, `destinoValidoODescartar()`:136, `redireccionPorRol()`:164, `redireccionPorPerfil()`:174
 
 ### sesion
 
@@ -877,6 +878,30 @@
   - `toString()`:26, `enviarCodigo()`:52, `tokenDeId()`:58, `cerrarSesion()`:62
 - `app/lib/core/sesion/verificador_celular_firebase.dart` — class `VerificadorCelularFirebase`
   - `enviarCodigo()`:21, `tokenDeId()`:66, `cerrarSesion()`:84, `mapearErrorFirebase()`:88
+
+### suspension
+
+**-**
+
+- `app/lib/features/suspension/suspension.dart` — —
+- `app/lib/features/suspension/suspension_providers.dart` — —
+
+**data**
+
+- `app/lib/features/suspension/data/apelacion_suspension_repository_api.dart` — class `ApelacionSuspensionRepositoryApi`
+  - `consultar()`:45, `presentar()`:49
+
+**domain**
+
+- `app/lib/features/suspension/domain/apelacion_suspension.dart` — class `ApelacionDeSuspension`, class `ApelacionSuspensionRepository`
+  - `textoDeApelacionValido()`:22
+
+**presentation**
+
+- `app/lib/features/suspension/presentation/apelacion_controller.dart` — enum `PasoDeApelacion`, class `ApelacionUiState`, class `ApelacionController`
+  - `build()`:49, `enviarCodigo()`:53, `verificar()`:58, `reintentarConsulta()`:74, `presentar()`:90
+- `app/lib/features/suspension/presentation/apelacion_screen.dart` — class `ApelacionScreen`, class `_ApelacionScreenState`
+  - `dispose()`:32, `build()`:88
 
 ### tecnico
 

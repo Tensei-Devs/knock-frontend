@@ -4105,6 +4105,102 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Expertos'**
   String get tecnicosListadoTitulo;
+
+  /// Texto de la app: suspensionApelar
+  ///
+  /// In es, this message translates to:
+  /// **'Apelar la suspensión'**
+  String get suspensionApelar;
+
+  /// Texto de la app: suspensionTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Tu apelación'**
+  String get suspensionTitulo;
+
+  /// Texto de la app: suspensionDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número con un código por SMS. Esto no inicia sesión.'**
+  String get suspensionDetalle;
+
+  /// Texto de la app: suspensionEnviarCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get suspensionEnviarCodigo;
+
+  /// Texto de la app: suspensionVerificar
+  ///
+  /// In es, this message translates to:
+  /// **'Verificar'**
+  String get suspensionVerificar;
+
+  /// Texto de la app: suspensionSinConsulta
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.'**
+  String get suspensionSinConsulta;
+
+  /// Texto de la app: suspensionTexto
+  ///
+  /// In es, this message translates to:
+  /// **'Tus motivos'**
+  String get suspensionTexto;
+
+  /// Texto de la app: suspensionTextoAyuda
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe entre 8 y 500 caracteres.'**
+  String get suspensionTextoAyuda;
+
+  /// Texto de la app: suspensionPresentar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar apelación'**
+  String get suspensionPresentar;
+
+  /// Texto de la app: suspensionNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible.'**
+  String get suspensionNoDisponible;
+
+  /// Texto de la app: suspensionNoPermitida
+  ///
+  /// In es, this message translates to:
+  /// **'No se puede presentar otra apelación.'**
+  String get suspensionNoPermitida;
+
+  /// Texto de la app: suspensionVerificarOtraVez
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número otra vez con un código por SMS.'**
+  String get suspensionVerificarOtraVez;
+
+  /// Texto de la app: suspensionVolver
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get suspensionVolver;
+
+  /// Texto de la app: suspensionEstado
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, pendiente{Tu apelación está en revisión.} aceptada{Tu apelación fue aceptada.} rechazada{Tu apelación fue rechazada.} other{Estado de tu apelación: {estado}}}'**
+  String suspensionEstado(String estado);
+
+  /// Texto de la app: suspensionPresentadaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Presentada el {fecha}'**
+  String suspensionPresentadaEl(String fecha);
+
+  /// Texto de la app: suspensionResueltaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Resuelta el {fecha}'**
+  String suspensionResueltaEl(String fecha);
 }
 
 class _AppLocalizationsDelegate

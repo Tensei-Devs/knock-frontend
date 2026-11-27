@@ -2336,4 +2336,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tecnicosListadoTitulo => 'Experts';
+
+  @override
+  String get suspensionApelar => 'Appeal the suspension';
+
+  @override
+  String get suspensionTitulo => 'Your appeal';
+
+  @override
+  String get suspensionDetalle =>
+      'Verify your number with an SMS code. This doesn’t sign you in.';
+
+  @override
+  String get suspensionEnviarCodigo => 'Send me the code';
+
+  @override
+  String get suspensionVerificar => 'Verify';
+
+  @override
+  String get suspensionSinConsulta =>
+      'There’s no appeal available to check. If you want to appeal, write your reasons.';
+
+  @override
+  String get suspensionTexto => 'Your reasons';
+
+  @override
+  String get suspensionTextoAyuda => 'Write between 8 and 500 characters.';
+
+  @override
+  String get suspensionPresentar => 'Send appeal';
+
+  @override
+  String get suspensionNoDisponible => 'There’s no appeal available.';
+
+  @override
+  String get suspensionNoPermitida => 'You can’t send another appeal.';
+
+  @override
+  String get suspensionVerificarOtraVez =>
+      'Verify your number again with an SMS code.';
+
+  @override
+  String get suspensionVolver => 'Back';
+
+  @override
+  String suspensionEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'pendiente': 'Your appeal is under review.',
+      'aceptada': 'Your appeal was accepted.',
+      'rechazada': 'Your appeal was rejected.',
+      'other': 'Your appeal status: $estado',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String suspensionPresentadaEl(String fecha) {
+    return 'Sent on $fecha';
+  }
+
+  @override
+  String suspensionResueltaEl(String fecha) {
+    return 'Resolved on $fecha';
+  }
 }

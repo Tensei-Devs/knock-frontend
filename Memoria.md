@@ -869,3 +869,8 @@
 - **Qué cambió:** se agrega ADR-007, sin firma.
 - **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
 - **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — Apelación de una cuenta suspendida (KNOCK-266, spec 033)
+- **Qué cambió:** tras `account_suspended` al entrar se puede apelar en `/entrar/apelacion`: SMS nuevo, `idToken` de Firebase solo en memoria y sin sesión de Knock (`GET` y `POST /suspension/apelacion`).
+- **Pendiente:** SMS real, teléfono y backend desplegado.
+- **A evitar:** poner red en `features/entrada/`; su prueba de arquitectura lo prohíbe.

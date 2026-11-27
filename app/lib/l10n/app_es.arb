@@ -2317,5 +2317,84 @@
       }
     }
   },
-  "tecnicosListadoTitulo": "Expertos"
+  "tecnicosListadoTitulo": "Expertos",
+  "suspensionApelar": "Apelar la suspensión",
+  "@suspensionApelar": {
+    "description": "Texto de la app: suspensionApelar"
+  },
+  "suspensionTitulo": "Tu apelación",
+  "@suspensionTitulo": {
+    "description": "Texto de la app: suspensionTitulo"
+  },
+  "suspensionDetalle": "Verifica tu número con un código por SMS. Esto no inicia sesión.",
+  "@suspensionDetalle": {
+    "description": "Texto de la app: suspensionDetalle"
+  },
+  "suspensionEnviarCodigo": "Enviarme el código",
+  "@suspensionEnviarCodigo": {
+    "description": "Texto de la app: suspensionEnviarCodigo"
+  },
+  "suspensionVerificar": "Verificar",
+  "@suspensionVerificar": {
+    "description": "Texto de la app: suspensionVerificar"
+  },
+  "suspensionSinConsulta": "No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.",
+  "@suspensionSinConsulta": {
+    "description": "Texto de la app: suspensionSinConsulta"
+  },
+  "suspensionTexto": "Tus motivos",
+  "@suspensionTexto": {
+    "description": "Texto de la app: suspensionTexto"
+  },
+  "suspensionTextoAyuda": "Escribe entre 8 y 500 caracteres.",
+  "@suspensionTextoAyuda": {
+    "description": "Texto de la app: suspensionTextoAyuda"
+  },
+  "suspensionPresentar": "Enviar apelación",
+  "@suspensionPresentar": {
+    "description": "Texto de la app: suspensionPresentar"
+  },
+  "suspensionNoDisponible": "No hay una apelación disponible.",
+  "@suspensionNoDisponible": {
+    "description": "Texto de la app: suspensionNoDisponible"
+  },
+  "suspensionNoPermitida": "No se puede presentar otra apelación.",
+  "@suspensionNoPermitida": {
+    "description": "Texto de la app: suspensionNoPermitida"
+  },
+  "suspensionVerificarOtraVez": "Verifica tu número otra vez con un código por SMS.",
+  "@suspensionVerificarOtraVez": {
+    "description": "Texto de la app: suspensionVerificarOtraVez"
+  },
+  "suspensionVolver": "Volver",
+  "@suspensionVolver": {
+    "description": "Texto de la app: suspensionVolver"
+  },
+  "suspensionEstado": "{estado, select, pendiente{Tu apelación está en revisión.} aceptada{Tu apelación fue aceptada.} rechazada{Tu apelación fue rechazada.} other{Estado de tu apelación: {estado}}}",
+  "@suspensionEstado": {
+    "description": "Texto de la app: suspensionEstado",
+    "placeholders": {
+      "estado": {
+        "type": "String"
+      }
+    }
+  },
+  "suspensionPresentadaEl": "Presentada el {fecha}",
+  "@suspensionPresentadaEl": {
+    "description": "Texto de la app: suspensionPresentadaEl",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  },
+  "suspensionResueltaEl": "Resuelta el {fecha}",
+  "@suspensionResueltaEl": {
+    "description": "Texto de la app: suspensionResueltaEl",
+    "placeholders": {
+      "fecha": {
+        "type": "String"
+      }
+    }
+  }
 }
