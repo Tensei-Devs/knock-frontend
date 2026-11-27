@@ -2,6 +2,8 @@
 /// (la maqueta) pueden usar sin tocar sus internos.
 library;
 
+export 'package:app/features/visita/presentation/agenda_controller.dart';
+
 export 'package:app/features/visita/domain/acciones_visita.dart';
 export 'package:app/features/visita/domain/precio_de_visita.dart';
 export 'package:app/features/visita/presentation/precio_de_visita_controller.dart';

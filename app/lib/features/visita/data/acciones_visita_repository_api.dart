@@ -1,9 +1,10 @@
+import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/contrato_json.dart';
 import 'package:app/features/visita/domain/acciones_visita.dart';
 import 'package:http/http.dart' as http;
 
-/// REAL: `POST /api/v1/visitas/{id}/cancelar`, `/reprogramar` y
-/// `/no-terminado` (backend 050). Con sesión, por el transporte de la spec 026.
+/// REAL: `POST /api/v1/visitas/{id}/cancelar`, `/reprogramar`,
+/// `/cliente-ausente`, `/terminar` y `/no-terminado` (backend 050). Con sesión, por el transporte de la spec 026.
 /// El motivo y el texto de la persona no se registran (CA-37).
 class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   const AccionesVisitaRepositoryApi({
@@ -17,7 +18,7 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   Future<Map<Object?, Object?>> _enviar(
     String visitaId,
     String accion,
-    Map<String, Object?> cuerpo,
+    Map<String, Object?>? cuerpo,
   ) async {
     final r = await enviarJsonONoEncontrado(
       transporte,
@@ -57,5 +58,36 @@ class AccionesVisitaRepositoryApi implements AccionesVisitaRepository {
   Future<void> reportarNoTerminado(String visitaId, String texto) async {
     final m = await _enviar(visitaId, 'no-terminado', {'texto': texto});
     textoObligatorio(m['estado']);
+  }
+
+  @override
+  Future<String> clienteAusente(String visitaId) async {
+    final m = await _enviar(visitaId, 'cliente-ausente', null);
+    _verificarVisita(m, visitaId);
+    textoObligatorio(m['quienFalto']);
+    return textoObligatorio(m['estado']);
+  }
+
+  @override
+  Future<String> terminar(
+    String visitaId, {
+    required String descripcion,
+    required List<String> fotos,
+    String? recomendacion,
+  }) async {
+    final m = await _enviar(visitaId, 'terminar', {
+      'descripcion': descripcion,
+      'recomendacion': recomendacion,
+      'fotos': fotos,
+    });
+    _verificarVisita(m, visitaId);
+    fechaHoraObligatoria(m['terminadaEn']);
+    return textoObligatorio(m['estado']);
+  }
+
+  static void _verificarVisita(Map<Object?, Object?> m, String visitaId) {
+    if (textoObligatorio(m['visitaId']) != visitaId) {
+      throw const DatosInvalidosFailure();
+    }
   }
 }

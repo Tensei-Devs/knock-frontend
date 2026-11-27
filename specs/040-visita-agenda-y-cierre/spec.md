@@ -155,8 +155,25 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 - En reprogramar, responder la reprogramación, cancelar, «no terminado» y permiso de fotos, una persona ajena a la visita recibe **404**, igual que una visita inexistente (backend 050, CA-08, 14, 20, 37 y 43). La app lo muestra como «no disponible». El 403 queda para las rutas que exigen perfil de técnico.
 - Un id de visita mal formado o un `permiso` que no es booleano responden **400**.
 
+## Nota de enmienda (2026-11-26, el técnico no se presentó)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 064 y su enmienda firmada del 2026-11-24.
+
+| Método y ruta | Cuerpo | Respuesta | Errores |
+|---|---|---|---|
+| `POST /api/v1/visitas/{id}/tecnico-ausente` | sin cuerpo; solo el cliente dueño | `200` `{ visitaId, estado: "no_presentado", quienFalto: "tecnico" }`; repetir da `200` | `400`, `401`, `404`, `409 outside_arrival_window`, `429` |
+
+- La ventana es la misma de «cliente ausente»: desde 15 minutos hasta 2 horas después de la hora de la cita, con la visita `confirmada`. La decide el servidor.
+- El OpenAPI publicado lista además `403`, `413` y `422`; backend 064 no los describe. La app los trata con el error genérico.
+- **CA-E01:** Dado el cliente dueño, cuando confirma que el técnico no llegó y recibe `200`, entonces la app muestra la visita como no presentada por el técnico. El técnico no ve esta acción. · Verificación: prueba de widget por rol.
+- **CA-E02:** Dado un `409 outside_arrival_window` o un `404`, cuando llega, entonces la app muestra el mensaje del catálogo y vuelve a leer la visita. · Verificación: prueba de widget por código.
+- **Decisión pendiente:** si el botón se oculta fuera de la ventana o se muestra en toda visita `confirmada` y decide el servidor; y su texto de confirmación.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
 - [x] Enmienda 2026-11-26 — nombre: José Julián Hernández Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

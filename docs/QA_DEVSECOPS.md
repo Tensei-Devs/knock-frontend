@@ -1,66 +1,63 @@
 # Calidad, pruebas y DevSecOps — knock-frontend
 
-> Matriz de controles realmente configurados en este repositorio. Si cambias una herramienta, actualiza esta tabla en el mismo PR.
-> Nivel: **PR** = `ci-pr.yml` (bloquea vía `gate`) · **Nightly** = `nightly.yml` · **Deploy** = despliegues · **Local** = git hooks y guardián.
+> Matriz de los controles que corren hoy en este repositorio. Si cambias una herramienta, actualiza esta tabla en el mismo PR.
+> Nivel: **PR** = `ci-pr.yml` (corre en cada PR y en cada push a las ramas fijas; el job `gate` reúne el resultado) · **Publicación** = `publish-android.yml` · **Local** = git hooks y guardián.
 
 ## 1. Comparación con los repositorios de referencia del profesor
 
 | Práctica de referencia | Repo del profesor | En knock-frontend |
 |---|---|---|
-| Clean Architecture de 3 capas con DI | MobileDevSecOps (Compose + Koin) | ✅ Flutter `presentation/domain/data` + Riverpod, con prueba de capas |
-| Análisis estático (Detekt, Ktlint) | MobileDevSecOps | ✅ `flutter analyze --fatal-infos` con lints estrictos, `dart format`; ESLint + `tsc` strict en el panel |
-| Cobertura (Kover) | MobileDevSecOps | ✅ lcov (app ≥ 50 %) e Istanbul (panel ≥ 60 % líneas / 50 % ramas) |
-| Pruebas instrumentadas | MobileDevSecOps | ✅ `integration_test` en emulador Android (nightly) |
-| OWASP Dependency Check, CodeQL | MobileDevSecOps | ✅ OSV-Scanner, dependency-review, npm audit, CodeQL (TS y Actions) |
-| Unit/E2E/SAST/SCA/DAST/secretos web | WebDevSecOps | ✅ unitarias y componentes, Playwright + axe, Semgrep, Gitleaks |
-| — | — | ➕ Nuevo: contrato vendorizado y clientes generados verificados, mutación (mutation_test y StrykerJS), regresión visual, accesibilidad automática, compatibilidad iOS y 3 navegadores, reglas de ramas/commits/PR, mapa de código |
+| Clean Architecture de 3 capas con DI | MobileDevSecOps (Compose + Koin) | Flutter `presentation/domain/data` + Riverpod, con prueba de capas |
+| Análisis estático (Detekt, Ktlint) | MobileDevSecOps | `flutter analyze --fatal-infos --fatal-warnings` y `dart format`; ESLint y `tsc` estricto en el panel |
+| Cobertura (Kover) | MobileDevSecOps | lcov (app ≥ 50 %) e Istanbul (panel ≥ 60 % líneas / 50 % ramas) |
+| Pruebas instrumentadas | MobileDevSecOps | `integration_test` se corre a mano en un teléfono (`app/README.md`); el CI no lo ejecuta |
+| OWASP Dependency Check, CodeQL | MobileDevSecOps | OSV-Scanner, dependency-review y `npm audit`. No se usa CodeQL |
+| Unit/E2E/SAST/SCA/DAST/secretos web | WebDevSecOps | Unitarias y de componentes, Semgrep y Gitleaks. Sin E2E web ni DAST |
+| — | — | Además: contrato vendorizado y cliente Dart verificado, cambios incompatibles (oasdiff), duplicación (jscpd), actionlint, mapa de código y pruebas de la landing |
 
 ## 2. Pruebas
 
-| Tipo | Valida | App (Flutter) | Panel (Angular) | Nivel | Bloquea |
-|---|---|---|---|---|---|
-| Unitarias | Casos de uso, controladores, servicios, guardas | flutter_test + mocktail | `ng test` | PR | Sí |
-| Widget / componente | Estados de pantalla (cargando, vacío, error, datos) | `testWidgets` | TestBed | PR | Sí |
-| Arquitectura | Capas y features sin cruces | `test/architecture/layer_rules_test.dart` + codemap | codemap + Semgrep | PR + Local | Sí |
-| Aceptación | Un caso `TC-<ID>-KK` por criterio de este repo | ídem | ídem | PR (trazabilidad) | Sí |
-| Contrato | Clientes = contrato; sin cambios incompatibles | `gen_clients.sh` + diff | ídem | PR | Sí |
-| Accesibilidad | Contraste, etiquetas, tamaño táctil / WCAG AA | `meetsGuideline` en widget tests | `@axe-core/playwright` | PR | Sí |
-| E2E | Recorrido principal de cada historia | `integration_test` (emulador) | Playwright (humo en PR) | PR (panel) · Nightly (app y panel completo) | Sí / Nightly |
-| Compatibilidad | Android + iOS; 3 navegadores | build APK (PR), build iOS (nightly) | chromium, firefox, webkit (nightly) | PR + Nightly | Sí / Nightly |
-| Regresión visual | Pantallas clave sin cambios inesperados | goldens | capturas Playwright | Nightly | Nightly |
-| Mutación | Calidad de las pruebas | `mutation_test` sobre `domain/` (≥ 70 %) | StrykerJS sobre services y guardas | Nightly | Nightly |
-| Usabilidad | SUS ≥ 70 con 5 personas | TT-QA-03 / TT-QA-05 | ídem | Manual | — |
+| Tipo | Valida | App (Flutter) | Panel (Angular) | Nivel |
+|---|---|---|---|---|
+| Unitarias | Casos de uso, controladores, servicios | `flutter test` | `ng test` | PR |
+| Widget / componente | Estados de pantalla | `testWidgets` | TestBed | PR |
+| Arquitectura | Capas y funciones sin cruces | `app/test/arquitectura/` y mapa de código | ESLint, mapa de código y Semgrep | PR y Local |
+| Trazabilidad | Casos `TC-<ID>-KK` de la spec del PR (solo si toca `app/` o `panel/`) | `sdd_lint.py --trace` | ídem | PR |
+| Contrato | Cliente = contrato; sin cambios incompatibles | `app/tool/generar_cliente_api.py --check` y oasdiff | Sin cliente generado todavía | PR |
+| Accesibilidad | Contraste, etiquetas y tamaño táctil | `meetsGuideline` en pruebas de widget | Sin prueba automática | PR |
+| Compilación | Roturas de compilación | APK de depuración | `ng build` de producción | PR |
+| Landing | Páginas, cabeceras, enlaces y secretos (`landing/tests`) | — | — | PR |
+| Recorridos en dispositivo | Flujos principales | `app/integration_test/` | Sin E2E | A mano |
+| Usabilidad | SUS ≥ 70 con 5 personas (TT-QA-03 / TT-QA-05) | Manual | Manual | Manual |
+
+Los jobs de app y panel corren cuando el PR cambia su carpeta o `contracts/`, y en cada push a las ramas fijas. El paso de E2E del panel (Playwright) se omite mientras no exista `panel/playwright.config.*`. No hay pruebas de mutación, de regresión visual ni compilación de iOS en el CI, y no hay workflow nocturno.
 
 ## 3. Seguridad y cadena de suministro
 
-| Control | Herramienta | Nivel | Bloquea |
+| Control | Herramienta | Nivel | Falla cuando |
 |---|---|---|---|
-| SAST | Semgrep (reglas de Knock para Dart y Angular + p/typescript, p/secrets, p/owasp-top-ten), CodeQL (TS, Actions) | PR | Sí |
-| Dependencias | dependency-review (vulnerabilidades y licencias), OSV-Scanner (pub y npm), `npm audit --omit=dev` | PR | Sí (altas) |
-| Secretos | Gitleaks (PR y pre-commit), push protection | PR + Local | Sí |
-| Workflows | actionlint, pinning a SHA, permisos mínimos | PR | Sí |
-| Firma de la app | Keystore solo en secretos del environment; se borra al terminar | Deploy | — |
-| Excepciones | `check_exceptions.py` | PR + Local | Sí |
+| SAST | Semgrep (reglas propias, p/typescript, p/secrets, p/owasp-top-ten) | PR | Hay hallazgos ERROR |
+| Dependencias | dependency-review (vulnerabilidades y licencias), OSV-Scanner, `npm audit --omit=dev` (job del panel) | PR | Severidad alta o licencia denegada; OSV, ante cualquier hallazgo no exceptuado |
+| Secretos | Gitleaks | PR, y pre-commit si está instalado | Hay hallazgos |
+| Workflows | actionlint y acciones fijadas a SHA (`pin_actions.py --check`) | PR | Hay errores o acciones sin fijar |
+| Excepciones | `check_exceptions.py` | PR y Local | Hay excepciones vencidas o supresiones sin registro |
+| Firma de la app | Llave de subida en GitHub Secrets; se borra al terminar | Publicación | El paquete queda firmado con la llave de depuración |
+
+SonarQube Cloud analiza los commits como aplicación de GitHub; no forma parte de `gate`. La pre-revisión con IA (`ai-review.yml`) es opcional y solo corre si está configurada.
 
 ## 4. OWASP Mobile / Web → control → prueba
 
 | Riesgo | Control | Prueba |
 |---|---|---|
-| Almacenamiento inseguro (M9) | Tokens en `flutter_secure_storage`; nada en SharedPreferences/localStorage | Semgrep + revisión de `core/` |
-| Comunicación insegura (M5) | Solo HTTPS; sin desactivar certificados | Semgrep |
-| Autenticación (M3) | Firebase + tokens propios; renovación; cierre de sesión borra push | Widget/E2E del flujo de sesión |
-| Privacidad (M6) | Sin datos personales en logs/Sentry; IA etiquetada y sin datos personales | Revisión + pruebas del filtro (backend) |
-| XSS (A03 web) | Sin `innerHTML` ni `bypassSecurityTrust` | Semgrep + guardián |
-| Control de acceso en el panel (A01) | Guardas por permiso + 403 del backend + 2FA | E2E con roles |
-| Componentes vulnerables (A06) | OSV, dependency-review, npm audit, Dependabot | CI |
+| Almacenamiento inseguro (M9) | Tokens en `flutter_secure_storage` | Semgrep y pruebas de sesión |
+| Comunicación insegura (M5) | Solo HTTPS hacia la API; certificados validados | Semgrep y pruebas |
+| Autenticación (M3) | Firebase Phone Auth y tokens propios con renovación y cierre | Pruebas de sesión |
+| Privacidad (M6) | Sin datos personales en registros | Revisión del PR |
+| XSS (A03 web) | Sin `innerHTML` ni `bypassSecurityTrust` | ESLint, Semgrep y guardián |
+| Componentes vulnerables (A06) | OSV-Scanner, dependency-review, `npm audit` | CI |
 
-## 5. Checks que bloquean el merge
-`gate` (pr-meta, governance, contract, app, panel, sast, sca, secrets) y `CodeQL`. Configuración: `docs/BRANCH_PROTECTION.md`.
+## 5. Checks del merge
+El check que reúne el CI es `gate` (detect, pr-meta, pr-points, governance, contract, app, panel, sast, sca, secrets y landing); un job omitido no lo hace fallar. `pr-meta` solo corre con la variable `ENFORCE_BRANCH_RULES=true`. Configuración de ramas: `docs/BRANCH_PROTECTION.md`.
 
-## 6. Requiere configuración externa
-Firebase (apps Android/iOS registradas, números de prueba) · Google Play y Apple Developer · Azure Static Web Apps para el panel · protección de ramas y environments · `ANTHROPIC_API_KEY` (opcional).
-
-## 7. Limitaciones conocidas
-- Hasta TT-MOB-01 (app) y TT-PRU-03 (panel) no hay proyectos: sus jobs se saltan. En el panel, el paso de E2E (Playwright + axe) se omite con un aviso mientras no exista `panel/playwright.config.*` (llega con TT-QA-01, KNOCK-41) y corre solo cuando se agregue. Las configuraciones de lint, mutación y E2E están listas en `docs/templates/`.
-- CodeQL no analiza Dart; la app se cubre con Semgrep, los analizadores de Dart y pruebas.
-- La usabilidad (SUS) es manual por naturaleza.
+## 6. Configuración externa
+Firebase (app Android registrada y números de prueba), Google Play (`docs/PUBLICACION_ANDROID.md`) y Railway para la landing y el panel.

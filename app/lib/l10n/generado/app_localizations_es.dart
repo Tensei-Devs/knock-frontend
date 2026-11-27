@@ -1344,6 +1344,102 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reputacionDestacado => 'Destacado';
 
   @override
+  String get trabajoProximasVisitas => 'Próximas visitas';
+
+  @override
+  String get trabajoPendiente =>
+      'Las solicitudes nuevas, las cotizaciones enviadas y los trabajos terminados todavía no se muestran aquí.';
+
+  @override
+  String get trabajoVerificacion => 'Mi verificación';
+
+  @override
+  String get trabajoReputacion => 'Mi reputación';
+
+  @override
+  String get visitaAusenteBoton => 'El cliente no estaba';
+
+  @override
+  String get visitaAusenteExplicacion =>
+      'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.';
+
+  @override
+  String get visitaAusenteConfirmar => 'Registrar que no estaba';
+
+  @override
+  String get visitaAusenteRegistrada => 'Registramos que el cliente no estaba.';
+
+  @override
+  String get visitaAusenteFueraDeVentana =>
+      'Ahora no se puede registrar: solo dentro de la ventana de la cita.';
+
+  @override
+  String get visitaTerminarBoton => 'Terminar servicio';
+
+  @override
+  String get visitaTerminarFotos => 'Fotos del trabajo terminado (de 1 a 5)';
+
+  @override
+  String get visitaTerminarDescripcion => '¿Qué hiciste?';
+
+  @override
+  String get visitaTerminarDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get visitaTerminarRecomendacion =>
+      'Recomendación para el cliente (opcional)';
+
+  @override
+  String get visitaTerminarSinSubida =>
+      'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.';
+
+  @override
+  String get visitaTerminarNoEnCurso =>
+      'Esta visita no está en curso: no se puede terminar.';
+
+  @override
+  String get visitaTerminarHecho => 'Servicio terminado.';
+
+  @override
+  String get agendaCargando => 'Cargando tu agenda…';
+
+  @override
+  String get agendaError => 'No pudimos cargar tu agenda.';
+
+  @override
+  String get agendaVacia => 'No tienes visitas próximas.';
+
+  @override
+  String get agendaSinMapa =>
+      'La ubicación de las visitas no está disponible en el mapa.';
+
+  @override
+  String get agendaVerMas => 'Ver más visitas';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmada',
+      'en_curso': 'En curso',
+      'terminada': 'Terminada',
+      'cancelada': 'Cancelada',
+      'no_presentado': 'No se presentó',
+      'other': 'Estado no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'A domicilio',
+      'taller': 'En taller',
+      'other': 'Modalidad no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override
@@ -2222,6 +2318,32 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get verificacionEnvioNoDisponible =>
       'Enviar tus fotos desde la app todavía no está disponible.';
+
+  @override
+  String get tecnicosMapaCargando => 'Cargando expertos en el mapa…';
+
+  @override
+  String get tecnicosMapaError => 'No pudimos cargar los expertos del mapa.';
+
+  @override
+  String get tecnicosMapaVacio => 'No hay expertos en esta zona del mapa.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recomendados';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Mejor calificados';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Más cercanos';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Hasta $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Expertos';
 
   @override
   String get asistenteNoDisponible =>
