@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// La cotización final y los cambios de precio que el cliente aprueba o
-/// rechaza en su visita real (spec 039). Sin nada que mostrar no ocupa lugar.
+/// rechaza en su visita real (spec 039). Si no hay cotización final (404
+/// uniforme) o ajustes, lo dice sin explicar la causa.
 class PrecioDeVisitaReal extends ConsumerWidget {
   const PrecioDeVisitaReal({super.key, required this.visitaId});
 
@@ -44,11 +45,12 @@ class PrecioDeVisitaReal extends ConsumerWidget {
           ], gap: 12),
           data: (precio) {
             final cotizacion = precio.cotizacionFinal;
-            if (cotizacion == null && precio.ajustes.isEmpty) {
-              return const SizedBox.shrink();
-            }
             return stack([
-              if (cotizacion != null) _cotizacion(textos, cotizacion),
+              if (cotizacion != null)
+                _cotizacion(textos, cotizacion)
+              else
+                sMut(textos.cotizacionFinalNoDisponible),
+              if (precio.ajustes.isEmpty) sMut(textos.cotizacionSinAjustes),
               for (final a in precio.ajustes)
                 _TarjetaPorDecidir(
                   key: ValueKey(a.id),

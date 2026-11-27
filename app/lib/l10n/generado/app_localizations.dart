@@ -3806,6 +3806,18 @@ abstract class AppLocalizations {
   /// **'Revisando si hay un precio por aprobar…'**
   String get cotizacionCargandoPrecio;
 
+  /// No description provided for @cotizacionFinalNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La cotización final no está disponible.'**
+  String get cotizacionFinalNoDisponible;
+
+  /// No description provided for @cotizacionSinAjustes.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay cambios de precio pendientes.'**
+  String get cotizacionSinAjustes;
+
   /// No description provided for @serviciosPrecioDesde.
   ///
   /// In es, this message translates to:

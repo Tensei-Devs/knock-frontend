@@ -2127,6 +2127,8 @@
   "@cotizacionCargandoPrecio": {
     "description": "Texto de la app: cotizacionCargandoPrecio"
   },
+  "cotizacionFinalNoDisponible": "La cotización final no está disponible.",
+  "cotizacionSinAjustes": "No hay cambios de precio pendientes.",
   "serviciosPrecioDesde": "Desde ${precio}",
   "@serviciosPrecioDesde": {
     "placeholders": {

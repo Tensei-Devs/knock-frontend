@@ -2184,6 +2184,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cotizacionCargandoPrecio => 'Checking for a price to approve…';
 
   @override
+  String get cotizacionFinalNoDisponible => 'The final quote isn’t available.';
+
+  @override
+  String get cotizacionSinAjustes => 'There are no pending price changes.';
+
+  @override
   String serviciosPrecioDesde(int precio) {
     return 'From \$$precio';
   }
