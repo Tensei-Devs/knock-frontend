@@ -2492,6 +2492,36 @@ abstract class AppLocalizations {
   /// **'Servicio terminado.'**
   String get visitaTerminarHecho;
 
+  /// No description provided for @visitaPermisoFotosTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos del trabajo'**
+  String get visitaPermisoFotosTitulo;
+
+  /// No description provided for @visitaPermisoFotosCasilla.
+  ///
+  /// In es, this message translates to:
+  /// **'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar'**
+  String get visitaPermisoFotosCasilla;
+
+  /// No description provided for @visitaPermisoFotosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.'**
+  String get visitaPermisoFotosDetalle;
+
+  /// No description provided for @visitaPermisoFotosGuardado.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardamos tu respuesta.'**
+  String get visitaPermisoFotosGuardado;
+
+  /// No description provided for @visitaPermisoFotosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu respuesta…'**
+  String get visitaPermisoFotosCargando;
+
   /// No description provided for @agendaCargando.
   ///
   /// In es, this message translates to:

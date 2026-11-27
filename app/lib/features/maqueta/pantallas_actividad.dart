@@ -13,6 +13,7 @@ import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/opiniones_reales.dart';
+import 'package:app/features/maqueta/permiso_fotos_real.dart';
 import 'package:app/features/maqueta/pantallas_buscar.dart';
 import 'package:app/features/maqueta/pantallas_solicitud.dart';
 import 'package:app/features/maqueta/precio_de_visita_real.dart';
@@ -346,6 +347,7 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
               sm: true,
             ),
           BotonNoTerminadoReal(visitaId: visitaId),
+          BotonPermisoFotosReal(visitaId: visitaId),
         ], gap: 10);
       }
     case 'visita':

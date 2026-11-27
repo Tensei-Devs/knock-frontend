@@ -1426,6 +1426,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get visitaTerminarHecho => 'Job finished.';
 
   @override
+  String get visitaPermisoFotosTitulo => 'Photos of the job';
+
+  @override
+  String get visitaPermisoFotosCasilla =>
+      'Allow these photos to be shown on the technician’s profile and in Explore';
+
+  @override
+  String get visitaPermisoFotosDetalle =>
+      'This is optional. They are shown only with your permission and after a content review. You can change your answer.';
+
+  @override
+  String get visitaPermisoFotosGuardado => 'Your answer was saved.';
+
+  @override
+  String get visitaPermisoFotosCargando => 'Loading your answer…';
+
+  @override
   String get agendaCargando => 'Loading your schedule…';
 
   @override

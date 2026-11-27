@@ -897,3 +897,8 @@
 - **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
 - **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
 - **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Permiso de fotos del trabajo (KNOCK-266, spec 040)
+- **Qué cambió:** en una visita terminada, el cliente abre «Fotos del trabajo» y enciende o apaga el permiso (`PUT /visitas/{id}/permiso-fotos`). El valor actual sale de `GET /visitas/{id}` (`permisoFotos`). Textos de la enmienda del 2026-11-27, firmada en el PR #148 (todavía sin fusionar). HTTP a mano por ADR-007.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; el backend aún no tiene quién publique o retire las fotos.
+- **A evitar:** prometer plazos o retiro de fotos ya publicadas.

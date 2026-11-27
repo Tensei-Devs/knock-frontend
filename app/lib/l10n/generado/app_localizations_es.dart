@@ -1434,6 +1434,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get visitaTerminarHecho => 'Servicio terminado.';
 
   @override
+  String get visitaPermisoFotosTitulo => 'Fotos del trabajo';
+
+  @override
+  String get visitaPermisoFotosCasilla =>
+      'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar';
+
+  @override
+  String get visitaPermisoFotosDetalle =>
+      'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosGuardado => 'Guardamos tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosCargando => 'Cargando tu respuesta…';
+
+  @override
   String get agendaCargando => 'Cargando tu agenda…';
 
   @override
