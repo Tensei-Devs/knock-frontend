@@ -836,6 +836,12 @@ abstract class AppLocalizations {
   /// **'Notificaciones activadas'**
   String get avisosActivadas;
 
+  /// Mensaje cuando el servidor no puede registrar el teléfono para notificaciones (503).
+  ///
+  /// In es, this message translates to:
+  /// **'Las notificaciones no están disponibles por ahora. La app sigue funcionando.'**
+  String get avisosNoDisponibles;
+
   /// Botón para elegir la zona con la ubicación del teléfono.
   ///
   /// In es, this message translates to:

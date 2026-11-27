@@ -3,6 +3,23 @@ import 'dart:math';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Clave del id que el servidor le da a este teléfono al registrarlo para
+/// notificaciones (spec 012, enmienda 2026-11-27). Es otro dato que
+/// [IdentificadorDispositivo.clave] y no debe compartir su clave.
+const claveIdDispositivoEnServidor = 'knock.dispositivo.servidor';
+
+/// Borra [claveIdDispositivoEnServidor]; lo llaman la baja del dispositivo y
+/// el cierre de sesión. Solo borra lo que existe. Nunca lanza.
+Future<void> borrarIdDispositivoEnServidor(AlmacenSeguro almacen) async {
+  try {
+    if (await almacen.leer(claveIdDispositivoEnServidor) != null) {
+      await almacen.borrar(claveIdDispositivoEnServidor);
+    }
+  } on Object {
+    // Sin registro (spec 009, R-11).
+  }
+}
+
 /// Identificador aleatorio de la instalación que se envía como `deviceId`
 /// (spec 009, R-07).
 ///

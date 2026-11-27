@@ -246,6 +246,22 @@ void main() {
       }
     });
 
+    test(
+      'CA_012_03 dispositivos y dispositivos/{id} llevan el Bearer',
+      () async {
+        await montar();
+        expect((await pedir('dispositivos', metodo: 'POST')).statusCode, 200);
+        expect(
+          (await pedir('dispositivos/abc123', metodo: 'DELETE')).statusCode,
+          200,
+        );
+        expect(api.peticiones, hasLength(2));
+        for (final p in api.peticiones) {
+          expect(p.autorizacion, 'Bearer acc-A', reason: '$p');
+        }
+      },
+    );
+
     test('CA_026_10 una app que arranca con tokens guardados usa el Bearer guardado', () async {
       // `main()` lee los tokens del almacenamiento seguro y los fija como
       // iniciales; la primera llamada protegida ya los lleva.

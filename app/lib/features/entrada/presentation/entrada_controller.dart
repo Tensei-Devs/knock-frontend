@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/notificaciones/registro_dispositivo_controller.dart';
 import 'package:app/core/sesion/servicio_entrada.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
 import 'package:app/core/sesion/verificador_celular.dart';
@@ -95,6 +98,14 @@ class EntradaController extends Notifier<EntradaUiState> {
       final resultado = await _servicio.verificarCodigo(solicitud, codigo);
       state = const EntradaUiState();
       ref.read(sesionIniciadaProvider.notifier).iniciar();
+      // Registra el teléfono para notificaciones si ya las aceptó (spec 012,
+      // R-01). Sin esperar: un fallo no afecta la entrada.
+      unawaited(
+        ref
+            .read(registroDispositivoControllerProvider.notifier)
+            .alIniciarSesion()
+            .then<void>((_) {}, onError: (Object _) {}),
+      );
       return resultado;
     } on Failure catch (error) {
       state = state.copyWith(cargando: false, error: error);

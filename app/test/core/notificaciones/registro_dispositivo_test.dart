@@ -1,13 +1,18 @@
 import 'package:app/core/notificaciones/registro_dispositivo_controller.dart';
 import 'package:app/core/notificaciones/registro_dispositivos.dart';
+import 'package:app/core/notificaciones/registro_dispositivos_provider.dart';
 import 'package:app/core/notificaciones/servicio_notificaciones.dart';
 import 'package:app/core/permisos/gestor_permisos.dart';
+import 'package:app/core/sesion/almacen_seguro.dart';
+import 'package:app/core/sesion/identificador_dispositivo.dart';
+import 'package:app/core/sesion/sesion.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../soporte/fakes_notificaciones.dart';
 
 ({
+  AlmacenSeguroEnMemoria almacen,
   ProviderContainer contenedor,
   RegistroDispositivosSimulado servidor,
   ServicioNotificacionesFalso servicio,
@@ -15,17 +20,24 @@ import '../../soporte/fakes_notificaciones.dart';
 _preparar({EstadoPermiso permiso = EstadoPermiso.concedido}) {
   final servidor = RegistroDispositivosSimulado();
   final servicio = ServicioNotificacionesFalso();
+  final almacen = AlmacenSeguroEnMemoria();
   final contenedor = ProviderContainer(
     overrides: [
       registroDispositivosRepositoryProvider.overrideWithValue(servidor),
       servicioNotificacionesProvider.overrideWithValue(servicio),
+      almacenSeguroProvider.overrideWithValue(almacen),
       gestorPermisosProvider.overrideWithValue(
         GestorPermisosFalso(estadoInicial: permiso),
       ),
     ],
   );
   addTearDown(contenedor.dispose);
-  return (contenedor: contenedor, servidor: servidor, servicio: servicio);
+  return (
+    almacen: almacen,
+    contenedor: contenedor,
+    servidor: servidor,
+    servicio: servicio,
+  );
 }
 
 EstadoRegistro _estado(ProviderContainer c) =>
@@ -125,6 +137,95 @@ void main() {
 
       expect(confirmado, isTrue);
       expect(t.servicio.borrados, 1);
+    });
+  });
+
+  group('503 y reinicio de la app', () {
+    test('CA_012_01 con 503 queda NotificacionesNoDisponibles', () async {
+      final t = _preparar();
+      t.servidor.fallo = const NotificacionesNoDisponiblesException();
+      await t.contenedor
+          .read(registroDispositivoControllerProvider.notifier)
+          .alIniciarSesion();
+
+      expect(_estado(t.contenedor), isA<NotificacionesNoDisponibles>());
+      expect(t.almacen.contenido, isEmpty);
+    });
+
+    test(
+      'CA_012_02 tras reiniciar la app se da de baja con el id guardado',
+      () async {
+        final t = _preparar();
+        await t.contenedor
+            .read(registroDispositivoControllerProvider.notifier)
+            .alIniciarSesion();
+        expect(t.almacen.contenido[claveIdDispositivoEnServidor], isNotNull);
+
+        // Otro contenedor: la app se reinició y el estado en memoria se perdió.
+        final c2 = ProviderContainer(
+          overrides: [
+            registroDispositivosRepositoryProvider.overrideWithValue(
+              t.servidor,
+            ),
+            servicioNotificacionesProvider.overrideWithValue(t.servicio),
+            almacenSeguroProvider.overrideWithValue(t.almacen),
+            gestorPermisosProvider.overrideWithValue(GestorPermisosFalso()),
+          ],
+        );
+        addTearDown(c2.dispose);
+        final confirmado = await c2
+            .read(registroDispositivoControllerProvider.notifier)
+            .alCerrarSesion();
+
+        expect(confirmado, isTrue);
+        expect(t.servidor.registrados, isEmpty);
+        expect(t.almacen.contenido, isEmpty);
+      },
+    );
+
+    test('CA_012_B01 si la baja falla no queda el id guardado', () async {
+      final t = _preparar();
+      final control = t.contenedor.read(
+        registroDispositivoControllerProvider.notifier,
+      );
+      await control.alIniciarSesion();
+      t.servidor.fallo = const NotificacionesNoDisponiblesException();
+
+      expect(await control.alCerrarSesion(), isFalse);
+      expect(t.almacen.contenido, isEmpty);
+    });
+
+    test('CA_012_B02 el id del servidor no pisa el identificador de la '
+        'instalación', () async {
+      final t = _preparar();
+      final instalacion = IdentificadorDispositivo(t.almacen);
+      final uuid = await instalacion.obtener();
+      final control = t.contenedor.read(
+        registroDispositivoControllerProvider.notifier,
+      );
+
+      await control.alIniciarSesion();
+      expect(await instalacion.obtener(), uuid);
+      expect(t.almacen.contenido[claveIdDispositivoEnServidor], isNot(uuid));
+
+      await control.alCerrarSesion();
+      expect(await instalacion.obtener(), uuid);
+      expect(t.almacen.contenido.keys, [IdentificadorDispositivo.clave]);
+    });
+
+    test('CA_012_B01 una sesión que termina sin pasar por la baja también '
+        'borra el id', () async {
+      final t = _preparar();
+      await t.contenedor
+          .read(registroDispositivoControllerProvider.notifier)
+          .alIniciarSesion();
+
+      await t.contenedor.read(sesionProvider.notifier).cerrar();
+
+      expect(
+        t.almacen.contenido,
+        isNot(contains(claveIdDispositivoEnServidor)),
+      );
     });
   });
 }

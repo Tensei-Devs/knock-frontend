@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T23:21:34Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T23:28:25Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -13,8 +13,8 @@
 | `bandeja_avisos` | -, data, domain, presentation | 5 | 9 | 19 |
 | `busqueda` | -, data, domain, presentation | 8 | 21 | 25 |
 | `cache` | core | 2 | 7 | 9 |
-| `config` | core | 5 | 0 | 1 |
-| `cuenta` | -, data, domain, presentation | 27 | 43 | 55 |
+| `config` | core | 6 | 0 | 1 |
+| `cuenta` | -, data, domain, presentation | 27 | 42 | 54 |
 | `direcciones` | -, data, domain, presentation | 6 | 7 | 15 |
 | `enlaces` | core | 2 | 3 | 6 |
 | `entrada` | -, domain, presentation | 9 | 14 | 27 |
@@ -27,7 +27,7 @@
 | `maqueta` | - | 64 | 315 | 589 |
 | `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
-| `notificaciones` | core | 7 | 17 | 20 |
+| `notificaciones` | -, core, data | 12 | 26 | 40 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
 | `opiniones` | -, data, domain, presentation | 5 | 11 | 8 |
 | `panel` | - | 3 | 1 | 0 |
@@ -38,7 +38,7 @@
 | `red` | core | 9 | 6 | 22 |
 | `reportes` | -, data, domain, presentation | 6 | 13 | 21 |
 | `router` | core | 4 | 4 | 15 |
-| `sesion` | core | 15 | 25 | 46 |
+| `sesion` | core | 15 | 25 | 47 |
 | `suspension` | -, data, domain, presentation | 6 | 8 | 12 |
 | `tecnico` | -, data, domain, presentation | 22 | 47 | 42 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
@@ -54,7 +54,7 @@
 - `EntradaCache`: `app/lib/core/cache/almacen_cache.dart:8`, `app/lib/core/red/cache_respuestas.dart:7`
 - `Franja`: `app/lib/features/actividad/domain/franja.dart:5`, `app/lib/features/tecnico/domain/horarios.dart:18`
 - `Opinion`: `app/lib/features/maqueta/tecnico_estado.dart:173`, `app/lib/features/opiniones/domain/opinion.dart:35`
-- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:62`, `app/lib/core/sesion/sesion_provider.dart:26`
+- `SesionNotifier`: `app/lib/core/sesion/sesion.dart:63`, `app/lib/core/sesion/sesion_provider.dart:26`
 - `Solicitud`: `app/lib/features/actividad/domain/solicitud.dart:30`, `app/lib/features/maqueta/estado.dart:165`
 - `TipoPrecio`: `app/lib/features/actividad/domain/cotizacion.dart:6`, `app/lib/features/trabajo/domain/cotizar.dart:59`
 - `Visita`: `app/lib/features/actividad/domain/visita.dart:73`, `app/lib/features/maqueta/tecnico_estado.dart:153`
@@ -172,7 +172,7 @@
 - `app/lib/app.dart` — class `KnockApp`
   - `build()`:19
 - `app/lib/main.dart` — —
-  - `main()`:17, `arrancar()`:27
+  - `main()`:19, `arrancar()`:29
 - `app/lib/main_spike_mapa.dart` — class `SpikeMapaApp`
   - `main()`:11, `build()`:20
 
@@ -264,6 +264,7 @@
   - `direccionDelAvisoDePrivacidad()`:17
 - `app/lib/core/config/exportacion_de_datos.dart` — —
 - `app/lib/core/config/modo_maqueta.dart` — —
+- `app/lib/core/config/notificaciones_push.dart` — —
 - `app/lib/core/config/subida_de_fotos.dart` — —
 
 ### cuenta
@@ -317,15 +318,15 @@
 - `app/lib/features/cuenta/presentation/eliminacion_controller.dart` — class `PendientesController`, class `EliminacionController`
   - `build()`:12, `reintentar()`:17, `build()`:27, `programar()`:34, `cancelar()`:46
 - `app/lib/features/cuenta/presentation/perfil_controller.dart` — class `PerfilController`
-  - `build()`:15, `guardarNombre()`:32, `cerrarSesion()`:46, `reintentar()`:56, `perfilCargado()`:76
+  - `build()`:16, `guardarNombre()`:33, `cerrarSesion()`:47, `reintentar()`:66, `perfilCargado()`:86
 - `app/lib/features/cuenta/presentation/privacidad_controller.dart` — class `ConsentimientosController`, class `ExportacionController`
   - `build()`:10, `reintentar()`:16, `cambiar()`:19, `build()`:42, `reintentar()`:48, `pedir()`:52
 - `app/lib/features/cuenta/presentation/sesiones_controller.dart` — class `SesionesController`
   - `build()`:11, `reintentar()`:15, `cerrar()`:20
 - `app/lib/features/cuenta/presentation/widgets/menu_de_prueba.dart` — class `MenuDePrueba`
   - `build()`:15
-- `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`, class `_SeccionAvisosState`
-  - `initState()`:28, `build()`:55
+- `app/lib/features/cuenta/presentation/widgets/seccion_avisos.dart` — class `SeccionAvisos`
+  - `build()`:14
 
 ### direcciones
 
@@ -379,7 +380,7 @@
 - `app/lib/features/entrada/presentation/cuenta_regresiva_controller.dart` — class `CuentaRegresivaNotifier`
   - `build()`:18, `reiniciar()`:25
 - `app/lib/features/entrada/presentation/entrada_controller.dart` — class `EntradaUiState`, class `EntradaController`
-  - `copyWith()`:23, `build()`:41, `enviarCodigo()`:46, `reenviar()`:64, `verificar()`:82, `limpiarError()`:106
+  - `copyWith()`:26, `build()`:44, `enviarCodigo()`:49, `reenviar()`:67, `verificar()`:85, `limpiarError()`:117
 - `app/lib/features/entrada/presentation/mensaje_de_error.dart` — —
   - `mensajeDeErrorDeEntrada()`:5
 - `app/lib/features/entrada/presentation/widgets/marco_de_entrada.dart` — class `MarcoDeEntrada`, class `_Marca`, class `BotonPrincipalDeEntrada`, class `MensajeDeErrorDeEntrada`
@@ -503,11 +504,11 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:5225, `isSupported()`:5230, `shouldReload()`:5234, `lookupAppLocalizations()`:5237
+  - `of()`:70, `load()`:5231, `isSupported()`:5236, `shouldReload()`:5240, `lookupAppLocalizations()`:5243
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
-  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:231, `busquedaTotal()`:252, `busquedaEspera()`:270, `busquedaCalificacion()`:275, `busquedaDistancia()`:280, `busquedaVerificado()`:285, `entradaAceptoAviso()`:540, `entradaCodigoEnviadoA()`:603, `entradaReenviarEn()`:617, `previaExpertosCerca()`:699, `previaPinSemantica()`:710, `previaTarjetaSemantica()`:715 …
+  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:231, `busquedaTotal()`:252, `busquedaEspera()`:270, `busquedaCalificacion()`:275, `busquedaDistancia()`:280, `busquedaVerificado()`:285, `entradaAceptoAviso()`:544, `entradaCodigoEnviadoA()`:607, `entradaReenviarEn()`:621, `previaExpertosCerca()`:703, `previaPinSemantica()`:714, `previaTarjetaSemantica()`:719 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
-  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:232, `busquedaTotal()`:253, `busquedaEspera()`:271, `busquedaCalificacion()`:276, `busquedaDistancia()`:281, `busquedaVerificado()`:286, `entradaAceptoAviso()`:542, `entradaCodigoEnviadoA()`:607, `entradaReenviarEn()`:621, `previaExpertosCerca()`:705, `previaPinSemantica()`:716, `previaTarjetaSemantica()`:721 …
+  - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:232, `busquedaTotal()`:253, `busquedaEspera()`:271, `busquedaCalificacion()`:276, `busquedaDistancia()`:281, `busquedaVerificado()`:286, `entradaAceptoAviso()`:546, `entradaCodigoEnviadoA()`:611, `entradaReenviarEn()`:625, `previaExpertosCerca()`:709, `previaPinSemantica()`:720, `previaTarjetaSemantica()`:725 …
 
 ### layout
 
@@ -528,7 +529,7 @@
 - `app/lib/features/maqueta/asistente_real.dart` — class `NotaIaDeEjemplo`, class `_Pantalla`, class `AsistenteChatReal`, class `_ChatState`, class `ResumenReal`, class `BorradorReal`, class `_BorradorEditable`, class `_BorradorState`, class `RangoReal`, class `BitacoraReal`, class `_BitacoraEditable`, class `_BitacoraState`
   - `build()`:30, `rutasAsistente()`:53, `build()`:94, `dispose()`:160, `build()`:177, `build()`:217, `build()`:243, `dispose()`:274, `build()`:282, `build()`:303, `build()`:342, `dispose()`:379, `build()`:410
 - `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`, class `ContadorDeAvisos`
-  - `build()`:79, `build()`:127, `build()`:158, `build()`:226
+  - `build()`:81, `build()`:129, `build()`:162, `build()`:245
 - `app/lib/features/maqueta/bandeja_trabajo_real.dart` — class `TarjetaDeCotizacionPropia`, class `SolicitudesNuevasReal`, class `_TarjetaDeSolicitud`, class `CotizacionesEnviadasReal`
   - `precioDeCotizacion()`:12, `build()`:27, `textosDeLista()`:53, `textoDeError()`:61, `filas()`:69, `hayMas()`:74, `reintentar()`:77, `cargarMas()`:81, `build()`:91, `textosDeLista()`:118, `textoDeError()`:126, `filas()`:134, `hayMas()`:139, `reintentar()`:142, `cargarMas()`:146
 - `app/lib/features/maqueta/bloqueos_reales.dart` — class `PersonasBloqueadasReales`, class `_FilaBloqueada`, class `DesbloquearReal`, class `_DesbloquearRealState`, class `BloquearReal`, class `_ConfirmarBloqueo`, class `_ConfirmarBloqueoState`
@@ -707,6 +708,11 @@
 
 ### notificaciones
 
+**-**
+
+- `app/lib/features/notificaciones/notificaciones_providers.dart` — —
+  - `registroDispositivosReal()`:19, `overridesDeNotificaciones()`:34
+
 **core**
 
 - `app/lib/core/notificaciones/avisos_provider.dart` — class `PreferenciasAvisos`, class `AvisosNotifier`, class `ConversacionAbiertaNotifier`
@@ -717,12 +723,22 @@
   - `revisarTextoDeNotificacion()`:27, `esTextoSeguro()`:34
 - `app/lib/core/notificaciones/navegacion_notificaciones.dart` — —
   - `abrirPantallaDesdeNotificaciones()`:13, `abrir()`:14
-- `app/lib/core/notificaciones/registro_dispositivo_controller.dart` — class `EstadoRegistro`, class `SinRegistrar`, class `SinPermisoDeNotificaciones`, class `SinIdentificador`, class `RegistroFallido`, class `Registrado`, class `RegistroDispositivoController`
-  - `toString()`:38, `build()`:48, `alIniciarSesion()`:52, `alCerrarSesion()`:86
-- `app/lib/core/notificaciones/registro_dispositivos.dart` — class `RegistroDispositivosRepository`, class `RegistroDispositivosSimulado`
-  - `registrar()`:21, `desregistrar()`:27
+- `app/lib/core/notificaciones/permiso_notificaciones.dart` — class `PermisoDeNotificaciones`, class `_PermisoDeNotificacionesState`
+  - `initState()`:28, `build()`:55
+- `app/lib/core/notificaciones/registro_dispositivo_controller.dart` — class `EstadoRegistro`, class `SinRegistrar`, class `SinPermisoDeNotificaciones`, class `SinIdentificador`, class `RegistroFallido`, class `NotificacionesNoDisponibles`, class `Registrado`, class `RegistroDispositivoController`
+  - `toString()`:50, `build()`:60, `alIniciarSesion()`:64, `alCerrarSesion()`:104
+- `app/lib/core/notificaciones/registro_dispositivos.dart` — class `NotificacionesNoDisponiblesException`, class `RegistroDispositivosRepository`, class `RegistroDispositivosSimulado`
+  - `toString()`:8, `registrar()`:36, `desregistrar()`:44
+- `app/lib/core/notificaciones/registro_dispositivos_provider.dart` — —
 - `app/lib/core/notificaciones/servicio_notificaciones.dart` — class `ServicioNotificaciones`, class `ServicioNotificacionesNoDisponible`
   - `obtenerIdentificador()`:30, `borrarIdentificador()`:33, `toqueInicial()`:39
+
+**data**
+
+- `app/lib/features/notificaciones/data/registro_dispositivos_api.dart` — class `RegistroDispositivosApi`
+  - `registrar()`:30, `desregistrar()`:52
+- `app/lib/features/notificaciones/data/servicio_notificaciones_fcm.dart` — class `FuenteFcm`, class `FuenteFcmFirebase`, class `ServicioNotificacionesFcm`, class `GestorPermisosFcm`
+  - `token()`:42, `borrarToken()`:45, `inicial()`:53, `permiso()`:59, `pedirPermiso()`:64, `abrirAjustes()`:70, `estadoDePermisoFcm()`:79, `obtenerIdentificador()`:98, `borrarIdentificador()`:108, `toqueInicial()`:114, `estado()`:131, `pedir()`:137, `abrirAjustes()`:143
 
 ### oficios
 
@@ -945,7 +961,7 @@
 - `app/lib/core/sesion/es_tecnico_provider.dart` — class `EsTecnicoNotifier`
   - `build()`:13, `cambiar()`:16
 - `app/lib/core/sesion/identificador_dispositivo.dart` — class `IdentificadorDispositivo`
-  - `obtener()`:25
+  - `borrarIdDispositivoEnServidor()`:13, `obtener()`:42
 - `app/lib/core/sesion/preparar_canje.dart` — class `PrepararCanje`
   - `preparar()`:18
 - `app/lib/core/sesion/renovador_sesion_api.dart` — class `RenovadorSesionApi`
@@ -953,7 +969,7 @@
 - `app/lib/core/sesion/servicio_entrada.dart` — class `ResultadoEntrada`, class `ServicioEntrada`, class `ServicioEntradaReal`
   - `enviarCodigo()`:48, `verificarCodigo()`:54
 - `app/lib/core/sesion/sesion.dart` — class `TokensSesion`, class `RenovadorSesion`, class `RenovadorNoDisponible`, class `SesionNotifier`, class `CierresDeSesion`
-  - `toString()`:34, `renovar()`:51, `build()`:66, `iniciar()`:69, `cerrar()`:83, `renovar()`:106, `build()`:195, `registrar()`:197
+  - `toString()`:35, `renovar()`:52, `build()`:67, `iniciar()`:70, `cerrar()`:84, `renovar()`:110, `build()`:199, `registrar()`:201
 - `app/lib/core/sesion/sesion_provider.dart` — class `SesionNotifier`
   - `build()`:28, `iniciar()`:31, `cerrar()`:34, `nombreDeDispositivo()`:53
 - `app/lib/core/sesion/verificador_celular.dart` — class `SolicitudCodigo`, class `VerificadorCelular`, class `VerificadorNoConfigurado`
