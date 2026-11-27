@@ -1,3 +1,4 @@
+import 'package:app/features/maqueta/asistente_real.dart';
 import 'package:app/features/maqueta/confianza_real.dart';
 
 import 'dart:async';
@@ -1294,6 +1295,7 @@ class _AsistenteScreenState extends State<AsistenteScreen> {
       chips = const ['Desde hoy', 'Desde ayer', 'Desde hace días'];
     }
     final msgs = <Widget>[
+      const NotaIaDeEjemplo(),
       for (final m in a.msgs) _burbuja(context, m),
       if (a.typing) _burbuja(context, AsisMsg(false, '…')),
       if (a.stage == 3 && !a.typing) _resumen(context, a),
