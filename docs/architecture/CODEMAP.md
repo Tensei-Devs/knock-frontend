@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T11:59:50Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T12:06:27Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -1031,7 +1031,7 @@
 **data**
 
 - `app/lib/features/trabajo/data/llegada_repository_api.dart` — class `LlegadaRepositoryApi`
-  - `obtener()`:27, `confirmar()`:38
+  - `obtener()`:26, `confirmar()`:37
 
 **domain**
 
