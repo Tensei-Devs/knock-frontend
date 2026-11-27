@@ -1,7 +1,7 @@
 # Matriz de versionamiento
 
 > **Tarea:** TT-GES-03 (lineamiento 11: matriz de numeración de versiones antes del desarrollo, aplicada en cada despliegue).
-> **Estado:** vigente desde 2026-10-20. Se aplica con release-please (TT-CD-03) y con los pipelines de despliegue (TT-CD-01 y TT-CD-02).
+> **Estado:** matriz del 2026-10-20. En knock-frontend no hay release-please: `app`, `panel` y `landing` se versionan por puntos (spec 011, `CONTRIBUTING.md` §9) y la app se publica con `publish-android.yml`. Donde esta matriz difiera para el frontend, manda la spec 011.
 > **Este esquema reemplaza** las etiquetas `api-vX.Y.Z`, `app-vX.Y.Z` y `panel-vX.Y.Z` de la constitución §9 y la etiqueta `vX.Y.Z` de la ficha de TT-CD-03; ambas se actualizan al esquema nuevo (la constitución, en el PR descrito en `docs/decisiones/README.md`).
 
 ## 1. Esquema

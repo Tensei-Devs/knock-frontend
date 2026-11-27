@@ -1,5 +1,7 @@
 # Maqueta → App móvil: estado del avance (documento de trabajo interno)
 
+> Registro histórico: la maqueta se integró con el PR #66 (spec 045). Las indicaciones de rama de abajo ya no aplican.
+
 Objetivo: la app móvil (`app/`) reproduce FIELMENTE la maqueta (`D:/Proyectos/UTTT/Knock/maqueta-knock`): pantallas, diseño, componentes, interacciones, funciones y experiencia. Todo se hace en esta carpeta y rama (`demo/maqueta-visual`), sin ramas extra, PR, specs ni Jira por ahora.
 
 ## Reglas
