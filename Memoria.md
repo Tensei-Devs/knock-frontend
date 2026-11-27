@@ -145,10 +145,11 @@
 - «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
 - La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
 
-## 2026-11-24 — Contrato combinado y cancelación (KNOCK-70)
-- Se combinan los contratos de Mercado, Identidad y Mensajería de `origin/sprint-05` con el script de backend; se conserva la autenticación y se genera el cliente Dart.
-- El dominio y el repositorio de cancelación se implementaron; el contrato y la validación del backend usan `other`, aunque la spec 025 dice `otro`. La interfaz y sus pruebas siguen pendientes; el detalle anterior usa un repositorio simulado y la interfaz activa es la maqueta.
-- T-06 depende del PR #97 y T-07 de conectar Trabajo (spec 019). No considerar terminada la cancelación hasta conectar y verificar la pantalla real.
+## 2026-11-24 — Dominio y repositorio de cancelación (KNOCK-70)
+- Dominio de cancelación (`ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion`) y `cancelar(id, motivo?)` en el repositorio; el cuarto motivo es `other` (spec 025, enmienda 2026-11-27).
+- Al integrarlo (2026-11-27) no se incluyó la actualización del contrato: la llamada está escrita a mano por ADR-007 (vence 2026-12-15).
+- La pantalla activa es la maqueta; el detalle `/actividad/solicitud/:id` usa un repositorio simulado.
+- Pendiente: «Volver a pedir» (T-06), «Ver visita» ante `request_with_appointment` (CA-05), bloquear «Sí, cancelar» durante la espera de un 429 (CA-08) y los recorridos con el backend.
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
@@ -956,3 +957,7 @@
 - **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
 - **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
 - **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.
+## 2026-11-27 — Integración de lo pendiente de la app (KNOCK-266)
+- **Qué entra:** envío de mensajes (KNOCK-72), cancelación y estados cancelada y vencida (KNOCK-70) y las rutas de Trabajo y de solicitudes fuera de la caché de respuestas (KNOCK-67).
+- **Qué no entra:** la actualización del contrato y del cliente generado (el control de cambios incompatibles la detiene) y el dominio de Trabajo que dependía de ella: no tiene pantalla que lo use y `sprint-05` ya lee la bandeja y la disponibilidad.
+- La pantalla del chat (spec 047) quedó aprobada el 2026-11-27 y sigue sin implementar; el campo de envío no está montado.
