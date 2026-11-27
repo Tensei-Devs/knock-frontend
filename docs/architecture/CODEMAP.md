@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T04:48:22Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-27T17:44:55Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -44,7 +44,7 @@
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | presentation | 1 | 1 | 1 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
-| `visita` | -, data, domain, presentation | 10 | 16 | 16 |
+| `visita` | -, data, domain, presentation | 10 | 16 | 17 |
 | `widgets` | core | 5 | 6 | 6 |
 
 ## Tipos con el mismo nombre en varios lugares
@@ -498,7 +498,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:4361, `isSupported()`:4366, `shouldReload()`:4370, `lookupAppLocalizations()`:4373
+  - `of()`:70, `load()`:4391, `isSupported()`:4396, `shouldReload()`:4400, `lookupAppLocalizations()`:4403
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `busquedaContador()`:130, `busquedaBuscamos()`:147, `busquedaSinResultadosOficio()`:164, `busquedaTotal()`:185, `busquedaEspera()`:203, `busquedaCalificacion()`:208, `busquedaDistancia()`:213, `busquedaVerificado()`:218, `entradaAceptoAviso()`:473, `entradaCodigoEnviadoA()`:536, `entradaReenviarEn()`:550, `previaExpertosCerca()`:632, `previaPinSemantica()`:643, `previaTarjetaSemantica()`:648, `previaDistanciaKm()`:671, `solicitudPasoDeTotal()`:682 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -625,7 +625,7 @@
 - `app/lib/features/maqueta/verificacion_real.dart` — class `EstadoDeVerificacionReal`, class `_EstadoState`
   - `initState()`:23, `dispose()`:31, `build()`:37
 - `app/lib/features/maqueta/visita_acciones_reales.dart` — class `AccionesVisitaReal`, class `BotonNoTerminadoReal`, class `_HojaDeEnvio`, class `_HojaDeEnvioState`
-  - `build()`:23, `build()`:60, `hojaClienteAusente()`:71, `elegida()`:133, `aTiempo()`:139, `dispose()`:249, `build()`:268
+  - `build()`:24, `build()`:74, `hojaClienteAusente()`:85, `elegida()`:178, `aTiempo()`:184, `dispose()`:294, `build()`:313
 - `app/lib/features/maqueta/visita_real.dart` — class `VisitaRealGate`
   - `build()`:29, `textoDeMotivoDeCodigo()`:75
 
@@ -1057,7 +1057,7 @@
 **data**
 
 - `app/lib/features/visita/data/acciones_visita_repository_api.dart` — class `AccionesVisitaRepositoryApi`
-  - `cancelar()`:34, `reprogramar()`:43, `reportarNoTerminado()`:58, `clienteAusente()`:64, `terminar()`:72
+  - `cancelar()`:35, `reprogramar()`:44, `reportarNoTerminado()`:59, `clienteAusente()`:65, `tecnicoAusente()`:73, `terminar()`:83
 - `app/lib/features/visita/data/agenda_repository_api.dart` — class `AgendaRepositoryApi`
   - `listar()`:12
 - `app/lib/features/visita/data/precio_de_visita_repository_api.dart` — class `PrecioDeVisitaRepositoryApi`

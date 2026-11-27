@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — «El técnico no llegó» del cliente (KNOCK-122, spec 040, enmienda 2026-11-26)
+- **Cambio:** `AccionesVisitaRepository.tecnicoAusente` llama `POST /visitas/{id}/tecnico-ausente` sin cuerpo (repositorio a mano, ADR-007) y exige `visitaId` igual y `quienFalto: tecnico`. La visita real del cliente ofrece «El técnico no llegó» con hoja de confirmación; con 200 avisa «Registramos que el técnico no se presentó.» y vuelve a leer la visita (queda la nota de visita no presentada). 409 usa el texto existente de fuera de ventana; 404, «no disponible»; en ambos se vuelve a leer la visita. El técnico no la ve (solo vive en la pantalla del cliente).
+- **Decisión (pendiente de confirmar por el líder):** el botón sale en toda visita `confirmada` y el servidor decide la ventana (15 min a 2 h tras la hora). Por qué: la app no sabe la hora del servidor y duplicar la regla daría botones que el servidor rechaza o esconde cuando sí vale; el texto de confirmación dice que es solo si el técnico no llegó y explica la ventana.
+- **Límite:** `GET /visitas/{id}` no trae `quienFalto`; tras releer, la nota dice solo «no presentada». Sin probar contra el backend desplegado.
+- **A evitar:** ocultar el botón con un cálculo local de la ventana.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
