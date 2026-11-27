@@ -121,7 +121,26 @@ Puertas de CI: `flutter analyze` sin advertencias, `dart format`, `flutter test`
 ## 13. Riesgos y dudas abiertas
 - Sin dudas abiertas: todas las decisiones de esta spec quedaron resueltas en el cierre del 2026-11-13.
 
+## Nota de enmienda (2026-11-26, lectura de la cotización final y de los ajustes pendientes)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). En `sprint-05` no se encontró código de la app que la llame.
+- Fuente: backend 063 y su enmienda firmada del 2026-11-24. Las leen el cliente dueño y el técnico de la visita.
+
+| Método y ruta | Respuesta | Errores |
+|---|---|---|
+| `GET /api/v1/visitas/{id}/cotizacion-final` | `200` `{ visitaId, precio, descripcion, estado (enviada, aprobada, rechazada o vencida), venceEn, decididaEn? }` | `400`, `401`, `404`, `429` |
+| `GET /api/v1/visitas/{id}/ajustes-pendientes` | `200` `{ items[{ id, cotizacionId, montoNuevo, motivo, estado: "pendiente", venceEn }] }`, por `venceEn` ascendente | `400`, `401`, `404`, `429` |
+
+- El OpenAPI publicado lista además `403`, `409`, `413` y `422` en las dos rutas; backend 063 no los describe. La app los trata con el error genérico del catálogo.
+- Las respuestas llegan con `Cache-Control: private, no-store`: la app no las guarda.
+- **CA-E01:** Dada una visita, cuando la persona abre la decisión de la cotización final, entonces la app lee precio, descripción, estado y vencimiento del servidor y solo ofrece decidir al cliente si `estado = enviada`. · Verificación: prueba de widget por estado y rol.
+- **CA-E02:** Dado un `404` en `cotizacion-final` (ajena, inexistente o sin cotización final: mismo cuerpo), cuando llega, entonces la app muestra «no disponible» sin distinguir la causa. · Verificación: prueba de widget.
+- **CA-E03:** Dada una lista `items` vacía, cuando llega, entonces la app muestra que no hay ajustes pendientes y no un error. · Verificación: prueba de widget.
+- **Decisión pendiente:** el texto exacto para el `404` de la cotización final.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-14
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)
