@@ -2324,6 +2324,48 @@ abstract class AppLocalizations {
   /// **'Opiniones'**
   String get opinionesTitulo;
 
+  /// No description provided for @conversacionesSinConexion.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión'**
+  String get conversacionesSinConexion;
+
+  /// No description provided for @conversacionesGlobo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes'**
+  String get conversacionesGlobo;
+
+  /// No description provided for @conversacionesGloboConTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes, {total}'**
+  String conversacionesGloboConTotal(String total);
+
+  /// No description provided for @conversacionesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando conversaciones…'**
+  String get conversacionesCargando;
+
+  /// No description provided for @conversacionesVacias.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.'**
+  String get conversacionesVacias;
+
+  /// No description provided for @conversacionesAbrirPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Abrir conversaciones aún no está disponible.'**
+  String get conversacionesAbrirPendiente;
+
+  /// No description provided for @conversacionesNoLeidos.
+  ///
+  /// In es, this message translates to:
+  /// **'{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}'**
+  String conversacionesNoLeidos(int total);
+
   /// Nivel de reputación enviado por el servidor
   ///
   /// In es, this message translates to:
@@ -4117,6 +4159,210 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Expertos'**
   String get tecnicosListadoTitulo;
+
+  /// Asistente de IA (spec 042): asistenteNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'El asistente de IA no está disponible. Puedes seguir sin él.'**
+  String get asistenteNoDisponible;
+
+  /// Asistente de IA (spec 042): asistenteEjemplo
+  ///
+  /// In es, this message translates to:
+  /// **'Esto es un ejemplo: no lo generó una IA.'**
+  String get asistenteEjemplo;
+
+  /// Asistente de IA (spec 042): asistenteLimite
+  ///
+  /// In es, this message translates to:
+  /// **'Llegaste al límite de uso del asistente. Inténtalo más tarde.'**
+  String get asistenteLimite;
+
+  /// Asistente de IA (spec 042): asistenteCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Consultando al asistente…'**
+  String get asistenteCargando;
+
+  /// Asistente de IA (spec 042): asistenteReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get asistenteReintentar;
+
+  /// Asistente de IA (spec 042): asistenteGeneradoPorIa
+  ///
+  /// In es, this message translates to:
+  /// **'Generado por IA. Revísalo antes de usarlo.'**
+  String get asistenteGeneradoPorIa;
+
+  /// Asistente de IA (spec 042): asistenteDePlantilla
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta automática de plantilla: no la generó una IA.'**
+  String get asistenteDePlantilla;
+
+  /// Asistente de IA (spec 042): asistenteTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Asistente Knock'**
+  String get asistenteTitulo;
+
+  /// Asistente de IA (spec 042): asistenteEscribe
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas arreglar?'**
+  String get asistenteEscribe;
+
+  /// Asistente de IA (spec 042): asistenteSinTurno
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntale tu problema al asistente.'**
+  String get asistenteSinTurno;
+
+  /// Asistente de IA (spec 042): asistenteEnviar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar'**
+  String get asistenteEnviar;
+
+  /// Asistente de IA (spec 042): asistentePideFoto
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega una foto al armar tu solicitud.'**
+  String get asistentePideFoto;
+
+  /// Asistente de IA (spec 042): asistenteArmarSolicitud
+  ///
+  /// In es, this message translates to:
+  /// **'Revisar y editar mi solicitud'**
+  String get asistenteArmarSolicitud;
+
+  /// Asistente de IA (spec 042): asistenteResumenTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Resumen de la conversación'**
+  String get asistenteResumenTitulo;
+
+  /// Asistente de IA (spec 042): asistenteResumenVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay nada que resumir.'**
+  String get asistenteResumenVacio;
+
+  /// Asistente de IA (spec 042): asistenteSabe
+  ///
+  /// In es, this message translates to:
+  /// **'Lo que sabes'**
+  String get asistenteSabe;
+
+  /// Asistente de IA (spec 042): asistentePorConfirmar
+  ///
+  /// In es, this message translates to:
+  /// **'Por confirmar'**
+  String get asistentePorConfirmar;
+
+  /// Asistente de IA (spec 042): asistenteQueLlevar
+  ///
+  /// In es, this message translates to:
+  /// **'Qué llevar'**
+  String get asistenteQueLlevar;
+
+  /// Asistente de IA (spec 042): asistenteBorradorTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Borrador de cotización'**
+  String get asistenteBorradorTitulo;
+
+  /// Asistente de IA (spec 042): asistentePrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Precio sugerido (MXN)'**
+  String get asistentePrecio;
+
+  /// Asistente de IA (spec 042): asistenteTiempo
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo estimado'**
+  String get asistenteTiempo;
+
+  /// Asistente de IA (spec 042): asistenteDia
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get asistenteDia;
+
+  /// Asistente de IA (spec 042): asistenteNota
+  ///
+  /// In es, this message translates to:
+  /// **'Nota para el cliente'**
+  String get asistenteNota;
+
+  /// Asistente de IA (spec 042): asistenteNadaSeEnvia
+  ///
+  /// In es, this message translates to:
+  /// **'Es un borrador: nada se envía desde aquí.'**
+  String get asistenteNadaSeEnvia;
+
+  /// Asistente de IA (spec 042): asistenteRangoTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Rango de precio'**
+  String get asistenteRangoTitulo;
+
+  /// Asistente de IA (spec 042): asistenteRangoVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay referencia de precio para este trabajo.'**
+  String get asistenteRangoVacio;
+
+  /// Asistente de IA (spec 042): asistenteBitacoraTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Bitácora del trabajo'**
+  String get asistenteBitacoraTitulo;
+
+  /// Asistente de IA (spec 042): asistenteBitacoraVacia
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no guardas bitácora para este trabajo.'**
+  String get asistenteBitacoraVacia;
+
+  /// Asistente de IA (spec 042): asistenteUnoPorLinea
+  ///
+  /// In es, this message translates to:
+  /// **'Un elemento por línea, hasta 10 de 200 caracteres.'**
+  String get asistenteUnoPorLinea;
+
+  /// Asistente de IA (spec 042): asistenteGuardar
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar en bitácora'**
+  String get asistenteGuardar;
+
+  /// Asistente de IA (spec 042): asistenteGuardada
+  ///
+  /// In es, this message translates to:
+  /// **'Bitácora guardada.'**
+  String get asistenteGuardada;
+
+  /// Asistente de IA (spec 042): asistenteRango
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo} MXN'**
+  String asistenteRango(String minimo, String maximo);
+
+  /// Asistente de IA (spec 042): asistenteMuestras
+  ///
+  /// In es, this message translates to:
+  /// **'Muestras: {n}. Fuente: {fuente}.'**
+  String asistenteMuestras(String n, String fuente);
+
+  /// Asistente de IA (spec 042): asistenteCopia
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Esta es la copia del {fecha}; puede estar desactualizada.'**
+  String asistenteCopia(String fecha);
 }
 
 class _AppLocalizationsDelegate

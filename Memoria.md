@@ -1,5 +1,26 @@
 # Memoria — knock-frontend
 
+## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
+- **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
+- **Pruebas:** widgets verifican ambas pantallas, contador y etiqueta, y paginación; pruebas del controlador verifican limpieza y respuesta tardía. Pendientes CA-13, CA-14 completos, accesibilidad ampliada, dispositivo y backend desplegado.
+
+## 2026-11-26 — Paginación del dominio de conversaciones (KNOCK-73)
+- **Avance:** el repositorio envía `limit=20` y el cursor del contrato; el controlador concatena páginas sin repetir ids y descarta respuestas tardías al limpiar. Once pruebas focalizadas y `flutter analyze` pasan.
+- **Límite:** sigue sin conexión a pantallas, sesión ni hub; `sdd_lint --trace 020` reporta tres faltantes y las coincidencias por nombre no prueban CA-13 ni CA-14 completos.
+
+## 2026-11-26 — REST de conversaciones, avance parcial (KNOCK-73)
+- **Avance:** repositorio con lectura de la primera página, contador y marca de lectura según el contrato de #110; probado con API simulada.
+- **Límite:** no está conectado a pantalla ni sesión; falta implementar la consulta de páginas siguientes y el hub real. La marca no debe ejecutarse hasta que exista una pantalla aprobada que muestre realmente los mensajes. No se envían mensajes.
+
+## 2026-11-26 — Fundamentos de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** se recuperaron en una rama limpia las entidades y el controlador en memoria existentes, sin integrar red ni pantalla. El controlador descarta respuestas posteriores a su limpieza y conserva los datos ante un fallo.
+- **Tiempo real bloqueado:** el `ChatHub` de `origin/develop` del backend consultado solo une salas de visita y no implementa `noLeidos` ni `UnirseAConversacion`. La spec 030 del backend está aprobada y el contrato de #110 incluye las rutas REST; la lectura de mensajes y su pantalla dependen de la enmienda sin firma del #131.
+- **SignalR:** la evaluación preliminar de `signalr_netcore` 1.4.4 indica licencia MIT y sin avisos OSV en la consulta del 2026-11-26; faltan revisión transitiva e interoperabilidad. No se agregó ninguna dependencia.
+- **Pendiente:** repositorio, interfaz, integración de sesión, protocolo real y pruebas completas de CA-13 y CA-14. No presentar el controlador aislado como integración terminada.
+## 2026-11-26 — Spec 042: asistente de IA apagado (KNOCK-266)
+- **Decisión:** interruptor de compilación `ASISTENTE_IA` (apagado por omisión). Encendido y con sesión y API, `/m/asistente` usa `POST /asistente/conversaciones`; las pantallas de resumen, borrador, rango y bitácora viven en `/m/tecnico/asistente/...`. Una respuesta con `origen` distinto de `proveedor` se rotula como plantilla. Apagado no se llama a la API y las pantallas de ejemplo dicen, con sesión, que no las generó una IA.
+- **Pendiente:** recurso de Azure OpenAI (T-00); enlazar las rutas del técnico cuando haya chat y trabajos con identificadores reales; foto en el turno del asistente; sin probar contra el backend desplegado.
 ## 2026-11-26 — Mapa real y filtros de técnicos (KNOCK-55, spec 036)
 - **Cambio:** el mapa de Inicio pide `GET /mapa/tecnicos` con los límites y el zoom de la cámara y pinta los grupos; un grupo de varios acerca y uno solo abre su perfil. La lista suma orden y, con ubicación, distancia y radio.
 - **Pendiente:** filtro por colonia, copia sin conexión del mapa (CA-16), accesibilidad de los pines, dispositivo y backend desplegado.
@@ -873,3 +894,9 @@
 ## 2026-11-26 — Lecturas de la cotización final y los ajustes (KNOCK-266, spec 039)
 - **Qué cambió:** al revisar la enmienda, un 404 de la cotización final y una lista vacía de ajustes ahora se dicen en pantalla en vez de ocultar la sección.
 - **Pendiente:** teléfono y backend desplegado.
+## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
+- **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
+- **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.
+- **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
+- **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
+- **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
