@@ -2324,6 +2324,30 @@ abstract class AppLocalizations {
   /// **'Opiniones'**
   String get opinionesTitulo;
 
+  /// Nivel de reputación enviado por el servidor
+  ///
+  /// In es, this message translates to:
+  /// **'Nivel: {nivel}'**
+  String reputacionNivel(String nivel);
+
+  /// No description provided for @reputacionNuevo.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo'**
+  String get reputacionNuevo;
+
+  /// No description provided for @reputacionConfiable.
+  ///
+  /// In es, this message translates to:
+  /// **'Confiable'**
+  String get reputacionConfiable;
+
+  /// No description provided for @reputacionDestacado.
+  ///
+  /// In es, this message translates to:
+  /// **'Destacado'**
+  String get reputacionDestacado;
+
   /// Opiniones (spec 041).
   ///
   /// In es, this message translates to:

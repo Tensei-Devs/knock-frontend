@@ -8,5 +8,6 @@ export 'package:app/features/tecnico/domain/perfil_publico.dart';
 export 'package:app/features/tecnico/domain/servicios.dart';
 export 'package:app/features/tecnico/presentation/horarios_controller.dart';
 export 'package:app/features/tecnico/presentation/perfil_publico_controller.dart';
+export 'package:app/features/tecnico/presentation/reputacion_controller.dart';
 export 'package:app/features/tecnico/presentation/servicios_controller.dart';
 export 'package:app/features/tecnico/tecnico_providers.dart';

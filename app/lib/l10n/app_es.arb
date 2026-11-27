@@ -1595,6 +1595,16 @@
   "@opinionesTitulo": {
     "description": "Opiniones (spec 041)."
   },
+  "reputacionNivel": "Nivel: {nivel}",
+  "reputacionNuevo": "Nuevo",
+  "reputacionConfiable": "Confiable",
+  "reputacionDestacado": "Destacado",
+  "@reputacionNivel": {
+    "description": "Nivel de reputación enviado por el servidor",
+    "placeholders": {
+      "nivel": {"type": "String"}
+    }
+  },
   "opinionesCargando": "Cargando las opiniones…",
   "@opinionesCargando": {
     "description": "Opiniones (spec 041)."
