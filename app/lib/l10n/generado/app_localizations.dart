@@ -2324,6 +2324,396 @@ abstract class AppLocalizations {
   /// **'Opiniones'**
   String get opinionesTitulo;
 
+  /// No description provided for @conversacionesSinConexion.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión'**
+  String get conversacionesSinConexion;
+
+  /// No description provided for @conversacionesGlobo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes'**
+  String get conversacionesGlobo;
+
+  /// No description provided for @conversacionesGloboConTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'Mensajes, {total}'**
+  String conversacionesGloboConTotal(String total);
+
+  /// No description provided for @conversacionesCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando conversaciones…'**
+  String get conversacionesCargando;
+
+  /// No description provided for @conversacionesVacias.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.'**
+  String get conversacionesVacias;
+
+  /// No description provided for @conversacionesAbrirPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Abrir conversaciones aún no está disponible.'**
+  String get conversacionesAbrirPendiente;
+
+  /// No description provided for @conversacionesNoLeidos.
+  ///
+  /// In es, this message translates to:
+  /// **'{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}'**
+  String conversacionesNoLeidos(int total);
+
+  /// Nivel de reputación enviado por el servidor
+  ///
+  /// In es, this message translates to:
+  /// **'Nivel: {nivel}'**
+  String reputacionNivel(String nivel);
+
+  /// No description provided for @reputacionNuevo.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo'**
+  String get reputacionNuevo;
+
+  /// No description provided for @reputacionConfiable.
+  ///
+  /// In es, this message translates to:
+  /// **'Confiable'**
+  String get reputacionConfiable;
+
+  /// No description provided for @reputacionDestacado.
+  ///
+  /// In es, this message translates to:
+  /// **'Destacado'**
+  String get reputacionDestacado;
+
+  /// No description provided for @trabajoProximasVisitas.
+  ///
+  /// In es, this message translates to:
+  /// **'Próximas visitas'**
+  String get trabajoProximasVisitas;
+
+  /// No description provided for @trabajoPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Los trabajos terminados todavía no se muestran aquí.'**
+  String get trabajoPendiente;
+
+  /// No description provided for @trabajoVerificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Mi verificación'**
+  String get trabajoVerificacion;
+
+  /// No description provided for @trabajoReputacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Mi reputación'**
+  String get trabajoReputacion;
+
+  /// No description provided for @trabajoDisponibleHoy.
+  ///
+  /// In es, this message translates to:
+  /// **'Disponible hoy'**
+  String get trabajoDisponibleHoy;
+
+  /// No description provided for @trabajoDisponibleDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Enciéndelo si hoy puedes atender solicitudes. Se apaga solo al terminar el día.'**
+  String get trabajoDisponibleDetalle;
+
+  /// No description provided for @trabajoDisponibleCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu disponibilidad…'**
+  String get trabajoDisponibleCargando;
+
+  /// No description provided for @visitaAusenteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'El cliente no estaba'**
+  String get visitaAusenteBoton;
+
+  /// No description provided for @visitaAusenteExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.'**
+  String get visitaAusenteExplicacion;
+
+  /// No description provided for @visitaAusenteConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Registrar que no estaba'**
+  String get visitaAusenteConfirmar;
+
+  /// No description provided for @visitaAusenteRegistrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Registramos que el cliente no estaba.'**
+  String get visitaAusenteRegistrada;
+
+  /// No description provided for @visitaAusenteFueraDeVentana.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede registrar: solo dentro de la ventana de la cita.'**
+  String get visitaAusenteFueraDeVentana;
+
+  /// No description provided for @visitaTecnicoAusenteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'El técnico no se presentó'**
+  String get visitaTecnicoAusenteBoton;
+
+  /// No description provided for @visitaTecnicoAusenteExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita.'**
+  String get visitaTecnicoAusenteExplicacion;
+
+  /// No description provided for @visitaTecnicoAusenteConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Registrar que no llegó'**
+  String get visitaTecnicoAusenteConfirmar;
+
+  /// No description provided for @visitaTecnicoAusenteRegistrada.
+  ///
+  /// In es, this message translates to:
+  /// **'Registraste que el técnico no se presentó.'**
+  String get visitaTecnicoAusenteRegistrada;
+
+  /// No description provided for @visitaTerminarBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Terminar servicio'**
+  String get visitaTerminarBoton;
+
+  /// No description provided for @visitaTerminarFotos.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos del trabajo terminado (de 1 a 5)'**
+  String get visitaTerminarFotos;
+
+  /// No description provided for @visitaTerminarDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué hiciste?'**
+  String get visitaTerminarDescripcion;
+
+  /// No description provided for @visitaTerminarDescripcionAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 8 a 500 caracteres.'**
+  String get visitaTerminarDescripcionAyuda;
+
+  /// No description provided for @visitaTerminarRecomendacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendación para el cliente (opcional)'**
+  String get visitaTerminarRecomendacion;
+
+  /// No description provided for @visitaTerminarSinSubida.
+  ///
+  /// In es, this message translates to:
+  /// **'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.'**
+  String get visitaTerminarSinSubida;
+
+  /// No description provided for @visitaTerminarNoEnCurso.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita no está en curso: no se puede terminar.'**
+  String get visitaTerminarNoEnCurso;
+
+  /// No description provided for @visitaTerminarHecho.
+  ///
+  /// In es, this message translates to:
+  /// **'Servicio terminado.'**
+  String get visitaTerminarHecho;
+
+  /// No description provided for @llegadaTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar llegada'**
+  String get llegadaTitulo;
+
+  /// No description provided for @llegadaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu visita…'**
+  String get llegadaCargando;
+
+  /// No description provided for @llegadaInstruccion.
+  ///
+  /// In es, this message translates to:
+  /// **'Pide en la puerta el código de 4 dígitos y escríbelo aquí.'**
+  String get llegadaInstruccion;
+
+  /// No description provided for @llegadaCodigo.
+  ///
+  /// In es, this message translates to:
+  /// **'Código de 4 dígitos'**
+  String get llegadaCodigo;
+
+  /// No description provided for @llegadaConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya llegué'**
+  String get llegadaConfirmar;
+
+  /// No description provided for @llegadaConfirmando.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmando…'**
+  String get llegadaConfirmando;
+
+  /// No description provided for @llegadaConfirmada.
+  ///
+  /// In es, this message translates to:
+  /// **'Llegada confirmada. La visita está en curso.'**
+  String get llegadaConfirmada;
+
+  /// No description provided for @llegadaHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Hora de llegada: {hora}'**
+  String llegadaHora(String hora);
+
+  /// No description provided for @llegadaIncorrecto.
+  ///
+  /// In es, this message translates to:
+  /// **'El código no coincide. Confirma que estás en la dirección correcta.'**
+  String get llegadaIncorrecto;
+
+  /// No description provided for @llegadaIntentos.
+  ///
+  /// In es, this message translates to:
+  /// **'{n, plural, =1{Te queda 1 intento} other{Te quedan {n} intentos}}'**
+  String llegadaIntentos(int n);
+
+  /// No description provided for @llegadaCuatroDigitos.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe los 4 dígitos.'**
+  String get llegadaCuatroDigitos;
+
+  /// No description provided for @llegadaBloqueada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.'**
+  String get llegadaBloqueada;
+
+  /// No description provided for @llegadaYaUsado.
+  ///
+  /// In es, this message translates to:
+  /// **'Este código ya se usó.'**
+  String get llegadaYaUsado;
+
+  /// No description provided for @llegadaVencido.
+  ///
+  /// In es, this message translates to:
+  /// **'El código de esta visita ya venció.'**
+  String get llegadaVencido;
+
+  /// No description provided for @llegadaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita se canceló.'**
+  String get llegadaCancelada;
+
+  /// No description provided for @errorFueraDeVentana.
+  ///
+  /// In es, this message translates to:
+  /// **'Podrás confirmar la llegada el día de la cita, desde las 00:00.'**
+  String get errorFueraDeVentana;
+
+  /// No description provided for @errorVisitaNoVigente.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está vigente.'**
+  String get errorVisitaNoVigente;
+
+  /// No description provided for @llegadaTaller.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta cita es en el taller y no necesita código.'**
+  String get llegadaTaller;
+
+  /// No description provided for @llegadaNoTecnico.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo el técnico de la visita puede confirmar la llegada.'**
+  String get llegadaNoTecnico;
+
+  /// No description provided for @llegadaNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta visita ya no está disponible.'**
+  String get llegadaNoDisponible;
+
+  /// No description provided for @llegadaAunNo.
+  ///
+  /// In es, this message translates to:
+  /// **'Podrás confirmar tu llegada el día de la cita.'**
+  String get llegadaAunNo;
+
+  /// No description provided for @llegadaReintentoCuenta.
+  ///
+  /// In es, this message translates to:
+  /// **'Si el código era incorrecto, este reintento cuenta como intento.'**
+  String get llegadaReintentoCuenta;
+
+  /// No description provided for @llegadaEspera.
+  ///
+  /// In es, this message translates to:
+  /// **'Hiciste muchos intentos. Espera {segundos} segundos.'**
+  String llegadaEspera(int segundos);
+
+  /// No description provided for @agendaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu agenda…'**
+  String get agendaCargando;
+
+  /// No description provided for @agendaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tu agenda.'**
+  String get agendaError;
+
+  /// No description provided for @agendaVacia.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes visitas próximas.'**
+  String get agendaVacia;
+
+  /// No description provided for @agendaSinMapa.
+  ///
+  /// In es, this message translates to:
+  /// **'La ubicación de las visitas no está disponible en el mapa.'**
+  String get agendaSinMapa;
+
+  /// No description provided for @agendaVerMas.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver más visitas'**
+  String get agendaVerMas;
+
+  /// No description provided for @agendaEstado.
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, confirmada{Confirmada} en_curso{En curso} terminada{Terminada} cancelada{Cancelada} no_presentado{No se presentó} other{Estado no disponible}}'**
+  String agendaEstado(String estado);
+
+  /// No description provided for @agendaModalidad.
+  ///
+  /// In es, this message translates to:
+  /// **'{modalidad, select, domicilio{A domicilio} taller{En taller} other{Modalidad no disponible}}'**
+  String agendaModalidad(String modalidad);
+
   /// Opiniones (spec 041).
   ///
   /// In es, this message translates to:
@@ -3416,6 +3806,18 @@ abstract class AppLocalizations {
   /// **'Revisando si hay un precio por aprobar…'**
   String get cotizacionCargandoPrecio;
 
+  /// No description provided for @cotizacionFinalNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'La cotización final no está disponible.'**
+  String get cotizacionFinalNoDisponible;
+
+  /// No description provided for @cotizacionSinAjustes.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay cambios de precio pendientes.'**
+  String get cotizacionSinAjustes;
+
   /// No description provided for @serviciosPrecioDesde.
   ///
   /// In es, this message translates to:
@@ -3709,6 +4111,918 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Esta solicitud ya no está disponible.'**
   String get solicitudesNoDisponible;
+
+  /// Texto de la app: cuentaNumeroTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar mi número'**
+  String get cuentaNumeroTitulo;
+
+  /// Texto de la app: cuentaRecuperarTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Recuperar mi cuenta'**
+  String get cuentaRecuperarTitulo;
+
+  /// Texto de la app: cuentaNumeroExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Te mandaremos un código por SMS al número nuevo. Tu cuenta, tus trabajos y tus mensajes se quedan igual.'**
+  String get cuentaNumeroExplicacion;
+
+  /// Texto de la app: cuentaRecuperarExplicacion
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe tu número anterior, qué cuenta es y tu número nuevo. Te mandaremos un código al número nuevo.'**
+  String get cuentaRecuperarExplicacion;
+
+  /// Texto de la app: cuentaNumeroAnterior
+  ///
+  /// In es, this message translates to:
+  /// **'Tu número anterior (10 dígitos)'**
+  String get cuentaNumeroAnterior;
+
+  /// Texto de la app: cuentaNumeroNuevo
+  ///
+  /// In es, this message translates to:
+  /// **'Número nuevo (10 dígitos)'**
+  String get cuentaNumeroNuevo;
+
+  /// Texto de la app: cuentaTipoCliente
+  ///
+  /// In es, this message translates to:
+  /// **'Soy cliente'**
+  String get cuentaTipoCliente;
+
+  /// Texto de la app: cuentaTipoTecnico
+  ///
+  /// In es, this message translates to:
+  /// **'Soy técnico'**
+  String get cuentaTipoTecnico;
+
+  /// Texto de la app: cuentaNumeroCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Código de 6 números'**
+  String get cuentaNumeroCodigo;
+
+  /// Texto de la app: cuentaNumeroEnviarCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get cuentaNumeroEnviarCodigo;
+
+  /// Texto de la app: cuentaNumeroConfirmar
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar'**
+  String get cuentaNumeroConfirmar;
+
+  /// Texto de la app: cuentaNumeroEntendido
+  ///
+  /// In es, this message translates to:
+  /// **'Entendido'**
+  String get cuentaNumeroEntendido;
+
+  /// Texto de la app: cuentaNumeroOtro
+  ///
+  /// In es, this message translates to:
+  /// **'Usar otro número'**
+  String get cuentaNumeroOtro;
+
+  /// Texto de la app: cuentaNumeroEnUso
+  ///
+  /// In es, this message translates to:
+  /// **'Ese número ya pertenece a otra cuenta.'**
+  String get cuentaNumeroEnUso;
+
+  /// Texto de la app: cuentaNumeroCambiado
+  ///
+  /// In es, this message translates to:
+  /// **'Tu número cambió.'**
+  String get cuentaNumeroCambiado;
+
+  /// Texto de la app: cuentaRecuperarRecibida
+  ///
+  /// In es, this message translates to:
+  /// **'Recibimos tu solicitud. Una persona del equipo la revisará.'**
+  String get cuentaRecuperarRecibida;
+
+  /// Texto de la app: verificacionCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu verificación…'**
+  String get verificacionCargando;
+
+  /// Texto de la app: verificacionReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get verificacionReintentar;
+
+  /// Texto de la app: verificacionSinVerificar
+  ///
+  /// In es, this message translates to:
+  /// **'Sin verificar'**
+  String get verificacionSinVerificar;
+
+  /// Texto de la app: verificacionSinVerificarDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'La verificación es opcional y le da más confianza a tus clientes.'**
+  String get verificacionSinVerificarDetalle;
+
+  /// Texto de la app: verificacionFotosBorradas
+  ///
+  /// In es, this message translates to:
+  /// **'Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.'**
+  String get verificacionFotosBorradas;
+
+  /// Texto de la app: verificacionEnRevision
+  ///
+  /// In es, this message translates to:
+  /// **'En revisión'**
+  String get verificacionEnRevision;
+
+  /// Texto de la app: verificacionEnRevisionDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Revisamos en menos de 24 h'**
+  String get verificacionEnRevisionDetalle;
+
+  /// Texto de la app: verificacionVerificadoBasico
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: básica'**
+  String get verificacionVerificadoBasico;
+
+  /// Texto de la app: verificacionVerificadoCompleto
+  ///
+  /// In es, this message translates to:
+  /// **'Verificado: completa'**
+  String get verificacionVerificadoCompleto;
+
+  /// Texto de la app: verificacionVerificadoDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Tu perfil muestra la insignia de verificado.'**
+  String get verificacionVerificadoDetalle;
+
+  /// Texto de la app: verificacionNoVerificado
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo verificar'**
+  String get verificacionNoVerificado;
+
+  /// Texto de la app: verificacionSinMotivo
+  ///
+  /// In es, this message translates to:
+  /// **'No se indicó el motivo.'**
+  String get verificacionSinMotivo;
+
+  /// Texto de la app: verificacionEnviadaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Enviada el {fecha}'**
+  String verificacionEnviadaEl(String fecha);
+
+  /// Texto de la app: verificacionEnvioNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar tus fotos desde la app todavía no está disponible.'**
+  String get verificacionEnvioNoDisponible;
+
+  /// No description provided for @tecnicosMapaCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando expertos en el mapa…'**
+  String get tecnicosMapaCargando;
+
+  /// No description provided for @tecnicosMapaError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar los expertos del mapa.'**
+  String get tecnicosMapaError;
+
+  /// No description provided for @tecnicosMapaVacio.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay expertos en esta zona del mapa.'**
+  String get tecnicosMapaVacio;
+
+  /// No description provided for @tecnicosOrdenRecomendados.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendados'**
+  String get tecnicosOrdenRecomendados;
+
+  /// No description provided for @tecnicosOrdenCalificacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Mejor calificados'**
+  String get tecnicosOrdenCalificacion;
+
+  /// No description provided for @tecnicosOrdenDistancia.
+  ///
+  /// In es, this message translates to:
+  /// **'Más cercanos'**
+  String get tecnicosOrdenDistancia;
+
+  /// No description provided for @tecnicosRadio.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta {km} km'**
+  String tecnicosRadio(int km);
+
+  /// No description provided for @tecnicosListadoTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Expertos'**
+  String get tecnicosListadoTitulo;
+
+  /// Asistente de IA (spec 042): asistenteNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'El asistente de IA no está disponible. Puedes seguir sin él.'**
+  String get asistenteNoDisponible;
+
+  /// Asistente de IA (spec 042): asistenteEjemplo
+  ///
+  /// In es, this message translates to:
+  /// **'Esto es un ejemplo: no lo generó una IA.'**
+  String get asistenteEjemplo;
+
+  /// Asistente de IA (spec 042): asistenteLimite
+  ///
+  /// In es, this message translates to:
+  /// **'Llegaste al límite de uso del asistente. Inténtalo más tarde.'**
+  String get asistenteLimite;
+
+  /// Asistente de IA (spec 042): asistenteCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Consultando al asistente…'**
+  String get asistenteCargando;
+
+  /// Asistente de IA (spec 042): asistenteReintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get asistenteReintentar;
+
+  /// Asistente de IA (spec 042): asistenteGeneradoPorIa
+  ///
+  /// In es, this message translates to:
+  /// **'Generado por IA. Revísalo antes de usarlo.'**
+  String get asistenteGeneradoPorIa;
+
+  /// Asistente de IA (spec 042): asistenteDePlantilla
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta automática de plantilla: no la generó una IA.'**
+  String get asistenteDePlantilla;
+
+  /// Asistente de IA (spec 042): asistenteTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Asistente Knock'**
+  String get asistenteTitulo;
+
+  /// Asistente de IA (spec 042): asistenteEscribe
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué necesitas arreglar?'**
+  String get asistenteEscribe;
+
+  /// Asistente de IA (spec 042): asistenteSinTurno
+  ///
+  /// In es, this message translates to:
+  /// **'Cuéntale tu problema al asistente.'**
+  String get asistenteSinTurno;
+
+  /// Asistente de IA (spec 042): asistenteEnviar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar'**
+  String get asistenteEnviar;
+
+  /// Asistente de IA (spec 042): asistentePideFoto
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega una foto al armar tu solicitud.'**
+  String get asistentePideFoto;
+
+  /// Asistente de IA (spec 042): asistenteArmarSolicitud
+  ///
+  /// In es, this message translates to:
+  /// **'Revisar y editar mi solicitud'**
+  String get asistenteArmarSolicitud;
+
+  /// Asistente de IA (spec 042): asistenteResumenTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Resumen de la conversación'**
+  String get asistenteResumenTitulo;
+
+  /// Asistente de IA (spec 042): asistenteResumenVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay nada que resumir.'**
+  String get asistenteResumenVacio;
+
+  /// Asistente de IA (spec 042): asistenteSabe
+  ///
+  /// In es, this message translates to:
+  /// **'Lo que sabes'**
+  String get asistenteSabe;
+
+  /// Asistente de IA (spec 042): asistentePorConfirmar
+  ///
+  /// In es, this message translates to:
+  /// **'Por confirmar'**
+  String get asistentePorConfirmar;
+
+  /// Asistente de IA (spec 042): asistenteQueLlevar
+  ///
+  /// In es, this message translates to:
+  /// **'Qué llevar'**
+  String get asistenteQueLlevar;
+
+  /// Asistente de IA (spec 042): asistenteBorradorTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Borrador de cotización'**
+  String get asistenteBorradorTitulo;
+
+  /// Asistente de IA (spec 042): asistentePrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Precio sugerido (MXN)'**
+  String get asistentePrecio;
+
+  /// Asistente de IA (spec 042): asistenteTiempo
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo estimado'**
+  String get asistenteTiempo;
+
+  /// Asistente de IA (spec 042): asistenteDia
+  ///
+  /// In es, this message translates to:
+  /// **'Día'**
+  String get asistenteDia;
+
+  /// Asistente de IA (spec 042): asistenteNota
+  ///
+  /// In es, this message translates to:
+  /// **'Nota para el cliente'**
+  String get asistenteNota;
+
+  /// Asistente de IA (spec 042): asistenteNadaSeEnvia
+  ///
+  /// In es, this message translates to:
+  /// **'Es un borrador: nada se envía desde aquí.'**
+  String get asistenteNadaSeEnvia;
+
+  /// Asistente de IA (spec 042): asistenteRangoTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Rango de precio'**
+  String get asistenteRangoTitulo;
+
+  /// Asistente de IA (spec 042): asistenteRangoVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay referencia de precio para este trabajo.'**
+  String get asistenteRangoVacio;
+
+  /// Asistente de IA (spec 042): asistenteBitacoraTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Bitácora del trabajo'**
+  String get asistenteBitacoraTitulo;
+
+  /// Asistente de IA (spec 042): asistenteBitacoraVacia
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no guardas bitácora para este trabajo.'**
+  String get asistenteBitacoraVacia;
+
+  /// Asistente de IA (spec 042): asistenteUnoPorLinea
+  ///
+  /// In es, this message translates to:
+  /// **'Un elemento por línea, hasta 10 de 200 caracteres.'**
+  String get asistenteUnoPorLinea;
+
+  /// Asistente de IA (spec 042): asistenteGuardar
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar en bitácora'**
+  String get asistenteGuardar;
+
+  /// Asistente de IA (spec 042): asistenteGuardada
+  ///
+  /// In es, this message translates to:
+  /// **'Bitácora guardada.'**
+  String get asistenteGuardada;
+
+  /// Asistente de IA (spec 042): asistenteRango
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo} MXN'**
+  String asistenteRango(String minimo, String maximo);
+
+  /// Asistente de IA (spec 042): asistenteMuestras
+  ///
+  /// In es, this message translates to:
+  /// **'Muestras: {n}. Fuente: {fuente}.'**
+  String asistenteMuestras(String n, String fuente);
+
+  /// Asistente de IA (spec 042): asistenteCopia
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Esta es la copia del {fecha}; puede estar desactualizada.'**
+  String asistenteCopia(String fecha);
+
+  /// Texto de la app: cotizarSinPerfil
+  ///
+  /// In es, this message translates to:
+  /// **'Necesitas un perfil de técnico para ver esto.'**
+  String get cotizarSinPerfil;
+
+  /// Texto de la app: cotizarYaNoSeCotiza
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no admite cotizaciones.'**
+  String get cotizarYaNoSeCotiza;
+
+  /// Texto de la app: cotizarYaCotizada
+  ///
+  /// In es, this message translates to:
+  /// **'Ya enviaste una cotización para esta solicitud.'**
+  String get cotizarYaCotizada;
+
+  /// Texto de la app: cotizarCupoLleno
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya tiene el máximo de cotizaciones.'**
+  String get cotizarCupoLleno;
+
+  /// Texto de la app: cotizarTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizar'**
+  String get cotizarTitulo;
+
+  /// Texto de la app: cotizarNuevas
+  ///
+  /// In es, this message translates to:
+  /// **'Solicitudes nuevas'**
+  String get cotizarNuevas;
+
+  /// Texto de la app: cotizarNuevasVacio
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes solicitudes nuevas.'**
+  String get cotizarNuevasVacio;
+
+  /// Texto de la app: cotizarVer
+  ///
+  /// In es, this message translates to:
+  /// **'Ver y cotizar'**
+  String get cotizarVer;
+
+  /// Texto de la app: cotizarVerPropia
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mi cotización'**
+  String get cotizarVerPropia;
+
+  /// Texto de la app: cotizarEnviadas
+  ///
+  /// In es, this message translates to:
+  /// **'Cotizaciones enviadas'**
+  String get cotizarEnviadas;
+
+  /// Texto de la app: cotizarEnviadasVacio
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no has enviado cotizaciones.'**
+  String get cotizarEnviadasVacio;
+
+  /// Texto de la app: cotizarCargando
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando…'**
+  String get cotizarCargando;
+
+  /// Texto de la app: cotizarTipoLabel
+  ///
+  /// In es, this message translates to:
+  /// **'Tipo de precio'**
+  String get cotizarTipoLabel;
+
+  /// Texto de la app: cotizarPrecio
+  ///
+  /// In es, this message translates to:
+  /// **'Precio en pesos'**
+  String get cotizarPrecio;
+
+  /// Texto de la app: cotizarPrecioVisita
+  ///
+  /// In es, this message translates to:
+  /// **'Precio de la visita en pesos'**
+  String get cotizarPrecioVisita;
+
+  /// Texto de la app: cotizarPrecioMin
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo en pesos'**
+  String get cotizarPrecioMin;
+
+  /// Texto de la app: cotizarPrecioMax
+  ///
+  /// In es, this message translates to:
+  /// **'Máximo en pesos'**
+  String get cotizarPrecioMax;
+
+  /// Texto de la app: cotizarDia
+  ///
+  /// In es, this message translates to:
+  /// **'Día de la visita'**
+  String get cotizarDia;
+
+  /// Texto de la app: cotizarHora
+  ///
+  /// In es, this message translates to:
+  /// **'Hora (HH:mm)'**
+  String get cotizarHora;
+
+  /// Texto de la app: cotizarPrecioVisitaRango
+  ///
+  /// In es, this message translates to:
+  /// **'De {minimo} a {maximo} pesos.'**
+  String cotizarPrecioVisitaRango(int minimo, int maximo);
+
+  /// Texto de la app: cotizarErrorMontoVisita
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un número entero de {minimo} a {maximo}.'**
+  String cotizarErrorMontoVisita(int minimo, int maximo);
+
+  /// Texto de la app: cotizarSinDias
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no quedan días disponibles para esta solicitud.'**
+  String get cotizarSinDias;
+
+  /// Texto de la app: cotizarErrorMonto
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un número entero de 1 a 200 000.'**
+  String get cotizarErrorMonto;
+
+  /// Texto de la app: cotizarErrorMaximo
+  ///
+  /// In es, this message translates to:
+  /// **'El máximo debe ser un entero mayor que el mínimo, hasta 200 000.'**
+  String get cotizarErrorMaximo;
+
+  /// Texto de la app: cotizarErrorDia
+  ///
+  /// In es, this message translates to:
+  /// **'Elige un día.'**
+  String get cotizarErrorDia;
+
+  /// Texto de la app: cotizarErrorHora
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe la hora como 09:30.'**
+  String get cotizarErrorHora;
+
+  /// Texto de la app: cotizarEnviar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cotización'**
+  String get cotizarEnviar;
+
+  /// Texto de la app: cotizarEnviada
+  ///
+  /// In es, this message translates to:
+  /// **'Cotización enviada'**
+  String get cotizarEnviada;
+
+  /// Texto de la app: cotizarRequiereAprobacion
+  ///
+  /// In es, this message translates to:
+  /// **'El cliente tendrá que aprobar el precio final.'**
+  String get cotizarRequiereAprobacion;
+
+  /// Texto de la app: cotizarSinAprobacion
+  ///
+  /// In es, this message translates to:
+  /// **'No requiere otra aprobación del cliente.'**
+  String get cotizarSinAprobacion;
+
+  /// Texto de la app: cotizarFotoDe
+  ///
+  /// In es, this message translates to:
+  /// **'Foto {numero} de la solicitud'**
+  String cotizarFotoDe(int numero);
+
+  /// Texto de la app: cotizarTope
+  ///
+  /// In es, this message translates to:
+  /// **'Tope: \${monto}'**
+  String cotizarTope(int monto);
+
+  /// Texto de la app: cotizarMonto
+  ///
+  /// In es, this message translates to:
+  /// **'\${monto}'**
+  String cotizarMonto(int monto);
+
+  /// Texto de la app: cotizarRango
+  ///
+  /// In es, this message translates to:
+  /// **'\${min} a \${max}'**
+  String cotizarRango(int min, int max);
+
+  /// Texto de la app: cotizarCuando
+  ///
+  /// In es, this message translates to:
+  /// **'{dia} · {franja}'**
+  String cotizarCuando(String dia, String franja);
+
+  /// Texto de la app: cotizarTipo
+  ///
+  /// In es, this message translates to:
+  /// **'{tipo, select, fijo{Precio fijo} rango{Rango} visita{Por visita} other{{tipo}}}'**
+  String cotizarTipo(String tipo);
+
+  /// Texto de la app: cotizarFranja
+  ///
+  /// In es, this message translates to:
+  /// **'{franja, select, manana{Mañana} tarde{Tarde} noche{Noche} other{{franja}}}'**
+  String cotizarFranja(String franja);
+
+  /// Texto de la app: cotizarEstado
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, enviada{Esperando respuesta} aceptada{Aceptada} rechazada{Rechazada} retirada{Retirada} other{{estado}}}'**
+  String cotizarEstado(String estado);
+
+  /// No description provided for @precioFinalBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar cotización final'**
+  String get precioFinalBoton;
+
+  /// No description provided for @precioAjusteBoton.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer otro precio'**
+  String get precioAjusteBoton;
+
+  /// No description provided for @precioFinalExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.'**
+  String get precioFinalExplicacion;
+
+  /// No description provided for @precioFinalMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Precio final en pesos'**
+  String get precioFinalMonto;
+
+  /// No description provided for @precioFinalDescripcion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué incluye?'**
+  String get precioFinalDescripcion;
+
+  /// No description provided for @precioDescripcionAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 8 a 500 caracteres.'**
+  String get precioDescripcionAyuda;
+
+  /// No description provided for @precioMontoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'Pesos sin centavos, mayor que cero.'**
+  String get precioMontoAyuda;
+
+  /// No description provided for @precioFinalEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar al cliente'**
+  String get precioFinalEnviar;
+
+  /// No description provided for @precioFinalEnviada.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu cotización final. Falta que el cliente la apruebe.'**
+  String get precioFinalEnviada;
+
+  /// No description provided for @precioFinalNoPermitida.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.'**
+  String get precioFinalNoPermitida;
+
+  /// No description provided for @precioAjusteCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando tu cotización aceptada…'**
+  String get precioAjusteCargando;
+
+  /// No description provided for @precioAjusteSinCotizacion.
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos la cotización aceptada de esta visita.'**
+  String get precioAjusteSinCotizacion;
+
+  /// No description provided for @precioAjusteMonto.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo precio total en pesos'**
+  String get precioAjusteMonto;
+
+  /// No description provided for @precioAjusteMinimo.
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo {monto} pesos.'**
+  String precioAjusteMinimo(int monto);
+
+  /// No description provided for @precioAjusteMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cambia el precio?'**
+  String get precioAjusteMotivo;
+
+  /// No description provided for @precioAjusteMotivoAyuda.
+  ///
+  /// In es, this message translates to:
+  /// **'De 10 a 300 caracteres.'**
+  String get precioAjusteMotivoAyuda;
+
+  /// No description provided for @precioAjusteEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer al cliente'**
+  String get precioAjusteEnviar;
+
+  /// No description provided for @precioAjusteEnviado.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviamos tu propuesta. Falta que el cliente la apruebe.'**
+  String get precioAjusteEnviado;
+
+  /// No description provided for @precioAjusteMotivoRechazado.
+  ///
+  /// In es, this message translates to:
+  /// **'El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.'**
+  String get precioAjusteMotivoRechazado;
+
+  /// No description provided for @precioAjusteSinRevision.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.'**
+  String get precioAjusteSinRevision;
+
+  /// No description provided for @precioAjusteNoPermitido.
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.'**
+  String get precioAjusteNoPermitido;
+
+  /// No description provided for @visitaPermisoFotosTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Fotos del trabajo'**
+  String get visitaPermisoFotosTitulo;
+
+  /// No description provided for @visitaPermisoFotosCasilla.
+  ///
+  /// In es, this message translates to:
+  /// **'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar'**
+  String get visitaPermisoFotosCasilla;
+
+  /// No description provided for @visitaPermisoFotosDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.'**
+  String get visitaPermisoFotosDetalle;
+
+  /// No description provided for @visitaPermisoFotosGuardado.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardamos tu respuesta.'**
+  String get visitaPermisoFotosGuardado;
+
+  /// No description provided for @visitaPermisoFotosCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tu respuesta…'**
+  String get visitaPermisoFotosCargando;
+
+  /// Texto de la app: suspensionApelar
+  ///
+  /// In es, this message translates to:
+  /// **'Apelar la suspensión'**
+  String get suspensionApelar;
+
+  /// Texto de la app: suspensionTitulo
+  ///
+  /// In es, this message translates to:
+  /// **'Tu apelación'**
+  String get suspensionTitulo;
+
+  /// Texto de la app: suspensionDetalle
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número con un código por SMS. Esto no inicia sesión.'**
+  String get suspensionDetalle;
+
+  /// Texto de la app: suspensionEnviarCodigo
+  ///
+  /// In es, this message translates to:
+  /// **'Enviarme el código'**
+  String get suspensionEnviarCodigo;
+
+  /// Texto de la app: suspensionVerificar
+  ///
+  /// In es, this message translates to:
+  /// **'Verificar'**
+  String get suspensionVerificar;
+
+  /// Texto de la app: suspensionSinConsulta
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.'**
+  String get suspensionSinConsulta;
+
+  /// Texto de la app: suspensionTexto
+  ///
+  /// In es, this message translates to:
+  /// **'Tus motivos'**
+  String get suspensionTexto;
+
+  /// Texto de la app: suspensionTextoAyuda
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe entre 8 y 500 caracteres.'**
+  String get suspensionTextoAyuda;
+
+  /// Texto de la app: suspensionPresentar
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar apelación'**
+  String get suspensionPresentar;
+
+  /// Texto de la app: suspensionNoDisponible
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una apelación disponible.'**
+  String get suspensionNoDisponible;
+
+  /// Texto de la app: suspensionNoPermitida
+  ///
+  /// In es, this message translates to:
+  /// **'No se puede presentar otra apelación.'**
+  String get suspensionNoPermitida;
+
+  /// Texto de la app: suspensionVerificarOtraVez
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica tu número otra vez con un código por SMS.'**
+  String get suspensionVerificarOtraVez;
+
+  /// Texto de la app: suspensionVolver
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get suspensionVolver;
+
+  /// Texto de la app: suspensionEstado
+  ///
+  /// In es, this message translates to:
+  /// **'{estado, select, pendiente{Tu apelación está en revisión.} aceptada{Tu apelación fue aceptada.} rechazada{Tu apelación fue rechazada.} other{Estado de tu apelación: {estado}}}'**
+  String suspensionEstado(String estado);
+
+  /// Texto de la app: suspensionPresentadaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Presentada el {fecha}'**
+  String suspensionPresentadaEl(String fecha);
+
+  /// Texto de la app: suspensionResueltaEl
+  ///
+  /// In es, this message translates to:
+  /// **'Resuelta el {fecha}'**
+  String suspensionResueltaEl(String fecha);
 }
 
 class _AppLocalizationsDelegate

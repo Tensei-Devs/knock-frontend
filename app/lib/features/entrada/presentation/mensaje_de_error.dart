@@ -18,6 +18,7 @@ String mensajeDeErrorDeEntrada(AppLocalizations textos, Failure error) =>
       ApiNoConfiguradaFailure() => textos.entradaErrorApiNoConfigurada,
       AvisoNoAceptadoFailure() => textos.entradaErrorAvisoNoAceptado,
       AccesoDenegadoFailure() ||
+      AsistenteNoDisponibleFailure() ||
       NoAutorizadoFailure() ||
       // Errores de solicitudes (spec 015): no ocurren en la entrada.
       NoEncontradoFailure() ||
@@ -30,5 +31,7 @@ String mensajeDeErrorDeEntrada(AppLocalizations textos, Failure error) =>
       OpinionYaRespondidaFailure() ||
       YaBloqueadoFailure() ||
       ApelacionNoPermitidaFailure() ||
+      SinPerfilTecnicoFailure() ||
+      CotizacionNoPermitidaFailure() ||
       EleccionRechazadaFailure() => textos.entradaErrorGenerico,
     };

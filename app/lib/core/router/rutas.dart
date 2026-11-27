@@ -45,6 +45,9 @@ abstract final class Rutas {
   /// Entrada → código de 6 dígitos (subruta de [entrar]).
   static const codigo = '/entrar/codigo';
 
+  /// Apelación de una cuenta suspendida (spec 033), sin sesión.
+  static const apelacion = '/entrar/apelacion';
+
   /// Completar el perfil la primera vez (HU-002); fuera de la barra inferior.
   static const completarPerfil = '/completar-perfil';
 

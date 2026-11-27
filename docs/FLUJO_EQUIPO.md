@@ -12,7 +12,7 @@ Guía corta para empezar. Detalle del método: [`docs/SDD_GUIA.md`](SDD_GUIA.md)
 
 | # | Quién | Qué | Resultado |
 |---|---|---|---|
-| 1 | Autor | Crea la rama desde la rama del sprint (`sprint-00` esta semana): `git switch -c <tipo>/KNOCK-N-<english-kebab> origin/sprint-XX` | Rama con la clave de Jira |
+| 1 | Autor | Crea la rama desde la rama del sprint vigente (`sprint-XX`): `git switch -c <tipo>/KNOCK-N-<english-kebab> origin/sprint-XX` | Rama con la clave de Jira |
 | 2 | Autor + agente | El agente `spec-writer` crea o refina `specs/<ID>-…/` a partir de la ficha. **Solo spec, sin código.** Estado: Borrador. `python scripts/sdd_lint.py` en OK | Spec lista para revisar |
 | 3 | Autor | Commit de la spec y **PR en *draft*** hacia `sprint-XX` (título `KNOCK-N · <ID> <título>`, plantilla completa) | PR en draft |
 | 4 | **Revisor (Tech Lead o su suplente)** | Lee la spec en el PR y comenta. Cuando está bien, **edita a mano las líneas de aprobación** (Estado: Aprobada, casillas marcadas, nombre y fecha) y sube ese commit a la misma rama | Spec Aprobada |

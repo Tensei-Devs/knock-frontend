@@ -1330,6 +1330,261 @@ class AppLocalizationsEs extends AppLocalizations {
   String get opinionesTitulo => 'Opiniones';
 
   @override
+  String get conversacionesSinConexion => 'Sin conexión';
+
+  @override
+  String get conversacionesGlobo => 'Mensajes';
+
+  @override
+  String conversacionesGloboConTotal(String total) {
+    return 'Mensajes, $total';
+  }
+
+  @override
+  String get conversacionesCargando => 'Cargando conversaciones…';
+
+  @override
+  String get conversacionesVacias =>
+      'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.';
+
+  @override
+  String get conversacionesAbrirPendiente =>
+      'Abrir conversaciones aún no está disponible.';
+
+  @override
+  String conversacionesNoLeidos(int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total mensajes sin leer',
+      one: '1 mensaje sin leer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reputacionNivel(String nivel) {
+    return 'Nivel: $nivel';
+  }
+
+  @override
+  String get reputacionNuevo => 'Nuevo';
+
+  @override
+  String get reputacionConfiable => 'Confiable';
+
+  @override
+  String get reputacionDestacado => 'Destacado';
+
+  @override
+  String get trabajoProximasVisitas => 'Próximas visitas';
+
+  @override
+  String get trabajoPendiente =>
+      'Los trabajos terminados todavía no se muestran aquí.';
+
+  @override
+  String get trabajoVerificacion => 'Mi verificación';
+
+  @override
+  String get trabajoReputacion => 'Mi reputación';
+
+  @override
+  String get trabajoDisponibleHoy => 'Disponible hoy';
+
+  @override
+  String get trabajoDisponibleDetalle =>
+      'Enciéndelo si hoy puedes atender solicitudes. Se apaga solo al terminar el día.';
+
+  @override
+  String get trabajoDisponibleCargando => 'Cargando tu disponibilidad…';
+
+  @override
+  String get visitaAusenteBoton => 'El cliente no estaba';
+
+  @override
+  String get visitaAusenteExplicacion =>
+      'Se registra que el cliente no estaba. A ti no se te penaliza. Solo se puede dentro de la ventana de la cita.';
+
+  @override
+  String get visitaAusenteConfirmar => 'Registrar que no estaba';
+
+  @override
+  String get visitaAusenteRegistrada => 'Registramos que el cliente no estaba.';
+
+  @override
+  String get visitaAusenteFueraDeVentana =>
+      'Ahora no se puede registrar: solo dentro de la ventana de la cita.';
+
+  @override
+  String get visitaTecnicoAusenteBoton => 'El técnico no se presentó';
+
+  @override
+  String get visitaTecnicoAusenteExplicacion =>
+      'Confirma solo si el técnico no llegó. Se puede registrar desde 15 minutos hasta 2 horas después de la hora de la cita.';
+
+  @override
+  String get visitaTecnicoAusenteConfirmar => 'Registrar que no llegó';
+
+  @override
+  String get visitaTecnicoAusenteRegistrada =>
+      'Registraste que el técnico no se presentó.';
+
+  @override
+  String get visitaTerminarBoton => 'Terminar servicio';
+
+  @override
+  String get visitaTerminarFotos => 'Fotos del trabajo terminado (de 1 a 5)';
+
+  @override
+  String get visitaTerminarDescripcion => '¿Qué hiciste?';
+
+  @override
+  String get visitaTerminarDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get visitaTerminarRecomendacion =>
+      'Recomendación para el cliente (opcional)';
+
+  @override
+  String get visitaTerminarSinSubida =>
+      'La subida de fotos todavía no está disponible, así que no puedes terminar el servicio desde la app.';
+
+  @override
+  String get visitaTerminarNoEnCurso =>
+      'Esta visita no está en curso: no se puede terminar.';
+
+  @override
+  String get visitaTerminarHecho => 'Servicio terminado.';
+
+  @override
+  String get llegadaTitulo => 'Confirmar llegada';
+
+  @override
+  String get llegadaCargando => 'Cargando tu visita…';
+
+  @override
+  String get llegadaInstruccion =>
+      'Pide en la puerta el código de 4 dígitos y escríbelo aquí.';
+
+  @override
+  String get llegadaCodigo => 'Código de 4 dígitos';
+
+  @override
+  String get llegadaConfirmar => 'Ya llegué';
+
+  @override
+  String get llegadaConfirmando => 'Confirmando…';
+
+  @override
+  String get llegadaConfirmada =>
+      'Llegada confirmada. La visita está en curso.';
+
+  @override
+  String llegadaHora(String hora) {
+    return 'Hora de llegada: $hora';
+  }
+
+  @override
+  String get llegadaIncorrecto =>
+      'El código no coincide. Confirma que estás en la dirección correcta.';
+
+  @override
+  String llegadaIntentos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Te quedan $n intentos',
+      one: 'Te queda 1 intento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get llegadaCuatroDigitos => 'Escribe los 4 dígitos.';
+
+  @override
+  String get llegadaBloqueada =>
+      'Esta visita quedó bloqueada por seguridad. El equipo de Knock la revisará.';
+
+  @override
+  String get llegadaYaUsado => 'Este código ya se usó.';
+
+  @override
+  String get llegadaVencido => 'El código de esta visita ya venció.';
+
+  @override
+  String get llegadaCancelada => 'Esta visita se canceló.';
+
+  @override
+  String get errorFueraDeVentana =>
+      'Podrás confirmar la llegada el día de la cita, desde las 00:00.';
+
+  @override
+  String get errorVisitaNoVigente => 'Esta visita ya no está vigente.';
+
+  @override
+  String get llegadaTaller => 'Esta cita es en el taller y no necesita código.';
+
+  @override
+  String get llegadaNoTecnico =>
+      'Solo el técnico de la visita puede confirmar la llegada.';
+
+  @override
+  String get llegadaNoDisponible => 'Esta visita ya no está disponible.';
+
+  @override
+  String get llegadaAunNo => 'Podrás confirmar tu llegada el día de la cita.';
+
+  @override
+  String get llegadaReintentoCuenta =>
+      'Si el código era incorrecto, este reintento cuenta como intento.';
+
+  @override
+  String llegadaEspera(int segundos) {
+    return 'Hiciste muchos intentos. Espera $segundos segundos.';
+  }
+
+  @override
+  String get agendaCargando => 'Cargando tu agenda…';
+
+  @override
+  String get agendaError => 'No pudimos cargar tu agenda.';
+
+  @override
+  String get agendaVacia => 'No tienes visitas próximas.';
+
+  @override
+  String get agendaSinMapa =>
+      'La ubicación de las visitas no está disponible en el mapa.';
+
+  @override
+  String get agendaVerMas => 'Ver más visitas';
+
+  @override
+  String agendaEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'confirmada': 'Confirmada',
+      'en_curso': 'En curso',
+      'terminada': 'Terminada',
+      'cancelada': 'Cancelada',
+      'no_presentado': 'No se presentó',
+      'other': 'Estado no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String agendaModalidad(String modalidad) {
+    String _temp0 = intl.Intl.selectLogic(modalidad, {
+      'domicilio': 'A domicilio',
+      'taller': 'En taller',
+      'other': 'Modalidad no disponible',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get opinionesCargando => 'Cargando las opiniones…';
 
   @override
@@ -1944,6 +2199,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Revisando si hay un precio por aprobar…';
 
   @override
+  String get cotizacionFinalNoDisponible =>
+      'La cotización final no está disponible.';
+
+  @override
+  String get cotizacionSinAjustes => 'No hay cambios de precio pendientes.';
+
+  @override
   String serviciosPrecioDesde(int precio) {
     return 'Desde \$$precio';
   }
@@ -2109,4 +2371,557 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get solicitudesNoDisponible => 'Esta solicitud ya no está disponible.';
+
+  @override
+  String get cuentaNumeroTitulo => 'Cambiar mi número';
+
+  @override
+  String get cuentaRecuperarTitulo => 'Recuperar mi cuenta';
+
+  @override
+  String get cuentaNumeroExplicacion =>
+      'Te mandaremos un código por SMS al número nuevo. Tu cuenta, tus trabajos y tus mensajes se quedan igual.';
+
+  @override
+  String get cuentaRecuperarExplicacion =>
+      'Escribe tu número anterior, qué cuenta es y tu número nuevo. Te mandaremos un código al número nuevo.';
+
+  @override
+  String get cuentaNumeroAnterior => 'Tu número anterior (10 dígitos)';
+
+  @override
+  String get cuentaNumeroNuevo => 'Número nuevo (10 dígitos)';
+
+  @override
+  String get cuentaTipoCliente => 'Soy cliente';
+
+  @override
+  String get cuentaTipoTecnico => 'Soy técnico';
+
+  @override
+  String get cuentaNumeroCodigo => 'Código de 6 números';
+
+  @override
+  String get cuentaNumeroEnviarCodigo => 'Enviarme el código';
+
+  @override
+  String get cuentaNumeroConfirmar => 'Confirmar';
+
+  @override
+  String get cuentaNumeroEntendido => 'Entendido';
+
+  @override
+  String get cuentaNumeroOtro => 'Usar otro número';
+
+  @override
+  String get cuentaNumeroEnUso => 'Ese número ya pertenece a otra cuenta.';
+
+  @override
+  String get cuentaNumeroCambiado => 'Tu número cambió.';
+
+  @override
+  String get cuentaRecuperarRecibida =>
+      'Recibimos tu solicitud. Una persona del equipo la revisará.';
+
+  @override
+  String get verificacionCargando => 'Cargando tu verificación…';
+
+  @override
+  String get verificacionReintentar => 'Reintentar';
+
+  @override
+  String get verificacionSinVerificar => 'Sin verificar';
+
+  @override
+  String get verificacionSinVerificarDetalle =>
+      'La verificación es opcional y le da más confianza a tus clientes.';
+
+  @override
+  String get verificacionFotosBorradas =>
+      'Tus fotos se borraron porque no se revisaron a tiempo. Puedes enviarlas de nuevo.';
+
+  @override
+  String get verificacionEnRevision => 'En revisión';
+
+  @override
+  String get verificacionEnRevisionDetalle => 'Revisamos en menos de 24 h';
+
+  @override
+  String get verificacionVerificadoBasico => 'Verificado: básica';
+
+  @override
+  String get verificacionVerificadoCompleto => 'Verificado: completa';
+
+  @override
+  String get verificacionVerificadoDetalle =>
+      'Tu perfil muestra la insignia de verificado.';
+
+  @override
+  String get verificacionNoVerificado => 'No se pudo verificar';
+
+  @override
+  String get verificacionSinMotivo => 'No se indicó el motivo.';
+
+  @override
+  String verificacionEnviadaEl(String fecha) {
+    return 'Enviada el $fecha';
+  }
+
+  @override
+  String get verificacionEnvioNoDisponible =>
+      'Enviar tus fotos desde la app todavía no está disponible.';
+
+  @override
+  String get tecnicosMapaCargando => 'Cargando expertos en el mapa…';
+
+  @override
+  String get tecnicosMapaError => 'No pudimos cargar los expertos del mapa.';
+
+  @override
+  String get tecnicosMapaVacio => 'No hay expertos en esta zona del mapa.';
+
+  @override
+  String get tecnicosOrdenRecomendados => 'Recomendados';
+
+  @override
+  String get tecnicosOrdenCalificacion => 'Mejor calificados';
+
+  @override
+  String get tecnicosOrdenDistancia => 'Más cercanos';
+
+  @override
+  String tecnicosRadio(int km) {
+    return 'Hasta $km km';
+  }
+
+  @override
+  String get tecnicosListadoTitulo => 'Expertos';
+
+  @override
+  String get asistenteNoDisponible =>
+      'El asistente de IA no está disponible. Puedes seguir sin él.';
+
+  @override
+  String get asistenteEjemplo => 'Esto es un ejemplo: no lo generó una IA.';
+
+  @override
+  String get asistenteLimite =>
+      'Llegaste al límite de uso del asistente. Inténtalo más tarde.';
+
+  @override
+  String get asistenteCargando => 'Consultando al asistente…';
+
+  @override
+  String get asistenteReintentar => 'Reintentar';
+
+  @override
+  String get asistenteGeneradoPorIa =>
+      'Generado por IA. Revísalo antes de usarlo.';
+
+  @override
+  String get asistenteDePlantilla =>
+      'Respuesta automática de plantilla: no la generó una IA.';
+
+  @override
+  String get asistenteTitulo => 'Asistente Knock';
+
+  @override
+  String get asistenteEscribe => '¿Qué necesitas arreglar?';
+
+  @override
+  String get asistenteSinTurno => 'Cuéntale tu problema al asistente.';
+
+  @override
+  String get asistenteEnviar => 'Enviar';
+
+  @override
+  String get asistentePideFoto => 'Agrega una foto al armar tu solicitud.';
+
+  @override
+  String get asistenteArmarSolicitud => 'Revisar y editar mi solicitud';
+
+  @override
+  String get asistenteResumenTitulo => 'Resumen de la conversación';
+
+  @override
+  String get asistenteResumenVacio => 'Todavía no hay nada que resumir.';
+
+  @override
+  String get asistenteSabe => 'Lo que sabes';
+
+  @override
+  String get asistentePorConfirmar => 'Por confirmar';
+
+  @override
+  String get asistenteQueLlevar => 'Qué llevar';
+
+  @override
+  String get asistenteBorradorTitulo => 'Borrador de cotización';
+
+  @override
+  String get asistentePrecio => 'Precio sugerido (MXN)';
+
+  @override
+  String get asistenteTiempo => 'Tiempo estimado';
+
+  @override
+  String get asistenteDia => 'Día';
+
+  @override
+  String get asistenteNota => 'Nota para el cliente';
+
+  @override
+  String get asistenteNadaSeEnvia =>
+      'Es un borrador: nada se envía desde aquí.';
+
+  @override
+  String get asistenteRangoTitulo => 'Rango de precio';
+
+  @override
+  String get asistenteRangoVacio =>
+      'Todavía no hay referencia de precio para este trabajo.';
+
+  @override
+  String get asistenteBitacoraTitulo => 'Bitácora del trabajo';
+
+  @override
+  String get asistenteBitacoraVacia =>
+      'Aún no guardas bitácora para este trabajo.';
+
+  @override
+  String get asistenteUnoPorLinea =>
+      'Un elemento por línea, hasta 10 de 200 caracteres.';
+
+  @override
+  String get asistenteGuardar => 'Guardar en bitácora';
+
+  @override
+  String get asistenteGuardada => 'Bitácora guardada.';
+
+  @override
+  String asistenteRango(String minimo, String maximo) {
+    return 'De $minimo a $maximo MXN';
+  }
+
+  @override
+  String asistenteMuestras(String n, String fuente) {
+    return 'Muestras: $n. Fuente: $fuente.';
+  }
+
+  @override
+  String asistenteCopia(String fecha) {
+    return 'Sin conexión. Esta es la copia del $fecha; puede estar desactualizada.';
+  }
+
+  @override
+  String get cotizarSinPerfil =>
+      'Necesitas un perfil de técnico para ver esto.';
+
+  @override
+  String get cotizarYaNoSeCotiza => 'Esta solicitud ya no admite cotizaciones.';
+
+  @override
+  String get cotizarYaCotizada =>
+      'Ya enviaste una cotización para esta solicitud.';
+
+  @override
+  String get cotizarCupoLleno =>
+      'Esta solicitud ya tiene el máximo de cotizaciones.';
+
+  @override
+  String get cotizarTitulo => 'Cotizar';
+
+  @override
+  String get cotizarNuevas => 'Solicitudes nuevas';
+
+  @override
+  String get cotizarNuevasVacio => 'No tienes solicitudes nuevas.';
+
+  @override
+  String get cotizarVer => 'Ver y cotizar';
+
+  @override
+  String get cotizarVerPropia => 'Ver mi cotización';
+
+  @override
+  String get cotizarEnviadas => 'Cotizaciones enviadas';
+
+  @override
+  String get cotizarEnviadasVacio => 'Todavía no has enviado cotizaciones.';
+
+  @override
+  String get cotizarCargando => 'Cargando…';
+
+  @override
+  String get cotizarTipoLabel => 'Tipo de precio';
+
+  @override
+  String get cotizarPrecio => 'Precio en pesos';
+
+  @override
+  String get cotizarPrecioVisita => 'Precio de la visita en pesos';
+
+  @override
+  String get cotizarPrecioMin => 'Mínimo en pesos';
+
+  @override
+  String get cotizarPrecioMax => 'Máximo en pesos';
+
+  @override
+  String get cotizarDia => 'Día de la visita';
+
+  @override
+  String get cotizarHora => 'Hora (HH:mm)';
+
+  @override
+  String cotizarPrecioVisitaRango(int minimo, int maximo) {
+    return 'De $minimo a $maximo pesos.';
+  }
+
+  @override
+  String cotizarErrorMontoVisita(int minimo, int maximo) {
+    return 'Escribe un número entero de $minimo a $maximo.';
+  }
+
+  @override
+  String get cotizarSinDias =>
+      'Ya no quedan días disponibles para esta solicitud.';
+
+  @override
+  String get cotizarErrorMonto => 'Escribe un número entero de 1 a 200 000.';
+
+  @override
+  String get cotizarErrorMaximo =>
+      'El máximo debe ser un entero mayor que el mínimo, hasta 200 000.';
+
+  @override
+  String get cotizarErrorDia => 'Elige un día.';
+
+  @override
+  String get cotizarErrorHora => 'Escribe la hora como 09:30.';
+
+  @override
+  String get cotizarEnviar => 'Enviar cotización';
+
+  @override
+  String get cotizarEnviada => 'Cotización enviada';
+
+  @override
+  String get cotizarRequiereAprobacion =>
+      'El cliente tendrá que aprobar el precio final.';
+
+  @override
+  String get cotizarSinAprobacion => 'No requiere otra aprobación del cliente.';
+
+  @override
+  String cotizarFotoDe(int numero) {
+    return 'Foto $numero de la solicitud';
+  }
+
+  @override
+  String cotizarTope(int monto) {
+    return 'Tope: \$$monto';
+  }
+
+  @override
+  String cotizarMonto(int monto) {
+    return '\$$monto';
+  }
+
+  @override
+  String cotizarRango(int min, int max) {
+    return '\$$min a \$$max';
+  }
+
+  @override
+  String cotizarCuando(String dia, String franja) {
+    return '$dia · $franja';
+  }
+
+  @override
+  String cotizarTipo(String tipo) {
+    String _temp0 = intl.Intl.selectLogic(tipo, {
+      'fijo': 'Precio fijo',
+      'rango': 'Rango',
+      'visita': 'Por visita',
+      'other': '$tipo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarFranja(String franja) {
+    String _temp0 = intl.Intl.selectLogic(franja, {
+      'manana': 'Mañana',
+      'tarde': 'Tarde',
+      'noche': 'Noche',
+      'other': '$franja',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String cotizarEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'enviada': 'Esperando respuesta',
+      'aceptada': 'Aceptada',
+      'rechazada': 'Rechazada',
+      'retirada': 'Retirada',
+      'other': '$estado',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get precioFinalBoton => 'Enviar cotización final';
+
+  @override
+  String get precioAjusteBoton => 'Proponer otro precio';
+
+  @override
+  String get precioFinalExplicacion =>
+      'Solo aplica a las visitas de diagnóstico. El cliente la aprueba o la rechaza.';
+
+  @override
+  String get precioFinalMonto => 'Precio final en pesos';
+
+  @override
+  String get precioFinalDescripcion => '¿Qué incluye?';
+
+  @override
+  String get precioDescripcionAyuda => 'De 8 a 500 caracteres.';
+
+  @override
+  String get precioMontoAyuda => 'Pesos sin centavos, mayor que cero.';
+
+  @override
+  String get precioFinalEnviar => 'Enviar al cliente';
+
+  @override
+  String get precioFinalEnviada =>
+      'Enviamos tu cotización final. Falta que el cliente la apruebe.';
+
+  @override
+  String get precioFinalNoPermitida =>
+      'Ahora no se puede enviar: solo una vez, con la visita de diagnóstico en curso.';
+
+  @override
+  String get precioAjusteCargando => 'Buscando tu cotización aceptada…';
+
+  @override
+  String get precioAjusteSinCotizacion =>
+      'No encontramos la cotización aceptada de esta visita.';
+
+  @override
+  String get precioAjusteMonto => 'Nuevo precio total en pesos';
+
+  @override
+  String precioAjusteMinimo(int monto) {
+    return 'Mínimo $monto pesos.';
+  }
+
+  @override
+  String get precioAjusteMotivo => '¿Por qué cambia el precio?';
+
+  @override
+  String get precioAjusteMotivoAyuda => 'De 10 a 300 caracteres.';
+
+  @override
+  String get precioAjusteEnviar => 'Proponer al cliente';
+
+  @override
+  String get precioAjusteEnviado =>
+      'Enviamos tu propuesta. Falta que el cliente la apruebe.';
+
+  @override
+  String get precioAjusteMotivoRechazado =>
+      'El motivo no se pudo publicar. Revísalo y quita datos personales o palabras ofensivas.';
+
+  @override
+  String get precioAjusteSinRevision =>
+      'No pudimos revisar el motivo en este momento. Intenta de nuevo en unos minutos.';
+
+  @override
+  String get precioAjusteNoPermitido =>
+      'Ahora no se puede proponer: la visita debe estar en curso y sin otro cambio pendiente.';
+
+  @override
+  String get visitaPermisoFotosTitulo => 'Fotos del trabajo';
+
+  @override
+  String get visitaPermisoFotosCasilla =>
+      'Permitir que estas fotos se muestren en el perfil del técnico y en Explorar';
+
+  @override
+  String get visitaPermisoFotosDetalle =>
+      'Es opcional. Solo se muestran con tu permiso y después de una revisión de contenido. Puedes cambiar tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosGuardado => 'Guardamos tu respuesta.';
+
+  @override
+  String get visitaPermisoFotosCargando => 'Cargando tu respuesta…';
+
+  @override
+  String get suspensionApelar => 'Apelar la suspensión';
+
+  @override
+  String get suspensionTitulo => 'Tu apelación';
+
+  @override
+  String get suspensionDetalle =>
+      'Verifica tu número con un código por SMS. Esto no inicia sesión.';
+
+  @override
+  String get suspensionEnviarCodigo => 'Enviarme el código';
+
+  @override
+  String get suspensionVerificar => 'Verificar';
+
+  @override
+  String get suspensionSinConsulta =>
+      'No hay una apelación disponible para consultar. Si quieres apelar, escribe tus motivos.';
+
+  @override
+  String get suspensionTexto => 'Tus motivos';
+
+  @override
+  String get suspensionTextoAyuda => 'Escribe entre 8 y 500 caracteres.';
+
+  @override
+  String get suspensionPresentar => 'Enviar apelación';
+
+  @override
+  String get suspensionNoDisponible => 'No hay una apelación disponible.';
+
+  @override
+  String get suspensionNoPermitida => 'No se puede presentar otra apelación.';
+
+  @override
+  String get suspensionVerificarOtraVez =>
+      'Verifica tu número otra vez con un código por SMS.';
+
+  @override
+  String get suspensionVolver => 'Volver';
+
+  @override
+  String suspensionEstado(String estado) {
+    String _temp0 = intl.Intl.selectLogic(estado, {
+      'pendiente': 'Tu apelación está en revisión.',
+      'aceptada': 'Tu apelación fue aceptada.',
+      'rechazada': 'Tu apelación fue rechazada.',
+      'other': 'Estado de tu apelación: $estado',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String suspensionPresentadaEl(String fecha) {
+    return 'Presentada el $fecha';
+  }
+
+  @override
+  String suspensionResueltaEl(String fecha) {
+    return 'Resuelta el $fecha';
+  }
 }

@@ -12,9 +12,9 @@ Ninguna instrucción escrita obliga a un modelo; solo lo orienta. Por eso Knock 
 | 2. Skills y subagentes | Conocimiento por tema y roles con permisos distintos (los revisores no editan) | Parcialmente | `.agents/skills`, `.agents/agents` |
 | 3. Permisos y hooks del agente | Bloquean en el momento ediciones y comandos prohibidos, y no dejan terminar sin verificar | Solo si alguien desactiva el hook | `scripts/hooks/knock_guard.py` + configs generadas |
 | 4. Git hooks | Validan cada commit y push de cualquier persona o agente | Con `--no-verify` (que el guardián bloquea) | `.githooks/` |
-| 5. CI + protección de ramas + CODEOWNERS | Nada entra a `sprint-XX`, `develop`, `release` o `main` sin checks en verde y revisión humana | **No** | `.github/workflows`, `docs/BRANCH_PROTECTION.md` |
+| 5. CI + protección de ramas + CODEOWNERS | El CI revisa cada PR y cada push a las ramas fijas; en `main` el check `gate` es requerido | El rol de administrador puede saltarlo; la revisión humana es regla del equipo | `.github/workflows`, `docs/BRANCH_PROTECTION.md` |
 
-La capa 5 es la que realmente garantiza; las demás evitan perder tiempo llegando al CI con algo que va a fallar.
+La capa 5 es la más fuerte; las demás evitan perder tiempo llegando al CI con algo que va a fallar.
 
 ## 2. Qué ofrece cada herramienta (octubre 2026)
 
@@ -55,7 +55,7 @@ Un solo script en Python para todas las herramientas. Recibe el JSON del hook y 
 | ¿Ya existe algo que haga esto? | `python scripts/codemap.py --query "…"` y `--similar Nombre` | Serena (MCP con servidores de lenguaje, soporta C# y Dart; opcional para búsqueda semántica), búsqueda del IDE |
 | Índice de módulos, capas, clases y métodos | `docs/architecture/CODEMAP.md` y `codemap.json` | NDepend (de pago) |
 | Ver dependencias y dónde está cada cosa | `docs/architecture/graph.html` (interactivo) y `modules.mmd` (Mermaid) | `dotnet-depends`, `lakos` (Dart) |
-| Duplicados | Huella estructural de métodos (`codemap --check`) + jscpd (texto) | SonarCloud (opcional, ya previsto en CI) |
+| Duplicados | Huella estructural de métodos (`codemap --check`) + jscpd (texto) | SonarQube Cloud (aplicación de GitHub, fuera de `gate`) |
 | Reglas de arquitectura | `codemap --check` + NetArchTest (backend) + prueba de capas (app) + Semgrep | ArchUnitNET |
 
 `codemap.py` no tiene dependencias, lee C#, Dart y TypeScript, y lo regeneran el pre-commit y el hook al terminar. Se probó sobre el repositorio `WebAPIDevSecOpsScalling` del profesor: encontró `GenerateJwtToken` triplicado (un controller y dos servicios) y controllers que usan EF directamente.

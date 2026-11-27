@@ -195,6 +195,28 @@ void main() {
     expect(find.text('Aprobar'), findsOneWidget);
   });
 
+  testWidgets('CA_039_E02 y E03 sin cotización ni ajustes lo dice', (
+    tester,
+  ) async {
+    await _montar(tester, _api(cotizacion: () => http.Response('', 404)));
+    expect(
+      find.text('La cotización final no está disponible.'),
+      findsOneWidget,
+    );
+    expect(find.text('No hay cambios de precio pendientes.'), findsOneWidget);
+    expect(find.text('Aprobar'), findsNothing);
+  });
+
+  for (final estado in ['aprobada', 'rechazada', 'vencida']) {
+    testWidgets('CA_039_E01 en estado $estado no ofrece decidir', (
+      tester,
+    ) async {
+      await _montar(tester, _api(cotizacion: () => jsonOk(_final(estado))));
+      expect(find.text('Aprobar'), findsNothing);
+      expect(find.text('Rechazar'), findsNothing);
+    });
+  }
+
   testWidgets('CA_039_19 en inglés usa el ARB', (tester) async {
     await _montar(tester, _api(), idioma: const Locale('en'));
     expect(find.text('Final quote'), findsOneWidget);

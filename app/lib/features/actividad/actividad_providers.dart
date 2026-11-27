@@ -56,6 +56,17 @@ final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
   );
 });
 
+/// Subida de una foto del trabajo terminado (spec 040, VIS-09): devuelve su
+/// `archivoId`. Va tras el interruptor de la subida de fotos.
+final subidaDeFotoDeTrabajoProvider = Provider<Future<String> Function(String)>(
+  (ref) => SubidaDeFotosApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+    almacenamiento: ref.watch(transporteDeSubidasProvider),
+    proposito: 'trabajo',
+  ).subir,
+);
+
 /// Una sola instancia en memoria para solicitudes y visitas, para que la
 /// visita salga de la cita que se eligió (backend 021 y 022).
 final _datosDePruebaProvider = Provider<SolicitudRepositoryDePrueba>(

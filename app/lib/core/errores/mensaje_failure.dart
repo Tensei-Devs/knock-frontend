@@ -35,6 +35,13 @@ String mensajeDeError(AppLocalizations textos, Object error) {
     OpinionYaRespondidaFailure() => textos.opinionesErrorYaRespondida,
     YaBloqueadoFailure() => textos.bloqueosErrorYaBloqueado,
     ApelacionNoPermitidaFailure() => textos.bloqueosErrorApelacion,
+    SinPerfilTecnicoFailure() => textos.cotizarSinPerfil,
+    CotizacionNoPermitidaFailure(:final motivo) => switch (motivo) {
+      MotivoCotizacionRechazada.yaNoSeCotiza => textos.cotizarYaNoSeCotiza,
+      MotivoCotizacionRechazada.yaCotizada => textos.cotizarYaCotizada,
+      MotivoCotizacionRechazada.cupoLleno => textos.cotizarCupoLleno,
+    },
+    AsistenteNoDisponibleFailure() => textos.asistenteNoDisponible,
     EleccionRechazadaFailure(:final motivo) => switch (motivo) {
       MotivoEleccionRechazada.yaElegida => textos.cotizacionYaElegida,
       MotivoEleccionRechazada.cotizacionNoDisponible =>

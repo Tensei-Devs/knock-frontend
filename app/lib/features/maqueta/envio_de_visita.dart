@@ -1,6 +1,8 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/features/maqueta/ui.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Un envío a la vez de una acción sobre la visita. Si falla, deja el texto
@@ -10,11 +12,13 @@ mixin EnvioDeVisita<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   String? errorDeEnvio;
 
   /// `true` si [accion] terminó bien y la pantalla sigue montada.
-  /// [conflicto] es el mensaje del 409 de esa ruta.
+  /// [conflicto] es el mensaje del 409 de esa ruta; [propio] da el texto de
+  /// las fallas que esa acción explica a su manera.
   Future<bool> enviarUnaVez(
     String conflicto,
-    Future<void> Function() accion,
-  ) async {
+    Future<void> Function() accion, {
+    String? Function(Failure falla)? propio,
+  }) async {
     if (enviando) return false;
     final textos = AppLocalizations.of(context);
     setState(() {
@@ -27,14 +31,43 @@ mixin EnvioDeVisita<W extends ConsumerStatefulWidget> on ConsumerState<W> {
       if (!mounted) return false;
       setState(() {
         enviando = false;
-        errorDeEnvio = switch (falla) {
-          ConflictoFailure() => conflicto,
-          NoEncontradoFailure() => textos.visitaNoDisponible,
-          _ => mensajeDeError(textos, falla),
-        };
+        errorDeEnvio =
+            propio?.call(falla) ??
+            switch (falla) {
+              ConflictoFailure() => conflicto,
+              NoEncontradoFailure() => textos.visitaNoDisponible,
+              _ => mensajeDeError(textos, falla),
+            };
       });
       return false;
     }
     return mounted;
+  }
+}
+
+/// El error al cargar algo de la visita, con «Reintentar».
+class ErrorDeCargaDeVisita extends StatelessWidget {
+  const ErrorDeCargaDeVisita({
+    super.key,
+    required this.error,
+    required this.alReintentar,
+  });
+
+  final Object error;
+  final VoidCallback alReintentar;
+
+  @override
+  Widget build(BuildContext context) {
+    final textos = AppLocalizations.of(context);
+    return stack([
+      NoteK(
+        'red',
+        'help',
+        error is NoEncontradoFailure
+            ? textos.visitaNoDisponible
+            : mensajeDeError(textos, error),
+      ),
+      BtnK(textos.opinionesReintentar, alReintentar, kind: Bk.sec),
+    ], gap: 12);
   }
 }

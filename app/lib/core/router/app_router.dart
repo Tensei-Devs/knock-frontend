@@ -18,6 +18,7 @@ import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
 import 'package:app/features/cuenta/presentation/contactos_confianza_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/cuenta/presentation/cuenta_screen.dart';
+import 'package:app/features/suspension/suspension.dart';
 import 'package:app/features/entrada/presentation/celular_screen.dart';
 import 'package:app/features/entrada/presentation/codigo_screen.dart';
 import 'package:app/features/explorar/presentation/explorar_screen.dart';
@@ -110,6 +111,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 maqueta || _celularDe(state) == null ? Rutas.entrar : null,
             builder: (context, state) =>
                 CodigoScreen(celular: _celularDe(state)!),
+          ),
+          GoRoute(
+            path: 'apelacion',
+            builder: (context, state) => const ApelacionScreen(),
           ),
         ],
       ),

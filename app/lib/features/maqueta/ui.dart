@@ -174,6 +174,15 @@ Widget mutT(String s, {TextAlign? a}) => Builder(
 );
 Widget labT(String s) => T(s, size: 15, w: FontWeight.w900);
 
+/// Una fecha `AAAA-MM-DD` del contrato, escrita en el idioma activo. Si no se
+/// puede leer, queda como llegó.
+String fechaLegible(BuildContext context, String dia) {
+  final fecha = DateTime.tryParse(dia);
+  return fecha == null
+      ? dia
+      : MaterialLocalizations.of(context).formatMediumDate(fecha);
+}
+
 // ---------------------------------------------------------------- gaps
 
 const g4 = SizedBox(height: 4, width: 4);

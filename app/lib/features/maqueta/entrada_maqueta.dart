@@ -9,7 +9,6 @@ import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/entrada/entrada.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
-import 'package:app/features/entrada/presentation/mensaje_de_error.dart';
 import 'package:app/features/inicio/inicio.dart';
 import 'package:app/features/inicio/inicio_providers.dart';
 import 'package:app/features/maqueta/cobertura.dart';
@@ -473,6 +472,12 @@ class _EntradaState extends ConsumerState<EntradaMaqueta> {
           digits(_code.text).length == 6 && !busy ? _verify : null,
           busy: busy,
         ),
+        if (entrada.error is CuentaSuspendidaFailure)
+          BtnK(
+            textos.suspensionApelar,
+            () => context.go(Rutas.apelacion),
+            kind: Bk.sec,
+          ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
