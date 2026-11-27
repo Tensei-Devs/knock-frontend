@@ -109,10 +109,7 @@ class _FinalState extends ConsumerState<_HojaCotizacionFinal>
         onChanged: (_) => setState(() {}),
       ),
       if (errorDeEnvio case final error?) NoteK('red', 'help', error),
-      BtnK(
-        enviando ? textos.visitaEnviando : textos.precioFinalEnviar,
-        enviar,
-      ),
+      BtnK(enviando ? textos.visitaEnviando : textos.precioFinalEnviar, enviar),
     ]);
   }
 }

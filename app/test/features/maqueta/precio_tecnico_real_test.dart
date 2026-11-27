@@ -174,9 +174,7 @@ void main() {
     expect(find.byType(TextField), findsNothing);
   });
 
-  testWidgets('CA_039_17 un error permite reintentar la carga', (
-    tester,
-  ) async {
+  testWidgets('CA_039_17 un error permite reintentar la carga', (tester) async {
     var cargas = 0;
     final api = ApiFalsa(
       (_) => ++cargas == 1 ? http.Response('', 503) : _trabajo(),
