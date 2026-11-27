@@ -1,4 +1,5 @@
-// Spec 040: cancelar, reprogramar y «no terminado» contra la API falsa.
+// Spec 040: cancelar, reprogramar, «no terminado» y «el técnico no llegó»
+// contra la API falsa.
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/visita/visita.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -78,5 +79,64 @@ void main() {
       _repo(api).cancelar(_id, 'Cambié de planes'),
       throwsA(isA<DatosInvalidosFailure>()),
     );
+  });
+
+  group('tecnico-ausente (enmienda 2026-11-26)', () {
+    Map<String, Object?> cuerpo({String visitaId = _id}) => {
+      'visitaId': visitaId,
+      'estado': 'no_presentado',
+      'quienFalto': 'tecnico',
+    };
+
+    test('CA_040_E01 con 200 la visita queda no presentada; sin cuerpo y con '
+        'sesión', () async {
+      final api = ApiFalsa((_) => jsonOk(cuerpo()));
+      expect(await _repo(api).tecnicoAusente(_id), 'no_presentado');
+      final p = api.peticiones.single;
+      expect(p.llamadaCompleta, 'POST /api/v1/visitas/$_id/tecnico-ausente');
+      expect(p.cuerpo, isEmpty);
+      expect(p.autorizacion, 'Bearer ${tokensA.accessToken}');
+    });
+
+    test('CA_040_E01 repetirlo vuelve a dar 200', () async {
+      final api = ApiFalsa((_) => jsonOk(cuerpo()));
+      final repo = _repo(api);
+      expect(await repo.tecnicoAusente(_id), 'no_presentado');
+      expect(await repo.tecnicoAusente(_id), 'no_presentado');
+      expect(api.peticiones, hasLength(2));
+    });
+
+    for (final (estado, falla) in [
+      (400, isA<DatosRechazadosFailure>()),
+      (404, isA<NoEncontradoFailure>()),
+      (409, isA<ConflictoFailure>()),
+      (429, isA<DemasiadosIntentosFailure>()),
+    ]) {
+      test('CA_040_E02 un $estado es un Failure y no se reintenta', () async {
+        final api = ApiFalsa(
+          (_) => http.Response(
+            '{"code":"outside_arrival_window"}',
+            estado,
+            headers: {'content-type': 'application/problem+json'},
+          ),
+        );
+        await expectLater(_repo(api).tecnicoAusente(_id), throwsA(falla));
+        expect(api.peticiones, hasLength(1));
+      });
+    }
+
+    for (final (nombre, json) in [
+      ('otra visita', cuerpo(visitaId: 'd' * 24)),
+      ('quienFalto distinto', {...cuerpo(), 'quienFalto': 'cliente'}),
+      ('sin estado', {'visitaId': _id, 'quienFalto': 'tecnico'}),
+    ]) {
+      test('CA_040_E01 $nombre es dato inválido', () async {
+        final api = ApiFalsa((_) => jsonOk(json));
+        await expectLater(
+          _repo(api).tecnicoAusente(_id),
+          throwsA(isA<DatosInvalidosFailure>()),
+        );
+      });
+    }
   });
 }

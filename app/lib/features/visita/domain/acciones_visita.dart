@@ -1,5 +1,6 @@
-/// Las acciones del cliente sobre su visita (spec 040; backend 050): cancelar,
-/// proponer otra fecha y reportar que el trabajo no se terminó. Los modelos
+/// Las acciones del cliente sobre su visita (spec 040; backend 050 y 064):
+/// cancelar, proponer otra fecha, reportar que el trabajo no se terminó y que
+/// el técnico no llegó. Los modelos
 /// solo llevan lo que declara el contrato.
 library;
 
@@ -40,6 +41,10 @@ abstract interface class AccionesVisitaRepository {
 
   /// El técnico registra que el cliente no estaba (VIS-07). Devuelve el estado.
   Future<String> clienteAusente(String visitaId);
+
+  /// El cliente dueño registra que el técnico no llegó (VIS-12, backend 064).
+  /// La ventana de la cita la decide el servidor. Devuelve el estado.
+  Future<String> tecnicoAusente(String visitaId);
 
   /// El técnico termina la visita en curso (VIS-09) con los `archivoId` de sus
   /// fotos. Devuelve el estado.
