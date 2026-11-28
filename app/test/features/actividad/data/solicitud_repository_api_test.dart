@@ -111,7 +111,7 @@ void main() {
             'colonia': {'nombre': 'Centro'},
             'descripcion': 'Reparación de una llave',
             'fotos': <Object>[],
-            if (permiso != null) 'puedeVolverAPedir': permiso,
+            'puedeVolverAPedir': ?permiso,
           }),
         ),
       );
