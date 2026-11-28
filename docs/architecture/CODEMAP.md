@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T23:21:34Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T04:49:40Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,7 +24,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 215 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 64 | 315 | 589 |
+| `maqueta` | - | 64 | 315 | 591 |
 | `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
@@ -605,7 +605,7 @@
 - `app/lib/features/maqueta/pantallas_cuenta.dart` — class `CuentaMaqueta`, class `_Gl`, class `MiCasaScreen`, class `ConfianzaScreen`, class `ConfigMaqueta`, class `AvisosConfigScreen`, class `AvisosScreen`, class `AvisoScreen`, class `TerminosScreen`, class `PrivacidadScreen`, class `Eliminar1Screen`, class `_Eliminar1State`, class `Eliminar2Screen`, class `_Eliminar2State`, class `EliminadoScreen`, class `AyudaScreen`, class `_AyudaState`, class `SinConexionScreen`, class `_SinConexionState`
   - `hoja()`:44, `build()`:67, `MaqBuilder()`:79, `build()`:390, `editarDatos()`:396, `FieldK()`:461, `cambiarNumero()`:523, `e()`:540, `phone()`:541, `build()`:882, `build()`:944, `Pg()`:967, `CardK()`:987, `build()`:1032, `build()`:1163, `build()`:1228, `build()`:1409, `build()`:1480, `build()`:1538, `MaqBuilder()`:1540, `build()`:1672, `dispose()`:1794, `build()`:1800, `build()`:1859, `EliminadaReal()`:1861 …
 - `app/lib/features/maqueta/pantallas_solicitud.dart` — class `SolicitarScreen`, class `_SolicitarScreenState`, class `EnviadaScreen`, class `CompararScreen`, class `_CompararScreenState`
-  - `initState()`:82, `dispose()`:90, `build()`:147, `FieldK()`:427, `build()`:507, `step()`:513, `stateK0()`:630, `widenBlock()`:656, `initState()`:715, `dispose()`:740, `showModalBottomSheet()`:750, `build()`:1461, `CardK()`:1495
+  - `initState()`:83, `dispose()`:91, `build()`:148, `FieldK()`:428, `build()`:508, `step()`:514, `stateK0()`:631, `widenBlock()`:657, `initState()`:716, `dispose()`:741, `showModalBottomSheet()`:754, `TextButton()`:943, `FilledButton()`:948, `build()`:1539, `CardK()`:1573
 - `app/lib/features/maqueta/pantallas_tecnico.dart` — class `Servicio`, class `TecRegistroScreen`, class `_TecRegistroState`, class `VerifScreen`, class `_VerifState`, class `PendienteScreen`, class `_PendienteState`, class `VerificadoScreen`, class `RechazadaScreen`, class `TrabajoMaqueta`, class `AgendaEnMapaBloque`, class `TecMensajesScreen`, class `TecChatScreen`, class `_TecChatState`
   - `registrarRutasTecnico()`:47, `dispose()`:160, `clean()`:239, `advErrors()`:241, `initState()`:290, `dispose()`:297, `build()`:533, `openVerif()`:908, `privacyCard()`:929, `BtnK()`:1110, `build()`:1135, `initState()`:1267, `dispose()`:1273, `build()`:1279, `build()`:1422, `build()`:1511, `visitCard()`:1605, `BtnK()`:1673, `reqCard()`:1830, `workFab()`:1881, `Positioned()`:1888, `build()`:1950, `verifRow()`:1962, `build()`:2265, `build()`:2365 …
 - `app/lib/features/maqueta/pantallas_tecnico2.dart` — class `CotizarScreen`, class `_CotizarState`, class `IniciarScreen`, class `_IniciarState`, class `CerrarScreen`, class `_CerrarState`, class `PerfilEditarScreen`, class `_PerfilEditarState`, class `ReputacionScreen`, class `_ReputacionState`

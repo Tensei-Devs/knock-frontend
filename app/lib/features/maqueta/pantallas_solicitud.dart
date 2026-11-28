@@ -30,6 +30,7 @@ import 'package:app/features/actividad/actividad.dart'
         MotivoCancelacion,
         Cancelada,
         CancelacionConCita,
+        CancelacionError,
         CancelacionYaVencida,
         CancelacionNoDisponible,
         CancelacionInvalida,
@@ -746,7 +747,10 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     final textos = AppLocalizations.of(context);
     MotivoCancelacion? motivo;
     var enviando = false;
+    var reintentar = false;
+    var tieneCita = false;
     String? error;
+    Timer? esperaDeCancelacion;
     await showModalBottomSheet<void>(
       context: context,
       isDismissible: false,
@@ -797,13 +801,26 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                         ),
                     ],
                   ),
-                  if (error != null) Text(error!),
+                  if (error != null)
+                    Semantics(liveRegion: true, child: Text(error!)),
+                  if (tieneCita)
+                    Consumer(
+                      builder: (context, ref, _) =>
+                          _accionVisitaTrasConflicto(ctx, ref, id),
+                    ),
                   TextButton(
                     onPressed: enviando ? null : () => Navigator.pop(ctx),
-                    child: Text(textos.solicitudCancelarMantener),
+                    child: Text(
+                      tieneCita
+                          ? textos.cotizacionListo
+                          : textos.solicitudCancelarMantener,
+                    ),
                   ),
                   FilledButton(
-                    onPressed: enviando
+                    onPressed:
+                        enviando ||
+                            tieneCita ||
+                            (esperaDeCancelacion?.isActive ?? false)
                         ? null
                         : () async {
                             actualizar(() {
@@ -833,8 +850,25 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                                   solicitudRealDetalleProvider(id),
                                 );
                               }
+                              if (resultado is CancelacionConCita) {
+                                ref.invalidate(cotizacionesRealesProvider);
+                              }
+                              if (resultado case CancelacionLimite(
+                                :final espera,
+                              )) {
+                                esperaDeCancelacion = Timer(espera, () {
+                                  if (ctx.mounted) {
+                                    actualizar(() => error = null);
+                                  }
+                                });
+                              }
                               actualizar(() {
                                 enviando = false;
+                                tieneCita = resultado is CancelacionConCita;
+                                reintentar =
+                                    resultado is CancelacionInvalida ||
+                                    resultado is CancelacionSinConexion ||
+                                    resultado is CancelacionError;
                                 error = switch (resultado) {
                                   CancelacionConCita() =>
                                     textos.solicitudErrorConCita,
@@ -847,9 +881,8 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                                     const DatosRechazadosFailure(),
                                   ),
                                   CancelacionLimite(:final espera) =>
-                                    mensajeDeError(
-                                      textos,
-                                      DemasiadosIntentosFailure(espera: espera),
+                                    textos.solicitudEspera(
+                                      (espera.inMilliseconds + 999) ~/ 1000,
                                     ),
                                   CancelacionSinConexion() => textoDeErrorReal(
                                     const ServicioNoDisponibleFailure(),
@@ -863,13 +896,18 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                               if (!ctx.mounted) return;
                               actualizar(() {
                                 enviando = false;
+                                reintentar = true;
                                 error = textoDeErrorReal(e);
                               });
                             }
                           },
                     child: enviando
                         ? const CircularProgressIndicator()
-                        : Text(textos.solicitudCancelarConfirmar),
+                        : Text(
+                            reintentar
+                                ? textos.inicioReintentar
+                                : textos.solicitudCancelarConfirmar,
+                          ),
                   ),
                 ],
               ),
@@ -877,6 +915,46 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
           ),
         ),
       ),
+    ).whenComplete(() => esperaDeCancelacion?.cancel());
+  }
+
+  Widget _accionVisitaTrasConflicto(
+    BuildContext hoja,
+    WidgetRef ref,
+    String id,
+  ) {
+    if (!ref.watch(solicitudesRealesActivasProvider)) {
+      return const SizedBox.shrink();
+    }
+    final textos = AppLocalizations.of(hoja);
+    final consulta = cotizacionesRealesProvider((
+      solicitudId: id,
+      orden: _ordenes[_o],
+    ));
+    final comparacion = ref.watch(consulta);
+    if (comparacion.isLoading) {
+      return const LinearProgressIndicator();
+    }
+    final resultado = comparacion.asData?.value;
+    final visitaId = resultado?.visitaId;
+    if (resultado?.motivo != MotivoSinEleccion.yaElegida ||
+        visitaId == null ||
+        visitaId.isEmpty) {
+      return TextButton(
+        onPressed: () => ref.invalidate(consulta),
+        child: Text(textos.inicioReintentar),
+      );
+    }
+    return FilledButton(
+      onPressed: () {
+        final solicitud = maq.job(id);
+        if (!mounted || solicitud == null || !solicitud.real) return;
+        solicitud.visitaId = visitaId;
+        final taller = cats[solicitud.cat]?.taller ?? false;
+        Navigator.pop(hoja);
+        unawaited(context.push<void>(taller ? RM.cita(id) : RM.visita(id)));
+      },
+      child: Text(textos.cotizacionVerMiVisita),
     );
   }
 
