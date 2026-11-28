@@ -282,6 +282,50 @@ void main() {
     c.dispose();
   });
 
+  test('CA_047_07 lo que nunca salió se envía al reintentar, aunque haya uno '
+      'anterior igual', () async {
+    api.primera = [
+      mensajeFalso(3, autorRol: 'cliente', texto: 'Dos'),
+      ...api.primera,
+    ];
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Uno');
+    api
+      ..errorAlEnviar = null
+      ..errorDeLectura = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Dos');
+    final nuncaSalio = c.envio.estado.mensajes.last.idLocal;
+    // Un reintento sin red no cambia que nunca salió.
+    await c.envio.reintentar(nuncaSalio);
+    expect(api.enviados, ['Uno']);
+    api.errorDeLectura = null;
+    await c.envio.reintentar(nuncaSalio);
+    expect(api.enviados, ['Uno', 'Dos']);
+    c.dispose();
+  });
+
+  test('CA_047_07 enviar otra cosa no borra lo que nunca salió', () async {
+    api.primera = [
+      mensajeFalso(3, autorRol: 'cliente', contactoOculto: true),
+      ...api.primera,
+    ];
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Uno');
+    api
+      ..errorAlEnviar = null
+      ..errorDeLectura = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Dos');
+    api.errorDeLectura = null;
+    await c.envio.enviar('Tres');
+    expect(c.envio.estado.mensajes.map((m) => m.texto), contains('Dos'));
+    expect(api.enviados, ['Uno', 'Tres']);
+    c.dispose();
+  });
+
   test('CA_047_10 con la conversación tapada no marca leído; al volver '
       'sí', () async {
     final c = crear();

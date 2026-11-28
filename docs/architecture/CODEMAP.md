@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-28T05:20:03Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T05:24:38Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -684,7 +684,7 @@
 - `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
   - `reintentar()`:33, `cargarMas()`:71, `canalConectado()`:118, `canalDesconectado()`:122, `actualizarTotalDesdeServidor()`:135, `limpiar()`:148, `dispose()`:161
 - `app/lib/features/mensajes/presentation/envio_mensajes_controller.dart` — enum `EstadoDeEnvio`, class `MensajePropio`, class `EstadoEnvioMensajes`, class `EnvioMensajesController`
-  - `enviar()`:92, `reintentar()`:134, `descartar()`:168, `limpiar()`:206, `marcarCerrada()`:209, `dispose()`:284
+  - `enviar()`:97, `reintentar()`:142, `descartar()`:181, `limpiar()`:222, `marcarCerrada()`:228, `dispose()`:303
 - `app/lib/features/mensajes/presentation/globo_controller.dart` — class `EstadoGlobo`, class `GloboController`
   - `build()`:44, `reintentar()`:58, `actualizar()`:64
 
