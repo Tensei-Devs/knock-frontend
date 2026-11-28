@@ -13,7 +13,8 @@ import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:app/features/maqueta/estado.dart' show CargaReal, Job, maq;
-import 'package:app/features/maqueta/pantallas_actividad.dart' show VisitaMaqueta;
+import 'package:app/features/maqueta/pantallas_actividad.dart'
+    show VisitaMaqueta;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:flutter/material.dart';
@@ -457,7 +458,10 @@ void main() {
       repo.respuestaCancelacion!.complete(const CancelacionConCita());
       await tester.pumpAndSettle();
       expect(repo.detallesPedidos.length, greaterThan(lecturasPrevias));
-      expect(find.textContaining('Ya elegiste una cotización:'), findsOneWidget);
+      expect(
+        find.textContaining('Ya elegiste una cotización:'),
+        findsOneWidget,
+      );
       expect(
         tester
             .widget<FilledButton>(

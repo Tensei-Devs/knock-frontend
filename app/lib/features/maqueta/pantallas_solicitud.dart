@@ -865,7 +865,8 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                               actualizar(() {
                                 enviando = false;
                                 tieneCita = resultado is CancelacionConCita;
-                                reintentar = resultado is CancelacionInvalida ||
+                                reintentar =
+                                    resultado is CancelacionInvalida ||
                                     resultado is CancelacionSinConexion ||
                                     resultado is CancelacionError;
                                 error = switch (resultado) {
