@@ -10,9 +10,11 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**apiVversionTecnicosMeDisponibilidadPut**](TecnicosMeApi.md#apivversiontecnicosmedisponibilidadput) | **PUT** /api/v{version}/tecnicos/me/disponibilidad | Enciende o apaga «Disponible hoy» (TEC-09).
+[**apiVversionTecnicosMeGet**](TecnicosMeApi.md#apivversiontecnicosmeget) | **GET** /api/v{version}/tecnicos/me | Perfil propio (TEC-15), con la foto y la dirección del taller; una cuenta sin perfil de técnico recibe 404.
 [**apiVversionTecnicosMeHorariosGet**](TecnicosMeApi.md#apivversiontecnicosmehorariosget) | **GET** /api/v{version}/tecnicos/me/horarios | Horarios de los siete días (TEC-10); sin horario guardado, todos cerrados.
 [**apiVversionTecnicosMeHorariosPut**](TecnicosMeApi.md#apivversiontecnicosmehorariosput) | **PUT** /api/v{version}/tecnicos/me/horarios | Reemplaza los horarios de los siete días (TEC-11).
 [**apiVversionTecnicosMePut**](TecnicosMeApi.md#apivversiontecnicosmeput) | **PUT** /api/v{version}/tecnicos/me | Edita el perfil público (TEC-08): cambian solo los campos enviados.
+[**apiVversionTecnicosMeReputacionGet**](TecnicosMeApi.md#apivversiontecnicosmereputacionget) | **GET** /api/v{version}/tecnicos/me/reputacion | Reputación propia (TEC-13): promedio, distribución por estrellas y nivel; una cuenta sin perfil de técnico recibe 404.
 
 
 # **apiVversionTecnicosMeDisponibilidadPut**
@@ -54,6 +56,47 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiVversionTecnicosMeGet**
+> MyTechnicianProfileResponse apiVversionTecnicosMeGet(version)
+
+Perfil propio (TEC-15), con la foto y la dirección del taller; una cuenta sin perfil de técnico recibe 404.
+
+### Example
+```dart
+import 'package:knock_api/api.dart';
+
+final api_instance = TecnicosMeApi();
+final version = version_example; // String | 
+
+try {
+    final result = api_instance.apiVversionTecnicosMeGet(version);
+    print(result);
+} catch (e) {
+    print('Exception when calling TecnicosMeApi->apiVversionTecnicosMeGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **version** | **String**|  | 
+
+### Return type
+
+[**MyTechnicianProfileResponse**](MyTechnicianProfileResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: text/plain, application/json, text/json, application/problem+json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -181,6 +224,47 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiVversionTecnicosMeReputacionGet**
+> ReputationResponse apiVversionTecnicosMeReputacionGet(version)
+
+Reputación propia (TEC-13): promedio, distribución por estrellas y nivel; una cuenta sin perfil de técnico recibe 404.
+
+### Example
+```dart
+import 'package:knock_api/api.dart';
+
+final api_instance = TecnicosMeApi();
+final version = version_example; // String | 
+
+try {
+    final result = api_instance.apiVversionTecnicosMeReputacionGet(version);
+    print(result);
+} catch (e) {
+    print('Exception when calling TecnicosMeApi->apiVversionTecnicosMeReputacionGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **version** | **String**|  | 
+
+### Return type
+
+[**ReputationResponse**](ReputationResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: text/plain, application/json, text/json, application/problem+json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

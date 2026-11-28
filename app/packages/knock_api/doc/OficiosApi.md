@@ -9,8 +9,54 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**apiVversionOficiosClaveGet**](OficiosApi.md#apivversionoficiosclaveget) | **GET** /api/v{version}/oficios/{clave} | Detalle de un oficio activo (OFI-02, spec 045). Público, con la misma caché de 24 horas del catálogo (la edición del panel la invalida) y con `ETag` débil para revalidar; un oficio que no existe o está inactivo responde 404 `trade_not_found`, y una clave con formato inválido, 422 `errors.clave`.
 [**apiVversionOficiosGet**](OficiosApi.md#apivversionoficiosget) | **GET** /api/v{version}/oficios | Oficios activos como arreglo sin paginar: excepción documentada a la constitución §11 (catálogo acotado, D9). `[AllowAnonymous]` explícito para que siga público aunque se agregue una política de autorización global (D3). Responde con `ETag` débil, `Cache-Control: public, max-age=0, must-revalidate` y `Vary: Accept-Encoding` (la respuesta comprimida es otra variante); con `If-None-Match` vigente responde 304 sin cuerpo.
 
+
+# **apiVversionOficiosClaveGet**
+> TradeDetailResponse apiVversionOficiosClaveGet(clave, version, ifNoneMatch)
+
+Detalle de un oficio activo (OFI-02, spec 045). Público, con la misma caché de 24 horas del catálogo (la edición del panel la invalida) y con `ETag` débil para revalidar; un oficio que no existe o está inactivo responde 404 `trade_not_found`, y una clave con formato inválido, 422 `errors.clave`.
+
+### Example
+```dart
+import 'package:knock_api/api.dart';
+
+final api_instance = OficiosApi();
+final clave = clave_example; // String | 
+final version = version_example; // String | 
+final ifNoneMatch = ifNoneMatch_example; // String | 
+
+try {
+    final result = api_instance.apiVversionOficiosClaveGet(clave, version, ifNoneMatch);
+    print(result);
+} catch (e) {
+    print('Exception when calling OficiosApi->apiVversionOficiosClaveGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **clave** | **String**|  | 
+ **version** | **String**|  | 
+ **ifNoneMatch** | **String**|  | [optional] 
+
+### Return type
+
+[**TradeDetailResponse**](TradeDetailResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiVversionOficiosGet**
 > List<OficioResponse> apiVversionOficiosGet(version, ifNoneMatch)
