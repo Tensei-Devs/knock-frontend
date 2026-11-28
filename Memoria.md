@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## KNOCK-71 — Permiso para volver a pedir
+- El repositorio real conserva el permiso del detalle de la solicitud, con falso por omisión. Solo un booleano verdadero del servidor habilita el permiso.
+- Pendientes de la spec 025: conectar el permiso al formulario, conservar el prellenado con las reglas del borrador y verificar el recorrido con fotos privadas en un entorno de pruebas.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
