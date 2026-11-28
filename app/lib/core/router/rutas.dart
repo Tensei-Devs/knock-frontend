@@ -33,6 +33,13 @@ abstract final class Rutas {
   static String visita(String id) =>
       '/actividad/visita/${Uri.encodeComponent(id)}';
 
+  /// Una conversación (spec 047), fuera de la barra inferior. `tecnico` solo
+  /// va cuando la app lo conoce.
+  static String conversacion(String id, {String? tecnicoId}) => Uri(
+    path: '/conversaciones/${Uri.encodeComponent(id)}',
+    queryParameters: tecnicoId == null ? null : {'tecnico': tecnicoId},
+  ).toString();
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 

@@ -4,6 +4,7 @@ import 'package:app/features/maqueta/rutas_tecnico.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/trabajo/trabajo.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:app/features/maqueta/boton_conversacion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -104,6 +105,10 @@ class _TarjetaDeSolicitud extends StatelessWidget {
           solicitud.yaCotizo ? t.cotizarVerPropia : t.cotizarVer,
           () => context.push(RT.cotizar(solicitud.solicitudId)),
           kind: Bk.sec,
+        ),
+        BotonConversacion(
+          etiqueta: t.conversacionChatear,
+          solicitudId: solicitud.solicitudId,
         ),
       ], gap: 6),
     );

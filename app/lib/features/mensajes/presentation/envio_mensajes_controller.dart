@@ -68,7 +68,17 @@ class EnvioMensajesController extends ChangeNotifier {
     this._envio,
     this.conversacionId, {
     bool cerrada = false,
+    this.alGuardar,
+    this.yaLlego,
   }) : estado = EstadoEnvioMensajes(cerrada: cerrada);
+
+  /// Se llama con cada mensaje que el servidor confirmó con `201`.
+  final void Function(Mensaje guardado)? alGuardar;
+
+  /// Se pregunta antes de reenviar un mensaje del que no se supo si llegó
+  /// (spec 047, CA-07): `true` si el servidor ya lo tiene, `false` si no y
+  /// `null` si todavía no responde.
+  final Future<bool?> Function(String texto)? yaLlego;
 
   final EnvioDeMensajes _envio;
   final String conversacionId;
@@ -104,6 +114,26 @@ class EnvioMensajesController extends ChangeNotifier {
       estado: EstadoDeEnvio.pendiente,
     );
     _reemplazar(pendiente, enviando: true);
+    final comprobar = yaLlego;
+    if (comprobar != null && actual.falla is ServicioNoDisponibleFailure) {
+      final llego = await comprobar(pendiente.texto);
+      if (_disposed) return;
+      if (llego == null) {
+        // Sin respuesta del servidor no se reenvía: podría duplicarse.
+        _reemplazar(actual, enviando: false);
+        return;
+      }
+      if (llego) {
+        _publicar(
+          mensajes: [
+            for (final m in estado.mensajes)
+              if (m.idLocal != idLocal) m,
+          ],
+          enviando: false,
+        );
+        return;
+      }
+    }
     await _mandar(pendiente);
   }
 
@@ -135,6 +165,7 @@ class EnvioMensajesController extends ChangeNotifier {
         ),
         enviando: false,
       );
+      alGuardar?.call(guardado);
     } on Failure catch (falla) {
       if (_disposed) return;
       _reemplazar(
