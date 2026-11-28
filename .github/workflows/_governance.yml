@@ -52,12 +52,20 @@ jobs:
         run: python scripts/codemap.py --check
       - name: Mapa de código actualizado en el commit
         run: git diff --quiet -- docs/architecture/CODEMAP.md || { echo "::error::docs/architecture/CODEMAP.md no está al día. Corre python scripts/codemap.py y súbelo."; exit 1; }
+      # jscpd y sus dependencias quedan fijados en .github/tools/jscpd (lockfile con sumas) y se instalan sin scripts,
+      # fuera del repositorio para que no entren en el análisis.
       - name: Duplicación textual (jscpd)
-        run: npx --yes jscpd@4 --config .jscpd.json .
-      - name: Lint de workflows (actionlint)
         run: |
-          pip install --quiet actionlint-py
-          actionlint -color
+          mkdir -p "$RUNNER_TEMP/jscpd"
+          cp .github/tools/jscpd/package.json .github/tools/jscpd/package-lock.json "$RUNNER_TEMP/jscpd/"
+          npm ci --ignore-scripts --no-audit --no-fund --prefix "$RUNNER_TEMP/jscpd"
+          "$RUNNER_TEMP/jscpd/node_modules/.bin/jscpd" --config .jscpd.json .
+      - name: Lint de workflows (actionlint, CLI fijada por versión y suma de verificación)
+        run: |
+          curl -sSfL --proto '=https' --tlsv1.2 -o "$RUNNER_TEMP/actionlint.tgz" https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  $RUNNER_TEMP/actionlint.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/actionlint.tgz" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -color
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: always()
         with:

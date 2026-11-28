@@ -153,6 +153,26 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
+  # Procedencia del AAB firmada con la identidad OIDC de la corrida (KNOCK-297). Va en un job aparte del que ejecuta
+  # Flutter y Gradle, y ningún job depende de él: si falla, la subida a Play y la etiqueta siguen igual.
+  # Se comprueba con: gh attestation verify app-release.aab --repo Tensei-Devs/knock-frontend
+  attest:
+    name: Procedencia del AAB
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: app-release-aab
+          path: aab
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: aab/app-release.aab
+
   publish:
     name: Subir a la pista interna
     needs: build
