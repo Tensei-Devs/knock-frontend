@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apiVversionSolicitudesGet**](SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+[**apiVversionSolicitudesGet**](SolicitudesApi.md#apivversionsolicitudesget) | **GET** /api/v{version}/solicitudes | Solicitudes del `sub` del token, las activas primero y cada grupo de la más reciente a la más antigua, con paginación por cursor.
 [**apiVversionSolicitudesIdGet**](SolicitudesApi.md#apivversionsolicitudesidget) | **GET** /api/v{version}/solicitudes/{id} | Detalle: vista del cliente dueño, o vista acotada del técnico elegible o que ya cotizó. Cualquier otra persona recibe 404.
 [**apiVversionSolicitudesPost**](SolicitudesApi.md#apivversionsolicitudespost) | **POST** /api/v{version}/solicitudes | Crea la solicitud en estado `enviada` y con `venceEn` a 48 h.
 
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 # **apiVversionSolicitudesGet**
 > RequestPage apiVversionSolicitudesGet(version, cursor, limit, estado)
 
-Solicitudes del `sub` del token, de la más reciente a la más antigua, con paginación por cursor.
+Solicitudes del `sub` del token, las activas primero y cada grupo de la más reciente a la más antigua, con paginación por cursor.
 
 ### Example
 ```dart

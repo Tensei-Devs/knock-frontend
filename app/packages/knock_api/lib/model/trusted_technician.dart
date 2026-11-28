@@ -14,6 +14,7 @@ class TrustedTechnician {
     required this.fotoUrl,
     required this.nivelVerificacion,
     required this.guardadoEn,
+    this.tecnicoUsuarioId,
   });
 
   String tecnicoId;
@@ -26,13 +27,16 @@ class TrustedTechnician {
 
   DateTime guardadoEn;
 
+  String? tecnicoUsuarioId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is TrustedTechnician &&
     other.tecnicoId == tecnicoId &&
     other.nombre == nombre &&
     other.fotoUrl == fotoUrl &&
     other.nivelVerificacion == nivelVerificacion &&
-    other.guardadoEn == guardadoEn;
+    other.guardadoEn == guardadoEn &&
+    other.tecnicoUsuarioId == tecnicoUsuarioId;
 
   @override
   int get hashCode =>
@@ -40,10 +44,11 @@ class TrustedTechnician {
     (nombre.hashCode) +
     (fotoUrl == null ? 0 : fotoUrl!.hashCode) +
     (nivelVerificacion.hashCode) +
-    (guardadoEn.hashCode);
+    (guardadoEn.hashCode) +
+    (tecnicoUsuarioId == null ? 0 : tecnicoUsuarioId!.hashCode);
 
   @override
-  String toString() => 'TrustedTechnician[tecnicoId=$tecnicoId, nombre=$nombre, fotoUrl=$fotoUrl, nivelVerificacion=$nivelVerificacion, guardadoEn=$guardadoEn]';
+  String toString() => 'TrustedTechnician[tecnicoId=$tecnicoId, nombre=$nombre, fotoUrl=$fotoUrl, nivelVerificacion=$nivelVerificacion, guardadoEn=$guardadoEn, tecnicoUsuarioId=$tecnicoUsuarioId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -56,6 +61,11 @@ class TrustedTechnician {
     }
       json[r'nivelVerificacion'] = this.nivelVerificacion;
       json[r'guardadoEn'] = this.guardadoEn.toUtc().toIso8601String();
+    if (this.tecnicoUsuarioId != null) {
+      json[r'tecnicoUsuarioId'] = this.tecnicoUsuarioId;
+    } else {
+      json[r'tecnicoUsuarioId'] = null;
+    }
     return json;
   }
 
@@ -87,6 +97,7 @@ class TrustedTechnician {
         fotoUrl: mapValueOfType<String>(json, r'fotoUrl'),
         nivelVerificacion: mapValueOfType<String>(json, r'nivelVerificacion')!,
         guardadoEn: mapDateTime(json, r'guardadoEn', r'')!,
+        tecnicoUsuarioId: mapValueOfType<String>(json, r'tecnicoUsuarioId'),
       );
     }
     return null;
