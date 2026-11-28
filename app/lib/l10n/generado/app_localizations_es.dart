@@ -112,6 +112,73 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get solicitudCancelar => 'Cancelar solicitud';
+
+  @override
+  String get solicitudCancelarTitulo => '¿Cancelar tu solicitud?';
+
+  @override
+  String get solicitudCancelarDetalle =>
+      'Los técnicos que cotizaron recibirán un aviso y ya no podrás elegir una cotización.';
+
+  @override
+  String get solicitudCancelarMotivo => '¿Por qué cancelas? (opcional)';
+
+  @override
+  String get solicitudMotivoYaNo => 'Ya no lo necesito';
+
+  @override
+  String get solicitudMotivoResolvi => 'Lo resolví por otro medio';
+
+  @override
+  String get solicitudMotivoTarda => 'Tarda mucho';
+
+  @override
+  String get solicitudMotivoOtro => 'Otro motivo';
+
+  @override
+  String get solicitudCancelarConfirmar => 'Sí, cancelar';
+
+  @override
+  String get solicitudCancelarMantener => 'No, mantener';
+
+  @override
+  String get solicitudCanceladaDetalle => 'Cancelaste esta solicitud.';
+
+  @override
+  String get solicitudVencidaDetalle =>
+      'Pasaron 48 horas sin que eligieras una cotización.';
+
+  @override
+  String get solicitudErrorConCita =>
+      'Ya elegiste una cotización: esta solicitud ya no se puede cancelar. Revisa tu visita.';
+
+  @override
+  String get solicitudErrorYaVencida => 'Tu solicitud ya había vencido.';
+
+  @override
+  String get solicitudVenceMenosHora => 'Vence en menos de una hora';
+
+  @override
+  String get solicitudCerrando => 'Cerrando tu solicitud…';
+
+  @override
+  String solicitudVenceEnHoras(int horas) {
+    String _temp0 = intl.Intl.pluralLogic(
+      horas,
+      locale: localeName,
+      other: '$horas horas',
+      one: '1 hora',
+    );
+    return 'Vence en $_temp0';
+  }
+
+  @override
+  String solicitudVenceEl(String dia, String hora) {
+    return 'Vence el $dia a las $hora';
+  }
+
+  @override
   String get appTitle => 'Knock';
 
   @override
@@ -1348,10 +1415,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.';
 
   @override
-  String get conversacionesAbrirPendiente =>
-      'Abrir conversaciones aún no está disponible.';
-
-  @override
   String conversacionesNoLeidos(int total) {
     String _temp0 = intl.Intl.pluralLogic(
       total,
@@ -1361,6 +1424,144 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get chatEnvioCampo => 'Escribe un mensaje';
+
+  @override
+  String get chatEnvioEnviar => 'Enviar';
+
+  @override
+  String get chatEnvioPendiente => 'Enviando…';
+
+  @override
+  String get chatEnvioFallido => 'No se envió';
+
+  @override
+  String get chatEnvioReintentar => 'Reintentar';
+
+  @override
+  String get chatEnvioDescartar => 'Descartar';
+
+  @override
+  String get chatEnvioMuyLargo => 'El mensaje admite hasta 1000 caracteres.';
+
+  @override
+  String get chatEnvioCaracterNoPermitido =>
+      'El mensaje tiene caracteres que no se pueden enviar.';
+
+  @override
+  String get chatEnvioErrorContenido =>
+      'No pudimos enviar ese mensaje. Revisa lo que escribiste.';
+
+  @override
+  String chatEnvioErrorLimite(int segundos) {
+    return 'Enviaste muchos mensajes. Espera $segundos segundos.';
+  }
+
+  @override
+  String get chatEnvioErrorNoDisponible =>
+      'No pudimos enviar el mensaje. Intenta de nuevo en un momento.';
+
+  @override
+  String get chatEnvioConversacionNoDisponible =>
+      'Esta conversación ya no está disponible.';
+
+  @override
+  String get chatEnvioCerrada => 'La conversación está cerrada.';
+
+  @override
+  String get conversacionAtras => 'Atrás';
+
+  @override
+  String get conversacionTitulo => 'Conversación';
+
+  @override
+  String get conversacionCargando => 'Cargando conversación…';
+
+  @override
+  String get conversacionSinMensajes => 'Escribe el primer mensaje.';
+
+  @override
+  String get conversacionSinEnVivo => 'Sin conexión en vivo';
+
+  @override
+  String get conversacionActualizar => 'Actualizar';
+
+  @override
+  String get conversacionVerAnteriores => 'Ver mensajes anteriores';
+
+  @override
+  String get conversacionTu => 'Tú';
+
+  @override
+  String get conversacionCerradaCancelada =>
+      'La solicitud se canceló; la conversación está cerrada.';
+
+  @override
+  String get conversacionCerradaVencida =>
+      'La solicitud venció; la conversación está cerrada.';
+
+  @override
+  String get conversacionCerradaOtraElegida =>
+      'Se eligió otra cotización; la conversación está cerrada.';
+
+  @override
+  String get conversacionCerradaDescartada =>
+      'La solicitud se descartó; la conversación está cerrada.';
+
+  @override
+  String get conversacionPreguntar => 'Preguntar';
+
+  @override
+  String get conversacionChatear => 'Chatear';
+
+  @override
+  String get conversacionAbrirError =>
+      'No pudimos abrir el chat. Intenta de nuevo en un momento.';
+
+  @override
+  String get conversacionMenu => 'Más opciones';
+
+  @override
+  String get conversacionVerPerfil => 'Ver su perfil';
+
+  @override
+  String get conversacionReportar => 'Reportar';
+
+  @override
+  String get conversacionBloquear => 'Bloquear';
+
+  @override
+  String get conversacionRapidaFoto => '¿Me manda una foto?';
+
+  @override
+  String get conversacionRapidaColonia => '¿Cuál es su colonia?';
+
+  @override
+  String get conversacionRapidaDia => '¿Qué día le acomoda?';
+
+  @override
+  String get conversacionRapidaMateriales => 'Llevo los materiales';
+
+  @override
+  String get conversacionRapidaCuando => '¿Cuándo puede venir?';
+
+  @override
+  String get conversacionRapidaIncluye => '¿Incluye materiales?';
+
+  @override
+  String get conversacionRapidaTarda => '¿Cuánto tarda?';
+
+  @override
+  String get conversacionRapidaEnCamino => '¿Ya viene en camino?';
+
+  @override
+  String get conversacionRapidaGracias => 'Gracias';
+
+  @override
+  String get chatContactoOculto =>
+      'El número se comparte al elegir una cotización; te sugerimos no compartirlo antes.';
 
   @override
   String reputacionNivel(String nivel) {
@@ -2630,6 +2831,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cotizarTitulo => 'Cotizar';
+
+  @override
+  String get trabajoDescartar => 'Descartar';
+
+  @override
+  String get trabajoDescartarTitulo => '¿Descartar esta solicitud?';
+
+  @override
+  String get trabajoDescartarExplicacion => 'Ya no la verás en tu lista.';
+
+  @override
+  String get trabajoConservarSolicitud => 'Conservar solicitud';
+
+  @override
+  String get trabajoConfirmarDescarte => 'Sí, descartar';
+
+  @override
+  String get trabajoNoDescartable => 'Esta solicitud ya no se puede descartar.';
 
   @override
   String get cotizarNuevas => 'Solicitudes nuevas';

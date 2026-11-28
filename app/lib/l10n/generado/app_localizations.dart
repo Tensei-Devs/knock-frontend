@@ -254,6 +254,114 @@ abstract class AppLocalizations {
   /// **'Máximo: {monto}'**
   String citaTope(String monto);
 
+  /// No description provided for @solicitudCancelar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar solicitud'**
+  String get solicitudCancelar;
+
+  /// No description provided for @solicitudCancelarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cancelar tu solicitud?'**
+  String get solicitudCancelarTitulo;
+
+  /// No description provided for @solicitudCancelarDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Los técnicos que cotizaron recibirán un aviso y ya no podrás elegir una cotización.'**
+  String get solicitudCancelarDetalle;
+
+  /// No description provided for @solicitudCancelarMotivo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué cancelas? (opcional)'**
+  String get solicitudCancelarMotivo;
+
+  /// No description provided for @solicitudMotivoYaNo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no lo necesito'**
+  String get solicitudMotivoYaNo;
+
+  /// No description provided for @solicitudMotivoResolvi.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo resolví por otro medio'**
+  String get solicitudMotivoResolvi;
+
+  /// No description provided for @solicitudMotivoTarda.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarda mucho'**
+  String get solicitudMotivoTarda;
+
+  /// No description provided for @solicitudMotivoOtro.
+  ///
+  /// In es, this message translates to:
+  /// **'Otro motivo'**
+  String get solicitudMotivoOtro;
+
+  /// No description provided for @solicitudCancelarConfirmar.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, cancelar'**
+  String get solicitudCancelarConfirmar;
+
+  /// No description provided for @solicitudCancelarMantener.
+  ///
+  /// In es, this message translates to:
+  /// **'No, mantener'**
+  String get solicitudCancelarMantener;
+
+  /// No description provided for @solicitudCanceladaDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelaste esta solicitud.'**
+  String get solicitudCanceladaDetalle;
+
+  /// No description provided for @solicitudVencidaDetalle.
+  ///
+  /// In es, this message translates to:
+  /// **'Pasaron 48 horas sin que eligieras una cotización.'**
+  String get solicitudVencidaDetalle;
+
+  /// No description provided for @solicitudErrorConCita.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya elegiste una cotización: esta solicitud ya no se puede cancelar. Revisa tu visita.'**
+  String get solicitudErrorConCita;
+
+  /// No description provided for @solicitudErrorYaVencida.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu solicitud ya había vencido.'**
+  String get solicitudErrorYaVencida;
+
+  /// No description provided for @solicitudVenceMenosHora.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence en menos de una hora'**
+  String get solicitudVenceMenosHora;
+
+  /// No description provided for @solicitudCerrando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrando tu solicitud…'**
+  String get solicitudCerrando;
+
+  /// No description provided for @solicitudVenceEnHoras.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence en {horas, plural, =1{1 hora} other{{horas} horas}}'**
+  String solicitudVenceEnHoras(int horas);
+
+  /// No description provided for @solicitudVenceEl.
+  ///
+  /// In es, this message translates to:
+  /// **'Vence el {dia} a las {hora}'**
+  String solicitudVenceEl(String dia, String hora);
+
   /// Nombre de la app (título de la tarea en el sistema). Es una marca: no se traduce.
   ///
   /// In es, this message translates to:
@@ -2354,17 +2462,263 @@ abstract class AppLocalizations {
   /// **'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.'**
   String get conversacionesVacias;
 
-  /// No description provided for @conversacionesAbrirPendiente.
-  ///
-  /// In es, this message translates to:
-  /// **'Abrir conversaciones aún no está disponible.'**
-  String get conversacionesAbrirPendiente;
-
   /// No description provided for @conversacionesNoLeidos.
   ///
   /// In es, this message translates to:
   /// **'{total, plural, =1{1 mensaje sin leer} other{{total} mensajes sin leer}}'**
   String conversacionesNoLeidos(int total);
+
+  /// No description provided for @chatEnvioCampo.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe un mensaje'**
+  String get chatEnvioCampo;
+
+  /// No description provided for @chatEnvioEnviar.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar'**
+  String get chatEnvioEnviar;
+
+  /// No description provided for @chatEnvioPendiente.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando…'**
+  String get chatEnvioPendiente;
+
+  /// No description provided for @chatEnvioFallido.
+  ///
+  /// In es, this message translates to:
+  /// **'No se envió'**
+  String get chatEnvioFallido;
+
+  /// No description provided for @chatEnvioReintentar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get chatEnvioReintentar;
+
+  /// No description provided for @chatEnvioDescartar.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar'**
+  String get chatEnvioDescartar;
+
+  /// No description provided for @chatEnvioMuyLargo.
+  ///
+  /// In es, this message translates to:
+  /// **'El mensaje admite hasta 1000 caracteres.'**
+  String get chatEnvioMuyLargo;
+
+  /// No description provided for @chatEnvioCaracterNoPermitido.
+  ///
+  /// In es, this message translates to:
+  /// **'El mensaje tiene caracteres que no se pueden enviar.'**
+  String get chatEnvioCaracterNoPermitido;
+
+  /// No description provided for @chatEnvioErrorContenido.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos enviar ese mensaje. Revisa lo que escribiste.'**
+  String get chatEnvioErrorContenido;
+
+  /// No description provided for @chatEnvioErrorLimite.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviaste muchos mensajes. Espera {segundos} segundos.'**
+  String chatEnvioErrorLimite(int segundos);
+
+  /// No description provided for @chatEnvioErrorNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos enviar el mensaje. Intenta de nuevo en un momento.'**
+  String get chatEnvioErrorNoDisponible;
+
+  /// No description provided for @chatEnvioConversacionNoDisponible.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta conversación ya no está disponible.'**
+  String get chatEnvioConversacionNoDisponible;
+
+  /// No description provided for @chatEnvioCerrada.
+  ///
+  /// In es, this message translates to:
+  /// **'La conversación está cerrada.'**
+  String get chatEnvioCerrada;
+
+  /// No description provided for @conversacionAtras.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get conversacionAtras;
+
+  /// No description provided for @conversacionTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Conversación'**
+  String get conversacionTitulo;
+
+  /// No description provided for @conversacionCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando conversación…'**
+  String get conversacionCargando;
+
+  /// No description provided for @conversacionSinMensajes.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el primer mensaje.'**
+  String get conversacionSinMensajes;
+
+  /// No description provided for @conversacionSinEnVivo.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión en vivo'**
+  String get conversacionSinEnVivo;
+
+  /// No description provided for @conversacionActualizar.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get conversacionActualizar;
+
+  /// No description provided for @conversacionVerAnteriores.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mensajes anteriores'**
+  String get conversacionVerAnteriores;
+
+  /// No description provided for @conversacionTu.
+  ///
+  /// In es, this message translates to:
+  /// **'Tú'**
+  String get conversacionTu;
+
+  /// No description provided for @conversacionCerradaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud se canceló; la conversación está cerrada.'**
+  String get conversacionCerradaCancelada;
+
+  /// No description provided for @conversacionCerradaVencida.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud venció; la conversación está cerrada.'**
+  String get conversacionCerradaVencida;
+
+  /// No description provided for @conversacionCerradaOtraElegida.
+  ///
+  /// In es, this message translates to:
+  /// **'Se eligió otra cotización; la conversación está cerrada.'**
+  String get conversacionCerradaOtraElegida;
+
+  /// No description provided for @conversacionCerradaDescartada.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud se descartó; la conversación está cerrada.'**
+  String get conversacionCerradaDescartada;
+
+  /// No description provided for @conversacionPreguntar.
+  ///
+  /// In es, this message translates to:
+  /// **'Preguntar'**
+  String get conversacionPreguntar;
+
+  /// No description provided for @conversacionChatear.
+  ///
+  /// In es, this message translates to:
+  /// **'Chatear'**
+  String get conversacionChatear;
+
+  /// No description provided for @conversacionAbrirError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir el chat. Intenta de nuevo en un momento.'**
+  String get conversacionAbrirError;
+
+  /// No description provided for @conversacionMenu.
+  ///
+  /// In es, this message translates to:
+  /// **'Más opciones'**
+  String get conversacionMenu;
+
+  /// No description provided for @conversacionVerPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver su perfil'**
+  String get conversacionVerPerfil;
+
+  /// No description provided for @conversacionReportar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reportar'**
+  String get conversacionReportar;
+
+  /// No description provided for @conversacionBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear'**
+  String get conversacionBloquear;
+
+  /// No description provided for @conversacionRapidaFoto.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Me manda una foto?'**
+  String get conversacionRapidaFoto;
+
+  /// No description provided for @conversacionRapidaColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuál es su colonia?'**
+  String get conversacionRapidaColonia;
+
+  /// No description provided for @conversacionRapidaDia.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué día le acomoda?'**
+  String get conversacionRapidaDia;
+
+  /// No description provided for @conversacionRapidaMateriales.
+  ///
+  /// In es, this message translates to:
+  /// **'Llevo los materiales'**
+  String get conversacionRapidaMateriales;
+
+  /// No description provided for @conversacionRapidaCuando.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuándo puede venir?'**
+  String get conversacionRapidaCuando;
+
+  /// No description provided for @conversacionRapidaIncluye.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Incluye materiales?'**
+  String get conversacionRapidaIncluye;
+
+  /// No description provided for @conversacionRapidaTarda.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuánto tarda?'**
+  String get conversacionRapidaTarda;
+
+  /// No description provided for @conversacionRapidaEnCamino.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Ya viene en camino?'**
+  String get conversacionRapidaEnCamino;
+
+  /// No description provided for @conversacionRapidaGracias.
+  ///
+  /// In es, this message translates to:
+  /// **'Gracias'**
+  String get conversacionRapidaGracias;
+
+  /// No description provided for @chatContactoOculto.
+  ///
+  /// In es, this message translates to:
+  /// **'El número se comparte al elegir una cotización; te sugerimos no compartirlo antes.'**
+  String get chatContactoOculto;
 
   /// Nivel de reputación enviado por el servidor
   ///
@@ -4573,6 +4927,42 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cotizar'**
   String get cotizarTitulo;
+
+  /// No description provided for @trabajoDescartar.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar'**
+  String get trabajoDescartar;
+
+  /// No description provided for @trabajoDescartarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Descartar esta solicitud?'**
+  String get trabajoDescartarTitulo;
+
+  /// No description provided for @trabajoDescartarExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no la verás en tu lista.'**
+  String get trabajoDescartarExplicacion;
+
+  /// No description provided for @trabajoConservarSolicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Conservar solicitud'**
+  String get trabajoConservarSolicitud;
+
+  /// No description provided for @trabajoConfirmarDescarte.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, descartar'**
+  String get trabajoConfirmarDescarte;
+
+  /// No description provided for @trabajoNoDescartable.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no se puede descartar.'**
+  String get trabajoNoDescartable;
 
   /// Texto de la app: cotizarNuevas
   ///

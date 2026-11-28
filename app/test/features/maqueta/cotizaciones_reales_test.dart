@@ -141,7 +141,8 @@ void main() {
       // No aparece en búsquedas ni tiene perfil que abrir.
       maq.sCat = 'plo';
       expect(maq.results().any((o) => o.esReal), isFalse);
-      expect(find.text('Preguntar'), findsNothing);
+      // «Preguntar» abre la conversación real (spec 047, CA-01).
+      expect(find.text('Preguntar'), findsWidgets);
     });
 
     testWidgets('CA_045_10 cambiar el orden lo pide de nuevo al servidor', (

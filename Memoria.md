@@ -1,5 +1,12 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
+- **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
+- **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.
+- **Corregido tras una revisión independiente del código:** se relee en cada unión al canal (también la primera); lo confirmado por otro envío no cuenta como llegada del que falló; antes de un envío nuevo se concilia lo que quedó sin respuesta; con la conversación tapada o la app en segundo plano no se marca leído; la detección de huecos ya no depende del orden de llegada; al cerrar sesión se borran también los textos propios.
+- **Cambio en una prueba previa:** la de la spec 045 exigía que las cotizaciones reales no ofrecieran «Preguntar»; la spec 047 lo agrega.
+- **Pendiente:** probar contra dev con dos cuentas (el envío depende de la moderación encendida) y la revisión de una persona. «Ver su perfil» no aparece al entrar desde la lista porque la conversación no trae el identificador del técnico; bloquear o reportar antes de elegir requiere cambios del backend.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
@@ -140,6 +147,16 @@
 - **Porqué:** la app arranca con la maqueta y el Tech Lead pidió no regenerar el cliente generado todavía (lo regenera él al final).
 - **Cambio en la maqueta:** se quitaron los bloques simulados «Mi casa» y «Mi auto» y sus hojas de alta; la tarjeta de recordatorio queda igual.
 - **A evitar:** liberar los `TextEditingController` de una hoja en `whenComplete`: la animación de cierre todavía los usa. El formulario es un `StatefulWidget` que los libera en `dispose()`.
+## 2026-11-24 — Cancelación en la maqueta activa (KNOCK-70)
+- El detalle real de la maqueta muestra el vencimiento y permite cancelar con motivo opcional; usa el repositorio real y refresca detalle, lista y comparación tras el éxito. Los estados cancelada y vencida aparecen en el detalle y la comparación.
+- «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
+- La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
+
+## 2026-11-24 — Dominio y repositorio de cancelación (KNOCK-70)
+- Dominio de cancelación (`ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion`) y `cancelar(id, motivo?)` en el repositorio; el cuarto motivo es `other` (spec 025, enmienda 2026-11-27).
+- Al integrarlo (2026-11-27) no se incluyó la actualización del contrato: la llamada está escrita a mano por ADR-007 (vence 2026-12-15).
+- La pantalla activa es la maqueta; el detalle `/actividad/solicitud/:id` usa un repositorio simulado.
+- Pendiente: «Volver a pedir» (T-06), «Ver visita» ante `request_with_appointment` (CA-05), bloquear «Sí, cancelar» durante la espera de un 429 (CA-08) y los recorridos con el backend.
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
@@ -941,3 +958,24 @@
 ## 2026-11-27 — KNOCK-266: licencias de los paquetes del chat en EXC-002
 - Se agregan 9 paquetes de pub a la lista de exención de `dependency-review` (MIT y BSD, revisadas en su LICENSE), autorizado por José. El control sigue activo para el resto.
 - A evitar: fusionar dependencias nuevas hacia `sprint-05` sin revisar su licencia; el fallo aparece recién al promover a `develop`.
+## 2026-11-27 — Enviar mensajes en una conversación (KNOCK-72, spec 020 enmienda 2026-11-26)
+- **Qué cambió:** `ConversacionesRepositoryApi.enviar` (`POST /api/v1/conversaciones/{id}/mensajes`, puerto `EnvioDeMensajes`, `envioDeMensajesProvider`); regla del texto en dominio (`TextoDeMensaje`: 1 a 1000 unidades UTF-16, 4096 bytes, sin control salvo `\n`) que se revisa antes de salir a la red; `EnvioMensajesController` optimista (pendiente, fallido, enviado; un envío a la vez; reintento solo manual; 409 cierra) y `CampoEnvioMensaje` con textos en ARB.
+- **Por qué:** el envío no es idempotente (CA-E02); el hub solo recibe.
+- **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
+- **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
+- **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.
+## 2026-11-27 — Integración de lo pendiente de la app (KNOCK-266)
+- **Qué entra:** envío de mensajes (KNOCK-72), cancelación y estados cancelada y vencida (KNOCK-70) y las rutas de Trabajo y de solicitudes fuera de la caché de respuestas (KNOCK-67).
+- **Qué no entra:** la actualización del contrato y del cliente generado (el control de cambios incompatibles la detiene) y el dominio de Trabajo que dependía de ella: no tiene pantalla que lo use y `sprint-05` ya lee la bandeja y la disponibilidad.
+- La pantalla del chat (spec 047) quedó aprobada el 2026-11-27 y sigue sin implementar; el campo de envío no está montado.
+
+## 2026-11-27 — KNOCK-67 · Descartar desde la bandeja de Trabajo
+- La bandeja real reutiliza el repositorio de cotizaciones y la regla de transporte del PR #102. Pide confirmación antes de enviar; 204, 404 y `request_not_dismissable` retiran la tarjeta. La bandeja se lee sin caché. Otros errores conservan la tarjeta. La acción se oculta si el técnico ya cotizó.
+- El POST usa el contrato publicado por backend 028 bajo ADR-007. Quedan pendientes la migración al cliente generado, las secciones restantes del resumen (spec 019) y el recorrido E2E con un técnico de semilla.
+
+## 2026-11-27 — KNOCK-297 · SonarQube Cloud desde GitHub Actions, fuera del gate
+- **Qué cambió:** `sonarcloud.yml` (workflow aparte e informativo, por `workflow_run` de `ci-pr` solo en push a `main`) y `sonar-project.properties` (app, panel y landing). Reutiliza `app-coverage` y `panel-reports`; en `ci-pr` solo se suma el reportero `lcovonly` a las pruebas del panel (el umbral no cambia). Con autorización de José para tocar `.github/`.
+- **Por qué:** el «Automatic Analysis» quedó apagado: según la documentación de Sonar no analiza Dart ni importa cobertura.
+- **Acción nueva en CI:** `SonarSource/sonarqube-scan-action` v8.5.1, fijada a SHA. Sin dependencias nuevas en la app ni en el panel.
+- **Pendiente:** no habrá análisis hasta que el workflow y el cambio de `ci-pr` lleguen a `main` con la promoción; sin ejecutar todavía contra SonarQube Cloud; falta ver `panel/coverage/panel/lcov.info` en una corrida real. Los scripts de `scripts/` y `app/tool/`, y el código nativo de `app/android/`, quedan fuera del alcance.
+- **A evitar:** volver a encender el «Automatic Analysis» (choca con el análisis por CI) o agregar el análisis a `gate` o a un disparo por PR.

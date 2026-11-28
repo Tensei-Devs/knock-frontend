@@ -112,6 +112,73 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get solicitudCancelar => 'Cancel request';
+
+  @override
+  String get solicitudCancelarTitulo => 'Cancel your request?';
+
+  @override
+  String get solicitudCancelarDetalle =>
+      'Technicians who quoted will be notified and you will no longer be able to choose a quote.';
+
+  @override
+  String get solicitudCancelarMotivo => 'Why are you cancelling? (optional)';
+
+  @override
+  String get solicitudMotivoYaNo => 'I no longer need it';
+
+  @override
+  String get solicitudMotivoResolvi => 'I solved it another way';
+
+  @override
+  String get solicitudMotivoTarda => 'It takes too long';
+
+  @override
+  String get solicitudMotivoOtro => 'Another reason';
+
+  @override
+  String get solicitudCancelarConfirmar => 'Yes, cancel';
+
+  @override
+  String get solicitudCancelarMantener => 'No, keep it';
+
+  @override
+  String get solicitudCanceladaDetalle => 'You cancelled this request.';
+
+  @override
+  String get solicitudVencidaDetalle =>
+      '48 hours passed without you choosing a quote.';
+
+  @override
+  String get solicitudErrorConCita =>
+      'You already chose a quote: this request can no longer be cancelled. Check your visit.';
+
+  @override
+  String get solicitudErrorYaVencida => 'Your request had already expired.';
+
+  @override
+  String get solicitudVenceMenosHora => 'Expires in less than an hour';
+
+  @override
+  String get solicitudCerrando => 'Closing your request…';
+
+  @override
+  String solicitudVenceEnHoras(int horas) {
+    String _temp0 = intl.Intl.pluralLogic(
+      horas,
+      locale: localeName,
+      other: '$horas hours',
+      one: '1 hour',
+    );
+    return 'Expires in $_temp0';
+  }
+
+  @override
+  String solicitudVenceEl(String dia, String hora) {
+    return 'Expires on $dia at $hora';
+  }
+
+  @override
   String get appTitle => 'Knock';
 
   @override
@@ -1339,10 +1406,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'You have no conversations yet. Chat opens when you receive quotes.';
 
   @override
-  String get conversacionesAbrirPendiente =>
-      'Opening conversations is not available yet.';
-
-  @override
   String conversacionesNoLeidos(int total) {
     String _temp0 = intl.Intl.pluralLogic(
       total,
@@ -1352,6 +1415,144 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get chatEnvioCampo => 'Write a message';
+
+  @override
+  String get chatEnvioEnviar => 'Send';
+
+  @override
+  String get chatEnvioPendiente => 'Sending…';
+
+  @override
+  String get chatEnvioFallido => 'Not sent';
+
+  @override
+  String get chatEnvioReintentar => 'Retry';
+
+  @override
+  String get chatEnvioDescartar => 'Discard';
+
+  @override
+  String get chatEnvioMuyLargo => 'Messages can have up to 1000 characters.';
+
+  @override
+  String get chatEnvioCaracterNoPermitido =>
+      'The message has characters that can’t be sent.';
+
+  @override
+  String get chatEnvioErrorContenido =>
+      'We couldn’t send that message. Check what you wrote.';
+
+  @override
+  String chatEnvioErrorLimite(int segundos) {
+    return 'You sent many messages. Wait $segundos seconds.';
+  }
+
+  @override
+  String get chatEnvioErrorNoDisponible =>
+      'We couldn’t send the message. Try again shortly.';
+
+  @override
+  String get chatEnvioConversacionNoDisponible =>
+      'This chat is no longer available.';
+
+  @override
+  String get chatEnvioCerrada => 'This chat is closed.';
+
+  @override
+  String get conversacionAtras => 'Back';
+
+  @override
+  String get conversacionTitulo => 'Chat';
+
+  @override
+  String get conversacionCargando => 'Loading chat…';
+
+  @override
+  String get conversacionSinMensajes => 'Write the first message.';
+
+  @override
+  String get conversacionSinEnVivo => 'No live connection';
+
+  @override
+  String get conversacionActualizar => 'Refresh';
+
+  @override
+  String get conversacionVerAnteriores => 'See earlier messages';
+
+  @override
+  String get conversacionTu => 'You';
+
+  @override
+  String get conversacionCerradaCancelada =>
+      'The request was cancelled; this chat is closed.';
+
+  @override
+  String get conversacionCerradaVencida =>
+      'The request expired; this chat is closed.';
+
+  @override
+  String get conversacionCerradaOtraElegida =>
+      'Another quote was chosen; this chat is closed.';
+
+  @override
+  String get conversacionCerradaDescartada =>
+      'The request was dismissed; this chat is closed.';
+
+  @override
+  String get conversacionPreguntar => 'Ask';
+
+  @override
+  String get conversacionChatear => 'Chat';
+
+  @override
+  String get conversacionAbrirError =>
+      'We couldn’t open the chat. Try again shortly.';
+
+  @override
+  String get conversacionMenu => 'More options';
+
+  @override
+  String get conversacionVerPerfil => 'View profile';
+
+  @override
+  String get conversacionReportar => 'Report';
+
+  @override
+  String get conversacionBloquear => 'Block';
+
+  @override
+  String get conversacionRapidaFoto => 'Can you send me a photo?';
+
+  @override
+  String get conversacionRapidaColonia => 'What is your neighborhood?';
+
+  @override
+  String get conversacionRapidaDia => 'Which day works for you?';
+
+  @override
+  String get conversacionRapidaMateriales => 'I’ll bring the materials';
+
+  @override
+  String get conversacionRapidaCuando => 'When can you come?';
+
+  @override
+  String get conversacionRapidaIncluye => 'Are materials included?';
+
+  @override
+  String get conversacionRapidaTarda => 'How long does it take?';
+
+  @override
+  String get conversacionRapidaEnCamino => 'Are you on your way?';
+
+  @override
+  String get conversacionRapidaGracias => 'Thank you';
+
+  @override
+  String get chatContactoOculto =>
+      'The number is shared once a quote is chosen; we suggest not sharing it before.';
 
   @override
   String reputacionNivel(String nivel) {
@@ -2621,6 +2822,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cotizarTitulo => 'Send a quote';
+
+  @override
+  String get trabajoDescartar => 'Dismiss';
+
+  @override
+  String get trabajoDescartarTitulo => 'Dismiss this request?';
+
+  @override
+  String get trabajoDescartarExplicacion =>
+      'It will no longer appear in your list.';
+
+  @override
+  String get trabajoConservarSolicitud => 'Keep request';
+
+  @override
+  String get trabajoConfirmarDescarte => 'Yes, dismiss';
+
+  @override
+  String get trabajoNoDescartable => 'This request can no longer be dismissed.';
 
   @override
   String get cotizarNuevas => 'New requests';

@@ -10,6 +10,7 @@ import 'package:app/features/actividad/data/subida_de_fotos_api.dart';
 import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:http/http.dart' as http;
 import 'package:knock_api/api.dart' as api;
 
@@ -32,6 +33,54 @@ class SolicitudRepositoryApi implements SolicitudRepository {
 
   /// Páginas que se piden como máximo al listar (50 solicitudes por página).
   static const _maxPaginas = 4;
+
+  static final _idDeSolicitud = RegExp(r'^[a-fA-F0-9]{24}$');
+
+  /// `POST /solicitudes/{id}/cancelar` (backend 029; spec 025, escrito a mano
+  /// por ADR-007). El motivo solo viaja si la persona eligió uno.
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async {
+    if (!_idDeSolicitud.hasMatch(id)) return const CancelacionInvalida();
+    final RespuestaJson r;
+    try {
+      r = await enviarJson(
+        transporte,
+        url,
+        'POST',
+        'solicitudes/$id/cancelar',
+        cuerpo: motivo == null ? null : {'motivo': motivo.valor},
+        aceptar: const {400, 404, 409, 500, 502, 503, 504},
+      );
+    } on DemasiadosIntentosFailure catch (error) {
+      return CancelacionLimite(error.espera ?? Duration.zero);
+    } on ServicioNoDisponibleFailure {
+      return const CancelacionSinConexion();
+    } on DatosInvalidosFailure {
+      return const CancelacionError();
+    }
+    return switch (r.estado) {
+      200 => _cancelada(r.json),
+      400 => const CancelacionInvalida(),
+      404 => const CancelacionNoDisponible(),
+      409 when _codigo(r) == 'request_with_appointment' =>
+        const CancelacionConCita(),
+      409 when _codigo(r) == 'request_expired' => const CancelacionYaVencida(),
+      _ => const CancelacionError(),
+    };
+  }
+
+  static ResultadoCancelacion _cancelada(Object? json) {
+    if (json is! Map<Object?, Object?>) return const CancelacionError();
+    final fecha = json['canceladaEn'];
+    final instante = fecha is String ? DateTime.tryParse(fecha) : null;
+    if (json['estado'] != 'cancelada' || instante == null) {
+      return const CancelacionError();
+    }
+    return Cancelada(instante);
+  }
 
   @override
   Future<String> subirFoto(String rutaLocal) async {

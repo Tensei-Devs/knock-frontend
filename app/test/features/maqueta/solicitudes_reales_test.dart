@@ -1,3 +1,5 @@
+import 'dart:async';
+
 // Spec 045 (enmienda 1, E-06) y spec 015: Actividad de la maqueta muestra las
 // solicitudes reales (`GET /solicitudes`) y su detalle al abrirlas; sin sesión
 // o sin API no cambia nada; sin datos de ejemplo cuando falla (CA-12).
@@ -6,7 +8,9 @@ import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/router/app_router.dart';
 import 'package:app/features/actividad/actividad_providers.dart';
 import 'package:app/features/actividad/domain/franja.dart';
+import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:app/features/maqueta/estado.dart' show CargaReal, Job, maq;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
@@ -28,6 +32,31 @@ class _Solicitudes extends SolicitudesFalsas {
   int listados = 0;
   final detallesPedidos = <String>[];
   Failure? falloAlObtener;
+  bool cancelada = false;
+  final cancelaciones = <String>[];
+  MotivoCancelacion? motivoEnviado;
+  Completer<ResultadoCancelacion>? respuestaCancelacion;
+  EstadoSolicitud estadoDetalle = EstadoSolicitud.enviada;
+  bool permiteRepetir = false;
+  ResultadoComparacion? comparacionReal;
+
+  @override
+  Future<ResultadoComparacion> cotizaciones(
+    String id, {
+    OrdenCotizaciones orden = OrdenCotizaciones.recomendadas,
+  }) async => comparacionReal ?? super.cotizaciones(id, orden: orden);
+
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async {
+    cancelaciones.add(id);
+    motivoEnviado = motivo;
+    if (respuestaCancelacion != null) return respuestaCancelacion!.future;
+    cancelada = true;
+    return Cancelada(DateTime(2026));
+  }
 
   @override
   Future<List<Solicitud>> listar() async {
@@ -43,6 +72,8 @@ class _Solicitudes extends SolicitudesFalsas {
     if (falloAlObtener != null) throw falloAlObtener!;
     return _solicitud(
       id: id,
+      estado: cancelada ? EstadoSolicitud.cancelada : estadoDetalle,
+      permiteRepetir: permiteRepetir,
       descripcion: 'Gotea la llave del baño desde ayer',
       oficioClave: 'plo',
     );
@@ -60,6 +91,7 @@ Solicitud _solicitud({
   String descripcion = '',
   int cotizaciones = 0,
   String? visitaId,
+  bool permiteRepetir = false,
 }) => Solicitud(
   id: id ?? _idUno,
   estado: estado,
@@ -73,6 +105,7 @@ Solicitud _solicitud({
   creadoEn: DateTime(2026, 11, 10),
   totalCotizaciones: cotizaciones,
   visitaId: visitaId,
+  puedeVolverAPedir: permiteRepetir,
 );
 
 Future<ProviderContainer> _abrir(
@@ -334,6 +367,77 @@ void main() {
   });
 
   group('detalle al abrir', () {
+    for (final (estado, motivo, etiqueta, descripcion) in [
+      (
+        EstadoSolicitud.cancelada,
+        MotivoSinEleccion.cancelada,
+        'Cancelada',
+        'Cancelaste esta solicitud.',
+      ),
+      (
+        EstadoSolicitud.vencida,
+        MotivoSinEleccion.vencida,
+        'Vencida',
+        'Pasaron 48 horas sin que eligieras una cotización.',
+      ),
+    ]) {
+      testWidgets('CA_025_11 CA_025_14 $etiqueta en detalle y comparación', (
+        tester,
+      ) async {
+        final repo =
+            _Solicitudes([
+                [_solicitud(estado: estado)],
+              ])
+              ..estadoDetalle = estado
+              ..permiteRepetir = true
+              ..comparacionReal = ResultadoComparacion(
+                cotizaciones: const [],
+                totalCotizaciones: 0,
+                tiposMixtos: false,
+                puedeElegir: false,
+                motivo: motivo,
+              );
+        await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+        expect(find.text(etiqueta), findsOneWidget);
+        expect(find.text(descripcion), findsOneWidget);
+        expect(find.text('Volver a pedir'), findsNothing);
+        expect(find.text('Cancelar solicitud'), findsNothing);
+        expect(find.text('Esperando cotizaciones'), findsNothing);
+      });
+    }
+    testWidgets('CA_025_03 cancela desde el detalle real', (tester) async {
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ]);
+      await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Sí, cancelar'));
+      await tester.pumpAndSettle();
+      expect(repo.cancelaciones, [_idUno]);
+      expect(repo.detallesPedidos.length, greaterThan(1));
+    });
+
+    testWidgets('CA_025_08 espera y muestra error sin cambiar la solicitud', (
+      tester,
+    ) async {
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ])..respuestaCancelacion = Completer<ResultadoCancelacion>();
+      await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Tarda mucho'));
+      await tester.tap(find.text('Sí, cancelar'));
+      await tester.pump();
+      expect(repo.motivoEnviado, MotivoCancelacion.tardaMucho);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      repo.respuestaCancelacion!.complete(const CancelacionSinConexion());
+      await tester.pumpAndSettle();
+      expect(find.textContaining('No pudimos conectar'), findsOneWidget);
+      expect(repo.cancelada, isFalse);
+      expect(repo.cancelaciones, hasLength(1));
+    });
     testWidgets('CA_045_10 abrir una solicitud real pide su detalle', (
       tester,
     ) async {
