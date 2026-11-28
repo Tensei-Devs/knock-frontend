@@ -4766,6 +4766,42 @@ abstract class AppLocalizations {
   /// **'Cotizar'**
   String get cotizarTitulo;
 
+  /// No description provided for @trabajoDescartar.
+  ///
+  /// In es, this message translates to:
+  /// **'Descartar'**
+  String get trabajoDescartar;
+
+  /// No description provided for @trabajoDescartarTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Descartar esta solicitud?'**
+  String get trabajoDescartarTitulo;
+
+  /// No description provided for @trabajoDescartarExplicacion.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya no la verás en tu lista.'**
+  String get trabajoDescartarExplicacion;
+
+  /// No description provided for @trabajoConservarSolicitud.
+  ///
+  /// In es, this message translates to:
+  /// **'Conservar solicitud'**
+  String get trabajoConservarSolicitud;
+
+  /// No description provided for @trabajoConfirmarDescarte.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, descartar'**
+  String get trabajoConfirmarDescarte;
+
+  /// No description provided for @trabajoNoDescartable.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta solicitud ya no se puede descartar.'**
+  String get trabajoNoDescartable;
+
   /// Texto de la app: cotizarNuevas
   ///
   /// In es, this message translates to:

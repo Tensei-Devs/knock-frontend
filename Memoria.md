@@ -961,3 +961,7 @@
 - **Qué entra:** envío de mensajes (KNOCK-72), cancelación y estados cancelada y vencida (KNOCK-70) y las rutas de Trabajo y de solicitudes fuera de la caché de respuestas (KNOCK-67).
 - **Qué no entra:** la actualización del contrato y del cliente generado (el control de cambios incompatibles la detiene) y el dominio de Trabajo que dependía de ella: no tiene pantalla que lo use y `sprint-05` ya lee la bandeja y la disponibilidad.
 - La pantalla del chat (spec 047) quedó aprobada el 2026-11-27 y sigue sin implementar; el campo de envío no está montado.
+
+## 2026-11-27 — KNOCK-67 · Descartar desde la bandeja de Trabajo
+- La bandeja real reutiliza el repositorio de cotizaciones y la regla de transporte del PR #102. Pide confirmación antes de enviar; 204, 404 y `request_not_dismissable` retiran la tarjeta. La bandeja se lee sin caché. Otros errores conservan la tarjeta. La acción se oculta si el técnico ya cotizó.
+- El POST usa el contrato publicado por backend 028 bajo ADR-007. Quedan pendientes la migración al cliente generado, las secciones restantes del resumen (spec 019) y el recorrido E2E con un técnico de semilla.
