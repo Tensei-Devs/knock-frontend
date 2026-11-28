@@ -101,6 +101,25 @@ Map<String, Object?> _cita() => {
 };
 
 void main() {
+  test('spec 025: solo true explícito permite volver a pedir', () async {
+    for (final permiso in <Object?>[true, false, 'true', null]) {
+      final repo = _repo(
+        MockClient(
+          (_) async => _json({
+            ..._fila(estado: 'vencida'),
+            'oficio': {'clave': 'plo', 'nombre': 'Plomería'},
+            'colonia': {'nombre': 'Centro'},
+            'descripcion': 'Reparación de una llave',
+            'fotos': <Object>[],
+            if (permiso != null) 'puedeVolverAPedir': permiso,
+          }),
+        ),
+      );
+      final detalle = await repo.obtener(_id);
+      expect(detalle.puedeVolverAPedir, permiso == true);
+    }
+  });
+
   test('CA_015_11 elección recarga por transporte autenticado', () async {
     var elegida = false;
     final api = ApiFalsa((p) {

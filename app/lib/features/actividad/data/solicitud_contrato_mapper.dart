@@ -46,6 +46,7 @@ abstract final class SolicitudContratoMapper {
       creadoEn: _fecha(m['creadoEn']),
       venceEn: _fecha(m['venceEn']),
       totalCotizaciones: _entero(m['totalCotizaciones'], porOmision: 0),
+      puedeVolverAPedir: m['puedeVolverAPedir'] == true,
     );
   }
 
