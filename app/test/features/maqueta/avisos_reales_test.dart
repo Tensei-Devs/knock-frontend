@@ -1,16 +1,21 @@
 // Spec 034 y 045: «Avisos» y «Qué avisos recibir» con datos reales. Solo datos
 // ficticios.
+import 'package:app/core/config/notificaciones_push.dart';
+import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/features/actividad/actividad.dart'
     show solicitudesRealesActivasProvider;
 import 'package:app/features/bandeja_avisos/bandeja_avisos.dart';
 import 'package:app/features/bandeja_avisos/data/bandeja_avisos_repository_api.dart';
 import 'package:app/features/maqueta/avisos_reales.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
+import '../../soporte/fakes_notificaciones.dart';
+import '../../soporte/montar_app.dart';
 import '../../soporte/montar_cuerpo_real.dart';
 import '../../soporte/preparar_maqueta.dart';
 
@@ -141,6 +146,51 @@ void main() {
         {'tipo': 'promociones', 'activo': true},
       ],
     });
+  });
+
+  Future<void> montarPreferencias(
+    WidgetTester tester, {
+    required bool push,
+  }) async {
+    final api = ApiFalsa((p) => jsonOk(_preferencias()));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          conSesion(),
+          bandejaAvisosRepositoryProvider.overrideWithValue(
+            BandejaAvisosRepositoryApi(
+              transporte: api.cliente,
+              url: urlApiPrueba,
+            ),
+          ),
+          notificacionesPushActivasProvider.overrideWithValue(push),
+          gestorPermisosProvider.overrideWithValue(GestorPermisosFalso()),
+        ],
+        child: const MaterialApp(
+          locale: Locale('es'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: SingleChildScrollView(child: PreferenciasDeAvisosReales()),
+          ),
+        ),
+      ),
+    );
+    await asentarMaqueta(tester);
+  }
+
+  testWidgets('KNOCK-60 con NOTIFICACIONES_PUSH apagado no se ofrece el '
+      'permiso del teléfono', (tester) async {
+    await montarPreferencias(tester, push: false);
+    expect(find.text('Seguridad'), findsOneWidget);
+    expect(find.text('Activar notificaciones'), findsNothing);
+  });
+
+  testWidgets('KNOCK-60 con NOTIFICACIONES_PUSH encendido se ofrece el '
+      'permiso junto a las preferencias', (tester) async {
+    await montarPreferencias(tester, push: true);
+    expect(find.text('Seguridad'), findsOneWidget);
+    expect(find.text('Activar notificaciones'), findsOneWidget);
   });
 
   Future<void> montarContador(

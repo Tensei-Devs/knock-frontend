@@ -442,6 +442,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get avisosActivadas => 'Notificaciones activadas';
 
   @override
+  String get avisosNoDisponibles =>
+      'Las notificaciones no están disponibles por ahora. La app sigue funcionando.';
+
+  @override
   String get zonaUsarUbicacion => 'Usar mi ubicación';
 
   @override

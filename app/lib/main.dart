@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/core/config/notificaciones_push.dart';
 import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/core/preferencias/arranque.dart';
 import 'package:app/core/red/configuracion_api.dart';
@@ -7,6 +8,7 @@ import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/arranque_sesion.dart';
 import 'package:app/core/sesion/sesion.dart';
 import 'package:app/core/sesion/sesion_provider.dart';
+import 'package:app/features/notificaciones/notificaciones_providers.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,6 +45,10 @@ Future<void> arrancar({
         sesionInicialProvider.overrideWithValue(tokens != null),
         tokensInicialesProvider.overrideWithValue(tokens),
         almacenSeguroProvider.overrideWithValue(almacenSeguro),
+        ...overridesDeNotificaciones(
+          pushActivo: notificacionesPushDeCompilacion,
+          firebaseListo: firebaseListo,
+        ),
         ...overrides,
       ],
       child: const KnockApp(),

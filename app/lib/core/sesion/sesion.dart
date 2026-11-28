@@ -6,6 +6,7 @@ import 'package:app/core/red/cliente_api_provider.dart';
 import 'package:app/core/red/enviar_json.dart';
 import 'package:app/core/sesion/almacen_seguro.dart';
 import 'package:app/core/sesion/datos_de_visita.dart';
+import 'package:app/core/sesion/identificador_dispositivo.dart';
 import 'package:app/core/red/cache_respuestas.dart';
 import 'package:app/core/sesion/almacen_sesion.dart';
 import 'package:app/core/sesion/renovador_sesion_api.dart';
@@ -93,6 +94,9 @@ class SesionNotifier extends Notifier<TokensSesion?> {
     await borrarBorradorDeSolicitud(ref);
     // Spec 016, CA-16 y R-17: no quedan códigos de visita de la cuenta.
     await borrarDatosDeVisita(ref.read(almacenSeguroProvider));
+    // Spec 012, enmienda 2026-11-27: el id del dispositivo en el servidor se
+    // borra con la sesión, termine como termine.
+    await borrarIdDispositivoEnServidor(ref.read(almacenSeguroProvider));
     // Ya con todo borrado: lo que muestra datos locales de la cuenta se vuelve
     // a leer (spec 022, CA-13).
     ref.read(cierresDeSesionProvider.notifier).registrar();

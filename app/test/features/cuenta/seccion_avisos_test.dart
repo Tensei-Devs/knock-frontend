@@ -1,5 +1,6 @@
 import 'package:app/core/notificaciones/registro_dispositivo_controller.dart';
 import 'package:app/core/notificaciones/registro_dispositivos.dart';
+import 'package:app/core/notificaciones/registro_dispositivos_provider.dart';
 import 'package:app/core/notificaciones/servicio_notificaciones.dart';
 import 'package:app/core/permisos/gestor_permisos.dart';
 import 'package:app/features/cuenta/presentation/widgets/seccion_avisos.dart';
@@ -62,6 +63,27 @@ void main() {
       expect(t.permisos.pedidos, [PermisoApp.notificaciones]);
       expect(t.servidor.registrados, {'id-prueba-1'});
       expect(find.text(_es.avisosActivadas), findsOneWidget);
+    });
+  });
+
+  group('503 el push aún no está habilitado', () {
+    testWidgets('CA_012_01 avisa que no está disponible y no reintenta', (
+      tester,
+    ) async {
+      final t = await _montar(tester, GestorPermisosFalso());
+      t.servidor.fallo = const NotificacionesNoDisponiblesException();
+
+      await tester.tap(find.text(_es.avisosActivar));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_es.permisoContinuar));
+      await tester.pumpAndSettle();
+
+      expect(find.text(_es.avisosNoDisponibles), findsOneWidget);
+      expect(find.text(_es.avisosActivadas), findsNothing);
+      expect(
+        t.c.read(registroDispositivoControllerProvider),
+        isA<NotificacionesNoDisponibles>(),
+      );
     });
   });
 
