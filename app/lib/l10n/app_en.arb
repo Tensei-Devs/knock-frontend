@@ -1468,5 +1468,11 @@
   "suspensionVolver": "Back",
   "suspensionEstado": "{estado, select, pendiente{Your appeal is under review.} aceptada{Your appeal was accepted.} rechazada{Your appeal was rejected.} other{Your appeal status: {estado}}}",
   "suspensionPresentadaEl": "Sent on {fecha}",
-  "suspensionResueltaEl": "Resolved on {fecha}"
+  "suspensionResueltaEl": "Resolved on {fecha}",
+  "trabajoDescartar": "Dismiss",
+  "trabajoDescartarTitulo": "Dismiss this request?",
+  "trabajoDescartarExplicacion": "It will no longer appear in your list.",
+  "trabajoConservarSolicitud": "Keep request",
+  "trabajoConfirmarDescarte": "Yes, dismiss",
+  "trabajoNoDescartable": "This request can no longer be dismissed."
 }

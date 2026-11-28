@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — KNOCK-67 · Descartar desde la bandeja de Trabajo
+- La bandeja real reutiliza el repositorio de cotizaciones y la regla de transporte del PR #102. Pide confirmación antes de enviar; 204, 404 y `request_not_dismissable` retiran la tarjeta. La bandeja se lee sin caché. Otros errores conservan la tarjeta. La acción se oculta si el técnico ya cotizó.
+- El POST usa el contrato publicado por backend 028 bajo ADR-007. Quedan pendientes la migración al cliente generado, las secciones restantes del resumen (spec 019) y el recorrido E2E con un técnico de semilla.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.

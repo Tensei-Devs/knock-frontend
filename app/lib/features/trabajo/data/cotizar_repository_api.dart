@@ -72,6 +72,27 @@ class CotizarRepositoryApi implements CotizarRepository {
     return PaginaDeSolicitudes(items, siguiente);
   }
 
+  /// Spec 019 / backend 028. Transport temporal por ADR-007.
+  @override
+  Future<ResultadoDescarte> descartar(String solicitudId) async {
+    final r = await enviarJson(
+      transporte,
+      url,
+      'POST',
+      'solicitudes/${Uri.encodeComponent(solicitudId)}/descartar',
+      aceptar: const {403, 404, 409},
+    );
+    final json = r.json;
+    return switch (r.estado) {
+      204 => ResultadoDescarte.descartada,
+      404 => ResultadoDescarte.noDisponible,
+      409 when json is Map && json['code'] == 'request_not_dismissable' =>
+        ResultadoDescarte.noDescartable,
+      403 || 409 => throw _falla(r),
+      _ => throw const DatosInvalidosFailure(),
+    };
+  }
+
   @override
   Future<PaginaDeCotizaciones> enviadas({String? cursor}) async {
     final (items, siguiente) = await _pagina(

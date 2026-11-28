@@ -94,6 +94,66 @@ int _envios(ApiFalsa api) =>
 void main() {
   prepararPruebasDeMaqueta();
 
+  testWidgets('CA_019_04 cerrar la confirmación no descarta', (tester) async {
+    final api = _api();
+    await _montar(tester, api, const SolicitudesNuevasReal());
+
+    await tester.tap(find.text('Descartar'));
+    await asentarMaqueta(tester);
+    await tester.tap(find.text('Conservar solicitud'));
+    await asentarMaqueta(tester);
+
+    expect(_envios(api), 0);
+    expect(find.text('Descartar'), findsOneWidget);
+  });
+
+  for (final estado in [204, 404, 409, 503]) {
+    testWidgets('CA_019_03 el descarte responde $estado', (tester) async {
+      var descartada = false;
+      final api = ApiFalsa((p) {
+        if (p.metodo == 'POST') {
+          expect(p.ruta, 'solicitudes/s1/descartar');
+          expect(p.cuerpo, isEmpty);
+          descartada = estado == 204;
+          return switch (estado) {
+            204 => http.Response('', 204),
+            409 => jsonOk({'code': 'request_not_dismissable'}, estado: estado),
+            _ => jsonOk({}, estado: estado),
+          };
+        }
+        return jsonOk({
+          'items': [if (!descartada) recibidaJson()],
+          'nextCursor': null,
+        });
+      });
+      await _montar(tester, api, const SolicitudesNuevasReal());
+
+      await tester.tap(find.text('Descartar'));
+      await asentarMaqueta(tester);
+      await tester.tap(find.text('Sí, descartar'));
+      await asentarMaqueta(tester);
+
+      expect(_envios(api), 1);
+      expect(
+        find.text('Descartar'),
+        estado == 503 ? findsOneWidget : findsNothing,
+      );
+      if (estado == 204) {
+        ProviderScope.containerOf(
+          tester.element(find.byType(SolicitudesNuevasReal)),
+        ).read(solicitudesRecibidasProvider.notifier).reintentar();
+        await asentarMaqueta(tester);
+        expect(find.text('Descartar'), findsNothing);
+      }
+      if (estado == 409) {
+        expect(
+          find.text('Esta solicitud ya no se puede descartar.'),
+          findsOneWidget,
+        );
+      }
+    });
+  }
+
   testWidgets('CA_046_02 un 404 no distingue la causa', (tester) async {
     await _montar(tester, _api(estadoDetalle: 404), _pantalla);
     expect(find.text('Esta solicitud ya no está disponible.'), findsOneWidget);

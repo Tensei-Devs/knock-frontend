@@ -2924,4 +2924,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String suspensionResueltaEl(String fecha) {
     return 'Resuelta el $fecha';
   }
+
+  @override
+  String get trabajoDescartar => 'Descartar';
+
+  @override
+  String get trabajoDescartarTitulo => '¿Descartar esta solicitud?';
+
+  @override
+  String get trabajoDescartarExplicacion => 'Ya no la verás en tu lista.';
+
+  @override
+  String get trabajoConservarSolicitud => 'Conservar solicitud';
+
+  @override
+  String get trabajoConfirmarDescarte => 'Sí, descartar';
+
+  @override
+  String get trabajoNoDescartable => 'Esta solicitud ya no se puede descartar.';
 }
