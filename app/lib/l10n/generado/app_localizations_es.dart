@@ -3143,4 +3143,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String suspensionResueltaEl(String fecha) {
     return 'Resuelta el $fecha';
   }
+
+  @override
+  String get cotizarReferenciaTitulo => 'Referencia de mercado';
+
+  @override
+  String cotizarReferenciaRango(int p25, int p75, int mediana) {
+    return 'Otros técnicos cobran de \$$p25 a \$$p75. Lo más común: \$$mediana.';
+  }
+
+  @override
+  String get cotizarReferenciaCategoria => 'Referencia general del oficio.';
+
+  @override
+  String get cotizarReferenciaSinDatos =>
+      'Todavía no hay suficientes datos para darte una referencia.';
+
+  @override
+  String get cotizarReferenciaUsarRango => 'Usar este rango';
 }

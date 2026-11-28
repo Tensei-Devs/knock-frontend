@@ -5413,6 +5413,36 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Resuelta el {fecha}'**
   String suspensionResueltaEl(String fecha);
+
+  /// No description provided for @cotizarReferenciaTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Referencia de mercado'**
+  String get cotizarReferenciaTitulo;
+
+  /// No description provided for @cotizarReferenciaRango.
+  ///
+  /// In es, this message translates to:
+  /// **'Otros técnicos cobran de \${p25} a \${p75}. Lo más común: \${mediana}.'**
+  String cotizarReferenciaRango(int p25, int p75, int mediana);
+
+  /// No description provided for @cotizarReferenciaCategoria.
+  ///
+  /// In es, this message translates to:
+  /// **'Referencia general del oficio.'**
+  String get cotizarReferenciaCategoria;
+
+  /// No description provided for @cotizarReferenciaSinDatos.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay suficientes datos para darte una referencia.'**
+  String get cotizarReferenciaSinDatos;
+
+  /// No description provided for @cotizarReferenciaUsarRango.
+  ///
+  /// In es, this message translates to:
+  /// **'Usar este rango'**
+  String get cotizarReferenciaUsarRango;
 }
 
 class _AppLocalizationsDelegate

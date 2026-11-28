@@ -22,17 +22,43 @@ final class SolicitudParaCotizar {
     required this.dia,
     required this.franja,
     required this.creadoEn,
+    this.oficioClave = '',
     this.fotos = const [],
   });
 
   final String id;
   final String oficio;
+
+  /// Clave del oficio, para pedir la referencia de mercado (spec 038).
+  final String oficioClave;
   final String colonia;
   final String descripcion;
   final String dia;
   final String franja;
   final DateTime creadoEn;
   final List<FotoParaCotizar> fotos;
+}
+
+/// De dónde sale la referencia de mercado (spec 038, enmienda 2026-11-27).
+enum OrigenReferencia { mercado, categoria, sinDatos }
+
+/// Lo que cobran otros técnicos por trabajos parecidos, en pesos enteros. El
+/// servidor no dice de cuántas cotizaciones sale y la app no lo muestra.
+final class ReferenciaDeMercado {
+  const ReferenciaDeMercado({
+    required this.origen,
+    this.p25,
+    this.mediana,
+    this.p75,
+  });
+
+  final OrigenReferencia origen;
+  final int? p25;
+  final int? mediana;
+  final int? p75;
+
+  /// «Usar este rango» solo con los dos extremos y un rango con amplitud.
+  bool get tieneRango => p25 != null && p75 != null && p25! < p75!;
 }
 
 /// Una tarjeta de «Solicitudes nuevas» (spec 019).
@@ -223,4 +249,11 @@ abstract interface class CotizarRepository {
   Future<SolicitudParaCotizar> solicitud(String id);
 
   Future<CotizacionPropia> enviar(String solicitudId, CotizacionNueva nueva);
+
+  /// `GET /cotizaciones/referencia-mercado` (COT-03). [tipo] es el tipo de
+  /// precio elegido en el formulario.
+  Future<ReferenciaDeMercado> referenciaDeMercado({
+    required String oficio,
+    required TipoPrecio tipo,
+  });
 }

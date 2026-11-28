@@ -38,3 +38,11 @@ Map<String, Object?> recibidaJson({bool yaCotizo = false}) => {
   'franja': 'tarde',
   'yaCotizo': yaCotizo,
 };
+
+/// Referencia de mercado ficticia (spec 038, enmienda 2026-11-27).
+Map<String, Object?> referenciaJson({
+  String origen = 'mercado',
+  int? p25 = 300,
+  int? mediana = 450,
+  int? p75 = 600,
+}) => {'origen': origen, 'p25': p25, 'mediana': mediana, 'p75': p75};

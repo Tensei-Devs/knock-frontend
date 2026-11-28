@@ -15,3 +15,13 @@ final cotizarRepositoryProvider = Provider<CotizarRepository>(
 final relojCotizarProvider = Provider<DateTime Function()>(
   (ref) => DateTime.now,
 );
+
+/// La referencia de mercado del formulario de cotizar (spec 038, D-03). Sin
+/// reintento automático y sin copia: se descarta al salir.
+final referenciaDeMercadoProvider = FutureProvider.autoDispose
+    .family<ReferenciaDeMercado, ({String oficio, TipoPrecio tipo})>(
+      (ref, consulta) => ref
+          .watch(cotizarRepositoryProvider)
+          .referenciaDeMercado(oficio: consulta.oficio, tipo: consulta.tipo),
+      retry: (_, _) => null,
+    );

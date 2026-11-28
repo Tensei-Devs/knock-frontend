@@ -5,7 +5,8 @@ import 'package:app/features/trabajo/domain/cotizar.dart';
 import 'package:http/http.dart' as http;
 
 /// REAL: `GET /tecnicos/me/solicitudes`, `GET /tecnicos/me/cotizaciones`,
-/// `GET /solicitudes/{id}` y `POST /solicitudes/{id}/cotizaciones`.
+/// `GET /solicitudes/{id}`, `POST /solicitudes/{id}/cotizaciones` y
+/// `GET /cotizaciones/referencia-mercado`.
 /// No registra ni guarda descripción, colonia ni enlaces (046, CA-10).
 class CotizarRepositoryApi implements CotizarRepository {
   const CotizarRepositoryApi({required this.transporte, required this.url});
@@ -141,6 +142,7 @@ class CotizarRepositoryApi implements CotizarRepository {
     return SolicitudParaCotizar(
       id: textoObligatorio(m['id']),
       oficio: _nombre(m['oficio']),
+      oficioClave: textoObligatorio(objetoDelContrato(m['oficio'])['clave']),
       colonia: _nombre(m['colonia']),
       descripcion: textoObligatorio(m['descripcion']),
       dia: textoObligatorio(m['dia']),
@@ -195,6 +197,29 @@ class CotizarRepositoryApi implements CotizarRepository {
     return FotoParaCotizar(
       id: textoObligatorio(f['id']),
       url: textoObligatorio(f['url']),
+    );
+  }
+
+  @override
+  Future<ReferenciaDeMercado> referenciaDeMercado({
+    required String oficio,
+    required TipoPrecio tipo,
+  }) async {
+    final m = await _pedir(
+      'GET',
+      'cotizaciones/referencia-mercado',
+      consulta: {'oficio': oficio, 'tipoTrabajo': tipo.name},
+    );
+    return ReferenciaDeMercado(
+      origen: switch (m['origen']) {
+        'mercado' => OrigenReferencia.mercado,
+        'categoria' => OrigenReferencia.categoria,
+        'sin_datos' => OrigenReferencia.sinDatos,
+        _ => throw const DatosInvalidosFailure(),
+      },
+      p25: _montoOpcional(m['p25']),
+      mediana: _montoOpcional(m['mediana']),
+      p75: _montoOpcional(m['p75']),
     );
   }
 

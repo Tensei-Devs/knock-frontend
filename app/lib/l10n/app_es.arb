@@ -2942,5 +2942,23 @@
         "type": "String"
       }
     }
-  }
+  },
+  "cotizarReferenciaTitulo": "Referencia de mercado",
+  "cotizarReferenciaRango": "Otros técnicos cobran de ${p25} a ${p75}. Lo más común: ${mediana}.",
+  "@cotizarReferenciaRango": {
+    "placeholders": {
+      "p25": {
+        "type": "int"
+      },
+      "p75": {
+        "type": "int"
+      },
+      "mediana": {
+        "type": "int"
+      }
+    }
+  },
+  "cotizarReferenciaCategoria": "Referencia general del oficio.",
+  "cotizarReferenciaSinDatos": "Todavía no hay suficientes datos para darte una referencia.",
+  "cotizarReferenciaUsarRango": "Usar este rango"
 }

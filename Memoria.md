@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Referencia de mercado al cotizar (KNOCK-109, spec 038, enmienda de la referencia)
+- **Avance:** el formulario de cotizar (`cotizar_real.dart`) muestra una tarjeta con `GET /api/v1/cotizaciones/referencia-mercado?oficio={clave}&tipoTrabajo={tipo}`: con `mercado` el rango y la mediana, con `categoria` además «Referencia general del oficio.» y con `sin_datos` el aviso. «Usar este rango» solo aparece con `p25 < p75`; cambia el formulario a rango con esos montos y no envía nada. Textos `cotizarReferencia*` en es/en.
+- **Decisión:** la solicitud ahora guarda `oficioClave` (de `oficio.clave`) para la consulta. La referencia se vuelve a pedir al cambiar el tipo de precio y se descarta al salir (`autoDispose`, sin reintento automático). Una falla solo muestra el mensaje del catálogo: nunca impide cotizar (CA-F02).
+- **A evitar:** mostrar de cuántas cotizaciones sale (el servidor no lo da) o bloquear el envío cuando la referencia falla.
+- **Pendiente:** CA-07 (copia sin conexión con su fecha) y prueba contra el backend desplegado.
 ## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
 - **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
 - **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.
