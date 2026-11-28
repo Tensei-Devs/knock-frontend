@@ -3,6 +3,7 @@ import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/mensajes/data/canal_mensajes_signalr.dart';
 import 'package:app/features/mensajes/data/conversaciones_repository_api.dart';
 import 'package:app/features/mensajes/domain/canal_mensajes.dart';
+import 'package:app/features/mensajes/domain/conversacion_abierta.dart';
 import 'package:app/features/mensajes/domain/conversaciones_repository.dart';
 import 'package:app/features/mensajes/domain/envio_de_mensajes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,13 @@ final conversacionesRepositoryProvider = Provider<ConversacionesRepository>(
 /// Envío de mensajes por REST; el hub en vivo solo recibe (spec 020,
 /// enmienda 2026-11-26).
 final envioDeMensajesProvider = Provider<EnvioDeMensajes>(
+  (ref) => ConversacionesRepositoryApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);
+
+final lecturaDeConversacionProvider = Provider<LecturaDeConversacion>(
   (ref) => ConversacionesRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),

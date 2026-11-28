@@ -5,6 +5,12 @@
 - **Decisión:** la solicitud ahora guarda `oficioClave` (de `oficio.clave`) para la consulta. La referencia se vuelve a pedir al cambiar el tipo de precio y se descarta al salir (`autoDispose`, sin reintento automático). Una falla solo muestra el mensaje del catálogo: nunca impide cotizar (CA-F02).
 - **A evitar:** mostrar de cuántas cotizaciones sale (el servidor no lo da) o bloquear el envío cuando la referencia falla.
 - **Pendiente:** CA-07 (copia sin conexión con su fecha) y prueba contra el backend desplegado.
+## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
+- **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
+- **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.
+- **Corregido tras una revisión independiente del código:** se relee en cada unión al canal (también la primera); lo confirmado por otro envío no cuenta como llegada del que falló; antes de un envío nuevo se concilia lo que quedó sin respuesta; con la conversación tapada o la app en segundo plano no se marca leído; la detección de huecos ya no depende del orden de llegada; al cerrar sesión se borran también los textos propios.
+- **Cambio en una prueba previa:** la de la spec 045 exigía que las cotizaciones reales no ofrecieran «Preguntar»; la spec 047 lo agrega.
+- **Pendiente:** probar contra dev con dos cuentas (el envío depende de la moderación encendida) y la revisión de una persona. «Ver su perfil» no aparece al entrar desde la lista porque la conversación no trae el identificador del técnico; bloquear o reportar antes de elegir requiere cambios del backend.
 
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.

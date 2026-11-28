@@ -46,6 +46,7 @@ import 'package:app/features/actividad/actividad.dart'
         eleccionRealProvider,
         solicitudRealDetalleProvider,
         solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/boton_conversacion.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1601,9 +1602,16 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
         Row(
           spacing: 10,
           children: [
-            // La conversación real aún no existe: solo se pregunta a los
-            // expertos de ejemplo.
-            if (!q.real)
+            if (q.real)
+              BotonConversacion(
+                etiqueta: AppLocalizations.of(context).conversacionPreguntar,
+                solicitudId: j.id,
+                // El experto sintético de una cotización real es `api:<id>`.
+                tecnicoId: q.pid.substring('api:'.length),
+                sm: true,
+                auto: true,
+              )
+            else
               BtnK(
                 'Preguntar',
                 () {

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:app/core/errores/failure.dart';
 import 'package:app/core/red/configuracion_api.dart';
 import 'package:app/features/mensajes/domain/canal_mensajes.dart';
+import 'package:app/features/mensajes/domain/conversacion_abierta.dart';
+import 'package:app/features/mensajes/domain/mensaje.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 
 /// Canal `/hubs/chat` con SignalR. Al conectarse, el servidor mete la conexión
@@ -18,6 +22,10 @@ class CanalMensajesSignalR implements CanalMensajes {
   final String? Function() token;
 
   HubConnection? _conexion;
+  final _enVivo = StreamController<MensajeEnVivo>.broadcast();
+
+  @override
+  Stream<MensajeEnVivo> get mensajesEnVivo => _enVivo.stream;
 
   @override
   Future<void> abrir({
@@ -44,10 +52,45 @@ class CanalMensajesSignalR implements CanalMensajes {
         alCambiarContador(total);
       }
     });
+    conexion.on('mensajeConversacion', (argumentos) {
+      final evento = mensajeDelCanal(argumentos);
+      if (evento != null && identical(_conexion, conexion)) _enVivo.add(evento);
+    });
     conexion.onclose(({error}) {
       if (identical(_conexion, conexion)) alCaerse();
     });
     await conexion.start();
+  }
+
+  @override
+  Future<bool> unirse(String conversacionId) async {
+    final conexion = _conexion;
+    if (conexion == null || conexion.state != HubConnectionState.Connected) {
+      return false;
+    }
+    try {
+      final r = await conexion.invoke(
+        'UnirseAConversacion',
+        args: [conversacionId],
+      );
+      return r is Map && r['ok'] == true;
+    } on Object {
+      // El error puede traer la URL con el token: no se propaga ni se anota.
+      return false;
+    }
+  }
+
+  @override
+  Future<void> salir(String conversacionId) async {
+    final conexion = _conexion;
+    if (conexion == null || conexion.state != HubConnectionState.Connected) {
+      return;
+    }
+    try {
+      await conexion.invoke('SalirDeConversacion', args: [conversacionId]);
+    } on Object {
+      // Salir es de mejor esfuerzo.
+    }
   }
 
   @override
@@ -60,6 +103,39 @@ class CanalMensajesSignalR implements CanalMensajes {
       // Cerrar es de mejor esfuerzo; el error puede traer la URL con el token.
     }
   }
+}
+
+/// El evento `mensajeConversacion` `{ conversacionId, mensajeId, autorRol,
+/// texto, contactoOculto, enviadoEn }`, o `null` si el cuerpo no es válido.
+MensajeEnVivo? mensajeDelCanal(List<Object?>? argumentos) {
+  final c = argumentos == null || argumentos.isEmpty ? null : argumentos.first;
+  if (c is! Map) return null;
+  final conversacionId = c['conversacionId'];
+  final id = c['mensajeId'];
+  final autorRol = c['autorRol'];
+  final texto = c['texto'];
+  final oculto = c['contactoOculto'];
+  final enviadoEn = c['enviadoEn'];
+  if (conversacionId is! String ||
+      id is! String ||
+      autorRol is! String ||
+      texto is! String ||
+      oculto is! bool ||
+      enviadoEn is! String) {
+    return null;
+  }
+  final fecha = DateTime.tryParse(enviadoEn);
+  if (fecha == null) return null;
+  return MensajeEnVivo(
+    conversacionId: conversacionId,
+    mensaje: Mensaje(
+      id: id,
+      autorRol: autorRol,
+      texto: texto,
+      contactoOculto: oculto,
+      enviadoEn: fecha,
+    ),
+  );
 }
 
 /// `total` del evento `noLeidos` `{ conversacionId, noLeidos, total }`, o

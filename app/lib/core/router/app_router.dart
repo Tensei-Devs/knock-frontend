@@ -88,6 +88,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
     routes: [
       GoRoute(
+        path: '/conversaciones/:id',
+        builder: (context, state) => PantallasMaqueta.conversacion(
+          state.pathParameters['id']!,
+          tecnicoId: state.uri.queryParameters['tecnico'],
+        ),
+      ),
+      GoRoute(
         path: Rutas.previa,
         builder: (context, state) =>
             maqueta ? PantallasMaqueta.previa() : const PreviaScreen(),
