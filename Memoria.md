@@ -972,3 +972,10 @@
 ## 2026-11-27 — KNOCK-67 · Descartar desde la bandeja de Trabajo
 - La bandeja real reutiliza el repositorio de cotizaciones y la regla de transporte del PR #102. Pide confirmación antes de enviar; 204, 404 y `request_not_dismissable` retiran la tarjeta. La bandeja se lee sin caché. Otros errores conservan la tarjeta. La acción se oculta si el técnico ya cotizó.
 - El POST usa el contrato publicado por backend 028 bajo ADR-007. Quedan pendientes la migración al cliente generado, las secciones restantes del resumen (spec 019) y el recorrido E2E con un técnico de semilla.
+
+## 2026-11-27 — KNOCK-297 · SonarQube Cloud desde GitHub Actions, fuera del gate
+- **Qué cambió:** `sonarcloud.yml` (workflow aparte e informativo, por `workflow_run` de `ci-pr` solo en push a `main`) y `sonar-project.properties` (app, panel y landing). Reutiliza `app-coverage` y `panel-reports`; en `ci-pr` solo se suma el reportero `lcovonly` a las pruebas del panel (el umbral no cambia). Con autorización de José para tocar `.github/`.
+- **Por qué:** el «Automatic Analysis» quedó apagado: según la documentación de Sonar no analiza Dart ni importa cobertura.
+- **Acción nueva en CI:** `SonarSource/sonarqube-scan-action` v8.5.1, fijada a SHA. Sin dependencias nuevas en la app ni en el panel.
+- **Pendiente:** no habrá análisis hasta que el workflow y el cambio de `ci-pr` lleguen a `main` con la promoción; sin ejecutar todavía contra SonarQube Cloud; falta ver `panel/coverage/panel/lcov.info` en una corrida real. Los scripts de `scripts/` y `app/tool/`, y el código nativo de `app/android/`, quedan fuera del alcance.
+- **A evitar:** volver a encender el «Automatic Analysis» (choca con el análisis por CI) o agregar el análisis a `gate` o a un disparo por PR.
