@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:app/features/mensajes/domain/canal_mensajes.dart';
+import 'package:app/features/mensajes/domain/conversacion_abierta.dart';
 import 'package:app/features/mensajes/domain/conversacion.dart';
 import 'package:app/features/mensajes/domain/conversaciones_repository.dart';
 
@@ -24,6 +27,26 @@ class CanalDePrueba implements CanalMensajes {
 
   @override
   Future<void> cerrar() async => cierres++;
+
+  final _enVivo = StreamController<MensajeEnVivo>.broadcast(sync: true);
+  final unidas = <String>[];
+  final salidas = <String>[];
+  bool admiteUnirse = true;
+
+  @override
+  Stream<MensajeEnVivo> get mensajesEnVivo => _enVivo.stream;
+
+  @override
+  Future<bool> unirse(String conversacionId) async {
+    unidas.add(conversacionId);
+    return admiteUnirse;
+  }
+
+  @override
+  Future<void> salir(String conversacionId) async =>
+      salidas.add(conversacionId);
+
+  void recibir(MensajeEnVivo evento) => _enVivo.add(evento);
 
   void emitir(int total) => _alCambiar!(total);
 

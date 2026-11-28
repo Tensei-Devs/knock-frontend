@@ -16,6 +16,7 @@ class MensajePropio {
     required this.estado,
     this.guardado,
     this.falla,
+    this.salio = true,
   });
 
   final int idLocal;
@@ -27,6 +28,10 @@ class MensajePropio {
   /// El mensaje del servidor (con el contacto oculto si lo traía).
   final Mensaje? guardado;
   final Failure? falla;
+
+  /// `false` si la petición nunca llegó a salir: no puede estar en el
+  /// historial, así que nunca se busca ahí.
+  final bool salio;
 
   /// Texto que se muestra: el del servidor en cuanto existe.
   String get textoVisible => guardado?.texto ?? texto;
@@ -68,7 +73,17 @@ class EnvioMensajesController extends ChangeNotifier {
     this._envio,
     this.conversacionId, {
     bool cerrada = false,
+    this.alGuardar,
+    this.yaLlego,
   }) : estado = EstadoEnvioMensajes(cerrada: cerrada);
+
+  /// Se llama con cada mensaje que el servidor confirmó con `201`.
+  final void Function(Mensaje guardado)? alGuardar;
+
+  /// Se pregunta antes de reenviar un mensaje del que no se supo si llegó
+  /// (spec 047, CA-07): `true` si el servidor ya lo tiene, `false` si no y
+  /// `null` si todavía no responde.
+  final Future<bool?> Function(String texto)? yaLlego;
 
   final EnvioDeMensajes _envio;
   final String conversacionId;
@@ -83,9 +98,39 @@ class EnvioMensajesController extends ChangeNotifier {
     final motivo = TextoDeMensaje.validar(texto);
     if (motivo != null) return motivo;
     if (estado.cerrada || estado.enviando) return null;
+    final preparado = TextoDeMensaje.preparar(texto);
+    if (yaLlego != null && estado.mensajes.any(_sinRespuesta)) {
+      _publicar(enviando: true);
+      final limpiezas = _limpiezas;
+      final conciliado = await _conciliar();
+      // Una limpieza mientras se esperaba descarta también lo escrito.
+      if (_disposed || limpiezas != _limpiezas) return null;
+      if (conciliado == null) {
+        // Sin saber qué llegó no sale nada; lo escrito se conserva.
+        _publicar(
+          mensajes: [
+            ...estado.mensajes,
+            MensajePropio(
+              idLocal: _siguienteId++,
+              texto: preparado,
+              estado: EstadoDeEnvio.fallido,
+              falla: const ServicioNoDisponibleFailure(),
+              salio: false,
+            ),
+          ],
+          enviando: false,
+        );
+        return null;
+      }
+      // Era el mismo texto que sí había llegado: no se manda otra vez.
+      if (conciliado.contains(preparado)) {
+        _publicar(enviando: false);
+        return null;
+      }
+    }
     final propio = MensajePropio(
       idLocal: _siguienteId++,
-      texto: TextoDeMensaje.preparar(texto),
+      texto: preparado,
       estado: EstadoDeEnvio.pendiente,
     );
     _publicar(mensajes: [...estado.mensajes, propio], enviando: true);
@@ -104,6 +149,31 @@ class EnvioMensajesController extends ChangeNotifier {
       estado: EstadoDeEnvio.pendiente,
     );
     _reemplazar(pendiente, enviando: true);
+    final comprobar = yaLlego;
+    if (comprobar != null && (_sinRespuesta(actual) || !actual.salio)) {
+      final limpiezas = _limpiezas;
+      // Del que salió se pregunta si llegó. Del que nunca salió no: se
+      // concilian los demás antes de mandarlo.
+      final bool? yaEsta = actual.salio
+          ? await comprobar(pendiente.texto)
+          : (await _conciliar())?.contains(pendiente.texto);
+      if (_disposed || limpiezas != _limpiezas) return;
+      if (yaEsta == null) {
+        // Sin respuesta del servidor no se manda: podría duplicarse.
+        _reemplazar(actual, enviando: false);
+        return;
+      }
+      if (yaEsta) {
+        _publicar(
+          mensajes: [
+            for (final m in estado.mensajes)
+              if (m.idLocal != idLocal) m,
+          ],
+          enviando: false,
+        );
+        return;
+      }
+    }
     await _mandar(pendiente);
   }
 
@@ -117,6 +187,41 @@ class EnvioMensajesController extends ChangeNotifier {
           if (m.idLocal != idLocal) m,
       ],
     );
+  }
+
+  /// No se sabe si el servidor lo guardó: sin respuesta o respuesta ilegible.
+  static bool _sinRespuesta(MensajePropio m) =>
+      m.salio &&
+      m.estado == EstadoDeEnvio.fallido &&
+      (m.falla is ServicioNoDisponibleFailure ||
+          m.falla is DatosInvalidosFailure);
+
+  /// Pregunta por cada envío sin respuesta y quita los que sí llegaron.
+  /// Devuelve sus textos, o `null` si el servidor todavía no responde.
+  Future<Set<String>?> _conciliar() async {
+    final llegados = <String>{};
+    for (final m in estado.mensajes.where(_sinRespuesta).toList()) {
+      final llego = await yaLlego!(m.texto);
+      if (_disposed || llego == null) return null;
+      if (llego) {
+        llegados.add(m.texto);
+        _publicar(
+          mensajes: [
+            for (final otro in estado.mensajes)
+              if (otro.idLocal != m.idLocal) otro,
+          ],
+        );
+      }
+    }
+    return llegados;
+  }
+
+  int _limpiezas = 0;
+
+  /// Borra todo lo escrito (cierre de sesión, spec 047 CA-16).
+  void limpiar() {
+    _limpiezas++;
+    _publicar(mensajes: const [], enviando: false);
   }
 
   /// La conversación se cerró (por ejemplo, la pantalla leyó su estado).
@@ -135,6 +240,7 @@ class EnvioMensajesController extends ChangeNotifier {
         ),
         enviando: false,
       );
+      alGuardar?.call(guardado);
     } on Failure catch (falla) {
       if (_disposed) return;
       _reemplazar(

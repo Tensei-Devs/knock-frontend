@@ -36,13 +36,19 @@ String? _textoDeMotivo(AppLocalizations t, MotivoTextoInvalido? motivo) =>
 
 /// Mensajes propios (pendiente, fallido o enviado) y campo para escribir.
 ///
-/// Pieza mínima sobre [EnvioMensajesController]; todavía no la monta ninguna
-/// pantalla (la conversación es la spec 047). Con la conversación cerrada no hay
-/// campo: solo el aviso.
+/// Pieza mínima sobre [EnvioMensajesController]; la monta la conversación
+/// (spec 047). Con la conversación cerrada no hay campo: solo el aviso.
 class CampoEnvioMensaje extends StatefulWidget {
-  const CampoEnvioMensaje({super.key, required this.controller});
+  const CampoEnvioMensaje({
+    super.key,
+    required this.controller,
+    this.mostrarEnviados = true,
+  });
 
   final EnvioMensajesController controller;
+
+  /// `false` cuando los mensajes guardados ya se pintan en el historial.
+  final bool mostrarEnviados;
 
   @override
   State<CampoEnvioMensaje> createState() => _CampoEnvioMensajeState();
@@ -105,7 +111,8 @@ class _CampoEnvioMensajeState extends State<CampoEnvioMensaje> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final m in estado.mensajes)
-          _MensajePropioVista(m, widget.controller),
+          if (widget.mostrarEnviados || m.estado != EstadoDeEnvio.enviado)
+            _MensajePropioVista(m, widget.controller),
         if (falla != null && !estado.cerrada)
           Semantics(
             liveRegion: true,
