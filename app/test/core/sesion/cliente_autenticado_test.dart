@@ -129,6 +129,78 @@ void main() {
   });
 
   group('Bearer solo en rutas protegidas de la API', () {
+    test('CA_019_15 rutas de Trabajo autenticadas y sin caché', () async {
+      api.responder = (p) => jsonOk({'ok': true}, h: {'etag': '"ejemplo"'});
+      await montar();
+      for (final ruta in [
+        'tecnicos/me/solicitudes?Cursor=uno',
+        'tecnicos/me/trabajo?cursorTerminadas=dos',
+      ]) {
+        await pedir(ruta);
+        await pedir(ruta);
+      }
+      await pedir('solicitudes/s1/descartar', metodo: 'POST');
+      expect(api.peticiones, hasLength(5));
+      for (final p in api.peticiones) {
+        expect(p.autorizacion, 'Bearer acc-A');
+        expect(p.cabeceras, isNot(contains('if-none-match')));
+      }
+      expect(c.read(cacheRespuestasProvider).estaVacia, isTrue);
+    });
+
+    test('CA_019_10 rutas de Trabajo no salen sin sesión', () async {
+      await montar(tokens: null);
+      await expectLater(
+        pedir('tecnicos/me/trabajo'),
+        throwsA(isA<NoAutorizadoFailure>()),
+      );
+      expect(api.peticiones, isEmpty);
+    });
+
+    test('CA_015_08 comparación lleva sesión', () async {
+      await montar();
+      await pedir('solicitudes/abc/cotizaciones');
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_015_08 comparación sin sesión no sale', () async {
+      await montar(tokens: null);
+      await expectLater(
+        pedir('solicitudes/abc/cotizaciones'),
+        throwsA(isA<NoAutorizadoFailure>()),
+      );
+      expect(api.peticiones, isEmpty);
+    });
+
+    for (final ruta in ['solicitudes', 'solicitudes/s1', 'visitas/v1']) {
+      test('CA_015_20 $ruta requiere sesión y envía Bearer', () async {
+        await montar();
+        expect((await pedir(ruta)).statusCode, 200);
+        expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+      });
+
+      test('CA_015_20 $ruta sin sesión no sale a la red', () async {
+        await montar(tokens: null);
+        await expectLater(pedir(ruta), throwsA(isA<NoAutorizadoFailure>()));
+        expect(api.peticiones, isEmpty);
+      });
+    }
+
+    test('CA_015_11 elegir requiere sesión y envía Bearer', () async {
+      await montar();
+      await pedir('solicitudes/s1/elegir', metodo: 'POST');
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_015_11 elegir sin sesión no sale a la red', () async {
+      await montar(tokens: null);
+      await expectLater(
+        pedir('solicitudes/s1/elegir', metodo: 'POST'),
+        throwsA(isA<NoAutorizadoFailure>()),
+      );
+      expect(api.peticiones, isEmpty);
+    });
+
     test(
       'CA_026_11 auth/firebase, auth/refresh y oficios salen sin Authorization',
       () async {
@@ -202,6 +274,57 @@ void main() {
       await montar(tokens: null);
       await expectLater(pedir('me'), throwsA(isA<NoAutorizadoFailure>()));
       expect(api.peticiones, isEmpty);
+    });
+
+    test('CA_036_43 explorar lleva el Bearer cuando hay sesión', () async {
+      await montar();
+      expect((await pedir('explorar?filtro=todo')).statusCode, 200);
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test('CA_036_44 sin sesión, explorar sale sin Authorization', () async {
+      await montar(tokens: null);
+      await pedir('explorar?filtro=todo');
+      expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
+    });
+
+    test('CA_036_17 tecnicos/{id} lleva el Bearer solo con sesión', () async {
+      await montar();
+      await pedir('tecnicos/64b7f3a2c9e77a1d2f3b4c5d');
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
+    });
+
+    test(
+      'CA_036_17 sin sesión, tecnicos/{id} sale sin Authorization',
+      () async {
+        await montar(tokens: null);
+        await pedir('tecnicos/64b7f3a2c9e77a1d2f3b4c5d');
+        expect(
+          api.peticiones.single.cabeceras,
+          isNot(contains('authorization')),
+        );
+      },
+    );
+
+    test('CA_026_11 el perfil de otro servidor sale sin Bearer', () async {
+      await montar();
+      await c
+          .read(transporteApiProvider)
+          .get(
+            Uri.parse(
+              'https://otro.test/api/v1/tecnicos/64b7f3a2c9e77a1d2f3b4c5d',
+            ),
+          );
+      expect(api.peticiones.single.cabeceras, isNot(contains('authorization')));
+    });
+
+    test('CA_025_04 cancelar exige sesión y envía Bearer', () async {
+      await montar();
+      await pedir(
+        'solicitudes/64b7f0c2a1b2c3d4e5f60718/cancelar',
+        metodo: 'POST',
+      );
+      expect(api.peticiones.single.autorizacion, 'Bearer acc-A');
     });
   });
 

@@ -1,6 +1,10 @@
 /// Rutas de las pestañas de la barra inferior (TT-MOB-01, spec §8 decisión 9).
 abstract final class Rutas {
   static const inicio = '/inicio';
+
+  /// Búsqueda de expertos por texto (spec 021): subruta de Inicio.
+  static const buscar = '/inicio/buscar';
+
   static const explorar = '/explorar';
   static const actividad = '/actividad';
   static const trabajo = '/trabajo';
@@ -29,6 +33,13 @@ abstract final class Rutas {
   static String visita(String id) =>
       '/actividad/visita/${Uri.encodeComponent(id)}';
 
+  /// Una conversación (spec 047), fuera de la barra inferior. `tecnico` solo
+  /// va cuando la app lo conoce.
+  static String conversacion(String id, {String? tecnicoId}) => Uri(
+    path: '/conversaciones/${Uri.encodeComponent(id)}',
+    queryParameters: tecnicoId == null ? null : {'tecnico': tecnicoId},
+  ).toString();
+
   /// Subruta de Mi cuenta (HU-052): conserva la barra inferior.
   static const configuracion = '/cuenta/configuracion';
 
@@ -40,6 +51,9 @@ abstract final class Rutas {
 
   /// Entrada → código de 6 dígitos (subruta de [entrar]).
   static const codigo = '/entrar/codigo';
+
+  /// Apelación de una cuenta suspendida (spec 033), sin sesión.
+  static const apelacion = '/entrar/apelacion';
 
   /// Completar el perfil la primera vez (HU-002); fuera de la barra inferior.
   static const completarPerfil = '/completar-perfil';

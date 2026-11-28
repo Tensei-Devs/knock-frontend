@@ -149,3 +149,56 @@ final class EleccionRechazadaFailure extends Failure {
 final class AvisoNoPermitidoFailure extends Failure {
   const AvisoNoPermitidoFailure();
 }
+
+/// La visita no admite opinión: ya se calificó o venció el plazo de 30 días
+/// (409 `review_not_allowed`, spec 041 CA-08).
+final class OpinionNoPermitidaFailure extends Failure {
+  const OpinionNoPermitidaFailure();
+}
+
+/// La persona ya estaba bloqueada (409 `already_blocked`, spec 033 CA-03).
+final class YaBloqueadoFailure extends Failure {
+  const YaBloqueadoFailure();
+}
+
+/// El reporte no se puede apelar: sin decisión o ya apelado (409
+/// `appeal_not_allowed`, spec 033 CA-18).
+final class ApelacionNoPermitidaFailure extends Failure {
+  const ApelacionNoPermitidaFailure();
+}
+
+/// La opinión ya tiene respuesta (409 `review_already_answered`, spec 041
+/// CA-11).
+final class OpinionYaRespondidaFailure extends Failure {
+  const OpinionYaRespondidaFailure();
+}
+
+/// La persona no tiene perfil de técnico (403 `not_a_technician`, spec 046
+/// CA-07).
+final class SinPerfilTecnicoFailure extends Failure {
+  const SinPerfilTecnicoFailure();
+}
+
+/// Por qué el servidor ya no admite la cotización (409, spec 046 CA-05).
+enum MotivoCotizacionRechazada {
+  /// `request_not_quotable`.
+  yaNoSeCotiza,
+
+  /// `quote_duplicate`.
+  yaCotizada,
+
+  /// `quote_quota_full`.
+  cupoLleno,
+}
+
+final class CotizacionNoPermitidaFailure extends Failure {
+  const CotizacionNoPermitidaFailure(this.motivo);
+
+  final MotivoCotizacionRechazada motivo;
+}
+
+/// El servidor no tiene configurado el recurso de IA (503 en
+/// `/api/v1/asistente/*`, spec 042 D-04).
+final class AsistenteNoDisponibleFailure extends Failure {
+  const AsistenteNoDisponibleFailure();
+}

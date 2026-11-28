@@ -12,11 +12,13 @@ import 'package:app/features/actividad/presentation/cotizaciones_screen.dart';
 import 'package:app/features/actividad/presentation/solicitud_detalle_screen.dart';
 import 'package:app/features/actividad/presentation/solicitud_nueva_screen.dart';
 import 'package:app/features/actividad/presentation/visita_screen.dart';
+import 'package:app/features/busqueda/busqueda.dart';
 import 'package:app/features/cuenta/presentation/completar_perfil_screen.dart';
 import 'package:app/features/cuenta/presentation/configuracion_screen.dart';
 import 'package:app/features/cuenta/presentation/contactos_confianza_screen.dart';
 import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/cuenta/presentation/cuenta_screen.dart';
+import 'package:app/features/suspension/suspension.dart';
 import 'package:app/features/entrada/presentation/celular_screen.dart';
 import 'package:app/features/entrada/presentation/codigo_screen.dart';
 import 'package:app/features/explorar/presentation/explorar_screen.dart';
@@ -86,6 +88,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
     routes: [
       GoRoute(
+        path: '/conversaciones/:id',
+        builder: (context, state) => PantallasMaqueta.conversacion(
+          state.pathParameters['id']!,
+          tecnicoId: state.uri.queryParameters['tecnico'],
+        ),
+      ),
+      GoRoute(
         path: Rutas.previa,
         builder: (context, state) =>
             maqueta ? PantallasMaqueta.previa() : const PreviaScreen(),
@@ -110,6 +119,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) =>
                 CodigoScreen(celular: _celularDe(state)!),
           ),
+          GoRoute(
+            path: 'apelacion',
+            builder: (context, state) => const ApelacionScreen(),
+          ),
         ],
       ),
       GoRoute(
@@ -127,6 +140,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           _rama(
             Rutas.inicio,
             maqueta ? PantallasMaqueta.inicio() : const InicioScreen(),
+            subrutas: [
+              GoRoute(
+                path: 'buscar',
+                builder: (context, state) => const BusquedaScreen(),
+              ),
+            ],
           ),
           _rama(
             Rutas.explorar,

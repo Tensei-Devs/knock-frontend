@@ -10,9 +10,9 @@
 | 2 | Evaluación a nivel de proyecto con prompts | Esta matriz, specs y pruebas | Cada requisito apunta a un archivo | 🔶 |
 | 3 | El proyecto: nube, base de datos, backend, móvil y landing | TT-AZ-*, TT-BD-*, TT-ARQ-*, TT-WEB-01 | Repos y despliegue | 🔶 |
 | 4 | Móvil a imagen de la maqueta, sin eliminar funciones | Historias de usuario, `maqueta-knock` | Revisión de las historias en espera contra la maqueta | 🔶 |
-| 5 | Spec-Driven Development y DevSecOps | `specs/`, `.github/workflows` | Specs aprobadas; CI con SAST, SCA, secretos, contenedor, DAST | ✅ |
+| 5 | Spec-Driven Development y DevSecOps | `specs/`, `.github/workflows` | Specs aprobadas. En el frontend el CI corre SAST, SCA y secretos; no hay análisis de contenedor ni DAST | 🔶 |
 | 6 | Desarrollo con agentes de IA | Sección «Uso de IA» de cada PR | PR con la sección completa | ✅ |
-| 7 | Pruebas unitarias, de seguridad e integración | `tests/UnitTest`, `SecurityTest`, `IntegrationTest` | Backend: CI en verde, cobertura 60 % líneas / 50 % ramas. App (50 %) y panel (60 % / 50 %): el CI del frontend está en rojo por avisos de `vite` (PR #23) y el panel tiene 4 pruebas | 🔶 |
+| 7 | Pruebas unitarias, de seguridad e integración | `tests/UnitTest`, `SecurityTest`, `IntegrationTest`; `app/test/` | Backend: cobertura mínima 60 % líneas / 50 % ramas. Frontend: CI en verde en `sprint-05` (corrida `45934660202`), con cobertura mínima de 50 % en la app y 60 % / 50 % en el panel | 🔶 |
 | 8 | CI/CD en backend y móvil | TT-CI-01 (hecha), TT-CD-01, TT-CD-03, TT-ARQ-04† | Workflows; despliegue a producción desde `main` (único entorno en Azure) y publicación a Play | 🔶 |
 | 9 | Caché en base de datos, backend y app | TT-BD-08†, TT-API-08†, TT-MOB-05† | Índices, caché de respuestas, caché local | ⬜ |
 | 10 | Logout en backend y móvil | HU-004, HU-003 | Endpoint que revoca el token + pantalla | ⬜ |

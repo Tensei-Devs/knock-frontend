@@ -34,7 +34,12 @@ bool usaApiReal(Ref ref) {
 
 /// Transporte del cliente generado (spec 002): caché con ETag (R-06) sobre
 /// sesión con token y renovación (R-02), sobre [transporteHttpProvider].
-/// `colonias/en-punto` no se guarda en la caché (lleva coordenadas exactas).
+/// `colonias/en-punto` (coordenadas exactas), `busqueda` (texto escrito,
+/// spec 021 R-05; también en `tecnicos/autocompletar`), `me/direcciones`
+/// (dirección exacta, spec 030 §5), la bandeja y el resumen de Trabajo (spec
+/// 019 R-07), el detalle de las solicitudes (spec 025 R-10) y las
+/// conversaciones con sus mensajes (spec 047, CA-16) no se guardan en la
+/// caché.
 final transporteApiProvider = Provider<http.Client>((ref) {
   final sesion = ref.read(sesionProvider.notifier);
   return ClienteConCache(
@@ -46,7 +51,15 @@ final transporteApiProvider = Provider<http.Client>((ref) {
       cerrar: sesion.cerrar,
     ),
     ref.watch(cacheRespuestasProvider),
-    sinCache: (url) => url.path.endsWith('/colonias/en-punto'),
+    sinCache: (url) =>
+        url.path.endsWith('/colonias/en-punto') ||
+        url.path.endsWith('/busqueda') ||
+        url.path.endsWith('/tecnicos/autocompletar') ||
+        url.path.endsWith('/me/direcciones') ||
+        url.path.contains('/tecnicos/me/solicitudes') ||
+        url.path.contains('/tecnicos/me/trabajo') ||
+        url.path.contains('/solicitudes/') ||
+        url.path.contains('/conversaciones'),
   );
 });
 

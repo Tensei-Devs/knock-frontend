@@ -1,9 +1,13 @@
 graph LR
   actividad["actividad"]
   app["app"]
+  asistente["asistente"]
+  bandeja_avisos["bandeja_avisos"]
+  busqueda["busqueda"]
   cache["cache"]
   config["config"]
   cuenta["cuenta"]
+  direcciones["direcciones"]
   enlaces["enlaces"]
   entrada["entrada"]
   errores["errores"]
@@ -13,34 +17,60 @@ graph LR
   l10n["l10n"]
   layout["layout"]
   maqueta["maqueta"]
+  mensajes["mensajes"]
+  mi["mi"]
   notificaciones["notificaciones"]
   oficios["oficios"]
+  opiniones["opiniones"]
   panel["panel"]
   permisos["permisos"]
   plataforma["plataforma"]
   preferencias["preferencias"]
   previa["previa"]
   red["red"]
+  reportes["reportes"]
   router["router"]
   sesion["sesion"]
+  suspension["suspension"]
+  tecnico["tecnico"]
+  tecnicos_confianza["tecnicos_confianza"]
   tema["tema"]
   trabajo["trabajo"]
+  verificacion["verificacion"]
+  visita["visita"]
   widgets["widgets"]
   actividad -->|1| oficios
   app -->|1| inicio
   app -->|1| maqueta
+  busqueda -->|1| actividad
+  busqueda -->|2| oficios
   cuenta -->|1| actividad
   cuenta -->|1| inicio
   cuenta -->|1| oficios
   inicio -->|1| cuenta
-  maqueta -->|5| actividad
-  maqueta -->|4| cuenta
-  maqueta -->|4| entrada
-  maqueta -->|7| inicio
-  maqueta -->|2| oficios
+  maqueta -->|25| actividad
+  maqueta -->|1| asistente
+  maqueta -->|1| bandeja_avisos
+  maqueta -->|1| busqueda
+  maqueta -->|7| cuenta
+  maqueta -->|3| direcciones
+  maqueta -->|3| entrada
+  maqueta -->|1| explorar
+  maqueta -->|8| inicio
+  maqueta -->|4| mensajes
+  maqueta -->|1| mi
+  maqueta -->|4| oficios
+  maqueta -->|1| opiniones
   maqueta -->|1| previa
+  maqueta -->|2| reportes
+  maqueta -->|11| tecnico
+  maqueta -->|3| tecnicos_confianza
+  maqueta -->|4| trabajo
+  maqueta -->|1| verificacion
+  maqueta -->|8| visita
   previa -->|5| oficios
   router -->|5| actividad
+  router -->|1| busqueda
   router -->|5| cuenta
   router -->|2| entrada
   router -->|1| explorar
@@ -48,4 +78,6 @@ graph LR
   router -->|1| maqueta
   router -->|1| oficios
   router -->|2| previa
+  router -->|1| suspension
   router -->|1| trabajo
+  suspension -->|1| entrada

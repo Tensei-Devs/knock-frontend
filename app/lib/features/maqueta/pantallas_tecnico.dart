@@ -1,3 +1,15 @@
+import 'package:app/core/errores/failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:app/features/actividad/actividad.dart'
+    show solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/asistente_real.dart';
+import 'package:app/features/maqueta/detalle_oficio_real.dart';
+import 'package:app/features/maqueta/solicitudes_reales.dart'
+    show coloniaIdDeLaPersona;
+import 'package:app/features/oficios/oficios.dart';
+import 'package:app/features/tecnico/tecnico.dart';
+
 import 'dart:async';
 
 import 'package:app/core/sesion/es_tecnico_provider.dart';
@@ -5,15 +17,21 @@ import 'package:app/features/cuenta/presentation/perfil_controller.dart';
 import 'package:app/features/entrada/presentation/entrada_controller.dart';
 import 'package:app/features/maqueta/datos.dart';
 import 'package:app/features/maqueta/carga_k.dart';
+import 'package:app/features/maqueta/conversaciones_reales.dart';
+import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/estado.dart';
 import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
+import 'package:app/features/maqueta/rutas_tecnico.dart';
+import 'package:app/features/maqueta/servicios_reales.dart';
 import 'package:app/features/maqueta/tecnico_estado.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+export 'package:app/features/maqueta/rutas_tecnico.dart' show RT;
 
 TecEstado get pv => maq.pv;
 
@@ -25,22 +43,6 @@ String _catIcon(String id) => id == 'mec'
     : id == 'plo'
     ? 'drop'
     : 'bolt';
-
-/// Rutas del lado del técnico.
-abstract final class RT {
-  static const registro = '/m/tecnico/registro';
-  static const verif = '/m/tecnico/verificacion';
-  static const pendiente = '/m/tecnico/pendiente';
-  static const verificado = '/m/tecnico/verificado';
-  static const rechazada = '/m/tecnico/rechazada';
-  static const mensajes = '/m/tecnico/mensajes';
-  static String chat(String cid, String rid) => '/m/tecnico/chat/$cid/$rid';
-  static String cotizar(String rid) => '/m/tecnico/cotizar/$rid';
-  static String iniciar(String vid) => '/m/tecnico/iniciar/$vid';
-  static String cerrar(String vid) => '/m/tecnico/cerrar/$vid';
-  static const perfil = '/m/tecnico/perfil';
-  static const reputacion = '/m/tecnico/reputacion';
-}
 
 void registrarRutasTecnico(GoRouter router) {
   pv.irChat = (cid, rid) => router.push(RT.chat(cid, rid));
@@ -311,6 +313,11 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     super.dispose();
   }
 
+  /// Con sesión y API, el perfil de técnico se crea en el servidor: la cuenta
+  /// ya está verificada por SMS, así que no hay un segundo código, y no se
+  /// piden el celular ni los servicios (esta ruta no los recibe).
+  bool get _real => ref.read(solicitudesRealesActivasProvider);
+
   Map<String, String> _errors() {
     final e = <String, String>{};
     final n = clean(name.text);
@@ -321,12 +328,15 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     } else if (n.split(' ').length < 2) {
       e['name'] = 'Escribe también tu apellido';
     }
-    if (digits(phone.text).length != 10) {
+    if (!_real && digits(phone.text).length != 10) {
       e['phone'] = 'Escribe los 10 números de tu celular';
     }
     final ot = otherOn && other.text.trim().length >= 3;
     if (otherOn && !ot) e['other'] = 'Escribe cuál es tu oficio';
-    if (sel.isEmpty && !ot) e['cats'] = 'Elige al menos un servicio';
+    if (sel.isEmpty && (_real || !ot)) {
+      // El servidor exige al menos un oficio del catálogo.
+      e['cats'] = 'Elige al menos un servicio';
+    }
     advErrors(e, years.text.trim(), about.text, svcs);
     if (how == 'taller' && address.text.trim().length < 8) {
       e['address'] = 'Escribe calle, número y colonia';
@@ -344,6 +354,10 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
       serverErr = '';
     });
     if (_errors().isNotEmpty || sending) return;
+    if (_real) {
+      await _createReal();
+      return;
+    }
     final d = digits(phone.text);
     setState(() => sending = true);
     // Errores de demostración de la maqueta (siempre, con o sin sesión).
@@ -455,6 +469,57 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
     });
   }
 
+  Future<void> _createReal() async {
+    final textos = AppLocalizations.of(context);
+    setState(() => sending = true);
+    try {
+      final coloniaId = await coloniaIdDeLaPersona(ref, maq.user);
+      final taller = how == 'taller';
+      final creado = await ref
+          .read(tecnicoRepositoryProvider)
+          .registrar(
+            AltaTecnico(
+              nombre: clean(name.text),
+              oficios: [...sel],
+              otroOficio: otherOn ? other.text : null,
+              atencion: taller ? Atencion.taller : Atencion.domicilio,
+              direccionTaller: taller ? address.text : null,
+              radioKm: taller ? null : int.parse(km.split(' ').first),
+              coloniaId: coloniaId,
+              nombreNegocio: business.text,
+              descripcion: about.text,
+              anios: int.tryParse(years.text.trim()),
+              aceptaTerminos: terms,
+            ),
+          );
+      // Es la única vez que la app recibe su id de técnico (spec 037).
+      if (mounted) ref.read(miTecnicoIdProvider.notifier).recordar(creado.id);
+    } on Failure catch (falla) {
+      if (!mounted) return;
+      setState(() {
+        sending = false;
+        serverErr = falla is ConflictoFailure
+            ? 'Esta cuenta ya tiene perfil de técnico.'
+            : mensajeDeError(textos, falla);
+      });
+      return;
+    }
+    if (!mounted) return;
+    if (otherOn) {
+      unawaited(
+        pedirOficioNuevo(
+          ref.read(detalleOficioRepositoryProvider),
+          textos,
+          clean(other.text),
+        ),
+      );
+    }
+    setState(() => sending = false);
+    await _create();
+    // El perfil de la cuenta ya dice que es técnica.
+    ref.invalidate(perfilControllerProvider);
+  }
+
   void _enter(String? to) {
     if (to != null) {
       context.go('/trabajo');
@@ -467,7 +532,9 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
   @override
   Widget build(BuildContext context) {
     final k = kc(context);
-    if (pv.me.registered && step != 'ok') {
+    final real = ref.watch(solicitudesRealesActivasProvider);
+    final yaEsTecnico = real && ref.watch(esTecnicoProvider);
+    if ((pv.me.registered || yaEsTecnico) && step != 'ok') {
       return Pg(
         title: 'Ofrece tus servicios',
         scroll: false,
@@ -476,7 +543,12 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
           k.greenSoft,
           k.green,
           'Ya tienes cuenta de técnico',
-          [rich('Entraste como **${pv.me.name}**.', w: FontWeight.w400)],
+          [
+            rich(
+              'Entraste como **${pv.me.registered ? pv.me.name : maq.user.name}**.',
+              w: FontWeight.w400,
+            ),
+          ],
         ),
         cta: BtnK('Ir a mi inicio de técnico', () => context.go('/trabajo')),
       );
@@ -575,6 +647,7 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
               ],
             ),
           ),
+          if (real) const CardK(child: MisServiciosReales()),
           const NoteK(
             'blue',
             'shield',
@@ -606,18 +679,19 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
           err: E['name'],
           onChanged: (_) => setState(() {}),
         ),
-        FieldK(
-          label: 'Tu celular',
-          c: phone,
-          hint: '771 555 0142',
-          keyboard: TextInputType.number,
-          maxLen: 12,
-          prefix: const PhoneCc(),
-          err: E['phone'],
-          help: 'Te mandaremos un código por SMS para confirmar que es tuyo.',
-          onChanged: (_) => setState(() {}),
-          onSubmit: (_) => _submit(),
-        ),
+        if (!real)
+          FieldK(
+            label: 'Tu celular',
+            c: phone,
+            hint: '771 555 0142',
+            keyboard: TextInputType.number,
+            maxLen: 12,
+            prefix: const PhoneCc(),
+            err: E['phone'],
+            help: 'Te mandaremos un código por SMS para confirmar que es tuyo.',
+            onChanged: (_) => setState(() {}),
+            onSubmit: (_) => _submit(),
+          ),
         tradesBlock(
           context,
           sel: sel,
@@ -669,21 +743,23 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
               help: '${about.text.length}/300',
               onChanged: (_) => setState(() {}),
             ),
-            Row(
-              spacing: 6,
-              children: [
-                labT('Tus servicios y precio de referencia'),
-                T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),
-              ],
-            ),
-            serviciosEditor(
-              context,
-              svcs,
-              E,
-              () => setState(() {}),
-              () => setState(() => svcs.add(Servicio('', ''))),
-              (i) => setState(() => svcs.removeAt(i).dispose()),
-            ),
+            if (!real) ...[
+              Row(
+                spacing: 6,
+                children: [
+                  labT('Tus servicios y precio de referencia'),
+                  T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),
+                ],
+              ),
+              serviciosEditor(
+                context,
+                svcs,
+                E,
+                () => setState(() {}),
+                () => setState(() => svcs.add(Servicio('', ''))),
+                (i) => setState(() => svcs.removeAt(i).dispose()),
+              ),
+            ],
             sMut(
               'Fotos, horarios y más detalles los ajustas después en Perfil > Mi perfil público.',
             ),
@@ -777,7 +853,9 @@ class _TecRegistroState extends ConsumerState<TecRegistroScreen> {
       ], gap: 20),
       cta: ctaCol([
         BtnK(
-          sending ? 'Enviando código…' : 'Continuar',
+          sending
+              ? (real ? 'Creando cuenta…' : 'Enviando código…')
+              : 'Continuar',
           sending ? null : _submit,
         ),
         if (tried && E.isNotEmpty) helpT('Revisa los campos marcados en rojo'),
@@ -828,6 +906,14 @@ bool needVerif(BuildContext context, String why, void Function() cont) {
 }
 
 void openVerif(BuildContext context) {
+  // Con servidor el estado lo dice el servidor (spec 018).
+  if (ProviderScope.containerOf(
+    context,
+    listen: false,
+  ).read(solicitudesRealesActivasProvider)) {
+    unawaited(context.push(RT.verif));
+    return;
+  }
   switch (pv.status) {
     case 'verificado':
       unawaited(context.push(RT.verificado));
@@ -1793,7 +1879,10 @@ Widget reqCard(BuildContext context, Req r) {
 }
 
 Widget? workFab(BuildContext context) {
-  if (pv.th.isEmpty) return null;
+  // Con sesión y API manda el globo real de todas las pestañas.
+  final real = ProviderScope.containerOf(context)
+      .read(solicitudesRealesActivasProvider);
+  if (real || pv.th.isEmpty) return null;
   final k = kc(context);
   final u = pv.unreadN;
   return Positioned(
@@ -2273,7 +2362,13 @@ class AgendaEnMapaBloque extends StatelessWidget {
 class TecMensajesScreen extends StatelessWidget {
   const TecMensajesScreen({super.key});
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => PantallaSegunSesion(
+    titulo: 'Mensajes de clientes',
+    real: const ConversacionesReales(),
+    ejemplo: _ejemplo,
+  );
+
+  Widget _ejemplo(BuildContext context) => MaqBuilder((context) {
     final k = kc(context);
     final ids = pv.th.keys.toList();
     return Pg(
@@ -2452,6 +2547,7 @@ class _TecChatState extends State<TecChatScreen> {
           ],
         ),
         sMut('La IA puede equivocarse: revísalo antes de guardarlo.'),
+        const NotaIaDeEjemplo(),
         Wrap(
           spacing: 8,
           runSpacing: 8,
@@ -2634,6 +2730,7 @@ class _TecChatState extends State<TecChatScreen> {
                   'La IA usa esta conversación para proponerte el precio y la nota.',
                 ),
                 _sumBtn(r),
+                const NotaIaDeEjemplo(),
               ], gap: 8)
             : stack([
                 const BtnK(

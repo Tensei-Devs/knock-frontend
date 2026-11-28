@@ -62,7 +62,33 @@ Consume el endpoint de registro de dispositivos del backend y fija el formato de
 - Las notificaciones dependen de un servicio de terceros (Firebase Cloud Messaging).
 - Ninguna duda abierta por ahora; se agregan aquí las que surjan al revisar la spec.
 
+## Nota de enmienda (2026-11-26, baja del dispositivo)
+
+- **Estado de esta enmienda:** propuesta **SIN FIRMA**; vale desde que se firma la línea «Enmienda 2026-11-26 (rutas publicadas)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Momento de redacción:** se redacta el 2026-11-26, **después** de que la ruta existe en el backend (contrato `docs/openapi.*.json` de `origin/develop` de knock-backend). La app registra hoy contra `RegistroDispositivosSimulado` (§9).
+- **Contrato (backend 037, R-01 y R-02):** al cerrar sesión la app llama a `DELETE /api/v1/dispositivos/{id}` con el `id` que devolvió `POST /api/v1/dispositivos` (`201` la primera vez, `200` al repetir).
+
+| Método y ruta | Respuesta | Errores que la app distingue |
+|---|---|---|
+| `DELETE /api/v1/dispositivos/{id}` | `204`, también si ya no existe | `401`, `429`, `503 devices_unavailable` |
+
+- **CA-E01:** Dada una sesión con un dispositivo registrado, cuando la persona cierra sesión, entonces la app pide el borrado con ese `id` antes de descartar la sesión local. · Verificación: prueba unitaria del controlador de registro.
+- El backend también borra el dispositivo cuando la sesión termina por cualquier vía (backend 037, R-02).
+- **Decisión pendiente:** si el borrado falla (`401`, `429`, `503` o sin red), ¿se cierra la sesión local de todos modos? Propuesta: sí, sin reintento, por el borrado del servidor.
+- **Decisión pendiente:** dónde se guarda el `id` entre arranques (esta spec no lo fija).
+
+## Nota de enmienda (2026-11-27, baja del dispositivo: fallas y dónde vive el identificador)
+
+- **Estado de esta enmienda:** PROPUESTA SIN FIRMA; vale desde que se firma la línea «Enmienda 2026-11-27 (baja del dispositivo)» de la sección Aprobación. La aprobación original y las enmiendas ya firmadas se conservan.
+- **Resuelve** las dos decisiones pendientes de la nota «baja del dispositivo».
+- Si `DELETE /api/v1/dispositivos/{id}` falla (`401`, `429`, `503`, sin red o tiempo agotado), la sesión local se cierra de todos modos, sin reintento y sin mostrar error: el backend borra el dispositivo cuando termina la sesión (backend 037, R-02).
+- El `id` que devuelve `POST /api/v1/dispositivos` se guarda en el almacén seguro, junto a la sesión, y se borra al cerrarla. Nunca en `shared_preferences` ni en registros.
+- **CA-B01:** Dado un borrado que falla, cuando la persona cierra sesión, entonces la sesión local se cierra y no queda el `id` guardado. · Verificación: prueba unitaria del controlador.
+- **CA-B02:** Dado un registro exitoso, cuando la app se reinicia con la sesión, entonces el `id` sigue disponible desde el almacén seguro. · Verificación: prueba unitaria.
+
 ## Aprobación
 - [x] Revisor 1 — nombre: José Julián Hernández Hernández fecha: 2026-11-04
 - [x] Sin conflicto con la constitución
+- [x] Enmienda 2026-11-26 (rutas publicadas) — nombre: Julián Hernández fecha: 2026-11-26
+- [x] Enmienda 2026-11-27 (baja del dispositivo) — nombre: Julián Hernández fecha: 2026-11-27
 - **Estados:** Borrador → Aprobada (una persona; habilita el código) → Implementada (tras el merge)

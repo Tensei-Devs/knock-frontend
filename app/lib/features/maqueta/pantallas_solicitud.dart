@@ -1,5 +1,10 @@
 import 'dart:async';
 
+import 'package:app/features/direcciones/direcciones.dart';
+import 'package:app/features/maqueta/ampliar_real.dart';
+import 'package:app/features/maqueta/detalle_oficio_real.dart';
+import 'package:app/features/maqueta/direcciones_reales.dart';
+import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:app/features/maqueta/anim_k.dart';
 import 'package:app/features/maqueta/carga_k.dart';
 import 'package:app/features/maqueta/datos.dart';
@@ -8,22 +13,45 @@ import 'package:app/features/maqueta/oficios_reales.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantallas_cuenta.dart';
 import 'package:app/features/maqueta/ui.dart';
+import 'package:app/core/config/subida_de_fotos.dart';
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/actividad/actividad.dart'
     show
         EleccionEnCurso,
         EleccionFallida,
         EleccionHecha,
+        EleccionVisitaExistente,
+        EstadoSolicitud,
         MotivoSinEleccion,
         OrdenCotizaciones,
         ResultadoComparacion,
+        ReglaCancelacion,
+        MotivoCancelacion,
+        Cancelada,
+        CancelacionConCita,
+        CancelacionYaVencida,
+        CancelacionNoDisponible,
+        CancelacionInvalida,
+        CancelacionLimite,
+        CancelacionSinConexion,
+        Vencimiento,
+        VencimientoAbsoluto,
+        VencimientoRelativo,
+        MenosDeUnaHora,
+        VencimientoCerrando,
+        solicitudesRealesRepositoryProvider,
+        solicitudesRealesControllerProvider,
         cotizacionesRealesProvider,
         eleccionRealProvider,
-        solicitudRealDetalleProvider;
+        solicitudRealDetalleProvider,
+        solicitudesRealesActivasProvider;
+import 'package:app/features/maqueta/boton_conversacion.dart';
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 String _catIcon(String id) => id == 'mec'
     ? 'car'
@@ -33,13 +61,21 @@ String _catIcon(String id) => id == 'mec'
 
 // ------------------------------------------------------------ pedir cotización
 
-class SolicitarScreen extends StatefulWidget {
+class SolicitarScreen extends ConsumerStatefulWidget {
   const SolicitarScreen({super.key});
   @override
-  State<SolicitarScreen> createState() => _SolicitarScreenState();
+  ConsumerState<SolicitarScreen> createState() => _SolicitarScreenState();
 }
 
-class _SolicitarScreenState extends State<SolicitarScreen> {
+class _SolicitarScreenState extends ConsumerState<SolicitarScreen> {
+  /// Mientras la solicitud viaja al servidor el botón no responde: un segundo
+  /// toque no crea otra solicitud (el contrato no tiene `Idempotency-Key`).
+  bool _enviando = false;
+  String? _errorEnvio;
+
+  /// `archivoId` de cada foto ya subida, para no repetirla al reintentar.
+  final _subidas = <String, String>{};
+
   late final TextEditingController _desc;
   late final TextEditingController _addr;
 
@@ -68,6 +104,37 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
     }
   }
 
+  /// Con sesión, servidor y la subida de fotos encendida, la solicitud se crea
+  /// de verdad (`POST /solicitudes`); si falta algo sigue el flujo de ejemplo
+  /// de siempre.
+  Future<void> _enviar() async {
+    if (_enviando) return;
+    if (!ref.read(solicitudesRealesActivasProvider) ||
+        !ref.read(subidaDeFotosActivaProvider)) {
+      final job = maq.sendReq();
+      context.go(RM.enviada(job.id));
+      return;
+    }
+    final textos = AppLocalizations.of(context);
+    setState(() {
+      _enviando = true;
+      _errorEnvio = null;
+    });
+    try {
+      final job = await crearSolicitudReal(ref, maq.req!, _subidas);
+      if (!mounted) return;
+      maq.agregarSolicitudReal(job);
+      ref.invalidate(solicitudesRealesControllerProvider);
+      context.go(RM.enviada(job.id));
+    } on Failure catch (falla) {
+      if (!mounted) return;
+      setState(() {
+        _enviando = false;
+        _errorEnvio = mensajeDeError(textos, falla);
+      });
+    }
+  }
+
   Future<void> _fotos() async {
     final r = maq.req!;
     final f = await elegirFotos(max: 5 - r.photos.length);
@@ -78,7 +145,11 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => MaqBuilder((context) {
+  Widget build(BuildContext context) => MaqBuilder(
+    (_) => Consumer(builder: (context, ref, _) => _pagina(context, ref)),
+  );
+
+  Widget _pagina(BuildContext context, WidgetRef ref) {
     final r = maq.req;
     if (r == null) return const Pg(noHeader: true, body: SizedBox());
     final k = kc(context);
@@ -143,18 +214,22 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
         ], gap: 8),
         stack([
           labT('Toca una opción o escribe abajo'),
-          chipsWrap([
-            for (final t in c!.chips)
-              ChipK(
-                t,
-                on: r.desc == t,
-                onTap: () {
-                  r.desc = t;
-                  _desc.text = t;
-                  maq.refresh();
-                },
-              ),
-          ]),
+          FrasesDelOficio(
+            clave: r.cat!,
+            ejemplo: c!.chips,
+            opciones: (frases) => chipsWrap([
+              for (final t in frases)
+                ChipK(
+                  t,
+                  on: r.desc == t,
+                  onTap: () {
+                    r.desc = t;
+                    _desc.text = t;
+                    maq.refresh();
+                  },
+                ),
+            ]),
+          ),
         ], gap: 8),
         FieldK(
           label: '¿Qué pasa y desde cuándo?',
@@ -247,8 +322,13 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
       final days0 = days;
       final d = days0[r.day], s = slots[r.slot];
       final taller = c!.taller;
+      // Con sesión y API, la dirección sale de las guardadas (spec 030).
+      final conServidor = ref.watch(solicitudesRealesActivasProvider);
       final needAddr =
-          !taller && maq.user.addr.isEmpty && r.addr.trim().length < 5;
+          !taller &&
+          (conServidor
+              ? ref.watch(direccionParaPedirProvider) == null
+              : maq.user.addr.isEmpty && r.addr.trim().length < 5);
       b.addAll([
         h1('¿Cuándo te queda bien?'),
         stack([
@@ -323,7 +403,9 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
         else
           stack([
             labT('¿Dónde?'),
-            if (maq.user.addr.isNotEmpty)
+            if (conServidor)
+              const DireccionAlPedirReal()
+            else if (maq.user.addr.isNotEmpty)
               CardK(
                 child: Row(
                   spacing: 12,
@@ -393,17 +475,14 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
         ),
       ]);
       cta = ctaCol([
+        if (_errorEnvio != null) NoteK('red', 'help', _errorEnvio!),
         BtnK(
-          'Enviar solicitud',
-          needAddr
-              ? null
-              : () {
-                  final job = maq.sendReq();
-                  context.go(RM.enviada(job.id));
-                },
+          _enviando ? 'Enviando…' : 'Enviar solicitud',
+          needAddr ? null : _enviar,
           icon: 'send',
+          busy: _enviando,
         ),
-        if (needAddr)
+        if (needAddr && !conServidor)
           helpT(
             'Escribe tu calle y número para que el experto sepa a dónde ir',
           ),
@@ -417,7 +496,7 @@ class _SolicitarScreenState extends State<SolicitarScreen> {
       body: stack(b, gap: 20),
       cta: cta,
     );
-  });
+  }
 }
 
 // ------------------------------------------------------------ enviada
@@ -576,6 +655,11 @@ Widget stateK0(
 Widget _widen(BuildContext context, Job j) => widenBlock(context, j);
 
 Widget widenBlock(BuildContext context, Job j) {
+  if (j.real) {
+    return j.status == 'enviada'
+        ? AmpliarSolicitudReal(key: ValueKey(j.id), solicitudId: j.id)
+        : const SizedBox();
+  }
   if (!j.silent || !j.only) return const SizedBox();
   final o = provs[j.target];
   final n = o?.first ?? 'El experto';
@@ -625,6 +709,8 @@ class CompararScreen extends ConsumerStatefulWidget {
 
 class _CompararScreenState extends ConsumerState<CompararScreen> {
   int _o = 0;
+  Timer? _reloj;
+  bool _refrescoDeCierre = false;
 
   @override
   void initState() {
@@ -633,7 +719,166 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     // elegir no se pierde si se cierra la hoja a media petición.
     if (maq.job(widget.id)?.real ?? false) {
       ref.listenManual(eleccionRealProvider(widget.id), (_, _) {});
+      _reloj = Timer.periodic(const Duration(minutes: 1), (_) {
+        if (!mounted) return;
+        final solicitud = ref
+            .read(solicitudRealDetalleProvider(widget.id))
+            .value;
+        if (solicitud != null &&
+            ReglaCancelacion(solicitud.estado).puedeCancelar &&
+            solicitud.venceEn != null &&
+            !solicitud.venceEn!.isAfter(DateTime.now()) &&
+            !_refrescoDeCierre) {
+          _refrescoDeCierre = true;
+          ref.invalidate(solicitudRealDetalleProvider(widget.id));
+        }
+        setState(() {});
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    _reloj?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _cancelarSolicitud(String id) async {
+    final textos = AppLocalizations.of(context);
+    MotivoCancelacion? motivo;
+    var enviando = false;
+    String? error;
+    await showModalBottomSheet<void>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, actualizar) => PopScope(
+          canPop: !enviando,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    textos.solicitudCancelarTitulo,
+                    style: Theme.of(ctx).textTheme.titleLarge,
+                  ),
+                  Text(textos.solicitudCancelarDetalle),
+                  Text(textos.solicitudCancelarMotivo),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (final (valor, nombre) in [
+                        (
+                          MotivoCancelacion.yaNoLoNecesito,
+                          textos.solicitudMotivoYaNo,
+                        ),
+                        (
+                          MotivoCancelacion.loResolviPorOtroMedio,
+                          textos.solicitudMotivoResolvi,
+                        ),
+                        (
+                          MotivoCancelacion.tardaMucho,
+                          textos.solicitudMotivoTarda,
+                        ),
+                        (MotivoCancelacion.otro, textos.solicitudMotivoOtro),
+                      ])
+                        ChoiceChip(
+                          label: Text(nombre),
+                          selected: motivo == valor,
+                          onSelected: enviando
+                              ? null
+                              : (_) => actualizar(
+                                  () => motivo = motivo == valor ? null : valor,
+                                ),
+                        ),
+                    ],
+                  ),
+                  if (error != null) Text(error!),
+                  TextButton(
+                    onPressed: enviando ? null : () => Navigator.pop(ctx),
+                    child: Text(textos.solicitudCancelarMantener),
+                  ),
+                  FilledButton(
+                    onPressed: enviando
+                        ? null
+                        : () async {
+                            actualizar(() {
+                              enviando = true;
+                              error = null;
+                            });
+                            try {
+                              final resultado = await ref
+                                  .read(solicitudesRealesRepositoryProvider)
+                                  .cancelar(id, motivo: motivo);
+                              if (!ctx.mounted) return;
+                              if (resultado is Cancelada) {
+                                ref.invalidate(
+                                  solicitudRealDetalleProvider(id),
+                                );
+                                ref.invalidate(
+                                  solicitudesRealesControllerProvider,
+                                );
+                                ref.invalidate(cotizacionesRealesProvider);
+                                Navigator.pop(ctx);
+                                return;
+                              }
+                              if (resultado is CancelacionConCita ||
+                                  resultado is CancelacionYaVencida ||
+                                  resultado is CancelacionNoDisponible) {
+                                ref.invalidate(
+                                  solicitudRealDetalleProvider(id),
+                                );
+                              }
+                              actualizar(() {
+                                enviando = false;
+                                error = switch (resultado) {
+                                  CancelacionConCita() =>
+                                    textos.solicitudErrorConCita,
+                                  CancelacionYaVencida() =>
+                                    textos.solicitudErrorYaVencida,
+                                  CancelacionNoDisponible() => textoDeErrorReal(
+                                    const NoEncontradoFailure(),
+                                  ),
+                                  CancelacionInvalida() => textoDeErrorReal(
+                                    const DatosRechazadosFailure(),
+                                  ),
+                                  CancelacionLimite(:final espera) =>
+                                    mensajeDeError(
+                                      textos,
+                                      DemasiadosIntentosFailure(espera: espera),
+                                    ),
+                                  CancelacionSinConexion() => textoDeErrorReal(
+                                    const ServicioNoDisponibleFailure(),
+                                  ),
+                                  _ => textoDeErrorReal(
+                                    const ServicioNoDisponibleFailure(),
+                                  ),
+                                };
+                              });
+                            } on Object catch (e) {
+                              if (!ctx.mounted) return;
+                              actualizar(() {
+                                enviando = false;
+                                error = textoDeErrorReal(e);
+                              });
+                            }
+                          },
+                    child: enviando
+                        ? const CircularProgressIndicator()
+                        : Text(textos.solicitudCancelarConfirmar),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _accept(Job j, String pid) {
@@ -702,6 +947,30 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
             final e = ref.watch(eleccionRealProvider(j.id));
             final control = ref.read(eleccionRealProvider(j.id).notifier);
             if (e is EleccionHecha) return _citaReal(ctx, e);
+            if (e is EleccionVisitaExistente) {
+              final v = e.visita;
+              final l = AppLocalizations.of(ctx);
+              return stack([
+                h1(l.citaExistente, a: TextAlign.center),
+                CardK(
+                  child: stack([
+                    bT(v.tecnico.nombre),
+                    bT(l.visitaCuando(longDate(v.dia), v.hora)),
+                    if (v.direccion.isNotEmpty) bT(v.direccion),
+                    if (v.precio != null) bT(l.citaMonto(money(v.precio!))),
+                    if (v.tope != null) bT(l.citaTope(money(v.tope!))),
+                    if (v.tecnico.telefono != null)
+                      bT(l.cotizacionTelefono(v.tecnico.telefono!)),
+                    if (v.tecnico.whatsapp != null)
+                      bT(l.cotizacionWhatsapp(v.tecnico.whatsapp!)),
+                  ], gap: 12),
+                ),
+                BtnK(l.cotizacionListo, () {
+                  Navigator.pop(ctx);
+                  context.go('/actividad');
+                }),
+              ]);
+            }
             final enCurso = e is EleccionEnCurso;
             final falla = e is EleccionFallida ? e.falla : null;
             final rechazo = falla is EleccionRechazadaFailure;
@@ -754,6 +1023,9 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                   w: FontWeight.w800,
                   color: kc(ctx).red,
                 ),
+              if (falla is EleccionRechazadaFailure &&
+                  falla.motivo == MotivoEleccionRechazada.yaElegida)
+                sMut(AppLocalizations.of(ctx).visitaRecuperacionFallida),
               if (!rechazo)
                 BtnK(
                   falla != null ? 'Reintentar' : 'Sí, elegir a ${pr.first}',
@@ -893,7 +1165,58 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                   ),
               ],
             ),
-            data: (s) => tT(s.descripcion),
+            data: (s) {
+              final textos = AppLocalizations.of(context);
+              final puedeCancelar = ReglaCancelacion(s.estado).puedeCancelar;
+              final vence = s.venceEn;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  tT(s.descripcion),
+                  if (s.estado == EstadoSolicitud.cancelada ||
+                      s.estado == EstadoSolicitud.vencida) ...[
+                    Row(
+                      children: [
+                        const Icon(Icons.info_outline),
+                        const SizedBox(width: 8),
+                        Text(
+                          s.estado == EstadoSolicitud.cancelada
+                              ? textos.solicitudEstadoCancelada
+                              : textos.solicitudEstadoVencida,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      s.estado == EstadoSolicitud.cancelada
+                          ? textos.solicitudCanceladaDetalle
+                          : textos.solicitudVencidaDetalle,
+                    ),
+                  ],
+                  if (puedeCancelar && vence != null)
+                    Text(switch (Vencimiento(
+                      venceEn: vence,
+                      ahora: DateTime.now(),
+                    ).presentacion) {
+                      VencimientoAbsoluto(:final dia, :final hora) =>
+                        textos.solicitudVenceEl(
+                          DateFormat.yMMMMd(
+                            Localizations.localeOf(context).toLanguageTag(),
+                          ).format(dia),
+                          hora,
+                        ),
+                      VencimientoRelativo(:final horas) =>
+                        textos.solicitudVenceEnHoras(horas),
+                      MenosDeUnaHora() => textos.solicitudVenceMenosHora,
+                      VencimientoCerrando() => textos.solicitudCerrando,
+                    }),
+                  if (puedeCancelar)
+                    TextButton(
+                      onPressed: () => _cancelarSolicitud(j.id),
+                      child: Text(textos.solicitudCancelar),
+                    ),
+                ],
+              );
+            },
           ),
       ], gap: 6),
     );
@@ -1060,12 +1383,18 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     );
   }
 
-  String? _textoDeMotivo(MotivoSinEleccion m) => switch (m) {
+  String? _textoDeMotivo(
+    BuildContext context,
+    MotivoSinEleccion m,
+  ) => switch (m) {
     MotivoSinEleccion.yaElegida =>
       'Ya elegiste una cotización para esta solicitud.',
-    MotivoSinEleccion.vencida =>
-      'Esta solicitud venció. Puedes pedir una nueva.',
-    MotivoSinEleccion.cancelada => 'Esta solicitud se canceló.',
+    MotivoSinEleccion.vencida => AppLocalizations.of(
+      context,
+    ).cotizacionMotivoVencida,
+    MotivoSinEleccion.cancelada => AppLocalizations.of(
+      context,
+    ).cotizacionMotivoCancelada,
     MotivoSinEleccion.sinCotizaciones =>
       'Todavía no hay cotizaciones. Te avisaremos cuando llegue la primera.',
   };
@@ -1078,8 +1407,15 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
   ) {
     final motivo = r.puedeElegir || r.motivo == null
         ? null
-        : _textoDeMotivo(r.motivo!);
+        : _textoDeMotivo(context, r.motivo!);
     if (r.cotizaciones.isEmpty) {
+      if (r.motivo == MotivoSinEleccion.vencida ||
+          r.motivo == MotivoSinEleccion.cancelada) {
+        return Pg(
+          title: 'Cotizaciones',
+          body: stack([head, NoteK('blue', 'help', motivo ?? '')]),
+        );
+      }
       return _esperando(
         context,
         head,
@@ -1266,9 +1602,16 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
         Row(
           spacing: 10,
           children: [
-            // La conversación real aún no existe: solo se pregunta a los
-            // expertos de ejemplo.
-            if (!q.real)
+            if (q.real)
+              BotonConversacion(
+                etiqueta: AppLocalizations.of(context).conversacionPreguntar,
+                solicitudId: j.id,
+                // El experto sintético de una cotización real es `api:<id>`.
+                tecnicoId: q.pid.substring('api:'.length),
+                sm: true,
+                auto: true,
+              )
+            else
               BtnK(
                 'Preguntar',
                 () {

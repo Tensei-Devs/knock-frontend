@@ -42,6 +42,9 @@ final class Solicitud {
     this.oficioClave,
     this.coloniaNombre,
     this.visitaId,
+    this.canceladaEn,
+    this.vencidaEn,
+    this.puedeVolverAPedir = false,
   });
 
   final String id;
@@ -62,9 +65,27 @@ final class Solicitud {
   final Franja franja;
   final DateTime creadoEn;
   final DateTime? venceEn;
+  final DateTime? canceladaEn;
+  final DateTime? vencidaEn;
+  final bool puedeVolverAPedir;
 
   /// Cotizaciones recibidas (backend 020, vista del dueño): «Ver y elegir (N)».
   final int totalCotizaciones;
+}
+
+/// Datos reutilizables, sin fecha ni dirección de la solicitud anterior.
+final class PrellenadoSolicitud {
+  const PrellenadoSolicitud({
+    required this.oficioId,
+    required this.descripcion,
+    required this.franja,
+    this.fotos,
+  });
+
+  final String oficioId;
+  final String descripcion;
+  final Franja franja;
+  final List<String>? fotos;
 }
 
 /// Lo que la persona manda al pedir una cotización (backend 020 R-01).

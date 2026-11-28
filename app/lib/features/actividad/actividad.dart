@@ -7,10 +7,16 @@ export 'package:app/features/actividad/presentation/aviso_controller.dart'
 export 'package:app/features/actividad/presentation/widgets/formulario_contacto.dart'
     show mostrarFormularioContacto;
 export 'package:app/features/actividad/actividad_providers.dart'
-    show solicitudesRealesRepositoryProvider;
+    show
+        ampliarSolicitudApiProvider,
+        coloniaGuardadaProvider,
+        solicitudesRealesRepositoryProvider,
+        subidaDeFotoDeTrabajoProvider;
 export 'package:app/features/actividad/domain/franja.dart' show Franja;
 export 'package:app/features/actividad/domain/solicitud.dart'
-    show EstadoSolicitud, Solicitud;
+    show EstadoSolicitud, NuevaSolicitud, Solicitud;
+export 'package:app/features/actividad/domain/regla_cancelacion.dart';
+export 'package:app/features/actividad/domain/vencimiento.dart';
 export 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart'
     show
         solicitudRealDetalleProvider,
@@ -31,6 +37,7 @@ export 'package:app/features/actividad/presentation/cotizaciones_controller.dart
         EleccionEnCurso,
         EleccionFallida,
         EleccionHecha,
+        EleccionVisitaExistente,
         EleccionInactiva,
         EstadoEleccion;
 export 'package:app/features/actividad/presentation/cotizaciones_reales_controller.dart'

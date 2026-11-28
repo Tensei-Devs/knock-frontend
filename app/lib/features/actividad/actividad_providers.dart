@@ -1,3 +1,4 @@
+import 'package:app/features/actividad/data/ampliar_solicitud_api.dart';
 import 'package:app/core/preferencias/almacen_borrador_solicitud.dart';
 import 'package:app/core/preferencias/almacen_preferencias.dart';
 import 'package:app/core/preferencias/directorio_fotos_borrador.dart';
@@ -8,13 +9,15 @@ import 'package:app/features/actividad/data/borrador_repository.dart';
 import 'package:app/features/actividad/data/fuente_de_fotos_sistema.dart';
 import 'package:app/features/actividad/data/solicitud_repository_api.dart';
 import 'package:app/features/actividad/data/solicitud_repository_de_prueba.dart';
-import 'package:app/features/actividad/data/visita_repository_api.dart';
+import 'package:app/features/actividad/data/subida_de_fotos_api.dart';
 import 'package:app/features/actividad/data/visita_local_repository.dart';
+import 'package:app/features/actividad/data/visita_repository_api.dart';
 import 'package:app/features/actividad/domain/aviso.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
 import 'package:app/features/actividad/domain/visita.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 /// Raíz de composición de la función Actividad (spec 015): es lo único que
 /// junta `data/` con el resto, para que `presentation/` no importe `data/`.
@@ -26,6 +29,15 @@ final solicitudRepositoryProvider = Provider<SolicitudRepository>(
   (ref) => ref.watch(_datosDePruebaProvider),
 );
 
+/// Transporte hacia el almacenamiento de las fotos (el enlace temporal). Es
+/// aparte del de la API: no lleva la sesión, y un 429 del almacenamiento no
+/// frena las llamadas a la API.
+final transporteDeSubidasProvider = Provider<http.Client>((ref) {
+  final cliente = http.Client();
+  ref.onDispose(cliente.close);
+  return cliente;
+});
+
 /// Solicitudes para la maqueta (spec 045, enmienda 1): la API real con
 /// `KNOCK_API_URL` válida y, sin ella, el mismo doble en memoria. Es aparte de
 /// [solicitudRepositoryProvider] para no cambiar las pantallas anteriores.
@@ -36,8 +48,24 @@ final solicitudesRealesRepositoryProvider = Provider<SolicitudRepository>((
   return SolicitudRepositoryApi(
     transporte: ref.watch(transporteApiProvider),
     url: ref.watch(urlApiProvider),
+    fotos: SubidaDeFotosApi(
+      transporte: ref.watch(transporteApiProvider),
+      url: ref.watch(urlApiProvider),
+      almacenamiento: ref.watch(transporteDeSubidasProvider),
+    ),
   );
 });
+
+/// Subida de una foto del trabajo terminado (spec 040, VIS-09): devuelve su
+/// `archivoId`. Va tras el interruptor de la subida de fotos.
+final subidaDeFotoDeTrabajoProvider = Provider<Future<String> Function(String)>(
+  (ref) => SubidaDeFotosApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+    almacenamiento: ref.watch(transporteDeSubidasProvider),
+    proposito: 'trabajo',
+  ).subir,
+);
 
 /// Una sola instancia en memoria para solicitudes y visitas, para que la
 /// visita salga de la cita que se eligió (backend 021 y 022).
@@ -154,3 +182,11 @@ final relojSolicitudProvider = Provider<DateTime Function()>(
 /// Si ya existe la pantalla de la visita (spec 016, KNOCK-83): «Ver mi
 /// visita» lleva a `/actividad/visita/:id`.
 final visitaDisponibleProvider = Provider<bool>((ref) => true);
+
+/// «Pedir también a otros» (spec 038).
+final ampliarSolicitudApiProvider = Provider<AmpliarSolicitudApi>(
+  (ref) => AmpliarSolicitudApi(
+    transporte: ref.watch(transporteApiProvider),
+    url: ref.watch(urlApiProvider),
+  ),
+);

@@ -1,5 +1,163 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
+- **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
+- **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.
+- **Corregido tras una revisión independiente del código:** se relee en cada unión al canal (también la primera); lo confirmado por otro envío no cuenta como llegada del que falló; antes de un envío nuevo se concilia lo que quedó sin respuesta; con la conversación tapada o la app en segundo plano no se marca leído; la detección de huecos ya no depende del orden de llegada; al cerrar sesión se borran también los textos propios.
+- **Cambio en una prueba previa:** la de la spec 045 exigía que las cotizaciones reales no ofrecieran «Preguntar»; la spec 047 lo agrega.
+- **Pendiente:** probar contra dev con dos cuentas (el envío depende de la moderación encendida) y la revisión de una persona. «Ver su perfil» no aparece al entrar desde la lista porque la conversación no trae el identificador del técnico; bloquear o reportar antes de elegir requiere cambios del backend.
+
+## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
+- **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
+- **Pruebas:** widgets verifican ambas pantallas, contador y etiqueta, y paginación; pruebas del controlador verifican limpieza y respuesta tardía. Pendientes CA-13, CA-14 completos, accesibilidad ampliada, dispositivo y backend desplegado.
+
+## 2026-11-26 — Paginación del dominio de conversaciones (KNOCK-73)
+- **Avance:** el repositorio envía `limit=20` y el cursor del contrato; el controlador concatena páginas sin repetir ids y descarta respuestas tardías al limpiar. Once pruebas focalizadas y `flutter analyze` pasan.
+- **Límite:** sigue sin conexión a pantallas, sesión ni hub; `sdd_lint --trace 020` reporta tres faltantes y las coincidencias por nombre no prueban CA-13 ni CA-14 completos.
+
+## 2026-11-26 — REST de conversaciones, avance parcial (KNOCK-73)
+- **Avance:** repositorio con lectura de la primera página, contador y marca de lectura según el contrato de #110; probado con API simulada.
+- **Límite:** no está conectado a pantalla ni sesión; falta implementar la consulta de páginas siguientes y el hub real. La marca no debe ejecutarse hasta que exista una pantalla aprobada que muestre realmente los mensajes. No se envían mensajes.
+
+## 2026-11-26 — Fundamentos de conversaciones (KNOCK-73, spec 020)
+- **Avance parcial:** se recuperaron en una rama limpia las entidades y el controlador en memoria existentes, sin integrar red ni pantalla. El controlador descarta respuestas posteriores a su limpieza y conserva los datos ante un fallo.
+- **Tiempo real bloqueado:** el `ChatHub` de `origin/develop` del backend consultado solo une salas de visita y no implementa `noLeidos` ni `UnirseAConversacion`. La spec 030 del backend está aprobada y el contrato de #110 incluye las rutas REST; la lectura de mensajes y su pantalla dependen de la enmienda sin firma del #131.
+- **SignalR:** la evaluación preliminar de `signalr_netcore` 1.4.4 indica licencia MIT y sin avisos OSV en la consulta del 2026-11-26; faltan revisión transitiva e interoperabilidad. No se agregó ninguna dependencia.
+- **Pendiente:** repositorio, interfaz, integración de sesión, protocolo real y pruebas completas de CA-13 y CA-14. No presentar el controlador aislado como integración terminada.
+## 2026-11-26 — Spec 042: asistente de IA apagado (KNOCK-266)
+- **Decisión:** interruptor de compilación `ASISTENTE_IA` (apagado por omisión). Encendido y con sesión y API, `/m/asistente` usa `POST /asistente/conversaciones`; las pantallas de resumen, borrador, rango y bitácora viven en `/m/tecnico/asistente/...`. Una respuesta con `origen` distinto de `proveedor` se rotula como plantilla. Apagado no se llama a la API y las pantallas de ejemplo dicen, con sesión, que no las generó una IA.
+- **Pendiente:** recurso de Azure OpenAI (T-00); enlazar las rutas del técnico cuando haya chat y trabajos con identificadores reales; foto en el turno del asistente; sin probar contra el backend desplegado.
+## 2026-11-26 — Mapa real y filtros de técnicos (KNOCK-55, spec 036)
+- **Cambio:** el mapa de Inicio pide `GET /mapa/tecnicos` con los límites y el zoom de la cámara y pinta los grupos; un grupo de varios acerca y uno solo abre su perfil. La lista suma orden y, con ubicación, distancia y radio.
+- **Pendiente:** filtro por colonia, copia sin conexión del mapa (CA-16), accesibilidad de los pines, dispositivo y backend desplegado.
+## 2026-11-26 — «Trabajo», cliente ausente y terminar servicio (KNOCK-118, KNOCK-266, spec 040)
+- **Cambio:** con sesión y API, «Trabajo» muestra la agenda real sin datos de ejemplo; la visita confirmada ofrece «El cliente no estaba» y la visita en curso «Terminar servicio». Las fotos se suben con propósito `trabajo` tras el interruptor `SUBIDA_DE_FOTOS` (apagado: no se puede terminar).
+- **Pendiente:** solicitudes nuevas, enviadas y terminadas (spec 019, PR #101 y #102); reprogramar y cancelar del lado del técnico; llegada (KNOCK-85); dispositivo y backend desplegado.
+
+## 2026-11-26 — Seguridad y accesibilidad de reputación (KNOCK-94)
+- **Verificado:** un 401 seguido de renovación rechazada borra la sesión mediante el transporte real con API simulada; otro caso comprueba que los datos anteriores dejan de mostrarse. El reintento cumple etiquetas y objetivo táctil Android y la vista soporta texto al 200 % en la prueba.
+- **Pendiente:** verificar la navegación hasta la entrada en el router completo y la accesibilidad en dispositivo; no se ha probado contra el backend desplegado.
+## 2026-11-26 — Lista real de técnicos en Inicio (KNOCK-55, spec 036)
+- **Cambio:** con sesión y API, Inicio consulta `GET /tecnicos` y muestra la lista paginada con filtros por oficio, disponibilidad y verificación, estados de carga, vacío y error con reintento; una tarjeta abre el perfil real mediante el puente existente de Explorar.
+- **Mapa:** se ocultan los pines de ejemplo en ese modo y se avisa que el mapa de expertos aún no está disponible. No se fabrican coordenadas; faltan límites reales de cámara y conectar `GET /mapa/tecnicos`.
+- **Reutilización:** se usaron el repositorio ya existente, `PaginasPorCursor`, `provDeTecnico` y la pantalla de perfil real; el controlador y el widget nuevos son necesarios para conectar la lista de Inicio.
+- **Pendiente:** filtros adicionales del contrato, prueba en dispositivo y backend desplegado, estados y accesibilidad completos, y mapa real.
+
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
+## 2026-11-26 — Estados de Mi reputación (KNOCK-94)
+- **Verificación adicional:** pruebas de widget comprueban carga, cero opiniones sin promedio inventado y copia fechada ante pérdida de conexión, además del error y reintento que ya se probaban.
+- **Pendiente:** 401 hasta la navegación de entrada, accesibilidad ampliada, ejecución en dispositivo y backend desplegado. El linter de trazabilidad no sustituye esas pruebas.
+
+## 2026-11-26 — Reputación propia (KNOCK-94, spec 036)
+- **Cambio:** la pantalla «Mi reputación» consulta `GET /tecnicos/me/reputacion` con el transporte autenticado y muestra el promedio, total, distribución y nivel del servidor. No usa el id de persona ni intenta consultar opiniones propias sin id de técnico. Sin sesión o API se conserva la pantalla de ejemplo existente.
+- **Copia:** la última respuesta se conserva solo en memoria para el aviso sin conexión y se descarta al cambiar o cerrar sesión. No se muestran opiniones inventadas junto con datos reales.
+- **Reutilización:** se usa `PantallaSegunSesion`, los textos de opiniones y el transporte de `core/red`; se agregó un repositorio específico porque el existente requiere un id de técnico.
+- **Pendiente:** verificar en dispositivo y contra el backend desplegado; las opiniones propias y respuestas necesitan el id de técnico.
+
+## 2026-11-26 — Suite de humo en teléfono con API falsa (KNOCK-293)
+- **Qué cambió:** `integration_test/` arranca con `soporte/arranque_e2e.dart` (API siempre falsa, entrada ficticia, sesión y preferencias limpias); suma recorridos de cotizaciones y visita con datos de ejemplo y, con sesión y API falsa, elegir cotización, Reintentar y cerrar sesión. Las pruebas de pestañas y configuración apagan la maqueta desde el código y la medición del mapa se omite fuera de *profile*. El comando está en `app/README.md`.
+- **Por qué:** `flutter test integration_test` fallaba: la maqueta viene encendida y dos pruebas esperaban la app normal sin `--dart-define`; la del mapa solo corre con `flutter drive --profile`.
+- **Pendiente:** no prueba SMS, backend desplegado, cámara, ubicación ni notificaciones.
+- **A evitar:** correr la suite en un teléfono con una sesión de Knock que se quiera conservar; en la prueba de cierre de sesión, leer el Keystore sin esperar el borrado nativo.
+
+## 2026-11-26 — Spec 018: estado de mi verificación (KNOCK-80)
+- **Decisión:** con sesión y API, «Verificación de identidad» muestra el estado de `GET /me/verificacion` (sin verificar, en revisión, verificado, no verificado con motivo y consejos, fotos borradas). La capa vive en `features/verificacion/` y no en `features/trabajo/`, que está en un PR abierto.
+- **Pendiente:** consentimiento, CURP, captura con revisión de calidad, subida y envío (`POST /me/verificacion`, `.../confirmar`, `.../enviar`); la subida depende del almacenamiento de Azure y del encabezado del enlace firmado (spec 018, §13). La pantalla dice que el envío todavía no está disponible.
+## 2026-11-26 — Filtros del repositorio de búsqueda (KNOCK-55)
+- **Avance:** se agregan los parámetros de lista y los límites del mapa exactamente como los declara el contrato; una prueba HTTP verifica sus nombres y valores.
+- **Pendiente:** no hay conexión con pantalla ni captura de límites reales del mapa; no se solicitaron posiciones inventadas y no está listo para PR.
+
+## 2026-11-26 — Lista y mapa de técnicos, avance parcial (KNOCK-55, spec 036)
+- **Avance:** repositorio inicial para `GET /tecnicos` y `GET /mapa/tecnicos`, con pruebas HTTP simuladas. Los grupos son celdas agregadas, nunca se interpretan como ubicación personal.
+- **Pendiente:** conectar a Inicio y al mapa, completar filtros, límites, paginación y estados; evaluar su compatibilidad con `BusquedaReal`. El repositorio aún no está cableado a producción y no se declara la integración terminada.
+## 2026-11-26 — Estados de agenda (KNOCK-118)
+- **Verificación adicional:** la interfaz prueba error con reintento, lista vacía y carga de una segunda página con cursor. Las acciones de finalizar y ausencia siguen sin pantalla real conectada.
+
+## 2026-11-26 — Acciones del técnico, avance de datos (KNOCK-266, spec 040)
+- **Avance:** el repositorio existente agrega cliente ausente y terminar con fotos como identificadores de archivo; dos pruebas HTTP simuladas verifican cuerpo y rutas. Confirma que la respuesta corresponde a la visita.
+- **Pendiente:** no se conectó a la interfaz ni al proveedor de producción; terminar necesita fotos privadas subidas y confirmadas, no las rutas locales del selector. No declarar estas acciones integradas.
+
+## 2026-11-26 — Agenda real en Inicio (KNOCK-118, spec 040)
+- **Avance:** con sesión y API, «Mi agenda» en Inicio consulta `GET /agenda`, muestra las visitas y pagina con cursor; los marcadores simulados se ocultan. El contrato no entrega coordenadas, por lo que se explica que no hay ubicaciones en el mapa en vez de inventarlas.
+- **Reutilización:** se usa el paginador común, el transporte autenticado y los componentes de la maqueta. La respuesta se conserva solo en memoria.
+- **Pendiente:** terminar visita y cliente ausente, pantalla Trabajo, pruebas completas de error y accesibilidad, y recorrido contra backend; no se conecta llegada (KNOCK-85).
+## 2026-11-26 — Escrituras de precio del técnico, avance parcial (KNOCK-266, spec 039)
+- **Avance:** `PrecioTecnicoRepositoryApi` envía cotización final y propuesta de ajuste mediante el transporte común; verifica los identificadores de la confirmación. Las pruebas HTTP simuladas cubren ambas peticiones y una respuesta ajena.
+- **Límite:** no está conectado a ninguna pantalla ni a proveedores de producción. La pantalla existente de cierre usa visitas y cotizaciones de ejemplo; no se deben enviar esos ids a la API. CA-01 y CA-07 siguen parciales.
+- **Pendiente:** obtener y conectar una visita y su cotización reales, formularios, estados y validaciones, y completar pruebas de aceptación. No publicar como integración terminada.
+
+## 2026-11-26 — Spec 029: cambio de número y recuperación de acceso (KNOCK-266)
+- **Decisión:** con sesión y API, «Cambiar mi número» comprueba el número (`POST /me/cambio-numero`), Firebase manda el SMS y se confirma (`/confirmar`). Con API, «¿Ya no tienes ese número?» manda `POST /recuperacion-acceso` sin sesión.
+- **Pendiente:** probar el SMS en un teléfono con Firebase y contra el backend desplegado.
+## 2026-11-26 — Spec 038: «Pedir también a otros» (KNOCK-266)
+- **Decisión:** una solicitud real sin cotizaciones ofrece «Pedir también a otros» (`POST /solicitudes/{id}/ampliar`) en su tarjeta de Actividad. Cuándo se puede ampliar lo decide el servidor (409 `request_not_extendable`).
+- **Pendiente:** referencia del mercado y «Cotizaciones enviadas» (pantallas del técnico que dependen de la pestaña Trabajo, spec 019). Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 035: detalle de un oficio y pedido de uno nuevo (KNOCK-266)
+- **Decisión:** con sesión y API, el paso 2 de «Pedir cotización» muestra las frases de `GET /oficios/{clave}` (con la última copia en memoria si no hay conexión) y el alta de técnico con «Otro oficio» manda además `POST /oficios-pedidos`. Ese pedido no bloquea el alta: si falla, se avisa y se puede reintentar.
+- **Pendiente:** sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 034: contador de avisos sin leer (KNOCK-266)
+- **Decisión:** con sesión y API, la campana de Inicio y la fila «Avisos» de Mi cuenta usan `GET /avisos/no-leidos/contador`. Mientras carga o si falla no se marca nada: es un adorno, no una pantalla. Marcar leídos vuelve a pedir el contador.
+- **Pendiente:** sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 037: servicios del técnico contra el backend 047 (KNOCK-266)
+- **Decisión:** `features/tecnico/` suma los repositorios y controladores de servicios. El perfil de un técnico real los muestra y «Tu perfil público» los agrega, edita y quita. Ante `not_a_technician` ofrece crear el perfil.
+- **Límite:** el contrato no deja leer el id de técnico propio; solo se conoce al crear el perfil. Sin él no se listan los servicios ya guardados.
+- **Registro:** al crear el perfil, la pantalla permite agregar servicios con el id devuelto. Los textos nuevos salen del ARB (es y en).
+- **Pendiente:** falta una operación para leer el id de técnico propio. Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 039, lado cliente: cotización final y ajustes de precio (KNOCK-266)
+- **Decisión:** con sesión y API, la visita y la cita muestran la cotización final y los ajustes pendientes (`PrecioDeVisitaReal`) con Aprobar y Rechazar. Las dos lecturas son las del backend 063; las decisiones, las de la spec 039.
+- **Pendiente:** el lado del técnico (enviar la cotización final y proponer el ajuste), y decidir desde Mensajes. Sin probar contra el backend desplegado.
+## 2026-11-26 — Spec 033: reportes conectados al backend 043 (KNOCK-266)
+- **Decisión:** `features/reportes/` tiene los repositorios de reportes y bloqueos. Con una visita real, «Reportar un problema» envía el reporte; «Centro de ayuda» muestra «Mis reportes» con apelación.
+- **Motivos:** ni la spec ni el contrato listan los valores; se tomaron de `ReportRules.Reasons` del backend. Falta que el equipo los confirme.
+- **Bloqueos:** se bloquea desde el detalle de una visita real o el menú del chat con esa visita; «Centro de ayuda» lista a las personas bloqueadas y permite desbloquear.
+- **Pendiente:** no se envían fotos de evidencia. Sin probar contra el backend desplegado.
+
+## 2026-11-26 — Spec 030: direcciones del cliente (KNOCK-266)
+- **Decisión:** con sesión y API, «Mis datos» lista, agrega, edita y elimina las direcciones (`/me/direcciones`) y el paso 3 de «Pedir cotización» elige una (la principal por omisión) o agrega otra; la solicitud se crea con la calle y la colonia de la elegida. Las listas solo muestran colonia y referencias (D-03). `me/direcciones` no se guarda en la caché de respuestas.
+- **Límite:** la colonia de una dirección se busca por nombre en el código postal de la persona; si es de otro código postal, el envío avisa que la opción no está disponible.
+- **Verificado en local (2026-11-26):** `dart format`, `flutter analyze`, `flutter test` (1165 pruebas), `sdd_lint --trace 030`, `codemap.py --check`, `check_exceptions.py` y `sync_agents.py --check` en verde; `jscpd` sin clones propios (en Windows el `ignore` no cubre `knock_api`, que es ruido preexistente). Falta el humo en teléfono con sesión.
+- **Pendiente:** el contrato no pide la colonia del catálogo al guardar (es texto). Sin probar contra el backend desplegado.
+
+## 2026-11-26 — Spec 036, parte 2: horarios del técnico contra el backend 046 (KNOCK-57)
+- **Decisión:** `features/tecnico/` suma `HorariosRepositoryApi` (`GET` y `PUT /tecnicos/me/horarios`, `PUT /tecnicos/me/disponibilidad`) y `HorariosController`. Con sesión y API, «Tu perfil público» muestra los siete días con `HorariosReales` y cada interruptor se guarda al tocarlo.
+- **Horas al abrir un día:** la app todavía no edita horas. Al abrir un día usa las que tenía en esa visita y, si no hay, las que muestra la maqueta (lunes a viernes 8 a 19, sábado 9 a 14). El domingo no tiene horas en la maqueta y no se puede abrir sin ellas: falta decidirlo.
+- **Pendiente:** el interruptor «Disponible hoy» no se conectó: su valor actual solo llega en `GET /tecnicos/me/trabajo` (spec 019, en otro PR). Textos de la maqueta, sin ARB (spec 045). Sin probar contra el backend desplegado.
+
+## 2026-11-26 — Specs 021 y 036: búsqueda por texto en la app (KNOCK-66)
+- **Decisión:** con sesión y API, «Buscar» usa `GET /busqueda` (pausa de 400 ms, filtros en el servidor, páginas por cursor y los estados de la spec 021) y muestra las sugerencias de `GET /tecnicos/autocompletar`. Lo escrito no se guarda en `maq`, en disco ni en la caché de respuestas.
+- **Pantallas conectadas:** en la maqueta (`BusquedaReal` en `pantallas_buscar.dart`) y en la app real (`InicioScreen` con barra de búsqueda → `/inicio/buscar` → `BusquedaScreen` + `TarjetaExperto`, filtros de verificados y oficios y paso a `Rutas.solicitudNueva?oficio=`).
+- **Dudas entre specs:** la 021 deja fuera las sugerencias al escribir y la 036 (TEC-03) las pide; se siguió la 036. La copia sin conexión de las sugerencias (CA-12 de la 036) no se hizo porque guardaría lo escrito (021, R-05).
+- **Pendiente:** E2E, mutación y humo contra el backend desplegado; filtros de la maqueta (distancia, estrellas) solo siguen en el flujo de ejemplo.
+
+## 2026-11-22 — Comparación con el cliente generado (KNOCK-81)
+- **Hecho:** la comparación usa `QuoteComparisonApi` del contrato existente, comprueba `solicitudId` y envía `Orden` como lo genera el cliente. El transporte exige sesión solo para la ruta de comparación.
+- **Verificación:** pruebas de repositorio, transporte y widgets con dobles; no se verificó gateway ni entorno desplegado. La elección y la creación quedan fuera de este cambio.
+- **Pendiente:** confirmar la compatibilidad del parámetro `Orden` con el gateway y comprobar el recorrido real cuando exista entorno.
+## 2026-11-25 — Spec 036, parte 1: Explorar conectado al backend 046 (KNOCK-90)
+- **Decisión:** `features/explorar/` tiene el dominio, `ExplorarRepositoryApi` con `enviarJson` y un simulado. La pestaña Explorar de la maqueta dibuja los bloques reales con `ExplorarReal`; los chips eligen el filtro (`mec`, `plo` y `ele` son `auto`, `agua` y `luz`).
+- **Sesión opcional:** `ClienteAutenticado` manda el token a `explorar` solo si hay sesión (`_admiteSesion`). Sin sesión sale sin token y solo llegan los bloques públicos. Con sesión llegan también «Trabajos reales» y «Cerca de ti».
+- **Sin conexión:** se guarda en memoria la última respuesta buena de cada filtro y se muestra con su fecha (CA-45); se borra al abrir o cerrar sesión.
+- **Pendiente:** la maqueta no tiene el id real de la colonia, así que «Cerca de ti» llega vacío; los textos son de la maqueta, sin ARB.
+## 2026-11-25 — Spec 031, Mi casa y mi auto conectada al backend 041 (KNOCK-117 y KNOCK-126)
+- **Decisión:** la capa de datos vive en `features/mi/` (dominio, `CasaYAutoRepositoryApi` con `enviarJson` y un simulado). La pantalla «Mi casa y mi auto» de la maqueta (`MiCasaScreen`) muestra los datos reales con `CasaYAutoReal`, igual que «Dónde está abierta tu cuenta» con las sesiones.
+- **Porqué:** la app arranca con la maqueta y el Tech Lead pidió no regenerar el cliente generado todavía (lo regenera él al final).
+- **Cambio en la maqueta:** se quitaron los bloques simulados «Mi casa» y «Mi auto» y sus hojas de alta; la tarjeta de recordatorio queda igual.
+- **A evitar:** liberar los `TextEditingController` de una hoja en `whenComplete`: la animación de cierre todavía los usa. El formulario es un `StatefulWidget` que los libera en `dispose()`.
+## 2026-11-24 — Cancelación en la maqueta activa (KNOCK-70)
+- El detalle real de la maqueta muestra el vencimiento y permite cancelar con motivo opcional; usa el repositorio real y refresca detalle, lista y comparación tras el éxito. Los estados cancelada y vencida aparecen en el detalle y la comparación.
+- «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
+- La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
+
+## 2026-11-24 — Dominio y repositorio de cancelación (KNOCK-70)
+- Dominio de cancelación (`ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion`) y `cancelar(id, motivo?)` en el repositorio; el cuarto motivo es `other` (spec 025, enmienda 2026-11-27).
+- Al integrarlo (2026-11-27) no se incluyó la actualización del contrato: la llamada está escrita a mano por ADR-007 (vence 2026-12-15).
+- La pantalla activa es la maqueta; el detalle `/actividad/solicitud/:id` usa un repositorio simulado.
+- Pendiente: «Volver a pedir» (T-06), «Ver visita» ante `request_with_appointment` (CA-05), bloquear «Sí, cancelar» durante la espera de un 429 (CA-08) y los recorridos con el backend.
+
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
 - Fallos anteriores resueltos al alinear con sprint-04: el generador de dos contratos rechazaba una ruta duplicada y la prueba del manifiesto esperaba un hash de Market ausente. El contrato único y su cliente pasan `--check` y las pruebas de la app.
@@ -640,3 +798,184 @@
 - **Verificación:** dos corridas seguidas en un LMU-LX9 (Android 12) con «All tests passed» (~9 s cada una, sin contar la compilación). Los textos del recorrido se comprobaron contra el código de la maqueta.
 - **A evitar:** correr varias instalaciones seguidas en el teléfono para depurar una prueba (cada `flutter test` reinstala la app); asumir que un texto de la maqueta existe sin buscarlo en `lib/`.
 - **No cubre:** el mapa, el detalle de cada historia ni una corrida en CI (no hay workflow `nightly`).
+
+## 2026-11-21 — Crear solicitud conectada al servidor (KNOCK-288)
+- **Qué cambió:** «Enviar solicitud» de la app llama a `POST /solicitudes` cuando hay sesión y `KNOCK_API_URL` (`crearSolicitudReal` en `solicitudes_reales.dart`, botón en `SolicitarScreen`). Tras crear se agrega la solicitud real y se vuelve a pedir la lista. Sin API sigue el flujo de datos de ejemplo.
+- **Por qué:** la pantalla solo agregaba una solicitud local y nunca llamaba al repositorio real que ya existía.
+- **Decisiones (con porqué):** (1) Sin `Idempotency-Key`: el contrato (`contracts/openapi.v1.json`) no la define; el botón se deshabilita mientras envía y un error nunca se reintenta solo. (2) La app solo guarda el nombre y el código postal de la colonia, así que el `coloniaId` se busca en `GET /zonas/cp/{cp}` por nombre. (3) Las fotos no se suben (no hay endpoints de archivos desplegados): `fotos` va vacío.
+- **A evitar:** el contrato pide de 1 a 5 `fotos` en `POST /solicitudes`; mientras no haya subida de archivos, el servidor puede rechazar la solicitud y la persona verá el mensaje de error. No darlo por funcionando de punta a punta hasta probarlo contra el servidor. Tras un corte de red a media petición, reintentar a mano puede duplicar la solicitud (no hay clave de idempotencia).
+## 2026-11-21 — Conectar la app a la API real: base común (KNOCK-288)
+- **Qué cambió:** ayudantes para leer el JSON del contrato (`core/red/contrato_json.dart`) y el contrato de la API en `contracts/openapi.v1.json` con el cliente generado (71 operaciones, KNOCK-277). Es la base de las ramas de repositorios de KNOCK-288 (la app usa datos de ejemplo donde todavía no hay endpoint conectado) (direcciones, casa y auto, técnicos de confianza, mis datos, zona, búsqueda y trabajo), que van en PR aparte y dependen de esta.
+- **Por qué:** cada repositorio lee las respuestas con los mismos ayudantes, sin copiarlos (jscpd).
+- **A evitar:** no editar el cliente generado a mano; no abrir los PR de repositorios antes de que esta base esté en `sprint-05`.
+
+## 2026-11-25 — La solicitud se crea con sus fotos, detrás de un interruptor (KNOCK-288)
+- **Qué cambió:** «Enviar solicitud» sube de 1 a 5 fotos por el flujo privado del backend (`POST /imagenes/subidas` con `proposito = solicitud`, `PUT` al enlace temporal y `POST …/confirmar`) y crea la solicitud con sus `archivoId`. Antes de salir del teléfono cada foto pasa por `prepararFoto` (reducción y sin metadatos, incluida la ubicación). El `PUT` va por un transporte aparte, sin la sesión, y solo a un enlace `https`. Todo queda detrás del interruptor de compilación `SUBIDA_DE_FOTOS`, **apagado por omisión**: apagado, el botón no llama a la API y sigue el flujo de datos de ejemplo. Se corrigió que la quinta foto no se pudiera agregar (el selector múltiple exige un límite de 2 o más).
+- **Por qué:** el backend exige de 1 a 5 fotos para crear la solicitud; confirmar una foto depende del almacenamiento y la moderación reales de Azure, que no se han probado desde la app.
+- **Pendiente:** probar en teléfono contra dev con `--dart-define=SUBIDA_DE_FOTOS=true`; la spec 015 (T-04) describe la ruta anterior de archivos y no la de la spec 062 del backend.
+- **A evitar:** subir el archivo que entrega el selector sin prepararlo; mandar el token al enlace temporal; registrar el enlace; encender el interruptor en la publicación sin haber probado la confirmación en dev.
+## 2026-11-25 — Las rutas protegidas envían el token de la sesión (KNOCK-288)
+- **Qué cambió:** el cliente envía el `Authorization: Bearer` en las rutas de la API salvo las públicas: `auth/firebase`, `auth/refresh`, `oficios`, `recuperacion-acceso`, `tecnicos/autocompletar` y `tecnicos/{id}` (un solo segmento de 24 hexadecimales). La lista sale de los `[AllowAnonymous]` del backend y de las rutas `anonymous` del gateway. `/busqueda` tampoco se guarda en la caché de respuestas.
+- **Por qué:** el gateway y el backend piden sesión en el resto de las rutas; con la regla por omisión, una ruta nueva del contrato queda protegida sin tocar el cliente.
+- **Pruebas:** `rutas_protegidas_test.dart` (lista pública y protegida) y `sesion_en_flujos_reales_test.dart` (las llamadas de los repositorios reales de solicitudes, visitas y zonas, contra una API falsa que exige la sesión).
+- **A evitar:** volver a una lista de rutas protegidas; agregar una ruta pública sin comprobar su `[AllowAnonymous]` y su política en el gateway; hacer que `tecnicos/{id}` coincida por prefijo.
+
+## 2026-11-25 — Cliente HTTP falso compartido por las pruebas de repositorios (KNOCK-90)
+- **Qué cambió:** `test/soporte/cliente_que_responde.dart` reemplaza el bloque que repetían las pruebas de los repositorios de Explorar y de «Mi casa y mi auto».
+- **Por qué:** al juntarse las dos ramas en `sprint-05`, `jscpd` marcó el bloque como duplicado.
+- **A evitar:** copiar el cliente falso en otra prueba de repositorio; bajar el umbral o excluir las pruebas de `jscpd`.
+
+## 2026-11-25 — Recuperar la cita cuando la cotización ya estaba elegida (KNOCK-245)
+- **Qué cambió:** ante un 409 `request_already_chosen`, el controlador pide la comparación de esa solicitud, toma su `visitaId`, lee la visita y la muestra como «cita existente», sin atribuirla a la cotización que se reintentó; si algo no coincide deja el estado de error. También recarga la lista, el detalle y la comparación. Es la segunda de las dos partes en que se dividió el PR #99.
+- **Por qué:** la persona ya tiene una cita y debe verla; el contrato no dice con qué cotización se creó.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** inventar el `cotizacionId` de la visita recuperada; reintentar la elección de forma automática.
+
+## 2026-11-25 — Montaje común en las pruebas de la cita recuperada (KNOCK-245)
+- **Qué cambió:** las pruebas del controlador que simulan `request_already_chosen` comparten una función de montaje y otra para la comparación con visita.
+- **Por qué:** `jscpd` marcaba el montaje repetido.
+- **A evitar:** copiar el montaje en un caso nuevo; excluir las pruebas del control de duplicados.
+## 2026-11-25 — Elegir cotización con el cliente generado (KNOCK-245)
+- **Qué cambió:** la elección usa `ChooseQuoteApi` del cliente generado y rechaza una confirmación que sea de otra solicitud o de otra cotización. Es la primera de las dos partes en que se dividió el PR #99.
+- **Por qué:** una ruta escrita a mano no falla al compilar cuando cambia el contrato, y una confirmación ajena no se debe mostrar como la cita de la persona.
+- **Pendiente:** recuperar la cita tras un 409 `request_already_chosen` (segunda parte); sin probar contra el backend desplegado.
+- **A evitar:** armar la ruta de elegir a mano; aceptar una confirmación sin comparar sus identificadores.
+
+## 2026-11-25 — Estado de las tareas tras el lote de conexión (KNOCK-288)
+- **Qué cambió:** `task.md` de las specs 015, 031 y 036 reflejan solo lo fusionado en `sprint-05` con CI en verde (#97, #98, #103, #104, #106 y #107). «Hecha contra el contrato» significa implementada según el OpenAPI y las specs, con pruebas; no que se haya probado contra el backend desplegado.
+- **Por qué:** las filas decían «en revisión» o «bloqueada» para cosas ya fusionadas.
+- **Pendiente:** textos en ARB de las pantallas de la maqueta (specs 031 y 036), subida de fotos con Azure y el cliente regenerado.
+- **A evitar:** marcar como hecha una tarea con criterios sin cumplir (por ejemplo, ARB) o cuyo flujo está apagado.
+
+## 2026-11-26 — Avisos y preferencias contra la API (KNOCK-105)
+- **Qué cambió:** con sesión y API, «Avisos» lista por páginas y marca leídos (uno y todos) y «Qué avisos recibir» muestra los interruptores que manda el servidor, incluido cuáles se pueden apagar; un interruptor solo cambia cuando el servidor lo confirma. Feature `bandeja_avisos`.
+- **Por qué:** las dos pantallas usaban listas de ejemplo en memoria.
+- **Pendiente:** abrir el destino de un aviso (el contrato no publica la forma de `destino`), el contador de la campana (CA-15), textos en ARB (CA-18) y los avisos `sistema` y sin rol (backend sin fusionar). Sin probar contra el backend desplegado.
+- **A evitar:** adivinar la forma de `destino`; fijar en la app qué avisos se pueden apagar; descartar un tipo que la app no conoce.
+## 2026-11-26 — Técnicos de confianza contra la API (KNOCK-91)
+- **Qué cambió:** con sesión y API, «Mis técnicos de confianza» lista por páginas y quita (`GET` y `DELETE /me/tecnicos-confianza`), el botón «Guardar» del perfil de un técnico real usa `PUT` y `DELETE`, y el contador de Mi cuenta sale de esa lista. El repositorio viene de la rama local de KNOCK-288.
+- **Por qué:** las tres pantallas usaban una lista de ejemplo en memoria.
+- **Pendiente:** textos en ARB (CA-13) y «Volver a contratar» desde la lista real (el contrato no trae el oficio). El atajo desde «Calificar» llega con las opiniones. Sin probar contra el backend desplegado.
+- **A evitar:** guardar en el servidor un id de ejemplo o el de una visita (`api:visita:…`).
+## 2026-11-26 — Alta de técnico contra la API y rol de técnico desde el perfil (KNOCK-57)
+- **Qué cambió:** con sesión y API, «Registrarse como técnico» crea el perfil con `POST /tecnicos` (`features/tecnico`): sin segundo código SMS, sin pedir el celular ni la lista de servicios (la ruta no los recibe), con al menos un oficio del catálogo, el radio solo a domicilio y la dirección solo con taller. Al cargar `GET /me`, `esTecnico` decide el indicador de técnico.
+- **Por qué:** el registro solo vivía en memoria y pedía un código simulado; y como la app no usaba `esTecnico`, la pestaña Trabajo se perdía al volver a abrirla.
+- **Pendiente:** textos en ARB (CA-58) y los estados de la pantalla (CA-46); sin probar contra el backend desplegado. La pestaña Trabajo y sus pantallas siguen con datos de ejemplo.
+- **A evitar:** permitir el alta solo con «otro oficio» (el servidor exige uno del catálogo); decidir el rol de técnico con datos locales cuando hay API.
+
+## 2026-11-26 — KNOCK-288: enmiendas de las specs de la app alineadas con el backend
+- app 029: GET /me/exportaciones/ultima y aviso sin enlace
+- app 034: tipo «sistema» y avisos sin rol
+- app 037: 404 not_a_technician
+- app 040: 404 para ajenos y 400 con datos mal formados
+- El panel web queda fuera de alcance por decisión de José; sus specs no se tocan.
+
+## 2026-11-26 — Una sola versión de «Ver más» y del cambio entre datos reales y de ejemplo (KNOCK-105)
+- **Qué cambió:** `core/red/paginas_por_cursor.dart` y `PantallaSegunSesion` reemplazan el código repetido entre avisos y técnicos de confianza.
+- **Por qué:** al juntarse las dos ramas, el mapa de código marcó el duplicado.
+- **A evitar:** pasar la comprobación del mapa por `| tail` (oculta el código de salida).
+
+## 2026-11-26 — Opiniones y reputación contra la API (KNOCK-266, spec 041)
+- **Qué cambió:** `features/opiniones/` conecta `GET /tecnicos/{id}/opiniones`, `POST /visitas/{id}/opinion` y `POST /opiniones/{id}/respuesta`. En la maqueta, el perfil y «Opiniones» de un técnico real muestran lo del servidor (con la última copia en memoria sin conexión) y una solicitud terminada se califica desde Actividad. El perfil de un técnico real ya no usa datos de ejemplo (fallaba por no tener servicios).
+- **Por qué:** las pantallas usaban opiniones inventadas.
+- **Pendiente:** «Mi reputación (Responder)» sigue de ejemplo: ninguna lectura del contrato le da a la app el id de técnico de la cuenta para pedir sus opiniones (el repositorio de la respuesta ya está). Las fotos de opiniones esperan la entrega de imágenes (spec 032). Sin probar contra el backend desplegado.
+- **A evitar:** usar `PUT /tecnicos/me` solo para averiguar el id propio.
+## 2026-11-26 — Consentimientos y descarga de datos contra la API (KNOCK-127)
+- **Qué cambió:** con sesión y API, «Privacidad y datos» lee y cambia `me/consentimientos` y, con `--dart-define=EXPORTACION_DE_DATOS=true`, pide y consulta la descarga (`me/exportaciones` y `me/exportaciones/ultima`), con textos en ARB.
+- **Por qué:** los interruptores y «Pedir» solo vivían en memoria.
+- **Pendiente:** la descarga va apagada porque su almacenamiento en Azure no existe; abrir el aviso `exportacion_lista` aún no lleva a esta pantalla; «Corregir mis datos» sigue de ejemplo. Sin probar contra el backend desplegado.
+- **A evitar:** guardar o registrar el enlace de descarga.
+
+## 2026-11-26 — Eliminar la cuenta desde la app (KNOCK-104)
+- **Qué cambió:** pendientes, solicitud y cancelación de la eliminación contra la API (spec 029).
+- **Por qué:** conectar la pantalla de cuenta al contrato.
+- **A evitar:** probarlo contra una cuenta real sin avisar; no se probó con el backend desplegado.
+
+## 2026-11-26 — Acciones del cliente en la visita (KNOCK-266)
+- **Qué cambió:** cancelar, proponer otra fecha y reportar «no se terminó» contra la API (spec 040, VIS-04, VIS-06 y VIS-10).
+- **Pendiente:** responder una propuesta (el contrato no entrega la fecha propuesta ni quién la hizo), permiso de fotos (falta el texto de consentimiento que cita D-03), agenda y acciones del técnico. Sin probar contra el backend desplegado.
+- **A evitar:** aceptar una propuesta sin ver la fecha.
+
+## 2026-11-26 — Perfil público del técnico contra la API (KNOCK-90)
+- **Qué cambió:** el perfil de un técnico real muestra el resumen del servidor y, con sesión, el detalle, sus servicios, si llega a la colonia y las fotos de trabajos (specs 036 y 037). `tecnicos/{id}` lleva el token solo si hay sesión.
+- **Pendiente:** sin probar contra el backend desplegado.
+- **A evitar:** abrir el perfil desde la búsqueda, que según la spec 021 lleva a pedir cotización.
+
+## 2026-11-26 — CI: E2E en emulador, ofuscación al publicar y DAST (KNOCK-221, KNOCK-293)
+- **Qué cambió:** job `e2e-android` (`integration_test` en emulador API 34); la publicación ofusca el Dart y guarda los símbolos cifrados con el certificado de la llave de subida; job `dast` (ZAP baseline) contra la landing y el panel en el runner. Los dos jobs nuevos entran en `gate`. Cambio en `.github/` autorizado. Dependencias de CI nuevas: `reactivecircus/android-emulator-runner` v2.38.0 (fijada por SHA) e imagen `ghcr.io/zaproxy/zaproxy` 2.17.0 (fijada por digest).
+- **Por qué:** esos controles no existían en el CI.
+- **SonarCloud:** hoy corre como análisis automático (check en los PR); el proyecto no tiene archivos Dart analizados ni cobertura. El análisis por CI de KNOCK-297 exige antes desactivar el análisis automático en SonarCloud; no se cambió nada.
+- **A evitar:** subir los símbolos sin cifrar (los artefactos de un repositorio público los descarga cualquier cuenta); dar por probado el emulador o la publicación sin una corrida real.
+## 2026-11-26 — Evaluación de la parte móvil actualizada (KNOCK-181)
+- **Qué cambió:** `docs/EVALUACION.md` responde la parte móvil y la suite en dispositivo físico en tablas con evidencia y estado, sobre `sprint-05` en `73a0f7a`: 78 operaciones de la API con llamada en el código.
+- **Por qué:** la versión del 17-nov ya no correspondía al código (modo maqueta, endpoints, agentes, skills, CodeQL, eliminar cuenta y cifras de pruebas).
+- **Pendiente:** corrida en teléfono físico y pruebas contra el backend real; `docs/QA_DEVSECOPS.md` no se revisó en este cambio.
+- **A evitar:** contar como consumida una operación sin decir si está tras un interruptor apagado o sin pantalla que la llame.
+
+## 2026-11-26 — Propuesta de excepción temporal al cliente generado (KNOCK-266)
+- **Qué cambió:** se agrega ADR-007, sin firma.
+- **Por qué:** hay repositorios escritos a mano, contra la constitución y la spec 006.
+- **A evitar:** darla por aprobada sin las dos firmas.
+
+## 2026-11-26 — El técnico ve una solicitud y envía su cotización (KNOCK-74, spec 046)
+- **Qué cambió:** con sesión y API, «Trabajo» muestra solicitudes nuevas y cotizaciones enviadas; «Cotizar» lee el detalle y envía la cotización, sin campo de nota (046 §13).
+- **Pendiente:** descartar y el resumen de «Trabajo» (#101, #102), teléfono y backend desplegado.
+## 2026-11-26 — «El técnico no se presentó» (KNOCK-266, spec 040)
+- **Qué cambió:** el cliente puede registrarlo en una visita confirmada (`POST /visitas/{id}/tecnico-ausente`); la ventana la decide el servidor y un 409 o 404 vuelve a leer la visita.
+- **Pendiente:** teléfono y backend desplegado.
+## 2026-11-26 — Apelación de una cuenta suspendida (KNOCK-266, spec 033)
+- **Qué cambió:** tras `account_suspended` al entrar se puede apelar en `/entrar/apelacion`: SMS nuevo, `idToken` de Firebase solo en memoria y sin sesión de Knock (`GET` y `POST /suspension/apelacion`).
+- **Pendiente:** SMS real, teléfono y backend desplegado.
+- **A evitar:** poner red en `features/entrada/`; su prueba de arquitectura lo prohíbe.
+## 2026-11-26 — Lecturas de la cotización final y los ajustes (KNOCK-266, spec 039)
+- **Qué cambió:** al revisar la enmienda, un 404 de la cotización final y una lista vacía de ajustes ahora se dicen en pantalla en vez de ocultar la sección.
+- **Pendiente:** teléfono y backend desplegado.
+## 2026-11-26 — Globo en todas las pestañas y contador en vivo (KNOCK-73, spec 020)
+- **Qué cambió:** con sesión y API el globo está en las cinco pestañas y se oculta con el teclado o fuera de ellas; el contador llega por `/hubs/chat` (evento `noLeidos`); canal caído = «Sin conexión», contador congelado, reintentos a 2, 10 y 30 s y «Reintentar». La lista vuelve a pedirse cuando cambia el contador.
+- **Corrige la nota anterior:** `origin/develop` del backend (89d9be32) sí tiene `UnirseAConversacion`, el grupo de la persona y `noLeidos`. La consulta previa era de una versión vieja.
+- **Dependencia (D-04):** `signalr_netcore` 1.4.4. MIT; arrastra `sse_channel`, `sse`, `tuple` y `message_pack_dart` (MIT o BSD); OSV sin avisos hoy. Contras: editor sin verificar y última versión de septiembre de 2025. Se descartó `signalr_core` (2024, `web_socket_channel` 2) y escribir el protocolo a mano.
+- **A evitar:** pasarle un `logger` al canal: la URL del WebSocket lleva el token en `access_token`.
+- **Pendiente:** abrir y leer conversaciones (`UnirseAConversacion`, `mensajeConversacion`, marca de lectura) espera la enmienda del #131; CA-13 «conversación abierta no sube» depende de eso. Sin probar contra el backend desplegado ni en teléfono.
+
+## 2026-11-27 — Llegada del técnico con código contra la API (KNOCK-85)
+- **Qué cambió:** «Confirmar llegada» en la agenda del técnico abre la pantalla real: lee `GET /visitas/{id}` (vista del técnico) y envía `POST /visitas/{id}/llegada` sin clave de idempotencia; con `code_used` consulta la visita y, si ya está en curso, es éxito (spec 016, CA-10 a CA-13, CA-15, CA-17 y CA-20). HTTP a mano por ADR-007.
+- **Desviación:** la pantalla vive en la maqueta (`/m/tecnico/iniciar/:vid`), como las demás pantallas reales, y no en `/trabajo/visita/:id`; con `MODO_MAQUETA=false` no hay ruta.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; sin prueba de texto al 200 % (CA-14).
+- **A evitar:** reintentar la llegada sola: un reintento con código incorrecto vuelve a contar como intento.
+## 2026-11-27 — Cotización final y ajuste de precio del técnico (KNOCK-266, spec 039)
+- **Qué cambió:** en «Terminar servicio» de una visita en curso, el técnico envía la cotización final y propone otro precio (`POST /visitas/{id}/cotizacion-final` y `POST /cotizaciones/{id}/ajuste-precio`). La cotización aceptada y su tope salen de `GET /tecnicos/me/trabajo`. Parte del repositorio de Alexis. HTTP a mano por ADR-007.
+- **Pendiente:** cuenta regresiva de la vigencia (D-03), error 422 por campo (hoy hay límites en el teléfono y un mensaje general), referencia de mercado (spec 038, espera la pantalla de cotizar). Sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** ofrecer la cotización final como si aplicara a toda visita: el backend solo la acepta en visitas de diagnóstico en curso.
+## 2026-11-27 — Permiso de fotos del trabajo (KNOCK-266, spec 040)
+- **Qué cambió:** en una visita terminada, el cliente abre «Fotos del trabajo» y enciende o apaga el permiso (`PUT /visitas/{id}/permiso-fotos`). El valor actual sale de `GET /visitas/{id}` (`permisoFotos`). Textos de la enmienda del 2026-11-27, firmada en el PR #148 (todavía sin fusionar). HTTP a mano por ADR-007.
+- **Pendiente:** sin probar contra el backend desplegado ni en teléfono; el backend aún no tiene quién publique o retire las fotos.
+- **A evitar:** prometer plazos o retiro de fotos ya publicadas.
+## 2026-11-27 — Interruptor «Disponible hoy» en Trabajo (KNOCK-266, specs 019 y 036)
+- **Qué cambió:** la cabecera de Trabajo tiene el interruptor. El valor inicial sale de `GET /tecnicos/me/trabajo` y el cambio usa `PUT /tecnicos/me/disponibilidad` (repositorio que ya existía sin pantalla). Enmienda del 2026-11-27 firmada en el PR #148, todavía sin fusionar.
+- **Pendiente:** resumen, solicitudes nuevas y descartar de Trabajo; sin probar contra el backend desplegado ni en teléfono.
+- **A evitar:** calcular en el teléfono cuándo se apaga: lo decide el servidor.
+
+## 2026-11-27 — KNOCK-266: licencias de los paquetes del chat en EXC-002
+- Se agregan 9 paquetes de pub a la lista de exención de `dependency-review` (MIT y BSD, revisadas en su LICENSE), autorizado por José. El control sigue activo para el resto.
+- A evitar: fusionar dependencias nuevas hacia `sprint-05` sin revisar su licencia; el fallo aparece recién al promover a `develop`.
+## 2026-11-27 — Enviar mensajes en una conversación (KNOCK-72, spec 020 enmienda 2026-11-26)
+- **Qué cambió:** `ConversacionesRepositoryApi.enviar` (`POST /api/v1/conversaciones/{id}/mensajes`, puerto `EnvioDeMensajes`, `envioDeMensajesProvider`); regla del texto en dominio (`TextoDeMensaje`: 1 a 1000 unidades UTF-16, 4096 bytes, sin control salvo `\n`) que se revisa antes de salir a la red; `EnvioMensajesController` optimista (pendiente, fallido, enviado; un envío a la vez; reintento solo manual; 409 cierra) y `CampoEnvioMensaje` con textos en ARB.
+- **Por qué:** el envío no es idempotente (CA-E02); el hub solo recibe.
+- **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
+- **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
+- **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.
+## 2026-11-27 — Integración de lo pendiente de la app (KNOCK-266)
+- **Qué entra:** envío de mensajes (KNOCK-72), cancelación y estados cancelada y vencida (KNOCK-70) y las rutas de Trabajo y de solicitudes fuera de la caché de respuestas (KNOCK-67).
+- **Qué no entra:** la actualización del contrato y del cliente generado (el control de cambios incompatibles la detiene) y el dominio de Trabajo que dependía de ella: no tiene pantalla que lo use y `sprint-05` ya lee la bandeja y la disponibilidad.
+- La pantalla del chat (spec 047) quedó aprobada el 2026-11-27 y sigue sin implementar; el campo de envío no está montado.
+
+## 2026-11-27 — KNOCK-67 · Descartar desde la bandeja de Trabajo
+- La bandeja real reutiliza el repositorio de cotizaciones y la regla de transporte del PR #102. Pide confirmación antes de enviar; 204, 404 y `request_not_dismissable` retiran la tarjeta. La bandeja se lee sin caché. Otros errores conservan la tarjeta. La acción se oculta si el técnico ya cotizó.
+- El POST usa el contrato publicado por backend 028 bajo ADR-007. Quedan pendientes la migración al cliente generado, las secciones restantes del resumen (spec 019) y el recorrido E2E con un técnico de semilla.
+
+## 2026-11-27 — KNOCK-297 · SonarQube Cloud desde GitHub Actions, fuera del gate
+- **Qué cambió:** `sonarcloud.yml` (workflow aparte e informativo, por `workflow_run` de `ci-pr` solo en push a `main`) y `sonar-project.properties` (app, panel y landing). Reutiliza `app-coverage` y `panel-reports`; en `ci-pr` solo se suma el reportero `lcovonly` a las pruebas del panel (el umbral no cambia). Con autorización de José para tocar `.github/`.
+- **Por qué:** el «Automatic Analysis» quedó apagado: según la documentación de Sonar no analiza Dart ni importa cobertura.
+- **Acción nueva en CI:** `SonarSource/sonarqube-scan-action` v8.5.1, fijada a SHA. Sin dependencias nuevas en la app ni en el panel.
+- **Pendiente:** no habrá análisis hasta que el workflow y el cambio de `ci-pr` lleguen a `main` con la promoción; sin ejecutar todavía contra SonarQube Cloud; falta ver `panel/coverage/panel/lcov.info` en una corrida real. Los scripts de `scripts/` y `app/tool/`, y el código nativo de `app/android/`, quedan fuera del alcance.
+- **A evitar:** volver a encender el «Automatic Analysis» (choca con el análisis por CI) o agregar el análisis a `gate` o a un disparo por PR.

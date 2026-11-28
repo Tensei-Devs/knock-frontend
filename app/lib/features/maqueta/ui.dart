@@ -174,6 +174,15 @@ Widget mutT(String s, {TextAlign? a}) => Builder(
 );
 Widget labT(String s) => T(s, size: 15, w: FontWeight.w900);
 
+/// Una fecha `AAAA-MM-DD` del contrato, escrita en el idioma activo. Si no se
+/// puede leer, queda como llegó.
+String fechaLegible(BuildContext context, String dia) {
+  final fecha = DateTime.tryParse(dia);
+  return fecha == null
+      ? dia
+      : MaterialLocalizations.of(context).formatMediumDate(fecha);
+}
+
 // ---------------------------------------------------------------- gaps
 
 const g4 = SizedBox(height: 4, width: 4);
@@ -502,13 +511,15 @@ class Pill extends StatelessWidget {
         spacing: 5,
         children: [
           if (icon != null) Icon(icn(icon!), size: 15, color: fg ?? f),
-          Text(
-            tr(s),
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: size,
-              fontWeight: FontWeight.w900,
-              color: fg ?? f,
+          Flexible(
+            child: Text(
+              tr(s),
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: size,
+                fontWeight: FontWeight.w900,
+                color: fg ?? f,
+              ),
             ),
           ),
         ],
@@ -1303,7 +1314,8 @@ class FieldK extends StatelessWidget {
           Row(
             spacing: 6,
             children: [
-              T(label, size: 15, w: FontWeight.w900),
+              // Una etiqueta larga baja de renglón en vez de desbordar.
+              Flexible(child: T(label, size: 15, w: FontWeight.w900)),
               if (opt)
                 T('(opcional)', size: 15, w: FontWeight.w700, color: k.mut),
             ],
