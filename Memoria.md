@@ -1,5 +1,9 @@
 # Memoria — knock-frontend
 
+## KNOCK-70 — Espera al cancelar
+- La hoja de cancelación deshabilita la confirmación durante el `Retry-After`. La espera desbloquea el botón, sin reenviar la petición. El transporte existente controla el intervalo si la persona vuelve a abrir la hoja.
+- Se añadió un caso de widget para la espera y el reintento manual. Queda ejecutarlo con Flutter y completar la navegación «Ver visita» de CA-05.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.

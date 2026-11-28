@@ -747,6 +747,7 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     MotivoCancelacion? motivo;
     var enviando = false;
     String? error;
+    Timer? esperaDeCancelacion;
     await showModalBottomSheet<void>(
       context: context,
       isDismissible: false,
@@ -803,7 +804,8 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                     child: Text(textos.solicitudCancelarMantener),
                   ),
                   FilledButton(
-                    onPressed: enviando
+                    onPressed:
+                        enviando || (esperaDeCancelacion?.isActive ?? false)
                         ? null
                         : () async {
                             actualizar(() {
@@ -832,6 +834,15 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                                 ref.invalidate(
                                   solicitudRealDetalleProvider(id),
                                 );
+                              }
+                              if (resultado case CancelacionLimite(
+                                :final espera,
+                              )) {
+                                esperaDeCancelacion = Timer(espera, () {
+                                  if (ctx.mounted) {
+                                    actualizar(() => error = null);
+                                  }
+                                });
                               }
                               actualizar(() {
                                 enviando = false;
@@ -877,7 +888,7 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
           ),
         ),
       ),
-    );
+    ).whenComplete(() => esperaDeCancelacion?.cancel());
   }
 
   void _accept(Job j, String pid) {

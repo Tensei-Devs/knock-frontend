@@ -438,6 +438,34 @@ void main() {
       expect(repo.cancelada, isFalse);
       expect(repo.cancelaciones, hasLength(1));
     });
+    testWidgets('CA_025_08 respeta Retry-After y espera un toque', (
+      tester,
+    ) async {
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ])..respuestaCancelacion = Completer<ResultadoCancelacion>();
+      await _abrir(tester, repo, ruta: '/m/comparar/$_idUno');
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      final confirmar = find.widgetWithText(FilledButton, 'Sí, cancelar');
+      await tester.tap(confirmar);
+      repo.respuestaCancelacion!.complete(
+        const CancelacionLimite(Duration(seconds: 30)),
+      );
+      await tester.pump();
+      expect(tester.widget<FilledButton>(confirmar).onPressed, isNull);
+      expect(repo.cancelaciones, hasLength(1));
+      expect(repo.cancelada, isFalse);
+
+      await tester.pump(const Duration(seconds: 30));
+      expect(tester.widget<FilledButton>(confirmar).onPressed, isNotNull);
+      expect(repo.cancelaciones, hasLength(1));
+      repo.respuestaCancelacion = null;
+      await tester.tap(confirmar);
+      await tester.pumpAndSettle();
+      expect(repo.cancelaciones, hasLength(2));
+      expect(repo.cancelada, isTrue);
+    });
     testWidgets('CA_045_10 abrir una solicitud real pide su detalle', (
       tester,
     ) async {
