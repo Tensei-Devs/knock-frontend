@@ -30,6 +30,7 @@ import 'package:app/features/maqueta/verificacion_real.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:app/features/oficios/presentation/oficios_controller.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
+import 'package:app/features/maqueta/conversacion_real.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -52,6 +53,10 @@ abstract final class PantallasMaqueta {
   static Widget actividad() => const ActividadMaqueta();
   static Widget trabajo() => const TrabajoSegunSesion();
   static Widget cuenta() => const CuentaMaqueta();
+
+  /// La conversación real (spec 047), con la maqueta encendida o apagada.
+  static Widget conversacion(String id, {String? tecnicoId}) =>
+      ConversacionReal(conversacionId: id, tecnicoId: tecnicoId);
   static Widget configuracion() => const ConfigMaqueta();
 }
 

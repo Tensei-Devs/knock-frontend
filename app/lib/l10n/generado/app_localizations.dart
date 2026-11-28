@@ -2462,12 +2462,6 @@ abstract class AppLocalizations {
   /// **'Aún no tienes conversaciones. El chat se abre al recibir cotizaciones.'**
   String get conversacionesVacias;
 
-  /// No description provided for @conversacionesAbrirPendiente.
-  ///
-  /// In es, this message translates to:
-  /// **'Abrir conversaciones aún no está disponible.'**
-  String get conversacionesAbrirPendiente;
-
   /// No description provided for @conversacionesNoLeidos.
   ///
   /// In es, this message translates to:
@@ -2551,6 +2545,174 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'La conversación está cerrada.'**
   String get chatEnvioCerrada;
+
+  /// No description provided for @conversacionAtras.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get conversacionAtras;
+
+  /// No description provided for @conversacionTitulo.
+  ///
+  /// In es, this message translates to:
+  /// **'Conversación'**
+  String get conversacionTitulo;
+
+  /// No description provided for @conversacionCargando.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando conversación…'**
+  String get conversacionCargando;
+
+  /// No description provided for @conversacionSinMensajes.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el primer mensaje.'**
+  String get conversacionSinMensajes;
+
+  /// No description provided for @conversacionSinEnVivo.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión en vivo'**
+  String get conversacionSinEnVivo;
+
+  /// No description provided for @conversacionActualizar.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get conversacionActualizar;
+
+  /// No description provided for @conversacionVerAnteriores.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver mensajes anteriores'**
+  String get conversacionVerAnteriores;
+
+  /// No description provided for @conversacionTu.
+  ///
+  /// In es, this message translates to:
+  /// **'Tú'**
+  String get conversacionTu;
+
+  /// No description provided for @conversacionCerradaCancelada.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud se canceló; la conversación está cerrada.'**
+  String get conversacionCerradaCancelada;
+
+  /// No description provided for @conversacionCerradaVencida.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud venció; la conversación está cerrada.'**
+  String get conversacionCerradaVencida;
+
+  /// No description provided for @conversacionCerradaOtraElegida.
+  ///
+  /// In es, this message translates to:
+  /// **'Se eligió otra cotización; la conversación está cerrada.'**
+  String get conversacionCerradaOtraElegida;
+
+  /// No description provided for @conversacionCerradaDescartada.
+  ///
+  /// In es, this message translates to:
+  /// **'La solicitud se descartó; la conversación está cerrada.'**
+  String get conversacionCerradaDescartada;
+
+  /// No description provided for @conversacionPreguntar.
+  ///
+  /// In es, this message translates to:
+  /// **'Preguntar'**
+  String get conversacionPreguntar;
+
+  /// No description provided for @conversacionChatear.
+  ///
+  /// In es, this message translates to:
+  /// **'Chatear'**
+  String get conversacionChatear;
+
+  /// No description provided for @conversacionAbrirError.
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir el chat. Intenta de nuevo en un momento.'**
+  String get conversacionAbrirError;
+
+  /// No description provided for @conversacionMenu.
+  ///
+  /// In es, this message translates to:
+  /// **'Más opciones'**
+  String get conversacionMenu;
+
+  /// No description provided for @conversacionVerPerfil.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver su perfil'**
+  String get conversacionVerPerfil;
+
+  /// No description provided for @conversacionReportar.
+  ///
+  /// In es, this message translates to:
+  /// **'Reportar'**
+  String get conversacionReportar;
+
+  /// No description provided for @conversacionBloquear.
+  ///
+  /// In es, this message translates to:
+  /// **'Bloquear'**
+  String get conversacionBloquear;
+
+  /// No description provided for @conversacionRapidaFoto.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Me manda una foto?'**
+  String get conversacionRapidaFoto;
+
+  /// No description provided for @conversacionRapidaColonia.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuál es su colonia?'**
+  String get conversacionRapidaColonia;
+
+  /// No description provided for @conversacionRapidaDia.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué día le acomoda?'**
+  String get conversacionRapidaDia;
+
+  /// No description provided for @conversacionRapidaMateriales.
+  ///
+  /// In es, this message translates to:
+  /// **'Llevo los materiales'**
+  String get conversacionRapidaMateriales;
+
+  /// No description provided for @conversacionRapidaCuando.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuándo puede venir?'**
+  String get conversacionRapidaCuando;
+
+  /// No description provided for @conversacionRapidaIncluye.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Incluye materiales?'**
+  String get conversacionRapidaIncluye;
+
+  /// No description provided for @conversacionRapidaTarda.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuánto tarda?'**
+  String get conversacionRapidaTarda;
+
+  /// No description provided for @conversacionRapidaEnCamino.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Ya viene en camino?'**
+  String get conversacionRapidaEnCamino;
+
+  /// No description provided for @conversacionRapidaGracias.
+  ///
+  /// In es, this message translates to:
+  /// **'Gracias'**
+  String get conversacionRapidaGracias;
 
   /// No description provided for @chatContactoOculto.
   ///

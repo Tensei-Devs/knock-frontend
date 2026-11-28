@@ -1406,10 +1406,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'You have no conversations yet. Chat opens when you receive quotes.';
 
   @override
-  String get conversacionesAbrirPendiente =>
-      'Opening conversations is not available yet.';
-
-  @override
   String conversacionesNoLeidos(int total) {
     String _temp0 = intl.Intl.pluralLogic(
       total,
@@ -1464,6 +1460,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatEnvioCerrada => 'This chat is closed.';
+
+  @override
+  String get conversacionAtras => 'Back';
+
+  @override
+  String get conversacionTitulo => 'Chat';
+
+  @override
+  String get conversacionCargando => 'Loading chat…';
+
+  @override
+  String get conversacionSinMensajes => 'Write the first message.';
+
+  @override
+  String get conversacionSinEnVivo => 'No live connection';
+
+  @override
+  String get conversacionActualizar => 'Refresh';
+
+  @override
+  String get conversacionVerAnteriores => 'See earlier messages';
+
+  @override
+  String get conversacionTu => 'You';
+
+  @override
+  String get conversacionCerradaCancelada =>
+      'The request was cancelled; this chat is closed.';
+
+  @override
+  String get conversacionCerradaVencida =>
+      'The request expired; this chat is closed.';
+
+  @override
+  String get conversacionCerradaOtraElegida =>
+      'Another quote was chosen; this chat is closed.';
+
+  @override
+  String get conversacionCerradaDescartada =>
+      'The request was dismissed; this chat is closed.';
+
+  @override
+  String get conversacionPreguntar => 'Ask';
+
+  @override
+  String get conversacionChatear => 'Chat';
+
+  @override
+  String get conversacionAbrirError =>
+      'We couldn’t open the chat. Try again shortly.';
+
+  @override
+  String get conversacionMenu => 'More options';
+
+  @override
+  String get conversacionVerPerfil => 'View profile';
+
+  @override
+  String get conversacionReportar => 'Report';
+
+  @override
+  String get conversacionBloquear => 'Block';
+
+  @override
+  String get conversacionRapidaFoto => 'Can you send me a photo?';
+
+  @override
+  String get conversacionRapidaColonia => 'What is your neighborhood?';
+
+  @override
+  String get conversacionRapidaDia => 'Which day works for you?';
+
+  @override
+  String get conversacionRapidaMateriales => 'I’ll bring the materials';
+
+  @override
+  String get conversacionRapidaCuando => 'When can you come?';
+
+  @override
+  String get conversacionRapidaIncluye => 'Are materials included?';
+
+  @override
+  String get conversacionRapidaTarda => 'How long does it take?';
+
+  @override
+  String get conversacionRapidaEnCamino => 'Are you on your way?';
+
+  @override
+  String get conversacionRapidaGracias => 'Thank you';
 
   @override
   String get chatContactoOculto =>
