@@ -1,5 +1,10 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Editar mi perfil de técnico con datos reales (KNOCK-57, spec 036, enmienda del perfil propio)
+- **Avance:** «Tu perfil público» (`/m/tecnico/perfil`) abre con `GET /api/v1/tecnicos/me` y guarda con `PUT /api/v1/tecnicos/me` solo los campos cambiados (CA-G01): nombre, negocio, años, descripción, radio (a domicilio) o dirección del taller (en taller). Si la lectura falla o da 404 no hay formulario (CA-G02). Debajo quedan los servicios y horarios reales. Sin sesión o sin API sigue la maqueta.
+- **Decisión:** el cálculo de cambios (`cambiosDelPerfil`) y la validación (`erroresDeEdicion`) viven en el dominio con los límites del backend 046 (nombre de 2 a 80, negocio hasta 60, años de 0 a 60, descripción hasta 300, dirección de 8 a 200). Un campo opcional vaciado no se envía, porque el servidor deja igual lo que no llega. Nada del perfil se guarda en disco ni en caché (`FutureProvider.autoDispose`); la dirección no se registra.
+- **A evitar:** enviar el perfil completo en el `PUT` (pisa datos que la app no ve) o mostrar el formulario con una lectura fallida.
+- **Pendiente:** textos en el ARB (hoy en español, como `horarios_reales.dart`), editar oficios y foto, prueba de 48 dp y prueba contra el backend desplegado.
 ## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
 - **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
 - **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.

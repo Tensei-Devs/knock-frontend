@@ -1,6 +1,6 @@
 # Tareas 036 — Técnico: perfil, horarios, disponibilidad, mapa y explorar (pantallas)
 
-> **Estado:** en curso desde el 2026-11-25. Parte 1, Explorar (KNOCK-90): en revisión. Parte 2, perfil público y horarios (KNOCK-57): sigue. El backend 046 ya está en `sprint-05`.
+> **Estado:** en curso desde el 2026-11-25. Parte 1, Explorar (KNOCK-90): en revisión. Parte 2, perfil público y horarios (KNOCK-57): horarios y edición del perfil propio conectados (C3, 27 nov); faltan oficios, foto y textos en el ARB. El backend 046 ya está en `sprint-05`.
 > **Responsable sugerido por omisión:** Erick Trejo Reséndiz.
 
 | Tarea | Qué se hace | Cubre | Depende de | Paralelo con | Estado |
@@ -15,7 +15,7 @@
 | T-07 | Repositorio de `GET /api/v1/tecnicos/{id}` (TEC-05) y mapeo de errores | §4 · CA-17 a CA-29 | T-01, T-02 | otras rutas | pendiente |
 | T-08 | Repositorio de `GET /api/v1/tecnicos/{id}/llega-a-mi-colonia` (TEC-06) y mapeo de errores | §4 · CA-21 a CA-24 | T-01, T-02 | otras rutas | pendiente |
 | T-09 | Repositorio de `GET /api/v1/tecnicos/{id}/fotos-trabajos` (TEC-07) y mapeo de errores | §4 · CA-25 a CA-29 | T-01, T-02 | otras rutas | pendiente |
-| T-10 | Repositorio de `PUT /api/v1/tecnicos/me` (TEC-08) y mapeo de errores | §4 · CA-30 a CA-42 | T-01, T-02 | otras rutas | pendiente |
+| T-10 | Repositorio de `PUT /api/v1/tecnicos/me` (TEC-08) y mapeo de errores | §4 · CA-30 a CA-42 | T-01, T-02 | otras rutas | hecha contra el contrato (KNOCK-57, C3): `MiPerfilRepositoryApi.guardar` envía solo lo cambiado; 401, 404 y 422 (`trade_invalid` aparte) llegan como `Failure`. Pruebas: `test/features/tecnico/mi_perfil_test.dart`. Sin probar contra el backend desplegado |
 | T-11 | Repositorio de `PUT /api/v1/tecnicos/me/disponibilidad` (TEC-09) y mapeo de errores | §4 · CA-33 a CA-35 | T-01, T-02 | otras rutas | pendiente |
 | T-12 | Repositorio de `GET /api/v1/tecnicos/me/horarios` (TEC-10) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
 | T-13 | Repositorio de `PUT /api/v1/tecnicos/me/horarios` (TEC-11) y mapeo de errores | §4 · CA-36 a CA-39 | T-01, T-02 | otras rutas | pendiente |
@@ -29,11 +29,12 @@
 | T-21 | Pantalla «Inicio (mapa)»: estados, textos es/en, 48 dp y semántica | §7 · CA-51 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-22 | Pantalla «Perfil del técnico»: estados, textos es/en, 48 dp y semántica | §7 · CA-52 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-23 | Pantalla «Explorar (Trabajos reales)»: estados, textos es/en, 48 dp y semántica | §7 · CA-53 | T-02 y su repositorio | otras pantallas | parcial: el bloque «Trabajos reales» de Explorar sale de `/explorar`; la pantalla propia con TEC-07 sigue pendiente |
-| T-24 | Pantalla «Mi perfil público»: estados, textos es/en, 48 dp y semántica | §7 · CA-54 | T-02 y su repositorio | otras pantallas | pendiente |
+| T-24 | Pantalla «Mi perfil público»: estados, textos es/en, 48 dp y semántica | §7 · CA-54 | T-02 y su repositorio | otras pantallas | parcial (KNOCK-57, C3): `features/maqueta/mi_perfil_real.dart` abre con `GET /tecnicos/me`, guarda con `PUT` solo lo cambiado (CA-G01), sin formulario si la lectura falla (CA-G02) y con servicios y horarios reales debajo. Pruebas: `test/features/maqueta/mi_perfil_real_test.dart`. Falta: textos en el ARB (hoy en español, como `horarios_reales.dart`), oficios y foto, y la prueba de 48 dp |
 | T-25 | Pantalla «Mi negocio»: estados, textos es/en, 48 dp y semántica | §7 · CA-55 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-26 | Pantalla «Trabajo»: estados, textos es/en, 48 dp y semántica | §7 · CA-53, CA-56 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-27 | Pantalla «Mi reputación»: estados, textos es/en, 48 dp y semántica | §7 · CA-57 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-28 | Registros sin datos personales y borrado local al cerrar sesión | §5, §6 · CA-02, CA-05, CA-08, CA-10, CA-12, CA-14, CA-16, CA-18, CA-20, CA-22, CA-24, CA-26, CA-29, CA-31, CA-34, CA-37, CA-39, CA-41 a CA-42, CA-44 a CA-45, CA-58 a CA-60 | T-02 | — | parcial: la copia de Explorar vive en memoria y se borra al abrir o cerrar sesión; no se registra nada |
+| T-30 | Enmienda 2026-11-27 (perfil propio): `GET /api/v1/tecnicos/me` (TEC-15), edición precargada y solo cambios | Enmienda · CA-G01, CA-G02 | Backend 046 TEC-15 | T-24 | hecha contra el contrato (KNOCK-57, C3): `MiPerfilRepositoryApi.leer`, `cambiosDelPerfil` y `erroresDeEdicion` en `features/tecnico/domain/mi_perfil.dart`. Nada se guarda en disco ni en caché |
 | T-29 | Gates: `flutter analyze`, `dart format`, `flutter test`, `sdd_lint --trace`, `codemap.py` y `Memoria.md` | §11 | todas | — | pendiente |
 
 ## Definición de terminado
