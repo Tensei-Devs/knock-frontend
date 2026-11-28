@@ -393,6 +393,14 @@ Widget jobCard(BuildContext context, Job j, bool pri) {
             ? 'Cancelado al pedir eliminar la cuenta.'
             : j.cancelNote,
       );
+      if (j.real) {
+        action = BtnK(
+          'Ver solicitud',
+          () => context.push(RM.comparar(j.id)),
+          kind: Bk.sec,
+          sm: true,
+        );
+      }
     case 'terminado':
       final age = j.doneAt != null
           ? DateTime.now().difference(j.doneAt!)

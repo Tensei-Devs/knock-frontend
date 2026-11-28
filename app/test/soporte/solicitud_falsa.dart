@@ -6,6 +6,7 @@ import 'package:app/features/actividad/domain/cotizacion.dart';
 import 'package:app/features/actividad/domain/franja.dart';
 import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/solicitud_repository.dart';
+import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 
@@ -37,6 +38,11 @@ class OficiosFalsos implements OficiosRepository {
 }
 
 class SolicitudesFalsas implements SolicitudRepository {
+  @override
+  Future<ResultadoCancelacion> cancelar(
+    String id, {
+    MotivoCancelacion? motivo,
+  }) async => const CancelacionError();
   final creaciones = <NuevaSolicitud>[];
   final subidas = <String>[];
 

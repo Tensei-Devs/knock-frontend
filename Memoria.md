@@ -140,6 +140,16 @@
 - **Porqué:** la app arranca con la maqueta y el Tech Lead pidió no regenerar el cliente generado todavía (lo regenera él al final).
 - **Cambio en la maqueta:** se quitaron los bloques simulados «Mi casa» y «Mi auto» y sus hojas de alta; la tarjeta de recordatorio queda igual.
 - **A evitar:** liberar los `TextEditingController` de una hoja en `whenComplete`: la animación de cierre todavía los usa. El formulario es un `StatefulWidget` que los libera en `dispose()`.
+## 2026-11-24 — Cancelación en la maqueta activa (KNOCK-70)
+- El detalle real de la maqueta muestra el vencimiento y permite cancelar con motivo opcional; usa el repositorio real y refresca detalle, lista y comparación tras el éxito. Los estados cancelada y vencida aparecen en el detalle y la comparación.
+- «Volver a pedir» sigue oculto hasta T-06; los recorridos con backend y la accesibilidad integral siguen en T-09 y T-08 respectivamente.
+- La prueba de widget usa un repositorio falso y cubre éxito, espera, error y ambos estados cerrados. No sustituye la prueba con backend.
+
+## 2026-11-24 — Dominio y repositorio de cancelación (KNOCK-70)
+- Dominio de cancelación (`ReglaCancelacion`, `MotivoCancelacion`, `ResultadoCancelacion`) y `cancelar(id, motivo?)` en el repositorio; el cuarto motivo es `other` (spec 025, enmienda 2026-11-27).
+- Al integrarlo (2026-11-27) no se incluyó la actualización del contrato: la llamada está escrita a mano por ADR-007 (vence 2026-12-15).
+- La pantalla activa es la maqueta; el detalle `/actividad/solicitud/:id` usa un repositorio simulado.
+- Pendiente: «Volver a pedir» (T-06), «Ver visita» ante `request_with_appointment` (CA-05), bloquear «Sí, cancelar» durante la espera de un 429 (CA-08) y los recorridos con el backend.
 
 ## 2026-11-17 — Alineación de zona y contrato (KNOCK-47)
 - La T-01 de la 017 quedó cubierta por el contrato que publica el Tech Lead (KNOCK-277); se alineó con sprint-04.
@@ -941,3 +951,13 @@
 ## 2026-11-27 — KNOCK-266: licencias de los paquetes del chat en EXC-002
 - Se agregan 9 paquetes de pub a la lista de exención de `dependency-review` (MIT y BSD, revisadas en su LICENSE), autorizado por José. El control sigue activo para el resto.
 - A evitar: fusionar dependencias nuevas hacia `sprint-05` sin revisar su licencia; el fallo aparece recién al promover a `develop`.
+## 2026-11-27 — Enviar mensajes en una conversación (KNOCK-72, spec 020 enmienda 2026-11-26)
+- **Qué cambió:** `ConversacionesRepositoryApi.enviar` (`POST /api/v1/conversaciones/{id}/mensajes`, puerto `EnvioDeMensajes`, `envioDeMensajesProvider`); regla del texto en dominio (`TextoDeMensaje`: 1 a 1000 unidades UTF-16, 4096 bytes, sin control salvo `\n`) que se revisa antes de salir a la red; `EnvioMensajesController` optimista (pendiente, fallido, enviado; un envío a la vez; reintento solo manual; 409 cierra) y `CampoEnvioMensaje` con textos en ARB.
+- **Por qué:** el envío no es idempotente (CA-E02); el hub solo recibe.
+- **Decisión:** 409 en esta ruta se lee como `conversation_closed` (es el único 409 del contrato) con `ConflictoFailure`, para no tocar la clase sellada `Failure`.
+- **Pendiente:** el campo no está montado en ninguna ruta: la pantalla del chat es la spec 047 (#148, sin firmar) y la maqueta `ChatScreen` no tiene id real de conversación. Sin probar contra el backend desplegado.
+- **A evitar:** registrar el texto de un mensaje o reintentar el POST sin acción de la persona.
+## 2026-11-27 — Integración de lo pendiente de la app (KNOCK-266)
+- **Qué entra:** envío de mensajes (KNOCK-72), cancelación y estados cancelada y vencida (KNOCK-70) y las rutas de Trabajo y de solicitudes fuera de la caché de respuestas (KNOCK-67).
+- **Qué no entra:** la actualización del contrato y del cliente generado (el control de cambios incompatibles la detiene) y el dominio de Trabajo que dependía de ella: no tiene pantalla que lo use y `sprint-05` ya lee la bandeja y la disponibilidad.
+- La pantalla del chat (spec 047) quedó aprobada el 2026-11-27 y sigue sin implementar; el campo de envío no está montado.
