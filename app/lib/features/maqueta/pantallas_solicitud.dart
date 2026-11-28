@@ -30,6 +30,7 @@ import 'package:app/features/actividad/actividad.dart'
         MotivoCancelacion,
         Cancelada,
         CancelacionConCita,
+        CancelacionError,
         CancelacionYaVencida,
         CancelacionNoDisponible,
         CancelacionInvalida,
@@ -746,6 +747,7 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
     final textos = AppLocalizations.of(context);
     MotivoCancelacion? motivo;
     var enviando = false;
+    var reintentar = false;
     String? error;
     Timer? esperaDeCancelacion;
     await showModalBottomSheet<void>(
@@ -798,7 +800,8 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                         ),
                     ],
                   ),
-                  if (error != null) Text(error!),
+                  if (error != null)
+                    Semantics(liveRegion: true, child: Text(error!)),
                   TextButton(
                     onPressed: enviando ? null : () => Navigator.pop(ctx),
                     child: Text(textos.solicitudCancelarMantener),
@@ -846,6 +849,9 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                               }
                               actualizar(() {
                                 enviando = false;
+                                reintentar = resultado is CancelacionInvalida ||
+                                    resultado is CancelacionSinConexion ||
+                                    resultado is CancelacionError;
                                 error = switch (resultado) {
                                   CancelacionConCita() =>
                                     textos.solicitudErrorConCita,
@@ -858,9 +864,8 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                                     const DatosRechazadosFailure(),
                                   ),
                                   CancelacionLimite(:final espera) =>
-                                    mensajeDeError(
-                                      textos,
-                                      DemasiadosIntentosFailure(espera: espera),
+                                    textos.solicitudEspera(
+                                      (espera.inMilliseconds + 999) ~/ 1000,
                                     ),
                                   CancelacionSinConexion() => textoDeErrorReal(
                                     const ServicioNoDisponibleFailure(),
@@ -874,13 +879,18 @@ class _CompararScreenState extends ConsumerState<CompararScreen> {
                               if (!ctx.mounted) return;
                               actualizar(() {
                                 enviando = false;
+                                reintentar = true;
                                 error = textoDeErrorReal(e);
                               });
                             }
                           },
                     child: enviando
                         ? const CircularProgressIndicator()
-                        : Text(textos.solicitudCancelarConfirmar),
+                        : Text(
+                            reintentar
+                                ? textos.inicioReintentar
+                                : textos.solicitudCancelarConfirmar,
+                          ),
                   ),
                 ],
               ),

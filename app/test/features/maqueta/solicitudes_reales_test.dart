@@ -435,6 +435,8 @@ void main() {
       repo.respuestaCancelacion!.complete(const CancelacionSinConexion());
       await tester.pumpAndSettle();
       expect(find.textContaining('No pudimos conectar'), findsOneWidget);
+      final retry = find.widgetWithText(FilledButton, 'Reintentar');
+      expect(tester.widget<FilledButton>(retry).onPressed, isNotNull);
       expect(repo.cancelada, isFalse);
       expect(repo.cancelaciones, hasLength(1));
     });
@@ -454,11 +456,13 @@ void main() {
       );
       await tester.pump();
       expect(tester.widget<FilledButton>(confirmar).onPressed, isNull);
+      expect(find.textContaining('Espera 30 segundos'), findsOneWidget);
       expect(repo.cancelaciones, hasLength(1));
       expect(repo.cancelada, isFalse);
 
       await tester.pump(const Duration(seconds: 30));
       expect(tester.widget<FilledButton>(confirmar).onPressed, isNotNull);
+      expect(find.textContaining('Espera 30 segundos'), findsNothing);
       expect(repo.cancelaciones, hasLength(1));
       repo.respuestaCancelacion = null;
       await tester.tap(confirmar);
