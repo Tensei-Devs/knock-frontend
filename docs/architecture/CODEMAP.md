@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-28T05:32:49Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T05:33:46Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,7 +24,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 215 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 65 | 318 | 593 |
+| `maqueta` | - | 65 | 319 | 593 |
 | `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
@@ -43,7 +43,7 @@
 | `tecnico` | -, data, domain, presentation | 24 | 52 | 48 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
-| `trabajo` | -, data, domain, presentation | 10 | 26 | 22 |
+| `trabajo` | -, data, domain, presentation | 10 | 27 | 25 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
 | `visita` | -, data, domain, presentation | 15 | 24 | 25 |
 | `widgets` | core | 5 | 6 | 6 |
@@ -503,7 +503,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:5225, `isSupported()`:5230, `shouldReload()`:5234, `lookupAppLocalizations()`:5237
+  - `of()`:70, `load()`:5261, `isSupported()`:5266, `shouldReload()`:5270, `lookupAppLocalizations()`:5273
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:231, `busquedaTotal()`:252, `busquedaEspera()`:270, `busquedaCalificacion()`:275, `busquedaDistancia()`:280, `busquedaVerificado()`:285, `entradaAceptoAviso()`:540, `entradaCodigoEnviadoA()`:603, `entradaReenviarEn()`:617, `previaExpertosCerca()`:699, `previaPinSemantica()`:710, `previaTarjetaSemantica()`:715 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -529,8 +529,8 @@
   - `build()`:30, `rutasAsistente()`:53, `build()`:94, `dispose()`:160, `build()`:177, `build()`:217, `build()`:243, `dispose()`:274, `build()`:282, `build()`:303, `build()`:342, `dispose()`:379, `build()`:410
 - `app/lib/features/maqueta/avisos_reales.dart` — class `AvisosReales`, class `_Fila`, class `PreferenciasDeAvisosReales`, class `ContadorDeAvisos`
   - `build()`:79, `build()`:127, `build()`:158, `build()`:226
-- `app/lib/features/maqueta/bandeja_trabajo_real.dart` — class `TarjetaDeCotizacionPropia`, class `SolicitudesNuevasReal`, class `_TarjetaDeSolicitud`, class `CotizacionesEnviadasReal`
-  - `precioDeCotizacion()`:12, `build()`:27, `textosDeLista()`:53, `textoDeError()`:61, `filas()`:69, `hayMas()`:74, `reintentar()`:77, `cargarMas()`:81, `build()`:91, `textosDeLista()`:118, `textoDeError()`:126, `filas()`:134, `hayMas()`:139, `reintentar()`:142, `cargarMas()`:146
+- `app/lib/features/maqueta/bandeja_trabajo_real.dart` — class `TarjetaDeCotizacionPropia`, class `SolicitudesNuevasReal`, class `_TarjetaDeSolicitud`, class `_TarjetaDeSolicitudState`, class `CotizacionesEnviadasReal`
+  - `precioDeCotizacion()`:13, `build()`:28, `textosDeLista()`:54, `textoDeError()`:62, `filas()`:70, `hayMas()`:76, `reintentar()`:79, `cargarMas()`:83, `build()`:161, `textosDeLista()`:197, `textoDeError()`:205, `filas()`:213, `hayMas()`:218, `reintentar()`:221, `cargarMas()`:225
 - `app/lib/features/maqueta/bloqueos_reales.dart` — class `PersonasBloqueadasReales`, class `_FilaBloqueada`, class `DesbloquearReal`, class `_DesbloquearRealState`, class `BloquearReal`, class `_ConfirmarBloqueo`, class `_ConfirmarBloqueoState`
   - `textosDeLista()`:30, `filas()`:42, `hayMas()`:47, `reintentar()`:50, `cargarMas()`:54, `build()`:64, `build()`:121, `build()`:148, `build()`:261
 - `app/lib/features/maqueta/busqueda_real.dart` — class `BusquedaReal`, class `_BusquedaRealState`, class `_SinZona`, class `_Error`, class `_Sugerencias`, class `_Resultados`, class `_Experto`
@@ -1088,13 +1088,13 @@
 **data**
 
 - `app/lib/features/trabajo/data/cotizar_repository_api.dart` — class `CotizarRepositoryApi`
-  - `recibidas()`:65, `enviadas()`:76, `solicitud()`:118, `enviar()`:133
+  - `recibidas()`:65, `descartar()`:77, `enviadas()`:97, `solicitud()`:139, `enviar()`:154
 - `app/lib/features/trabajo/data/llegada_repository_api.dart` — class `LlegadaRepositoryApi`
   - `obtener()`:26, `confirmar()`:37
 
 **domain**
 
-- `app/lib/features/trabajo/domain/cotizar.dart` — class `FotoParaCotizar`, class `SolicitudParaCotizar`, class `SolicitudRecibida`, enum `TipoPrecio`, class `CotizacionPropia`, class `PaginaDeSolicitudes`, class `PaginaDeCotizaciones`, class `CotizacionNueva`, enum `CampoCotizacion`, class `RevisionDeCotizacion`, class `CotizarRepository`
+- `app/lib/features/trabajo/domain/cotizar.dart` — class `FotoParaCotizar`, class `SolicitudParaCotizar`, class `SolicitudRecibida`, enum `TipoPrecio`, class `CotizacionPropia`, class `PaginaDeSolicitudes`, class `PaginaDeCotizaciones`, class `CotizacionNueva`, enum `CampoCotizacion`, class `RevisionDeCotizacion`, enum `ResultadoDescarte`, class `CotizarRepository`
   - `montoValido()`:140, `horaValida()`:147, `diasParaCotizar()`:153, `revisarCotizacion()`:175
 - `app/lib/features/trabajo/domain/llegada.dart` — class `VisitaDelTecnico`, enum `MotivoLlegada`, class `ResultadoLlegada`, class `LlegadaConfirmada`, class `LlegadaRechazada`, class `ReglasDeLlegada`, class `LlegadaRepository`
   - `codigoValido()`:79
@@ -1102,7 +1102,7 @@
 **presentation**
 
 - `app/lib/features/trabajo/presentation/cotizar_controller.dart` — class `ListaDelTecnicoController`, class `SolicitudesRecibidasController`, class `CotizacionesEnviadasController`
-  - `build()`:15, `reintentar()`:20, `pedirPagina()`:23, `pedir()`:34, `cursorDe()`:38, `unirPaginas()`:41, `pedir()`:63, `cursorDe()`:67, `unirPaginas()`:70
+  - `build()`:15, `reintentar()`:20, `pedirPagina()`:23, `build()`:33, `pedir()`:42, `cursorDe()`:46, `retirar()`:48, `unirPaginas()`:64, `pedir()`:88, `cursorDe()`:92, `unirPaginas()`:95
 - `app/lib/features/trabajo/presentation/llegada_controller.dart` — class `EstadoLlegada`, class `LlegadaController`
   - `build()`:46
 - `app/lib/features/trabajo/presentation/trabajo_screen.dart` — class `TrabajoScreen`
