@@ -30,6 +30,9 @@ ApiFalsa _api({
   if (p.ruta == 'tecnicos/me/cotizaciones') {
     return jsonOk({'items': propias, 'nextCursor': null});
   }
+  if (p.ruta == 'cotizaciones/referencia-mercado') {
+    return jsonOk({'origen': 'sin_datos'});
+  }
   if (p.ruta == 'tecnicos/me/solicitudes') {
     return jsonOk({
       'items': [recibidaJson()],

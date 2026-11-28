@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-28T00:24:05Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T05:58:44Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -22,9 +22,9 @@
 | `explorar` | -, data, domain, presentation | 7 | 11 | 7 |
 | `home` | -, components, pages | 3 | 2 | 0 |
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
-| `l10n` | - | 3 | 4 | 215 |
+| `l10n` | - | 3 | 4 | 217 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 64 | 316 | 589 |
+| `maqueta` | - | 64 | 317 | 590 |
 | `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
@@ -43,7 +43,7 @@
 | `tecnico` | -, data, domain, presentation | 22 | 47 | 42 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
-| `trabajo` | -, data, domain, presentation | 10 | 27 | 25 |
+| `trabajo` | -, data, domain, presentation | 10 | 29 | 27 |
 | `verificacion` | -, data, domain, presentation | 5 | 5 | 2 |
 | `visita` | -, data, domain, presentation | 15 | 24 | 25 |
 | `widgets` | core | 5 | 6 | 6 |
@@ -56,7 +56,7 @@
 - `Opinion`: `app/lib/features/maqueta/tecnico_estado.dart:173`, `app/lib/features/opiniones/domain/opinion.dart:35`
 - `SesionNotifier`: `app/lib/core/sesion/sesion.dart:62`, `app/lib/core/sesion/sesion_provider.dart:26`
 - `Solicitud`: `app/lib/features/actividad/domain/solicitud.dart:30`, `app/lib/features/maqueta/estado.dart:165`
-- `TipoPrecio`: `app/lib/features/actividad/domain/cotizacion.dart:6`, `app/lib/features/trabajo/domain/cotizar.dart:59`
+- `TipoPrecio`: `app/lib/features/actividad/domain/cotizacion.dart:6`, `app/lib/features/trabajo/domain/cotizar.dart:85`
 - `Visita`: `app/lib/features/actividad/domain/visita.dart:73`, `app/lib/features/maqueta/tecnico_estado.dart:153`
 
 ## Índice por módulo
@@ -503,7 +503,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:5261, `isSupported()`:5266, `shouldReload()`:5270, `lookupAppLocalizations()`:5273
+  - `of()`:70, `load()`:5291, `isSupported()`:5296, `shouldReload()`:5300, `lookupAppLocalizations()`:5303
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:231, `busquedaTotal()`:252, `busquedaEspera()`:270, `busquedaCalificacion()`:275, `busquedaDistancia()`:280, `busquedaVerificado()`:285, `entradaAceptoAviso()`:540, `entradaCodigoEnviadoA()`:603, `entradaReenviarEn()`:617, `previaExpertosCerca()`:699, `previaPinSemantica()`:710, `previaTarjetaSemantica()`:715 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -547,8 +547,8 @@
   - `idDeTecnicoReal()`:15, `build()`:33, `stack()`:36, `build()`:73, `build()`:140
 - `app/lib/features/maqueta/conversaciones_reales.dart` — class `ConversacionesReales`, class `_ConversacionesRealesState`
   - `initState()`:22, `dispose()`:55, `build()`:62
-- `app/lib/features/maqueta/cotizar_real.dart` — class `CotizarReal`, class `_Detalle`, class `_Envio`, class `_EnvioState`
-  - `build()`:18, `build()`:46, `dispose()`:108, `build()`:157
+- `app/lib/features/maqueta/cotizar_real.dart` — class `CotizarReal`, class `_Detalle`, class `_Envio`, class `_EnvioState`, class `_ReferenciaDeMercado`
+  - `build()`:18, `build()`:46, `dispose()`:108, `build()`:165, `build()`:304
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
   - `guessCat()`:145, `longDate()`:648, `money()`:651, `nowH()`:661, `initials()`:666
 - `app/lib/features/maqueta/detalle_oficio_real.dart` — class `FrasesDelOficio`
@@ -1082,14 +1082,14 @@
 **data**
 
 - `app/lib/features/trabajo/data/cotizar_repository_api.dart` — class `CotizarRepositoryApi`
-  - `recibidas()`:65, `descartar()`:77, `enviadas()`:97, `solicitud()`:139, `enviar()`:154
+  - `recibidas()`:66, `descartar()`:78, `enviadas()`:98, `solicitud()`:140, `enviar()`:156, `referenciaDeMercado()`:204, `ReferenciaDeMercado()`:213
 - `app/lib/features/trabajo/data/llegada_repository_api.dart` — class `LlegadaRepositoryApi`
   - `obtener()`:26, `confirmar()`:37
 
 **domain**
 
-- `app/lib/features/trabajo/domain/cotizar.dart` — class `FotoParaCotizar`, class `SolicitudParaCotizar`, class `SolicitudRecibida`, enum `TipoPrecio`, class `CotizacionPropia`, class `PaginaDeSolicitudes`, class `PaginaDeCotizaciones`, class `CotizacionNueva`, enum `CampoCotizacion`, class `RevisionDeCotizacion`, enum `ResultadoDescarte`, class `CotizarRepository`
-  - `montoValido()`:140, `horaValida()`:147, `diasParaCotizar()`:153, `revisarCotizacion()`:175
+- `app/lib/features/trabajo/domain/cotizar.dart` — class `FotoParaCotizar`, class `SolicitudParaCotizar`, enum `OrigenReferencia`, class `ReferenciaDeMercado`, class `SolicitudRecibida`, enum `TipoPrecio`, class `CotizacionPropia`, class `PaginaDeSolicitudes`, class `PaginaDeCotizaciones`, class `CotizacionNueva`, enum `CampoCotizacion`, class `RevisionDeCotizacion`, enum `ResultadoDescarte`, class `CotizarRepository`
+  - `montoValido()`:166, `horaValida()`:173, `diasParaCotizar()`:179, `revisarCotizacion()`:201
 - `app/lib/features/trabajo/domain/llegada.dart` — class `VisitaDelTecnico`, enum `MotivoLlegada`, class `ResultadoLlegada`, class `LlegadaConfirmada`, class `LlegadaRechazada`, class `ReglasDeLlegada`, class `LlegadaRepository`
   - `codigoValido()`:79
 

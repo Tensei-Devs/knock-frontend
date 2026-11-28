@@ -1508,5 +1508,10 @@
   "suspensionVolver": "Back",
   "suspensionEstado": "{estado, select, pendiente{Your appeal is under review.} aceptada{Your appeal was accepted.} rechazada{Your appeal was rejected.} other{Your appeal status: {estado}}}",
   "suspensionPresentadaEl": "Sent on {fecha}",
-  "suspensionResueltaEl": "Resolved on {fecha}"
+  "suspensionResueltaEl": "Resolved on {fecha}",
+  "cotizarReferenciaTitulo": "Market reference",
+  "cotizarReferenciaRango": "Other technicians charge ${p25} to ${p75}. Most common: ${mediana}.",
+  "cotizarReferenciaCategoria": "General reference for this trade.",
+  "cotizarReferenciaSinDatos": "There isn’t enough data for a reference yet.",
+  "cotizarReferenciaUsarRango": "Use this range"
 }

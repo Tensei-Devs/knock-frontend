@@ -149,6 +149,14 @@ class _EnvioState extends ConsumerState<_Envio> {
     }
   }
 
+  /// «Usar este rango»: cambia el formulario a rango con esos montos. No
+  /// envía nada (spec 038, enmienda 2026-11-27).
+  void _usarRango(int minimo, int maximo) => setState(() {
+    _tipo = TipoPrecio.rango;
+    _minimo.text = '$minimo';
+    _maximo.text = '$maximo';
+  });
+
   void _refrescarListas(ProviderContainer contenedor) => contenedor
     ..invalidate(solicitudesRecibidasProvider)
     ..invalidate(cotizacionesEnviadasProvider);
@@ -196,6 +204,12 @@ class _EnvioState extends ConsumerState<_Envio> {
         for (final tipo in TipoPrecio.values)
           (t.cotizarTipo(tipo.name), _tipo == tipo, () => _tipo = tipo),
       ]),
+      if (widget.solicitud.oficioClave.isNotEmpty)
+        _ReferenciaDeMercado(
+          oficio: widget.solicitud.oficioClave,
+          tipo: _tipo,
+          alUsarRango: _usarRango,
+        ),
       if (!rango)
         _monto(
           visita ? t.cotizarPrecioVisita : t.cotizarPrecio,
@@ -271,4 +285,57 @@ class _EnvioState extends ConsumerState<_Envio> {
     maxLen: 6,
     err: _errores.contains(campo) ? error : null,
   );
+}
+
+/// La tarjeta de referencia de mercado dentro del formulario (spec 038, D-03).
+/// Una falla nunca impide cotizar: solo se muestra el mensaje (CA-F02).
+class _ReferenciaDeMercado extends ConsumerWidget {
+  const _ReferenciaDeMercado({
+    required this.oficio,
+    required this.tipo,
+    required this.alUsarRango,
+  });
+
+  final String oficio;
+  final TipoPrecio tipo;
+  final void Function(int minimo, int maximo) alUsarRango;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final contenido = ref
+        .watch(referenciaDeMercadoProvider((oficio: oficio, tipo: tipo)))
+        .when(
+          loading: () => <Widget>[],
+          error: (e, _) => [sMut(mensajeDeError(t, e))],
+          data: (r) => _textos(t, r),
+        );
+    if (contenido.isEmpty) return const SizedBox.shrink();
+    return CardK(
+      child: stack([labT(t.cotizarReferenciaTitulo), ...contenido], gap: 6),
+    );
+  }
+
+  List<Widget> _textos(AppLocalizations t, ReferenciaDeMercado r) {
+    final p25 = r.p25, mediana = r.mediana, p75 = r.p75;
+    if (r.origen == OrigenReferencia.sinDatos ||
+        p25 == null ||
+        mediana == null ||
+        p75 == null) {
+      return [T(t.cotizarReferenciaSinDatos)];
+    }
+    return [
+      if (r.origen == OrigenReferencia.categoria)
+        sMut(t.cotizarReferenciaCategoria),
+      T(t.cotizarReferenciaRango(p25, p75, mediana)),
+      if (r.tieneRango)
+        BtnK(
+          t.cotizarReferenciaUsarRango,
+          () => alUsarRango(p25, p75),
+          kind: Bk.sec,
+          sm: true,
+          auto: true,
+        ),
+    ];
+  }
 }

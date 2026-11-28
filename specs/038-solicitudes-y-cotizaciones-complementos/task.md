@@ -9,7 +9,7 @@
 | T-01 | Vendorizar las rutas de backend 048 y regenerar el cliente Dart | §4 | Backend 048 publicado en OpenAPI | T-02 | pendiente |
 | T-02 | Dominio: entidades, reglas y errores | §4 · CA-01, CA-04, CA-08 | — | T-01 | pendiente |
 | T-03 | Repositorio de `POST /api/v1/solicitudes/{id}/ampliar` (SOL-05) y mapeo de errores | §4 · CA-01 a CA-03 | T-01, T-02 | otras rutas | pendiente |
-| T-04 | Repositorio de `GET /api/v1/cotizaciones/referencia-mercado` (COT-03) y mapeo de errores | §4 · CA-04 a CA-07 | T-01, T-02 | otras rutas | pendiente |
+| T-04 | Repositorio de `GET /api/v1/cotizaciones/referencia-mercado` (COT-03) y mapeo de errores | §4 · CA-04 a CA-07 | T-01, T-02 | otras rutas | parcial (KNOCK-109, C4): `CotizarRepositoryApi.referenciaDeMercado` con `oficio` (clave de la solicitud) y `tipoTrabajo` (tipo elegido); 401, 403 y 422 como `Failure`; tarjeta en el formulario de `cotizar_real.dart` con los tres orígenes, «Usar este rango» y textos `cotizarReferencia*` en es/en (CA-04 a CA-06, CA-F01, CA-F02). Pruebas: `test/features/trabajo/referencia_mercado_test.dart` y `test/features/maqueta/referencia_mercado_real_test.dart`. Falta CA-07 (copia sin conexión con fecha) |
 | T-05 | Repositorio de `GET /api/v1/tecnicos/me/cotizaciones` (COT-05) y mapeo de errores | §4 · CA-08 a CA-11 | T-01, T-02 | otras rutas | pendiente |
 | T-06 | Pantalla «Mensajes (técnico no responde)»: estados, textos es/en, 48 dp y semántica | §7 · CA-12 | T-02 y su repositorio | otras pantallas | pendiente |
 | T-07 | Pantalla «Cotizar (Referencia del mercado)»: estados, textos es/en, 48 dp y semántica | §7 · CA-13 | T-02 y su repositorio | otras pantallas | pendiente |

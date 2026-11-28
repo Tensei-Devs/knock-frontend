@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Referencia de mercado al cotizar (KNOCK-109, spec 038, enmienda de la referencia)
+- **Avance:** el formulario de cotizar (`cotizar_real.dart`) muestra una tarjeta con `GET /api/v1/cotizaciones/referencia-mercado?oficio={clave}&tipoTrabajo={tipo}`: con `mercado` el rango y la mediana, con `categoria` además «Referencia general del oficio.» y con `sin_datos` el aviso. «Usar este rango» solo aparece con `p25 < p75`; cambia el formulario a rango con esos montos y no envía nada. Textos `cotizarReferencia*` en es/en.
+- **Decisión:** la solicitud ahora guarda `oficioClave` (de `oficio.clave`) para la consulta. La referencia se vuelve a pedir al cambiar el tipo de precio y se descarta al salir (`autoDispose`, sin reintento automático). Una falla solo muestra el mensaje del catálogo: nunca impide cotizar (CA-F02).
+- **A evitar:** mostrar de cuántas cotizaciones sale (el servidor no lo da) o bloquear el envío cuando la referencia falla.
+- **Pendiente:** CA-07 (copia sin conexión con su fecha) y prueba contra el backend desplegado.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.
