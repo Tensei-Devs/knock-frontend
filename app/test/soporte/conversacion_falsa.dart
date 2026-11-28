@@ -47,6 +47,10 @@ class ConversacionFalsa implements LecturaDeConversacion, EnvioDeMensajes {
   Exception? errorAlEnviar;
   Exception? errorAlMarcar;
 
+  bool ocultaContacto = false;
+  bool guardaEnElHistorial = false;
+  void Function()? alLeerPrimera;
+
   final aperturas = <({String solicitudId, String? tecnicoId})>[];
   final cursores = <String?>[];
   final enviados = <String>[];
@@ -74,6 +78,7 @@ class ConversacionFalsa implements LecturaDeConversacion, EnvioDeMensajes {
     final fallo = errorDeLectura;
     if (fallo != null) throw fallo;
     if (cursor != null) return anteriores[cursor]!;
+    alLeerPrimera?.call();
     return PaginaDeMensajes(items: primera, siguiente: siguiente);
   }
 
@@ -89,6 +94,13 @@ class ConversacionFalsa implements LecturaDeConversacion, EnvioDeMensajes {
     enviados.add(texto);
     final fallo = errorAlEnviar;
     if (fallo != null) throw fallo;
-    return mensajeFalso(_propios++, autorRol: actual.rol, texto: texto);
+    final guardado = mensajeFalso(
+      _propios++,
+      autorRol: actual.rol,
+      texto: ocultaContacto ? '***' : texto,
+      contactoOculto: ocultaContacto,
+    );
+    if (guardaEnElHistorial) primera = [guardado, ...primera];
+    return guardado;
   }
 }

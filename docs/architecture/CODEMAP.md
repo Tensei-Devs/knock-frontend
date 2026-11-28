@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-28T04:55:37Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T05:20:03Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,8 +24,8 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 215 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 66 | 321 | 599 |
-| `mensajes` | -, data, domain, presentation | 15 | 31 | 43 |
+| `maqueta` | - | 66 | 321 | 600 |
+| `mensajes` | -, data, domain, presentation | 15 | 31 | 45 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
 | `oficios` | -, data, domain, presentation | 15 | 23 | 20 |
@@ -503,7 +503,7 @@
 **-**
 
 - `app/lib/l10n/generado/app_localizations.dart` — class `AppLocalizations`, class `_AppLocalizationsDelegate`
-  - `of()`:70, `load()`:5417, `isSupported()`:5422, `shouldReload()`:5426, `lookupAppLocalizations()`:5429
+  - `of()`:70, `load()`:5423, `isSupported()`:5428, `shouldReload()`:5432, `lookupAppLocalizations()`:5435
 - `app/lib/l10n/generado/app_localizations_en.dart` — class `AppLocalizationsEn`
   - `tecnicoCopia()`:22, `tecnicoCalificacion()`:30, `tecnicoAnios()`:35, `tecnicoRadio()`:49, `tecnicoLlega()`:61, `tecnicoNoLlega()`:66, `tecnicoDesde()`:77, `citaMonto()`:105, `citaTope()`:110, `solicitudVenceEnHoras()`:166, `solicitudVenceEl()`:177, `busquedaContador()`:197, `busquedaBuscamos()`:214, `busquedaSinResultadosOficio()`:231, `busquedaTotal()`:252, `busquedaEspera()`:270, `busquedaCalificacion()`:275, `busquedaDistancia()`:280, `busquedaVerificado()`:285, `entradaAceptoAviso()`:540, `entradaCodigoEnviadoA()`:603, `entradaReenviarEn()`:617, `previaExpertosCerca()`:699, `previaPinSemantica()`:710, `previaTarjetaSemantica()`:715 …
 - `app/lib/l10n/generado/app_localizations_es.dart` — class `AppLocalizationsEs`
@@ -548,9 +548,9 @@
 - `app/lib/features/maqueta/confianza_real.dart` — class `ConfianzaReal`, class `_Tarjeta`, class `GuardarTecnicoReal`, class `_GuardarTecnicoState`
   - `idDeTecnicoReal()`:15, `build()`:33, `stack()`:36, `build()`:73, `build()`:140
 - `app/lib/features/maqueta/conversacion_real.dart` — class `ConversacionReal`, class `_ConversacionRealState`, class `_Burbuja`
-  - `initState()`:38, `dispose()`:80, `build()`:88, `LayoutBuilder()`:131, `NotificationListener()`:192, `PopupMenuButton()`:294, `build()`:323
+  - `initState()`:41, `didChangeAppLifecycleState()`:67, `dispose()`:101, `build()`:110, `LayoutBuilder()`:161, `NotificationListener()`:222, `PopupMenuButton()`:326, `build()`:355
 - `app/lib/features/maqueta/conversaciones_reales.dart` — class `ConversacionesReales`, class `_ConversacionesRealesState`
-  - `initState()`:24, `dispose()`:64, `build()`:71
+  - `initState()`:24, `dispose()`:69, `build()`:76
 - `app/lib/features/maqueta/cotizar_real.dart` — class `CotizarReal`, class `_Detalle`, class `_Envio`, class `_EnvioState`
   - `build()`:18, `build()`:46, `dispose()`:108, `build()`:157
 - `app/lib/features/maqueta/datos.dart` — class `Cat`, class `Review`, class `Prov`
@@ -680,11 +680,11 @@
 - `app/lib/features/mensajes/presentation/campo_envio_mensaje.dart` — class `CampoEnvioMensaje`, class `_CampoEnvioMensajeState`, class `_MensajePropioVista`
   - `textoDeFallaDeEnvio()`:12, `initState()`:62, `didUpdateWidget()`:69, `dispose()`:96, `build()`:103, `build()`:160
 - `app/lib/features/mensajes/presentation/conversacion_controller.dart` — class `EstadoDeConversacion`, class `_EnvioConHuella`, class `ConversacionController`
-  - `enviar()`:74, `cargar()`:121, `releer()`:149, `cargarAnteriores()`:206, `canalConectado()`:239, `canalCaido()`:248, `limpiar()`:251, `dispose()`:319
+  - `enviar()`:74, `visible()`:121, `cargar()`:131, `releer()`:159, `cargarAnteriores()`:234, `canalConectado()`:278, `canalCaido()`:285, `limpiar()`:288, `dispose()`:358
 - `app/lib/features/mensajes/presentation/conversaciones_controller.dart` — class `EstadoConversaciones`, class `ConversacionesController`
   - `reintentar()`:33, `cargarMas()`:71, `canalConectado()`:118, `canalDesconectado()`:122, `actualizarTotalDesdeServidor()`:135, `limpiar()`:148, `dispose()`:161
 - `app/lib/features/mensajes/presentation/envio_mensajes_controller.dart` — enum `EstadoDeEnvio`, class `MensajePropio`, class `EstadoEnvioMensajes`, class `EnvioMensajesController`
-  - `enviar()`:92, `reintentar()`:107, `descartar()`:141, `marcarCerrada()`:153, `dispose()`:228
+  - `enviar()`:92, `reintentar()`:134, `descartar()`:168, `limpiar()`:206, `marcarCerrada()`:209, `dispose()`:284
 - `app/lib/features/mensajes/presentation/globo_controller.dart` — class `EstadoGlobo`, class `GloboController`
   - `build()`:44, `reintentar()`:58, `actualizar()`:64
 

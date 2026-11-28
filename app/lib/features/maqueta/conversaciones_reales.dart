@@ -49,8 +49,13 @@ class _ConversacionesRealesState extends ConsumerState<ConversacionesReales> {
     await _controller.reintentar();
   }
 
+  bool _abriendo = false;
+
   Future<void> _abrir(String id) async {
+    if (_abriendo) return;
+    _abriendo = true;
     await context.push(Rutas.conversacion(id));
+    _abriendo = false;
     if (!mounted) return;
     unawaited(ref.read(globoProvider.notifier).actualizar());
     await _controller.reintentar();

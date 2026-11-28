@@ -1649,6 +1649,7 @@
   "chatEnvioErrorNoDisponible": "No pudimos enviar el mensaje. Intenta de nuevo en un momento.",
   "chatEnvioConversacionNoDisponible": "Esta conversación ya no está disponible.",
   "chatEnvioCerrada": "La conversación está cerrada.",
+  "conversacionAtras": "Atrás",
   "conversacionTitulo": "Conversación",
   "conversacionCargando": "Cargando conversación…",
   "conversacionSinMensajes": "Escribe el primer mensaje.",

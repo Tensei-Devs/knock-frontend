@@ -218,6 +218,127 @@ void main() {
     c.dispose();
   });
 
+  test('CA_047_11 la primera unión, aunque llegue tarde, relee lo que se '
+      'perdió', () async {
+    final c = crear();
+    await c.cargar();
+    api.primera = [mensajeFalso(3), ...api.primera];
+    await c.canalConectado();
+    expect(c.estado.mensajes.map((m) => m.id), ['m1', 'm2', 'm3']);
+    c.dispose();
+  });
+
+  test('CA_047_07 otro mensaje ya confirmado con contacto oculto no borra el '
+      'que falló', () async {
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Primero');
+    api
+      ..errorAlEnviar = null
+      ..ocultaContacto = true
+      ..guardaEnElHistorial = true;
+    await c.envio.enviar('Mi número es 5550000000');
+    api
+      ..ocultaContacto = false
+      ..guardaEnElHistorial = false;
+    final fallido = c.envio.estado.mensajes.firstWhere(
+      (m) => m.estado == EstadoDeEnvio.fallido,
+    );
+    await c.envio.reintentar(fallido.idLocal);
+    expect(api.enviados.where((t) => t == 'Primero'), hasLength(2));
+    c.dispose();
+  });
+
+  test('CA_047_07 escribir de nuevo lo que sí había llegado no lo '
+      'duplica', () async {
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Hola');
+    api
+      ..errorAlEnviar = null
+      ..primera = [
+        mensajeFalso(3, autorRol: 'cliente', texto: 'Hola'),
+        ...api.primera,
+      ];
+    await c.envio.enviar('Hola');
+    expect(api.enviados, ['Hola']);
+    expect(c.envio.estado.mensajes, isEmpty);
+    c.dispose();
+  });
+
+  test('CA_047_07 sin poder releer, lo nuevo se conserva y no sale', () async {
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Uno');
+    api
+      ..errorAlEnviar = null
+      ..errorDeLectura = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Dos');
+    expect(api.enviados, ['Uno']);
+    expect(c.envio.estado.mensajes.map((m) => m.texto), ['Uno', 'Dos']);
+    c.dispose();
+  });
+
+  test('CA_047_10 con la conversación tapada no marca leído; al volver '
+      'sí', () async {
+    final c = crear();
+    await c.cargar();
+    await _asentar();
+    api.leidos.clear();
+    c.visible = false;
+    canal.recibir(
+      MensajeEnVivo(conversacionId: 'c1', mensaje: mensajeFalso(5)),
+    );
+    await _asentar();
+    expect(api.leidos, isEmpty);
+    c.visible = true;
+    await _asentar();
+    expect(api.leidos, [mensajeFalso(5).enviadoEn]);
+    c.dispose();
+  });
+
+  test('CA_047_11 un mensaje en vivo durante la relectura no esconde un '
+      'hueco', () async {
+    final c = crear();
+    await c.cargar();
+    await c.canalConectado();
+    c.canalCaido();
+    api
+      ..primera = [mensajeFalso(41), mensajeFalso(40)]
+      ..siguiente = 'intermedios'
+      ..alLeerPrimera = () => canal.recibir(
+        MensajeEnVivo(conversacionId: 'c1', mensaje: mensajeFalso(41)),
+      );
+    await c.canalConectado();
+    expect(c.estado.mensajes.map((m) => m.id), ['m40', 'm41']);
+    expect(c.estado.siguiente, 'intermedios');
+    c.dispose();
+  });
+
+  test('CA_047_13 404 al pedir anteriores la deja no disponible', () async {
+    api.siguiente = 'p2';
+    final c = crear();
+    await c.cargar();
+    api.errorDeLectura = const NoEncontradoFailure();
+    await c.cargarAnteriores();
+    expect(c.estado.falla, isA<NoEncontradoFailure>());
+    c.dispose();
+  });
+
+  test('CA_047_16 al cerrar sesión tampoco quedan textos propios '
+      'pendientes', () async {
+    final c = crear();
+    await c.cargar();
+    api.errorAlEnviar = const ServicioNoDisponibleFailure();
+    await c.envio.enviar('Privado');
+    c.limpiar();
+    expect(c.envio.estado.mensajes, isEmpty);
+    c.dispose();
+  });
+
   test('CA_047_13 404 al cargar queda como no disponible', () async {
     api.errorDeLectura = const NoEncontradoFailure();
     final c = crear();

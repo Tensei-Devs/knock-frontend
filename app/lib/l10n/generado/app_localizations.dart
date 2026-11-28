@@ -2546,6 +2546,12 @@ abstract class AppLocalizations {
   /// **'La conversación está cerrada.'**
   String get chatEnvioCerrada;
 
+  /// No description provided for @conversacionAtras.
+  ///
+  /// In es, this message translates to:
+  /// **'Atrás'**
+  String get conversacionAtras;
+
   /// No description provided for @conversacionTitulo.
   ///
   /// In es, this message translates to:

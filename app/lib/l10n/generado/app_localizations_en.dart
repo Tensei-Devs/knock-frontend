@@ -1462,6 +1462,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatEnvioCerrada => 'This chat is closed.';
 
   @override
+  String get conversacionAtras => 'Back';
+
+  @override
   String get conversacionTitulo => 'Chat';
 
   @override

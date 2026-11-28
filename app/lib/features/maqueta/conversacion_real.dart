@@ -31,12 +31,16 @@ class ConversacionReal extends ConsumerStatefulWidget {
   ConsumerState<ConversacionReal> createState() => _ConversacionRealState();
 }
 
-class _ConversacionRealState extends ConsumerState<ConversacionReal> {
+class _ConversacionRealState extends ConsumerState<ConversacionReal>
+    with WidgetsBindingObserver {
   late final ConversacionController _controller;
+  bool _enPrimerPlano = true;
+  bool _arriba = true;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     final globo = ref.read(globoProvider.notifier);
     _controller = ConversacionController(
       conversacionId: widget.conversacionId,
@@ -59,6 +63,23 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
     }
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState estado) {
+    _enPrimerPlano = estado == AppLifecycleState.resumed;
+    _ajustarVisible();
+  }
+
+  /// Al volver a verse se marca lo pendiente y, si hay canal, se une de nuevo:
+  /// mientras estaba tapada pudo perderse algún cambio.
+  void _ajustarVisible() {
+    final visible = _enPrimerPlano && _arriba;
+    final vuelve = visible && !_controller.visible;
+    _controller.visible = visible;
+    if (vuelve && ref.read(globoProvider).conectado) {
+      unawaited(_controller.canalConectado());
+    }
+  }
+
   void _actualizar() {
     if (mounted) setState(() {});
   }
@@ -78,6 +99,7 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller
       ..removeListener(_actualizar)
       ..dispose();
@@ -87,6 +109,13 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
   @override
   Widget build(BuildContext context) {
     ref.listen(globoProvider, _alCambiarCanal);
+    final arriba = ModalRoute.isCurrentOf(context) ?? true;
+    if (arriba != _arriba) {
+      _arriba = arriba;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _ajustarVisible();
+      });
+    }
     ref.listen(sesionProvider.select((s) => s != null), (_, conSesion) {
       if (!conSesion) _controller.limpiar();
     });
@@ -94,6 +123,7 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
     final estado = _controller.estado;
     final detalle = estado.detalle;
     return Pg(
+      backLabel: t.conversacionAtras,
       title: detalle?.contraparte.nombre ?? t.conversacionTitulo,
       sub: detalle?.servicio,
       scroll: false,
@@ -272,6 +302,7 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
         (
           t.conversacionVerPerfil,
           (_) => Pg(
+            backLabel: t.conversacionAtras,
             title: detalle.contraparte.nombre,
             body: PerfilPublicoReal(tecnicoId: tecnicoId, conSesion: true),
           ),
@@ -284,6 +315,7 @@ class _ConversacionRealState extends ConsumerState<ConversacionReal> {
         (
           t.conversacionBloquear,
           (_) => Pg(
+            backLabel: t.conversacionAtras,
             title: t.bloqueosPantallaBloquear,
             body: BloquearReal(visitaId: visitaId, trabajo: detalle.servicio),
           ),

@@ -2,6 +2,7 @@
 import 'package:app/core/errores/failure.dart';
 import 'package:app/features/maqueta/boton_conversacion.dart';
 import 'package:app/features/maqueta/conversacion_real.dart';
+import 'package:app/features/maqueta/conversaciones_reales.dart';
 import 'package:app/features/maqueta/ui.dart';
 import 'package:app/features/mensajes/mensajes.dart';
 import 'package:app/l10n/generado/app_localizations.dart';
@@ -239,6 +240,68 @@ void main() {
     expect(find.text('Bloquear'), findsOneWidget);
     expect(find.text('Ver su perfil'), findsNothing);
   });
+
+  testWidgets('CA_047_15 con el técnico conocido ofrece «Ver su perfil»', (
+    tester,
+  ) async {
+    await _montar(tester, api, tecnicoId: 't1');
+    await tester.tap(find.byTooltip('Más opciones'));
+    await tester.pumpAndSettle();
+    expect(find.text('Ver su perfil'), findsOneWidget);
+    expect(find.text('Reportar'), findsNothing);
+  });
+
+  testWidgets('CA_047_02 tocar una conversación de la lista la abre', (
+    tester,
+  ) async {
+    await _montar(
+      tester,
+      api,
+      inicio: const Scaffold(
+        body: SingleChildScrollView(child: ConversacionesReales()),
+      ),
+    );
+    await tester.tap(find.text('Ana'));
+    await tester.pumpAndSettle();
+    expect(find.text('abierta /conversaciones/c1'), findsOneWidget);
+  });
+
+  testWidgets('CA_047_17 en inglés el botón de volver también se '
+      'traduce', (tester) async {
+    await _montar(tester, api, idioma: const Locale('en'));
+    expect(find.text('Atrás'), findsNothing);
+    expect(find.text('Back'), findsOneWidget);
+  });
+
+  final fallasDeEnvio = <String, (Failure, String)>{
+    'content_rejected': (
+      const ContenidoRechazadoFailure(),
+      'No pudimos enviar ese mensaje. Revisa lo que escribiste.',
+    ),
+    '429': (
+      const DemasiadosIntentosFailure(espera: Duration(seconds: 12)),
+      'Enviaste muchos mensajes. Espera 12 segundos.',
+    ),
+    '503': (
+      const ServicioNoDisponibleFailure(),
+      'No pudimos enviar el mensaje. Intenta de nuevo en un momento.',
+    ),
+  };
+  for (final MapEntry(key: caso, value: (falla, texto))
+      in fallasDeEnvio.entries) {
+    testWidgets('CA_047_06 con $caso muestra su texto y conserva lo '
+        'escrito', (tester) async {
+      api.errorAlEnviar = falla;
+      await _montar(tester, api);
+      await tester.enterText(find.byType(TextField), 'Hola');
+      await tester.pump();
+      await tester.tap(find.byTooltip('Enviar'));
+      await tester.pumpAndSettle();
+      expect(find.text(texto), findsOneWidget);
+      expect(find.text('Hola'), findsOneWidget);
+      expect(api.enviados, ['Hola']);
+    });
+  }
 
   testWidgets('CA_047_15 el técnico no tiene menú', (tester) async {
     api.actual = detalleFalso(rol: 'tecnico', visitaId: 'v1');

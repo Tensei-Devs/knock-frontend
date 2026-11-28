@@ -93,9 +93,36 @@ class EnvioMensajesController extends ChangeNotifier {
     final motivo = TextoDeMensaje.validar(texto);
     if (motivo != null) return motivo;
     if (estado.cerrada || estado.enviando) return null;
+    final preparado = TextoDeMensaje.preparar(texto);
+    if (yaLlego != null && estado.mensajes.any(_sinRespuesta)) {
+      _publicar(enviando: true);
+      final conciliado = await _conciliar();
+      if (_disposed) return null;
+      if (conciliado == null) {
+        // Sin saber qué llegó no sale nada; lo escrito se conserva.
+        _publicar(
+          mensajes: [
+            ...estado.mensajes,
+            MensajePropio(
+              idLocal: _siguienteId++,
+              texto: preparado,
+              estado: EstadoDeEnvio.fallido,
+              falla: const ServicioNoDisponibleFailure(),
+            ),
+          ],
+          enviando: false,
+        );
+        return null;
+      }
+      // Era el mismo texto que sí había llegado: no se manda otra vez.
+      if (conciliado.contains(preparado)) {
+        _publicar(enviando: false);
+        return null;
+      }
+    }
     final propio = MensajePropio(
       idLocal: _siguienteId++,
-      texto: TextoDeMensaje.preparar(texto),
+      texto: preparado,
       estado: EstadoDeEnvio.pendiente,
     );
     _publicar(mensajes: [...estado.mensajes, propio], enviando: true);
@@ -115,7 +142,7 @@ class EnvioMensajesController extends ChangeNotifier {
     );
     _reemplazar(pendiente, enviando: true);
     final comprobar = yaLlego;
-    if (comprobar != null && actual.falla is ServicioNoDisponibleFailure) {
+    if (comprobar != null && _sinRespuesta(actual)) {
       final llego = await comprobar(pendiente.texto);
       if (_disposed) return;
       if (llego == null) {
@@ -148,6 +175,35 @@ class EnvioMensajesController extends ChangeNotifier {
       ],
     );
   }
+
+  /// No se sabe si el servidor lo guardó: sin respuesta o respuesta ilegible.
+  static bool _sinRespuesta(MensajePropio m) =>
+      m.estado == EstadoDeEnvio.fallido &&
+      (m.falla is ServicioNoDisponibleFailure ||
+          m.falla is DatosInvalidosFailure);
+
+  /// Pregunta por cada envío sin respuesta y quita los que sí llegaron.
+  /// Devuelve sus textos, o `null` si el servidor todavía no responde.
+  Future<Set<String>?> _conciliar() async {
+    final llegados = <String>{};
+    for (final m in estado.mensajes.where(_sinRespuesta).toList()) {
+      final llego = await yaLlego!(m.texto);
+      if (_disposed || llego == null) return null;
+      if (llego) {
+        llegados.add(m.texto);
+        _publicar(
+          mensajes: [
+            for (final otro in estado.mensajes)
+              if (otro.idLocal != m.idLocal) otro,
+          ],
+        );
+      }
+    }
+    return llegados;
+  }
+
+  /// Borra todo lo escrito (cierre de sesión, spec 047 CA-16).
+  void limpiar() => _publicar(mensajes: const [], enviando: false);
 
   /// La conversación se cerró (por ejemplo, la pantalla leyó su estado).
   void marcarCerrada() => _publicar(cerrada: true);

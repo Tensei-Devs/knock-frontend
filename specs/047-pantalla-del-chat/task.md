@@ -11,7 +11,7 @@
 | T-04 | Pantalla, estados, respuestas rápidas, menú, textos es/en y accesibilidad | §7 · CA-03, CA-08, CA-09, CA-14, CA-15, CA-17 | T-03 | — | hecha (`conversacion_real.dart`; `conversacion_screen_test.dart`) |
 | T-05 | Entradas desde la lista, la comparación y «Solicitudes nuevas» | CA-01, CA-02 | T-04 | — | hecha (lista, «Preguntar» en la comparación y «Chatear» en «Solicitudes nuevas») |
 | T-06 | Sin datos en registros ni almacenamiento; limpieza al cerrar sesión | §5, §6 · CA-16 | T-03 | T-04 | hecha (`test/seguridad/conversacion_privacidad_test.dart`) |
-| T-07 | Gates: analyze, format, test, `sdd_lint --trace 047`, `codemap.py`, `Memoria.md` | §11 | todas | — | hecha en local el 2026-11-27: analyze, format, 1608 pruebas, `sdd_lint --trace 047`, `codemap.py` y `Memoria.md`. Pendientes: CI, revisión de una persona y recorrido real con dos cuentas contra dev |
+| T-07 | Gates: analyze, format, test, `sdd_lint --trace 047`, `codemap.py`, `Memoria.md` | §11 | todas | — | hecha en local el 2026-11-27: analyze, format, 1627 pruebas, `sdd_lint --trace 047`, `codemap.py` y `Memoria.md`. Pendientes: CI, revisión de una persona y recorrido real con dos cuentas contra dev |
 
 ## Definición de terminado
 - Los criterios de aceptación de `spec.md` están cubiertos por pruebas en verde.

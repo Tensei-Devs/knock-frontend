@@ -948,6 +948,7 @@
   "chatEnvioErrorNoDisponible": "We couldn’t send the message. Try again shortly.",
   "chatEnvioConversacionNoDisponible": "This chat is no longer available.",
   "chatEnvioCerrada": "This chat is closed.",
+  "conversacionAtras": "Back",
   "conversacionTitulo": "Chat",
   "conversacionCargando": "Loading chat…",
   "conversacionSinMensajes": "Write the first message.",

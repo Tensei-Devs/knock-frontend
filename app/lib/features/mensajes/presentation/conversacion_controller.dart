@@ -110,9 +110,19 @@ class ConversacionController extends ChangeNotifier {
   EstadoDeConversacion estado = const EstadoDeConversacion(cargando: true);
   DateTime? _leidoHasta;
   bool _marcando = false;
-  bool _estuvoEnVivo = false;
   int _generacion = 0;
   bool _disposed = false;
+  bool _visible = true;
+  int _vuelta = 0;
+
+  /// `false` con otra pantalla encima o la app en segundo plano: lo que llegue
+  /// no se marca leído hasta volver (CA-10).
+  bool get visible => _visible;
+  set visible(bool valor) {
+    if (valor == _visible) return;
+    _visible = valor;
+    if (valor) unawaited(_marcarLeido());
+  }
 
   /// Por cada texto enviado, los mensajes propios que ya existían al enviarlo:
   /// así uno anterior con el mismo texto no cuenta como entregado (CA-07).
@@ -128,7 +138,7 @@ class ConversacionController extends ChangeNotifier {
       _publicar(
         estado.copia(
           detalle: detalle,
-          mensajes: _unir(const [], pagina.items),
+          mensajes: _unir(estado.mensajes, pagina.items),
           siguiente: () => pagina.siguiente,
           cargando: false,
         ),
@@ -148,19 +158,32 @@ class ConversacionController extends ChangeNotifier {
   /// Devuelve la primera página, o `null` si el servidor no respondió.
   Future<List<Mensaje>?> releer() async {
     final generacion = _generacion;
+    // Se toma antes de pedir: lo que llegue en vivo mientras tanto no cuenta
+    // como enlace con lo que ya había.
+    final conocidos = {for (final m in estado.mensajes) m.id};
     try {
       final detalle = await _lectura.detalle(conversacionId);
       final pagina = await _lectura.mensajes(conversacionId);
       if (!_vigente(generacion)) return null;
-      final conocidos = {for (final m in estado.mensajes) m.id};
       final enlaza = pagina.items.any((m) => conocidos.contains(m.id));
       // Si la página no toca lo que había y quedan más, hay mensajes en medio:
       // se empieza de nuevo desde ella para no dejar un hueco.
       final hueco = !enlaza && pagina.siguiente != null;
+      // Una página anterior que venga en camino ya no corresponde.
+      if (hueco) _vuelta++;
       _publicar(
         estado.copia(
           detalle: detalle,
-          mensajes: _unir(hueco ? const [] : estado.mensajes, pagina.items),
+          mensajes: _unir(
+            hueco
+                ? [
+                    for (final m in estado.mensajes)
+                      if (!conocidos.contains(m.id)) m,
+                  ]
+                : estado.mensajes,
+            pagina.items,
+          ),
+          cargandoAnteriores: hueco ? false : null,
           // Si enlaza con lo anterior, se conserva el cursor que ya había.
           siguiente: hueco || conocidos.isEmpty ? () => pagina.siguiente : null,
           falla: () => null,
@@ -193,11 +216,16 @@ class ConversacionController extends ChangeNotifier {
     final recientes = await releer();
     if (recientes == null) return null;
     final antes = _propiosAlEnviar[texto] ?? const <String>{};
+    final confirmados = {
+      for (final m in envio.estado.mensajes)
+        if (m.guardado case final guardado?) guardado.id,
+    };
     // Si el servidor ocultó un contacto, el texto guardado ya no es idéntico.
     return recientes.any(
       (m) =>
           m.autorRol == estado.detalle?.rol &&
           !antes.contains(m.id) &&
+          !confirmados.contains(m.id) &&
           (m.texto == texto || m.contactoOculto),
     );
   }
@@ -207,12 +235,13 @@ class ConversacionController extends ChangeNotifier {
     final cursor = estado.siguiente;
     if (_disposed || cursor == null || estado.cargandoAnteriores) return;
     final generacion = _generacion;
+    final vuelta = _vuelta;
     _publicar(
       estado.copia(cargandoAnteriores: true, fallaDeAnteriores: () => null),
     );
     try {
       final pagina = await _lectura.mensajes(conversacionId, cursor: cursor);
-      if (!_vigente(generacion)) return;
+      if (!_vigente(generacion) || vuelta != _vuelta) return;
       _publicar(
         estado.copia(
           mensajes: _unir(estado.mensajes, pagina.items),
@@ -222,6 +251,16 @@ class ConversacionController extends ChangeNotifier {
       );
     } on NoAutorizadoFailure {
       if (_vigente(generacion)) limpiar();
+    } on NoEncontradoFailure catch (falla) {
+      if (_vigente(generacion)) {
+        _publicar(
+          estado.copia(
+            cargandoAnteriores: false,
+            siguiente: () => null,
+            falla: () => falla,
+          ),
+        );
+      }
     } on Failure catch (falla) {
       if (_vigente(generacion)) {
         _publicar(
@@ -234,15 +273,13 @@ class ConversacionController extends ChangeNotifier {
     }
   }
 
-  /// El canal abrió: se une a la conversación y, si es una reconexión, relee
-  /// la primera página (CA-11).
+  /// El canal abrió: se une a la conversación y relee la primera página, porque
+  /// lo enviado antes de unirse no llega como evento (CA-11).
   Future<void> canalConectado() async {
     final unido = await _canal.unirse(conversacionId);
     if (_disposed) return;
-    final reconexion = unido && _estuvoEnVivo;
-    if (unido) _estuvoEnVivo = true;
     _publicar(estado.copia(enVivo: unido, sinCanal: !unido));
-    if (reconexion) await releer();
+    if (unido) await releer();
   }
 
   void canalCaido() => _publicar(estado.copia(enVivo: false, sinCanal: true));
@@ -251,6 +288,8 @@ class ConversacionController extends ChangeNotifier {
   void limpiar() {
     _generacion++;
     _leidoHasta = null;
+    _propiosAlEnviar.clear();
+    envio.limpiar();
     _publicar(const EstadoDeConversacion(falla: NoAutorizadoFailure()));
   }
 
@@ -279,7 +318,7 @@ class ConversacionController extends ChangeNotifier {
   /// Marca leído hasta el último mensaje mostrado (CA-10). Sin mensajes no
   /// llama; si falla, no se inventa el contador y se intenta con el siguiente.
   Future<void> _marcarLeido() async {
-    if (_disposed || _marcando || estado.mensajes.isEmpty) return;
+    if (_disposed || !_visible || _marcando || estado.mensajes.isEmpty) return;
     final hasta = estado.mensajes.last.enviadoEn;
     final ya = _leidoHasta;
     if (ya != null && !hasta.isAfter(ya)) return;
