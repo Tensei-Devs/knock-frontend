@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-28 — Borradores de specs 048 a 051: protección del cliente y aprendizaje automático (KNOCK-266)
+- **Cambio:** se agregan en estado Borrador las specs 048 (capturas y bloqueo local), 049 (certificado y teléfono modificado, solo observación), 050 (App Check en observación) y 051 (sugerencia de oficio). Solo documentos; sin código ni dependencias.
+- **Por qué:** dejar escritas las decisiones, los riesgos y el esfuerzo sin medir para que una persona decida y firme antes de programar. La 050 acompaña a la spec 065 del backend y la 051 a la 067.
+- **Decisiones propuestas:** todo lo que pueda dejar a una persona sin servicio empieza observando y con el interruptor apagado. La 048 cambiaría la decisión D-05 de la spec 016 y necesitaría su enmienda.
+- **A evitar:** presentar la observación como un control activo; fijar certificados hoja o intermedios; activar «Aplicar» de App Check en la consola de Firebase; llamar aprendizaje automático al orden por reglas.
+
 ## 2026-11-27 — Pantalla del chat (KNOCK-72, spec 047)
 - **Cambio:** se abre una conversación desde la lista, desde «Preguntar» en la comparación y desde «Chatear» en «Solicitudes nuevas»; muestra el historial por páginas, recibe en vivo por el canal que ya existía, envía, marca leído y muestra el motivo de cierre. Las rutas de conversaciones quedan fuera de la caché. Sin dependencias nuevas.
 - **Decisiones:** el aviso del servidor queda fijo arriba; antes de reenviar un mensaje sin respuesta se relee y solo cuenta como entregado uno propio que no existiera al enviarlo; si al reconectar la primera página no enlaza con lo que había, se empieza desde ella para no dejar huecos.

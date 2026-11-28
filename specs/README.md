@@ -51,3 +51,7 @@ Cada carpeta tiene `spec.md`, `plan.md` y `task.md`. Estados: Borrador → Aprob
 | 045 | Maqueta base de la app (reconstrucción visual simulada) | Aprobada | [`045-maqueta-base-de-la-app`](045-maqueta-base-de-la-app/spec.md) |
 | 046 | El técnico ve una solicitud y envía su cotización (pantallas) | Aprobada | [`046-tecnico-envia-cotizaciones`](046-tecnico-envia-cotizaciones/spec.md) |
 | 047 | Pantalla del chat (abrir, leer y enviar mensajes) | Aprobada | [`047-pantalla-del-chat`](047-pantalla-del-chat/spec.md) |
+| 048 | Bloqueo de capturas y bloqueo local opcional | Borrador | [`048-bloqueo-de-capturas-y-bloqueo-local`](048-bloqueo-de-capturas-y-bloqueo-local/spec.md) |
+| 049 | Fijación de certificado y teléfono modificado, solo en observación | Borrador | [`049-fijacion-de-certificado-y-telefono-modificado-en-observacion`](049-fijacion-de-certificado-y-telefono-modificado-en-observacion/spec.md) |
+| 050 | App Check en la app, en observación | Borrador | [`050-app-check-en-observacion`](050-app-check-en-observacion/spec.md) |
+| 051 | Sugerencia de oficio con aprendizaje automático en la búsqueda | Borrador | [`051-sugerencia-de-oficio-con-aprendizaje-automatico`](051-sugerencia-de-oficio-con-aprendizaje-automatico/spec.md) |
