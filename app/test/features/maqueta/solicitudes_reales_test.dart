@@ -13,10 +13,12 @@ import 'package:app/features/actividad/domain/solicitud.dart';
 import 'package:app/features/actividad/domain/regla_cancelacion.dart';
 import 'package:app/features/actividad/presentation/solicitudes_reales_controller.dart';
 import 'package:app/features/maqueta/estado.dart' show CargaReal, Job, maq;
+import 'package:app/features/maqueta/pantallas_actividad.dart' show VisitaMaqueta;
 import 'package:app/features/maqueta/solicitudes_reales.dart';
 import 'package:app/features/oficios/oficios.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../soporte/montar_app.dart';
@@ -115,6 +117,7 @@ Future<ProviderContainer> _abrir(
   bool activas = true,
   Size? tamano,
   double escala = 1,
+  List<Override> extra = const [],
 }) async {
   fijarPantalla(tester, tamano: tamano ?? tamanoMovil, escalaDeTexto: escala);
   // Sin el set de ejemplo, que no existe en una sesión real.
@@ -127,6 +130,7 @@ Future<ProviderContainer> _abrir(
       solicitudesRealesRepositoryProvider.overrideWithValue(repo),
       solicitudesRealesActivasProvider.overrideWithValue(activas),
       oficiosRepositoryProvider.overrideWithValue(OficiosFalsos()),
+      ...extra,
     ],
   );
   container.read(appRouterProvider).go(ruta);
@@ -416,6 +420,60 @@ void main() {
       await tester.pumpAndSettle();
       expect(repo.cancelaciones, [_idUno]);
       expect(repo.detallesPedidos.length, greaterThan(1));
+    });
+
+    testWidgets('CA_025_05 abre la visita confirmada tras el conflicto', (
+      tester,
+    ) async {
+      final visitaId = 'c' * 24;
+      final repo = _Solicitudes([
+        [_solicitud()],
+      ])..respuestaCancelacion = Completer<ResultadoCancelacion>();
+      await _abrir(
+        tester,
+        repo,
+        ruta: '/m/comparar/$_idUno',
+        extra: [
+          visitasRealesRepositoryProvider.overrideWith(
+            (ref) => ref.watch(visitaRepositoryProvider),
+          ),
+        ],
+      );
+      await tester.tap(find.text('Cancelar solicitud'));
+      await tester.pumpAndSettle();
+      expect(find.text('Ver mi visita'), findsNothing);
+      final lecturasPrevias = repo.detallesPedidos.length;
+      await tester.tap(find.text('Sí, cancelar'));
+      repo
+        ..estadoDetalle = EstadoSolicitud.citaConfirmada
+        ..comparacionReal = ResultadoComparacion(
+          cotizaciones: const [],
+          totalCotizaciones: 0,
+          tiposMixtos: false,
+          puedeElegir: false,
+          motivo: MotivoSinEleccion.yaElegida,
+          visitaId: visitaId,
+        );
+      repo.respuestaCancelacion!.complete(const CancelacionConCita());
+      await tester.pumpAndSettle();
+      expect(repo.detallesPedidos.length, greaterThan(lecturasPrevias));
+      expect(find.textContaining('Ya elegiste una cotización:'), findsOneWidget);
+      expect(
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Sí, cancelar'),
+            )
+            .onPressed,
+        isNull,
+      );
+      await tester.tap(find.text('Ver mi visita'));
+      await asentarMaqueta(tester);
+      expect(maq.job(_idUno)?.visitaId, visitaId);
+      expect(
+        tester.widget<VisitaMaqueta>(find.byType(VisitaMaqueta)).id,
+        _idUno,
+      );
+      expect(repo.cancelaciones, [_idUno]);
     });
 
     testWidgets('CA_025_08 espera y muestra error sin cambiar la solicitud', (

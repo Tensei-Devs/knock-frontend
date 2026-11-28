@@ -1,8 +1,12 @@
 # Memoria — knock-frontend
 
+## KNOCK-70 — Visita existente tras intentar cancelar
+- Ante un conflicto por cita confirmada, se vuelven a pedir el detalle y la comparación. «Ver mi visita» usa el identificador devuelto por la comparación y abre el recorrido real de visita o taller. El botón de cancelación queda deshabilitado.
+- La prueba de widget CA-05 cubre la recarga, el enlace y la navegación. Queda ejecutarla con Flutter.
+
 ## KNOCK-70 — Espera al cancelar
 - La hoja de cancelación deshabilita la confirmación durante el `Retry-After`. La espera desbloquea el botón, sin reenviar la petición. El transporte existente controla el intervalo si la persona vuelve a abrir la hoja.
-- La hoja anuncia los segundos de espera del 429 y ofrece «Reintentar» ante validación rechazada o un fallo del servicio. Las pruebas de widget cubren el aviso y el botón. Queda ejecutarlas con Flutter y completar la navegación «Ver visita» de CA-05.
+- La hoja anuncia los segundos de espera del 429 y ofrece «Reintentar» ante validación rechazada o un fallo del servicio. Las pruebas de widget cubren el aviso y el botón. Queda ejecutarlas con Flutter.
 
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
