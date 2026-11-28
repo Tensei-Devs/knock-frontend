@@ -27,6 +27,14 @@ abstract class ListaDelTecnicoController<P> extends AsyncNotifier<P>
 /// «Solicitudes nuevas» del técnico.
 class SolicitudesRecibidasController
     extends ListaDelTecnicoController<PaginaDeSolicitudes> {
+  final _retiradas = <String>{};
+
+  @override
+  Future<PaginaDeSolicitudes> build() {
+    _retiradas.clear();
+    return super.build();
+  }
+
   @override
   PaginaDeSolicitudes get vacia => const PaginaDeSolicitudes([], null);
 
@@ -37,12 +45,29 @@ class SolicitudesRecibidasController
   @override
   String? cursorDe(PaginaDeSolicitudes pagina) => pagina.siguiente;
 
+  void retirar(String solicitudId) {
+    _retiradas.add(solicitudId);
+    final actual = state.value;
+    if (actual != null) {
+      state = AsyncData(
+        PaginaDeSolicitudes(_visibles(actual.items), actual.siguiente),
+      );
+    }
+  }
+
+  List<SolicitudRecibida> _visibles(List<SolicitudRecibida> solicitudes) => [
+    for (final solicitud in solicitudes)
+      if (!_retiradas.contains(solicitud.solicitudId)) solicitud,
+  ];
+
   @override
   PaginaDeSolicitudes unirPaginas(
     PaginaDeSolicitudes actual,
     PaginaDeSolicitudes siguiente,
   ) => PaginaDeSolicitudes(
-    unirSinRepetir(actual.items, siguiente.items, (s) => s.solicitudId),
+    _visibles(
+      unirSinRepetir(actual.items, siguiente.items, (s) => s.solicitudId),
+    ),
     siguiente.siguiente,
   );
 }

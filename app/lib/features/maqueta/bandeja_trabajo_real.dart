@@ -1,4 +1,5 @@
 import 'package:app/core/errores/failure.dart';
+import 'package:app/core/errores/mensaje_failure.dart';
 import 'package:app/features/maqueta/lista_paginada_real.dart';
 import 'package:app/features/maqueta/rutas_tecnico.dart';
 import 'package:app/features/maqueta/ui.dart';
@@ -68,7 +69,8 @@ class SolicitudesNuevasReal extends ListaPaginadaReal<PaginaDeSolicitudes> {
 
   @override
   List<Widget> filas(PaginaDeSolicitudes pagina) => [
-    for (final s in pagina.items) _TarjetaDeSolicitud(s),
+    for (final s in pagina.items)
+      _TarjetaDeSolicitud(s, key: ValueKey(s.solicitudId)),
   ];
 
   @override
@@ -83,14 +85,83 @@ class SolicitudesNuevasReal extends ListaPaginadaReal<PaginaDeSolicitudes> {
       ref.read(solicitudesRecibidasProvider.notifier).cargarMas();
 }
 
-class _TarjetaDeSolicitud extends StatelessWidget {
-  const _TarjetaDeSolicitud(this.solicitud);
+class _TarjetaDeSolicitud extends ConsumerStatefulWidget {
+  const _TarjetaDeSolicitud(this.solicitud, {super.key});
 
   final SolicitudRecibida solicitud;
 
   @override
+  ConsumerState<_TarjetaDeSolicitud> createState() =>
+      _TarjetaDeSolicitudState();
+}
+
+class _TarjetaDeSolicitudState extends ConsumerState<_TarjetaDeSolicitud> {
+  var _ocupada = false;
+  var _enviando = false;
+
+  Future<void> _descartar() async {
+    if (_ocupada) return;
+    setState(() => _ocupada = true);
+    final t = AppLocalizations.of(context);
+    try {
+      final confirma = await showModalBottomSheet<bool>(
+        context: context,
+        builder: (hoja) => SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: stack([
+              h2(t.trabajoDescartarTitulo),
+              T(t.trabajoDescartarExplicacion),
+              BtnK(
+                t.trabajoConservarSolicitud,
+                () => Navigator.pop(hoja, false),
+                kind: Bk.sec,
+              ),
+              BtnK(
+                t.trabajoConfirmarDescarte,
+                () => Navigator.pop(hoja, true),
+                kind: Bk.danger,
+              ),
+            ], gap: 8),
+          ),
+        ),
+      );
+      if (!mounted || confirma != true) return;
+      setState(() => _enviando = true);
+      final resultado = await ref
+          .read(cotizarRepositoryProvider)
+          .descartar(widget.solicitud.solicitudId);
+      if (!mounted) return;
+      final mensaje = switch (resultado) {
+        ResultadoDescarte.descartada => null,
+        ResultadoDescarte.noDisponible => t.solicitudNoDisponible,
+        ResultadoDescarte.noDescartable => t.trabajoNoDescartable,
+      };
+      if (mensaje != null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(mensaje)));
+      }
+      ref
+          .read(solicitudesRecibidasProvider.notifier)
+          .retirar(widget.solicitud.solicitudId);
+    } on Failure catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(mensajeDeError(t, error))));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _ocupada = false;
+          _enviando = false;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final solicitud = widget.solicitud;
     return CardK(
       child: stack([
         bT('${solicitud.oficio} · ${solicitud.colonia}'),
@@ -110,6 +181,14 @@ class _TarjetaDeSolicitud extends StatelessWidget {
           etiqueta: t.conversacionChatear,
           solicitudId: solicitud.solicitudId,
         ),
+        if (!solicitud.yaCotizo)
+          BtnK(
+            t.trabajoDescartar,
+            _descartar,
+            kind: Bk.ghost,
+            enabled: !_ocupada,
+            busy: _enviando,
+          ),
       ], gap: 6),
     );
   }
