@@ -13,6 +13,7 @@ import 'package:app/features/maqueta/explorar_maqueta.dart';
 import 'package:app/features/maqueta/globo_real.dart';
 import 'package:app/features/maqueta/inicio_maqueta.dart';
 import 'package:app/features/maqueta/llegada_real.dart';
+import 'package:app/features/maqueta/mi_perfil_real.dart';
 import 'package:app/features/maqueta/nav.dart';
 import 'package:app/features/maqueta/pantalla_segun_sesion.dart';
 import 'package:app/features/maqueta/pantallas_actividad.dart';
@@ -213,7 +214,14 @@ GoRoute rutaMaqueta() => GoRoute(
             ejemplo: (_) => CerrarScreen(vid: s.pathParameters['vid']!),
           ),
         ),
-        GoRoute(path: 'perfil', builder: (c, s) => const PerfilEditarScreen()),
+        GoRoute(
+          path: 'perfil',
+          builder: (c, s) => PantallaSegunSesion(
+            titulo: 'Tu perfil público',
+            real: const MiPerfilReal(),
+            ejemplo: (_) => const PerfilEditarScreen(),
+          ),
+        ),
         GoRoute(
           path: 'reputacion',
           builder: (c, s) => const ReputacionScreen(),

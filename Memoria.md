@@ -1,5 +1,11 @@
 # Memoria — knock-frontend
 
+## 2026-11-27 — Editar mi perfil de técnico con datos reales (KNOCK-57, spec 036, enmienda del perfil propio)
+- **Avance:** «Tu perfil público» (`/m/tecnico/perfil`) abre con `GET /api/v1/tecnicos/me` y guarda con `PUT /api/v1/tecnicos/me` solo los campos cambiados (CA-G01): nombre, negocio, años, descripción, radio (a domicilio) o dirección del taller (en taller). Si la lectura falla o da 404 no hay formulario (CA-G02). Debajo quedan los servicios y horarios reales. Sin sesión o sin API sigue la maqueta.
+- **Decisión:** el cálculo de cambios (`cambiosDelPerfil`) y la validación (`erroresDeEdicion`) viven en el dominio con los límites del backend 046 (nombre de 2 a 80, negocio hasta 60, años de 0 a 60, descripción hasta 300, dirección de 8 a 200). Un campo opcional vaciado no se envía, porque el servidor deja igual lo que no llega. Nada del perfil se guarda en disco ni en caché (`FutureProvider.autoDispose`); la dirección no se registra.
+- **A evitar:** enviar el perfil completo en el `PUT` (pisa datos que la app no ve) o mostrar el formulario con una lectura fallida.
+- **Pendiente:** textos en el ARB (hoy en español, como `horarios_reales.dart`), editar oficios y foto, prueba de 48 dp y prueba contra el backend desplegado.
+
 ## 2026-11-26 — Lista y globo REST de conversaciones (KNOCK-73, spec 020)
 - **Avance parcial:** con sesión y API, las pantallas de mensajes de cliente y técnico usan la lista real paginada. El globo existente en Actividad y Explorar consulta el contador del servidor, con tope visual `9+` y etiqueta semántica; al volver de la lista vuelve a consultar. El controlador borra datos ante 401 o cambio de sesión.
 - **Sin inventar protocolo:** como el hub disponible no publica el evento de no leídos de la spec, se muestra «Sin conexión» en la lista y el contador no recibe actualizaciones en vivo. Las conversaciones no se abren ni se marcan leídas: esas pantallas esperan aprobación. El globo aún no está en todas las pestañas.

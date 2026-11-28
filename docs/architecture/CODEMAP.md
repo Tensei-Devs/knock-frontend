@@ -1,6 +1,6 @@
 # Mapa de código
 
-> Generado por `scripts/codemap.py` el 2026-11-27T23:21:34Z. No editar a mano.
+> Generado por `scripts/codemap.py` el 2026-11-28T05:32:49Z. No editar a mano.
 > **Antes de crear una clase, método o archivo, busca aquí o corre `python scripts/codemap.py --query "<qué necesitas>"`.**
 
 ## Resumen
@@ -24,7 +24,7 @@
 | `inicio` | -, data, domain, presentation | 26 | 51 | 36 |
 | `l10n` | - | 3 | 4 | 215 |
 | `layout` | core | 1 | 1 | 0 |
-| `maqueta` | - | 64 | 315 | 589 |
+| `maqueta` | - | 65 | 318 | 593 |
 | `mensajes` | -, data, domain, presentation | 13 | 24 | 29 |
 | `mi` | -, data, domain, presentation | 6 | 11 | 21 |
 | `notificaciones` | core | 7 | 17 | 20 |
@@ -40,7 +40,7 @@
 | `router` | core | 4 | 4 | 15 |
 | `sesion` | core | 15 | 25 | 46 |
 | `suspension` | -, data, domain, presentation | 6 | 8 | 12 |
-| `tecnico` | -, data, domain, presentation | 22 | 47 | 42 |
+| `tecnico` | -, data, domain, presentation | 24 | 52 | 48 |
 | `tecnicos_confianza` | -, data, domain, presentation | 6 | 6 | 11 |
 | `tema` | core | 6 | 11 | 5 |
 | `trabajo` | -, data, domain, presentation | 10 | 26 | 22 |
@@ -571,7 +571,7 @@
 - `app/lib/features/maqueta/explorar_real.dart` — class `ExplorarReal`, class `_Aviso`, class `_Seccion`, class `_Fila`, class `_Servicio`, class `_Fotos`, class `_Tecnico`
   - `iconoDeOficio()`:14, `fechaDeCopia()`:21, `dos()`:22, `build()`:41, `reintentar()`:44, `build()`:112, `build()`:131, `build()`:151, `build()`:169, `build()`:220, `foto()`:221, `build()`:280
 - `app/lib/features/maqueta/fachada_maqueta.dart` — class `PantallasMaqueta`, class `ShellMaqueta`, class `RaizMaqueta`, class `_PuenteDeDatos`, class `_PuenteDeDatosState`
-  - `previa()`:47, `entrada()`:48, `inicio()`:49, `explorar()`:50, `actividad()`:51, `trabajo()`:52, `cuenta()`:53, `configuracion()`:54, `rutaMaqueta()`:58, `Consumer()`:82, `build()`:255, `preparar()`:271, `conTransiciones()`:278, `envolver()`:286, `initState()`:309, `dispose()`:387, `build()`:395
+  - `previa()`:48, `entrada()`:49, `inicio()`:50, `explorar()`:51, `actividad()`:52, `trabajo()`:53, `cuenta()`:54, `configuracion()`:55, `rutaMaqueta()`:59, `Consumer()`:83, `build()`:263, `preparar()`:279, `conTransiciones()`:286, `envolver()`:294, `initState()`:317, `dispose()`:395, `build()`:403
 - `app/lib/features/maqueta/globo_real.dart` — class `GloboReal`, class `AvisoCanalCaido`
   - `build()`:23, `GloboConversaciones()`:28, `build()`:49
 - `app/lib/features/maqueta/horarios_reales.dart` — class `HorariosSegunSesion`, class `HorariosReales`
@@ -588,6 +588,8 @@
   - `posicionDeMundo()`:36, `posicionDeExperto()`:46, `vista()`:81, `acercar()`:87, `alejar()`:88, `moverA()`:91, `ir()`:98, `ajustar()`:101, `consultaDeVista()`:120, `grados()`:125, `dibujarPin()`:177, `initState()`:318, `dispose()`:331, `didUpdateWidget()`:380, `build()`:498, `build()`:549, `b()`:569, `ListenableBuilder()`:586
 - `app/lib/features/maqueta/mapa_tecnicos_real.dart` — class `EstadoDelMapaReal`
   - `build()`:26, `abrirTecnicoDelMapa()`:54
+- `app/lib/features/maqueta/mi_perfil_real.dart` — class `MiPerfilReal`, class `_Formulario`, class `_FormularioState`
+  - `build()`:23, `dispose()`:73, `build()`:112, `alCambiar()`:116
 - `app/lib/features/maqueta/nav.dart` — class `RM`
   - `experto()`:17, `opiniones()`:18, `enviada()`:21, `comparar()`:22, `visita()`:23, `cita()`:24, `calificar()`:25, `reportar()`:26, `bloquear()`:28, `compartir()`:29, `chat()`:31, `ayuda()`:43, `hayCuenta()`:47, `pedirCuenta()`:52, `registrarIrA()`:61, `elegirFotos()`:71
 - `app/lib/features/maqueta/numero_real.dart` — enum `_Paso`, class `HojaDeNumeroReal`, class `_HojaDeNumeroState`
@@ -1000,6 +1002,8 @@
   - `consultar()`:17
 - `app/lib/features/tecnico/data/horarios_repository_api.dart` — class `HorariosRepositoryApi`
   - `horarios()`:19, `guardar()`:23, `cambiarDisponibilidad()`:37
+- `app/lib/features/tecnico/data/mi_perfil_repository_api.dart` — class `MiPerfilRepositoryApi`
+  - `leer()`:18, `guardar()`:23, `miPerfilDesdeJson()`:45
 - `app/lib/features/tecnico/data/perfil_publico_repository_api.dart` — class `PerfilPublicoRepositoryApi`
   - `perfil()`:33, `servicios()`:53, `fotos()`:59, `llegaAColonia()`:67, `texto()`:91
 - `app/lib/features/tecnico/data/reputacion_repository_api.dart` — class `ReputacionRepositoryApi`
@@ -1015,6 +1019,8 @@
 - `app/lib/features/tecnico/domain/buscar_tecnicos.dart` — class `TecnicoEncontrado`, class `PaginaTecnicos`, class `GrupoMapa`, typedef `ConsultaMapa`
 - `app/lib/features/tecnico/domain/disponible_hoy.dart` — class `DisponibleHoyRepository`
 - `app/lib/features/tecnico/domain/horarios.dart` — enum `DiaSemana`, typedef `Franja`, class `HorarioDelDia`, class `Disponibilidad`, class `HorariosRepository`
+- `app/lib/features/tecnico/domain/mi_perfil.dart` — class `MiPerfilTecnico`, enum `CampoPerfil`, class `EdicionPerfil`, class `MiPerfilRepository`
+  - `erroresDeEdicion()`:76, `cambiosDelPerfil()`:104, `cambio()`:108
 - `app/lib/features/tecnico/domain/perfil_publico.dart` — class `DetallePerfil`, class `PerfilPublico`, class `ServicioPublico`, class `FotoDeTrabajo`, class `PaginaFotos`, class `PerfilPublicoRepository`
 - `app/lib/features/tecnico/domain/reputacion.dart` — class `Reputacion`, class `ReputacionRepository`
 - `app/lib/features/tecnico/domain/servicios.dart` — class `ServicioTecnico`, class `DatosDeServicio`, enum `RechazoDeServicio`, typedef `ServicioGuardado`, class `ServiciosRepository`

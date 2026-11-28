@@ -6,6 +6,7 @@ export 'package:app/features/tecnico/domain/alta_tecnico.dart';
 export 'package:app/features/tecnico/domain/buscar_tecnicos.dart';
 export 'package:app/features/tecnico/domain/disponible_hoy.dart';
 export 'package:app/features/tecnico/domain/horarios.dart';
+export 'package:app/features/tecnico/domain/mi_perfil.dart';
 export 'package:app/features/tecnico/domain/perfil_publico.dart';
 export 'package:app/features/tecnico/domain/servicios.dart';
 export 'package:app/features/tecnico/presentation/horarios_controller.dart';
