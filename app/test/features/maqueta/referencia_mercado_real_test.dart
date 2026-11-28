@@ -1,20 +1,15 @@
 // Spec 038, D-03 y enmienda 2026-11-27 (CA-F01, CA-F02, CA-06): la tarjeta
 // de referencia de mercado dentro del formulario de cotizar. Solo datos
 // ficticios.
-import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/maqueta/cotizar_real.dart';
-import 'package:app/features/trabajo/data/cotizar_repository_api.dart';
-import 'package:app/features/trabajo/trabajo.dart';
-import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../soporte/api_falsa.dart';
 import '../../soporte/cotizar_json.dart';
 import '../../soporte/fecha_esperada.dart';
-import '../../soporte/montar_app.dart';
+import '../../soporte/montar_cotizar.dart';
 import '../../soporte/preparar_maqueta.dart';
 
 const _ruta = 'cotizaciones/referencia-mercado';
@@ -34,32 +29,12 @@ Future<void> _montar(
   WidgetTester tester,
   ApiFalsa api, {
   Locale idioma = const Locale('es'),
-}) async {
-  tester.view.physicalSize = const Size(800, 3000);
-  tester.view.devicePixelRatio = 1;
-  addTearDown(tester.view.reset);
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        conSesion(),
-        tokensInicialesProvider.overrideWithValue(tokensA),
-        relojCotizarProvider.overrideWithValue(() => DateTime(2026, 11, 26)),
-        cotizarRepositoryProvider.overrideWithValue(
-          CotizarRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
-        ),
-      ],
-      child: MaterialApp(
-        locale: idioma,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(
-          body: SingleChildScrollView(child: CotizarReal(solicitudId: 's1')),
-        ),
-      ),
-    ),
-  );
-  await asentarMaqueta(tester);
-}
+}) => montarCotizar(
+  tester,
+  api,
+  const CotizarReal(solicitudId: 's1'),
+  idioma: idioma,
+);
 
 const _rango = r'Otros técnicos cobran de $300 a $600. Lo más común: $450.';
 

@@ -1,12 +1,9 @@
 // Spec 046 (CA-02, CA-04 a CA-09), 019 (entrada) y 038 (CA-10, CA-14).
 import 'dart:async';
 
-import 'package:app/core/sesion/sesion.dart';
 import 'package:app/features/maqueta/bandeja_trabajo_real.dart';
 import 'package:app/features/maqueta/cotizar_real.dart';
-import 'package:app/features/trabajo/data/cotizar_repository_api.dart';
 import 'package:app/features/trabajo/trabajo.dart';
-import 'package:app/l10n/generado/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +12,7 @@ import 'package:http/http.dart' as http;
 import '../../soporte/api_falsa.dart';
 import '../../soporte/cotizar_json.dart';
 import '../../soporte/fecha_esperada.dart';
-import '../../soporte/montar_app.dart';
+import '../../soporte/montar_cotizar.dart';
 import '../../soporte/preparar_maqueta.dart';
 
 /// API falsa: el detalle y la lista responden bien; el envío, según [envio].
@@ -48,32 +45,7 @@ Future<void> _montar(
   Widget hijo, {
   Locale idioma = const Locale('es'),
   double escala = 1,
-}) async {
-  tester.view.physicalSize = const Size(800, 3000);
-  tester.view.devicePixelRatio = 1;
-  tester.platformDispatcher.textScaleFactorTestValue = escala;
-  addTearDown(tester.view.reset);
-  addTearDown(tester.platformDispatcher.clearAllTestValues);
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        conSesion(),
-        tokensInicialesProvider.overrideWithValue(tokensA),
-        relojCotizarProvider.overrideWithValue(() => DateTime(2026, 11, 26)),
-        cotizarRepositoryProvider.overrideWithValue(
-          CotizarRepositoryApi(transporte: api.cliente, url: urlApiPrueba),
-        ),
-      ],
-      child: MaterialApp(
-        locale: idioma,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: SingleChildScrollView(child: hijo)),
-      ),
-    ),
-  );
-  await asentarMaqueta(tester);
-}
+}) => montarCotizar(tester, api, hijo, idioma: idioma, escala: escala);
 
 const _pantalla = CotizarReal(solicitudId: 's1');
 
