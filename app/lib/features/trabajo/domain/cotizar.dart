@@ -211,8 +211,12 @@ RevisionDeCotizacion revisarCotizacion({
   );
 }
 
+enum ResultadoDescarte { descartada, noDisponible, noDescartable }
+
 abstract interface class CotizarRepository {
   Future<PaginaDeSolicitudes> recibidas({String? cursor});
+
+  Future<ResultadoDescarte> descartar(String solicitudId);
 
   Future<PaginaDeCotizaciones> enviadas({String? cursor});
 
